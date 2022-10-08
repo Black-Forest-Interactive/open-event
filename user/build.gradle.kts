@@ -4,10 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen")
     id("org.sonarqube")
     id("com.google.cloud.tools.jib") version "3.3.0"
-    id("io.micronaut.application") version "3.6.0"
+    id("io.micronaut.application") version "3.6.2"
 }
-
-
 
 micronaut {
     runtime("netty")
@@ -20,18 +18,20 @@ micronaut {
 
 
 dependencies {
-    kapt("io.micronaut:micronaut-http-validation")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-jackson-databind")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation(project(":common"))
+    // keycloak
+    implementation("org.keycloak:keycloak-common:19.0.3")
+    implementation("org.keycloak:keycloak-core:19.0.3")
+
+    // database
+    kapt("io.micronaut.data:micronaut-data-processor")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 }
 
 application {

@@ -29,7 +29,7 @@ class UserApplication {
     @Singleton
     internal class ObjectMapperBeanEventListener : BeanCreatedEventListener<ObjectMapper> {
         override fun onCreated(event: BeanCreatedEvent<ObjectMapper>): ObjectMapper {
-            val mapper: ObjectMapper = event.getBean()
+            val mapper: ObjectMapper = event.bean
             mapper.registerModule(JavaTimeModule())
             mapper.registerKotlinModule()
             mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)

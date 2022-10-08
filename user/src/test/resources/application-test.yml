@@ -1,0 +1,7 @@
+datasources:
+  default:
+    url: jdbc:tc:postgresql:12:///postgres
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+app:
+  token: "test"
