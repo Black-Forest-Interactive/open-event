@@ -19,9 +19,6 @@ micronaut {
 
 dependencies {
     implementation(project(":common"))
-    // keycloak
-    implementation("org.keycloak:keycloak-common:19.0.3")
-    implementation("org.keycloak:keycloak-core:19.0.3")
 
     // database
     kapt("io.micronaut.data:micronaut-data-processor")
@@ -35,6 +32,6 @@ dependencies {
 }
 
 application {
-    mainClass.set("de.sambalmueslie.openevent.user.UserApplication")
+    mainClass.set("de.sambalmueslie.openevent.structure.GuildApplication")
 }
 

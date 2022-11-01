@@ -4,6 +4,7 @@ package de.sambalmueslie.openevent.user.idp.update
 import de.sambalmueslie.openevent.common.time.TimeProvider
 import de.sambalmueslie.openevent.common.util.executeWithReturn
 import de.sambalmueslie.openevent.common.util.measureTimeMillisWithReturn
+import de.sambalmueslie.openevent.user.api.UserType
 import de.sambalmueslie.openevent.user.db.UserData
 import de.sambalmueslie.openevent.user.db.UserRepository
 import de.sambalmueslie.openevent.user.idp.api.IdpAPI
@@ -68,10 +69,13 @@ class IdpUserUpdater(
         return UserData(
             0,
             representation.id,
+            UserType.IDP,
             representation.username ?: "",
             representation.firstName ?: "",
             representation.lastName ?: "",
             representation.email ?: "",
+            "",
+            "",
             timeProvider.now(),
             null
         )
@@ -98,6 +102,7 @@ class IdpUserUpdater(
     private fun sync(representation: UserRepresentation, user: UserData): UserData {
         if (logger.isDebugEnabled) logger.debug("[${user.externalId}] Update user - sync with representation")
         user.externalId = representation.id
+        user.type = UserType.IDP
         user.userName = representation.username ?: ""
         user.firstName = representation.firstName ?: ""
         user.lastName = representation.lastName ?: ""

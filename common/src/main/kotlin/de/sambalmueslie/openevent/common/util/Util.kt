@@ -3,7 +3,7 @@ package de.sambalmueslie.openevent.common.util
 
 import io.micronaut.data.repository.PageableRepository
 
-fun <E, ID : Any> PageableRepository<E, ID>.findByIdOrNull(id: ID): E? = this.findById(id).orElseGet { null }
+fun <E, ID> PageableRepository<E, ID>.findByIdOrNull(id: ID): E? = this.findById(id).orElseGet { null }
 
 inline fun <T> Iterable<T>.forEachWithTryCatch(action: (T) -> Unit) {
     try {

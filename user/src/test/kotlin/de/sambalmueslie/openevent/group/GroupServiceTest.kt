@@ -1,10 +1,10 @@
-package de.sambalmueslie.openevent.user
+package de.sambalmueslie.openevent.group
 
 import de.sambalmueslie.openevent.common.time.TimeProvider
-import de.sambalmueslie.openevent.user.api.User
-import de.sambalmueslie.openevent.user.api.UserChangeListener
-import de.sambalmueslie.openevent.user.api.UserChangeRequest
-import de.sambalmueslie.openevent.user.api.UserType
+import de.sambalmueslie.openevent.group.api.Group
+import de.sambalmueslie.openevent.group.api.GroupChangeListener
+import de.sambalmueslie.openevent.group.api.GroupChangeRequest
+import de.sambalmueslie.openevent.user.api.*
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
@@ -18,18 +18,18 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
 @MicronautTest
-internal class UserServiceTest {
+internal class GroupServiceTest {
 
 
     @Inject
-    lateinit var service: UserService
+    lateinit var service: GroupService
 
     private val timeProvider = mockk<TimeProvider>()
 
     @MockBean(TimeProvider::class)
     fun timeProvider() = timeProvider
 
-    private val listener = mockk<UserChangeListener>()
+    private val listener = mockk<GroupChangeListener>()
 
     @Test
     fun checkCrud() {
@@ -39,12 +39,10 @@ internal class UserServiceTest {
         service.register(listener)
 
         // create
-        val createRequest = UserChangeRequest("externalId", UserType.IDP, "userName", "firstName", "lastName", "email", "mobile", "phone")
+        val createRequest = GroupChangeRequest("name")
         var result = service.create(createRequest)
 
-        var reference = User(
-            1, createRequest.externalId, createRequest.type, createRequest.userName, createRequest.firstName, createRequest.lastName, createRequest.email, createRequest.mobile, createRequest.phone
-        )
+        var reference = Group(1, createRequest.name)
         assertEquals(reference, result)
         verify { listener.handleCreated(reference) }
         verify { listener.hashCode() }
@@ -55,20 +53,10 @@ internal class UserServiceTest {
         assertEquals(listOf(reference), service.getAll(Pageable.from(0)).content)
 
         // update
-        val updateRequest = UserChangeRequest("update-externalId", UserType.MANUAL, "update-userName", "update-firstName", "update-lastName", "update-email", "update-mobile", "update-phone")
+        val updateRequest = GroupChangeRequest("update-name")
         result = service.update(reference.id, updateRequest)
 
-        reference = User(
-            1,
-            updateRequest.externalId,
-            updateRequest.type,
-            updateRequest.userName,
-            updateRequest.firstName,
-            updateRequest.lastName,
-            updateRequest.email,
-            updateRequest.mobile,
-            updateRequest.phone
-        )
+        reference = Group(1, updateRequest.name)
         assertEquals(reference, result)
         verify { listener.handleUpdated(reference) }
         verify { listener.hashCode() }
@@ -79,7 +67,7 @@ internal class UserServiceTest {
 
         // read empty
         assertEquals(null, service.get(reference.id))
-        assertEquals(emptyList<User>(), service.getAll(Pageable.from(0)).content)
+        assertEquals(emptyList<Group>(), service.getAll(Pageable.from(0)).content)
     }
 
 }

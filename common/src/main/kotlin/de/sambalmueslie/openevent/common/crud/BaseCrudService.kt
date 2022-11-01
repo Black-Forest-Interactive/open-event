@@ -4,7 +4,9 @@ package de.sambalmueslie.openevent.common.crud
 import de.sambalmueslie.openevent.common.util.forEachWithTryCatch
 import org.slf4j.Logger
 
-abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest>(private val logger: Logger) : CrudService<T, O, R> {
+abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest>(
+    private val logger: Logger
+) : CrudService<T, O, R> {
 
     private val listeners = mutableSetOf<BusinessObjectChangeListener<T, O>>()
 
@@ -28,3 +30,5 @@ abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChang
         listeners.forEachWithTryCatch { it.handleDeleted(obj) }
     }
 }
+
+

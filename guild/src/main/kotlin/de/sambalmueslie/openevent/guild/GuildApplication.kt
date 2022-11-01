@@ -1,4 +1,4 @@
-package de.sambalmueslie.openevent.structure
+package de.sambalmueslie.openevent.guild
 
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -12,16 +12,16 @@ import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class StructureApplication {
+class GuildApplication {
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(StructureApplication::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(GuildApplication::class.java)
 
         @JvmStatic
         fun main(args: Array<String>) {
             Micronaut.build()
-                .packages("de.sambalmueslie.openevent.structure")
-                .mainClass(StructureApplication::class.java)
+                .packages("de.sambalmueslie.openevent.guild")
+                .mainClass(GuildApplication::class.java)
                 .start()
         }
     }
@@ -29,7 +29,7 @@ class StructureApplication {
     @Singleton
     internal class ObjectMapperBeanEventListener : BeanCreatedEventListener<ObjectMapper> {
         override fun onCreated(event: BeanCreatedEvent<ObjectMapper>): ObjectMapper {
-            val mapper: ObjectMapper = event.getBean()
+            val mapper: ObjectMapper = event.bean
             mapper.registerModule(JavaTimeModule())
             mapper.registerKotlinModule()
             mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
