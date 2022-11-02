@@ -17,6 +17,7 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.kapt")
     apply(plugin = "io.micronaut.application")
+    apply(plugin = "org.gradle.jacoco")
 
     repositories {
         mavenCentral()
@@ -95,9 +96,28 @@ subprojects {
         }
     }
 
+    sonar {
+        properties {
+            property("sonar.sources", "src/main")
+        }
+    }
+
+
+    tasks.test {
+        useJUnitPlatform()
+        finalizedBy(tasks.jacocoTestReport)
+    }
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test)
+        reports {
+            xml.required.set(true)
+            csv.required.set(false)
+        }
+    }
+    jacoco {
+        toolVersion = "0.8.8"
+    }
 }
-
-
 
 tasks.test {
     useJUnitPlatform()
@@ -111,11 +131,12 @@ tasks.jacocoTestReport {
     }
 }
 
-jacoco{
+
+jacoco {
     toolVersion = "0.8.8"
 }
 
-sonarqube {
+sonar {
     properties {
         property("sonar.projectKey", "Black-Forrest-Development_open-event")
         property("sonar.organization", "black-forrest-development")
@@ -124,3 +145,5 @@ sonarqube {
         property("sonar.core.codeCoveragePlugin", "jacoco")
     }
 }
+
+

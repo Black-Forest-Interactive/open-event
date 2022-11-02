@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.allopen")
     id("org.sonarqube")
-    id("com.google.cloud.tools.jib") version "3.3.1"
-    id("io.micronaut.application") version "3.6.3"
+    id("com.google.cloud.tools.jib")
+    id("io.micronaut.application")
 }
 
 micronaut {
@@ -20,8 +20,8 @@ micronaut {
 dependencies {
     implementation(project(":common"))
     // keycloak
-    implementation("org.keycloak:keycloak-common:19.0.3")
-    implementation("org.keycloak:keycloak-core:19.0.3")
+    implementation("org.keycloak:keycloak-common:20.0.0")
+    implementation("org.keycloak:keycloak-core:20.0.0")
 
     // database
     kapt("io.micronaut.data:micronaut-data-processor")
