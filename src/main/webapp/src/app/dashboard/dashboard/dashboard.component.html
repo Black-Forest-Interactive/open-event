@@ -1,0 +1,72 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false">
+    <mat-toolbar></mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let item of accessibleItems" routerLink="{{item.url}}" routerLinkActive="active">
+        <app-main-nav-entry [collapsed]="collapsed" [item]="item"></app-main-nav-entry>
+      </a>
+      <a mat-list-item (click)="logout()">
+        <div class="d-flex flex-row gap-2 align-items-center">
+          <ng-container *ngIf="collapsed; else logoutElseBlock">
+            <div class="d-flex flex-column align-items-center flex-fill">
+              <mat-icon>logout</mat-icon>
+            </div>
+          </ng-container>
+          <ng-template #logoutElseBlock>
+            <mat-icon>logout</mat-icon>
+            <span class="flex-fill">{{'MENU.Logout' | translate}}</span>
+          </ng-template>
+        </div>
+      </a>
+    </mat-nav-list>
+
+
+    <div class="d-flex flex-row gap-2 align-items-center collapse-button">
+      <ng-container *ngIf="collapsed; else collapseElseBlock">
+        <div class="d-flex flex-column align-items-center flex-fill">
+          <button mat-icon-button (click)="toggleCollapsed()">
+            <mat-icon>unfold_more</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #collapseElseBlock>
+        <button mat-button (click)="toggleCollapsed()">
+          <mat-icon>unfold_more</mat-icon>
+          {{'MENU.Collapse' | translate}}
+        </button>
+      </ng-template>
+    </div>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <div class="d-flex flex-row gap-3 flex-fill align-content-center align-items-center justify-content-center">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <a routerLink="/"><img src="assets/img/logo.png"/></a>
+        <span class="header">{{'text.welcome' | translate}}</span>
+        <div class="flex-fill"></div>
+        <mat-chip-listbox>
+          <mat-chip-option color="accent" selected [selectable]="false">
+            {{this.authService.getPrincipal()?.given_name}} {{this.authService.getPrincipal()?.family_name}}
+          </mat-chip-option>
+        </mat-chip-listbox>
+        <mat-form-field class="dense-1" subscriptSizing="dynamic">
+          <mat-select [value]="lang" (selectionChange)="changeLang($event)">
+            <mat-option value="en">English</mat-option>
+            <mat-option value="de">Deutsch</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

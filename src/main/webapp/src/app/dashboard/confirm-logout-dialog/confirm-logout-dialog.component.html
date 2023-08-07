@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{"user.logout.confirm.Title" | translate}}</h1>
+<div mat-dialog-content>
+  <p>{{"user.logout.confirm.Text" | translate}}</p>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>
+    <mat-icon>check</mat-icon>
+    {{"action.yes" | translate}}</button>
+  <button mat-flat-button color="warn" mat-dialog-close>
+    <mat-icon>cancel</mat-icon>
+    {{"action.no" | translate}}</button>
+</mat-dialog-actions>
+

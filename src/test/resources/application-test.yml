@@ -1,0 +1,13 @@
+datasources:
+  default:
+    url: jdbc:tc:postgresql:14:///postgres
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+
+mail:
+  reply-to-address: "test@example.com"
+  from-address: "test@example.com"
+  default-admin-address: "test@example.com"
+  username: "username"
+  server: "server"
+  password: "password"

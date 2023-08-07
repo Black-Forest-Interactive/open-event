@@ -1,0 +1,54 @@
+<app-event-details-header [data]="info" [reloading]="reloading"></app-event-details-header>
+
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+
+<div class="d-flex flex-column p-2" *ngIf="info">
+  <div class="d-flex flex-row row-wrap gap-2">
+    <div class="d-flex flex-column gap-2 col">
+      <!-- INFO-->
+      <mat-card>
+        <mat-card-header>
+          <div class="d-flex flex-row gap-2 align-items-center pb-2 flex-fill">
+            <app-account [account]="info.event.owner"></app-account>
+            <div class="flex-fill"></div>
+            <div>{{info.event.start | date:'fullDate'}}</div>
+            <div>{{info.event.start | date:'shortTime'}} - {{info.event.finish | date:'shortTime'}}</div>
+          </div>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <img mat-card-image src="{{info.event.imageUrl.length}}" alt=""
+             *ngIf="info.event.imageUrl && info.event.imageUrl.length > 0">
+        <mat-card-content>
+          <div class="pt-3">{{info.event.longText}}</div>
+        </mat-card-content>
+        <ng-container *ngIf="info.categories.length > 0">
+          <div class="pt-3"></div>
+          <mat-divider></mat-divider>
+          <mat-card-actions>
+            <mat-chip-listbox>
+              <ng-container *ngFor="let category of info.categories">
+                <mat-chip>{{category.name}}</mat-chip>
+              </ng-container>
+            </mat-chip-listbox>
+          </mat-card-actions>
+        </ng-container>
+      </mat-card>
+      <!-- Location -->
+      <ng-container *ngIf="info.location">
+        <mat-card>
+          <mat-card-header class="pb-2">
+            <mat-card-title>{{info.location.street}} {{info.location.streetNumber}} {{info.location.additionalInfo}}</mat-card-title>
+            <mat-card-subtitle>{{info.location.zip}} {{info.location.city}} {{info.location.country}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <app-location-map mat-card-image [data]="info.location"></app-location-map>
+        </mat-card>
+
+
+      </ng-container>
+    </div>
+    <div class="d-flex flex-column gap-2 col">
+      <app-registration-details [data]="info.registration" *ngIf="info.registration"></app-registration-details>
+    </div>
+  </div>
+</div>

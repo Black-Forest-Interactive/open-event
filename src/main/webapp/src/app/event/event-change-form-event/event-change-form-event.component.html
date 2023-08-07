@@ -1,0 +1,79 @@
+<ng-container *ngIf="form">
+  <form [formGroup]="form">
+    <div class="d-flex flex-column gap-2 align-items-stretch flex-fill pt-2">
+      <!-- title-->
+      <mat-form-field *ngIf="isVisible('title')" hintLabel="{{'event.form.hint.Title' | translate}}" class="dense-1">
+        <mat-label>{{'event.form.title' | translate}}</mat-label>
+        <input matInput #titleInput formControlName="title" maxlength="40">
+        <mat-hint align="end">{{titleInput.value?.length || 0}}/40</mat-hint>
+        <mat-error *ngIf="!title?.valid && title?.touched">
+          {{'event.form.titleError' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <!-- shortText-->
+      <mat-form-field *ngIf="isVisible('shortText')" class="dense-1">
+        <mat-label>{{'event.form.shortText' | translate}}</mat-label>
+        <input matInput formControlName="shortText">
+        <mat-hint align="start">{{'event.form.hint.shortText'| translate}}</mat-hint>
+        <mat-error *ngIf="!shortText?.valid && shortText?.touched">
+          {{'event.form.shortTextError' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <!-- longText-->
+      <mat-form-field *ngIf="isVisible('longText')" class="dense-1">
+        <mat-label>{{'event.form.longText' | translate}}</mat-label>
+        <textarea matInput formControlName="longText"></textarea>
+        <mat-hint align="start">{{'event.form.hint.LongDescr'| translate}}</mat-hint>
+        <mat-error *ngIf="!longText?.valid && longText?.touched">
+          {{'event.form.longTextError' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <!-- imageUrl-->
+      <mat-form-field *ngIf="isVisible('imageUrl')" class="dense-1">
+        <mat-label>{{'event.form.imageUrl' | translate}}</mat-label>
+        <input matInput formControlName="imageUrl">
+        <mat-hint align="start">{{'event.form.hint.imageUrl'| translate}}</mat-hint>
+      </mat-form-field>
+      <!-- iconUrl-->
+      <mat-form-field *ngIf="isVisible('iconUrl')" class="dense-1">
+        <mat-label>{{'event.form.iconUrl' | translate}}</mat-label>
+        <input matInput formControlName="iconUrl">
+        <mat-hint align="start">{{'event.form.hint.iconUrl'| translate}}</mat-hint>
+      </mat-form-field>
+
+      <div class="d-flex flex-row gap-3 align-items-stretch">
+        <!-- startDate-->
+        <mat-form-field *ngIf="isVisible('startDate')" class="dense-1" style="flex: 1 1 auto">
+          <mat-label>{{'event.form.startDate' | translate}}</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-hint align="start">{{'event.form.hint.startDate'| translate}}</mat-hint>
+        </mat-form-field>
+        <!-- endDate-->
+        <mat-form-field *ngIf="isVisible('endDate')" class="dense-1" style="flex: 1 1 auto">
+          <mat-label>{{'event.form.endDate' | translate}}</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-hint align="start">{{'event.form.hint.endDate'| translate}}</mat-hint>
+        </mat-form-field>
+
+      </div>
+      <div class="d-flex flex-row gap-3 align-items-stretch">
+        <!-- startTime-->
+        <mat-form-field *ngIf="isVisible('startTime')" class="dense-1" style="flex: 1 1 auto">
+          <mat-label>{{'event.form.startTime' | translate}}</mat-label>
+          <input matInput type="time" formControlName="startTime">
+          <mat-hint align="start">{{'event.form.hint.startTime'| translate}}</mat-hint>
+        </mat-form-field>
+        <!-- endTime-->
+        <mat-form-field *ngIf="isVisible('endTime')" class="dense-1" style="flex: 1 1 auto">
+          <mat-label>{{'event.form.endTime' | translate}}</mat-label>
+          <input matInput type="time" formControlName="endTime">
+          <mat-hint align="start">{{'event.form.hint.endTime'| translate}}</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</ng-container>

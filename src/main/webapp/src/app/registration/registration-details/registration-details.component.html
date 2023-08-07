@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-content>
+    <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+    <div class="d-flex flex-column gap-2 pb-2">
+      <ng-container *ngFor="let part of participants; index as i">
+        <div (click)="showEditDialog(part)">
+          <div class="d-flex flex-row gap-2 align-items-center">
+            <app-account [account]="part.author"></app-account>
+            <span *ngIf="part.size > 1">{{part.size}} {{'registration.people' |translate}}</span>
+            <div class="flex-fill"></div>
+            <button mat-icon-button (click)="removeParticipant(part)">
+              <mat-icon>person_remove</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </ng-container>
+    </div>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <button mat-flat-button color="primary" (click)="participate()">
+      <mat-icon>person_add</mat-icon>
+      {{'registration.participate' | translate}}
+    </button>
+  </mat-card-actions>
+</mat-card>
+

@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+
+    <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 0 1 calc(50% - .5rem - 100px)">
+      <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 0 1 calc(50%);">
+        <mat-label>{{'category.search' | translate}}</mat-label>
+        <input matInput placeholder="" value="">
+      </mat-form-field>
+      <button mat-mini-fab color="accent">
+        <mat-icon>search</mat-icon>
+      </button>
+
+    </div>
+
+    <button mat-fab color="accent" style="flex: 0 1 200px;" extended routerLink="./create">
+      <mat-icon>new_label</mat-icon>
+      {{'category.create' | translate}}
+    </button>
+    <div class="flex-fill"></div>
+
+    <button mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+  </div>
+</mat-toolbar>
+
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+
+
+<div class="d-flex flex-column gap-2 p-2 ">
+  <mat-card>
+    <div class="d-flex flex-column">
+      <ng-container *ngFor="let category of categories">
+        <div class="d-flex flex-row gap-5 align-items-center align-content-stretch px-4 py-2 flex-fill list-entry">
+          <div>{{category.name}}</div>
+          <div class="flex-fill"></div>
+          <div class="d-flex flex-row gap-2">
+            <a mat-mini-fab color="primary" routerLink="edit/{{category.id}}">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button mat-mini-fab color="primary">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </div>
+    <mat-paginator [length]="totalSize"
+                   [pageIndex]="pageIndex"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="[5, 10, 25, 100]"
+                   class="mb-2"
+    >
+    </mat-paginator>
+  </mat-card>
+
+</div>
+

@@ -1,0 +1,32 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  max-width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.header {
+  font-size: 24px;
+}
+
+.collapse-button {
+  position: absolute;
+  left: 5px;
+  bottom: 10px;
+  color: black;
+}
+
+.mat-nav-list a.active {
+
+}

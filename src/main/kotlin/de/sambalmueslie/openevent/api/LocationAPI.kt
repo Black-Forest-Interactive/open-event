@@ -1,0 +1,12 @@
+package de.sambalmueslie.openevent.api
+
+import de.sambalmueslie.openevent.core.model.Location
+import de.sambalmueslie.openevent.core.model.LocationChangeRequest
+
+interface LocationAPI : CrudAPI<Long, Location, LocationChangeRequest> {
+    companion object {
+        const val PERMISSION_READ = "openevent.location.read"
+        const val PERMISSION_WRITE = "openevent.location.write"
+    }
+
+}

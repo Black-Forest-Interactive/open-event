@@ -1,0 +1,36 @@
+<ng-container *ngIf="info">
+  <div class="d-flex flex-column gap-2 align-items-start align-content-stretch px-4 py-2 flex-fill list-entry"
+       routerLink="./details/{{info.event.id}}">
+    <app-account [account]="info.event.owner"></app-account>
+    <div class="d-flex flex-row gap-2 align-items-center flex-fill">
+      <mat-icon>schedule</mat-icon>
+      <div class="d-flex flex-column gap-1">
+        <div>{{info.event.start | date:'fullDate'}}</div>
+        <div>{{info.event.start | date:'shortTime'}} - {{info.event.finish | date:'shortTime'}}</div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row gap-2 align-items-center flex-fill" *ngIf="info.location">
+      <mat-icon>location_pin</mat-icon>
+      <div>{{info.location.zip}} {{info.location.city}}</div>
+    </div>
+
+    <div class="d-flex flex-row gap-2 align-items-center flex-fill">
+      <mat-icon>description</mat-icon>
+      <div>{{info.event.longText}}</div>
+    </div>
+
+    <div class="d-flex flex-row gap-2 align-items-center flex-fill">
+      <span style="color:red">TODO Status</span>
+    </div>
+
+    <div class="d-flex flex-row gap-2 align-items-center flex-fill">
+      <mat-chip-listbox>
+        <ng-container *ngFor="let category of info.categories">
+          <mat-chip>{{category.name}}</mat-chip>
+        </ng-container>
+      </mat-chip-listbox>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</ng-container>

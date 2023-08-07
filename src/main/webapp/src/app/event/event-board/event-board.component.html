@@ -1,0 +1,8 @@
+<app-event-board-header></app-event-board-header>
+<ng-container *ngIf="(isHandset$ | async) === true;else eventList">
+  <app-event-board-table></app-event-board-table>
+</ng-container>
+
+<ng-template #eventList>
+  <app-event-board-list></app-event-board-list>
+</ng-template>

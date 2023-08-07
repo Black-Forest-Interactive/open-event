@@ -1,0 +1,34 @@
+<ng-container *ngIf="form">
+  <form [formGroup]="form">
+    <div class="d-flex flex-column gap-2 align-items-stretch flex-fill pt-2">
+      <div class="d-flex flex-row gap-3">
+        <mat-form-field class="dense-1" style="flex: 1 1 auto">
+          <mat-label>{{'event.form.street' | translate}}</mat-label>
+          <input matInput formControlName="street" required>
+        </mat-form-field>
+        <mat-form-field class="dense-1" style="flex: 0 1 100px">
+          <mat-label>{{'event.form.nr' | translate}}</mat-label>
+          <input matInput formControlName="streetNumber" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-label>{{'event.form.info' | translate}}</mat-label>
+        <input matInput formControlName="additionalInfo">
+      </mat-form-field>
+      <div class="d-flex flex-row gap-3">
+        <mat-form-field class="dense-1" style="flex: 0 1 200px">
+          <mat-label>{{'event.form.zip' | translate}}</mat-label>
+          <input matInput formControlName="zip" required>
+        </mat-form-field>
+        <mat-form-field class="dense-1" style="flex: 1 1 auto">
+          <mat-label>{{'event.form.city' | translate}}</mat-label>
+          <input matInput formControlName="city" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-label>{{'event.form.country' | translate}}</mat-label>
+        <input matInput formControlName="country" required>
+      </mat-form-field>
+    </div>
+  </form>
+</ng-container>

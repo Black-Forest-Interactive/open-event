@@ -1,0 +1,20 @@
+tr.row:hover {
+  background-color: #e3e3e3;
+  cursor: pointer;
+}
+
+tr.row {
+  font-size: 14px;
+}
+
+.mat-column-account {
+  max-width: 100px !important;
+}
+
+.mat-column-period {
+  max-width: 150px !important;
+}
+
+.mat-column-location {
+  max-width: 150px !important;
+}

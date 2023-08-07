@@ -1,0 +1,20 @@
+<mat-form-field class="flex-fill dense-1 w-100" *ngIf="formCtrl">
+  <mat-label>{{placeholder}}</mat-label>
+  <mat-chip-grid #chipGrid aria-label="Entry selection">
+    <mat-chip-row *ngFor="let entry of selectedEntries" [removable]="removable" (removed)="handleRemoveEvent(entry)">
+      {{entry.name}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip-row>
+  </mat-chip-grid>
+  <input #entryInput
+         [formControl]="formCtrl"
+         [matChipInputFor]="chipGrid"
+         [matAutocomplete]="auto"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleSelectedEvent($event)">
+    <mat-option *ngFor="let entry of filteredEntries" [value]="entry">
+      {{entry.name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

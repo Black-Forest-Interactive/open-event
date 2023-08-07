@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+    <button mat-mini-fab (click)="back()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="title ps-2">{{info?.event?.longText}}</span>
+    <div class="flex-fill"></div>
+
+    <ng-container *ngIf="!reloading && !menu.publishMenuItem.disabled">
+      <button mat-mini-fab class="action-fab" *ngIf="!info?.event?.published"
+              (click)="menu.publishMenuItem.handleClick()">
+        <mat-icon *ngIf="!menu.publishing">publish</mat-icon>
+        <mat-icon *ngIf="menu.publishing">
+          <mat-spinner diameter="18"></mat-spinner>
+        </mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-container *ngFor="let item of menu.menuItems">
+      <button mat-mini-fab class="action-fab" (click)="item.handleClick()">
+        <mat-icon>{{item.icon}}</mat-icon>
+      </button>
+    </ng-container>
+
+    <button mat-icon-button [matMenuTriggerFor]="contextMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-container *ngFor="let item of menu.menuItems">
+    <button mat-menu-item [disabled]="item.disabled" (click)="item.handleClick()">
+      <mat-icon>{{item.icon}}</mat-icon>
+      {{item.text | translate}}
+    </button>
+  </ng-container>
+</mat-menu>

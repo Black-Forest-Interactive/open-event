@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{"REGISTRATION.DIALOG.ACCEPT.Title" | translate}}</h1>
+<div mat-dialog-content>
+  <p>{{"REGISTRATION.DIALOG.ACCEPT.Question" | translate}}</p>
+  <form [formGroup]="fg">
+    <mat-form-field>
+      <mat-label>{{"REGISTRATION.COMMON.PeopleAmount" | translate}}</mat-label>
+      <input matInput type="number" min="1" formControlName="size" required>
+    </mat-form-field>
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="submit()">
+    <mat-icon>check</mat-icon>
+    {{"action.submit" | translate}}</button>
+  <button mat-flat-button color="warn" mat-dialog-close>
+    <mat-icon>cancel</mat-icon>
+    {{"action.cancel" | translate}}</button>
+</mat-dialog-actions>

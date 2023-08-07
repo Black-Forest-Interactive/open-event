@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$open-event-primary: mat.define-palette(mat.$gray-palette, 900);
+$open-event-accent: mat.define-palette(mat.$green-palette, 700);
+$open-event-warn: mat.define-palette(mat.$red-palette,900);
+
+$open-event-theme: mat.define-light-theme((
+  color: (
+    primary: $open-event-primary,
+    accent: $open-event-accent,
+    warn: $open-event-warn,
+  )
+));
+
+@include mat.all-component-themes($open-event-theme);

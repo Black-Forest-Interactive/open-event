@@ -1,0 +1,44 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+    <button mat-mini-fab (click)="cancel()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="title ps-2">{{title | translate}}</span>
+  </div>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div class="d-flex flex-column gap-2 p-2">
+  <mat-card>
+    <mat-stepper orientation="horizontal">
+      <mat-step [stepControl]="eventForm" label="{{'event.step.event' | translate}}">
+        <app-event-change-form-event [form]="eventForm" [hiddenFields]="hiddenFields"></app-event-change-form-event>
+        <div class="d-flex flex-row justify-content-end gap-2">
+          <button mat-flat-button matStepperNext color="primary">{{'action.next' | translate}}</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="locationForm" label="{{'event.step.location' | translate}}">
+        <app-event-change-form-location [form]="locationForm"
+                                        [hiddenFields]="hiddenFields"></app-event-change-form-location>
+        <div class="d-flex flex-row justify-content-end gap-2">
+          <button mat-flat-button matStepperPrevious color="primary">{{'action.back' | translate}}</button>
+          <button mat-flat-button matStepperNext color="primary">{{'action.next' | translate}}</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="registrationForm" label="{{'event.step.registration' | translate}}">
+        <app-event-change-form-registration [form]="registrationForm" [hiddenFields]="hiddenFields">
+        </app-event-change-form-registration>
+        <div class="d-flex flex-row justify-content-end gap-2">
+          <button mat-flat-button matStepperPrevious color="primary">{{'action.back' | translate}}</button>
+          <button mat-flat-button type="submit" color="accent" [disabled]="!fg.valid || !fg.touched || reloading"
+                  (click)="submit()">
+            {{'action.submit' | translate}}
+            <mat-icon *ngIf="reloading">
+              <mat-spinner diameter="18"></mat-spinner>
+            </mat-icon>
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-card>
+
+</div>

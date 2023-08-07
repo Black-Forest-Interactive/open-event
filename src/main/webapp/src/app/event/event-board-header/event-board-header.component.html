@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+
+    <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 0 1 calc(50% - .5rem - 100px)">
+      <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 0 1 calc(50%);">
+        <mat-label>{{'event.search' | translate}}</mat-label>
+        <input matInput placeholder="" value="">
+      </mat-form-field>
+      <button mat-mini-fab color="accent">
+        <mat-icon>search</mat-icon>
+      </button>
+
+    </div>
+
+    <button mat-fab color="accent" style="flex: 0 1 200px;" extended routerLink="./create">
+      <mat-icon>event</mat-icon>
+      {{'event.create' | translate}}
+    </button>
+    <div class="flex-fill"></div>
+
+    <button mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+  </div>
+</mat-toolbar>
