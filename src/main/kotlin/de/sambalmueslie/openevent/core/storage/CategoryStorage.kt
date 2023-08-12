@@ -6,5 +6,4 @@ import de.sambalmueslie.openevent.core.model.CategoryChangeRequest
 
 interface CategoryStorage : Storage<Long, Category, CategoryChangeRequest> {
     fun findByName(name: String): Category?
-    fun getByIds(ids: Set<Long>): List<Category>
 }

@@ -19,7 +19,7 @@
         <img mat-card-image src="{{info.event.imageUrl.length}}" alt=""
              *ngIf="info.event.imageUrl && info.event.imageUrl.length > 0">
         <mat-card-content>
-          <div class="pt-3">{{info.event.longText}}</div>
+          <div class="pt-3" [innerHTML]="info.event.longText"></div>
         </mat-card-content>
         <ng-container *ngIf="info.categories.length > 0">
           <div class="pt-3"></div>

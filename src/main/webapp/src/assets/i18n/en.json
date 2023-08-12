@@ -1,0 +1,104 @@
+{
+  "app": {
+    "title": "Welcome to open event",
+    "loading": "Loading app, please wait"
+  },
+  "action": {
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "event": {
+    "search": "Search for event",
+    "create": "Create new event",
+    "action": {
+      "edit": "Edit Event",
+      "copy": "Copy Event",
+      "delete": "Delete Event",
+      "publish": "Publish Event"
+    },
+    "step": {
+      "event": "Event",
+      "location": "Location",
+      "registration": "Registration"
+    },
+    "change": {
+      "create": "Create new event",
+      "update": "Change existing event: {{ event }}",
+      "copy": "Copy existing event: {{ event }}"
+    },
+    "form": {
+      "title": "Title",
+      "longText": "Description",
+      "startDate": "Date",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "street": "Street",
+      "nr": "Nr",
+      "info": "Additonal Info",
+      "zip": "Zip",
+      "city": "City",
+      "country": "Country",
+      "maxGuests": "Max guest amount",
+      "category": "Categories",
+      "hint": {
+        "Title": "Short and powerfull description of the event (max 40 chars)",
+        "LongDescr": "What is the event about, what is required to bring and some additonal information",
+        "startDate": "The date of the event",
+        "startTime": "The time the event begins",
+        "endTime": "The time the event probably ends",
+        "maxGuest": "How many guests coult attend to the event"
+      }
+    }
+  },
+  "registration": {
+    "title": "Participants",
+    "space": "Seats",
+    "waitlist": "Waiting List",
+    "action": {
+      "participate": "Participate",
+      "participateAccount": "Add Account",
+      "participateManual": "Add manual",
+      "edit": "Change Participation",
+      "cancel": "Cancel Participation"
+    },
+    "people": "people",
+    "peopleAmount": "Amount of people",
+    "dialog": {
+      "accept": {
+        "title": "Participate on event",
+        "question": "With how much people will you attend on the event?"
+      },
+      "edit": {
+        "title": "Modify participation",
+        "question": "With how much people will you attend on the event?",
+        "message": "Participation change successfully processed"
+      },
+      "cancel": {
+        "title": "Cancel participation",
+        "question": "Do you relay want to cancel the participation?",
+        "message": "Participation cancel successfully processed"
+      },
+      "manual": {
+        "title": "Add manual participant",
+        "question": "Add the data of the participant please"
+      }
+    },
+    "message": {
+      "accepted": "Participation change successfully processed",
+      "waiting": "You have been added to the waiting list",
+      "declined": "Participation cancel successfully processed",
+      "failed": "Some critical error occurred contact site admin"
+    },
+    "status": {
+      "full": "Full",
+      "available": "Available"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email"
+    }
+  }
+}

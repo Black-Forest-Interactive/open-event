@@ -11,3 +11,7 @@ mail:
   username: "username"
   server: "server"
   password: "password"
+
+tracing:
+  jaeger:
+    enabled: false

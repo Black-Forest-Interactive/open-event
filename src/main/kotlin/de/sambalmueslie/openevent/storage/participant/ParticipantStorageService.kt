@@ -62,5 +62,17 @@ class ParticipantStorageService(
         return repository.findByRegistrationId(registration.id).let { converter.convert(it) }
     }
 
+    override fun findByAccount(registration: Registration, account: Account): Participant? {
+        return repository.findByRegistrationIdAndAccountId(registration.id, account.id)?.let { converter.convert(it) }
+    }
+
+    override fun get(registration: List<Registration>): Map<Registration, List<Participant>> {
+        val regIds = registration.map { it.id }.toSet()
+        val participants = repository.findByRegistrationIdIn(regIds)
+            .groupBy { it.registrationId }
+            .mapValues { converter.convert(it.value) }
+        return registration.associateWith { participants[it.id] ?: emptyList() }
+    }
+
 
 }

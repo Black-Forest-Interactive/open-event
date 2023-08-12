@@ -10,4 +10,6 @@ interface ParticipantAPI : CrudAPI<Long, Participant, ParticipantChangeRequest> 
         const val PERMISSION_ADMIN = "openevent.participant.admin"
     }
 
+
+
 }

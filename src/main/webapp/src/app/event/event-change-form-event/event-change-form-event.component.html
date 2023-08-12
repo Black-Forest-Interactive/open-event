@@ -1,6 +1,6 @@
 <ng-container *ngIf="form">
   <form [formGroup]="form">
-    <div class="d-flex flex-column gap-2 align-items-stretch flex-fill pt-2">
+    <div class="d-flex flex-column gap-4 align-items-stretch flex-fill pt-2">
       <!-- title-->
       <mat-form-field *ngIf="isVisible('title')" hintLabel="{{'event.form.hint.Title' | translate}}" class="dense-1">
         <mat-label>{{'event.form.title' | translate}}</mat-label>
@@ -20,14 +20,7 @@
         </mat-error>
       </mat-form-field>
       <!-- longText-->
-      <mat-form-field *ngIf="isVisible('longText')" class="dense-1">
-        <mat-label>{{'event.form.longText' | translate}}</mat-label>
-        <textarea matInput formControlName="longText"></textarea>
-        <mat-hint align="start">{{'event.form.hint.LongDescr'| translate}}</mat-hint>
-        <mat-error *ngIf="!longText?.valid && longText?.touched">
-          {{'event.form.longTextError' | translate}}
-        </mat-error>
-      </mat-form-field>
+      <quill-editor formControlName="longText" placeholder="{{'event.form.hint.LongDescr' | translate}}" class="pb-3"></quill-editor>
       <!-- imageUrl-->
       <mat-form-field *ngIf="isVisible('imageUrl')" class="dense-1">
         <mat-label>{{'event.form.imageUrl' | translate}}</mat-label>

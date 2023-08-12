@@ -54,7 +54,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
     }),
     HotToastModule.forRoot({
       autoClose: true,
-      position: 'bottom-right'
+      position: 'top-center'
     }),
     // my modules
     DashboardModule,

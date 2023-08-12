@@ -4,7 +4,7 @@
       <mat-form-field class="dense-1" style="flex: 1 1 auto">
         <mat-label>{{'event.form.maxGuests' | translate}}</mat-label>
         <input type="number" matInput formControlName="maxGuestAmount" required>
-        <mat-hint align="start">{{'event.form.hint.MaxGuest'| translate}}</mat-hint>
+        <mat-hint align="start">{{'event.form.hint.maxGuest'| translate}}</mat-hint>
       </mat-form-field>
 
       <mat-form-field class="dense-1" style="flex: 1 1 auto" *ngIf="isVisible('interestedAllowed')">
@@ -29,7 +29,7 @@
       <app-chip-select-pane
         [formCtrl]="categoryForm"
         [entries]="allCategories"
-        placeholder='{{"STRUCT.ACTION.SELECTED_CAT" | translate}}'
+        placeholder='{{"event.form.category" | translate}}'
         *ngIf="!categoriesLoading"
       >
       </app-chip-select-pane>

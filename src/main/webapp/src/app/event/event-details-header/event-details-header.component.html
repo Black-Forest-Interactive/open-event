@@ -3,7 +3,7 @@
     <button mat-mini-fab (click)="back()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span class="title ps-2">{{info?.event?.longText}}</span>
+    <span class="title ps-2">{{info?.event?.title}}</span>
     <div class="flex-fill"></div>
 
     <ng-container *ngIf="!reloading && !menu.publishMenuItem.disabled">

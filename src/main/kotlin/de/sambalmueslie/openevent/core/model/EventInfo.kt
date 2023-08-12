@@ -6,6 +6,6 @@ import io.micronaut.serde.annotation.Serdeable
 data class EventInfo(
     val event: Event,
     val location: Location?,
-    val registration: Registration?,
+    val registration: RegistrationInfo?,
     val categories: List<Category>
 )

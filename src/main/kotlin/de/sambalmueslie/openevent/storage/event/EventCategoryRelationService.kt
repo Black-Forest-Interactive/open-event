@@ -23,7 +23,7 @@ class EventCategoryRelationService(
     fun assign(event: Event, category: Category) {
         if (repository.existsByCategoryIdAndEventId(category.id, event.id)) return
 
-        val relation = EventCategoryRelation(category.id, event.id)
+        val relation = EventCategoryRelation(event.id, category.id)
         repository.save(relation)
     }
 
@@ -59,7 +59,7 @@ class EventCategoryRelationService(
         val addedCategoryIds = relations.map { it.categoryId }.toSet()
 
         val toAdd = categories.filter { !addedCategoryIds.contains(it.id) }
-            .map { EventCategoryRelation(it.id, event.id) }
+            .map { EventCategoryRelation(event.id, it.id) }
         if (toAdd.isNotEmpty()) repository.saveAll(toAdd)
 
         val newCategoryIds = categories.map { it.id }

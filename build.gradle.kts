@@ -42,7 +42,7 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.4.9")
+    implementation("ch.qos.logback:logback-classic:1.4.11")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
@@ -118,6 +118,12 @@ dependencies {
 
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    // tracing
+    implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
+
+    // solr
+    implementation("org.apache.solr:solr-solrj:9.3.0")
 }
 
 java {

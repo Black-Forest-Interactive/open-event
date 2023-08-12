@@ -4,9 +4,12 @@
     <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 0 1 calc(50% - .5rem - 100px)">
       <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 0 1 calc(50%);">
         <mat-label>{{'event.search' | translate}}</mat-label>
-        <input matInput placeholder="" value="">
+        <input matInput placeholder="" value="" #input [disabled]="service.reloading" (keyup)="keyUp.emit(input.value)">
+        <mat-icon *ngIf="service.searching">
+          <mat-spinner diameter="18"></mat-spinner>
+        </mat-icon>
       </mat-form-field>
-      <button mat-mini-fab color="accent">
+      <button mat-mini-fab color="accent" (click)="search(input.value)">
         <mat-icon>search</mat-icon>
       </button>
 
@@ -18,9 +21,6 @@
     </button>
     <div class="flex-fill"></div>
 
-    <button mat-icon-button>
-      <mat-icon>more_vert</mat-icon>
-    </button>
 
   </div>
 </mat-toolbar>

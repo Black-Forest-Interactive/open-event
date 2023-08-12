@@ -7,6 +7,11 @@ export interface Registration {
   ticketsEnabled: boolean
 }
 
+export interface RegistrationInfo {
+  registration: Registration,
+  participants: Participant[]
+}
+
 export class RegistrationChangeRequest {
   constructor(
     public maxGuestAmount: number,
@@ -23,8 +28,20 @@ export class ParticipateRequest {
   }
 }
 
+export class ParticipantAddRequest {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public size: number
+  ) {
+  }
+}
+
 export interface ParticipateResponse {
   registration: Registration,
   participants: Participant[],
   status: string
 }
+
+

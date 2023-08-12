@@ -105,7 +105,7 @@ export class EventChangeComponent {
   }
 
   private handleDataCreate() {
-    this.translationService.get("event.change.Create").subscribe(text => this.title = text);
+    this.translationService.get("event.change.create").subscribe(text => this.title = text);
   }
 
   private loadData(id: number, callback: (e: EventInfo) => void) {
@@ -121,7 +121,7 @@ export class EventChangeComponent {
   private handleDataEdit(e: EventInfo) {
     this.event = e
     this.initValues(e)
-    this.translationService.get("event.change.Update", {event: e.event.shortText}).subscribe(text => this.title = text);
+    this.translationService.get("event.change.update", {event: e.event.shortText}).subscribe(text => this.title = text);
     this.reloading = false
   }
 
@@ -160,9 +160,9 @@ export class EventChangeComponent {
     let registration = e.registration
     if (registration) {
       this.registrationForm.setValue({
-        ticketsEnabled: registration.ticketsEnabled,
-        maxGuestAmount: registration.maxGuestAmount,
-        interestedAllowed: registration.interestedAllowed,
+        ticketsEnabled: registration.registration.ticketsEnabled,
+        maxGuestAmount: registration.registration.maxGuestAmount,
+        interestedAllowed: registration.registration.interestedAllowed,
         categories: e.categories.map(c => c.id)
       })
     }

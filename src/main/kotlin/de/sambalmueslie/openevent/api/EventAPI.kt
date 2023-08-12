@@ -18,5 +18,5 @@ interface EventAPI : CrudAPI<Long, Event, EventChangeRequest> {
     fun getLocation(auth: Authentication, id: Long): Location?
     fun getRegistration(auth: Authentication, id: Long): Registration?
     fun getCategories(auth: Authentication, id: Long): List<Category>
-
+    fun search(auth: Authentication, query: String, pageable: Pageable): Page<EventInfo>
 }

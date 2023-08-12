@@ -7,12 +7,13 @@ import de.sambalmueslie.openevent.api.SettingsAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openevent.core.auth.checkPermission
 import de.sambalmueslie.openevent.core.model.PatchRequest
 import de.sambalmueslie.openevent.core.model.SettingChangeRequest
+import de.sambalmueslie.openevent.core.model.TextResponse
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
 
-@Controller("/api/backend/settings")
+@Controller("/api/settings")
 @Tag(name = "Settings API")
 class SettingsController(private val service: SettingsService) : SettingsAPI {
 
@@ -50,5 +51,8 @@ class SettingsController(private val service: SettingsService) : SettingsAPI {
     @Get("/by/key/{key}")
     override fun findByKey(auth: Authentication, key: String) =
         auth.checkPermission(PERMISSION_READ) { service.findByKey(key) }
+
+    @Get("title")
+    fun getTitle() = TextResponse(service.getTitle())
 
 }

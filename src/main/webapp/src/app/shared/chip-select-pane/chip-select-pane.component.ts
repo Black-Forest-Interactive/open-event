@@ -27,7 +27,7 @@ export class ChipSelectPaneComponent {
   placeholder: string = "Assigned entry ..."
 
   @Output()
-  changed: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  changed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
   separatorKeysCodes: number[] = [ENTER, COMMA]

@@ -12,7 +12,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {EventChangeFormEventComponent} from './event-change-form-event/event-change-form-event.component';
 import {EventChangeFormLocationComponent} from './event-change-form-location/event-change-form-location.component';
 import {
-    EventChangeFormRegistrationComponent
+  EventChangeFormRegistrationComponent
 } from './event-change-form-registration/event-change-form-registration.component';
 import {HotToastModule} from "@ngneat/hot-toast";
 import {EventMenuComponent} from './event-menu/event-menu.component';
@@ -25,6 +25,7 @@ import {ChipSelectModule} from "../shared/chip-select-pane/chip-select.module";
 import {EventBoardTableComponent} from './event-board-table/event-board-table.component';
 import {EventDetailsHeaderComponent} from './event-details-header/event-details-header.component';
 import {RegistrationModule} from "../registration/registration.module";
+import {QuillModule} from "ngx-quill";
 
 
 @NgModule({
@@ -43,18 +44,19 @@ import {RegistrationModule} from "../registration/registration.module";
     EventBoardTableComponent,
     EventDetailsHeaderComponent
   ],
-    imports: [
-        CommonModule,
-        EventRoutingModule,
-        MaterialModule,
-        TranslateModule,
-        ReactiveFormsModule,
-        HotToastModule,
-        AccountModule,
-        LocationModule,
-        ChipSelectModule,
-        RegistrationModule
-    ]
+  imports: [
+    CommonModule,
+    EventRoutingModule,
+    MaterialModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    HotToastModule,
+    AccountModule,
+    LocationModule,
+    ChipSelectModule,
+    RegistrationModule,
+    QuillModule
+  ]
 })
 export class EventModule {
 }

@@ -58,6 +58,10 @@ abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChang
         notifyDeleted(result)
         return result
     }
+
+    override fun getByIds(ids: Set<T>): List<O> {
+        return storage.getByIds(ids)
+    }
 }
 
 

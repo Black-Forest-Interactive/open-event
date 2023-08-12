@@ -3,7 +3,7 @@ import {BaseService} from "../../shared/model/base-service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Participant} from "../../participant/model/participant-api";
-import {ParticipateRequest, ParticipateResponse} from "./registration-api";
+import {ParticipantAddRequest, ParticipateRequest, ParticipateResponse} from "./registration-api";
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,32 @@ export class RegistrationService extends BaseService {
     return this.get('' + id + '/participant')
   }
 
-  participate(id: number, request: ParticipateRequest): Observable<ParticipateResponse> {
+  participateSelf(id: number, request: ParticipateRequest): Observable<ParticipateResponse> {
+    return this.post('' + id + '/participant', request)
+  }
+
+  editSelf(id: number, request: ParticipateRequest): Observable<ParticipateResponse> {
     return this.put('' + id + '/participant', request)
   }
 
+  cancelSelf(id: number): Observable<ParticipateResponse> {
+    return this.delete('' + id + '/participant')
+  }
+
+  participateAccount(id: number, accountId: number, request: ParticipateRequest): Observable<ParticipateResponse> {
+    return this.put('' + id + '/participant/account/' + accountId, request)
+  }
+
+  participateManual(id: number, request: ParticipantAddRequest): Observable<ParticipateResponse> {
+    return this.post('' + id + '/participant/manual', request)
+  }
+
+  changeParticipant(id: number, participantId: number, request: ParticipateRequest): Observable<ParticipateResponse> {
+    return this.put(id + '/participant/' + participantId, request)
+  }
+
+  removeParticipant(id: number, participantId: number): Observable<ParticipateResponse> {
+    return this.delete(id + '/participant/' + participantId)
+  }
 
 }

@@ -1,13 +1,15 @@
-<h1 mat-dialog-title>{{"REGISTRATION.DIALOG.ACCEPT.Title" | translate}}</h1>
-<div mat-dialog-content>
-  <p>{{"REGISTRATION.DIALOG.ACCEPT.Question" | translate}}</p>
+<h2 mat-dialog-title>{{"registration.dialog.accept.title" | translate}}</h2>
+<mat-dialog-content>
   <form [formGroup]="fg">
-    <mat-form-field>
-      <mat-label>{{"REGISTRATION.COMMON.PeopleAmount" | translate}}</mat-label>
-      <input matInput type="number" min="1" formControlName="size" required>
-    </mat-form-field>
+    <div class="d-flex flex-column gap-2">
+      <p>{{"registration.dialog.accept.question" | translate}}</p>
+      <mat-form-field class="dense-1">
+        <mat-label>{{"registration.peopleAmount" | translate}}</mat-label>
+        <input matInput type="number" min="1" formControlName="size" required>
+      </mat-form-field>
+    </div>
   </form>
-</div>
+</mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-flat-button color="primary" (click)="submit()">
     <mat-icon>check</mat-icon>

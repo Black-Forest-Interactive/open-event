@@ -34,7 +34,7 @@ class EventAnnouncementRelationService(
     fun get(event: Event, pageable: Pageable): Page<Announcement> {
         val relations = repository.findByEventId(event.id, pageable)
         val categoryIds = relations.content.map { it.announcementId }.toSet()
-        val result = service.findByIds(categoryIds)
+        val result = service.getByIds(categoryIds)
         return Page.of(result, relations.pageable, relations.totalSize)
     }
 

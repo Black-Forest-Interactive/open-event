@@ -40,11 +40,24 @@ class AccountCrudService(
         val existing = storage.findByEmail(email)
         if (existing != null) return AccountValidationResult(false, existing)
 
-        val result = storage.create(AccountChangeRequest(auth.getUsername(), auth.getFirstName(), auth.getLastName(), email, "", auth.getExternalId()))
+        val result = storage.create(
+            AccountChangeRequest(
+                auth.getUsername(),
+                auth.getFirstName(),
+                auth.getLastName(),
+                email,
+                "",
+                auth.getExternalId()
+            )
+        )
+        notifyCreated(result)
         return AccountValidationResult(true, result)
     }
 
     fun get(auth: Authentication): Account? {
         return findByEmail(auth.getEmail())
     }
+
+
+
 }

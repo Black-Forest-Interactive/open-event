@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>{{"registration.dialog.manual.title" | translate}}</h2>
+<mat-dialog-content>
+  <form [formGroup]="fg">
+    <div class="d-flex flex-column gap-2">
+      <p>{{"registration.dialog.manual.question" | translate}}</p>
+
+      <mat-form-field class="dense-1">
+        <mat-label>{{'registration.form.firstName' | translate}}</mat-label>
+        <input matInput formControlName="firstName">
+      </mat-form-field>
+
+      <mat-form-field class="dense-1">
+        <mat-label>{{'registration.form.lastName' | translate}}</mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+
+
+      <mat-form-field class="dense-1">
+        <mat-label>{{'registration.form.email' | translate}}</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field class="dense-1">
+        <mat-label>{{"registration.peopleAmount" | translate}}</mat-label>
+        <input matInput type="number" min="1" formControlName="size" required>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="submit()">
+    <mat-icon>check</mat-icon>
+    {{"action.submit" | translate}}</button>
+  <button mat-flat-button color="warn" mat-dialog-close>
+    <mat-icon>cancel</mat-icon>
+    {{"action.cancel" | translate}}</button>
+</mat-dialog-actions>

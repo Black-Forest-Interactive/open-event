@@ -9,13 +9,14 @@ import {MatSidenav} from "@angular/material/sidenav";
 import {MainNavItem} from "./main-nav-item";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmLogoutDialogComponent} from "../confirm-logout-dialog/confirm-logout-dialog.component";
+import {DashboardService} from "../model/dashboard.service";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent  implements AfterViewInit{
+export class DashboardComponent implements AfterViewInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
@@ -25,16 +26,16 @@ export class DashboardComponent  implements AfterViewInit{
   collapsed: boolean = true
   @ViewChild('drawer') drawer: MatSidenav | undefined
   navItems: MainNavItem[] = [
-    new MainNavItem('/home', 'MENU.Home', 'home'),
-    new MainNavItem('/event', 'event.Type', 'event_note'),
-    new MainNavItem('/category', 'category.Type', 'label'),
+    new MainNavItem('/event', 'event.type', 'event_note'),
+    new MainNavItem('/category', 'category.type', 'label'),
+    new MainNavItem('/settings', 'settings.type', 'settings_applications'),
 
 
-    new MainNavItem('/inquiry', 'INQUIRY.Type', 'question_answer'),
-    new MainNavItem('/structure', 'STRUCT.Type', 'ballot'),
-    new MainNavItem('/profile', 'MENU.Profile', 'person'),
-    new MainNavItem('/administration', 'MENU.Administration', 'settings_applications'),
-    new MainNavItem('/imprint', 'MENU.Imprint', 'contact_support'),
+    // new MainNavItem('/inquiry', 'INQUIRY.Type', 'question_answer'),
+    // new MainNavItem('/structure', 'STRUCT.Type', 'ballot'),
+    // new MainNavItem('/profile', 'MENU.Profile', 'person'),
+    // new MainNavItem('/administration', 'MENU.Administration', 'settings_applications'),
+    // new MainNavItem('/imprint', 'MENU.Imprint', 'contact_support'),
   ];
 
 
@@ -46,7 +47,8 @@ export class DashboardComponent  implements AfterViewInit{
     router: Router,
     private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public service: DashboardService
   ) {
     translate.setDefaultLang('en')
     translate.use(this.lang)
@@ -84,6 +86,7 @@ export class DashboardComponent  implements AfterViewInit{
       if (result) this.authService.logout()
     })
   }
+
   toggleCollapsed() {
     this.collapsed = !this.collapsed;
   }

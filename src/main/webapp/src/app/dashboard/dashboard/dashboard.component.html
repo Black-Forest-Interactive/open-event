@@ -2,7 +2,7 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="(isHandset$ | async) === false">
+               [opened]="false">
     <mat-toolbar></mat-toolbar>
     <mat-nav-list>
       <a mat-list-item *ngFor="let item of accessibleItems" routerLink="{{item.url}}" routerLinkActive="active">
@@ -52,7 +52,7 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <a routerLink="/"><img src="assets/img/logo.png"/></a>
-        <span class="header">{{'text.welcome' | translate}}</span>
+        <span class="header"> {{ service.title | translate}}</span>
         <div class="flex-fill"></div>
         <mat-chip-listbox>
           <mat-chip-option color="accent" selected [selectable]="false">

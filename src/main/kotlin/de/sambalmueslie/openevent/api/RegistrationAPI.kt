@@ -22,4 +22,18 @@ interface RegistrationAPI : CrudAPI<Long, Registration, RegistrationChangeReques
         request: ParticipateRequest
     ): ParticipateResponse?
 
+
+    fun addParticipant(auth: Authentication, id: Long, request: ParticipantAddRequest): ParticipateResponse?
+    fun changeParticipant(auth: Authentication, id: Long, request: ParticipateRequest): ParticipateResponse?
+    fun changeParticipant(
+        auth: Authentication,
+        id: Long,
+        participantId: Long,
+        request: ParticipateRequest
+    ): ParticipateResponse?
+
+    fun removeParticipant(auth: Authentication, id: Long, participantId: Long): ParticipateResponse?
+    fun removeParticipant(auth: Authentication, id: Long): ParticipateResponse?
+
+    fun getInfo(auth: Authentication, id: Long): RegistrationInfo?
 }

@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.logic.registration
 
 
 import de.sambalmueslie.openevent.core.BaseCrudService
+import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
 import de.sambalmueslie.openevent.core.logic.participant.ParticipantCrudService
 import de.sambalmueslie.openevent.core.model.*
 import de.sambalmueslie.openevent.core.storage.RegistrationStorage
@@ -12,7 +13,8 @@ import org.slf4j.LoggerFactory
 @Singleton
 class RegistrationCrudService(
     private val storage: RegistrationStorage,
-    private val participantCrudService: ParticipantCrudService
+    private val participantCrudService: ParticipantCrudService,
+    private val accountCrudService: AccountCrudService
 ) : BaseCrudService<Long, Registration, RegistrationChangeRequest>(storage, logger) {
 
     companion object {
@@ -29,6 +31,7 @@ class RegistrationCrudService(
     fun findByEvent(event: Event): Registration? {
         return storage.findByEvent(event)
     }
+
 
     fun updateByEvent(event: Event, request: RegistrationChangeRequest): Registration {
         val existing = storage.findByEvent(event)
@@ -61,7 +64,60 @@ class RegistrationCrudService(
 
     fun addParticipant(id: Long, account: Account, request: ParticipateRequest): ParticipateResponse? {
         val registration = get(id) ?: return null
-        return participantCrudService.add(registration, account, request)
+        return participantCrudService.change(registration, account, request)
     }
 
+    fun changeParticipant(id: Long, account: Account, request: ParticipateRequest): ParticipateResponse? {
+        val registration = get(id) ?: return null
+        return participantCrudService.change(registration, account, request)
+    }
+
+    fun removeParticipant(id: Long, account: Account): ParticipateResponse? {
+        val registration = get(id) ?: return null
+        return participantCrudService.remove(registration, account)
+    }
+
+
+    fun addParticipant(id: Long, request: ParticipantAddRequest): ParticipateResponse? {
+        val registration = get(id) ?: return null
+        val account = accountCrudService.create(
+            AccountChangeRequest(
+                "${request.firstName} ${request.lastName}",
+                request.firstName,
+                request.lastName,
+                request.email,
+                "",
+                null
+            )
+        )
+        return participantCrudService.change(registration, account, ParticipateRequest(request.size))
+    }
+
+    fun changeParticipant(id: Long, participantId: Long, request: ParticipateRequest): ParticipateResponse? {
+        val registration = get(id) ?: return null
+        return participantCrudService.change(registration, participantId, request)
+    }
+
+    fun removeParticipant(id: Long, participantId: Long): ParticipateResponse? {
+        val registration = get(id) ?: return null
+        return participantCrudService.remove(registration, participantId)
+    }
+
+    fun getInfo(id: Long): RegistrationInfo? {
+        val registration = get(id) ?: return null
+        val participants = participantCrudService.get(registration)
+        return RegistrationInfo(registration, participants)
+    }
+
+    fun findInfoByEvent(event: Event): RegistrationInfo? {
+        val registration = storage.findByEvent(event) ?: return null
+        val participants = participantCrudService.get(registration)
+        return RegistrationInfo(registration, participants)
+    }
+
+    fun findInfosByEventIds(eventIds: Set<Long>): List<RegistrationInfo> {
+        val registrations = storage.findByEventIds(eventIds)
+        val participants = participantCrudService.get(registrations)
+        return participants.map { RegistrationInfo(it.key, it.value) }
+    }
 }

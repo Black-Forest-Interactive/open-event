@@ -49,8 +49,4 @@ class AnnouncementStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    fun findByIds(ids: Set<Long>): List<Announcement> {
-        val result = repository.findByIdIn(ids)
-        return converter.convert(result)
-    }
 }

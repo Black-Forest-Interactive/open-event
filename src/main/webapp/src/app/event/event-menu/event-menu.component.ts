@@ -26,10 +26,10 @@ export class EventMenuComponent {
 
   publishing: boolean = false
 
-  editMenuItem = new EventMenuItem('edit', 'event.action.Edit', this.handleActionEdit.bind(this), false)
-  copyMenuItem = new EventMenuItem('content_copy', 'event.action.Copy', this.handleActionEdit.bind(this), false)
-  deleteMenuItem = new EventMenuItem('delete', 'event.action.Delete', this.handleActionCopy.bind(this), false)
-  publishMenuItem = new EventMenuItem('publish', 'event.action.Publish', this.handleActionPublish.bind(this), false)
+  editMenuItem = new EventMenuItem('edit', 'event.action.edit', this.handleActionEdit.bind(this), false)
+  copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', this.handleActionEdit.bind(this), false)
+  deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', this.handleActionCopy.bind(this), false)
+  publishMenuItem = new EventMenuItem('publish', 'event.action.publish', this.handleActionPublish.bind(this), false)
 
   menuItems = [
     this.editMenuItem,

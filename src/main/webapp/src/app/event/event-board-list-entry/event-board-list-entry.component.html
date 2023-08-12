@@ -17,11 +17,11 @@
 
     <div class="d-flex flex-row gap-2 align-items-center flex-fill">
       <mat-icon>description</mat-icon>
-      <div>{{info.event.longText}}</div>
+      <div>{{info.event.title}}</div>
     </div>
 
     <div class="d-flex flex-row gap-2 align-items-center flex-fill">
-      <span style="color:red">TODO Status</span>
+      <app-registration-status [data]="info.registration"></app-registration-status>
     </div>
 
     <div class="d-flex flex-row gap-2 align-items-center flex-fill">

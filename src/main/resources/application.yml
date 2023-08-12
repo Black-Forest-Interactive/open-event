@@ -80,3 +80,12 @@ flyway:
       create-schemas: true
       schemas: open_event
       clean-schema: false
+
+tracing:
+  jaeger:
+    enabled: false
+    sampler:
+      probability: 1
+  exclusions:
+    - /health
+    - /env/.*

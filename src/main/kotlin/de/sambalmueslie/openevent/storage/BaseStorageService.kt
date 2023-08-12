@@ -11,13 +11,12 @@ import de.sambalmueslie.openevent.storage.util.PageableSequence
 import de.sambalmueslie.openevent.storage.util.findByIdOrNull
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
-import io.micronaut.data.repository.PageableRepository
 import org.slf4j.Logger
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessObjectChangeRequest, D : DataObject>(
-    private val repository: PageableRepository<D, T>,
+    private val repository: DataObjectRepository<T, D>,
     private val converter: DataObjectConverter<O, D>,
 
     cacheService: CacheService,
@@ -118,6 +117,10 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
         val sequence = PageableSequence { repository.findAll(it) }
         sequence.forEach { delete(it) }
         cache.invalidateAll()
+    }
+
+    override fun getByIds(ids: Set<T>): List<O> {
+        return repository.findByIdIn(ids).let { converter.convert(it) }
     }
 
 

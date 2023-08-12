@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{"registration.dialog.cancel.title" | translate}}</h2>
+<mat-dialog-content>
+    <div class="d-flex flex-column gap-2">
+      <p>{{"registration.dialog.cancel.question" | translate}}</p>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="submit()">
+    <mat-icon>check</mat-icon>
+    {{"action.submit" | translate}}</button>
+  <button mat-flat-button color="warn" mat-dialog-close>
+    <mat-icon>cancel</mat-icon>
+    {{"action.cancel" | translate}}</button>
+</mat-dialog-actions>

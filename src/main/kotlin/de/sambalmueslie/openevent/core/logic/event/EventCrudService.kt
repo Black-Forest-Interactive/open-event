@@ -86,7 +86,7 @@ class EventCrudService(
     fun getInfo(id: Long): EventInfo? {
         val event = get(id) ?: return null
         val location = locationCrudService.findByEvent(event)
-        val registration = registrationCrudService.findByEvent(event)
+        val registration = registrationCrudService.findInfoByEvent(event)
         val categories = storage.getCategories(event)
         return EventInfo(event, location, registration, categories)
     }
@@ -103,13 +103,14 @@ class EventCrudService(
         return convertInfo(getAllForAccount(account, pageable))
     }
 
-    private fun convertInfo(events: Page<Event>): Page<EventInfo> {
+    internal fun convertInfo(events: Page<Event>): Page<EventInfo> {
         val eventIds = events.content.map { it.id }.toSet()
         val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.id }
-        val registrations = registrationCrudService.findByEventIds(eventIds).associateBy { it.id }
+        val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.id }
         val categories = storage.getCategoriesByEventIds(eventIds)
         return events.map { EventInfo(it, locations[it.id], registrations[it.id], categories[it.id] ?: emptyList()) }
     }
+
 
 
 }

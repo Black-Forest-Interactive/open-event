@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.config.MailConfig
 import de.sambalmueslie.openevent.infrastructure.mail.api.Mail
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailParticipant
 import de.sambalmueslie.openevent.infrastructure.settings.SettingsService
+import io.micronaut.context.annotation.Requirements
 import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
 import jakarta.inject.Singleton
@@ -15,14 +16,17 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @Singleton
-@Requires(notEnv = [Environment.TEST])
-class MailSender(
+@Requirements(
+    Requires(notEnv = [Environment.TEST]),
+    Requires(property = "mail.enabled", value = "true"),
+)
+class SimpleJavaMailClient(
     private val config: MailConfig,
     private val settingsService: SettingsService
 ) : MailClient {
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(MailSender::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(SimpleJavaMailClient::class.java)
     }
 
     private val mailer = MailerBuilder

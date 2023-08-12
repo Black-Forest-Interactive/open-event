@@ -1,0 +1,104 @@
+{
+  "app": {
+    "title": "Willkommen bei open event",
+    "loading": "App lädt, bitte wraten"
+  },
+  "action": {
+    "next": "Weiter",
+    "back": "Zurück",
+    "submit": "Speichern",
+    "cancel": "Abbrechen"
+  },
+  "event": {
+    "search": "Suche nach einer Veranstaltung",
+    "create": "Neue Veranstaltung erstellen",
+    "action": {
+      "edit": "Veranstaltung Bearbeiten",
+      "copy": "Veranstaltung Kopieren",
+      "delete": "Veranstaltung Löschen",
+      "publish": "Veranstaltung Veröffentlichen"
+    },
+    "step": {
+      "event": "Veranstaltung",
+      "location": "Addresse",
+      "registration": "Sonstiges"
+    },
+    "change": {
+      "create": "Neue Veranstaltung erstellen",
+      "update": "Bearbeiten der Veranstaltung: {{ event }}",
+      "copy": "Kopieren der Veranstaltung: {{ event }}"
+    },
+    "form": {
+      "title": "Titel",
+      "longText": "Beschreibung",
+      "startDate": "Datum",
+      "startTime": "Begin",
+      "endTime": "Ende",
+      "street": "Straße",
+      "nr": "Nr",
+      "info": "Addresszusatz",
+      "zip": "PLZ",
+      "city": "Wohnort",
+      "country": "Land",
+      "maxGuests": "Teilnehmer",
+      "category": "Kategorien",
+      "hint": {
+        "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
+        "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+        "startDate": "Datum der Veranstaltung",
+        "startTime": "Beginn der Veranstaltung",
+        "endTime": "Voraussichtliches Ende der Veranstaltung",
+        "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?"
+      }
+    }
+  },
+  "registration": {
+    "title": "Teilnehmer",
+    "space": "Plätze",
+    "waitlist": "Warteliste",
+    "action": {
+      "participate": "Teilnehmen",
+      "participateAccount": "Account hinzufügen",
+      "participateManual": "Manuell hinzufügen",
+      "edit": "Teilnahme ändern",
+      "cancel": "Absagen"
+    },
+    "people": "Personen",
+    "peopleAmount": "Anzahl Personen",
+    "dialog": {
+      "accept": {
+        "title": "An Veranstaltung teilnehmen",
+        "question": "Mit wie vielen Personen möchten Sie teilnehmen?"
+      },
+      "edit": {
+        "title": "Teilnehmer anpassen",
+        "question": "Mit wie vielen Personen möchten Sie teilnehmen?",
+        "message": "Ihre Änderungen wurden erfolgreich übernommen"
+      },
+      "cancel": {
+        "title": "Teilnahme absagen",
+        "question": "Möchten Sie wirklich ihre Teilnahme absagen?",
+        "message": "Ihre Absage wurde erfolgreich verarbeitet"
+      },
+      "manual": {
+        "title": "Manuellen Teilnehmer hinzufügen",
+        "question": "Bitte Daten des Teilnehemers eingeben"
+      }
+    },
+    "message": {
+      "accepted": "Ihre Anmeldung wurde erfolgreich verarbeitet.",
+      "waiting": "Keine oder zu wenig Plätze frei, aber auf der Warteliste vorgemerkt.",
+      "declined": "Ihre Absage wurde erfolgreich verarbeitet.",
+      "failed": "Ein unerwarteter Fehler ist aufgetreten bitte kontaktiere den support"
+    },
+    "status": {
+      "full": "Ausgebucht",
+      "available": "Plätze frei"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Familienname",
+      "email": "Email"
+    }
+  }
+}

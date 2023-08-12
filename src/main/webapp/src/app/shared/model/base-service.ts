@@ -28,7 +28,7 @@ export abstract class BaseService {
     const url = this.createUrl(suffix);
     console.debug("Get paged '" + url + "'")
     const uri = url + "?page=" + page.toString() + "&size=" + size.toString() + queryParams
-    return this.http.get<Page<T>>(uri).pipe(retry(this.retryCount))
+    return this.http.get<Page<T>>(uri, {params: params}).pipe(retry(this.retryCount))
   }
 
 

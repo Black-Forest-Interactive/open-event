@@ -22,7 +22,5 @@ class CategoryCrudService(
         return storage.findByName(name)
     }
 
-    fun getByIds(categoryIds: Set<Long>): List<Category> {
-        return storage.getByIds(categoryIds)
-    }
+
 }

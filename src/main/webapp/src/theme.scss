@@ -1,7 +1,5 @@
 @use '@angular/material' as mat;
 
-@include mat.core();
-
 $open-event-primary: mat.define-palette(mat.$gray-palette, 900);
 $open-event-accent: mat.define-palette(mat.$green-palette, 700);
 $open-event-warn: mat.define-palette(mat.$red-palette,900);
@@ -15,3 +13,13 @@ $open-event-theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($open-event-theme);
+
+.available {
+  background: map-get($open-event-accent, default);
+  color: map-get($open-event-accent, default-contrast);
+}
+
+.full {
+  background: map-get($open-event-warn, default);
+  color: map-get($open-event-warn, default-contrast);
+}

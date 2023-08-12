@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.core.api
 
 
+import de.sambalmueslie.openevent.api.CategoryAPI
 import de.sambalmueslie.openevent.api.EventAPI
 import de.sambalmueslie.openevent.api.EventAPI.Companion.PERMISSION_ADMIN
 import de.sambalmueslie.openevent.api.EventAPI.Companion.PERMISSION_READ
@@ -9,9 +10,11 @@ import de.sambalmueslie.openevent.core.auth.checkPermission
 import de.sambalmueslie.openevent.core.auth.getRealmRoles
 import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
 import de.sambalmueslie.openevent.core.logic.event.EventCrudService
+import de.sambalmueslie.openevent.core.logic.event.EventSearchService
 import de.sambalmueslie.openevent.core.model.*
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -20,6 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 @Tag(name = "Event API")
 class EventController(
     private val service: EventCrudService,
+    private val search: EventSearchService,
     private val accountService: AccountCrudService
 ) : EventAPI {
 
@@ -88,6 +92,7 @@ class EventController(
     override fun getRegistration(auth: Authentication, id: Long): Registration? {
         return auth.checkPermission(PERMISSION_READ, PERMISSION_ADMIN) { service.getRegistration(id) }
     }
+
     @Get("/{id}/category")
     override fun getCategories(auth: Authentication, id: Long): List<Category> {
         return auth.checkPermission(PERMISSION_READ, PERMISSION_ADMIN) { service.getCategories(id) }
@@ -95,4 +100,17 @@ class EventController(
 
     private fun isAdmin(auth: Authentication) = auth.getRealmRoles().contains(PERMISSION_ADMIN)
 
+    @Get("/search")
+    override fun search(auth: Authentication, @QueryValue query: String, pageable: Pageable): Page<EventInfo> {
+        return auth.checkPermission(PERMISSION_READ) { search.searchInfo(query, pageable) }
+    }
+
+    @Post("/search")
+    fun buildIndex(auth: Authentication) {
+        return auth.checkPermission(CategoryAPI.PERMISSION_ADMIN) {
+            search.createIndex()
+            HttpResponse.created("")
+        }
+
+    }
 }
