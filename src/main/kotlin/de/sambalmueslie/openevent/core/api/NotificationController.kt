@@ -6,10 +6,13 @@ import de.sambalmueslie.openevent.api.NotificationAPI.Companion.PERMISSION_ADMIN
 import de.sambalmueslie.openevent.api.NotificationAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openevent.api.NotificationAPI.Companion.PERMISSION_WRITE
 import de.sambalmueslie.openevent.core.auth.checkPermission
+import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
 import de.sambalmueslie.openevent.core.logic.notification.NotificationSchemeCrudService
 import de.sambalmueslie.openevent.core.logic.notification.NotificationSettingCrudService
 import de.sambalmueslie.openevent.core.logic.notification.NotificationTemplateCrudService
+import de.sambalmueslie.openevent.core.logic.notification.NotificationTypeCrudService
 import de.sambalmueslie.openevent.core.model.*
+import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
@@ -22,7 +25,11 @@ class NotificationController(
     private val schemeService: NotificationSchemeCrudService,
     private val templateService: NotificationTemplateCrudService,
     private val settingService: NotificationSettingCrudService,
+    private val typeService: NotificationTypeCrudService,
+    private val accountService: AccountCrudService,
+    audit: AuditService,
 ) : NotificationAPI {
+    private val logger = audit.getLogger("Notification API")
 
     @Get("/settings")
     override fun getSettings(auth: Authentication, pageable: Pageable): Page<NotificationSetting> {
@@ -51,8 +58,11 @@ class NotificationController(
 
     @Post("/scheme")
     override fun create(auth: Authentication, @Body request: NotificationSchemeChangeRequest): NotificationScheme {
-        return auth.checkPermission(PERMISSION_WRITE) { schemeService.create(request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceCreate(auth, request) { schemeService.create(accountService.find(auth), request) }
+        }
     }
+
     @Put("/setting/{id}/enabled")
     override fun setSchemeEnabled(auth: Authentication, id: Long, value: PatchRequest<Boolean>): NotificationScheme? {
         return auth.checkPermission(PERMISSION_WRITE, PERMISSION_ADMIN) { schemeService.setEnabled(id, value) }
@@ -64,21 +74,27 @@ class NotificationController(
         id: Long,
         @Body request: NotificationSchemeChangeRequest
     ): NotificationScheme {
-        return auth.checkPermission(PERMISSION_WRITE) { schemeService.update(id, request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceUpdate(auth, request) { schemeService.update(accountService.find(auth), id, request) }
+        }
     }
 
     @Delete("/scheme/{id}")
     override fun delete(auth: Authentication, id: Long): NotificationScheme? {
-        return auth.checkPermission(PERMISSION_WRITE) { schemeService.delete(id) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceDelete(auth) { schemeService.delete(accountService.find(auth), id) }
+        }
     }
 
-    @Post("/scheme/{schemeId}/template")
+    @Post("/type/{typeId}/template")
     override fun createTemplate(
         auth: Authentication,
-        schemeId: Long,
+        typeId: Long,
         @Body request: NotificationTemplateChangeRequest
     ): NotificationTemplate? {
-        return auth.checkPermission(PERMISSION_WRITE) { schemeService.createTemplate(schemeId, request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            typeService.createTemplate(accountService.find(auth), typeId, request)
+        }
     }
 
     @Put("/template/{id}")
@@ -87,17 +103,22 @@ class NotificationController(
         id: Long,
         @Body request: NotificationTemplateChangeRequest
     ): NotificationTemplate {
-        return auth.checkPermission(PERMISSION_WRITE) { templateService.update(id, request) }
+        return auth.checkPermission(PERMISSION_WRITE) { templateService.update(accountService.find(auth), id, request) }
     }
 
     @Delete("/template/{id}")
     override fun deleteTemplate(auth: Authentication, id: Long): NotificationTemplate? {
-        return auth.checkPermission(PERMISSION_WRITE) { templateService.delete(id) }
+        return auth.checkPermission(PERMISSION_WRITE) { templateService.delete(accountService.find(auth), id) }
     }
 
-    @Get("/scheme/{schemeId}/template")
-    override fun getTemplates(auth: Authentication, schemeId: Long, pageable: Pageable): Page<NotificationTemplate> {
-        return auth.checkPermission(PERMISSION_READ) { schemeService.getTemplates(schemeId, pageable) }
+    @Get("/type/{typeId}/template")
+    override fun getTemplates(auth: Authentication, typeId: Long, pageable: Pageable): Page<NotificationTemplate> {
+        return auth.checkPermission(PERMISSION_READ) { typeService.getTemplates(typeId, pageable) }
+    }
+
+    @Get("/type")
+    override fun getTypes(auth: Authentication, pageable: Pageable): Page<NotificationType> {
+        return auth.checkPermission(PERMISSION_READ) { typeService.getAll(pageable) }
     }
 
 

@@ -11,6 +11,7 @@ import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
 import de.sambalmueslie.openevent.core.logic.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.model.*
 import de.sambalmueslie.openevent.error.InvalidRequestException
+import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
@@ -21,13 +22,16 @@ import io.swagger.v3.oas.annotations.tags.Tag
 @Tag(name = "Registration API")
 class RegistrationController(
     private val service: RegistrationCrudService,
-    private val accountService: AccountCrudService
+    private val accountService: AccountCrudService,
+    audit: AuditService,
 ) : RegistrationAPI {
+    private val logger = audit.getLogger("Registration API")
 
     @Get("/{id}")
     override fun get(auth: Authentication, id: Long): Registration? {
         return auth.checkPermission(PERMISSION_READ) { service.get(id) }
     }
+
     @Get("/{id}/info")
     override fun getInfo(auth: Authentication, id: Long): RegistrationInfo? {
         return auth.checkPermission(PERMISSION_READ) { service.getInfo(id) }
@@ -40,17 +44,23 @@ class RegistrationController(
 
     @Post()
     override fun create(auth: Authentication, @Body request: RegistrationChangeRequest): Registration {
-        return auth.checkPermission(PERMISSION_WRITE) { service.create(request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceCreate(auth, request) { service.create(accountService.find(auth), request) }
+        }
     }
 
     @Put("/{id}")
     override fun update(auth: Authentication, id: Long, @Body request: RegistrationChangeRequest): Registration {
-        return auth.checkPermission(PERMISSION_WRITE) { service.update(id, request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceUpdate(auth, request) { service.update(accountService.find(auth), id, request) }
+        }
     }
 
     @Delete("/{id}")
     override fun delete(auth: Authentication, id: Long): Registration? {
-        return auth.checkPermission(PERMISSION_WRITE) { service.delete(id) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceDelete(auth) { service.delete(accountService.find(auth), id) }
+        }
     }
 
     @Get("/{id}/participant")
@@ -66,7 +76,9 @@ class RegistrationController(
     ): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_READ, PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            service.addParticipant(id, account, request)
+            logger.traceAction(auth, "addParticipant", id.toString(), request) {
+                service.addParticipant(account, id, account, request)
+            }
         }
     }
 
@@ -78,7 +90,9 @@ class RegistrationController(
     ): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_READ, PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            service.changeParticipant(id, account, request)
+            logger.traceAction(auth, "changeParticipant", id.toString(), request) {
+                service.changeParticipant(account, id, account, request)
+            }
         }
     }
 
@@ -86,7 +100,9 @@ class RegistrationController(
     override fun removeParticipant(auth: Authentication, id: Long): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_READ, PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            service.removeParticipant(id, account)
+            logger.traceAction(auth, "removeParticipant", id.toString(), "") {
+                service.removeParticipant(account, id, account)
+            }
         }
     }
 
@@ -100,7 +116,9 @@ class RegistrationController(
     ): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_MANAGE, PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            service.addParticipant(id, account, request)
+            logger.traceAction(auth, "removeParticipant", id.toString()) {
+                service.addParticipant(account, id, account, request)
+            }
         }
     }
 
@@ -112,9 +130,13 @@ class RegistrationController(
     ): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_MANAGE, PERMISSION_ADMIN) {
             val account = accountService.findByEmail(request.email)
-            if(account != null) return@checkPermission service.addParticipant(id, account, ParticipateRequest(request.size))
-
-            service.addParticipant(id, request)
+            logger.traceAction(auth, "addParticipant", id.toString(), request) {
+                if (account != null) {
+                    service.addParticipant(accountService.find(auth), id, account, ParticipateRequest(request.size))
+                } else {
+                    service.addParticipant(accountService.find(auth), id, request)
+                }
+            }
         }
     }
 
@@ -126,13 +148,18 @@ class RegistrationController(
         @Body request: ParticipateRequest
     ): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_MANAGE, PERMISSION_ADMIN) {
-            service.changeParticipant(id, participantId, request)
+            logger.traceAction(auth, "changeParticipant", participantId.toString(), request) {
+                service.changeParticipant(accountService.find(auth), id, participantId, request)
+            }
         }
     }
+
     @Delete("/{id}/participant/{participantId}")
     override fun removeParticipant(auth: Authentication, id: Long, participantId: Long): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_MANAGE, PERMISSION_ADMIN) {
-            service.removeParticipant(id, participantId)
+            logger.traceAction(auth, "removeParticipant", participantId.toString()) {
+                service.removeParticipant(accountService.find(auth), id, participantId)
+            }
         }
     }
 

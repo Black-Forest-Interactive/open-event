@@ -1,12 +1,15 @@
 package de.sambalmueslie.openevent.core.logic
 
 import de.sambalmueslie.openevent.TimeBasedTest
-import de.sambalmueslie.openevent.core.BusinessObjectChangeListener
 import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
+import de.sambalmueslie.openevent.core.logic.event.EventChangeListener
 import de.sambalmueslie.openevent.core.logic.event.EventCrudService
+import de.sambalmueslie.openevent.core.logic.location.LocationChangeListener
 import de.sambalmueslie.openevent.core.logic.location.LocationCrudService
+import de.sambalmueslie.openevent.core.logic.registration.RegistrationChangeListener
 import de.sambalmueslie.openevent.core.logic.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.model.*
+import de.sambalmueslie.openevent.core.storage.AccountStorage
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.*
@@ -18,6 +21,9 @@ import java.time.LocalDateTime
 
 @MicronautTest
 class EventCrudServiceTest : TimeBasedTest() {
+
+    @Inject
+    lateinit var accountStorage: AccountStorage
     @Inject
     lateinit var accountService: AccountCrudService
 
@@ -30,39 +36,41 @@ class EventCrudServiceTest : TimeBasedTest() {
     @Inject
     lateinit var registrationService: RegistrationCrudService
 
-    private val eventListener = mockk<BusinessObjectChangeListener<Long, Event>>()
-    private val locationListener = mockk<BusinessObjectChangeListener<Long, Location>>()
-    private val registrationListener = mockk<BusinessObjectChangeListener<Long, Registration>>()
+    private val eventListener = mockk<EventChangeListener>()
+    private val locationListener = mockk<LocationChangeListener>()
+    private val registrationListener = mockk<RegistrationChangeListener>()
 
     @Test
     fun eventCrud() {
+        val actor = accountStorage.create(AccountChangeRequest("user", "first", "last", "email@localhost", "", ""))
         setupListener()
 
-        val owner = accountService.create(AccountChangeRequest("name", "first-name", "last-name", "email", "", null))
+        val owner =
+            accountService.create(actor, AccountChangeRequest("name", "first-name", "last-name", "email", "", null))
 
         val request = buildCreateRequest()
-        var event = service.create(request, owner)
-        verify { eventListener.handleCreated(event) }
-        verify { locationListener.handleCreated(locationService.findByEvent(event)!!) }
-        verify { registrationListener.handleCreated(registrationService.findByEvent(event)!!) }
+        var event = service.create(actor, request)
+        verify { eventListener.handleCreated(actor, event) }
+        verify { locationListener.handleCreated(actor, locationService.findByEvent(event)!!) }
+        verify { registrationListener.handleCreated(actor, registrationService.findByEvent(event)!!) }
         validate(request, event)
 
         assertEquals(event, service.get(event.id))
         assertEquals(listOf(event), service.getAll(Pageable.from(0)).content)
 
         val update = buildUpdateRequest(request)
-        event = service.update(event.id, update)
-        verify { eventListener.handleUpdated(event) }
-        verify { locationListener.handleUpdated(locationService.findByEvent(event)!!) }
-        verify { registrationListener.handleUpdated(registrationService.findByEvent(event)!!) }
+        event = service.update(actor, event.id, update)
+        verify { eventListener.handleUpdated(actor, event) }
+        verify { locationListener.handleUpdated(actor, locationService.findByEvent(event)!!) }
+        verify { registrationListener.handleUpdated(actor, registrationService.findByEvent(event)!!) }
         validate(update, event)
 
         val location = locationService.findByEvent(event)!!
         val registration = registrationService.findByEvent(event)!!
-        service.delete(event.id)
-        verify { eventListener.handleDeleted(event) }
-        verify { locationListener.handleDeleted(location) }
-        verify { registrationListener.handleDeleted(registration) }
+        service.delete(actor, event.id)
+        verify { eventListener.handleDeleted(actor, event) }
+        verify { locationListener.handleDeleted(actor, location) }
+        verify { registrationListener.handleDeleted(actor, registration) }
         assertEquals(emptyList<Event>(), service.getAll(Pageable.from(0)).content)
         assertEquals(emptyList<Location>(), locationService.getAll(Pageable.from(0)).content)
         assertEquals(emptyList<Registration>(), registrationService.getAll(Pageable.from(0)).content)
@@ -81,7 +89,7 @@ class EventCrudServiceTest : TimeBasedTest() {
             20.0,
             30
         )
-        val registrationUpdate = RegistrationChangeRequest(100,  false, true)
+        val registrationUpdate = RegistrationChangeRequest(100, false, true)
         val update = EventChangeRequest(
             request.start.plusDays(1), request.finish.plusDays(1),
             "title-update",
@@ -97,7 +105,7 @@ class EventCrudServiceTest : TimeBasedTest() {
 
     private fun buildCreateRequest(): EventChangeRequest {
         val locationRequest = LocationChangeRequest("street", "nr", "zip", "city", "country", "info", 1.0, 2.0, 3)
-        val registrationRequest = RegistrationChangeRequest(10,  true, false)
+        val registrationRequest = RegistrationChangeRequest(10, true, false)
         val request = EventChangeRequest(
             LocalDateTime.of(2023, 10, 1, 20, 15),
             LocalDateTime.of(2023, 10, 1, 22, 15),
@@ -114,19 +122,19 @@ class EventCrudServiceTest : TimeBasedTest() {
 
     private fun setupListener() {
         service.register(eventListener)
-        every { eventListener.handleCreated(any()) } just Runs
-        every { eventListener.handleUpdated(any()) } just Runs
-        every { eventListener.handleDeleted(any()) } just Runs
+        every { eventListener.handleCreated(any(), any()) } just Runs
+        every { eventListener.handleUpdated(any(), any()) } just Runs
+        every { eventListener.handleDeleted(any(), any()) } just Runs
 
         locationService.register(locationListener)
-        every { locationListener.handleCreated(any()) } just Runs
-        every { locationListener.handleUpdated(any()) } just Runs
-        every { locationListener.handleDeleted(any()) } just Runs
+        every { locationListener.handleCreated(any(), any()) } just Runs
+        every { locationListener.handleUpdated(any(), any()) } just Runs
+        every { locationListener.handleDeleted(any(), any()) } just Runs
 
         registrationService.register(registrationListener)
-        every { registrationListener.handleCreated(any()) } just Runs
-        every { registrationListener.handleUpdated(any()) } just Runs
-        every { registrationListener.handleDeleted(any()) } just Runs
+        every { registrationListener.handleCreated(any(), any()) } just Runs
+        every { registrationListener.handleUpdated(any(), any()) } just Runs
+        every { registrationListener.handleDeleted(any(), any()) } just Runs
     }
 
     private fun validate(request: EventChangeRequest, event: Event) {

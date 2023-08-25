@@ -10,4 +10,5 @@ interface AccountStorage : Storage<Long, Account, AccountChangeRequest> {
     fun findByExternalId(externalId: String): Account?
     fun findByName(name: String, pageable: Pageable): Page<Account>
     fun findByEmail(email: String): Account?
+    fun createServiceAccount(request: AccountChangeRequest): Account
 }

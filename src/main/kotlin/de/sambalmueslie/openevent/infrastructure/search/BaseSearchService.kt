@@ -2,7 +2,6 @@ package de.sambalmueslie.openevent.infrastructure.search
 
 
 import de.sambalmueslie.openevent.core.BusinessObject
-import de.sambalmueslie.openevent.core.BusinessObjectChangeListener
 import de.sambalmueslie.openevent.core.CrudService
 import de.sambalmueslie.openevent.storage.util.PageableSequence
 import io.micronaut.data.model.Page
@@ -13,36 +12,19 @@ import org.slf4j.Logger
 import kotlin.system.measureTimeMillis
 
 abstract class BaseSearchService<T, O : BusinessObject<T>>(
-    private val service: CrudService<T, O, *>,
-    private val searchService: SearchService,
-    private val name: String,
+    private val service: CrudService<T, O, *, *>,
+    searchService: SearchService,
+    name: String,
     private val logger: Logger
 ) {
 
-
-    init {
-        service.register(object : BusinessObjectChangeListener<T, O> {
-            override fun handleCreated(obj: O) {
-                handleChanged(obj)
-            }
-
-            override fun handleUpdated(obj: O) {
-                handleChanged(obj)
-            }
-
-            override fun handleDeleted(obj: O) {
-                handleRemoved(obj)
-            }
-        })
-    }
-
-    protected val client = searchService.getClient<Long>(name)
-    private fun handleChanged(obj: O) {
+    private val client = searchService.getClient<Long>(name)
+    protected fun handleChanged(obj: O) {
         val input = convert(obj)
         client.save(input)
     }
 
-    private fun handleRemoved(obj: O) {
+    protected fun handleRemoved(obj: O) {
         client.delete(obj.id.toString())
     }
 

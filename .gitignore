@@ -45,3 +45,4 @@ bin/
 
 deployment/
 src/main/resources/static/
+templates/

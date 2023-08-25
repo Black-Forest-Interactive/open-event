@@ -8,5 +8,6 @@ data class NotificationTemplate(
     override val id: Long,
     val subject: String,
     val lang: String,
-    val content: String
+    val content: String,
+    val plain: Boolean,
 ) : BusinessObject<Long>

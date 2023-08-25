@@ -1,6 +1,8 @@
 package de.sambalmueslie.openevent.storage.registration
 
 
+import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.benmanes.caffeine.cache.LoadingCache
 import de.sambalmueslie.openevent.core.model.Event
 import de.sambalmueslie.openevent.core.model.Registration
 import de.sambalmueslie.openevent.core.model.RegistrationChangeRequest
@@ -13,11 +15,12 @@ import de.sambalmueslie.openevent.storage.SimpleDataObjectConverter
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.concurrent.TimeUnit
 
 @Singleton
 class RegistrationStorageService(
     private val repository: RegistrationRepository,
-    cacheService: CacheService,
+    private val cacheService: CacheService,
     private val timeProvider: TimeProvider,
 ) : BaseStorageService<Long, Registration, RegistrationChangeRequest, RegistrationData>(
     repository,
@@ -43,18 +46,33 @@ class RegistrationStorageService(
     }
 
     override fun updateData(data: RegistrationData, request: RegistrationChangeRequest): RegistrationData {
+        cacheByEvent.invalidate(data.eventId)
         return data.update(request, timeProvider.now())
+    }
+
+    override fun deleteDependencies(data: RegistrationData) {
+        cacheByEvent.invalidate(data.eventId)
     }
 
     override fun isValid(request: RegistrationChangeRequest) {
         if (request.maxGuestAmount <= 0) throw InvalidRequestException("Max guest must be positive number")
     }
 
-    override fun findByEvent(event: Event): Registration? {
-        return repository.findByEventId(event.id)?.convert()
+
+    private val cacheByEvent: LoadingCache<Long, Registration> = cacheService.register("RegistrationByEvent") {
+        Caffeine.newBuilder()
+            .maximumSize(1000)
+            .expireAfterWrite(12, TimeUnit.HOURS)
+            .recordStats()
+            .build { id -> repository.findByEventId(id)?.convert() }
     }
+
+    override fun findByEvent(event: Event): Registration? {
+        return cacheByEvent[event.id]
+    }
+
     override fun findByEventIds(eventIds: Set<Long>): List<Registration> {
-        return repository.findByEventIdIn(eventIds).map { it.convert() }
+        return eventIds.mapNotNull { cacheByEvent[it] }
     }
 
 }

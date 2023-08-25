@@ -18,6 +18,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [AuthService.SETTINGS_READ, AuthService.SETTINGS_WRITE]}
   },
+  {
+    path: 'cache',
+    loadChildren: () => import('./cache/cache.module').then(m => m.CacheModule),
+    canActivate: [AuthGuard],
+    data: {roles: [AuthService.CACHE_READ, AuthService.CACHE_WRITE]}
+  },
 ];
 
 @NgModule({

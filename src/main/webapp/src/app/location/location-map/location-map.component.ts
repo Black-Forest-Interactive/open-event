@@ -1,7 +1,23 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
 import {Location} from "../model/location-api";
 import * as L from "leaflet";
-import {Map, Marker} from "leaflet";
+import {icon, Map, Marker} from "leaflet";
+
+
+const iconRetinaUrl = 'assets/marker/marker-icon-2x.png';
+const iconUrl = 'assets/marker/marker-icon.png';
+const shadowUrl = 'assets/marker/marker-shadow.png';
+const iconDefault = icon({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+Marker.prototype.options.icon = iconDefault;
 
 @Component({
   selector: 'app-location-map',
@@ -56,6 +72,9 @@ export class LocationMapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map)
+
+
+
     this.updateMap()
   }
 }

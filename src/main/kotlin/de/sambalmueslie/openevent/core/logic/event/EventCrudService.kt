@@ -8,10 +8,8 @@ import de.sambalmueslie.openevent.core.logic.location.LocationCrudService
 import de.sambalmueslie.openevent.core.logic.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.model.*
 import de.sambalmueslie.openevent.core.storage.EventStorage
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
-import io.micronaut.security.authentication.Authentication
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,49 +21,47 @@ class EventCrudService(
     private val locationCrudService: LocationCrudService,
     private val registrationCrudService: RegistrationCrudService,
     private val categoryCrudService: CategoryCrudService
-) : BaseCrudService<Long, Event, EventChangeRequest>(storage, logger) {
+) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(EventCrudService::class.java)
     }
 
-    fun create(request: EventChangeRequest, auth: Authentication): Event {
-        val account = accountCrudService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-        return create(request, account)
-    }
 
-    fun create(request: EventChangeRequest, owner: Account): Event {
-        val result = storage.create(request, owner)
-        notifyCreated(result)
+    fun create(actor: Account, request: EventChangeRequest): Event {
+        val result = storage.create(request, actor)
+        notifyCreated(actor, result)
         val categories = categoryCrudService.getByIds(request.categoryIds)
         if (categories.isNotEmpty()) storage.set(result, categories)
-        request.location?.let { locationCrudService.create(result, it) }
-        registrationCrudService.create(result, request.registration)
+        request.location?.let { locationCrudService.create(actor, result, it) }
+        registrationCrudService.create(actor, result, request.registration)
         return result
     }
 
-    override fun update(id: Long, request: EventChangeRequest): Event {
-        val result = super.update(id, request)
+    override fun update(actor: Account, id: Long, request: EventChangeRequest): Event {
+        val result = super.update(actor, id, request)
         val categories = categoryCrudService.getByIds(request.categoryIds)
         if (categories.isNotEmpty()) storage.set(result, categories)
         if (request.location == null) {
-            locationCrudService.deleteByEvent(result)
+            locationCrudService.deleteByEvent(actor, result)
         } else {
-            locationCrudService.updateByEvent(result, request.location)
+            locationCrudService.updateByEvent(actor, result, request.location)
         }
-        registrationCrudService.updateByEvent(result, request.registration)
+        registrationCrudService.updateByEvent(actor, result, request.registration)
         return result
     }
 
-    override fun delete(id: Long): Event? {
+    override fun delete(actor: Account, id: Long): Event? {
         val event = storage.get(id) ?: return null
-        locationCrudService.deleteByEvent(event)
-        registrationCrudService.deleteByEvent(event)
-        return super.delete(id)
+        locationCrudService.deleteByEvent(actor, event)
+        registrationCrudService.deleteByEvent(actor, event)
+        return super.delete(actor, id)
     }
 
-    fun setPublished(id: Long, value: PatchRequest<Boolean>): Event? {
-        return storage.setPublished(id, value)
+    fun setPublished(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
+        val result = storage.setPublished(id, value) ?: return null
+        notify { it.publishedChanged(actor, result) }
+        return result
     }
 
     fun getLocation(id: Long): Location? {
@@ -83,12 +79,13 @@ class EventCrudService(
         return storage.getCategories(event)
     }
 
-    fun getInfo(id: Long): EventInfo? {
+    fun getInfo(id: Long, account: Account): EventInfo? {
         val event = get(id) ?: return null
         val location = locationCrudService.findByEvent(event)
         val registration = registrationCrudService.findInfoByEvent(event)
         val categories = storage.getCategories(event)
-        return EventInfo(event, location, registration, categories)
+        val canEdit = event.owner.id == account.id
+        return EventInfo(event, location, registration, categories, canEdit)
     }
 
     fun getInfos(pageable: Pageable): Page<EventInfo> {
@@ -100,17 +97,25 @@ class EventCrudService(
     }
 
     fun getInfosForAccount(account: Account, pageable: Pageable): Page<EventInfo> {
-        return convertInfo(getAllForAccount(account, pageable))
+        return convertInfo(getAllForAccount(account, pageable), account)
     }
 
-    internal fun convertInfo(events: Page<Event>): Page<EventInfo> {
+    internal fun convertInfo(events: Page<Event>, account: Account? = null): Page<EventInfo> {
         val eventIds = events.content.map { it.id }.toSet()
         val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.id }
         val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.id }
         val categories = storage.getCategoriesByEventIds(eventIds)
-        return events.map { EventInfo(it, locations[it.id], registrations[it.id], categories[it.id] ?: emptyList()) }
+        val canEdit = events.content.associate { it.id to (it.owner.id == account?.id) }
+        return events.map {
+            EventInfo(
+                it,
+                locations[it.id],
+                registrations[it.id],
+                categories[it.id] ?: emptyList(),
+                canEdit[it.id] ?: false
+            )
+        }
     }
-
 
 
 }

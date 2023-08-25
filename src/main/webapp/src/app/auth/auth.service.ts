@@ -19,6 +19,14 @@ export class AuthService {
   public static REGISTRATION_MANAGE = "openevent.registration.manage"
   public static REGISTRATION_ADMIN = "openevent.registration.admin"
 
+  public static CACHE_READ = "openevent.cache.read"
+  public static CACHE_WRITE = "openevent.cache.write"
+
+  public static EVENT_READ = "openevent.event.read"
+  public static EVENT_WRITE = "openevent.event.write"
+  public static EVENT_ADMIN = "openevent.event.admin"
+
+
   private principal: Principal | undefined;
 
   constructor(private keycloak: KeycloakService) {

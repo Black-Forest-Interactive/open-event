@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Suppress("JpaMissingIdInspection")
 @Entity(name = "EventAnnouncement")
-@Table(name = "event_annoncement")
+@Table(name = "event_announcement")
 data class EventAnnouncementRelation(
     @Column val eventId: Long,
     @Column val announcementId: Long,

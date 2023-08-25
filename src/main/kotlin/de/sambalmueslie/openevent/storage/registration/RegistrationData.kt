@@ -40,7 +40,7 @@ data class RegistrationData(
     }
 
     override fun convert(): Registration {
-        return Registration(id, maxGuestAmount, interestedAllowed,  ticketsEnabled)
+        return Registration(id, eventId, maxGuestAmount, interestedAllowed, ticketsEnabled)
     }
 
     fun update(request: RegistrationChangeRequest, timestamp: LocalDateTime): RegistrationData {

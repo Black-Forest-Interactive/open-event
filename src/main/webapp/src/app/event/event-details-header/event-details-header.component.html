@@ -6,7 +6,7 @@
     <span class="title ps-2">{{info?.event?.title}}</span>
     <div class="flex-fill"></div>
 
-    <ng-container *ngIf="!reloading && !menu.publishMenuItem.disabled">
+    <ng-container *ngIf="!reloading && !menu.publishMenuItem.disabled && isAdminOrCanEdit">
       <button mat-mini-fab class="action-fab" *ngIf="!info?.event?.published"
               (click)="menu.publishMenuItem.handleClick()">
         <mat-icon *ngIf="!menu.publishing">publish</mat-icon>
@@ -16,13 +16,15 @@
       </button>
     </ng-container>
 
-    <ng-container *ngFor="let item of menu.menuItems">
-      <button mat-mini-fab class="action-fab" (click)="item.handleClick()">
-        <mat-icon>{{item.icon}}</mat-icon>
-      </button>
+    <ng-container *ngIf="isAdminOrCanEdit">
+      <ng-container *ngFor="let item of menu.menuItems">
+        <button mat-mini-fab class="action-fab" (click)="item.handleClick()">
+          <mat-icon>{{item.icon}}</mat-icon>
+        </button>
+      </ng-container>
     </ng-container>
 
-    <button mat-icon-button [matMenuTriggerFor]="contextMenu">
+    <button mat-icon-button [matMenuTriggerFor]="contextMenu" *ngIf="isAdminOrCanEdit">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>

@@ -12,7 +12,7 @@ data class NotificationSchemeData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long = 0,
     @Column var name: String,
     @Column var enabled: Boolean,
-    @Column var plain: Boolean,
+
 
     @Column var created: LocalDateTime = LocalDateTime.now(),
     @Column var updated: LocalDateTime? = null
@@ -27,20 +27,18 @@ data class NotificationSchemeData(
                 0,
                 request.name,
                 request.enabled,
-                request.plain,
                 timestamp
             )
         }
     }
 
     override fun convert(): NotificationScheme {
-        return NotificationScheme(id, name, enabled, plain)
+        return NotificationScheme(id, name, enabled)
     }
 
     fun update(request: NotificationSchemeChangeRequest, timestamp: LocalDateTime): NotificationSchemeData {
         name = request.name
         enabled = request.enabled
-        enabled = request.plain
         updated = timestamp
         return this
     }

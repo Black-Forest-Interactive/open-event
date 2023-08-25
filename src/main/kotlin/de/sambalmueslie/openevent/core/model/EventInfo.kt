@@ -7,5 +7,6 @@ data class EventInfo(
     val event: Event,
     val location: Location?,
     val registration: RegistrationInfo?,
-    val categories: List<Category>
+    val categories: List<Category>,
+    val canEdit: Boolean
 )

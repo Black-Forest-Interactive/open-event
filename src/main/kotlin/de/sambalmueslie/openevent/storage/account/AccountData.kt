@@ -26,6 +26,7 @@ data class AccountData(
     companion object {
         fun create(
             request: AccountChangeRequest,
+            serviceAccount: Boolean,
             timestamp: LocalDateTime
         ): AccountData {
             return AccountData(
@@ -36,8 +37,7 @@ data class AccountData(
                 request.lastName,
                 request.email,
                 request.iconUrl,
-                false,
-                timestamp,
+                serviceAccount,
                 timestamp
             )
         }

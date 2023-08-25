@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.core.logic.event
 
 
+import de.sambalmueslie.openevent.core.model.Account
 import de.sambalmueslie.openevent.core.model.Event
 import de.sambalmueslie.openevent.core.model.EventInfo
 import de.sambalmueslie.openevent.infrastructure.search.BaseSearchService
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory
 open class EventSearchService(
     private val service: EventCrudService,
     searchService: SearchService,
-) : BaseSearchService<Long, Event>(service, searchService, "oe.event", logger) {
+) : BaseSearchService<Long, Event>(service, searchService, "oe.event", logger), EventChangeListener {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(EventSearchService::class.java)
@@ -44,4 +45,19 @@ open class EventSearchService(
         return service.convertInfo(result)
     }
 
+    override fun handleCreated(actor: Account, obj: Event) {
+        super.handleChanged(obj)
+    }
+
+    override fun handleUpdated(actor: Account,obj: Event) {
+        super.handleChanged(obj)
+    }
+
+    override fun publishedChanged(actor: Account,event: Event) {
+        super.handleChanged(event)
+    }
+
+    override fun handleDeleted(actor: Account,obj: Event) {
+        super.handleRemoved(obj)
+    }
 }

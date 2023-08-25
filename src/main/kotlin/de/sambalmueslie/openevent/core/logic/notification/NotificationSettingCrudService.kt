@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory
 @Singleton
 class NotificationSettingCrudService(
     private val storage: NotificationSettingStorage,
-) : BaseCrudService<Long, NotificationSetting, NotificationSettingChangeRequest>(storage, logger) {
+) : BaseCrudService<Long, NotificationSetting, NotificationSettingChangeRequest, NotificationSettingChangeListener>(
+    storage
+) {
 
 
     companion object {
@@ -25,6 +27,6 @@ class NotificationSettingCrudService(
     }
 
     fun setEnabled(id: Long, value: PatchRequest<Boolean>): NotificationSetting? {
-       return storage.setEnabled(id, value)
+        return storage.setEnabled(id, value)
     }
 }

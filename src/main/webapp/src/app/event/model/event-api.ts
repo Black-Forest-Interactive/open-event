@@ -24,7 +24,8 @@ export interface EventInfo {
   event: Event,
   location: Location | undefined
   registration: RegistrationInfo | undefined,
-  categories: Category[]
+  categories: Category[],
+  canEdit: boolean
 }
 
 

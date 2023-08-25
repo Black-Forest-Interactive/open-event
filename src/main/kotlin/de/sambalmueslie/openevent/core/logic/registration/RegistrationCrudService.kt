@@ -15,15 +15,15 @@ class RegistrationCrudService(
     private val storage: RegistrationStorage,
     private val participantCrudService: ParticipantCrudService,
     private val accountCrudService: AccountCrudService
-) : BaseCrudService<Long, Registration, RegistrationChangeRequest>(storage, logger) {
+) : BaseCrudService<Long, Registration, RegistrationChangeRequest, RegistrationChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(RegistrationCrudService::class.java)
     }
 
-    fun create(event: Event, request: RegistrationChangeRequest): Registration {
+    fun create(actor: Account, event: Event, request: RegistrationChangeRequest): Registration {
         val result = storage.create(request, event)
-        notifyCreated(result)
+        notifyCreated(actor, result)
         return result
     }
 
@@ -33,23 +33,23 @@ class RegistrationCrudService(
     }
 
 
-    fun updateByEvent(event: Event, request: RegistrationChangeRequest): Registration {
+    fun updateByEvent(actor: Account, event: Event, request: RegistrationChangeRequest): Registration {
         val existing = storage.findByEvent(event)
         return if (existing != null) {
             val result = storage.update(existing.id, request)
-            notifyUpdated(result)
+            notifyUpdated(actor, result)
             result
         } else {
             val result = storage.create(request, event)
-            notifyCreated(result)
+            notifyCreated(actor, result)
             result
         }
     }
 
-    fun deleteByEvent(event: Event): Registration? {
+    fun deleteByEvent(actor: Account, event: Event): Registration? {
         val existing = storage.findByEvent(event) ?: return null
         storage.delete(existing.id)
-        notifyDeleted(existing)
+        notifyDeleted(actor, existing)
         return existing
     }
 
@@ -62,25 +62,35 @@ class RegistrationCrudService(
         return participantCrudService.get(registration)
     }
 
-    fun addParticipant(id: Long, account: Account, request: ParticipateRequest): ParticipateResponse? {
+    fun addParticipant(actor: Account, id: Long, account: Account, request: ParticipateRequest): ParticipateResponse? {
         val registration = get(id) ?: return null
-        return participantCrudService.change(registration, account, request)
+        return changeParticipant(actor, registration, account, request)
     }
 
-    fun changeParticipant(id: Long, account: Account, request: ParticipateRequest): ParticipateResponse? {
+    fun changeParticipant(
+        actor: Account,
+        id: Long,
+        account: Account,
+        request: ParticipateRequest
+    ): ParticipateResponse? {
         val registration = get(id) ?: return null
-        return participantCrudService.change(registration, account, request)
+        return changeParticipant(actor, registration, account, request)
     }
 
-    fun removeParticipant(id: Long, account: Account): ParticipateResponse? {
+    fun removeParticipant(actor: Account, id: Long, account: Account): ParticipateResponse? {
         val registration = get(id) ?: return null
-        return participantCrudService.remove(registration, account)
+        val result = participantCrudService.remove(actor, registration, account)
+        result.participant?.let { p ->
+            notify { it.participantRemoved(actor, registration, p) }
+        }
+        return result
     }
 
 
-    fun addParticipant(id: Long, request: ParticipantAddRequest): ParticipateResponse? {
+    fun addParticipant(actor: Account, id: Long, request: ParticipantAddRequest): ParticipateResponse? {
         val registration = get(id) ?: return null
         val account = accountCrudService.create(
+            actor,
             AccountChangeRequest(
                 "${request.firstName} ${request.lastName}",
                 request.firstName,
@@ -90,17 +100,43 @@ class RegistrationCrudService(
                 null
             )
         )
-        return participantCrudService.change(registration, account, ParticipateRequest(request.size))
+        return changeParticipant(actor, registration, account, ParticipateRequest(request.size))
     }
 
-    fun changeParticipant(id: Long, participantId: Long, request: ParticipateRequest): ParticipateResponse? {
-        val registration = get(id) ?: return null
-        return participantCrudService.change(registration, participantId, request)
+    private fun changeParticipant(
+        actor: Account,
+        registration: Registration,
+        account: Account,
+        request: ParticipateRequest
+    ): ParticipateResponse {
+        val result = participantCrudService.change(actor, registration, account, request)
+        result.participant?.let { p ->
+            notify { it.participantChanged(actor, registration, p, result.status) }
+        }
+        return result
     }
 
-    fun removeParticipant(id: Long, participantId: Long): ParticipateResponse? {
+    fun changeParticipant(
+        actor: Account,
+        id: Long,
+        participantId: Long,
+        request: ParticipateRequest
+    ): ParticipateResponse? {
         val registration = get(id) ?: return null
-        return participantCrudService.remove(registration, participantId)
+        val result = participantCrudService.change(actor, registration, participantId, request)
+        result.participant?.let { p ->
+            notify { it.participantChanged(actor, registration, p, result.status) }
+        }
+        return result
+    }
+
+    fun removeParticipant(actor: Account, id: Long, participantId: Long): ParticipateResponse? {
+        val registration = get(id) ?: return null
+        val result = participantCrudService.remove(actor, registration, participantId)
+        result.participant?.let { p ->
+            notify { it.participantRemoved(actor, registration, p) }
+        }
+        return result
     }
 
     fun getInfo(id: Long): RegistrationInfo? {

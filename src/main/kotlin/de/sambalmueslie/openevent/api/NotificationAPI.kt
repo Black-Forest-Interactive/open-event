@@ -11,6 +11,7 @@ interface NotificationAPI : CrudAPI<Long, NotificationScheme, NotificationScheme
         const val PERMISSION_WRITE = "openevent.notification.write"
         const val PERMISSION_ADMIN = "openevent.notification.admin"
     }
+
     fun setSchemeEnabled(auth: Authentication, id: Long, value: PatchRequest<Boolean>): NotificationScheme?
     fun getSettings(auth: Authentication, pageable: Pageable): Page<NotificationSetting>
     fun findSettingByName(auth: Authentication, name: String): NotificationSetting?
@@ -18,7 +19,7 @@ interface NotificationAPI : CrudAPI<Long, NotificationScheme, NotificationScheme
 
     fun createTemplate(
         auth: Authentication,
-        schemeId: Long,
+        typeId: Long,
         request: NotificationTemplateChangeRequest
     ): NotificationTemplate?
 
@@ -30,7 +31,9 @@ interface NotificationAPI : CrudAPI<Long, NotificationScheme, NotificationScheme
 
     fun deleteTemplate(auth: Authentication, id: Long): NotificationTemplate?
 
-    fun getTemplates(auth: Authentication, schemeId: Long, pageable: Pageable): Page<NotificationTemplate>
+    fun getTemplates(auth: Authentication, typeId: Long, pageable: Pageable): Page<NotificationTemplate>
+
+    fun getTypes(auth: Authentication, pageable: Pageable): Page<NotificationType>
 
 
 }

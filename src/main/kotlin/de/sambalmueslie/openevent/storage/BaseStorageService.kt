@@ -38,7 +38,11 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
     }
 
     override fun getAll(pageable: Pageable): Page<O> {
-        return repository.findAll(pageable).map { converter.convert(it) }
+        return repository.findAll(pageable).let { converter.convert(it) }
+    }
+
+    fun getAll(): List<O> {
+        return repository.findAll().let { converter.convert(it) }
     }
 
     fun create(request: R): O {
@@ -120,6 +124,7 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
     }
 
     override fun getByIds(ids: Set<T>): List<O> {
+        if (ids.isEmpty()) return emptyList()
         return repository.findByIdIn(ids).let { converter.convert(it) }
     }
 

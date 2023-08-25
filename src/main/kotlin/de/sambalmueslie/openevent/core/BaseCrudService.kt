@@ -1,37 +1,41 @@
 package de.sambalmueslie.openevent.core
 
 
+import de.sambalmueslie.openevent.core.model.Account
 import de.sambalmueslie.openevent.forEachWithTryCatch
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
-import org.slf4j.Logger
 
-abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest>(
-    private val storage: Storage<T, O, R>,
-    private val logger: Logger,
-) : CrudService<T, O, R> {
+abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest, L : BusinessObjectChangeListener<T, O>>(
+    private val storage: Storage<T, O, R>
+) : CrudService<T, O, R, L> {
 
-    private val listeners = mutableSetOf<BusinessObjectChangeListener<T, O>>()
+    private val listeners = mutableSetOf<L>()
 
-    override fun register(listener: BusinessObjectChangeListener<T, O>) {
+    override fun register(listener: L) {
         listeners.add(listener)
     }
 
-    override fun unregister(listener: BusinessObjectChangeListener<T, O>) {
+    override fun unregister(listener: L) {
         listeners.remove(listener)
     }
 
-    protected fun notifyCreated(obj: O) {
-        listeners.forEachWithTryCatch { it.handleCreated(obj) }
+    protected fun notifyCreated(actor: Account, obj: O) {
+        notify { it.handleCreated(actor, obj) }
     }
 
-    protected fun notifyUpdated(obj: O) {
-        listeners.forEachWithTryCatch { it.handleUpdated(obj) }
+    protected fun notifyUpdated(actor: Account, obj: O) {
+        notify { it.handleUpdated(actor, obj) }
     }
 
-    protected fun notifyDeleted(obj: O) {
-        listeners.forEachWithTryCatch { it.handleDeleted(obj) }
+    protected fun notifyDeleted(actor: Account, obj: O) {
+        notify { it.handleDeleted(actor, obj) }
     }
+
+    protected fun notify(action: (L) -> Unit) {
+        listeners.forEachWithTryCatch(action)
+    }
+
 
     override fun get(id: T): O? {
         return storage.get(id)
@@ -41,21 +45,21 @@ abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChang
         return storage.getAll(pageable)
     }
 
-    override fun create(request: R, properties: Map<String, Any>): O {
+    override fun create(actor: Account, request: R, properties: Map<String, Any>): O {
         val result = storage.create(request, properties)
-        notifyCreated(result)
+        notifyCreated(actor, result)
         return result
     }
 
-    override fun update(id: T, request: R): O {
+    override fun update(actor: Account, id: T, request: R): O {
         val result = storage.update(id, request)
-        notifyUpdated(result)
+        notifyUpdated(actor, result)
         return result
     }
 
-    override fun delete(id: T): O? {
+    override fun delete(actor: Account, id: T): O? {
         val result = storage.delete(id) ?: return null
-        notifyDeleted(result)
+        notifyDeleted(actor, result)
         return result
     }
 

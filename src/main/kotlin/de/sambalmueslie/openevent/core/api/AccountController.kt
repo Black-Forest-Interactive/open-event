@@ -10,6 +10,7 @@ import de.sambalmueslie.openevent.core.logic.account.AccountSearchService
 import de.sambalmueslie.openevent.core.model.Account
 import de.sambalmueslie.openevent.core.model.AccountChangeRequest
 import de.sambalmueslie.openevent.core.model.AccountValidationResult
+import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.HttpResponse
@@ -21,8 +22,11 @@ import io.swagger.v3.oas.annotations.tags.Tag
 @Tag(name = "Account API")
 class AccountController(
     private val service: AccountCrudService,
-    private val search: AccountSearchService
+    private val search: AccountSearchService,
+    audit: AuditService,
 ) : AccountAPI {
+
+    private val logger = audit.getLogger("Account API")
 
     @Get("/{id}")
     override fun get(auth: Authentication, id: Long): Account? {
@@ -41,8 +45,8 @@ class AccountController(
     }
 
     @Get("/find/by/externalId")
-    override fun findByExternalId(auth: Authentication, @QueryValue nexternalId: String): Account? {
-        return auth.checkPermission(PERMISSION_READ) { service.findByExternalId(nexternalId) }
+    override fun findByExternalId(auth: Authentication, @QueryValue externalId: String): Account? {
+        return auth.checkPermission(PERMISSION_READ) { service.findByExternalId(externalId) }
     }
 
     @Get()
@@ -52,17 +56,23 @@ class AccountController(
 
     @Post()
     override fun create(auth: Authentication, @Body request: AccountChangeRequest): Account {
-        return auth.checkPermission(PERMISSION_WRITE) { service.create(request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceCreate(auth, request) { service.create(service.find(auth), request) }
+        }
     }
 
     @Put("/{id}")
     override fun update(auth: Authentication, id: Long, @Body request: AccountChangeRequest): Account {
-        return auth.checkPermission(PERMISSION_WRITE) { service.update(id, request) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceUpdate(auth, request) { service.update(service.find(auth), id, request) }
+        }
     }
 
     @Delete("/{id}")
     override fun delete(auth: Authentication, id: Long): Account? {
-        return auth.checkPermission(PERMISSION_WRITE) { service.delete(id) }
+        return auth.checkPermission(PERMISSION_WRITE) {
+            logger.traceDelete(auth) { service.delete(service.find(auth), id) }
+        }
     }
 
     @Get("/validate")

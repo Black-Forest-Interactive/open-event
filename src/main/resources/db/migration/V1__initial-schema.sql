@@ -170,7 +170,7 @@ CREATE TABLE mail_job_history
     message   TEXT                        NOT NULL,
     timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
-    job_id    BIGINT                      NOT NULL UNIQUE REFERENCES mail_job (id)
+    job_id    BIGINT                      NOT NULL REFERENCES mail_job (id)
 );
 
 
@@ -224,6 +224,50 @@ CREATE TABLE notification_scheme
     id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_scheme_seq'::regclass),
     name    VARCHAR(255)                NOT NULL,
     enabled BOOLEAN                     NOT NULL,
+
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE notification_scheme_subscriber_relation
+(
+    scheme_id  BIGINT NOT NULL references notification_scheme (id),
+    account_id BIGINT NOT NULL references account (id),
+    PRIMARY KEY (scheme_id, account_id)
+);
+
+
+CREATE SEQUENCE notification_type_seq;
+CREATE TABLE notification_type
+(
+    id          BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_type_seq'::regclass),
+
+    key         VARCHAR(255)                NOT NULL UNIQUE,
+    name        VARCHAR(255)                NOT NULL,
+    description TEXT                        NOT NULL,
+
+    created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated     TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE notification_type_scheme_relation
+(
+    type_id   BIGINT NOT NULL references notification_type (id),
+    scheme_id BIGINT NOT NULL references notification_scheme (id),
+    PRIMARY KEY (type_id, scheme_id)
+);
+
+
+
+CREATE SEQUENCE notification_template_seq;
+CREATE TABLE notification_template
+(
+    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
+    type_id BIGINT                      NOT NULL references notification_type (id),
+
+    subject VARCHAR(255)                NOT NULL,
+    lang    VARCHAR(255)                NOT NULL,
+    content TEXT                        NOT NULL,
     plain   BOOLEAN                     NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
@@ -231,16 +275,17 @@ CREATE TABLE notification_scheme
 );
 
 
-CREATE SEQUENCE notification_template_seq;
-CREATE TABLE notification_template
+-- audit
+CREATE SEQUENCE audit_log_entry_seq;
+CREATE TABLE audit_log_entry
 (
-    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
-    scheme_id BIGINT                      NOT NULL references notification_scheme (id),
-
-    subject   VARCHAR(255)                NOT NULL,
-    lang      VARCHAR(255)                NOT NULL,
-    content   TEXT                        NOT NULL,
-
-    created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated   TIMESTAMP WITHOUT TIME ZONE
+    id           BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('audit_log_entry_seq'::regclass),
+    timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    actor        VARCHAR(255)                NOT NULL,
+    level        VARCHAR(255)                NOT NULL,
+    message      TEXT                        NOT NULL,
+    request      TEXT                        NOT NULL,
+    reference_id VARCHAR(255)                NOT NULL,
+    reference    TEXT                        NOT NULL,
+    source       VARCHAR(255)                NOT NULL
 );

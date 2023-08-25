@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import de.sambalmueslie.openevent.storage.BaseStorageService
+import de.sambalmueslie.openevent.storage.registration.RegistrationStorageService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -20,6 +21,7 @@ class EventStorageService(
 
     private val categoryRelationService: EventCategoryRelationService,
     private val announcementRelationService: EventAnnouncementRelationService,
+    private val registrationService: RegistrationStorageService,
 
     cacheService: CacheService,
     private val timeProvider: TimeProvider,
@@ -92,5 +94,7 @@ class EventStorageService(
     override fun getAllForAccount(account: Account, pageable: Pageable): Page<Event> {
         return repository.findByOwnerIdOrPublishedTrue(account.id, pageable).let { converter.convert(it) }
     }
+
+
 
 }

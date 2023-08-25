@@ -1,12 +1,13 @@
 package de.sambalmueslie.openevent.core.logic
 
 import de.sambalmueslie.openevent.TimeBasedTest
-import de.sambalmueslie.openevent.core.BusinessObjectChangeListener
 import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
+import de.sambalmueslie.openevent.core.logic.announcement.AnnouncementChangeListener
 import de.sambalmueslie.openevent.core.logic.announcement.AnnouncementCrudService
 import de.sambalmueslie.openevent.core.model.AccountChangeRequest
 import de.sambalmueslie.openevent.core.model.Announcement
 import de.sambalmueslie.openevent.core.model.AnnouncementChangeRequest
+import de.sambalmueslie.openevent.core.storage.AccountStorage
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.*
@@ -17,6 +18,10 @@ import org.junit.jupiter.api.Test
 
 @MicronautTest
 class AnnouncementCrudServiceTest : TimeBasedTest() {
+
+    @Inject
+    lateinit var accountStorage: AccountStorage
+
     @Inject
     lateinit var accountService: AccountCrudService
 
@@ -25,17 +30,19 @@ class AnnouncementCrudServiceTest : TimeBasedTest() {
 
     @Test
     fun announcementCrud() {
-        val listener = mockk<BusinessObjectChangeListener<Long, Announcement>>()
+        val actor = accountStorage.create(AccountChangeRequest("user", "first", "last", "email@localhost", "", ""))
+        val listener = mockk<AnnouncementChangeListener>()
         service.register(listener)
-        every { listener.handleCreated(any()) } just Runs
-        every { listener.handleUpdated(any()) } just Runs
-        every { listener.handleDeleted(any()) } just Runs
+        every { listener.handleCreated(any(), any()) } just Runs
+        every { listener.handleUpdated(any(), any()) } just Runs
+        every { listener.handleDeleted(any(), any()) } just Runs
 
-        val author = accountService.create(AccountChangeRequest("name", "first-name", "last-name", "email", "", null))
+        val author =
+            accountService.create(actor, AccountChangeRequest("name", "first-name", "last-name", "email", "", null))
 
         val request = AnnouncementChangeRequest("subject", "content")
         var announcement = service.create(author, request)
-        verify { listener.handleCreated(announcement) }
+        verify { listener.handleCreated(author, announcement) }
 
         assertEquals(request.subject, announcement.subject)
         assertEquals(request.content, announcement.content)
@@ -46,15 +53,15 @@ class AnnouncementCrudServiceTest : TimeBasedTest() {
         assertEquals(listOf(announcement), service.getAll(Pageable.from(0)).content)
 
         val update = AnnouncementChangeRequest("subject-update", "content-update")
-        announcement = service.update(announcement.id, update)
-        verify { listener.handleUpdated(announcement) }
+        announcement = service.update(actor, announcement.id, update)
+        verify { listener.handleUpdated(actor, announcement) }
 
         assertEquals(update.subject, announcement.subject)
         assertEquals(update.content, announcement.content)
         assertEquals(author, announcement.author)
 
-        service.delete(announcement.id)
-        verify { listener.handleDeleted(announcement) }
+        service.delete(actor, announcement.id)
+        verify { listener.handleDeleted(actor, announcement) }
         assertEquals(emptyList<Announcement>(), service.getAll(Pageable.from(0)).content)
 
     }

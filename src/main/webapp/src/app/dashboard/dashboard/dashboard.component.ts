@@ -27,8 +27,9 @@ export class DashboardComponent implements AfterViewInit {
   @ViewChild('drawer') drawer: MatSidenav | undefined
   navItems: MainNavItem[] = [
     new MainNavItem('/event', 'event.type', 'event_note'),
-    new MainNavItem('/category', 'category.type', 'label'),
-    new MainNavItem('/settings', 'settings.type', 'settings_applications'),
+    new MainNavItem('/category', 'category.type', 'label', [AuthService.CATEGORY_READ, AuthService.CATEGORY_WRITE]),
+    new MainNavItem('/settings', 'settings.type', 'settings_applications', [AuthService.SETTINGS_READ, AuthService.SETTINGS_WRITE]),
+    new MainNavItem('/cache', 'cache.type', 'memory', [AuthService.CACHE_READ, AuthService.CACHE_WRITE]),
 
 
     // new MainNavItem('/inquiry', 'INQUIRY.Type', 'question_answer'),

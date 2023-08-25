@@ -1,15 +1,17 @@
 package de.sambalmueslie.openevent.core
 
+import de.sambalmueslie.openevent.core.model.Account
+
 interface BusinessObjectChangeListener<T, O : BusinessObject<T>> {
-    fun handleCreated(obj: O) {
+    fun handleCreated(actor: Account, obj: O) {
         // intentionally left empty
     }
 
-    fun handleUpdated(obj: O) {
+    fun handleUpdated(actor: Account, obj: O) {
         // intentionally left empty
     }
 
-    fun handleDeleted(obj: O) {
+    fun handleDeleted(actor: Account, obj: O) {
         // intentionally left empty
     }
 }

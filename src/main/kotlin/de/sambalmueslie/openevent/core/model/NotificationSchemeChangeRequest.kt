@@ -7,5 +7,4 @@ import io.micronaut.serde.annotation.Serdeable
 data class NotificationSchemeChangeRequest(
     val name: String,
     val enabled: Boolean,
-    val plain: Boolean,
 ) : BusinessObjectChangeRequest

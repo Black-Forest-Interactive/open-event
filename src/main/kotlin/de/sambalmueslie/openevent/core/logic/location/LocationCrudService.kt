@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.logic.location
 
 
 import de.sambalmueslie.openevent.core.BaseCrudService
+import de.sambalmueslie.openevent.core.model.Account
 import de.sambalmueslie.openevent.core.model.Event
 import de.sambalmueslie.openevent.core.model.Location
 import de.sambalmueslie.openevent.core.model.LocationChangeRequest
@@ -15,15 +16,15 @@ import org.slf4j.LoggerFactory
 class LocationCrudService(
     private val storage: LocationStorage,
     private val geoLocationResolver: GeoLocationResolver
-) : BaseCrudService<Long, Location, LocationChangeRequest>(storage, logger) {
+) : BaseCrudService<Long, Location, LocationChangeRequest, LocationChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(LocationCrudService::class.java)
     }
 
-    fun create(event: Event, request: LocationChangeRequest): Location {
+    fun create(actor: Account, event: Event, request: LocationChangeRequest): Location {
         val result = storage.create(resolveGeoLocation(request), event)
-        notifyCreated(result)
+        notifyCreated(actor, result)
         return result
     }
 
@@ -31,11 +32,11 @@ class LocationCrudService(
         return storage.findByEvent(event)
     }
 
-    fun updateByEvent(event: Event, request: LocationChangeRequest): Location {
-        val existing = storage.findByEvent(event) ?: return create(event, request)
+    fun updateByEvent(actor: Account, event: Event, request: LocationChangeRequest): Location {
+        val existing = storage.findByEvent(event) ?: return create(actor, event, request)
 
         val result = storage.update(existing.id, resolveGeoLocation(request))
-        notifyUpdated(result)
+        notifyUpdated(actor, result)
         return result
     }
 
@@ -55,10 +56,10 @@ class LocationCrudService(
         )
     }
 
-    fun deleteByEvent(event: Event): Location? {
+    fun deleteByEvent(actor: Account, event: Event): Location? {
         val existing = storage.findByEvent(event) ?: return null
         storage.delete(existing.id)
-        notifyDeleted(existing)
+        notifyDeleted(actor, existing)
         return existing
     }
 

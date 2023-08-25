@@ -1,5 +1,5 @@
-<app-event-board-header></app-event-board-header>
-<ng-container *ngIf="(isHandset$ | async) === true;else eventList">
+<app-event-board-header [mobileView]="mobileView"></app-event-board-header>
+<ng-container *ngIf="!mobileView;else eventList">
   <app-event-board-table></app-event-board-table>
 </ng-container>
 

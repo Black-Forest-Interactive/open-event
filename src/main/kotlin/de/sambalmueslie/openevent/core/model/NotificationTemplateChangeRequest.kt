@@ -7,5 +7,6 @@ import io.micronaut.serde.annotation.Serdeable
 data class NotificationTemplateChangeRequest(
     val subject: String,
     val lang: String,
-    val content: String
+    val content: String,
+    val plain: Boolean,
 ) : BusinessObjectChangeRequest

@@ -21,13 +21,13 @@ class AnnouncementConverter(
     override fun convert(objs: List<AnnouncementData>): List<Announcement> {
         val authorIds = objs.map { it.authorId }.toSet()
         val author = accountService.getByIds(authorIds).associateBy { it.id }
-        return objs.map { convert(it, author[it.id]) }
+        return objs.map { convert(it, author[it.authorId]) }
     }
 
     override fun convert(page: Page<AnnouncementData>): Page<Announcement> {
         val authorIds = page.content.map { it.authorId }.toSet()
         val author = accountService.getByIds(authorIds).associateBy { it.id }
-        return page.map { convert(it, author[it.id]) }
+        return page.map { convert(it, author[it.authorId]) }
     }
 
     private fun convert(data: AnnouncementData, author: Account?): Announcement {

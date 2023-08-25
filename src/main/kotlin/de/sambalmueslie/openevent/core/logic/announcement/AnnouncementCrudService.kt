@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 @Singleton
 class AnnouncementCrudService(
     private val storage: AnnouncementStorage
-) : BaseCrudService<Long, Announcement, AnnouncementChangeRequest>(storage, logger) {
+) : BaseCrudService<Long, Announcement, AnnouncementChangeRequest, AnnouncementChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(AnnouncementCrudService::class.java)
@@ -21,7 +21,7 @@ class AnnouncementCrudService(
 
     fun create(author: Account, request: AnnouncementChangeRequest): Announcement {
         val result = storage.create(request, author)
-        notifyCreated(result)
+        notifyCreated(author, result)
         return result
     }
 

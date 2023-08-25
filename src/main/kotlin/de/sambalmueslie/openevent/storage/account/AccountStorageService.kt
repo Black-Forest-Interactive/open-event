@@ -30,11 +30,17 @@ class AccountStorageService(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(AccountStorageService::class.java)
+        private const val SERVICE_ACCOUNT = "service_account"
+    }
+
+    override fun createServiceAccount(request: AccountChangeRequest): Account {
+        return create(request, mapOf(Pair(SERVICE_ACCOUNT, true)))
     }
 
     override fun createData(request: AccountChangeRequest, properties: Map<String, Any>): AccountData {
+        val serviceAccount = properties[SERVICE_ACCOUNT] as? Boolean ?: false
         logger.info("Create world $request")
-        return AccountData.create(request, timeProvider.now())
+        return AccountData.create(request, serviceAccount, timeProvider.now())
     }
 
     override fun isValid(request: AccountChangeRequest) {
@@ -55,10 +61,6 @@ class AccountStorageService(
 
     override fun findByEmail(email: String): Account? {
         return repository.findByEmail(email)?.convert()
-    }
-
-    override fun getByIds(ids: Set<Long>): List<Account> {
-        return repository.findByIdIn(ids).map { it.convert() }
     }
 
 

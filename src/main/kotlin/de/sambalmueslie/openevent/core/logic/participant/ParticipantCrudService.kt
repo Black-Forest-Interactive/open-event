@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 @Singleton
 class ParticipantCrudService(
     private val storage: ParticipantStorage
-) : BaseCrudService<Long, Participant, ParticipantChangeRequest>(storage, logger) {
+) : BaseCrudService<Long, Participant, ParticipantChangeRequest, ParticipantChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(ParticipantCrudService::class.java)
@@ -26,11 +26,16 @@ class ParticipantCrudService(
         return storage.get(registration)
     }
 
-    fun change(registration: Registration, account: Account, request: ParticipateRequest): ParticipateResponse {
-        if (request.size <= 0) return remove(registration, account)
+    fun change(
+        actor: Account,
+        registration: Registration,
+        account: Account,
+        request: ParticipateRequest
+    ): ParticipateResponse {
+        if (request.size <= 0) return remove(actor, registration, account)
         val participant = storage.findByAccount(registration, account)
         if (participant != null) {
-            return change(registration, participant, request)
+            return change(actor, registration, participant, request)
         }
 
         val participants = storage.get(registration)
@@ -49,31 +54,37 @@ class ParticipantCrudService(
         )
 
         val result = storage.create(changeRequest, account, registration)
-        notifyCreated(result)
+        notifyCreated(actor, result)
 
         val status: ParticipateStatus = if (waitingList) ParticipateStatus.WAITING_LIST else ParticipateStatus.ACCEPTED
-        return getResponse(registration, status)
+        return getResponse(registration, status, result)
     }
 
-    fun remove(registration: Registration, account: Account): ParticipateResponse {
+    fun remove(actor: Account, registration: Registration, account: Account): ParticipateResponse {
         val participants = storage.get(registration)
         val status = ParticipateStatus.DECLINED
         val existing = participants.find { it.author.id == account.id } ?: return getResponse(registration, status)
 
         storage.delete(existing.id)
-        notifyDeleted(existing)
+        notifyDeleted(actor, existing)
 
-        val result = updateWaitList(registration)
-        return ParticipateResponse(registration, result, status)
+        val result = updateWaitList(actor, registration)
+        return ParticipateResponse(registration, existing, result, status)
     }
 
-    fun change(registration: Registration, participantId: Long, request: ParticipateRequest): ParticipateResponse {
+    fun change(
+        actor: Account,
+        registration: Registration,
+        participantId: Long,
+        request: ParticipateRequest
+    ): ParticipateResponse {
         val status = ParticipateStatus.DECLINED
         val participant = storage.get(participantId) ?: return getResponse(registration, status)
-        return change(registration, participant, request)
+        return change(actor, registration, participant, request)
     }
 
     private fun change(
+        actor: Account,
         registration: Registration,
         participant: Participant,
         request: ParticipateRequest
@@ -104,22 +115,22 @@ class ParticipantCrudService(
             rank,
             waitingList
         )
-        storage.update(participant.id, changeRequest)
-        val result = updateWaitList(registration)
-        return ParticipateResponse(registration, result, status)
+        val participant = storage.update(participant.id, changeRequest)
+        val result = updateWaitList(actor, registration)
+        return ParticipateResponse(registration, participant, result, status)
     }
 
-    fun remove(registration: Registration, participantId: Long): ParticipateResponse {
+    fun remove(actor: Account, registration: Registration, participantId: Long): ParticipateResponse {
         val status = ParticipateStatus.DECLINED
         val participant = storage.get(participantId) ?: return getResponse(registration, status)
         storage.delete(participant.id)
-        notifyDeleted(participant)
+        notifyDeleted(actor, participant)
 
-        val result = updateWaitList(registration)
-        return ParticipateResponse(registration, result, status)
+        val result = updateWaitList(actor, registration)
+        return ParticipateResponse(registration, participant, result, status)
     }
 
-    private fun updateWaitList(registration: Registration): List<Participant> {
+    private fun updateWaitList(actor: Account, registration: Registration): List<Participant> {
         val availableSpace = registration.maxGuestAmount
         var remainingSpace = availableSpace.toLong()
 
@@ -141,9 +152,10 @@ class ParticipantCrudService(
         }
 
         val participantResult =
-            participantList.mapIndexed { index, participant -> updateParticipant(participant, index, false) }
+            participantList.mapIndexed { index, participant -> updateParticipant(actor, participant, index, false) }
         val waitListResult = waitList.mapIndexed { index, participant ->
             updateParticipant(
+                actor,
                 participant,
                 participantList.size + index,
                 true
@@ -153,7 +165,7 @@ class ParticipantCrudService(
         return participantResult + waitListResult
     }
 
-    private fun updateParticipant(participant: Participant, rank: Int, waitList: Boolean): Participant {
+    private fun updateParticipant(actor: Account, participant: Participant, rank: Int, waitList: Boolean): Participant {
         val changed = participant.rank != rank || participant.waitingList != waitList
         if (!changed) return participant
 
@@ -164,14 +176,19 @@ class ParticipantCrudService(
             waitList
         )
         val result = storage.update(participant.id, request)
-        notifyUpdated(result)
+        notifyUpdated(actor, result)
         return result
     }
 
 
-    private fun getResponse(registration: Registration, status: ParticipateStatus): ParticipateResponse {
+    private fun getResponse(
+        registration: Registration,
+        status: ParticipateStatus,
+        participant: Participant? = null,
+    ): ParticipateResponse {
         return ParticipateResponse(
             registration,
+            participant,
             storage.get(registration),
             status
         )

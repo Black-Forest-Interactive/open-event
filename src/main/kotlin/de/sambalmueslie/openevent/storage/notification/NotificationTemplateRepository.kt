@@ -12,5 +12,6 @@ import io.micronaut.data.model.query.builder.sql.Dialect
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface NotificationTemplateRepository : DataObjectRepository<Long, NotificationTemplateData> {
 
-    fun findBySchemeId(schemeId: Long, pageable: Pageable): Page<NotificationTemplateData>
+    fun findByTypeId(typeId: Long, pageable: Pageable): Page<NotificationTemplateData>
+    fun findOneByTypeIdAndLang(typeId: Long, lang: String): NotificationTemplateData?
 }

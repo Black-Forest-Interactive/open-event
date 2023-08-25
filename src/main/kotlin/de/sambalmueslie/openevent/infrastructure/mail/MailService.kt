@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.infrastructure.mail
 
 
+import de.sambalmueslie.openevent.config.MailConfig
 import de.sambalmueslie.openevent.infrastructure.mail.api.*
 import de.sambalmueslie.openevent.infrastructure.mail.db.*
 import de.sambalmueslie.openevent.infrastructure.mail.external.MailClient
@@ -21,6 +22,7 @@ class MailService(
     private val jobHistoryRepository: MailJobHistoryRepository,
     private val client: MailClient,
     private val timeProvider: TimeProvider,
+    private val config: MailConfig
 ) : MailSender {
 
     companion object {
@@ -32,6 +34,11 @@ class MailService(
 
     private val newJobs = mutableListOf<MailSendJob>()
 
+    @Synchronized
+    override fun send(mail: Mail, to: List<MailParticipant>, bcc: List<MailParticipant>) {
+        val from = MailParticipant("", config.fromAddress)
+        send(mail, from, to, bcc)
+    }
 
     @Synchronized
     override fun send(

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {EventBoardService} from "../model/event-board.service";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {map, Observable} from "rxjs";
+import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-event-board',
@@ -10,14 +9,19 @@ import {map, Observable} from "rxjs";
 })
 export class EventBoardComponent {
 
-  isHandset$: Observable<boolean> = this.responsive.observe(Breakpoints.Web)
-    .pipe(map(result => result.matches));
+  mobileView: boolean = false
 
   constructor(public service: EventBoardService, private responsive: BreakpointObserver) {
   }
 
   ngOnInit() {
     this.service.reload()
+
+    this.responsive
+      .observe(['(min-width: 1000px)'])
+      .subscribe((state: BreakpointState) => {
+        this.mobileView = !state.matches
+      })
   }
 
 }

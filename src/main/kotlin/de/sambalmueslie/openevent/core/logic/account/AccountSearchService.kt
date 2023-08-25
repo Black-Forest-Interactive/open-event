@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 open class AccountSearchService(
     private val service: AccountCrudService,
     searchService: SearchService,
-) : BaseSearchService<Long, Account>(service, searchService, "oe.account", logger) {
+) : BaseSearchService<Long, Account>(service, searchService, "oe.account", logger), AccountChangeListener {
 
 
     companion object {
@@ -36,6 +36,18 @@ open class AccountSearchService(
 
     override fun convertId(id: String): Long? {
         return id.toLongOrNull()
+    }
+
+    override fun handleCreated(actor: Account,obj: Account) {
+        super.handleChanged(obj)
+    }
+
+    override fun handleUpdated(actor: Account,obj: Account) {
+        super.handleChanged(obj)
+    }
+
+    override fun handleDeleted(actor: Account,obj: Account) {
+        super.handleRemoved(obj)
     }
 
 }
