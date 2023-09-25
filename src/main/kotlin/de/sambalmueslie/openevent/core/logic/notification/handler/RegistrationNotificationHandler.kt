@@ -1,15 +1,24 @@
 package de.sambalmueslie.openevent.core.logic.notification.handler
 
 
+import biweekly.Biweekly
+import biweekly.ICalendar
+import biweekly.component.VEvent
+import biweekly.property.Summary
 import de.sambalmueslie.openevent.core.logic.event.EventCrudService
 import de.sambalmueslie.openevent.core.logic.notification.NotificationEvent
 import de.sambalmueslie.openevent.core.logic.notification.NotificationService
 import de.sambalmueslie.openevent.core.logic.registration.RegistrationChangeListener
 import de.sambalmueslie.openevent.core.logic.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.model.*
+import de.sambalmueslie.openevent.infrastructure.mail.api.Attachment
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.nio.charset.Charset
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 @Singleton
 class RegistrationNotificationHandler(
@@ -28,6 +37,7 @@ class RegistrationNotificationHandler(
         const val KEY_PARTICIPANT_ACCEPTED = "registration.participant.accepted"
         const val KEY_PARTICIPANT_DECLINED = "registration.participant.declined"
         const val KEY_PARTICIPANT_WAITLIST = "registration.participant.waitlist"
+        private val ZONE_OFFSET = ZoneId.of("Europe/Berlin")
     }
 
     override fun getName(): String = RegistrationNotificationHandler::class.java.simpleName
@@ -81,57 +91,76 @@ class RegistrationNotificationHandler(
         status: ParticipateStatus
     ) {
         val event = eventService.get(registration.eventId)
-        if (event != null) {
-            service.process(NotificationEvent(KEY_PARTICIPANT_CHANGED, actor, registration), listOf(event.owner))
+            ?: return logger.error("Cannot find event for registration ${registration.id}")
+        val location =
+            eventService.getLocation(event.id) ?: return logger.error("Cannot find location for event ${event.id}")
+        val content = RegistrationEventContent(event, registration, participant, location)
+        service.process(
+            NotificationEvent(
+                KEY_PARTICIPANT_CHANGED,
+                actor,
+                content
+            ), listOf(event.owner)
+        )
+
+        val eventType = when (status) {
+            ParticipateStatus.ACCEPTED -> KEY_PARTICIPANT_ACCEPTED
+            ParticipateStatus.DECLINED -> KEY_PARTICIPANT_DECLINED
+            ParticipateStatus.WAITING_LIST -> KEY_PARTICIPANT_WAITLIST
+            ParticipateStatus.WAITING_LIST_DECREASE_SIZE -> KEY_PARTICIPANT_WAITLIST
+            else -> null
+        }
+        if (eventType == null) {
+            logger.error("Unconsidered participant status $status")
+            return
         }
 
-        when (status) {
-            ParticipateStatus.ACCEPTED -> service.process(
-                NotificationEvent(
-                    KEY_PARTICIPANT_ACCEPTED,
-                    actor,
-                    registration
-                ), listOf(participant.author)
-            )
+        val attachment = createAttachment(event)
 
-            ParticipateStatus.DECLINED -> service.process(
-                NotificationEvent(
-                    KEY_PARTICIPANT_DECLINED,
-                    actor,
-                    registration
-                ), listOf(participant.author)
-            )
+        service.process(
+            NotificationEvent(
+                eventType,
+                actor,
+                content,
+                attachments = listOf(attachment)
+            ),
+            listOf(participant.author),
+        )
+    }
 
-            ParticipateStatus.WAITING_LIST -> service.process(
-                NotificationEvent(
-                    KEY_PARTICIPANT_WAITLIST,
-                    actor,
-                    registration
-                ), listOf(participant.author)
-            )
+    private fun createAttachment(event: Event): Attachment {
+        val cal = ICalendar()
+        val e = VEvent()
+        e.summary = Summary(event.title)
 
-            ParticipateStatus.WAITING_LIST_DECREASE_SIZE -> service.process(
-                NotificationEvent(
-                    KEY_PARTICIPANT_WAITLIST,
-                    actor,
-                    registration
-                ), listOf(participant.author)
-            )
+        e.setDateStart(convert(event.start), true)
+        e.setDateEnd(convert(event.finish), true)
+        cal.addEvent(e)
 
-            else -> logger.error("Unconsidered participant status $status")
-        }
+        val content = Biweekly.write(cal).go().toByteArray(Charset.defaultCharset())
+        return Attachment("invitation.ics", content, "text/calendar")
+    }
+
+    private fun convert(timestamp: LocalDateTime): Date {
+        val offset = ZONE_OFFSET.rules.getOffset(timestamp)
+        val instant = timestamp.toInstant(offset)
+        return Date.from(instant)
     }
 
     override fun participantRemoved(actor: Account, registration: Registration, participant: Participant) {
         val event = eventService.get(registration.eventId)
-        if (event != null) {
-            service.process(NotificationEvent(KEY_PARTICIPANT_REMOVED, actor, registration), listOf(event.owner))
-        }
+            ?: return logger.error("Cannot find event for registration ${registration.id}")
+        val location =
+            eventService.getLocation(event.id) ?: return logger.error("Cannot find location for event ${event.id}")
+        val content = RegistrationEventContent(event, registration, participant, location)
+
+        service.process(NotificationEvent(KEY_PARTICIPANT_REMOVED, actor, content), listOf(event.owner))
+
         service.process(
             NotificationEvent(
                 KEY_PARTICIPANT_DECLINED,
                 actor,
-                registration
+                content
             ), listOf(participant.author)
         )
     }

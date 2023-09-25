@@ -38,4 +38,8 @@ class EventAnnouncementRelationService(
         return Page.of(result, relations.pageable, relations.totalSize)
     }
 
+    fun delete(data: EventData) {
+        repository.deleteByEventId(data.id)
+    }
+
 }

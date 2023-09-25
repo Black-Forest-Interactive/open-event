@@ -7,9 +7,18 @@
     "next": "Next",
     "back": "Back",
     "submit": "Submit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "help": "Help",
+    "yes": "Yes",
+    "no": "No",
+    "logout": "Logout",
+    "collapse": "Collapse",
+    "close": "Close",
+    "ok": "Ok",
+    "details": "Details"
   },
   "event": {
+    "type": "Event",
     "search": "Search for event",
     "create": "Create new event",
     "action": {
@@ -21,7 +30,8 @@
     "step": {
       "event": "Event",
       "location": "Location",
-      "registration": "Registration"
+      "registration": "Registration",
+      "incomplete": "Missing required fields"
     },
     "change": {
       "create": "Create new event",
@@ -49,6 +59,17 @@
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
         "maxGuest": "How many guests coult attend to the event"
+      },
+      "error": {
+        "title": "Please input some title",
+        "shortText": "Please input some short description",
+        "longText": "Please input some long description"
+      }
+    },
+    "dialog": {
+      "delete": {
+        "title": "Delete event",
+        "question": "Do you really want to delete the event?"
       }
     }
   },
@@ -93,12 +114,88 @@
     },
     "status": {
       "full": "Full",
-      "available": "Available"
+      "available": "{{remaining}} of {{available}} available seats"
     },
     "form": {
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email"
+    }
+  },
+  "category": {
+    "type": "Category"
+  },
+  "settings": {
+    "type": "Settings"
+  },
+  "cache": {
+    "type": "Cache"
+  },
+  "user": {
+    "logout": {
+      "confirm": {
+        "Title": "Confirm Logout",
+        "Text": "Do you realy want to logout?"
+      }
+    }
+  },
+  "account": {
+    "search": "Search for an account",
+    "dialog": {
+      "create": {
+        "title": "Create new manual account"
+      },
+      "search": {
+        "title": "Search for existing account"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email"
+    },
+    "message": {
+      "created": "Account created successfully"
+    }
+  },
+  "backoffice": {
+    "title": "Backoffice",
+    "stats": {
+      "title": "Stats"
+    },
+    "export": {
+      "title": "Export",
+      "action": {
+        "all": "Export as pdf",
+        "mail": {
+          "title": "Export as email",
+          "success": "Export successfully started",
+          "failed": "Failed to start export"
+        },
+        "summary": "Export Summary"
+      }
+    },
+    "account": {
+      "title": "Account",
+      "action": {
+        "search": "Search for account",
+        "create": "Create account"
+      }
+    },
+    "event": {
+      "title": "Event",
+      "action": {
+        "create": "Create event"
+      }
+    },
+    "solr": {
+      "title": "Search",
+      "action": {
+        "account": "Reindex account",
+        "category": "Reindex category",
+        "event": "Reindex event"
+      }
     }
   }
 }

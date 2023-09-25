@@ -12,12 +12,16 @@ export class RegistrationStatusComponent {
   set data(info: RegistrationInfo | undefined) {
     if (info) {
       let totalAmount = info.participants.filter(p => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
-      let availableAmount = info.registration.maxGuestAmount
-      this.remaining = availableAmount - totalAmount
-      this.available = this.remaining > 0
+      this.space.available = info.registration.maxGuestAmount
+      this.space.remaining = this.space.available - totalAmount
+      this.spaceAvailable = this.space.remaining > 0
     }
   }
 
-  available: boolean = false
-  remaining = 0
+  spaceAvailable: boolean = false
+  space = {
+    remaining: 0,
+    available: 0
+  }
+
 }

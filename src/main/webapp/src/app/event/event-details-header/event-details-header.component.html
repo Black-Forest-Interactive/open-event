@@ -16,6 +16,11 @@
       </button>
     </ng-container>
 
+    <ng-container *ngIf="!reloading">
+      <app-event-action-export [event]="info?.event"></app-event-action-export>
+    </ng-container>
+
+
     <ng-container *ngIf="isAdminOrCanEdit">
       <ng-container *ngFor="let item of menu.menuItems">
         <button mat-mini-fab class="action-fab" (click)="item.handleClick()">

@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+    <button mat-mini-fab (click)="back()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h3>{{'backoffice.event.action.create' | translate}}</h3>
+    <div class="flex-fill"></div>
+  </div>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div class="d-flex flex-row gap-2 justify-content-start align-content-stretch">
+  <div class="d-flex flex-column gap-2 p-2 flex-fill">
+    <mat-card>
+      <div class="d-flex flex-column gap-2 p-2 flex-fill">
+        <app-select-account [form]="ownerForm"></app-select-account>
+
+        <app-event-change-form-event [form]="eventForm" [hiddenFields]="hiddenFields">
+
+        </app-event-change-form-event>
+        <app-event-change-form-location [form]="locationForm" [hiddenFields]="hiddenFields">
+
+        </app-event-change-form-location>
+        <app-event-change-form-registration [form]="registrationForm" [hiddenFields]="hiddenFields">
+        </app-event-change-form-registration>
+      </div>
+      <mat-card-actions>
+        <button mat-flat-button type="submit" color="accent" [disabled]="!fg.valid || !fg.touched || reloading"
+                (click)="submit()">
+          {{'action.submit' | translate}}
+          <mat-icon *ngIf="reloading">
+            <mat-spinner diameter="18"></mat-spinner>
+          </mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

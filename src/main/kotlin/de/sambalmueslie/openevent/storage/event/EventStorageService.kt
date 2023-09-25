@@ -7,7 +7,7 @@ import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import de.sambalmueslie.openevent.storage.BaseStorageService
-import de.sambalmueslie.openevent.storage.registration.RegistrationStorageService
+import de.sambalmueslie.openevent.storage.history.HistoryStorageService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -21,7 +21,7 @@ class EventStorageService(
 
     private val categoryRelationService: EventCategoryRelationService,
     private val announcementRelationService: EventAnnouncementRelationService,
-    private val registrationService: RegistrationStorageService,
+    private val historyStorageService: HistoryStorageService,
 
     cacheService: CacheService,
     private val timeProvider: TimeProvider,
@@ -83,6 +83,12 @@ class EventStorageService(
         return categoryRelationService.getByEventIds(eventIds)
     }
 
+    override fun deleteDependencies(data: EventData) {
+        announcementRelationService.delete(data)
+        categoryRelationService.delete(data)
+        historyStorageService.deleteByEvent(data)
+    }
+
     override fun getAnnouncements(event: Event, pageable: Pageable): Page<Announcement> {
         return announcementRelationService.get(event, pageable)
     }
@@ -92,9 +98,12 @@ class EventStorageService(
     }
 
     override fun getAllForAccount(account: Account, pageable: Pageable): Page<Event> {
-        return repository.findByOwnerIdOrPublishedTrue(account.id, pageable).let { converter.convert(it) }
+        return repository.findForUser(account.id, pageable).let { converter.convert(it) }
     }
 
+    override fun getAll(pageable: Pageable): Page<Event> {
+        return repository.findAllOrderByStart(pageable).let { converter.convert(it) }
+    }
 
 
 }

@@ -2,12 +2,12 @@ package de.sambalmueslie.openevent.core.logic.event
 
 
 import de.sambalmueslie.openevent.core.BaseCrudService
-import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
 import de.sambalmueslie.openevent.core.logic.category.CategoryCrudService
 import de.sambalmueslie.openevent.core.logic.location.LocationCrudService
 import de.sambalmueslie.openevent.core.logic.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.model.*
 import de.sambalmueslie.openevent.core.storage.EventStorage
+import de.sambalmueslie.openevent.storage.util.PageableSequence
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory
 
 @Singleton
 class EventCrudService(
-    private val accountCrudService: AccountCrudService,
     private val storage: EventStorage,
     private val locationCrudService: LocationCrudService,
     private val registrationCrudService: RegistrationCrudService,
@@ -26,7 +25,6 @@ class EventCrudService(
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(EventCrudService::class.java)
     }
-
 
     fun create(actor: Account, request: EventChangeRequest): Event {
         val result = storage.create(request, actor)
@@ -102,7 +100,7 @@ class EventCrudService(
 
     internal fun convertInfo(events: Page<Event>, account: Account? = null): Page<EventInfo> {
         val eventIds = events.content.map { it.id }.toSet()
-        val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.id }
+        val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.eventId }
         val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.id }
         val categories = storage.getCategoriesByEventIds(eventIds)
         val canEdit = events.content.associate { it.id to (it.owner.id == account?.id) }
@@ -115,6 +113,43 @@ class EventCrudService(
                 canEdit[it.id] ?: false
             )
         }
+    }
+
+    fun getStats(): List<EventStats> {
+        return PageableSequence { getInfos(it) }.mapNotNull { convertStats(it) }.toList()
+    }
+
+    private fun convertStats(info: EventInfo): EventStats? {
+        val registration = info.registration ?: return null
+
+        val totalAmount = registration.registration.maxGuestAmount
+
+        var participantsSize = 0L
+        var participantsAmount = 0L
+        var waitingListSize = 0L
+        var waitingListAmount = 0L
+
+        registration.participants.forEach { p ->
+            if (p.waitingList) {
+                waitingListSize++
+                waitingListAmount += p.size
+            } else {
+                participantsSize++
+                participantsAmount += p.size
+            }
+        }
+
+        val isFull = totalAmount in 1..participantsAmount
+        val isEmpty = participantsSize <= 0
+        return EventStats(
+            info.event,
+            isFull,
+            isEmpty,
+            participantsSize,
+            participantsAmount,
+            waitingListSize,
+            waitingListAmount
+        )
     }
 
 

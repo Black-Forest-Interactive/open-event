@@ -18,5 +18,6 @@ interface AnnouncementRelationRepository : GenericRepository<EventAnnouncementRe
     fun deleteByAnnouncementId(categoryId: Long)
     fun deleteByAnnouncementIdAndEventId(categoryId: Long, eventId: Long)
     fun save(relation: EventAnnouncementRelation): EventAnnouncementRelation
+    fun deleteByEventId(eventId: Long)
 
 }

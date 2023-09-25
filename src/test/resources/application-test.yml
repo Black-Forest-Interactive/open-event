@@ -15,3 +15,7 @@ mail:
 tracing:
   jaeger:
     enabled: false
+
+solr:
+  enabled: false
+  baseUrl: "http://localhost"

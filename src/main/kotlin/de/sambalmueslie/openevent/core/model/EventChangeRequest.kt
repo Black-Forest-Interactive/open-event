@@ -18,5 +18,6 @@ data class EventChangeRequest(
 
     val categoryIds: Set<Long>,
     val location: LocationChangeRequest?,
-    val registration: RegistrationChangeRequest
+    val registration: RegistrationChangeRequest,
+    val published: Boolean
 ) : BusinessObjectChangeRequest

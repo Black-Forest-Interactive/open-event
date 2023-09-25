@@ -1,12 +1,12 @@
-<app-event-details-header [data]="info" [reloading]="reloading"></app-event-details-header>
+<app-event-details-header [data]="info" [reloading]="reloading" (changed)="reload()"></app-event-details-header>
 
 <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
 
 <div class="d-flex flex-column p-2" *ngIf="info">
   <div class="d-flex flex-lg-row flex-column gap-2 align-content-stretch">
-    <div class="d-flex flex-column gap-2"  style="flex: 1 1 calc(50%);">
+    <div class="d-flex flex-column gap-2" style="flex: 1 1 calc(50%);">
       <!-- INFO-->
-      <mat-card >
+      <mat-card>
         <mat-card-header>
           <div class="d-flex flex-row gap-2 align-items-center pb-2 flex-fill">
             <app-account [account]="info.event.owner"></app-account>
@@ -47,7 +47,7 @@
 
       </ng-container>
     </div>
-    <div class="d-flex flex-column gap-2"  style="flex: 1 1 400px;">
+    <div class="d-flex flex-column gap-2" style="flex: 1 1 400px;">
       <app-registration-details [data]="info.registration" *ngIf="info.registration"></app-registration-details>
     </div>
   </div>

@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+    <h3>{{'backoffice.title' | translate}}</h3>
+    <div class="flex-fill"></div>
+  </div>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div class="d-flex flex-row gap-2 p-2 flex-fill align-content-stretch">
+
+  <app-board-card-stats class="flex-fill"></app-board-card-stats>
+
+  <div class="d-flex flex-column gap-2 align-content-start justify-content-start" style="min-width: 400px;">
+    <app-board-card-export *ngIf="canExport"></app-board-card-export>
+    <app-board-card-account *ngIf="canAdminAccount"></app-board-card-account>
+    <app-board-card-event *ngIf="canCreateEvents"></app-board-card-event>
+    <app-board-card-solr *ngIf="canIndexSearch"></app-board-card-solr>
+  </div>
+
+</div>

@@ -7,6 +7,8 @@ import io.micronaut.serde.annotation.Serdeable
 data class Location(
     override val id: Long,
 
+    val eventId: Long,
+
     val street: String,
     val streetNumber: String,
     val zip: String,
@@ -19,4 +21,8 @@ data class Location(
 
     val size: Int
 
-) : BusinessObject<Long>
+) : BusinessObject<Long> {
+    fun format(): String {
+        return "$street $streetNumber, $zip $city"
+    }
+}

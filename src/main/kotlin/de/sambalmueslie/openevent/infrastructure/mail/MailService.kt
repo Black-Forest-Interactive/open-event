@@ -35,9 +35,9 @@ class MailService(
     private val newJobs = mutableListOf<MailSendJob>()
 
     @Synchronized
-    override fun send(mail: Mail, to: List<MailParticipant>, bcc: List<MailParticipant>) {
+    override fun send(mail: Mail, to: List<MailParticipant>, bcc: List<MailParticipant>, single: Boolean) {
         val from = MailParticipant("", config.fromAddress)
-        send(mail, from, to, bcc)
+        send(mail, from, to, bcc, single)
     }
 
     @Synchronized
@@ -45,11 +45,27 @@ class MailService(
         mail: Mail,
         from: MailParticipant,
         to: List<MailParticipant>,
-        bcc: List<MailParticipant>
+        bcc: List<MailParticipant>,
+        single: Boolean
+    ) {
+        if (single) {
+            to.forEach { send(mail, from, listOf(it), bcc) }
+        } else {
+            send(mail, from, to, bcc)
+        }
+    }
+
+
+    private fun send(
+        mail: Mail,
+        from: MailParticipant,
+        to: List<MailParticipant>,
+        bcc: List<MailParticipant>,
     ) {
         val title = "${mail.subject} -> ${to.joinToString { it.address }}"
         val jobData = jobRepository.save(MailJobData.create(title, timeProvider.now()))
-        val jobContent = jobContentRepository.save(MailJobContentData.create(mail, from, to, bcc, jobData.id)).convert()
+        val jobContent =
+            jobContentRepository.save(MailJobContentData.create(mail, from, to, bcc, jobData.id)).convert()
         val job = MailSendJob(jobData.id, jobContent, jobHistoryRepository, timeProvider)
         newJobs.add(job)
     }

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 import {EventRoutingModule} from './event-routing.module';
 import {MaterialModule} from "../material/material.module";
@@ -26,23 +26,40 @@ import {EventBoardTableComponent} from './event-board-table/event-board-table.co
 import {EventDetailsHeaderComponent} from './event-details-header/event-details-header.component';
 import {RegistrationModule} from "../registration/registration.module";
 import {QuillModule} from "ngx-quill";
+import {EventChangeHelpComponent} from './event-change-help/event-change-help.component';
+import {EventBoardMapComponent} from './event-board-map/event-board-map.component';
+import {EventBoardCalendarComponent} from './event-board-calendar/event-board-calendar.component';
+import {EventBoardMapPopupComponent} from './event-board-map-popup/event-board-map-popup.component';
+import {FullCalendarModule} from "@fullcalendar/angular";
+import {EventActionExportComponent} from './event-action-export/event-action-export.component';
 
 
 @NgModule({
-  declarations: [
-    EventBoardComponent,
-    EventBoardHeaderComponent,
-    EventChangeComponent,
-    EventDetailsComponent,
+    declarations: [
+        EventBoardComponent,
+        EventBoardHeaderComponent,
+        EventChangeComponent,
+        EventDetailsComponent,
+        EventChangeFormEventComponent,
+        EventChangeFormLocationComponent,
+        EventChangeFormRegistrationComponent,
+        EventMenuComponent,
+        EventDeleteDialogComponent,
+        EventBoardListComponent,
+        EventBoardListEntryComponent,
+        EventBoardTableComponent,
+        EventDetailsHeaderComponent,
+        EventChangeHelpComponent,
+        EventBoardMapComponent,
+        EventBoardCalendarComponent,
+        EventBoardMapPopupComponent,
+        EventActionExportComponent
+    ],
+  exports: [
     EventChangeFormEventComponent,
     EventChangeFormLocationComponent,
     EventChangeFormRegistrationComponent,
-    EventMenuComponent,
-    EventDeleteDialogComponent,
-    EventBoardListComponent,
-    EventBoardListEntryComponent,
-    EventBoardTableComponent,
-    EventDetailsHeaderComponent
+    EventActionExportComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +72,9 @@ import {QuillModule} from "ngx-quill";
     LocationModule,
     ChipSelectModule,
     RegistrationModule,
-    QuillModule
+    QuillModule,
+    NgOptimizedImage,
+    FullCalendarModule
   ]
 })
 export class EventModule {

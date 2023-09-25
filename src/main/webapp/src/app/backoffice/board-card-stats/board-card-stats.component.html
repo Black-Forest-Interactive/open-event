@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header class="px-2 py-2 gap-2 align-items-center">
+    <mat-icon>insights</mat-icon>
+    <div class="header flex-fill">{{'backoffice.stats.title' | translate}}</div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+    <div echarts [options]="eventChart" [merge]="eventValues" class="demo-chart"></div>
+    <div echarts [options]="participantChart" [merge]="participantValues" class="demo-chart"></div>
+  </mat-card-content>
+</mat-card>

@@ -4,5 +4,6 @@ data class Mail(
     val subject: String,
     val htmlText: String?,
     val plainText: String?,
-    val images: MutableList<Image> = mutableListOf()
+    val images: MutableList<Image> = mutableListOf(),
+    val attachments: MutableList<Attachment> = mutableListOf(),
 )

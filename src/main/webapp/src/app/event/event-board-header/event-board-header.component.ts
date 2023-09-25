@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EventBoardService} from "../model/event-board.service";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 
@@ -11,6 +11,9 @@ export class EventBoardHeaderComponent {
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
   @Input() mobileView: boolean = false
+  @Input() mode: string = ''
+
+  @Output() modeChanged = new EventEmitter<string>
   constructor(public service: EventBoardService) {
   }
 

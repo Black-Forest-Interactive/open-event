@@ -19,5 +19,9 @@ class SolrConfig {
             logger.info("Set baseUrl from '$field' to '$value'")
             field = value
         }
-
+    var enabled: Boolean = true
+        set(value) {
+            logger.info("Set enabled from '$field' to '$value'")
+            field = value
+        }
 }

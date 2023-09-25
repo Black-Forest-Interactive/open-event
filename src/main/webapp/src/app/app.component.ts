@@ -6,6 +6,7 @@ import {LoadingScreenComponent} from "./dashboard/loading-screen/loading-screen.
 import {environment} from './../environments/environment';
 import LogRocket from 'logrocket';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,7 +19,10 @@ export class AppComponent {
   account: Account | undefined
   dialogRef: MatDialogRef<any> | undefined
 
-  constructor(private accountService: AccountService, private dialog: MatDialog) {
+  constructor(
+    private accountService: AccountService,
+    private dialog: MatDialog
+  ) {
 
     if (environment.logrocket && environment.logrocketAppId.length > 0) {
       LogRocket.init(environment.logrocketAppId)

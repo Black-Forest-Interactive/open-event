@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 
+
 @Component({
   selector: 'app-event-change-form-event',
   templateUrl: './event-change-form-event.component.html',
@@ -10,6 +11,9 @@ export class EventChangeFormEventComponent {
   @Input() form: FormGroup | undefined
   @Input() hiddenFields: string[] = []
 
+
+  constructor() {
+  }
 
   get imageUrl() {
     return this.form?.get('imageUrl');
@@ -35,5 +39,4 @@ export class EventChangeFormEventComponent {
   isVisible(ctrl: string): boolean {
     return this.hiddenFields.find(x => x == ctrl) == null
   }
-
 }

@@ -1,0 +1,37 @@
+<mat-card>
+  <mat-card-header class="px-2 py-2 gap-2 align-items-center">
+    <mat-icon>manage_search</mat-icon>
+    <div class="header flex-fill">{{'backoffice.solr.title' | translate}}</div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngIf="isAccountAdmin">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <span>{{'backoffice.solr.action.account'| translate}}</span>
+          <button mat-mini-fab color="primary" (click)="buildAccountIndex()">
+            <mat-icon>person</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item role="listitem" *ngIf="isCategoryAdmin">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <span>{{'backoffice.solr.action.category'| translate}}</span>
+          <button mat-mini-fab color="primary" (click)="buildCategoryIndex()">
+            <mat-icon>label</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item role="listitem" *ngIf="isEventAdmin">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <span>{{'backoffice.solr.action.event'| translate}}</span>
+          <button mat-mini-fab color="primary" (click)="buildEventIndex()">
+            <mat-icon>event_note</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

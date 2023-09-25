@@ -56,14 +56,6 @@ class MailConfig {
             field = value
         }
 
-
-    @NotBlank
-    var defaultAdminAddress: String = ""
-        set(value) {
-            logger.info("Set defaultAdminAddress from '$field' to '$value'")
-            field = value
-        }
-
     var enabled: Boolean = true
         set(value) {
             logger.info("Set enabled from '$field' to '$value'")

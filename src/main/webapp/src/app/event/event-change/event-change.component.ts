@@ -5,16 +5,17 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {HotToastService} from "@ngneat/hot-toast";
 import {Location} from "@angular/common";
-import {EventChangeRequest, EventInfo,} from "../model/event-api";
+import {EventInfo,} from "../model/event-api";
 import * as moment from "moment";
-import {Moment} from "moment";
-import {LocationChangeRequest} from "../../location/model/location-api";
-import {RegistrationChangeRequest} from "../../registration/model/registration-api";
+import {STEPPER_GLOBAL_OPTIONS, StepperOrientation} from "@angular/cdk/stepper";
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-event-change',
   templateUrl: './event-change.component.html',
-  styleUrls: ['./event-change.component.scss']
+  styleUrls: ['./event-change.component.scss'],
+  providers: [{provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true},},],
 })
 export class EventChangeComponent {
 
@@ -29,6 +30,10 @@ export class EventChangeComponent {
   event: EventInfo | undefined
   hiddenFields: string[] = ['shortText', 'iconUrl', 'imageUrl', 'endDate', 'interestedAllowed', 'ticketsEnabled']
 
+  helpVisible: boolean = false
+
+  stepperOrientation: Observable<StepperOrientation>
+
   constructor(
     private fb: FormBuilder,
     private service: EventService,
@@ -36,7 +41,8 @@ export class EventChangeComponent {
     private toastService: HotToastService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    breakpointObserver: BreakpointObserver
   ) {
     this.eventForm = this.fb.group({
       startTime: this.fb.control('', Validators.required),
@@ -71,6 +77,10 @@ export class EventChangeComponent {
       location: this.locationForm,
       registration: this.registrationForm
     })
+
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
 
   ngOnInit() {
@@ -114,8 +124,9 @@ export class EventChangeComponent {
   }
 
   private handleDataCopy(e: EventInfo) {
-
-    this.reloading = true
+    this.initValues(e)
+    this.translationService.get("event.change.copy", {event: e.event.shortText}).subscribe(text => this.title = text);
+    this.reloading = false
   }
 
   private handleDataEdit(e: EventInfo) {
@@ -189,7 +200,7 @@ export class EventChangeComponent {
 
   private update() {
     if (!this.event) return
-    let request = this.createRequest()
+    let request = this.service.createRequest(this.fg.value,this.isEndHidden() )
     if (!request) return
     this.service.updateEvent(this.event.event.id, request).subscribe({
       next: event => {
@@ -207,7 +218,7 @@ export class EventChangeComponent {
   }
 
   private create() {
-    let request = this.createRequest()
+    let request = this.service.createRequest(this.fg.value,this.isEndHidden() )
     if (!request) return
     this.service.createEvent(request).subscribe({
       next: event => {
@@ -224,58 +235,11 @@ export class EventChangeComponent {
     })
   }
 
-  private createRequest(): EventChangeRequest | undefined {
-    let value = this.fg.value
-    let start = this.createDateTime(value.event.startTime, value.event.startDate);
-    let endHidden = this.isEndHidden()
-    let end = endHidden ? this.createDateTime(value.event.endTime, value.event.startDate) : this.createDateTime(value.event.endTime, value.event.endDate);
-    if (!start || !end) return undefined
-
-    let location = new LocationChangeRequest(
-      value.location.street,
-      value.location.streetNumber,
-      value.location.zip,
-      value.location.city,
-      value.location.country,
-      value.location.additionalInfo,
-      0.0,
-      0.0,
-      -1
-    )
-    let registration = new RegistrationChangeRequest(
-      value.registration.maxGuestAmount,
-      value.registration.interestedAllowed,
-      value.registration.ticketsEnabled
-    )
-
-
-    return new EventChangeRequest(
-      start.format("YYYY-MM-DD[T]HH:mm:ss"),
-      end.format("YYYY-MM-DD[T]HH:mm:ss"),
-      value.event.title,
-      value.event.shortText,
-      value.event.longText,
-      value.event.imageUrl,
-      value.event.iconUrl,
-      value.registration.categories,
-      location,
-      registration
-    )
-  }
-
-  private createDateTime(timeStr: string, date: any): Moment | undefined {
-    let mDate = moment(date)
-    let time = timeStr.split(":");
-    if (time.length == 2 && mDate.isValid()) {
-      mDate.hours(parseInt(time[0]));
-      mDate.minutes(parseInt(time[1]));
-      return mDate
-    }
-    return undefined;
-  }
-
   private isEndHidden() {
     return this.hiddenFields.find(f => f === 'endDate') != null
   }
 
+  toggleHelp(step: string) {
+    this.helpVisible = !this.helpVisible
+  }
 }

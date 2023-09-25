@@ -10,12 +10,13 @@ import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 export class EventBoardComponent {
 
   mobileView: boolean = false
+  mode: string = 'list'
 
   constructor(public service: EventBoardService, private responsive: BreakpointObserver) {
   }
 
   ngOnInit() {
-    this.service.reload()
+    this.service.reload(this.service.pageIndex, this.service.pageSize)
 
     this.responsive
       .observe(['(min-width: 1000px)'])

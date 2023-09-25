@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {EventInfo} from "../model/event-api";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Event, EventInfo} from "../model/event-api";
 import {Location} from "@angular/common";
 import {EventMenuComponent} from "../event-menu/event-menu.component";
 import {Router} from "@angular/router";
@@ -25,7 +25,7 @@ export class EventDetailsHeaderComponent {
   info: EventInfo | undefined
   @Input() reloading: boolean = false
   isAdminOrCanEdit: boolean = false
-
+  @Output() changed: EventEmitter<Event> = new EventEmitter();
   menu: EventMenuComponent
 
   constructor(
@@ -39,8 +39,9 @@ export class EventDetailsHeaderComponent {
     this.menu = new EventMenuComponent(router, dialog, service, toastService)
   }
 
-  ngOnInit(){
-    if(this.authService.hasRole(AuthService.EVENT_ADMIN))  this.isAdminOrCanEdit = true
+  ngOnInit() {
+    if (this.authService.hasRole(AuthService.EVENT_ADMIN)) this.isAdminOrCanEdit = true
+    this.menu.changed.subscribe(e => this.changed.emit(e))
   }
 
   back() {

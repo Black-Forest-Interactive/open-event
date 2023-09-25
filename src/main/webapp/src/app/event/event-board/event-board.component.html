@@ -1,6 +1,17 @@
-<app-event-board-header [mobileView]="mobileView"></app-event-board-header>
+<app-event-board-header [mobileView]="mobileView" (modeChanged)="this.mode = $event"
+                        [mode]="mode"></app-event-board-header>
 <ng-container *ngIf="!mobileView;else eventList">
-  <app-event-board-table></app-event-board-table>
+  <ng-container [ngSwitch]="mode">
+    <ng-container *ngSwitchCase="'map'">
+      <app-event-board-map></app-event-board-map>
+    </ng-container>
+    <ng-container *ngSwitchCase="'calendar'">
+      <app-event-board-calendar></app-event-board-calendar>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <app-event-board-table></app-event-board-table>
+    </ng-container>
+  </ng-container>
 </ng-container>
 
 <ng-template #eventList>

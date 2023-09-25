@@ -7,6 +7,7 @@ import {LoadingScreenComponent} from './loading-screen/loading-screen.component'
 import {TranslateModule} from "@ngx-translate/core";
 import {ConfirmLogoutDialogComponent} from './confirm-logout-dialog/confirm-logout-dialog.component';
 import {MainNavEntryComponent} from './main-nav-entry/main-nav-entry.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {MainNavEntryComponent} from './main-nav-entry/main-nav-entry.component';
     DashboardComponent,
     LoadingScreenComponent,
     ConfirmLogoutDialogComponent,
-    MainNavEntryComponent
+    MainNavEntryComponent,
+    PageNotFoundComponent
   ],
   exports: [
     DashboardComponent

@@ -21,6 +21,7 @@ interface CategoryRelationRepository : GenericRepository<EventCategoryRelation, 
     fun deleteByCategoryIdAndEventId(categoryId: Long, eventId: Long)
     fun save(relation: EventCategoryRelation): EventCategoryRelation
     fun saveAll(relations: List<EventCategoryRelation>): List<EventCategoryRelation>
+    fun deleteByEventId(eventId: Long)
 
 
 }

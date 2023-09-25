@@ -2,11 +2,11 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.10"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.10"
     id("org.jetbrains.kotlin.kapt") version "1.9.10"
-    id("org.sonarqube") version "4.3.0.3225"
+    id("org.sonarqube") version "4.3.1.3277"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.google.cloud.tools.jib") version "3.3.2"
-    id("io.micronaut.application") version "4.0.2"
-    id("io.micronaut.aot") version "4.0.2"
+    id("com.google.cloud.tools.jib") version "3.4.0"
+    id("io.micronaut.application") version "4.1.1"
+    id("io.micronaut.aot") version "4.1.1"
     jacoco
 }
 
@@ -47,7 +47,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("io.mockk:mockk:1.13.8")
 
     // jackson
     kapt("io.micronaut.serde:micronaut-serde-processor")
@@ -73,7 +73,7 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:4.0.4")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:4.1.0")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -102,6 +102,15 @@ dependencies {
     implementation("org.apache.velocity:velocity-engine-core:2.3")
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
+    // FOP
+    implementation("org.apache.xmlgraphics:fop:2.9")
+    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.9")
+
+
+    // qrcode
+    implementation("com.google.zxing:core:3.5.2")
+    implementation("com.google.zxing:javase:3.5.2")
+
     // POI
     implementation("org.apache.poi:poi:5.2.3")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
@@ -124,6 +133,10 @@ dependencies {
 
     // solr
     implementation("org.apache.solr:solr-solrj:9.3.0")
+    // jsoup
+    implementation("org.jsoup:jsoup:1.16.1")
+    // biweekly
+    implementation("net.sf.biweekly:biweekly:0.6.7")
 }
 
 java {

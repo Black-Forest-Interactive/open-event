@@ -15,11 +15,7 @@ export class EventNavigationService {
   }
 
   static getEventShowUrl() {
-    return "/event/board"
-  }
-
-  static getEventManageUrl() {
-    return "/event/manage"
+    return "/event"
   }
 
   static navigateToEventShow(router: Router) {
@@ -30,9 +26,6 @@ export class EventNavigationService {
     router.navigate([EventNavigationService.getEventCreateUrl(), {source: sourceId}])
   }
 
-  static navigateToOrganizationEventManage(router: Router, sourceId: string | undefined = undefined) {
-    router.navigate([EventNavigationService.getEventManageUrl(), {source: sourceId}])
-  }
 
   static navigateToEventDetails(router: Router, eventId: number) {
     router.navigate(["/event/details/" + eventId])

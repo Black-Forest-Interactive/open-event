@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./auth/auth.guard";
 import {AuthService} from "./auth/auth.service";
+import {PageNotFoundComponent} from "./dashboard/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'event'},
@@ -24,6 +25,27 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [AuthService.CACHE_READ, AuthService.CACHE_WRITE]}
   },
+  {
+    path: 'mail',
+    loadChildren: () => import('./mail/mail.module').then(m => m.MailModule),
+    canActivate: [AuthGuard],
+    data: {roles: [AuthService.MAIL_READ, AuthService.MAIL_WRITE]}
+  },
+  {
+    path: 'backoffice',
+    loadChildren: () => import('./backoffice/backoffice.module').then(m => m.BackofficeModule),
+    canActivate: [AuthGuard],
+    data: {roles: [AuthService.BACKOFFICE_ACCESS]}
+  },
+  {
+    path: 'history',
+    loadChildren: () => import('./history/history.module').then(m => m.HistoryModule),
+    canActivate: [AuthGuard],
+    data: {roles: [AuthService.HISTORY_ADMIN]}
+  },
+  {
+    path: '**', component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({

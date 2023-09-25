@@ -40,7 +40,8 @@ export class EventChangeRequest {
     public iconUrl: string,
     public categoryIds: number[],
     public location: LocationChangeRequest,
-    public registration: RegistrationChangeRequest
+    public registration: RegistrationChangeRequest,
+    public published: boolean
   ) {
   }
 }
@@ -53,4 +54,14 @@ export class PatchRequest<T> {
 
   }
 
+}
+
+export interface EventStats {
+  event: Event,
+  isFull: boolean,
+  isEmpty: boolean,
+  participantsSize: number,
+  participantsAmount: number,
+  waitingListSize: number,
+  waitingListAmount: number
 }

@@ -24,11 +24,15 @@ data class Event(
     val hasLocation: Boolean,
     val hasRegistration: Boolean,
     val published: Boolean,
+
+    val created: LocalDateTime,
+    val changed: LocalDateTime?
 ) : BusinessObject<Long> {
     companion object {
         private val dateFormatter = DateTimeFormatter.ofPattern("dd. MMMM. YYYY", Locale.GERMAN)
         private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMAN)
     }
+
     fun format(): String {
         val startDate = start.toLocalDate()
         val endDate = start.toLocalDate()
@@ -37,7 +41,11 @@ data class Event(
 
         // 22. Okt. 2020 18:00 - 22:00 Uhr
         if (startDate == endDate) {
-            return "${dateFormatter.format(startDate)} ${timeFormatter.format(startTime)} - ${timeFormatter.format(endTime)}"
+            return "${dateFormatter.format(startDate)} ${timeFormatter.format(startTime)} - ${
+                timeFormatter.format(
+                    endTime
+                )
+            }"
         }
         return "${dateFormatter.format(startDate)} ${timeFormatter.format(startTime)} - " +
                 "${dateFormatter.format(endDate)} ${timeFormatter.format(endTime)}"

@@ -16,5 +16,50 @@ body {
 }
 
 .mat-mdc-mini-fab {
-   box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-form-field-hint {
+  font-size: 12px;
+}
+
+.mat-mdc-form-field-error {
+  font-size: 12px;
+}
+
+.alert {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.alert-secondary {
+  color: #383d41;
+  background-color: #e2e3e5;;
+  border-color: #d6d8db;
+}
+
+.header {
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  line-height: 32px;
 }

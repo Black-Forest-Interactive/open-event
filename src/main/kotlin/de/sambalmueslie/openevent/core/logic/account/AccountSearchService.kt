@@ -4,12 +4,12 @@ package de.sambalmueslie.openevent.core.logic.account
 import de.sambalmueslie.openevent.core.model.Account
 import de.sambalmueslie.openevent.infrastructure.search.BaseSearchService
 import de.sambalmueslie.openevent.infrastructure.search.SearchService
-import jakarta.inject.Singleton
+import io.micronaut.context.annotation.Context
 import org.apache.solr.common.SolrInputDocument
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@Singleton
+@Context
 open class AccountSearchService(
     private val service: AccountCrudService,
     searchService: SearchService,
@@ -19,7 +19,9 @@ open class AccountSearchService(
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(AccountSearchService::class.java)
     }
-
+    init {
+        service.register(this)
+    }
     override fun convert(obj: Account): SolrInputDocument {
         val input = SolrInputDocument()
         input.addField("id", obj.id.toString())

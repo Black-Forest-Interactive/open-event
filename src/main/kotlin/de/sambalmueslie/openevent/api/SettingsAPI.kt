@@ -16,6 +16,9 @@ interface SettingsAPI : CrudAPI<Long, Setting, SettingChangeRequest> {
         const val SETTINGS_MAIL_FROM_ADDRESS = "mail.from-address"
         const val SETTINGS_MAIL_REPLY_TO_ADDRESS = "mail.reply-to-address"
         const val SETTINGS_MAIL_DEFAULT_ADMIN_ADDRESS = "mail.default-admin-address"
+        const val SETTINGS_PDF_LOGO_URL = "pdf.logo"
+        const val SETTINGS_PDF_IMAGE_URL = "pdf.image"
+        const val SETTINGS_PDF_EVENT_DETAILS_URL = "pdf.event-details-url"
     }
 
     fun setValue(auth: Authentication, id: Long, value: PatchRequest<Any>): Setting?

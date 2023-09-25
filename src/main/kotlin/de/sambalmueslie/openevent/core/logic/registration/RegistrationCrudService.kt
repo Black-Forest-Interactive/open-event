@@ -48,6 +48,7 @@ class RegistrationCrudService(
 
     fun deleteByEvent(actor: Account, event: Event): Registration? {
         val existing = storage.findByEvent(event) ?: return null
+        participantCrudService.deleteByRegistration(actor, existing)
         storage.delete(existing.id)
         notifyDeleted(actor, existing)
         return existing

@@ -1,4 +1,4 @@
-<mat-progress-bar mode="indeterminate" *ngIf="service.reloading"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="service.reloading | async"></mat-progress-bar>
 
 
 <div class="d-flex flex-column gap-2 p-2 ">
@@ -12,6 +12,7 @@
                    [pageIndex]="service.pageIndex"
                    [pageSize]="service.pageSize"
                    [pageSizeOptions]="[5, 10, 25, 100]"
+                   (page)="service.handlePageChange($event)"
                    class="mb-2"
     >
     </mat-paginator>

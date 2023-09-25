@@ -25,10 +25,11 @@ export class EventMenuComponent {
   event: Event | undefined
 
   publishing: boolean = false
+  exporting: boolean = false
 
   editMenuItem = new EventMenuItem('edit', 'event.action.edit', this.handleActionEdit.bind(this), false)
-  copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', this.handleActionEdit.bind(this), false)
-  deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', this.handleActionCopy.bind(this), false)
+  copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', this.handleActionCopy.bind(this), false)
+  deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', this.handleActionDelete.bind(this), false)
   publishMenuItem = new EventMenuItem('publish', 'event.action.publish', this.handleActionPublish.bind(this), false)
 
   menuItems = [
@@ -57,10 +58,11 @@ export class EventMenuComponent {
     if (this.event) EventNavigationService.navigateToEventDetails(this.router, this.event.id)
   }
 
+
   private handleActionDelete() {
     if (!this.event) return
     const dialogRef = this.dialog.open(EventDeleteDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: this.event
     });
     dialogRef.afterClosed().subscribe(result => {

@@ -194,4 +194,11 @@ class ParticipantCrudService(
         )
     }
 
+    fun deleteByRegistration(actor: Account, registration: Registration) {
+        storage.get(registration).forEach {
+            storage.delete(it.id)
+            notifyDeleted(actor, it)
+        }
+    }
+
 }

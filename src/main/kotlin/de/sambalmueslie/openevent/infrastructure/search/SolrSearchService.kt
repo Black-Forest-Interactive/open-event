@@ -19,11 +19,15 @@ class SolrSearchService(
     }
 
     override fun <T> getClient(name: String): SearchClient<T> {
-        val client: Http2SolrClient = Http2SolrClient.Builder("${config.baseUrl}/solr/$name")
-            .withResponseParser(XMLResponseParser())
-            .build()
-        logger.info("Create solr search client $name")
-        return SolrSearchClient(name, client)
+        return if (config.enabled) {
+            val client: Http2SolrClient = Http2SolrClient.Builder("${config.baseUrl}/solr/$name")
+                .withResponseParser(XMLResponseParser())
+                .build()
+            logger.info("Create solr search client $name")
+            SolrSearchClient(name, client)
+        } else {
+            NopSearchService()
+        }
     }
 
 

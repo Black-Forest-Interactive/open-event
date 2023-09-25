@@ -17,6 +17,7 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {AuthModule} from "./auth/auth.module";
 import {FALLBACK, GravatarModule, RATING} from "ngx-gravatar";
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -54,15 +55,15 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
           syntax: false,
           toolbar: [
             ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            // ['blockquote', 'code-block'],
+            // [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            // [{ 'indent': '-1'}, { 'indent': '+1' }],
             [{ 'direction': 'rtl' }],
             [{ 'size': ['small', false, 'large', 'huge'] }],
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'font': [] }],
+            // [{ 'color': [] }, { 'background': [] }],
+            // [{ 'font': [] }],
             [{ 'align': [] }],
 
             ['clean'],
@@ -77,6 +78,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
       autoClose: true,
       position: 'top-center'
     }),
+    FullCalendarModule,
     // my modules
     DashboardModule,
     AuthModule,

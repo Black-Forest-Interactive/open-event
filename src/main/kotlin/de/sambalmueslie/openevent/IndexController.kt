@@ -16,20 +16,23 @@ import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrNull
 
 @Controller("/")
-@Secured(SecurityRule.IS_ANONYMOUS)
 class IndexController(private val res: ResourceResolver) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(IndexController::class.java)
     }
 
-    @Get(value = "/{path:[^\\.]*}", produces = [MediaType.TEXT_HTML])
+    init {
+        logger.info("Index Controller - Up")
+    }
+
+    @Get(value = "/{path:[^\\.]*}", consumes = [MediaType.TEXT_HTML])
     @Produces(MediaType.TEXT_HTML)
+    @Secured(SecurityRule.IS_ANONYMOUS)
     fun refresh(path: String): HttpResponse<StreamedFile>? {
         if (logger.isDebugEnabled) logger.debug("Refresh $path")
-        if (path.startsWith("api")) return null
         val result = res.getResource("classpath:static/index.html").map { StreamedFile(it) }.getOrNull() ?: return null
-        return HttpResponse.ok(result).header(HttpHeaders.CACHE_CONTROL, "no-cache")
+        return HttpResponse.ok(result).header(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
     }
 
 }

@@ -75,6 +75,17 @@ class EventController(
         }
     }
 
+    @Post("/{ownerId}")
+    override fun create(auth: Authentication, ownerId: Long, @Body request: EventChangeRequest): Event {
+        return auth.checkPermission(PERMISSION_ADMIN) {
+            logger.traceCreate(auth, request) {
+                val owner = accountService.get(ownerId)
+                require(owner != null) { "Cannot find account for user" }
+                service.create(owner, request)
+            }
+        }
+    }
+
     @Put("/{id}")
     override fun update(auth: Authentication, id: Long, @Body request: EventChangeRequest): Event {
         return auth.checkPermission(PERMISSION_WRITE, PERMISSION_ADMIN) {
@@ -125,10 +136,14 @@ class EventController(
 
     @Post("/search")
     fun buildIndex(auth: Authentication) {
-        return auth.checkPermission(CategoryAPI.PERMISSION_ADMIN) {
+        return auth.checkPermission(PERMISSION_ADMIN) {
             search.createIndex()
             HttpResponse.created("")
         }
+    }
 
+    @Get("/stats")
+    override fun getStats(auth: Authentication): List<EventStats> {
+        return auth.checkPermission(CategoryAPI.PERMISSION_ADMIN) { service.getStats() }
     }
 }

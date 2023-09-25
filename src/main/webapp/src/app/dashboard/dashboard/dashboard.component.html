@@ -17,7 +17,7 @@
           </ng-container>
           <ng-template #logoutElseBlock>
             <mat-icon>logout</mat-icon>
-            <span class="flex-fill">{{'MENU.Logout' | translate}}</span>
+            <span class="flex-fill">{{'action.logout' | translate}}</span>
           </ng-template>
         </div>
       </a>
@@ -35,7 +35,7 @@
       <ng-template #collapseElseBlock>
         <button mat-button (click)="toggleCollapsed()">
           <mat-icon>unfold_more</mat-icon>
-          {{'MENU.Collapse' | translate}}
+          {{'action.collapse' | translate}}
         </button>
       </ng-template>
     </div>
@@ -51,20 +51,40 @@
           (click)="drawer.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <a routerLink="/"><img src="assets/img/logo.png"/></a>
-        <span class="header"> {{ service.title | translate}}</span>
-        <div class="flex-fill"></div>
-        <mat-chip-listbox>
-          <mat-chip-option color="accent" selected [selectable]="false">
-            {{this.authService.getPrincipal()?.given_name}} {{this.authService.getPrincipal()?.family_name}}
-          </mat-chip-option>
-        </mat-chip-listbox>
-        <mat-form-field class="dense-1" subscriptSizing="dynamic">
-          <mat-select [value]="lang" (selectionChange)="changeLang($event)">
-            <mat-option value="en">English</mat-option>
-            <mat-option value="de">Deutsch</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-container *ngIf="!(isHandset$ | async); else mobileHeader">
+          <a routerLink="/"><img src="assets/img/logo.png"/></a>
+          <span class="header"> {{ service.title | translate}}</span>
+          <div class="flex-fill"></div>
+          <mat-chip-listbox>
+            <mat-chip-option color="accent" selected [selectable]="false">
+              {{this.authService.getPrincipal()?.given_name}} {{this.authService.getPrincipal()?.family_name}}
+            </mat-chip-option>
+          </mat-chip-listbox>
+          <mat-form-field class="dense-1" subscriptSizing="dynamic">
+            <mat-select [value]="lang" (selectionChange)="changeLang($event)">
+              <mat-option value="en">English</mat-option>
+              <mat-option value="de">Deutsch</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #mobileHeader>
+          <div class="flex-fill"></div>
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <mat-icon>language</mat-icon>
+            </button>
+            <mat-menu #appMenu="matMenu">
+              <button mat-menu-item (click)="selectLang('en')">
+                <mat-icon *ngIf="lang == 'en'" style="margin-right: 0 !important;">check</mat-icon>
+                English
+              </button>
+              <button mat-menu-item (click)="selectLang('de')">
+                <mat-icon *ngIf="lang == 'de'" style="margin-right: 0 !important;">check</mat-icon>
+                Deutsch
+              </button>
+            </mat-menu>
+          </div>
+        </ng-template>
       </div>
     </mat-toolbar>
     <router-outlet></router-outlet>

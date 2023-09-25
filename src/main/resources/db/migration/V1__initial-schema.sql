@@ -289,3 +289,19 @@ CREATE TABLE audit_log_entry
     reference    TEXT                        NOT NULL,
     source       VARCHAR(255)                NOT NULL
 );
+
+-- history
+CREATE SEQUENCE history_entry_seq;
+CREATE TABLE history_entry
+(
+    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('history_entry_seq'::regclass),
+
+    event_id  BIGINT                      NOT NULL references event (id),
+    actor_id  BIGINT                      NOT NULL references account (id),
+
+    timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    type      VARCHAR(255)                NOT NULL,
+    message   VARCHAR(255)                NOT NULL,
+    source    VARCHAR(255)                NOT NULL,
+    info      VARCHAR(255)                NOT NULL
+)

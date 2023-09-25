@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-header class="px-2 py-2 gap-2 align-items-center">
+    <mat-icon>edit_calendar</mat-icon>
+    <div class="header flex-fill">{{'backoffice.event.title' | translate}}</div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <span>{{'backoffice.event.action.create'| translate}}</span>
+          <button mat-mini-fab color="primary" routerLink="./event">
+            <mat-icon>edit_calendar</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

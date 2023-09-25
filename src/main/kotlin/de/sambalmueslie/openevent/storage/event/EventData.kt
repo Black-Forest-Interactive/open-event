@@ -48,7 +48,7 @@ data class EventData(
                 request.iconUrl,
                 request.location != null,
                 true,
-                false,
+                request.published,
                 timestamp
             )
         }
@@ -67,7 +67,9 @@ data class EventData(
             iconUrl,
             hasLocation,
             hasRegistration,
-            published
+            published,
+            created,
+            updated
         )
     }
 

@@ -67,5 +67,9 @@ class EventCategoryRelationService(
         toRemove.forEach { repository.deleteByCategoryIdAndEventId(it.categoryId, it.eventId) }
     }
 
+    fun delete(data: EventData) {
+        repository.deleteByEventId(data.id)
+    }
+
 
 }

@@ -7,7 +7,7 @@ import de.sambalmueslie.openevent.core.logic.announcement.AnnouncementCrudServic
 import de.sambalmueslie.openevent.core.model.AccountChangeRequest
 import de.sambalmueslie.openevent.core.model.Announcement
 import de.sambalmueslie.openevent.core.model.AnnouncementChangeRequest
-import de.sambalmueslie.openevent.core.storage.AccountStorage
+import de.sambalmueslie.openevent.storage.account.AccountStorageService
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.*
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test
 class AnnouncementCrudServiceTest : TimeBasedTest() {
 
     @Inject
-    lateinit var accountStorage: AccountStorage
+    lateinit var accountStorage: AccountStorageService
 
     @Inject
     lateinit var accountService: AccountCrudService

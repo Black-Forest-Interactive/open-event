@@ -53,7 +53,7 @@ data class LocationData(
     }
 
     override fun convert(): Location {
-        return Location(id, street, streetNumber, zip, city, country, additionalInfo, lat, lon, size)
+        return Location(id, eventId, street, streetNumber, zip, city, country, additionalInfo, lat, lon, size)
     }
 
     fun update(request: LocationChangeRequest, timestamp: LocalDateTime): LocationData {

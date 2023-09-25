@@ -70,7 +70,7 @@ class ParticipantStorageService(
         val regIds = registration.map { it.id }.toSet()
         val participants = repository.findByRegistrationIdIn(regIds)
             .groupBy { it.registrationId }
-            .mapValues { converter.convert(it.value) }
+            .mapValues { converter.convert(it.value).sortedBy { p -> p.rank } }
         return registration.associateWith { participants[it.id] ?: emptyList() }
     }
 

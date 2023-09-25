@@ -7,38 +7,55 @@
   </div>
 </mat-toolbar>
 <mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
-<div class="d-flex flex-column gap-2 p-2">
-  <mat-card>
-    <mat-stepper orientation="horizontal">
-      <mat-step [stepControl]="eventForm" label="{{'event.step.event' | translate}}">
-        <app-event-change-form-event [form]="eventForm" [hiddenFields]="hiddenFields"></app-event-change-form-event>
-        <div class="d-flex flex-row justify-content-end gap-2">
-          <button mat-flat-button matStepperNext color="primary">{{'action.next' | translate}}</button>
-        </div>
-      </mat-step>
-      <mat-step [stepControl]="locationForm" label="{{'event.step.location' | translate}}">
-        <app-event-change-form-location [form]="locationForm"
-                                        [hiddenFields]="hiddenFields"></app-event-change-form-location>
-        <div class="d-flex flex-row justify-content-end gap-2">
-          <button mat-flat-button matStepperPrevious color="primary">{{'action.back' | translate}}</button>
-          <button mat-flat-button matStepperNext color="primary">{{'action.next' | translate}}</button>
-        </div>
-      </mat-step>
-      <mat-step [stepControl]="registrationForm" label="{{'event.step.registration' | translate}}">
-        <app-event-change-form-registration [form]="registrationForm" [hiddenFields]="hiddenFields">
-        </app-event-change-form-registration>
-        <div class="d-flex flex-row justify-content-end gap-2">
-          <button mat-flat-button matStepperPrevious color="primary">{{'action.back' | translate}}</button>
-          <button mat-flat-button type="submit" color="accent" [disabled]="!fg.valid || !fg.touched || reloading"
-                  (click)="submit()">
-            {{'action.submit' | translate}}
-            <mat-icon *ngIf="reloading">
-              <mat-spinner diameter="18"></mat-spinner>
-            </mat-icon>
-          </button>
-        </div>
-      </mat-step>
-    </mat-stepper>
-  </mat-card>
-
+<div class="d-flex flex-row gap-2 justify-content-start align-content-stretch">
+  <div class="d-flex flex-column gap-2 p-2 flex-fill">
+    <mat-card>
+      <mat-stepper [orientation]="(stepperOrientation | async)!" #stepper>
+        <mat-step [stepControl]="eventForm" label="{{'event.step.event' | translate}}"
+                  errorMessage="{{'event.step.incomplete' | translate}}">
+          <app-event-change-form-event [form]="eventForm" [hiddenFields]="hiddenFields"></app-event-change-form-event>
+          <div class="d-flex flex-row justify-content-end gap-2">
+            <button mat-flat-button matStepperNext color="primary">{{'action.next' | translate}}</button>
+            <button mat-flat-button color="accent" (click)="toggleHelp('event')">
+              <mat-icon>support</mat-icon>
+              {{'action.help' | translate}}</button>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="locationForm" label="{{'event.step.location' | translate}}"
+                  errorMessage="{{'event.step.incomplete' | translate}}">
+          <app-event-change-form-location [form]="locationForm"
+                                          [hiddenFields]="hiddenFields"></app-event-change-form-location>
+          <div class="d-flex flex-row justify-content-end gap-2">
+            <button mat-flat-button matStepperPrevious color="primary">{{'action.back' | translate}}</button>
+            <button mat-flat-button matStepperNext color="primary">{{'action.next' | translate}}</button>
+            ,
+            <button mat-flat-button color="accent" (click)="toggleHelp('location')">
+              <mat-icon>support</mat-icon>
+              {{'action.help' | translate}}</button>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="registrationForm" label="{{'event.step.registration' | translate}}"
+                  errorMessage="{{'event.step.incomplete' | translate}}">
+          <app-event-change-form-registration [form]="registrationForm" [hiddenFields]="hiddenFields">
+          </app-event-change-form-registration>
+          <div class="d-flex flex-row justify-content-end gap-2">
+            <button mat-flat-button matStepperPrevious color="primary">{{'action.back' | translate}}</button>
+            <button mat-flat-button type="submit" color="accent" [disabled]="!fg.valid || !fg.touched || reloading"
+                    (click)="submit()">
+              {{'action.submit' | translate}}
+              <mat-icon *ngIf="reloading">
+                <mat-spinner diameter="18"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-flat-button color="accent" (click)="toggleHelp('registration')">
+              <mat-icon>support</mat-icon>
+              {{'action.help' | translate}}</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </mat-card>
+  </div>
+  <div class="d-flex flex-column gap-2 p-2" style="flex: 1 1 250px;" *ngIf="helpVisible">
+    <app-event-change-help [step]="stepper.selectedIndex"></app-event-change-help>
+  </div>
 </div>

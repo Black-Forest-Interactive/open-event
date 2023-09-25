@@ -1,0 +1,72 @@
+<mat-toolbar color="primary">
+  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+    <h3>{{'mail.title' | translate}}</h3>
+
+    <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 1 1 calc(50% - .5rem - 100px)">
+      <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 1 1 calc(50%);">
+        <mat-label>{{'mail.search' | translate}}</mat-label>
+        <input matInput placeholder="" value="" #input [disabled]="reloading" (keyup)="keyUp.emit(input.value)">
+        <mat-icon *ngIf="searching">
+          <mat-spinner diameter="18"></mat-spinner>
+        </mat-icon>
+      </mat-form-field>
+      <button mat-mini-fab color="accent" (click)="search(input.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+
+    </div>
+
+    <div class="flex-fill"></div>
+    <button mat-mini-fab color="primary" (click)="reload()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div class="p-2">
+  <mat-card>
+    <table mat-table [dataSource]="data">
+      <ng-container matColumnDef="timestamp">
+        <th mat-header-cell *matHeaderCellDef class="col-2">{{'mail.table.timestamp' | translate}}</th>
+        <td mat-cell *matCellDef="let job">{{job.timestamp | date:'medium'}}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="col-2">{{'mail.table.status' | translate}}</th>
+        <td mat-cell *matCellDef="let job">
+          <mat-chip>{{'mail.status.' + job.status | translate}}</mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>{{'mail.table.title' | translate}}</th>
+        <td mat-cell *matCellDef="let job">{{job.title}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cmd">
+        <th mat-header-cell *matHeaderCellDef class="col-1"></th>
+        <td mat-cell *matCellDef="let job">
+          <button mat-icon-button routerLink="./history/{{job.id}}">
+            <mat-icon>history</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+    <mat-paginator
+      [length]="totalElements"
+      [pageSize]="pageSize"
+      [pageIndex]="pageNumber"
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      showFirstLastButtons [disabled]="reloading"
+      (page)="handlePageChange($event)"
+    >
+    </mat-paginator>
+  </mat-card>
+</div>

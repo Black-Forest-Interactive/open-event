@@ -7,9 +7,18 @@
     "next": "Weiter",
     "back": "Zurück",
     "submit": "Speichern",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "help": "Hilfe",
+    "yes": "Ja",
+    "no": "Nein",
+    "logout": "Ausloggen",
+    "collapse": "Collapse",
+    "close": "Schliesen",
+    "ok": "Ok",
+    "details": "Details"
   },
   "event": {
+    "type": "Veranstaltungen",
     "search": "Suche nach einer Veranstaltung",
     "create": "Neue Veranstaltung erstellen",
     "action": {
@@ -21,7 +30,8 @@
     "step": {
       "event": "Veranstaltung",
       "location": "Addresse",
-      "registration": "Sonstiges"
+      "registration": "Sonstiges",
+      "incomplete": "Angaben unvollständig"
     },
     "change": {
       "create": "Neue Veranstaltung erstellen",
@@ -49,6 +59,17 @@
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?"
+      },
+      "error": {
+        "title": "Bitte einen Titel angeben",
+        "shortText": "Bitte einen Kurztext angeben",
+        "longText": "Bitte eine Beschreibung angeben"
+      }
+    },
+    "dialog": {
+      "delete": {
+        "title": "Veranstaltung löschen",
+        "question": "Soll die Veranstaltung wirklich gelöscht werden?"
       }
     }
   },
@@ -93,12 +114,88 @@
     },
     "status": {
       "full": "Ausgebucht",
-      "available": "Plätze frei"
+      "available": "{{remaining}} von {{available}} Plätzen frei"
     },
     "form": {
       "firstName": "Vorname",
       "lastName": "Familienname",
       "email": "Email"
+    }
+  },
+  "category": {
+    "type": "Kategorien"
+  },
+  "settings": {
+    "type": "Einstellungen"
+  },
+  "cache": {
+    "type": "Cache"
+  },
+  "user": {
+    "logout": {
+      "confirm": {
+        "Title": "Ausloggen bestätigen",
+        "Text": "Wollen Sie sich wirklich ausloggen?"
+      }
+    }
+  },
+  "account": {
+    "search": "Suche nach Benutzer",
+    "dialog": {
+      "create": {
+        "title": "Neuen Benutzer erstellen"
+      },
+      "search": {
+        "title": "Existierende Benutzer durchsuchen"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "firstName": "Vorname",
+      "lastName": "Familienname",
+      "email": "Email"
+    },
+    "message": {
+      "created": "Benutzer erfolgreich erstellt"
+    }
+  },
+  "backoffice": {
+    "title": "Backoffice",
+    "stats": {
+      "title": "Statistik"
+    },
+    "export": {
+      "title": "Export",
+      "action": {
+        "all": "Export per Download",
+        "mail": {
+          "title": "Export per Mail",
+          "success": "Export gestartet",
+          "failed": "Export fehlgeschlagen"
+        },
+        "summary": "Excel Zusammenfassung"
+      }
+    },
+    "account": {
+      "title": "Benutzer",
+      "action": {
+        "search": "Benutzer durchsuchen",
+        "create": "Benutzer erstellen"
+      }
+    },
+    "event": {
+      "title": "Veranstaltung",
+      "action": {
+        "create": "Veranstaltung erstellen"
+      }
+    },
+    "solr": {
+      "title": "Suche",
+      "action": {
+        "account": "Benutzer Index neu erstellen",
+        "category": "Kategorie Index neu erstellen",
+        "event": "Veranstaltung Index neu erstellen"
+      }
     }
   }
 }

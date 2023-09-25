@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Location} from "../model/location-api";
 import * as L from "leaflet";
 import {icon, Map, Marker} from "leaflet";
@@ -24,7 +24,7 @@ Marker.prototype.options.icon = iconDefault;
   templateUrl: './location-map.component.html',
   styleUrls: ['./location-map.component.scss']
 })
-export class LocationMapComponent implements AfterViewInit {
+export class LocationMapComponent {
   @Input()
   set data(data: Location) {
     this.location = data;
@@ -37,9 +37,6 @@ export class LocationMapComponent implements AfterViewInit {
   private map: Map | undefined
   private marker: Marker | undefined
 
-  ngAfterViewInit(): void {
-    this.initMap()
-  }
 
   private updateMap() {
     if (this.marker) {
@@ -47,6 +44,8 @@ export class LocationMapComponent implements AfterViewInit {
     }
 
     if (!this.location) return
+
+    if(!this.map) this.initMap()
 
     let lat = this.location.lat
     let lon = this.location.lon
@@ -72,9 +71,5 @@ export class LocationMapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map)
-
-
-
-    this.updateMap()
   }
 }
