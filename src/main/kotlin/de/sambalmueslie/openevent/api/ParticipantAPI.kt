@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.api
 
-import de.sambalmueslie.openevent.core.model.Participant
-import de.sambalmueslie.openevent.core.model.ParticipantChangeRequest
+import de.sambalmueslie.openevent.core.participant.api.Participant
+import de.sambalmueslie.openevent.core.participant.api.ParticipantChangeRequest
 
 interface ParticipantAPI : CrudAPI<Long, Participant, ParticipantChangeRequest> {
     companion object {
@@ -9,7 +9,6 @@ interface ParticipantAPI : CrudAPI<Long, Participant, ParticipantChangeRequest> 
         const val PERMISSION_WRITE = "openevent.participant.write"
         const val PERMISSION_ADMIN = "openevent.participant.admin"
     }
-
 
 
 }

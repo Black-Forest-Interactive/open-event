@@ -1,9 +1,7 @@
 package de.sambalmueslie.openevent.api
 
-import de.sambalmueslie.openevent.core.model.Category
-import de.sambalmueslie.openevent.core.model.CategoryChangeRequest
-import io.micronaut.data.model.Page
-import io.micronaut.data.model.Pageable
+import de.sambalmueslie.openevent.core.category.api.Category
+import de.sambalmueslie.openevent.core.category.api.CategoryChangeRequest
 import io.micronaut.security.authentication.Authentication
 
 interface CategoryAPI : CrudAPI<Long, Category, CategoryChangeRequest> {
@@ -14,5 +12,4 @@ interface CategoryAPI : CrudAPI<Long, Category, CategoryChangeRequest> {
     }
 
     fun findByName(auth: Authentication, name: String): Category?
-    fun search(auth: Authentication, query: String, pageable: Pageable): Page<Category>
 }

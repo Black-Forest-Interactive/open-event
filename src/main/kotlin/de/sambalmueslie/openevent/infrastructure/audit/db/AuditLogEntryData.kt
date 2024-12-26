@@ -1,10 +1,10 @@
 package de.sambalmueslie.openevent.infrastructure.audit.db
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogLevel
-import de.sambalmueslie.openevent.storage.SimpleDataObject
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

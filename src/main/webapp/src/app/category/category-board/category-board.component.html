@@ -1,56 +1,73 @@
-<mat-toolbar color="primary">
-  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
-
-    <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 0 1 calc(50% - .5rem - 100px)">
-      <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 0 1 calc(50%);">
-        <mat-label>{{'category.search' | translate}}</mat-label>
-        <input matInput placeholder="" value="">
+<mat-toolbar class="px-2">
+  <div class="flex flex-row gap-3 flex-auto items-center">
+    <div class="flex flex-row gap-2 items-center basis-full sm:basis-1/4">
+      <mat-form-field class="dense-3 flex-auto" subscriptSizing="dynamic">
+        <mat-label class="flex flex-row gap-3">
+          <mat-icon>search</mat-icon>
+          {{ 'category.search' | translate }}
+        </mat-label>
+        <input #input (keyup)="keyUp.emit(input.value)" matInput placeholder="" value="">
+        <button (click)="input.value = ''; fullTextSearch = ''" *ngIf="input.value.length > 0" mat-icon-button
+                matSuffix>
+          <mat-icon>clear</mat-icon>
+        </button>
       </mat-form-field>
-      <button mat-mini-fab color="accent">
-        <mat-icon>search</mat-icon>
-      </button>
-
     </div>
 
-    <button mat-fab color="accent" style="flex: 0 1 200px;" extended routerLink="./create">
+    <div class="flex-auto"></div>
+    <button color="accent" mat-flat-button (click)="create()" class="basis-72 min-h-10">
       <mat-icon>new_label</mat-icon>
-      {{'category.create' | translate}}
-    </button>
-    <div class="flex-fill"></div>
-
-    <button mat-icon-button>
-      <mat-icon>more_vert</mat-icon>
+      {{ 'category.create' | translate }}
     </button>
 
   </div>
 </mat-toolbar>
 
-<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<mat-progress-bar *ngIf="reloading" mode="indeterminate"></mat-progress-bar>
 
 
-<div class="d-flex flex-column gap-2 p-2 ">
+<div class="flex flex-col gap-2 p-4">
   <mat-card>
-    <div class="d-flex flex-column">
-      <ng-container *ngFor="let category of categories">
-        <div class="d-flex flex-row gap-5 align-items-center align-content-stretch px-4 py-2 flex-fill list-entry">
-          <div>{{category.name}}</div>
-          <div class="flex-fill"></div>
-          <div class="d-flex flex-row gap-2">
-            <a mat-mini-fab color="primary" routerLink="edit/{{category.id}}">
+    <table [dataSource]="categories" mat-table>
+
+      <!-- name column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
+            <mat-icon>badge</mat-icon>
+            <span>{{ 'category.table.name' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let entry" mat-cell>
+          {{ entry.name }}
+        </td>
+      </ng-container>
+
+      <!-- name cmd -->
+      <ng-container matColumnDef="cmd">
+        <th mat-header-cell *matHeaderCellDef>
+        </th>
+        <td *matCellDef="let entry" mat-cell>
+          <div class="flex flex-row gap-2">
+            <a color="primary" mat-icon-button (click)="edit(entry)">
               <mat-icon>edit</mat-icon>
             </a>
-            <button mat-mini-fab color="primary">
+            <button color="warn" mat-icon-button (click)="delete(entry)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-        </div>
-        <mat-divider></mat-divider>
+        </td>
       </ng-container>
-    </div>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" class="row" mat-row>
+      </tr>
+    </table>
+    <mat-divider></mat-divider>
     <mat-paginator [length]="totalSize"
                    [pageIndex]="pageIndex"
-                   [pageSize]="pageSize"
                    [pageSizeOptions]="[5, 10, 25, 100]"
+                   [pageSize]="pageSize"
                    class="mb-2"
     >
     </mat-paginator>

@@ -1,20 +1,23 @@
-<div class="d-flex flex-column">
-  <div class="d-flex flex-row gap-2 align-content-stretch align-items-center">
-    <mat-form-field subscriptSizing="dynamic" class="dense-1 flex-fill">
-      <mat-label>{{'event.form.owner' | translate}}</mat-label>
-      <input type="text" matInput #input (keyup)="keyUp.emit(input.value)" [matAutocomplete]="auto"
-             [disabled]="accountCreating">
+<div class="flex flex-col">
+  <div class="flex flex-row gap-2 content-stretch items-center">
+    <mat-form-field class="dense-1 flex-auto" subscriptSizing="dynamic">
+      <mat-label>{{ 'event.form.owner' | translate }}</mat-label>
+      <input #input (keyup)="keyUp.emit(input.value)" [disabled]="accountCreating" [matAutocomplete]="auto" matInput
+             type="text">
     </mat-form-field>
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option *ngFor="let account of accounts" (onSelectionChange)="select($event, account)" [value]="account.firstName + ' ' +account.lastName">
-        {{account.firstName}} {{account.lastName}}
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+      <mat-option (onSelectionChange)="select($event, account)" *ngFor="let account of accounts"
+                  [value]="account.firstName + ' ' +account.lastName">
+        {{ account.firstName }} {{ account.lastName }} @if (account.email.length > 0) {
+        [{{ account.email }}]
+      }
       </mat-option>
     </mat-autocomplete>
-    <button mat-flat-button color="primary" (click)="showCreateAccountDialog()">
-      {{'backoffice.account.action.create'| translate}}
+    <button (click)="showCreateAccountDialog()" color="primary" mat-flat-button>
+      {{ 'backoffice.account.action.create'| translate }}
       <mat-icon *ngIf="!accountCreating">add</mat-icon>
       <mat-icon *ngIf="accountCreating">
-        <mat-spinner diameter="22" color="primary"></mat-spinner>
+        <mat-spinner color="primary" diameter="22"></mat-spinner>
       </mat-icon>
     </button>
   </div>

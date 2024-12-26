@@ -1,7 +1,7 @@
 import {Component, EventEmitter} from '@angular/core';
 import {MailJobHistoryEntry} from "../model/mail-api";
 import {MailService} from "../model/mail.service";
-import {HotToastService} from "@ngneat/hot-toast";
+import {HotToastService} from "@ngxpert/hot-toast";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -9,9 +9,10 @@ import {Location} from "@angular/common";
 import {Page} from "../../shared/model/page";
 
 @Component({
-  selector: 'app-mail-history',
-  templateUrl: './mail-history.component.html',
-  styleUrls: ['./mail-history.component.scss']
+    selector: 'app-mail-history',
+    templateUrl: './mail-history.component.html',
+    styleUrls: ['./mail-history.component.scss'],
+    standalone: false
 })
 export class MailHistoryComponent {
   reloading: boolean = false
@@ -49,6 +50,16 @@ export class MailHistoryComponent {
     ).subscribe(data => this.search(data))
   }
 
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.loadPage(event.pageIndex)
+  }
+
+  back() {
+    this.location.back()
+  }
+
   private loadPage(number: number) {
     if (!this.jobId) return
     if (this.reloading) return
@@ -72,17 +83,7 @@ export class MailHistoryComponent {
     this.reloading = false;
   }
 
-  handlePageChange(event: PageEvent) {
-    if (this.reloading) return
-    this.pageSize = event.pageSize
-    this.loadPage(event.pageIndex)
-  }
-
   private search(data: string) {
     this.toastService.error("Sorry searching '" + data + "' is not supported yet")
-  }
-
-  back() {
-    this.location.back()
   }
 }

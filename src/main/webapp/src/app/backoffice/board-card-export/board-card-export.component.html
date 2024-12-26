@@ -1,42 +1,37 @@
 <mat-card>
-  <mat-card-header class="px-2 py-2 gap-2 align-items-center">
+  <div class="flex gap-3 p-3 items-center">
     <mat-icon>cloud_download</mat-icon>
-    <div class="header flex-fill">{{'backoffice.export.title' | translate}}</div>
-  </mat-card-header>
+    <div class="header flex-auto">{{ 'backoffice.export.title' | translate }}</div>
+  </div>
   <mat-divider></mat-divider>
-  <mat-card-content>
-    <mat-list role="list">
-      <mat-list-item role="listitem">
-        <div class="d-flex flex-row justify-content-between align-items-center">
-          <span>{{'backoffice.export.action.all'| translate}}</span>
-          <button mat-mini-fab color="primary" (click)="export()">
-            <mat-icon *ngIf="!exporting">cloud_download</mat-icon>
-            <mat-icon *ngIf="exporting">
-              <mat-spinner diameter="22"></mat-spinner>
-            </mat-icon>
-          </button>
-        </div>
-      </mat-list-item>
-      <mat-list-item role="listitem">
-        <div class="d-flex flex-row justify-content-between align-items-center">
-          <span>{{'backoffice.export.action.mail.title'| translate}}</span>
-          <button mat-mini-fab color="primary" (click)="exportMail()">
-            <mat-icon>attach_email</mat-icon>
-          </button>
-        </div>
-      </mat-list-item>
 
-      <mat-list-item role="listitem">
-        <div class="d-flex flex-row justify-content-between align-items-center">
-          <span>{{'backoffice.export.action.summary'| translate}}</span>
-          <button mat-mini-fab color="primary" (click)="exportSummary()">
-            <mat-icon *ngIf="!summarizing">summarize</mat-icon>
-            <mat-icon *ngIf="summarizing">
-              <mat-spinner diameter="22"></mat-spinner>
-            </mat-icon>
-          </button>
-        </div>
-      </mat-list-item>
-    </mat-list>
-  </mat-card-content>
+  <div class="flex flex-col gap-4 p-3">
+    <div class="flex flex-row justify-between items-center gap-3">
+      <span>{{ 'backoffice.export.action.all'| translate }}</span>
+      <button (click)="export()" color="primary" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon *ngIf="!exporting">cloud_download</mat-icon>
+        <mat-icon *ngIf="exporting">
+          <mat-spinner diameter="22"></mat-spinner>
+        </mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-row justify-between items-center gap-3">
+      <span>{{ 'backoffice.export.action.mail.title'| translate }}</span>
+      <button (click)="exportMail()" color="primary" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon>attach_email</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-row justify-between items-center gap-3">
+      <span>{{ 'backoffice.export.action.summary'| translate }}</span>
+      <button (click)="exportSummary()" color="primary" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon *ngIf="!summarizing">summarize</mat-icon>
+        <mat-icon *ngIf="summarizing">
+          <mat-spinner diameter="22"></mat-spinner>
+        </mat-icon>
+      </button>
+    </div>
+
+  </div>
 </mat-card>

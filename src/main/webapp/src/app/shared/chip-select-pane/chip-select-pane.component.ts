@@ -5,43 +5,36 @@ import {FormControl} from "@angular/forms";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 
 @Component({
-  selector: 'app-chip-select-pane',
-  templateUrl: './chip-select-pane.component.html',
-  styleUrls: ['./chip-select-pane.component.scss']
+    selector: 'app-chip-select-pane',
+    templateUrl: './chip-select-pane.component.html',
+    styleUrls: ['./chip-select-pane.component.scss'],
+    standalone: false
 })
 export class ChipSelectPaneComponent {
 
   @Input()
-  set entries(data: ChipSelectEntry[]) {
-    this.allEntries = data
-    this.updateAutocomplete()
-  }
-
-  @Input()
   removable = true
-
   @Input()
   formCtrl: FormControl | undefined
-
   @Input()
   placeholder: string = "Assigned entry ..."
-
   @Output()
   changed: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-
   separatorKeysCodes: number[] = [ENTER, COMMA]
-
   filteredEntries: ChipSelectEntry[] = []
   selectedEntries: ChipSelectEntry[] = []
   allEntries: ChipSelectEntry[] = []
-
   @ViewChild('entryInput') entryInput: ElementRef<HTMLInputElement> | undefined
   @ViewChild('auto') matAutocomplete: MatAutocomplete | undefined
 
   constructor() {
   }
 
+  @Input()
+  set entries(data: ChipSelectEntry[]) {
+    this.allEntries = data
+    this.updateAutocomplete()
+  }
 
   clear(emitEvent: boolean = true) {
     if (this.entryInput) this.entryInput.nativeElement.value = '';

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "../../shared/model/base-service";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Participant} from "../../participant/model/participant-api";
-import {ParticipantAddRequest, ParticipateRequest, ParticipateResponse} from "./registration-api";
+import {ParticipantAddRequest, ParticipateRequest, ParticipateResponse, RegistrationDetails} from "./registration-api";
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +44,10 @@ export class RegistrationService extends BaseService {
 
   removeParticipant(id: number, participantId: number): Observable<ParticipateResponse> {
     return this.delete(id + '/participant/' + participantId)
+  }
+
+  getDetails(id: number): Observable<RegistrationDetails> {
+    return this.get(id + '/details')
   }
 
 }

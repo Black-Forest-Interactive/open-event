@@ -15,11 +15,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/open-event",
+            "outputPath": {
+              "base": "dist/open-event"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -35,13 +36,14 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/scss/bootstrap-utilities.scss",
+              "node_modules/ngx-sharebuttons/themes/circles.scss",
+              "node_modules/ngx-sharebuttons/themes/modern.scss",
               "src/theme.scss",
               "src/styles.scss",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.bubble.css",
               "node_modules/quill/dist/quill.snow.css",
-              "node_modules/@ngneat/hot-toast/src/styles/styles.css",
+              "node_modules/@ngxpert/hot-toast/src/styles/styles.css",
               "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [],
@@ -50,7 +52,8 @@
               "js-sha256",
               "quill",
               "moment"
-            ]
+            ],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -69,9 +72,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -83,9 +84,7 @@
               ]
             },
             "local": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -103,13 +102,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "open-event:build:production"
+              "buildTarget": "open-event:build:production"
             },
             "development": {
-              "browserTarget": "open-event:build:development"
+              "buildTarget": "open-event:build:development"
             },
             "local": {
-              "browserTarget": "open-event:build:local"
+              "buildTarget": "open-event:build:local"
             }
           },
           "defaultConfiguration": "development"
@@ -117,7 +116,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "open-event:build"
+            "buildTarget": "open-event:build"
           }
         },
         "test": {
@@ -141,5 +140,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

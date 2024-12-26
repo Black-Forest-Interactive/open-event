@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "../../shared/model/base-service";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Page} from "../../shared/model/page";
 import {Event, EventChangeRequest, EventInfo, EventStats, PatchRequest} from "./event-api";
 import {LocationChangeRequest} from "../../location/model/location-api";
 import {RegistrationChangeRequest} from "../../registration/model/registration-api";
-import * as moment from "moment/moment";
-import {Moment} from "moment/moment";
+import {DateTime} from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +23,6 @@ export class EventService extends BaseService {
 
   getEvent(id: number): Observable<Event> {
     return this.get('' + id)
-  }
-
-  searchEvents(query: string, page: number, size: number): Observable<Page<EventInfo>> {
-    let params = new HttpParams().set("query", query)
-    return this.getPaged('search', page, size, params)
   }
 
   getEventInfo(id: number): Observable<EventInfo> {
@@ -59,9 +53,6 @@ export class EventService extends BaseService {
     return this.delete('' + id)
   }
 
-  buildIndex(): Observable<any> {
-    return this.post('search', {})
-  }
 
   getStats(): Observable<EventStats[]> {
     return this.get('stats')
@@ -92,8 +83,8 @@ export class EventService extends BaseService {
 
 
     return new EventChangeRequest(
-      start.format("YYYY-MM-DD[T]HH:mm:ss"),
-      end.format("YYYY-MM-DD[T]HH:mm:ss"),
+      start.toFormat("YYYY-MM-DD[T]HH:mm:ss"),
+      end.toFormat("YYYY-MM-DD[T]HH:mm:ss"),
       value.event.title,
       value.event.shortText,
       value.event.longText,
@@ -102,16 +93,16 @@ export class EventService extends BaseService {
       value.registration.categories,
       location,
       registration,
-      true
+      true,
+      value.registration.tags
     )
   }
 
-  private createDateTime(timeStr: string, date: any): Moment | undefined {
-    let mDate = moment(date)
+  private createDateTime(timeStr: string, date: any): DateTime | undefined {
+    let mDate = DateTime.fromISO(date)
     let time = timeStr.split(":");
-    if (time.length == 2 && mDate.isValid()) {
-      mDate.hours(parseInt(time[0]));
-      mDate.minutes(parseInt(time[1]));
+    if (time.length == 2 && mDate.isValid) {
+      mDate = mDate.set({ hour: parseInt(time[0]), minute: parseInt(time[1]) });
       return mDate
     }
     return undefined;

@@ -1,15 +1,20 @@
 package de.sambalmueslie.openevent.core.logic
 
 import de.sambalmueslie.openevent.TimeBasedTest
-import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
-import de.sambalmueslie.openevent.core.logic.event.EventChangeListener
-import de.sambalmueslie.openevent.core.logic.event.EventCrudService
-import de.sambalmueslie.openevent.core.logic.location.LocationChangeListener
-import de.sambalmueslie.openevent.core.logic.location.LocationCrudService
-import de.sambalmueslie.openevent.core.logic.registration.RegistrationChangeListener
-import de.sambalmueslie.openevent.core.logic.registration.RegistrationCrudService
-import de.sambalmueslie.openevent.core.model.*
-import de.sambalmueslie.openevent.core.storage.AccountStorage
+import de.sambalmueslie.openevent.core.account.AccountStorage
+import de.sambalmueslie.openevent.core.account.api.AccountChangeRequest
+import de.sambalmueslie.openevent.core.event.EventCrudService
+import de.sambalmueslie.openevent.core.event.api.Event
+import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.location.LocationChangeListener
+import de.sambalmueslie.openevent.core.location.LocationCrudService
+import de.sambalmueslie.openevent.core.location.api.Location
+import de.sambalmueslie.openevent.core.location.api.LocationChangeRequest
+import de.sambalmueslie.openevent.core.registration.RegistrationChangeListener
+import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
+import de.sambalmueslie.openevent.core.registration.api.Registration
+import de.sambalmueslie.openevent.core.registration.api.RegistrationChangeRequest
+import de.sambalmueslie.openevent.core.search.event.EventSearchOperator
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.*
@@ -26,9 +31,6 @@ class EventCrudServiceTest : TimeBasedTest() {
     lateinit var accountStorage: AccountStorage
 
     @Inject
-    lateinit var accountService: AccountCrudService
-
-    @Inject
     lateinit var service: EventCrudService
 
     @Inject
@@ -37,13 +39,18 @@ class EventCrudServiceTest : TimeBasedTest() {
     @Inject
     lateinit var registrationService: RegistrationCrudService
 
-    private val eventListener = mockk<EventChangeListener>()
+    @Inject
+    lateinit var searchService: EventSearchOperator
+
+    private val eventListener = mockk<de.sambalmueslie.openevent.core.event.EventChangeListener>()
     private val locationListener = mockk<LocationChangeListener>()
     private val registrationListener = mockk<RegistrationChangeListener>()
 
     @Test
     fun eventCrud() {
-        val actor = accountStorage.create(AccountChangeRequest("user", "first", "last", "email@localhost", "", ""))
+        searchService.setup()
+
+        val actor = accountStorage.create(AccountChangeRequest("user", "", "actor-id"))
         setupListener()
 
         val request = buildCreateRequest()
@@ -96,7 +103,7 @@ class EventCrudServiceTest : TimeBasedTest() {
             "image-update",
             "icon-update",
             emptySet(),
-            locationUpdate, registrationUpdate,true
+            locationUpdate, registrationUpdate, true, setOf("tag")
         )
         return update
     }
@@ -113,7 +120,7 @@ class EventCrudServiceTest : TimeBasedTest() {
             "image",
             "icon",
             emptySet(),
-            locationRequest, registrationRequest,true
+            locationRequest, registrationRequest, true, setOf("tag")
         )
         return request
     }

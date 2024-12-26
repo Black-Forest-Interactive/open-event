@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {retry} from "rxjs/operators";
 import {Page} from "./page";
@@ -59,10 +59,10 @@ export abstract class BaseService {
     return this.http.put<T>(url, body).pipe(retry(this.retryCount));
   }
 
-  protected post<T>(suffix: string, body: any): Observable<T> {
+  protected post<T>(suffix: string, body: any, params = new HttpParams()): Observable<T> {
     const url = this.createUrl(suffix);
     console.debug("Post '" + url + "'")
-    return this.http.post<T>(url, body);
+    return this.http.post<T>(url, body, {params: params});
   }
 
   protected patch<T>(suffix: string, body: any): Observable<T> {

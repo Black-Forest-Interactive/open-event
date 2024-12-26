@@ -8,11 +8,14 @@ import {Title} from "@angular/platform-browser";
 export class DashboardService {
   title: string = 'app.title'
 
-  constructor(private settingsService: SettingService, private pageTitle: Title) {
+  constructor(settingsService: SettingService, private pageTitle: Title) {
 
     settingsService.getTitle().subscribe(d => {
       this.pageTitle.setTitle(d.text)
       this.title = d.text
     })
+
   }
+
+
 }

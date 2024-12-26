@@ -11,12 +11,12 @@ export function initializer(keycloak: KeycloakService): () => Promise<any> {
             clientId: 'open-church-frontend'
           },
           initOptions: {
-            onLoad: 'login-required',
+            // onLoad: 'login-required',
             checkLoginIframe: false
           },
           enableBearerInterceptor: true,
           loadUserProfileAtStartUp: true,
-          bearerExcludedUrls: ['/assets', '/img']
+          bearerExcludedUrls: ['/assets', '/img'],
         });
         resolve('');
       } catch (error) {

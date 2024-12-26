@@ -6,16 +6,12 @@ import {HttpResponse} from "@angular/common/http";
 import FileSaver from "file-saver";
 
 @Component({
-  selector: 'app-event-action-export',
-  templateUrl: './event-action-export.component.html',
-  styleUrls: ['./event-action-export.component.scss']
+    selector: 'app-event-action-export',
+    templateUrl: './event-action-export.component.html',
+    styleUrls: ['./event-action-export.component.scss'],
+    standalone: false
 })
 export class EventActionExportComponent {
-  @Input()
-  set event(value: Event | undefined) {
-    this.data = value
-  }
-
   data: Event | undefined
   accessible: boolean = false
   exporting: boolean = false
@@ -24,6 +20,11 @@ export class EventActionExportComponent {
     private authService: AuthService,
     private exportService: ExportService,
   ) {
+  }
+
+  @Input()
+  set event(value: Event | undefined) {
+    this.data = value
   }
 
   ngOnInit() {

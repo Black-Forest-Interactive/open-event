@@ -1,6 +1,6 @@
 package de.sambalmueslie.openevent.infrastructure.settings.db
 
-import de.sambalmueslie.openevent.storage.DataObjectRepository
+import de.sambalmueslie.openevent.common.DataObjectRepository
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.Page

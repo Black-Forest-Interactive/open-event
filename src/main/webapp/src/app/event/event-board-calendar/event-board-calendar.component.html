@@ -1,7 +1,7 @@
-<mat-progress-bar mode="indeterminate" *ngIf="service.reloading | async"></mat-progress-bar>
+<mat-progress-bar *ngIf="service.reloading | async" mode="indeterminate"></mat-progress-bar>
 
-<div class="d-flex flex-column gap-2 p-2 ">
+<div class="flex flex-col gap-2">
   <mat-card>
-    <full-calendar class="flex-fill" [options]="calendarOptions"></full-calendar>
+    <full-calendar [options]="calendarOptions" class="flex-auto"></full-calendar>
   </mat-card>
 </div>

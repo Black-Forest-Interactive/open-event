@@ -5,9 +5,10 @@ import {ParticipateRequest} from "../model/registration-api";
 import {Participant} from "../../participant/model/participant-api";
 
 @Component({
-  selector: 'app-registration-edit-dialog',
-  templateUrl: './registration-edit-dialog.component.html',
-  styleUrls: ['./registration-edit-dialog.component.scss']
+    selector: 'app-registration-edit-dialog',
+    templateUrl: './registration-edit-dialog.component.html',
+    styleUrls: ['./registration-edit-dialog.component.scss'],
+    standalone: false
 })
 export class RegistrationEditDialogComponent {
   fg: FormGroup

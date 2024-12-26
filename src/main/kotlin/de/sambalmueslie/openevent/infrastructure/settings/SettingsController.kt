@@ -4,10 +4,10 @@ package de.sambalmueslie.openevent.infrastructure.settings
 import de.sambalmueslie.openevent.api.SettingsAPI
 import de.sambalmueslie.openevent.api.SettingsAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openevent.api.SettingsAPI.Companion.PERMISSION_WRITE
-import de.sambalmueslie.openevent.core.auth.checkPermission
-import de.sambalmueslie.openevent.core.model.PatchRequest
-import de.sambalmueslie.openevent.core.model.SettingChangeRequest
-import de.sambalmueslie.openevent.core.model.TextResponse
+import de.sambalmueslie.openevent.common.PatchRequest
+import de.sambalmueslie.openevent.core.checkPermission
+import de.sambalmueslie.openevent.infrastructure.settings.api.SettingChangeRequest
+import de.sambalmueslie.openevent.infrastructure.settings.api.TextResponse
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication

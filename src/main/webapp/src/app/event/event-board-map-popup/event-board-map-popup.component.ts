@@ -1,15 +1,16 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {EventInfo} from "../model/event-api";
+import {EventSearchEntry} from "../../search/model/search-api";
 
 @Component({
-  selector: 'app-event-board-map-popup',
-  templateUrl: './event-board-map-popup.component.html',
-  styleUrls: ['./event-board-map-popup.component.scss']
+    selector: 'app-event-board-map-popup',
+    templateUrl: './event-board-map-popup.component.html',
+    styleUrls: ['./event-board-map-popup.component.scss'],
+    standalone: false
 })
 export class EventBoardMapPopupComponent {
 
   @Output() close: EventEmitter<boolean> = new EventEmitter()
-  @Input() data: EventInfo | undefined
+  @Input() data: EventSearchEntry | undefined
 
 
   ngOnInit(): void {

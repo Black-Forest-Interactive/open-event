@@ -2,13 +2,14 @@ import {Component, EventEmitter} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {AccountService} from "../model/account.service";
 import {debounceTime, distinctUntilChanged} from "rxjs";
-import {Account} from "../model/account-api";
-import {Page} from "../../shared/model/page";
+import {SearchService} from "../../search/model/search.service";
+import {AccountSearchEntry, AccountSearchRequest, AccountSearchResponse} from "../../search/model/search-api";
 
 @Component({
-  selector: 'app-search-account-dialog',
-  templateUrl: './search-account-dialog.component.html',
-  styleUrls: ['./search-account-dialog.component.scss']
+    selector: 'app-search-account-dialog',
+    templateUrl: './search-account-dialog.component.html',
+    styleUrls: ['./search-account-dialog.component.scss'],
+    standalone: false
 })
 export class SearchAccountDialogComponent {
 
@@ -19,14 +20,16 @@ export class SearchAccountDialogComponent {
   pageSize: number = 20
   pageIndex: number = 0
   totalSize: number = 0
-  accounts: Account[] = []
-  query: string = ''
+  accounts: AccountSearchEntry[] = []
 
-  displayedColumns: string[] = ['name', 'firstName', 'lastName', 'email'];
+  displayedColumns: string[] = ['name', 'firstName', 'lastName', 'email']
+
+  request: AccountSearchRequest = new AccountSearchRequest('')
 
   constructor(
     public dialogRef: MatDialogRef<SearchAccountDialogComponent>,
-    private service: AccountService
+    private service: AccountService,
+    private searchService: SearchService,
   ) {
 
   }
@@ -40,7 +43,7 @@ export class SearchAccountDialogComponent {
   }
 
   search(query: string) {
-    this.query = query
+    this.request.fullTextSearch = query
     if (this.searching) return
     this.reload()
   }
@@ -48,24 +51,19 @@ export class SearchAccountDialogComponent {
   reload() {
     if (this.reloading) return
     this.reloading = true
-    if (this.query.length <= 0) {
-      this.service.getAllAccounts(this.pageIndex, this.pageSize).subscribe({
-        next: value => this.handleData(value),
-        error: e => this.handleError(e)
-      })
-    } else {
-      this.service.searchAccounts(this.query, this.pageIndex, this.pageSize).subscribe({
-        next: value => this.handleData(value),
-        error: e => this.handleError(e)
-      })
-    }
+
+    this.searchService.searchAccounts(this.request, this.pageIndex, this.pageSize).subscribe({
+      next: value => this.handleData(value),
+      error: e => this.handleError(e)
+    })
   }
 
-  private handleData(value: Page<Account>) {
-    this.accounts = value.content
-    this.pageSize = value.pageable.size
-    this.pageIndex = value.pageable.number
-    this.totalSize = value.totalSize
+  private handleData(response: AccountSearchResponse) {
+    let result = response.result;
+    this.accounts = result.content
+    this.pageSize = result.pageable.size
+    this.pageIndex = result.pageable.number
+    this.totalSize = result.totalSize
     this.reloading = false
     this.searching = false
   }

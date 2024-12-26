@@ -1,0 +1,119 @@
+<div class="flex flex-col gap-2">
+  <mat-card>
+    <mat-card-header class="!p-2 filter-card-header h-14">
+      <mat-card-title class="flex flex-row gap-2 items-center">
+        <mat-icon>filter_list</mat-icon>
+        Filter
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider class="!pb-2"></mat-divider>
+    <mat-card-content class="!pb-2">
+      <div class="flex flex-col gap-2 items-center">
+        <div class="flex-auto">
+          <mat-form-field class="dense-1" subscriptSizing="dynamic">
+            <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
+            <mat-date-range-input [formGroup]="service.range" [rangePicker]="picker">
+              <input matStartDate formControlName="start" placeholder="{{ 'event.filter.range.start' | translate }}">
+              <input matEndDate formControlName="end" placeholder="{{ 'event.filter.range.end' | translate }}">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker (closed)="onDateRangePickerClosed()" #picker></mat-date-range-picker>
+
+            @if (service.range.controls.start.hasError('matStartDateInvalid')) {
+              <mat-error>Invalid start date</mat-error>
+            }
+            @if (service.range.controls.end.hasError('matEndDateInvalid')) {
+              <mat-error>Invalid end date</mat-error>
+            }
+
+          </mat-form-field>
+        </div>
+
+
+        <mat-chip-listbox class="mat-mdc-chip-set-stacked">
+          <mat-chip-option color="accent" (selectionChange)="handleDatePreselectionChange($event)" value="today">
+            <div class="flex flex-row gap-2 items-center">
+              <mat-icon>today</mat-icon>
+              {{ 'event.filter.range.today' | translate }}
+            </div>
+          </mat-chip-option>
+          <mat-chip-option color="accent" (selectionChange)="handleDatePreselectionChange($event)" value="this_week">
+            <div class="flex flex-row gap-2 items-center">
+              <mat-icon>date_range</mat-icon>
+              {{ 'event.filter.range.week' | translate }}
+            </div>
+          </mat-chip-option>
+          <mat-chip-option color="accent" (selectionChange)="handleDatePreselectionChange($event)" value="next_week">
+            <div class="flex flex-row gap-2 items-center">
+              <mat-icon>next_week</mat-icon>
+              {{ 'event.filter.range.next' | translate }}
+            </div>
+          </mat-chip-option>
+        </mat-chip-listbox>
+
+
+      </div>
+    </mat-card-content>
+    @if (allCategories.length > 0) {
+      <mat-divider class="!pb-2"></mat-divider>
+      <mat-card-content class="!pb-2">
+
+        <div class="flex-auto">
+          @if (reloadingCategories) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          } @else {
+            <mat-form-field class="dense-1" subscriptSizing="dynamic">
+              <mat-label>{{ "STRUCT.ACTION.SELECTED_CAT" | translate }}</mat-label>
+              <mat-select [formControl]="categoryForm" multiple>
+                <mat-option *ngFor="let category of allCategories" [value]="category">{{ category.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          }
+        </div>
+      </mat-card-content>
+    }
+    <mat-divider class="!pb-2"></mat-divider>
+    <mat-card-content class="!pb-2">
+      <div class="flex flex-col gap-2 content-stretch align-items-stretch">
+
+        <button mat-stroked-button (click)="service.showHistory = !service.showHistory"
+                class="flex-auto" color="primary"
+                [ngClass]="{'bg-primary-default' : service.showHistory}">
+          <mat-icon>history</mat-icon>
+          {{ 'event.filter.history' | translate }}
+        </button>
+
+        <button mat-stroked-button (click)="service.ownEvents = !service.ownEvents"
+                class="flex-auto" color="primary"
+                [ngClass]="service.ownEvents ? 'mat-mdc-unelevated-button' : 'mdc-button--outlined mat-mdc-outlined-button'">
+          <mat-icon>copyright</mat-icon>
+          {{ 'event.filter.own' | translate }}
+        </button>
+
+        <button mat-stroked-button (click)="service.availableEvents = !service.availableEvents"
+                class="flex-auto" color="primary"
+                [ngClass]="service.availableEvents ? 'mat-mdc-unelevated-button' : 'mdc-button--outlined mat-mdc-outlined-button'">
+          <mat-icon>event_available</mat-icon>
+          {{ 'event.filter.available' | translate }}
+        </button>
+
+        <button mat-stroked-button (click)="service.participatingEvents = !service.participatingEvents"
+                class="flex-auto" color="primary"
+                [ngClass]="service.participatingEvents ? 'mat-mdc-unelevated-button' : 'mdc-button--outlined mat-mdc-outlined-button'">
+          <mat-icon>3p</mat-icon>
+          {{ 'event.filter.participating' | translate }}
+        </button>
+      </div>
+    </mat-card-content>
+    <div class="flex-auto"></div>
+    <mat-divider class="!pb-2"></mat-divider>
+    <mat-card-content>
+      <div class="flex flex-col gap-2 content-stretch align-items-stretch">
+        <button mat-stroked-button (click)="service.resetFilter()" color="warn">
+          <mat-icon>cancel</mat-icon>
+          {{ 'event.filter.reset' | translate }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

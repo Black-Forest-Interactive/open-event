@@ -6,8 +6,12 @@ import {AppRoutingModule} from "../app-routing.module";
 import {LoadingScreenComponent} from './loading-screen/loading-screen.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {ConfirmLogoutDialogComponent} from './confirm-logout-dialog/confirm-logout-dialog.component';
-import {MainNavEntryComponent} from './main-nav-entry/main-nav-entry.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {MainMenuComponent} from './main-menu/main-menu.component';
+import {DashboardToolbarComponent} from './dashboard-toolbar/dashboard-toolbar.component';
+import {AccountModule} from "../account/account.module";
+import {GravatarModule} from "ngx-gravatar";
+import {ActivityModule} from "../activity/activity.module";
 
 
 @NgModule({
@@ -15,18 +19,22 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
     DashboardComponent,
     LoadingScreenComponent,
     ConfirmLogoutDialogComponent,
-    MainNavEntryComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    MainMenuComponent,
+    DashboardToolbarComponent,
   ],
   exports: [
     DashboardComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    AppRoutingModule,
-    TranslateModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        AppRoutingModule,
+        TranslateModule,
+        AccountModule,
+        GravatarModule,
+        ActivityModule
+    ]
 })
 export class DashboardModule {
 }

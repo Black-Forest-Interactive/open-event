@@ -1,0 +1,30 @@
+<mat-card>
+  <div class="flex gap-3 p-3 items-center">
+    <mat-icon>manage_search</mat-icon>
+    <div class="header flex-auto">{{ 'backoffice.solr.title' | translate }}</div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="flex flex-col gap-4 p-3">
+    <div class="flex flex-row justify-between items-center gap-3" *ngIf="isAccountAdmin">
+      <span>{{ 'backoffice.solr.action.account'| translate }}</span>
+      <button (click)="buildAccountIndex()" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon>person</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-row justify-between items-center gap-3" *ngIf="isCategoryAdmin">
+      <span>{{ 'backoffice.solr.action.category'| translate }}</span>
+      <button (click)="buildCategoryIndex()" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon>label</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-row justify-between items-center gap-3" *ngIf="isEventAdmin">
+      <span>{{ 'backoffice.solr.action.event'| translate }}</span>
+      <button (click)="buildEventIndex()" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon>event_note</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</mat-card>

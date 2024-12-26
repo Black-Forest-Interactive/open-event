@@ -4,9 +4,10 @@ import {EventStats} from "../../event/model/event-api";
 import {EventService} from "../../event/model/event.service";
 
 @Component({
-  selector: 'app-board-card-stats',
-  templateUrl: './board-card-stats.component.html',
-  styleUrls: ['./board-card-stats.component.scss']
+    selector: 'app-board-card-stats',
+    templateUrl: './board-card-stats.component.html',
+    styleUrls: ['./board-card-stats.component.scss'],
+    standalone: false
 })
 export class BoardCardStatsComponent {
   eventChart: EChartsOption = {

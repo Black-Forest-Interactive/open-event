@@ -1,0 +1,33 @@
+<mat-toolbar>
+  <nav mat-tab-nav-bar color="accent">
+    <a mat-tab-link routerLink="./profile" routerLinkActive="active" #rlas="routerLinkActive"
+       [active]="rlas.isActive">
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>admin_panel_settings</mat-icon>
+        {{ 'profile.title' | translate }}
+      </div>
+    </a>
+    <a mat-tab-link routerLink="./address" routerLinkActive="active" #rlaa="routerLinkActive"
+       [active]="rlaa.isActive">
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>contact_mail</mat-icon>
+        {{ 'address.title' | translate }}
+      </div>
+    </a>
+<!--    <a mat-tab-link routerLink="./preferences" routerLinkActive="active" #rlap="routerLinkActive"-->
+<!--       [active]="rlap.isActive">-->
+<!--      <div class="flex flex-row gap-3 items-center">-->
+<!--        <mat-icon>settings</mat-icon>-->
+<!--        {{ 'preferences.title' | translate }}-->
+<!--      </div>-->
+<!--    </a>-->
+    <a mat-tab-link routerLink="./activity" routerLinkActive="active" #rlac="routerLinkActive"
+       [active]="rlac.isActive">
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>notifications</mat-icon>
+        {{ 'activity.title' | translate }}
+      </div>
+    </a>
+  </nav>
+</mat-toolbar>
+<router-outlet></router-outlet>

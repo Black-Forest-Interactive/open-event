@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Category, CategoryChangeRequest} from "./category-api";
 import {Page} from "../../shared/model/page";
@@ -34,8 +34,5 @@ export class CategoryService extends BaseService {
     return this.delete('' + id)
   }
 
-  buildIndex(): Observable<any> {
-    return this.post('search', {})
-  }
 
 }

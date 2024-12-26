@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-
 import {EventRoutingModule} from './event-routing.module';
 import {MaterialModule} from "../material/material.module";
 import {EventBoardComponent} from './event-board/event-board.component';
@@ -8,13 +7,12 @@ import {EventBoardHeaderComponent} from './event-board-header/event-board-header
 import {TranslateModule} from "@ngx-translate/core";
 import {EventChangeComponent} from './event-change/event-change.component';
 import {EventDetailsComponent} from './event-details/event-details.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {EventChangeFormEventComponent} from './event-change-form-event/event-change-form-event.component';
 import {EventChangeFormLocationComponent} from './event-change-form-location/event-change-form-location.component';
 import {
   EventChangeFormRegistrationComponent
 } from './event-change-form-registration/event-change-form-registration.component';
-import {HotToastModule} from "@ngneat/hot-toast";
 import {EventMenuComponent} from './event-menu/event-menu.component';
 import {EventDeleteDialogComponent} from './event-delete-dialog/event-delete-dialog.component';
 import {AccountModule} from "../account/account.module";
@@ -32,29 +30,42 @@ import {EventBoardCalendarComponent} from './event-board-calendar/event-board-ca
 import {EventBoardMapPopupComponent} from './event-board-map-popup/event-board-map-popup.component';
 import {FullCalendarModule} from "@fullcalendar/angular";
 import {EventActionExportComponent} from './event-action-export/event-action-export.component';
+import {EventBoardFilterComponent} from "./event-board-filter/event-board-filter.component";
+import {EventAdminComponent} from './event-admin/event-admin.component';
+import {EventDetailsInfoComponent} from './event-details-info/event-details-info.component';
+import {EventDetailsLocationComponent} from './event-details-location/event-details-location.component';
+import {ShareModule} from "../share/share.module";
+import {EventCreateDialogComponent} from './event-create-dialog/event-create-dialog.component';
+import {ShareButtons} from "ngx-sharebuttons/buttons";
+import {ScrollNearEndDirective} from "../shared/scroll-near-end.directive";
 
 
 @NgModule({
-    declarations: [
-        EventBoardComponent,
-        EventBoardHeaderComponent,
-        EventChangeComponent,
-        EventDetailsComponent,
-        EventChangeFormEventComponent,
-        EventChangeFormLocationComponent,
-        EventChangeFormRegistrationComponent,
-        EventMenuComponent,
-        EventDeleteDialogComponent,
-        EventBoardListComponent,
-        EventBoardListEntryComponent,
-        EventBoardTableComponent,
-        EventDetailsHeaderComponent,
-        EventChangeHelpComponent,
-        EventBoardMapComponent,
-        EventBoardCalendarComponent,
-        EventBoardMapPopupComponent,
-        EventActionExportComponent
-    ],
+  declarations: [
+    EventBoardComponent,
+    EventBoardHeaderComponent,
+    EventChangeComponent,
+    EventDetailsComponent,
+    EventChangeFormEventComponent,
+    EventChangeFormLocationComponent,
+    EventChangeFormRegistrationComponent,
+    EventMenuComponent,
+    EventDeleteDialogComponent,
+    EventBoardListComponent,
+    EventBoardListEntryComponent,
+    EventBoardTableComponent,
+    EventDetailsHeaderComponent,
+    EventChangeHelpComponent,
+    EventBoardMapComponent,
+    EventBoardCalendarComponent,
+    EventBoardMapPopupComponent,
+    EventActionExportComponent,
+    EventBoardFilterComponent,
+    EventAdminComponent,
+    EventDetailsInfoComponent,
+    EventDetailsLocationComponent,
+    EventCreateDialogComponent
+  ],
   exports: [
     EventChangeFormEventComponent,
     EventChangeFormLocationComponent,
@@ -67,14 +78,17 @@ import {EventActionExportComponent} from './event-action-export/event-action-exp
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,
-    HotToastModule,
     AccountModule,
     LocationModule,
     ChipSelectModule,
     RegistrationModule,
     QuillModule,
     NgOptimizedImage,
-    FullCalendarModule
+    FullCalendarModule,
+    FormsModule,
+    ShareButtons,
+    ShareModule,
+    ScrollNearEndDirective,
   ]
 })
 export class EventModule {

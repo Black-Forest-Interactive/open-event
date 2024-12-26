@@ -8,9 +8,10 @@ import {EventNavigationService} from "../event-navigation.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-event-board-calendar',
-  templateUrl: './event-board-calendar.component.html',
-  styleUrls: ['./event-board-calendar.component.scss']
+    selector: 'app-event-board-calendar',
+    templateUrl: './event-board-calendar.component.html',
+    styleUrls: ['./event-board-calendar.component.scss'],
+    standalone: false
 })
 export class EventBoardCalendarComponent implements AfterViewInit {
 
@@ -67,22 +68,22 @@ export class EventBoardCalendarComponent implements AfterViewInit {
     }
   }
 
+  handleEventClick(arg: EventClickArg) {
+    let id = arg.event.id
+    if (id) EventNavigationService.navigateToEventDetails(this.router, +id)
+  }
+
   private updateCalendar() {
     if (!this.calendarApi) return
 
     this.calendarApi.removeAllEvents()
-    this.service.infos.forEach(e => {
+    this.service.entries.forEach(e => {
       this.calendarApi?.addEvent({
-        id: e.event.id + '',
-        title: e.event.title,
-        start: e.event.start,
-        end: e.event.finish
+        id: e.id,
+        title: e.title,
+        start: e.start,
+        end: e.finish
       })
     })
-  }
-
-  handleEventClick(arg: EventClickArg) {
-    let id = arg.event.id
-    if(id) EventNavigationService.navigateToEventDetails(this.router, +id)
   }
 }

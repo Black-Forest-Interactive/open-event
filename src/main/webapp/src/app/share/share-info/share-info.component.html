@@ -1,0 +1,79 @@
+<div class="flex flex-col gap-2 items-center flex-auto">
+  <mat-toolbar>
+    <div class="flex flex-row gap-3 flex-auto content-center items-center justify-center">
+      <a routerLink="/"><img src="assets/img/logo.png"/></a>
+      <div class="flex-auto"></div>
+    </div>
+  </mat-toolbar>
+  <mat-progress-bar *ngIf="reloading" mode="indeterminate"></mat-progress-bar>
+  @if (info) {
+    <div class="flex flex-col gap-2" style="max-width: 1000px; width: 100%;">
+      <mat-card class="mx-2 flex-auto">
+        <mat-card-header class="!pb-2 gap-2 items-center">
+          <mat-icon>event</mat-icon>
+          <div class="header">{{ info.event.title }}</div>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="flex flex-col gap-2 py-2">
+          <div>{{ info.event.owner.name }}</div>
+          <div>{{ info.event.start | date:'fullDate' }}</div>
+          <div>{{ info.event.start | date:'shortTime' }} - {{ info.event.finish | date:'shortTime' }}</div>
+        </mat-card-content>
+
+        <img *ngIf="info.event.imageUrl && info.event.imageUrl.length > 0" alt="" mat-card-image
+             src="{{info.event.imageUrl.length}}">
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <div [innerHTML]="info.event.longText" class="pt-3"></div>
+        </mat-card-content>
+        <ng-container *ngIf="info.categories.length > 0">
+          <div class="pt-3"></div>
+          <mat-divider></mat-divider>
+          <mat-card-actions>
+            <mat-chip-listbox>
+              <ng-container *ngFor="let category of info.categories">
+                <mat-chip>{{ category.name }}</mat-chip>
+              </ng-container>
+            </mat-chip-listbox>
+          </mat-card-actions>
+        </ng-container>
+      </mat-card>
+
+      @if (info.location) {
+        <mat-card class="mx-2 flex-auto">
+          <mat-card-header class="!p-2">
+            <mat-card-title>{{ info.location.street }} {{ info.location.streetNumber }} {{ info.location.additionalInfo }}</mat-card-title>
+            <mat-card-subtitle>{{ info.location.zip }} {{ info.location.city }} {{ info.location.country }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <app-location-map [data]="info.location" mat-card-image></app-location-map>
+        </mat-card>
+      }
+
+      @if (info.registration) {
+        <mat-card class="mx-2 flex-auto">
+          <mat-card-content class="pt-3">
+            <div class="flex flex-row gap-2 items-center">
+              <app-registration-status [shared]="info.registration"></app-registration-status>
+              <div class="flex-auto"></div>
+              <button mat-flat-button color="primary" (click)="participate()" *ngIf="!participated">
+                @if (processing) {
+                  <mat-icon>
+                    <mat-spinner diameter="18" mode="indeterminate"></mat-spinner>
+                  </mat-icon>
+                } @else {
+                  <mat-icon>person_add</mat-icon>
+                }
+                {{ 'share.action.participate' | translate }}
+              </button>
+              <a routerLink="/event/details/{{info.event.id}}" color="primary" mat-flat-button>
+                <mat-icon>person_add</mat-icon>
+                {{ 'registration.action.participate' | translate }}
+              </a>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

@@ -1,9 +1,9 @@
 package de.sambalmueslie.openevent.infrastructure.audit
 
 
-import de.sambalmueslie.openevent.core.BusinessObject
-import de.sambalmueslie.openevent.core.BusinessObjectChangeRequest
-import de.sambalmueslie.openevent.core.auth.getEmail
+import de.sambalmueslie.openevent.common.BusinessObject
+import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
+import de.sambalmueslie.openevent.core.getEmail
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogLevel
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogger
@@ -75,7 +75,7 @@ internal class AuditLoggerImpl(
         return result
     }
 
-    override fun <T, R: Any> traceAction(
+    override fun <T, R : Any> traceAction(
         auth: Authentication,
         message: String,
         referenceId: String,

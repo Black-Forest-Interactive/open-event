@@ -8,4 +8,5 @@ import {CommonModule} from '@angular/common';
     CommonModule
   ]
 })
-export class AnnouncementModule { }
+export class AnnouncementModule {
+}

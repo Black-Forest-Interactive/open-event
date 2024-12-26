@@ -3,17 +3,19 @@ import {Account, AccountChangeRequest} from "../model/account-api";
 import {MatDialog} from "@angular/material/dialog";
 import {AccountService} from "../model/account.service";
 import {debounceTime, distinctUntilChanged} from "rxjs";
-import {Page} from "../../shared/model/page";
 import {CreateAccountDialogComponent} from "../create-account-dialog/create-account-dialog.component";
-import {HotToastService} from "@ngneat/hot-toast";
+import {HotToastService} from "@ngxpert/hot-toast";
 import {TranslateService} from "@ngx-translate/core";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MatOptionSelectionChange} from "@angular/material/core";
+import {AccountSearchEntry, AccountSearchRequest, AccountSearchResponse} from "../../search/model/search-api";
+import {SearchService} from "../../search/model/search.service";
 
 @Component({
-  selector: 'app-select-account',
-  templateUrl: './select-account.component.html',
-  styleUrls: ['./select-account.component.scss']
+    selector: 'app-select-account',
+    templateUrl: './select-account.component.html',
+    styleUrls: ['./select-account.component.scss'],
+    standalone: false
 })
 export class SelectAccountComponent {
 
@@ -24,8 +26,8 @@ export class SelectAccountComponent {
   pageSize: number = 20
   pageIndex: number = 0
   totalSize: number = 0
-  accounts: Account[] = []
-  query: string = ''
+  accounts: AccountSearchEntry[] = []
+  request: AccountSearchRequest = new AccountSearchRequest('')
 
   accountCreating: boolean = false
   partialText = '';
@@ -35,6 +37,7 @@ export class SelectAccountComponent {
 
   constructor(
     private service: AccountService,
+    private searchService: SearchService,
     private dialog: MatDialog,
     private toastService: HotToastService,
     private translate: TranslateService
@@ -51,7 +54,7 @@ export class SelectAccountComponent {
   }
 
   search(query: string) {
-    this.query = query
+    this.request.fullTextSearch = query
     if (this.searching) return
     this.reload()
   }
@@ -59,38 +62,40 @@ export class SelectAccountComponent {
   reload() {
     if (this.reloading) return
     this.reloading = true
-    if (this.query.length <= 0) {
-      this.service.getAllAccounts(this.pageIndex, this.pageSize).subscribe({
+    this.searchService.searchAccounts(this.request, this.pageIndex, this.pageSize).subscribe({
         next: value => this.handleData(value),
         error: e => this.handleError(e)
-      })
-    } else {
-      this.service.searchAccounts(this.query, this.pageIndex, this.pageSize).subscribe({
-        next: value => this.handleData(value),
-        error: e => this.handleError(e)
-      })
-    }
+      }
+    )
   }
-
-  private handleData(value: Page<Account>) {
-    this.accounts = value.content
-    this.pageSize = value.pageable.size
-    this.pageIndex = value.pageable.number
-    this.totalSize = value.totalSize
-    this.reloading = false
-    this.searching = false
-  }
-
-  private handleError(e: any) {
-    this.reloading = false
-  }
-
 
   showCreateAccountDialog() {
     let dialogRef = this.dialog.open(CreateAccountDialogComponent)
     dialogRef.afterClosed().subscribe(request => {
       if (request) this.createAccount(request)
     })
+  }
+
+  select(event: MatOptionSelectionChange<string>, account: AccountSearchEntry) {
+    if (!event.source.selected) return
+
+    if (this.form) this.form.setValue({owner: account.id})
+    this.partialText = account.name
+    console.log(this.form?.value)
+  }
+
+  private handleData(response: AccountSearchResponse) {
+    let result = response.result
+    this.accounts = result.content
+    this.pageSize = result.pageable.size
+    this.pageIndex = result.pageable.number
+    this.totalSize = result.totalSize
+    this.reloading = false
+    this.searching = false
+  }
+
+  private handleError(e: any) {
+    this.reloading = false
   }
 
   private createAccount(request: AccountChangeRequest) {
@@ -105,13 +110,5 @@ export class SelectAccountComponent {
     this.accountCreating = false
     this.selectCtrl.setValue('')
     this.reload()
-  }
-
-  select(event: MatOptionSelectionChange<string>, account: Account) {
-    if (!event.source.selected) return
-
-    if (this.form) this.form.setValue({owner: account.id})
-    this.partialText = account.name
-    console.log(this.form?.value)
   }
 }

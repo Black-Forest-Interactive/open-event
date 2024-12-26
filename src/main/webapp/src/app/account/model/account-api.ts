@@ -1,28 +1,59 @@
+import {Profile, ProfileChangeRequest} from "../../profile/model/profile-api";
+
 export interface Account {
   id: number,
-  externalId: string,
+  externalId: string | undefined,
   name: string,
+  iconUrl: string,
+
+  registrationDate: string,
+  lastLoginDate: string | undefined,
+
+  serviceAccount: boolean,
+  idpLinked: boolean,
+}
+
+export interface AccountInfo {
+  id: number,
+  name: string,
+  iconUrl: string,
+  email: string,
   firstName: string,
   lastName: string,
-  email: string,
-  iconUrl: string,
-  serviceAccount: boolean,
 }
 
 export interface AccountValidationResult {
   created: boolean,
-  account: Account
+  account: Account,
+  profile: Profile,
+  info: AccountInfo
 }
 
 export class AccountChangeRequest {
   constructor(
     public name: string,
-    public firstName: string,
-    public lastName: string,
-    public email: string,
     public iconUrl: string,
+    public externalId: string | undefined
+  ) {
+  }
+}
+
+export class AccountSetupRequest {
+  constructor(
+    public account: AccountChangeRequest,
+    public profile: ProfileChangeRequest
   ) {
   }
 }
 
 
+export interface AccountDetails {
+  id: number,
+  name: string,
+  iconUrl: string,
+  email: string,
+  phone: string,
+  mobile: string,
+  firstName: string,
+  lastName: string,
+}

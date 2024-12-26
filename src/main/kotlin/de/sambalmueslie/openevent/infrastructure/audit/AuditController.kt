@@ -4,7 +4,7 @@ package de.sambalmueslie.openevent.infrastructure.audit
 import de.sambalmueslie.openevent.api.AuditAPI
 import de.sambalmueslie.openevent.api.AuditAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openevent.api.AuditAPI.Companion.PERMISSION_WRITE
-import de.sambalmueslie.openevent.core.auth.checkPermission
+import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
 import io.micronaut.data.model.Page

@@ -1,21 +1,27 @@
-<mat-progress-bar mode="indeterminate" *ngIf="service.reloading | async"></mat-progress-bar>
+@if (filterOverlayOpen) {
+  <app-event-board-filter></app-event-board-filter>
+  <div class="pb-2"></div>
+}
 
+@if (service.reloading | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 
-<div class="d-flex flex-column gap-2 p-2 ">
-  <mat-card>
-    <div class="d-flex flex-column">
-      <ng-container *ngFor="let info of service.infos">
-        <app-event-board-list-entry [info]="info"></app-event-board-list-entry>
-      </ng-container>
-    </div>
-    <mat-paginator [length]="service.totalSize"
-                   [pageIndex]="service.pageIndex"
-                   [pageSize]="service.pageSize"
-                   [pageSizeOptions]="[5, 10, 25, 100]"
-                   (page)="service.handlePageChange($event)"
-                   class="mb-2"
-    >
-    </mat-paginator>
-  </mat-card>
+<div class="flex flex-col gap-2" appScrollNearEnd (nearEnd)="this.service.onScroll()">
 
+  @for (info of service.entries; track info) {
+    <app-event-board-list-entry [info]="info"></app-event-board-list-entry>
+  }
+
+  @if (this.service.hasMoreElements && !(this.service.reloading |async)) {
+    <button mat-flat-button color="accent" (click)="this.service.onScroll()"
+            class="flex-auto">{{ 'ACTION.LoadMore' | translate }}
+    </button>
+  }
+</div>
+
+<div class="flex self-end fixed right-3 bottom-20 z-5">
+  <button mat-mini-fab (click)="filterOverlayOpen = !filterOverlayOpen">
+    <mat-icon>filter_alt</mat-icon>
+  </button>
 </div>

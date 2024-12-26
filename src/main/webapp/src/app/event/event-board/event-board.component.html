@@ -1,19 +1,28 @@
-<app-event-board-header [mobileView]="mobileView" (modeChanged)="this.mode = $event"
-                        [mode]="mode"></app-event-board-header>
-<ng-container *ngIf="!mobileView;else eventList">
-  <ng-container [ngSwitch]="mode">
-    <ng-container *ngSwitchCase="'map'">
-      <app-event-board-map></app-event-board-map>
-    </ng-container>
-    <ng-container *ngSwitchCase="'calendar'">
-      <app-event-board-calendar></app-event-board-calendar>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <app-event-board-table></app-event-board-table>
-    </ng-container>
-  </ng-container>
-</ng-container>
-
-<ng-template #eventList>
-  <app-event-board-list></app-event-board-list>
-</ng-template>
+<div class="flex flex-col gap-0">
+  <app-event-board-header (modeChanged)="this.mode = $event" [mobileView]="mobileView"
+                          [mode]="mode"></app-event-board-header>
+  <div class="flex flex-row gap-4 p-4">
+    <div class="flex-auto">
+      @if (mobileView) {
+        <app-event-board-list></app-event-board-list>
+      } @else {
+        @switch (mode) {
+          @case ('map') {
+            <app-event-board-map></app-event-board-map>
+          }
+          @case ('calendar') {
+            <app-event-board-calendar></app-event-board-calendar>
+          }
+          @default {
+            <app-event-board-table></app-event-board-table>
+          }
+        }
+      }
+    </div>
+    @if (service.filterToolbarVisible) {
+      <div class="basis-72">
+        <app-event-board-filter></app-event-board-filter>
+      </div>
+    }
+  </div>
+</div>

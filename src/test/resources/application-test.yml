@@ -1,3 +1,6 @@
+micronaut:
+  security:
+    enabled: false
 datasources:
   default:
     url: jdbc:tc:postgresql:14:///postgres
@@ -16,6 +19,6 @@ tracing:
   jaeger:
     enabled: false
 
-solr:
-  enabled: false
-  baseUrl: "http://localhost"
+opensearch:
+  user: "user"
+  password: "password"

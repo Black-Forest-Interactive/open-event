@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.api
 
-import de.sambalmueslie.openevent.core.model.Announcement
-import de.sambalmueslie.openevent.core.model.AnnouncementChangeRequest
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
+import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 
 interface AnnouncementAPI : CrudAPI<Long, Announcement, AnnouncementChangeRequest> {
     companion object {

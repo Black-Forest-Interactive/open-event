@@ -7,7 +7,6 @@ import {MailHistoryComponent} from './mail-history/mail-history.component';
 import {MaterialModule} from "../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
-import {HotToastModule} from "@ngneat/hot-toast";
 import {NgxEchartsModule} from "ngx-echarts";
 
 
@@ -22,8 +21,8 @@ import {NgxEchartsModule} from "ngx-echarts";
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,
-    HotToastModule,
     NgxEchartsModule.forChild(),
   ]
 })
-export class MailModule { }
+export class MailModule {
+}

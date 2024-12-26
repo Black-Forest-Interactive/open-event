@@ -17,16 +17,73 @@ CREATE TABLE account
     id              BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('account_seq'::regclass),
     external_id     VARCHAR(255) UNIQUE,
     name            VARCHAR(255)                NOT NULL,
-    first_name      VARCHAR(255)                NOT NULL,
-    last_name       VARCHAR(255)                NOT NULL,
-    email           VARCHAR(255)                NOT NULL UNIQUE,
     icon_url        VARCHAR(255)                NOT NULL,
+    last_login_date TIMESTAMP WITHOUT TIME ZONE,
     service_account BOOLEAN                     NOT NULL,
+    idp_linked      BOOLEAN                     NOT NULL,
 
     last_sync       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated         TIMESTAMP WITHOUT TIME ZONE
 );
+
+
+-- profile
+CREATE TABLE profile
+(
+    id              BIGINT                      NOT NULL PRIMARY KEY REFERENCES account (id),
+
+    email           VARCHAR(255) UNIQUE,
+    phone           VARCHAR(255),
+    mobile          VARCHAR(255),
+
+    first_name      VARCHAR(255)                NOT NULL,
+    last_name       VARCHAR(255)                NOT NULL,
+
+    date_of_birth   VARCHAR(255),
+    gender          VARCHAR(255),
+    profile_picture VARCHAR(255),
+    website         VARCHAR(255),
+
+    language        VARCHAR(50),
+
+    created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated         TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- profile
+CREATE TABLE preferences
+(
+    id            BIGINT                      NOT NULL PRIMARY KEY REFERENCES account (id),
+    email         TEXT                        NOT NULL,
+    communication TEXT                        NOT NULL,
+    notification  TEXT                        NOT NULL,
+
+    created       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated       TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- address
+CREATE SEQUENCE address_seq;
+CREATE TABLE address
+(
+    id              BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('address_seq'::regclass),
+    street          VARCHAR(255)                NOT NULL,
+    street_number   VARCHAR(255)                NOT NULL,
+    zip             VARCHAR(255)                NOT NULL,
+    city            VARCHAR(255)                NOT NULL,
+    country         VARCHAR(255)                NOT NULL,
+    additional_info VARCHAR(255)                NOT NULL,
+
+    lat             DOUBLE PRECISION            NOT NULL,
+    lon             DOUBLE PRECISION            NOT NULL,
+
+    account_id      BIGINT                      NOT NULL REFERENCES account (id),
+
+    created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated         TIMESTAMP WITHOUT TIME ZONE
+);
+
 
 -- announcement
 CREATE SEQUENCE announcement_seq;
@@ -60,6 +117,8 @@ CREATE TABLE event
     has_location     BOOLEAN                     NOT NULL,
     has_registration BOOLEAN                     NOT NULL,
     published        BOOLEAN                     NOT NULL,
+
+    tags             TEXT                        NOT NULL,
 
     created          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated          TIMESTAMP WITHOUT TIME ZONE
@@ -195,6 +254,9 @@ INSERT INTO setting(key, value, type, created)
 VALUES ('url.terms-and-conditions', 'http://localhost', 'URL', now());
 
 INSERT INTO setting(key, value, type, created)
+VALUES ('url.share', 'http://localhost', 'URL', now());
+
+INSERT INTO setting(key, value, type, created)
 VALUES ('mail.from-address', 'mail@test.com', 'EMAIL', now());
 
 INSERT INTO setting(key, value, type, created)
@@ -205,6 +267,9 @@ VALUES ('mail.default-admin-address', 'mail@test.com', 'EMAIL', now());
 
 INSERT INTO setting(key, value, type, created)
 VALUES ('text.title', 'APP.Title', 'STRING', now());
+
+INSERT INTO setting(key, value, type, created)
+VALUES ('default.language', 'en', 'STRING', now());
 
 -- notification
 CREATE SEQUENCE notification_setting_seq;
@@ -304,4 +369,44 @@ CREATE TABLE history_entry
     message   VARCHAR(255)                NOT NULL,
     source    VARCHAR(255)                NOT NULL,
     info      VARCHAR(255)                NOT NULL
-)
+);
+
+-- share
+CREATE TABLE share
+(
+    id        VARCHAR(40) PRIMARY KEY,
+    event_id  BIGINT                      NOT NULL references event (id),
+    owner_id  BIGINT                      NOT NULL references account (id),
+
+    published BOOLEAN                     NOT NULL,
+
+    created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated   TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- activity
+CREATE SEQUENCE activity_seq;
+CREATE TABLE activity
+(
+    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('activity_seq'::regclass),
+    title     VARCHAR(255)                NOT NULL,
+    actor_id  BIGINT                      NOT NULL references account (id),
+
+    source    VARCHAR(255)                NOT NULL,
+    source_id BIGINT                      NOT NULL,
+    type      VARCHAR(255)                NOT NULL,
+
+
+    created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated   TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE activity_subscriber
+(
+    activity_id BIGINT                      NOT NULL references activity (id),
+    account_id  BIGINT                      NOT NULL references account (id),
+    read        BOOLEAN                     NOT NULL,
+    timestamp   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+
+    PRIMARY KEY (activity_id, account_id)
+);

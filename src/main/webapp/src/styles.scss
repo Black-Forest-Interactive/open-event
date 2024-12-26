@@ -1,6 +1,10 @@
 @use '@angular/material' as mat;
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 html, body {
   height: 100%;
@@ -12,7 +16,11 @@ body {
 }
 
 .dense-1 {
-  @include mat.all-component-densities(-3);
+  @include mat.all-component-densities(-2);
+}
+
+.dense-3 {
+  @include mat.all-component-densities(-4);
 }
 
 .mat-mdc-mini-fab {
@@ -25,6 +33,12 @@ body {
 
 .mat-mdc-form-field-error {
   font-size: 12px;
+}
+
+// show label for more dense inputs as well
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+.mat-mdc-floating-label {
+  display: inline !important;
 }
 
 .alert {
@@ -62,4 +76,19 @@ body {
   font-weight: 500;
   letter-spacing: 0.25px;
   line-height: 32px;
+}
+
+.mat-mdc-mini-fab {
+  border-radius: 5px !important;
+  min-height: 48px;
+  min-width: 48px;
+}
+
+.mat-mdc-fab {
+  border-radius: 5px !important;
+  min-height: 48px;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-right-style: hidden;
 }

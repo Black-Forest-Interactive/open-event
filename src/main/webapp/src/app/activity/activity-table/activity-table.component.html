@@ -1,0 +1,70 @@
+<div class="flex flex-column gap-2 p-5 flex-auto">
+  <mat-card class="flex-auto">
+    <div class="flex flex-col gap-3">
+      <mat-progress-bar *ngIf="reloading" mode="indeterminate"></mat-progress-bar>
+      <div class="flex flex-col gap-0">
+        <table mat-table [dataSource]="datasource">
+
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> {{ 'activity.table.title' | translate }}</th>
+            <td mat-cell *matCellDef="let info">
+              {{ info.activity.title }}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="actor">
+            <th mat-header-cell *matHeaderCellDef> {{ 'activity.table.actor' | translate }}</th>
+            <td mat-cell *matCellDef="let info"> {{ info.activity.actor.name }}</td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="source">
+            <th mat-header-cell *matHeaderCellDef> {{ 'activity.table.source' | translate }}</th>
+            <td mat-cell *matCellDef="let info"> {{ info.activity.source }}</td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef> {{ 'activity.table.type' | translate }}</th>
+            <td mat-cell *matCellDef="let info"> {{ 'activity.type.' + info.activity.type | translate }}</td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef> {{ 'activity.table.timestamp' | translate }}</th>
+            <td mat-cell *matCellDef="let info"> {{ info.activity.timestamp | date: 'medium' }}</td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="read">
+            <th mat-header-cell *matHeaderCellDef>
+              <button mat-flat-button (click)="handleMarkAllReadClick()" *ngIf="unread > 0">
+                <mat-icon>mark_chat_read</mat-icon>
+                {{ 'activity.action.readAll' | translate }}
+              </button>
+            </th>
+            <td mat-cell *matCellDef="let info">
+              <app-activity-read [info]="info" (changed)="handleReadStatusChanged($event)"></app-activity-read>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="dense-1"
+              [ngClass]="row.read ? '' : '!font-bold'"></tr>
+        </table>
+        <mat-divider class="py-0"></mat-divider>
+        <mat-paginator
+          (page)="handlePageChange($event)"
+          [disabled]="reloading"
+          [length]="totalSize"
+          [pageIndex]="pageIndex"
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          [pageSize]="pageSize"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </mat-card>
+</div>

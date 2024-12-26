@@ -6,9 +6,10 @@ import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
-  selector: 'app-event-details',
-  templateUrl: './event-details.component.html',
-  styleUrls: ['./event-details.component.scss']
+    selector: 'app-event-details',
+    templateUrl: './event-details.component.html',
+    styleUrls: ['./event-details.component.scss'],
+    standalone: false
 })
 export class EventDetailsComponent {
 
@@ -27,17 +28,17 @@ export class EventDetailsComponent {
     this.route.paramMap.subscribe(p => this.handleParams(p))
   }
 
-  private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
-    this.eventId = idParam !== null ? +idParam : undefined
-    this.reload()
-  }
-
   reload() {
     if (!this.eventId) return
     if (this.reloading) return
     this.reloading = true
     this.service.getEventInfo(this.eventId).subscribe(d => this.handleData(d))
+  }
+
+  private handleParams(p: ParamMap) {
+    let idParam = p.get('id')
+    this.eventId = idParam !== null ? +idParam : undefined
+    this.reload()
   }
 
   private handleData(d: EventInfo) {

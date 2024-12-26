@@ -1,0 +1,26 @@
+@if (event) {
+  <mat-card>
+    <div class="flex flex-col gap-2">
+      <div class="flex flex-row gap-2 px-3 pt-3">
+        <div class="header flex-auto">{{ 'share.title' | translate }}</div>
+        <mat-slide-toggle #sharing (change)="handleToggleChanged($event)"
+                          [checked]="share?.published">{{ 'share.action.enable' | translate }}
+        </mat-slide-toggle>
+      </div>
+      <mat-divider class="p-0"></mat-divider>
+      <mat-progress-bar *ngIf="reloading" mode="indeterminate"></mat-progress-bar>
+      @if (share && share.published) {
+        <div class="flex flex-row justify-center px-3 pb-3">
+          <share-buttons theme="modern-dark"
+                         [include]="['copy', 'facebook', 'email', 'sms', 'telegram', 'whatsapp']"
+                         [showIcon]="true"
+                         [showText]="true"
+                         [url]="share.url"
+                         description="{{event.title}}"
+          >
+          </share-buttons>
+        </div>
+      }
+    </div>
+  </mat-card>
+}

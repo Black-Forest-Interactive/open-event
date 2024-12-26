@@ -1,6 +1,6 @@
 package de.sambalmueslie.openevent.infrastructure.mail.api
 
-import de.sambalmueslie.openevent.core.BusinessObject
+import de.sambalmueslie.openevent.common.BusinessObject
 
 data class MailJobContent(
     override val id: Long,

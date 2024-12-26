@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>
+  @if (data) {
+    {{ "category.dialog.change.title" | translate }}
+  } @else {
+    {{ "category.dialog.create.title" | translate }}
+  }
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="fg">
+    <div class="flex flex-col gap-2 pt-2">
+      <!-- text-->
+      <mat-form-field class="dense-1" hintLabel="{{'category.form.hint.name' | translate}}">
+        <mat-label>{{ 'category.form.name' | translate }}</mat-label>
+        <input #nameInput formControlName="name" matInput maxlength="40">
+        <mat-hint align="end">{{ nameInput.value.length || 0 }}/40</mat-hint>
+      </mat-form-field>
+
+      <!-- icon url-->
+      <mat-form-field class="dense-1" hintLabel="{{'category.form.hint.iconUrl' | translate}}">
+        <mat-label>{{ 'category.form.iconUrl' | translate }}</mat-label>
+        <input #titleInput formControlName="iconUrl" matInput>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <div class="flex flex-row gap-2">
+    <button cdkFocusInitial color="primary" mat-stroked-button (click)="onSaveClick()">
+      <mat-icon>save</mat-icon>
+      {{ "action.submit" | translate }}
+    </button>
+    <button color="warn" mat-stroked-button (click)="onCancelClick()">
+      <mat-icon>cancel</mat-icon>
+      {{ "action.cancel" | translate }}
+    </button>
+  </div>
+</mat-dialog-actions>

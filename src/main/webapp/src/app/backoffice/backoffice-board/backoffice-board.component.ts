@@ -2,9 +2,10 @@ import {Component} from '@angular/core';
 import {AuthService} from "../../auth/auth.service";
 
 @Component({
-  selector: 'app-backoffice-board',
-  templateUrl: './backoffice-board.component.html',
-  styleUrls: ['./backoffice-board.component.scss']
+    selector: 'app-backoffice-board',
+    templateUrl: './backoffice-board.component.html',
+    styleUrls: ['./backoffice-board.component.scss'],
+    standalone: false
 })
 export class BackofficeBoardComponent {
 

@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.api
 
-import de.sambalmueslie.openevent.core.model.*
+import de.sambalmueslie.openevent.common.PatchRequest
+import de.sambalmueslie.openevent.core.notification.api.*
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication

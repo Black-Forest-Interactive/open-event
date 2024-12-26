@@ -1,53 +1,58 @@
-<mat-toolbar color="primary">
-  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
+<mat-toolbar class="px-2">
+  <div class="flex flex-row gap-3 flex-auto items-center">
 
-    <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 1 1 calc(50% - .5rem - 100px)">
-      <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 1 1 calc(50%);">
-        <mat-label>{{'event.search' | translate}}</mat-label>
-        <input matInput placeholder="" value="" #input (keyup)="keyUp.emit(input.value)">
+    <div class="flex flex-row gap-2 items-center basis-full sm:basis-1/4">
+      <mat-form-field class="dense-3 flex-auto" subscriptSizing="dynamic">
+        <mat-label class="flex flex-row gap-3">
+          <mat-icon>search</mat-icon>
+          {{ 'event.search' | translate }}
+        </mat-label>
+        <input #input (keyup)="keyUp.emit(input.value)" matInput placeholder="" value="">
         <mat-icon *ngIf="service.searching">
           <mat-spinner diameter="18"></mat-spinner>
         </mat-icon>
 
-        <button mat-icon-button matSuffix (click)="input.value = ''; search('')" *ngIf="input.value.length > 0">
+        <button (click)="input.value = ''; service.fullTextSearch = ''" *ngIf="input.value.length > 0" mat-icon-button
+                matSuffix>
           <mat-icon>clear</mat-icon>
         </button>
       </mat-form-field>
-      <button mat-mini-fab color="accent" (click)="search(input.value)">
-        <mat-icon>search</mat-icon>
-      </button>
-
-    </div>
-    <div class="flex-fill" *ngIf="!mobileView"></div>
-    <button mat-fab color="accent" style="flex: 0 1 200px;" extended routerLink="./create" *ngIf="!mobileView">
-      <mat-icon>event</mat-icon>
-      {{'event.create' | translate}}
-    </button>
-    <div class="flex-fill" *ngIf="!mobileView"></div>
-
-    <div class="d-flex flex-row gap-2">
-      <button mat-mini-fab [color]="mode == 'list' ? 'accent' : 'primary' " (click)="modeChanged.emit('list')">
-        <mat-icon>list</mat-icon>
-      </button>
-
-      <button mat-mini-fab [color]="mode == 'map' ? 'accent' : 'primary' " (click)="modeChanged.emit('map')">
-        <mat-icon>map</mat-icon>
-      </button>
-
-      <button mat-mini-fab [color]="mode == 'calendar' ? 'accent' : 'primary' " (click)="modeChanged.emit('calendar')">
-        <mat-icon>calendar_month</mat-icon>
-      </button>
     </div>
 
-    <button mat-icon-button [matMenuTriggerFor]="contextMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
+    @if (!mobileView) {
+      <div class="flex-auto"></div>
+      <button color="accent" mat-flat-button routerLink="./create" class="basis-72 min-h-10">
+        <mat-icon>event</mat-icon>
+        {{ 'event.create' | translate }}
+      </button>
+
+
+      <div class="flex flex-row gap-2 basis-72 justify-end">
+        <mat-button-toggle-group class="dense-1" [hideSingleSelectionIndicator]="true">
+          <mat-button-toggle value="list" [checked]="mode == 'list'" (click)="modeChanged.emit('list')">
+            <mat-icon>list</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="map" [checked]="mode == 'map'" (click)="modeChanged.emit('map')">
+            <mat-icon>map</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="calendar" [checked]="mode == 'calendar'" (click)="modeChanged.emit('calendar')">
+            <mat-icon>calendar_month</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    } @else {
+      <div class="flex-auto"></div>
+      <button [matMenuTriggerFor]="contextMenu" mat-icon-button>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    }
   </div>
 </mat-toolbar>
+
 
 <mat-menu #contextMenu="matMenu">
   <button mat-menu-item routerLink="./create">
     <mat-icon>event</mat-icon>
-    {{'event.create' | translate}}
+    {{ 'event.create' | translate }}
   </button>
 </mat-menu>

@@ -3,13 +3,14 @@ import {Location} from "@angular/common";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {EventService} from "../../event/model/event.service";
 import {TranslateService} from "@ngx-translate/core";
-import {HotToastService} from "@ngneat/hot-toast";
+import {HotToastService} from "@ngxpert/hot-toast";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-event-create',
-  templateUrl: './event-create.component.html',
-  styleUrls: ['./event-create.component.scss']
+    selector: 'app-event-create',
+    templateUrl: './event-create.component.html',
+    styleUrls: ['./event-create.component.scss'],
+    standalone: false
 })
 export class EventCreateComponent {
 
@@ -42,7 +43,8 @@ export class EventCreateComponent {
       iconUrl: this.fb.control(''),
       longText: this.fb.control('', Validators.required),
       shortText: this.fb.control(''),
-      title: this.fb.control('', Validators.required)
+      title: this.fb.control('', Validators.required),
+      tags: this.fb.array([]),
     })
     this.locationForm = this.fb.group({
       city: ['', Validators.required],

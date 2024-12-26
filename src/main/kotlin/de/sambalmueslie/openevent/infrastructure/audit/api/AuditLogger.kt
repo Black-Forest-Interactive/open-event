@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.infrastructure.audit.api
 
-import de.sambalmueslie.openevent.core.BusinessObject
-import de.sambalmueslie.openevent.core.BusinessObjectChangeRequest
+import de.sambalmueslie.openevent.common.BusinessObject
+import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import io.micronaut.security.authentication.Authentication
 
 interface AuditLogger {
@@ -28,7 +28,7 @@ interface AuditLogger {
         function: () -> T?
     ): T?
 
-    fun <T, R: Any> traceAction(
+    fun <T, R : Any> traceAction(
         auth: Authentication,
         message: String,
         referenceId: String,

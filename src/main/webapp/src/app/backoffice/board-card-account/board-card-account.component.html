@@ -1,31 +1,26 @@
 <mat-card>
-  <mat-card-header class="px-2 py-2 gap-2 align-items-center">
+  <div class="flex gap-3 p-3 items-center">
     <mat-icon>manage_accounts</mat-icon>
-    <div class="header flex-fill">{{'backoffice.account.title' | translate}}</div>
-  </mat-card-header>
+    <div class="header flex-auto">{{ 'backoffice.account.title' | translate }}</div>
+  </div>
   <mat-divider></mat-divider>
-  <mat-card-content>
-    <mat-list role="list">
-      <mat-list-item role="listitem">
-        <div class="d-flex flex-row justify-content-between align-items-center">
-          <span>{{'backoffice.account.action.search'| translate}}</span>
-          <button mat-mini-fab color="primary" (click)="showSearchAccountDialog()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </div>
-      </mat-list-item>
 
-      <mat-list-item role="listitem">
-        <div class="d-flex flex-row justify-content-between align-items-center">
-          <span>{{'backoffice.account.action.create'| translate}}</span>
-          <button mat-mini-fab color="primary" (click)="showCreateAccountDialog()">
-            <mat-icon *ngIf="!accountCreating">add</mat-icon>
-            <mat-icon *ngIf="accountCreating">
-              <mat-spinner diameter="22" color="primary"></mat-spinner>
-            </mat-icon>
-          </button>
-        </div>
-      </mat-list-item>
-    </mat-list>
-  </mat-card-content>
+  <div class="flex flex-col gap-4 p-3">
+    <div class="flex flex-row justify-between items-center gap-3">
+      <span>{{ 'backoffice.account.action.search'| translate }}</span>
+      <button (click)="showSearchAccountDialog()" color="primary" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-row justify-between items-center gap-3">
+      <span>{{ 'backoffice.account.action.create'| translate }}</span>
+      <button (click)="showCreateAccountDialog()" color="primary" mat-mini-fab class="toolbar-action-fab">
+        <mat-icon *ngIf="!accountCreating">add</mat-icon>
+        <mat-icon *ngIf="accountCreating">
+          <mat-spinner color="primary" diameter="22"></mat-spinner>
+        </mat-icon>
+      </button>
+    </div>
+  </div>
 </mat-card>

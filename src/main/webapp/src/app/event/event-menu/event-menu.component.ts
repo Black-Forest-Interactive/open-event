@@ -6,36 +6,29 @@ import {EventService} from "../model/event.service";
 import {EventNavigationService} from "../event-navigation.service";
 import {EventDeleteDialogComponent} from "../event-delete-dialog/event-delete-dialog.component";
 import {EventMenuItem} from "../model/event-menu-item";
-import {HotToastService} from "@ngneat/hot-toast";
+import {HotToastService} from "@ngxpert/hot-toast";
 
 @Component({
-  selector: 'app-event-menu',
-  templateUrl: './event-menu.component.html',
-  styleUrls: ['./event-menu.component.scss']
+    selector: 'app-event-menu',
+    templateUrl: './event-menu.component.html',
+    styleUrls: ['./event-menu.component.scss'],
+    standalone: false
 })
 export class EventMenuComponent {
-  @Input()
-  set data(value: Event) {
-    this.event = value;
-    this.publishMenuItem.disabled = value.published;
-  }
-
   @Output() changed: EventEmitter<Event> = new EventEmitter();
-
   event: Event | undefined
-
   publishing: boolean = false
   exporting: boolean = false
-
   editMenuItem = new EventMenuItem('edit', 'event.action.edit', this.handleActionEdit.bind(this), false)
   copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', this.handleActionCopy.bind(this), false)
   deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', this.handleActionDelete.bind(this), false)
+  adminMenuItem = new EventMenuItem('admin_panel_settings', 'event.action.admin', this.handleActionAdmin.bind(this), false)
   publishMenuItem = new EventMenuItem('publish', 'event.action.publish', this.handleActionPublish.bind(this), false)
-
   menuItems = [
     this.editMenuItem,
     this.copyMenuItem,
-    this.deleteMenuItem
+    this.deleteMenuItem,
+    this.adminMenuItem
   ]
 
   constructor(
@@ -44,6 +37,12 @@ export class EventMenuComponent {
     private service: EventService,
     private toastService: HotToastService
   ) {
+  }
+
+  @Input()
+  set data(value: Event) {
+    this.event = value;
+    this.publishMenuItem.disabled = value.published;
   }
 
   private handleActionEdit() {
@@ -56,6 +55,10 @@ export class EventMenuComponent {
 
   private handleActionShowDetails() {
     if (this.event) EventNavigationService.navigateToEventDetails(this.router, this.event.id)
+  }
+
+  private handleActionAdmin() {
+    if (this.event) EventNavigationService.navigateToEventAdministration(this.router, this.event.id)
   }
 
 

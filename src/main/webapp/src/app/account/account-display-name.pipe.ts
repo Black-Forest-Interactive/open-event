@@ -1,12 +1,13 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Account} from "./model/account-api";
+import {AccountInfo} from "./model/account-api";
 
 @Pipe({
-  name: 'accountDisplayName'
+    name: 'accountDisplayName',
+    standalone: false
 })
 export class AccountDisplayNamePipe implements PipeTransform {
 
-  transform(account: Account, ...args: any[]): any {
+  transform(account: AccountInfo, ...args: any[]): any {
     if (account == null) return "";
     if (this.isStringValid(account.firstName) && this.isStringValid(account.lastName)) {
       return account.firstName + " " + account.lastName

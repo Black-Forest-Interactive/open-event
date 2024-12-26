@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.infrastructure.mail.db
 
+import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailJobHistoryEntry
-import de.sambalmueslie.openevent.storage.SimpleDataObject
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

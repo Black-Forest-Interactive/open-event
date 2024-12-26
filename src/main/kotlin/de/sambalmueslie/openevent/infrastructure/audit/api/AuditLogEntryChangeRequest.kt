@@ -1,6 +1,6 @@
 package de.sambalmueslie.openevent.infrastructure.audit.api
 
-import de.sambalmueslie.openevent.core.BusinessObjectChangeRequest
+import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import java.time.LocalDateTime
 
 data class AuditLogEntryChangeRequest(

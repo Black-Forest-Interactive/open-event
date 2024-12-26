@@ -1,67 +1,55 @@
-<mat-toolbar color="primary">
-  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
-
-    <div class="d-flex flex-row gap-2 flex-fill align-items-center" style="flex: 0 1 calc(50% - .5rem - 100px)">
-      <mat-form-field subscriptSizing="dynamic" class="dense-1" style="flex: 0 1 calc(50%);">
-        <mat-label>{{'setting.search' | translate}}</mat-label>
-        <input matInput placeholder="" value="" #input [disabled]="reloading" (keyup)="keyUp.emit(input.value)">
-      </mat-form-field>
-      <button mat-mini-fab color="accent" (click)="search(input.value)">
-        <mat-icon>search</mat-icon>
-      </button>
-
-    </div>
-
-    <div class="flex-fill"></div>
-
-    <button mat-icon-button>
-      <mat-icon>more_vert</mat-icon>
+<mat-toolbar class="px-2">
+  <div class="flex flex-row gap-3 flex-auto items-center">
+    <h3>{{ 'settings.title' | translate }}</h3>
+    <div class="flex-auto"></div>
+    <button color="accent" mat-flat-button (click)="create()" class="basis-72 min-h-10">
+      <mat-icon>new_label</mat-icon>
+      {{ 'settings.create' | translate }}
     </button>
 
   </div>
 </mat-toolbar>
 
 
-<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
-<div class="d-flex flex-column gap-2 p-2 ">
+<mat-progress-bar *ngIf="reloading" mode="indeterminate"></mat-progress-bar>
+<div class="flex flex-col gap-2 p-4">
   <mat-card>
-    <table mat-table [dataSource]="data">
-      <caption>Setting Entries</caption>
+    <table [dataSource]="data" mat-table>
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>{{'setting.key' | translate}}</th>
-        <td mat-cell *matCellDef="let setting">{{setting.key}}</td>
+        <th *matHeaderCellDef mat-header-cell>{{ 'settings.table.key' | translate }}</th>
+        <td *matCellDef="let setting" mat-cell>{{ setting.key }}</td>
       </ng-container>
 
       <ng-container matColumnDef="value">
-        <th mat-header-cell *matHeaderCellDef>{{'setting.value' | translate}}</th>
-        <td mat-cell *matCellDef="let setting">{{setting.value}}</td>
+        <th *matHeaderCellDef mat-header-cell>{{ 'settings.table.value' | translate }}</th>
+        <td *matCellDef="let setting" mat-cell>{{ setting.value }}</td>
       </ng-container>
 
       <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>{{'setting.type' | translate}}</th>
-        <td mat-cell *matCellDef="let setting">{{setting.type}}</td>
+        <th *matHeaderCellDef mat-header-cell>{{ 'settings.table.type' | translate }}</th>
+        <td *matCellDef="let setting" mat-cell>{{ setting.type }}</td>
       </ng-container>
 
       <ng-container matColumnDef="cmd">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let setting" class="cmd-cell">
-          <button mat-mini-fab routerLink="./edit/{{setting.id}}" color="primary">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let setting" class="cmd-cell" mat-cell>
+          <button color="primary" mat-mini-fab (click)="edit(setting)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
     </table>
 
     <mat-paginator
-      [length]="totalElements"
-      [pageSize]="pageSize"
-      [pageIndex]="pageNumber"
-      [pageSizeOptions]="[10, 25, 50, 100]"
-      showFirstLastButtons [disabled]="reloading"
       (page)="handlePageChange($event)"
+      [disabled]="reloading"
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
+      showFirstLastButtons
     >
     </mat-paginator>
   </mat-card>

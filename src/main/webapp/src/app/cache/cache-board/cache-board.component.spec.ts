@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CacheBoardComponent } from './cache-board.component';
+import {CacheBoardComponent} from './cache-board.component';
 
 describe('CacheBoardComponent', () => {
   let component: CacheBoardComponent;

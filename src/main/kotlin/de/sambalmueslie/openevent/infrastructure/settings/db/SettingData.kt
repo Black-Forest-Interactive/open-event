@@ -1,9 +1,9 @@
 package de.sambalmueslie.openevent.infrastructure.settings.db
 
-import de.sambalmueslie.openevent.core.model.Setting
-import de.sambalmueslie.openevent.core.model.SettingChangeRequest
-import de.sambalmueslie.openevent.core.model.ValueType
-import de.sambalmueslie.openevent.storage.SimpleDataObject
+import de.sambalmueslie.openevent.common.SimpleDataObject
+import de.sambalmueslie.openevent.infrastructure.settings.api.Setting
+import de.sambalmueslie.openevent.infrastructure.settings.api.SettingChangeRequest
+import de.sambalmueslie.openevent.infrastructure.settings.api.ValueType
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

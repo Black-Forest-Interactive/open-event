@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>{{ "address.dialog.delete.title" | translate }}
+
+</h1>
+<div mat-dialog-content>
+  <div class="flex flex-col gap-3">
+    <div>{{ "address.dialog.delete.question" | translate }}</div>
+    @if (data) {
+      <div class="ps-3">
+        <p>{{ data.street }} {{ data.streetNumber }}</p>
+        <p>{{ data.zip }} {{ data.city }}</p>
+      </div>
+    }
+  </div>
+</div>
+<mat-dialog-actions align="end">
+  <div class="flex flex-row gap-2">
+    <button color="warn" mat-button mat-dialog-close mat-stroked-button>
+      <mat-icon>cancel</mat-icon>
+      {{ "action.no" | translate }}
+    </button>
+    <button [mat-dialog-close]="true" cdkFocusInitial color="primary" mat-button mat-stroked-button>
+      <mat-icon>check</mat-icon>
+      {{ "action.yes" | translate }}
+    </button>
+  </div>
+</mat-dialog-actions>

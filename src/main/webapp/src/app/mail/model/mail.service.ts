@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {MailJob, MailJobHistoryEntry} from "./mail-api";
 import {Observable} from "rxjs";
 import {BaseService} from "../../shared/model/base-service";

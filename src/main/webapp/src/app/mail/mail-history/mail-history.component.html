@@ -1,39 +1,39 @@
 <mat-toolbar color="primary">
-  <div class="d-flex flex-row gap-2 flex-fill align-items-center">
-    <button mat-mini-fab (click)="back()">
+  <div class="flex flex-row gap-2 flex-auto items-center">
+    <button (click)="back()" mat-mini-fab>
       <mat-icon>arrow_back</mat-icon>
     </button>
 
-    <h3>{{'mail.title' | translate}}</h3>
-    <div class="flex-fill"></div>
+    <h3>{{ 'mail.title' | translate }}</h3>
+    <div class="flex-auto"></div>
   </div>
 </mat-toolbar>
-<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<mat-progress-bar *ngIf="reloading" mode="indeterminate"></mat-progress-bar>
 <div class="p-2">
   <mat-card>
-    <table mat-table [dataSource]="data">
+    <table [dataSource]="data" mat-table>
 
       <ng-container matColumnDef="timestamp">
-        <th mat-header-cell *matHeaderCellDef class="col-2">{{'MAIL.Table.Timestamp' | translate}}</th>
-        <td mat-cell *matCellDef="let entry">{{entry.timestamp | date:'medium'}}</td>
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'MAIL.Table.Timestamp' | translate }}</th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.timestamp | date:'medium' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="message">
-        <th mat-header-cell *matHeaderCellDef>{{'MAIL.Table.Message' | translate}}</th>
-        <td mat-cell *matCellDef="let entry">{{entry.message}}</td>
+        <th *matHeaderCellDef mat-header-cell>{{ 'MAIL.Table.Message' | translate }}</th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.message }}</td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
     </table>
 
     <mat-paginator
-      [length]="totalElements"
-      [pageSize]="pageSize"
-      [pageIndex]="pageNumber"
-      [pageSizeOptions]="[10, 25, 50, 100]"
-      showFirstLastButtons [disabled]="reloading"
       (page)="handlePageChange($event)"
+      [disabled]="reloading"
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
+      showFirstLastButtons
     >
     </mat-paginator>
   </mat-card>

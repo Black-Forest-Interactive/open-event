@@ -1,4 +1,4 @@
-import {Participant} from "../../participant/model/participant-api";
+import {Participant, ParticipantDetails} from "../../participant/model/participant-api";
 
 export interface Registration {
   id: number,
@@ -33,6 +33,8 @@ export class ParticipantAddRequest {
     public firstName: string,
     public lastName: string,
     public email: string,
+    public phone: string,
+    public mobile: string,
     public size: number
   ) {
   }
@@ -45,3 +47,7 @@ export interface ParticipateResponse {
 }
 
 
+export interface RegistrationDetails {
+  registration: Registration,
+  participants: ParticipantDetails[]
+}

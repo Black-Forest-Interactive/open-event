@@ -1,13 +1,13 @@
 package de.sambalmueslie.openevent.core.logic
 
 import de.sambalmueslie.openevent.TimeBasedTest
-import de.sambalmueslie.openevent.core.logic.account.AccountCrudService
-import de.sambalmueslie.openevent.core.logic.announcement.AnnouncementChangeListener
-import de.sambalmueslie.openevent.core.logic.announcement.AnnouncementCrudService
-import de.sambalmueslie.openevent.core.model.AccountChangeRequest
-import de.sambalmueslie.openevent.core.model.Announcement
-import de.sambalmueslie.openevent.core.model.AnnouncementChangeRequest
-import de.sambalmueslie.openevent.storage.account.AccountStorageService
+import de.sambalmueslie.openevent.core.account.AccountCrudService
+import de.sambalmueslie.openevent.core.account.api.AccountChangeRequest
+import de.sambalmueslie.openevent.core.account.db.AccountStorageService
+import de.sambalmueslie.openevent.core.announcement.AnnouncementChangeListener
+import de.sambalmueslie.openevent.core.announcement.AnnouncementCrudService
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
+import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.*
@@ -30,15 +30,14 @@ class AnnouncementCrudServiceTest : TimeBasedTest() {
 
     @Test
     fun announcementCrud() {
-        val actor = accountStorage.create(AccountChangeRequest("user", "first", "last", "email@localhost", "", ""))
+        val actor = accountStorage.create(AccountChangeRequest("user", "", "actor-id"))
         val listener = mockk<AnnouncementChangeListener>()
         service.register(listener)
         every { listener.handleCreated(any(), any()) } just Runs
         every { listener.handleUpdated(any(), any()) } just Runs
         every { listener.handleDeleted(any(), any()) } just Runs
 
-        val author =
-            accountService.create(actor, AccountChangeRequest("name", "first-name", "last-name", "email", "", null))
+        val author = accountService.create(actor, AccountChangeRequest("name", "", "author-id"))
 
         val request = AnnouncementChangeRequest("subject", "content")
         var announcement = service.create(author, request)

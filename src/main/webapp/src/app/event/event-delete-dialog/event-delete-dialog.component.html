@@ -1,16 +1,18 @@
-<h1 mat-dialog-title>{{"event.dialog.delete.title" | translate}}
-  <ng-container *ngIf="data">{{data.title}}</ng-container>
+<h1 mat-dialog-title>{{ "event.dialog.delete.title" | translate }}
+  <ng-container *ngIf="data">{{ data.title }}</ng-container>
 </h1>
 <div mat-dialog-content>
-  <p>{{"event.dialog.delete.question" | translate}}</p>
+  <p>{{ "event.dialog.delete.question" | translate }}</p>
 </div>
 <mat-dialog-actions align="end">
-  <div class="d-flex flex-row gap-2">
-    <button mat-button mat-stroked-button color="warn" mat-dialog-close>
+  <div class="flex flex-row gap-2">
+    <button color="warn" mat-button mat-dialog-close mat-stroked-button>
       <mat-icon>cancel</mat-icon>
-      {{"action.no" | translate}}</button>
-    <button mat-button mat-stroked-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>
+      {{ "action.no" | translate }}
+    </button>
+    <button [mat-dialog-close]="true" cdkFocusInitial color="primary" mat-button mat-stroked-button>
       <mat-icon>check</mat-icon>
-      {{"action.yes" | translate}}</button>
+      {{ "action.yes" | translate }}
+    </button>
   </div>
 </mat-dialog-actions>

@@ -1,8 +1,10 @@
 package de.sambalmueslie.openevent.infrastructure.geo
 
 
-import de.sambalmueslie.openevent.core.model.Location
-import de.sambalmueslie.openevent.core.model.LocationChangeRequest
+import de.sambalmueslie.openevent.core.address.api.Address
+import de.sambalmueslie.openevent.core.address.api.AddressChangeRequest
+import de.sambalmueslie.openevent.core.location.api.Location
+import de.sambalmueslie.openevent.core.location.api.LocationChangeRequest
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,7 +20,15 @@ class GeoLocationService(private val client: GeoLocationClient) : GeoLocationRes
         return get(location.country, location.zip, location.street, location.streetNumber, location.city)
     }
 
+    override fun get(address: Address): GeoLocation? {
+        return get(address.country, address.zip, address.street, address.streetNumber, address.city)
+    }
+
     override fun get(request: LocationChangeRequest): GeoLocation? {
+        return get(request.country, request.zip, request.street, request.streetNumber, request.city)
+    }
+
+    override fun get(request: AddressChangeRequest): GeoLocation? {
         return get(request.country, request.zip, request.street, request.streetNumber, request.city)
     }
 

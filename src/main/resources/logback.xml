@@ -17,5 +17,6 @@
     <logger name="io.micronaut.security" level="INFO"/>
     <logger name="io.micronaut" level="INFO"/>
     <logger name="org.flywaydb" level="INFO"/>
+    <logger name="com.jillesvangurp.ktsearch" level="TRACE"/>
     <logger name="de.sambalmueslie" level="INFO"/>
 </configuration>

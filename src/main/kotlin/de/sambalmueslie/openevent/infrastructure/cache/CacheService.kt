@@ -16,7 +16,7 @@ class CacheService {
 
     private val caches = mutableMapOf<String, LoadingCache<*, *>>()
 
-    fun <T,O: Any> register(key: String, builder: () -> LoadingCache<T, O>): LoadingCache<T, O> {
+    fun <T, O : Any> register(key: String, builder: () -> LoadingCache<T, O>): LoadingCache<T, O> {
         logger.info("Register cache for $key")
         val cache = builder.invoke()
         caches[key] = cache
@@ -39,7 +39,17 @@ class CacheService {
     private fun convert(key: String, cache: LoadingCache<*, *>): CacheInfo {
         val name = key.substringAfterLast('.')
         val stats = cache.stats()
-        return CacheInfo(key, name, stats.hitCount(), stats.missCount(), stats.loadSuccessCount(), stats.loadFailureCount(), stats.totalLoadTime(), stats.evictionCount(), stats.evictionWeight())
+        return CacheInfo(
+            key,
+            name,
+            stats.hitCount(),
+            stats.missCount(),
+            stats.loadSuccessCount(),
+            stats.loadFailureCount(),
+            stats.totalLoadTime(),
+            stats.evictionCount(),
+            stats.evictionWeight()
+        )
     }
 
     fun reset(key: String): CacheInfo? {

@@ -2,15 +2,15 @@ import {Component, EventEmitter} from '@angular/core';
 import {Page} from "../../shared/model/page";
 import {MailJob} from "../model/mail-api";
 import {PageEvent} from "@angular/material/paginator";
-import {HotToastService} from "@ngneat/hot-toast";
 import {MailService} from "../model/mail.service";
-import {debounceTime, distinctUntilChanged, Subject, switchMap, takeUntil, timer} from "rxjs";
+import {Subject, switchMap, takeUntil, timer} from "rxjs";
 import {tap} from "rxjs/operators";
 
 @Component({
-  selector: 'app-mail-board',
-  templateUrl: './mail-board.component.html',
-  styleUrls: ['./mail-board.component.scss']
+    selector: 'app-mail-board',
+    templateUrl: './mail-board.component.html',
+    styleUrls: ['./mail-board.component.scss'],
+    standalone: false
 })
 export class MailBoardComponent {
 
@@ -24,15 +24,12 @@ export class MailBoardComponent {
   displayedColumns: string[] = ['timestamp', 'status', 'title', 'cmd']
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
-  searching: boolean = false
+  private unsub = new Subject<void>();
 
   constructor(
-    private service: MailService,
-    private toastService: HotToastService
+    private service: MailService
   ) {
   }
-
-  private unsub = new Subject<void>();
 
   ngOnInit(): void {
     timer(0, 15000).pipe(
@@ -40,11 +37,6 @@ export class MailBoardComponent {
       takeUntil(this.unsub),
       switchMap(async () => this.reload())
     ).subscribe();
-
-    this.keyUp.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe(data => this.search(data))
   }
 
   ngOnDestroy(): void {
@@ -55,6 +47,13 @@ export class MailBoardComponent {
   reload() {
     this.loadPage(this.pageNumber)
   }
+
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.loadPage(event.pageIndex)
+  }
+
 
   private loadPage(number: number) {
     if (this.reloading) return
@@ -76,15 +75,5 @@ export class MailBoardComponent {
       this.totalElements = page.totalSize;
     }
     this.reloading = false;
-  }
-
-  handlePageChange(event: PageEvent) {
-    if (this.reloading) return
-    this.pageSize = event.pageSize
-    this.loadPage(event.pageIndex)
-  }
-
-  search(data: string) {
-    this.toastService.error("Sorry searching '" + data + "' is not supported yet")
   }
 }

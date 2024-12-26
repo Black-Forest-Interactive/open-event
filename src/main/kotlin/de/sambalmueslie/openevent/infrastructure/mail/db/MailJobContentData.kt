@@ -2,10 +2,10 @@ package de.sambalmueslie.openevent.infrastructure.mail.db
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.infrastructure.mail.api.Mail
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailJobContent
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailParticipant
-import de.sambalmueslie.openevent.storage.SimpleDataObject
 import jakarta.persistence.*
 
 @Suppress("JpaObjectClassSignatureInspection")

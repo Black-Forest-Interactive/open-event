@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.api
 
-import de.sambalmueslie.openevent.core.model.HistoryEntry
-import de.sambalmueslie.openevent.core.model.HistoryEventInfo
+import de.sambalmueslie.openevent.core.history.api.HistoryEntry
+import de.sambalmueslie.openevent.core.history.api.HistoryEventInfo
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication

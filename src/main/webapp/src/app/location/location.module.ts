@@ -14,4 +14,5 @@ import {LocationMapComponent} from './location-map/location-map.component';
     CommonModule
   ]
 })
-export class LocationModule { }
+export class LocationModule {
+}

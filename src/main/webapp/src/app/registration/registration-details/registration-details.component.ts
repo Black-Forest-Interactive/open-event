@@ -8,7 +8,7 @@ import {
 import {RegistrationService} from "../model/registration.service";
 import {Participant} from "../../participant/model/participant-api";
 import {MatDialog} from "@angular/material/dialog";
-import {HotToastService} from "@ngneat/hot-toast";
+import {HotToastService} from "@ngxpert/hot-toast";
 import {
   RegistrationParticipateDialogComponent
 } from "../registration-participate-dialog/registration-participate-dialog.component";
@@ -24,22 +24,16 @@ import {
 import {AuthService} from "../../auth/auth.service";
 
 @Component({
-  selector: 'app-registration-details',
-  templateUrl: './registration-details.component.html',
-  styleUrls: ['./registration-details.component.scss']
+    selector: 'app-registration-details',
+    templateUrl: './registration-details.component.html',
+    styleUrls: ['./registration-details.component.scss'],
+    standalone: false
 })
 export class RegistrationDetailsComponent {
-  @Input()
-  set data(value: RegistrationInfo) {
-    this.registration = value
-    this.updateData()
-  }
-
   registration: RegistrationInfo | undefined
   accepted: Participant[] = []
   waitList: Participant[] = []
   reloading: boolean = false
-
   userParticipant: Participant | undefined
   adminOrManager: boolean = false
 
@@ -52,19 +46,16 @@ export class RegistrationDetailsComponent {
   ) {
   }
 
+  @Input()
+  set data(value: RegistrationInfo) {
+    this.registration = value
+    this.updateData()
+  }
+
   ngOnInit() {
     this.adminOrManager = this.authService.hasRole(AuthService.REGISTRATION_MANAGE, AuthService.REGISTRATION_ADMIN)
     let principal = this.authService.getPrincipal()
     if (principal) this.adminOrManager = principal.roles.find(r => r === 'openevent.registration.manage' || r === 'openevent.registration.admin') != null
-  }
-
-
-  private updateData() {
-    if (this.registration) {
-      this.accepted = this.registration.participants.filter(p => !p.waitingList)
-      this.waitList = this.registration.participants.filter(p => p.waitingList)
-      this.userParticipant = this.registration.participants.find(p => p.author.email === this.authService.getPrincipal()?.email)
-    }
   }
 
   participateSelf() {
@@ -74,14 +65,6 @@ export class RegistrationDetailsComponent {
     dialogRef.afterClosed().subscribe(request => {
       if (request) this.requestParticipateSelf(request)
     })
-  }
-
-
-  private requestParticipateSelf(request: ParticipateRequest) {
-    if (!this.registration) return
-    if (this.reloading) return
-    this.reloading = true
-    this.service.participateSelf(this.registration.registration.id, request).subscribe(r => this.handleParticipateResponse(r))
   }
 
   editSelf() {
@@ -94,13 +77,6 @@ export class RegistrationDetailsComponent {
     })
   }
 
-  private requestEditSelf(request: ParticipateRequest) {
-    if (!this.registration) return
-    if (this.reloading) return
-    this.reloading = true
-    this.service.editSelf(this.registration.registration.id, request).subscribe(r => this.handleParticipateResponse(r))
-  }
-
   cancelSelf() {
     if (!this.registration) return
     if (this.reloading) return
@@ -111,14 +87,6 @@ export class RegistrationDetailsComponent {
     })
   }
 
-  private requestCancelSelf() {
-    if (!this.registration) return
-    if (this.reloading) return
-    this.reloading = true
-    this.service.cancelSelf(this.registration.registration.id).subscribe(r => this.handleParticipateResponse(r))
-  }
-
-
   participateAccount() {
     if (!this.registration) return
     if (this.reloading) return
@@ -128,10 +96,6 @@ export class RegistrationDetailsComponent {
     })
   }
 
-  private requestParticipateAccount(request: any) {
-
-  }
-
   participateManual() {
     if (!this.registration) return
     if (this.reloading) return
@@ -139,6 +103,59 @@ export class RegistrationDetailsComponent {
     dialogRef.afterClosed().subscribe(request => {
       if (request) this.requestParticipateManual(request)
     })
+  }
+
+  editParticipant(part: Participant) {
+    if (!this.registration) return
+    if (this.reloading) return
+
+    let dialogRef = this.dialog.open(RegistrationEditDialogComponent, {data: part})
+    dialogRef.afterClosed().subscribe(request => {
+      if (request) this.requestEditParticipant(part, request)
+    })
+  }
+
+  removeParticipant(part: Participant) {
+    if (!this.registration) return
+    if (this.reloading) return
+
+    let dialogRef = this.dialog.open(RegistrationCancelDialogComponent, {data: part})
+    dialogRef.afterClosed().subscribe(request => {
+      if (request) this.requestRemoveParticipant(part)
+    })
+  }
+
+  private updateData() {
+    if (this.registration) {
+      this.accepted = this.registration.participants.filter(p => !p.waitingList)
+      this.waitList = this.registration.participants.filter(p => p.waitingList)
+      this.userParticipant = this.registration.participants.find(p => p.author.email === this.authService.getPrincipal()?.email)
+    }
+  }
+
+  private requestParticipateSelf(request: ParticipateRequest) {
+    if (!this.registration) return
+    if (this.reloading) return
+    this.reloading = true
+    this.service.participateSelf(this.registration.registration.id, request).subscribe(r => this.handleParticipateResponse(r))
+  }
+
+  private requestEditSelf(request: ParticipateRequest) {
+    if (!this.registration) return
+    if (this.reloading) return
+    this.reloading = true
+    this.service.editSelf(this.registration.registration.id, request).subscribe(r => this.handleParticipateResponse(r))
+  }
+
+  private requestCancelSelf() {
+    if (!this.registration) return
+    if (this.reloading) return
+    this.reloading = true
+    this.service.cancelSelf(this.registration.registration.id).subscribe(r => this.handleParticipateResponse(r))
+  }
+
+  private requestParticipateAccount(request: any) {
+
   }
 
   private requestParticipateManual(request: ParticipantAddRequest) {
@@ -168,31 +185,11 @@ export class RegistrationDetailsComponent {
     this.reloading = false
   }
 
-  editParticipant(part: Participant) {
-    if (!this.registration) return
-    if (this.reloading) return
-
-    let dialogRef = this.dialog.open(RegistrationEditDialogComponent, {data: part})
-    dialogRef.afterClosed().subscribe(request => {
-      if (request) this.requestEditParticipant(part, request)
-    })
-  }
-
   private requestEditParticipant(participant: Participant, request: ParticipateRequest) {
     if (!this.registration) return
     if (this.reloading) return
     this.reloading = true
     this.service.changeParticipant(this.registration.registration.id, participant.id, request).subscribe(r => this.handleParticipateResponse(r))
-  }
-
-  removeParticipant(part: Participant) {
-    if (!this.registration) return
-    if (this.reloading) return
-
-    let dialogRef = this.dialog.open(RegistrationCancelDialogComponent, {data: part})
-    dialogRef.afterClosed().subscribe(request => {
-      if (request) this.requestRemoveParticipant(part)
-    })
   }
 
   private requestRemoveParticipant(participant: Participant) {
@@ -203,7 +200,7 @@ export class RegistrationDetailsComponent {
   }
 
   private updateParticipants(participants: Participant[]) {
-    if(!this.registration) return
+    if (!this.registration) return
     this.registration.participants = participants
     this.updateData()
   }

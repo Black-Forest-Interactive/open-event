@@ -15,7 +15,10 @@
     "collapse": "Collapse",
     "close": "Close",
     "ok": "Ok",
-    "details": "Details"
+    "details": "Details",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete"
   },
   "event": {
     "type": "Event",
@@ -25,7 +28,8 @@
       "edit": "Edit Event",
       "copy": "Copy Event",
       "delete": "Delete Event",
-      "publish": "Publish Event"
+      "publish": "Publish Event",
+      "admin": "Event Administration"
     },
     "step": {
       "event": "Event",
@@ -44,6 +48,7 @@
       "startDate": "Date",
       "startTime": "Start Time",
       "endTime": "End Time",
+      "address": "Select predefined address",
       "street": "Street",
       "nr": "Nr",
       "info": "Additonal Info",
@@ -52,18 +57,23 @@
       "country": "Country",
       "maxGuests": "Max guest amount",
       "category": "Categories",
+      "tags": "Hashtags",
       "hint": {
         "Title": "Short and powerfull description of the event (max 40 chars)",
         "LongDescr": "What is the event about, what is required to bring and some additonal information",
         "startDate": "The date of the event",
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
-        "maxGuest": "How many guests coult attend to the event"
+        "maxGuest": "How many guests coult attend to the event",
+        "tags": "Add some custom hashtags"
       },
       "error": {
         "title": "Please input some title",
         "shortText": "Please input some short description",
         "longText": "Please input some long description"
+      },
+      "admin": {
+        "registration": "Event Participants"
       }
     },
     "dialog": {
@@ -71,6 +81,31 @@
         "title": "Delete event",
         "question": "Do you really want to delete the event?"
       }
+    },
+    "filter": {
+      "reset": "Reset filter",
+      "hide": "Close fitler",
+      "history": "Show history",
+      "own": "Show own",
+      "available": "Show available",
+      "participating": "Show participating",
+      "range": {
+        "label": "Enter a date range",
+        "today": "Only tody",
+        "week": "This week",
+        "next": "Next week",
+        "start": "Start date",
+        "end" : "End date"
+      }
+    },
+    "table": {
+      "account": "Account",
+      "period": "Period",
+      "location": "Location",
+      "description": "Description",
+      "status": "Status",
+      "category": "Category",
+      "label": "Label"
     }
   },
   "registration": {
@@ -82,7 +117,9 @@
       "participateAccount": "Add Account",
       "participateManual": "Add manual",
       "edit": "Change Participation",
-      "cancel": "Cancel Participation"
+      "cancel": "Cancel Participation",
+      "editParticipant": "Change",
+      "removeParticipant": "Remove"
     },
     "people": "people",
     "peopleAmount": "Amount of people",
@@ -114,19 +151,67 @@
     },
     "status": {
       "full": "Full",
-      "available": "{{remaining}} of {{available}} available seats"
+      "available": "{{remaining}} seats available"
     },
     "form": {
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email"
+    },
+    "table": {
+      "rank": "Rank",
+      "size": "Size",
+      "status": "Status",
+      "waitlist": "Waitlist",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "mobile": "Mobile",
+      "timestamp": "Timestamp",
+      "enum": {
+        "ACCEPTED": "Accepted",
+        "INTERESTED": "Interested",
+        "CANCELED": "Canceled"
+      }
     }
   },
   "category": {
-    "type": "Category"
+    "type": "Category",
+    "search": "Category search",
+    "create": "Create Category",
+    "table": {
+      "name": "Name"
+    },
+    "dialog": {
+      "change": {
+        "title": "Change Category"
+      },
+      "create": {
+        "title": "Create new Category"
+      },
+      "delete": {
+        "title": "Delete Category",
+        "question": "Do you realy want to delete the category?"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "iconUrl": "Icon URL"
+    }
   },
   "settings": {
-    "type": "Settings"
+    "type": "Settings",
+    "create": "Create new Setting",
+    "table": {
+      "key": "Key",
+      "value": "Value",
+      "type": "Type"
+    },
+    "form": {
+      "key": "Key",
+      "value": "Value",
+      "type": "Type"
+    }
   },
   "cache": {
     "type": "Cache"
@@ -140,7 +225,10 @@
     }
   },
   "account": {
+    "title": "Account",
+    "type": "Account",
     "search": "Search for an account",
+    "create": "Create new account",
     "dialog": {
       "create": {
         "title": "Create new manual account"
@@ -153,13 +241,22 @@
       "name": "Name",
       "firstName": "First Name",
       "lastName": "Last Name",
-      "email": "Email"
+      "email": "Email",
+      "phone": "Phone",
+      "mobile": "Mobile"
     },
     "message": {
       "created": "Account created successfully"
+    },
+    "table": {
+      "name": "Username",
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "email": "E-Mail"
     }
   },
   "backoffice": {
+    "type": "Backoffice",
     "title": "Backoffice",
     "stats": {
       "title": "Stats"
@@ -197,5 +294,108 @@
         "event": "Reindex event"
       }
     }
+  },
+  "mail": {
+    "type": "E-Mail Log",
+    "title": "E-Mail",
+    "search": "Search for email",
+    "table": {
+      "timestamp": "Timestamp",
+      "status": "Status",
+      "title": "Title"
+    }
+  },
+  "history": {
+    "type": "Audit Log",
+    "title": "Event audit log",
+    "table": {
+      "timestamp": "Timestamp",
+      "actor": "Actor",
+      "type": "Type",
+      "message": "Message",
+      "source": "Source",
+      "info": "Info"
+    }
+  },
+  "profile": {
+    "title": "Userprofile",
+    "email": "E-Mail",
+    "phone": "Phone",
+    "mobile": "Mobile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "Birthday",
+    "gender": "Gender",
+    "profilePicture": "Profile Picture",
+    "website": "Website",
+    "language": "Language"
+  },
+  "address": {
+    "title": "Address",
+    "dialog": {
+      "create": {
+        "title": "Create address"
+      },
+      "change": {
+        "title": "Change address"
+      },
+      "delete": {
+        "title": "Delete address",
+        "question": "Do you really want to delete the address?"
+      }
+    },
+    "table": {
+      "street": "Street",
+      "streetNumber": "Nr",
+      "zip": "Zip",
+      "city": "City",
+      "country": "Country"
+    },
+    "action": {
+      "add": "Create address",
+      "import": "Import addresses"
+    }
+  },
+  "share": {
+    "title": "Share",
+    "action": {
+      "enable": "Enable Sharing",
+      "participate": "Participate (without login)"
+    }
+  },
+  "lang": {
+    "en": "English",
+    "de": "Deutsch"
+  },
+  "preferences": {
+    "title": "Preferences"
+  },
+  "activity": {
+    "title": "Notifications",
+    "type": {
+      "EVENT_CREATED": "Event created",
+      "EVENT_CHANGED": "Event changed",
+      "PARTICIPANT_ACCEPTED": "Participant added",
+      "PARTICIPANT_DECLINED": "Participant declined",
+      "PARTICIPANT_CHANGED": "Participant changed"
+    },
+    "table": {
+      "type": "Type",
+      "title": "Title",
+      "actor": "Actor",
+      "timestamp": "Timestamp",
+      "read": "Read"
+    },
+    "action": {
+      "read": "Read",
+      "readAll": "All read"
+    }
+  },
+  "paginator": {
+    "items": "Items per page",
+    "next": "Next page",
+    "prev": "Previous page",
+    "first": "First page",
+    "last": "Last page"
   }
 }

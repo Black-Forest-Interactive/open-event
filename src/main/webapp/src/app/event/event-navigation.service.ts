@@ -19,23 +19,27 @@ export class EventNavigationService {
   }
 
   static navigateToEventShow(router: Router) {
-    router.navigate([EventNavigationService.getEventShowUrl()]);
+    router.navigate([EventNavigationService.getEventShowUrl()]).then()
   }
 
   static navigateToEventCreate(router: Router, sourceId: string | undefined = undefined) {
-    router.navigate([EventNavigationService.getEventCreateUrl(), {source: sourceId}])
+    router.navigate([EventNavigationService.getEventCreateUrl(), {source: sourceId}]).then()
   }
 
 
   static navigateToEventDetails(router: Router, eventId: number) {
-    router.navigate(["/event/details/" + eventId])
+    router.navigate(["/event/details/" + eventId]).then()
   }
 
   static navigateToEventEdit(router: Router, eventId: number) {
-    router.navigate(["/event/edit/" + eventId])
+    router.navigate(["/event/edit/" + eventId]).then()
   }
 
   static navigateToEventCopy(router: Router, eventId: number) {
-    router.navigate(["/event/copy/" + eventId])
+    router.navigate(["/event/copy/" + eventId]).then()
+  }
+
+  static navigateToEventAdministration(router: Router, eventId: number) {
+    router.navigate(["/event/admin/" + eventId]).then()
   }
 }

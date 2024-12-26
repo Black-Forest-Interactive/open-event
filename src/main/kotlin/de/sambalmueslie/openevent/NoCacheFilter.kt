@@ -16,9 +16,11 @@ class NoCacheFilter : HttpServerFilter {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(NoCacheFilter::class.java)
     }
+
     init {
         logger.info("No Cache Filter - Up")
     }
+
     override fun doFilter(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>> {
         return Flux.from(chain.proceed(request)).map { response ->
             if (request.path == "/index.html" || request.path.equals("/")) {

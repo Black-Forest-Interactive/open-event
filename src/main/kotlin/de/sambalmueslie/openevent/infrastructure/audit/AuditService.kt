@@ -2,6 +2,8 @@ package de.sambalmueslie.openevent.infrastructure.audit
 
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import de.sambalmueslie.openevent.common.BaseStorageService
+import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
@@ -10,8 +12,6 @@ import de.sambalmueslie.openevent.infrastructure.audit.db.AuditLogEntryData
 import de.sambalmueslie.openevent.infrastructure.audit.db.AuditLogEntryRepository
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
-import de.sambalmueslie.openevent.storage.BaseStorageService
-import de.sambalmueslie.openevent.storage.SimpleDataObjectConverter
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton

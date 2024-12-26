@@ -4,8 +4,7 @@ import {CacheRoutingModule} from "./cache-routing.module";
 import {MaterialModule} from "../material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
-import {HotToastModule} from "@ngneat/hot-toast";
-import { CacheBoardComponent } from './cache-board/cache-board.component';
+import {CacheBoardComponent} from './cache-board/cache-board.component';
 import {NgxEchartsModule} from "ngx-echarts";
 
 
@@ -19,7 +18,6 @@ import {NgxEchartsModule} from "ngx-echarts";
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,
-    HotToastModule,
     NgxEchartsModule.forChild(),
   ]
 })

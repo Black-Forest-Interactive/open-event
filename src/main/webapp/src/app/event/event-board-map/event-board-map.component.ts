@@ -3,10 +3,10 @@ import {EventBoardService} from "../model/event-board.service";
 import * as L from 'leaflet';
 import {icon, layerGroup, Map, Marker} from 'leaflet';
 import {Subscription} from "rxjs";
-import {EventInfo} from "../model/event-api";
 import {EventBoardMapPopupComponent} from "../event-board-map-popup/event-board-map-popup.component";
 import {EventNavigationService} from "../event-navigation.service";
 import {Router} from "@angular/router";
+import {EventSearchEntry} from "../../search/model/search-api";
 
 const iconRetinaUrl = 'assets/marker/marker-icon-2x.png';
 const iconUrl = 'assets/marker/marker-icon.png';
@@ -25,9 +25,10 @@ Marker.prototype.options.icon = iconDefault;
 
 
 @Component({
-  selector: 'app-event-board-map',
-  templateUrl: './event-board-map.component.html',
-  styleUrls: ['./event-board-map.component.scss']
+    selector: 'app-event-board-map',
+    templateUrl: './event-board-map.component.html',
+    styleUrls: ['./event-board-map.component.scss'],
+    standalone: false
 })
 export class EventBoardMapComponent implements AfterViewInit {
 
@@ -77,17 +78,16 @@ export class EventBoardMapComponent implements AfterViewInit {
       this.map.removeLayer(this.markerLayer)
     }
 
-    this.service.infos.forEach(i => this.addEventMarker(i))
+    this.service.entries.forEach(i => this.addEventMarker(i))
 
     this.map.addLayer(this.markerLayer)
   }
 
-  private addEventMarker(i: EventInfo) {
-    let location = i.location
-    if (!location) return
+  private addEventMarker(i: EventSearchEntry) {
+    if (!i.hasLocation) return
 
-    let lat = location.lat
-    let lon = location.lon
+    let lat = i.lat
+    let lon = i.lon
     if (lat == 0 && lon == 0) return
 
     let marker = L.marker([lat, lon]);
@@ -98,7 +98,7 @@ export class EventBoardMapComponent implements AfterViewInit {
     component.instance.close.asObservable().subscribe(res => {
         marker.closePopup()
         if (res) {
-          EventNavigationService.navigateToEventDetails(this.router, i.event.id)
+          EventNavigationService.navigateToEventDetails(this.router, +i.id)
         }
       }
     )

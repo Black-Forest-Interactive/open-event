@@ -1,21 +1,25 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EventService} from "../model/event.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
-import {HotToastService} from "@ngneat/hot-toast";
+import {HotToastService} from "@ngxpert/hot-toast";
 import {Location} from "@angular/common";
-import {EventInfo,} from "../model/event-api";
-import * as moment from "moment";
+import {Event, EventInfo} from "../model/event-api";
 import {STEPPER_GLOBAL_OPTIONS, StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {map, Observable} from "rxjs";
+import {Account} from "../../account/model/account-api";
+import {AppService} from "../../app.service";
+import {AuthService} from "../../auth/auth.service";
+import {DateTime} from 'luxon';
 
 @Component({
   selector: 'app-event-change',
   templateUrl: './event-change.component.html',
   styleUrls: ['./event-change.component.scss'],
   providers: [{provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true},},],
+  standalone: false
 })
 export class EventChangeComponent {
 
@@ -28,15 +32,21 @@ export class EventChangeComponent {
   registrationForm: FormGroup
 
   event: EventInfo | undefined
+  @Input() account: Account | undefined
+  @Input() showBackButton: boolean = true
+  @Output() changed: EventEmitter<Event> = new EventEmitter()
   hiddenFields: string[] = ['shortText', 'iconUrl', 'imageUrl', 'endDate', 'interestedAllowed', 'ticketsEnabled']
 
   helpVisible: boolean = false
+  protected isAdminOrModerator: boolean = false
 
   stepperOrientation: Observable<StepperOrientation>
 
   constructor(
     private fb: FormBuilder,
     private service: EventService,
+    protected appService: AppService,
+    private authService: AuthService,
     private translationService: TranslateService,
     private toastService: HotToastService,
     private router: Router,
@@ -52,9 +62,9 @@ export class EventChangeComponent {
 
       imageUrl: this.fb.control(''),
       iconUrl: this.fb.control(''),
-      longText: this.fb.control('', Validators.required),
+      longText: this.fb.control(''),
       shortText: this.fb.control(''),
-      title: this.fb.control('', Validators.required)
+      title: this.fb.control('', Validators.required),
     })
     this.locationForm = this.fb.group({
       city: ['', Validators.required],
@@ -69,7 +79,8 @@ export class EventChangeComponent {
       maxGuestAmount: [4, Validators.required],
       interestedAllowed: [false, Validators.required],
       ticketsEnabled: [false, Validators.required],
-      categories: [[]]
+      categories: [[]],
+      tags: this.fb.control([]),
     })
 
     this.fg = this.fb.group({
@@ -87,6 +98,31 @@ export class EventChangeComponent {
     this.route.paramMap.subscribe(p => this.handleParams(p))
     let endDate = this.eventForm.get('endDate');
     if (endDate) endDate.validator = this.isEndHidden() ? null : Validators.required
+    if (this.authService.hasRole(AuthService.EVENT_ADMIN)) this.isAdminOrModerator = true
+    if (this.authService.hasRole(AuthService.EVENT_MODERATOR)) this.isAdminOrModerator = true
+    if (!this.account || !this.isAdminOrModerator) this.account = this.appService.account
+
+  }
+
+  cancel() {
+    this.location.back()
+  }
+
+  submit() {
+    if (!this.fg.valid) {
+      this.translationService.get("EVENT.MESSAGE.ERROR.FORM_INVALID").subscribe(msg => this.toastService.error(msg))
+      return
+    }
+    this.reloading = true
+    if (this.event) {
+      this.update()
+    } else {
+      this.create()
+    }
+  }
+
+  toggleHelp(step: string) {
+    this.helpVisible = !this.helpVisible
   }
 
   private handleParams(p: ParamMap) {
@@ -115,7 +151,7 @@ export class EventChangeComponent {
   }
 
   private handleDataCreate() {
-    this.translationService.get("event.change.create").subscribe(text => this.title = text);
+    this.translationService.get("event.change.create").subscribe(text => this.title = text)
   }
 
   private loadData(id: number, callback: (e: EventInfo) => void) {
@@ -138,10 +174,10 @@ export class EventChangeComponent {
 
   private initValues(e: EventInfo) {
     // init event form
-    let start = moment(e.event.start)
-    let startTime = start.format("HH:mm")
-    let finish = moment(e.event.finish)
-    let finishTime = finish.format("HH:mm")
+    let start = DateTime.fromISO(e.event.start)
+    let startTime = start.toFormat("HH:mm")
+    let finish = DateTime.fromISO(e.event.finish)
+    let finishTime = finish.toFormat("HH:mm")
 
     this.eventForm.setValue({
       startTime: startTime,
@@ -174,36 +210,19 @@ export class EventChangeComponent {
         ticketsEnabled: registration.registration.ticketsEnabled,
         maxGuestAmount: registration.registration.maxGuestAmount,
         interestedAllowed: registration.registration.interestedAllowed,
-        categories: e.categories.map(c => c.id)
+        categories: e.categories.map(c => c.id),
+        tags: e.event.tags ?? [],
       })
-    }
-  }
-
-  cancel() {
-    this.location.back()
-  }
-
-
-  submit() {
-    if (!this.fg.valid) {
-      this.translationService.get("EVENT.MESSAGE.ERROR.FORM_INVALID").subscribe(msg => this.toastService.error(msg))
-      return
-    }
-    this.reloading = true
-
-    if (this.event) {
-      this.update()
-    } else {
-      this.create()
     }
   }
 
   private update() {
     if (!this.event) return
-    let request = this.service.createRequest(this.fg.value,this.isEndHidden() )
+    let request = this.service.createRequest(this.fg.value, this.isEndHidden())
     if (!request) return
     this.service.updateEvent(this.event.event.id, request).subscribe({
       next: event => {
+        this.changed.emit(event)
         this.translationService.get("event.message.update.succeed").subscribe(
           msg => {
             this.toastService.success(msg)
@@ -218,10 +237,13 @@ export class EventChangeComponent {
   }
 
   private create() {
-    let request = this.service.createRequest(this.fg.value,this.isEndHidden() )
+    let request = this.service.createRequest(this.fg.value, this.isEndHidden())
     if (!request) return
-    this.service.createEvent(request).subscribe({
+
+    let observable = (this.isAdminOrModerator && this.account) ? this.service.createBackofficeEvent(this.account.id, request) : this.service.createEvent(request)
+    observable.subscribe({
       next: event => {
+        this.changed.emit(event)
         this.translationService.get("event.message.create.succeed").subscribe(
           msg => {
             this.toastService.success(msg)
@@ -239,7 +261,5 @@ export class EventChangeComponent {
     return this.hiddenFields.find(f => f === 'endDate') != null
   }
 
-  toggleHelp(step: string) {
-    this.helpVisible = !this.helpVisible
-  }
+
 }

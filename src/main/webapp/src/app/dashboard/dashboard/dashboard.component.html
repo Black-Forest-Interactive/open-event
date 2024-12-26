@@ -1,92 +1,23 @@
-<mat-sidenav-container class="sidenav-container" autosize>
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+<mat-sidenav-container autosize class="flex flex-col vh-full">
+  <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="false">
-    <mat-toolbar></mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item *ngFor="let item of accessibleItems" routerLink="{{item.url}}" routerLinkActive="active">
-        <app-main-nav-entry [collapsed]="collapsed" [item]="item"></app-main-nav-entry>
-      </a>
-      <a mat-list-item (click)="logout()">
-        <div class="d-flex flex-row gap-2 align-items-center">
-          <ng-container *ngIf="collapsed; else logoutElseBlock">
-            <div class="d-flex flex-column align-items-center flex-fill">
-              <mat-icon>logout</mat-icon>
-            </div>
-          </ng-container>
-          <ng-template #logoutElseBlock>
-            <mat-icon>logout</mat-icon>
-            <span class="flex-fill">{{'action.logout' | translate}}</span>
-          </ng-template>
-        </div>
-      </a>
-    </mat-nav-list>
-
-
-    <div class="d-flex flex-row gap-2 align-items-center collapse-button">
-      <ng-container *ngIf="collapsed; else collapseElseBlock">
-        <div class="d-flex flex-column align-items-center flex-fill">
-          <button mat-icon-button (click)="toggleCollapsed()">
-            <mat-icon>unfold_more</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-      <ng-template #collapseElseBlock>
-        <button mat-button (click)="toggleCollapsed()">
-          <mat-icon>unfold_more</mat-icon>
-          {{'action.collapse' | translate}}
-        </button>
-      </ng-template>
+               [opened]="accessibleItems.length > 2 && !(isHandset$ | async)"
+               class="sidenav"
+               fixedInViewport>
+    <div class="flex flex-col gap-4 justify-center content-center p-6">
+      <div class="flex flex-initial"><a routerLink="/"><img src="assets/img/logo.png"/></a></div>
+      <app-main-menu class="flex-initial" [accessibleItems]="accessibleItems"></app-main-menu>
     </div>
 
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar>
-      <div class="d-flex flex-row gap-3 flex-fill align-content-center align-items-center justify-content-center">
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <ng-container *ngIf="!(isHandset$ | async); else mobileHeader">
-          <a routerLink="/"><img src="assets/img/logo.png"/></a>
-          <span class="header"> {{ service.title | translate}}</span>
-          <div class="flex-fill"></div>
-          <mat-chip-listbox>
-            <mat-chip-option color="accent" selected [selectable]="false">
-              {{this.authService.getPrincipal()?.given_name}} {{this.authService.getPrincipal()?.family_name}}
-            </mat-chip-option>
-          </mat-chip-listbox>
-          <mat-form-field class="dense-1" subscriptSizing="dynamic">
-            <mat-select [value]="lang" (selectionChange)="changeLang($event)">
-              <mat-option value="en">English</mat-option>
-              <mat-option value="de">Deutsch</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </ng-container>
-        <ng-template #mobileHeader>
-          <div class="flex-fill"></div>
-          <div>
-            <button mat-icon-button [matMenuTriggerFor]="appMenu">
-              <mat-icon>language</mat-icon>
-            </button>
-            <mat-menu #appMenu="matMenu">
-              <button mat-menu-item (click)="selectLang('en')">
-                <mat-icon *ngIf="lang == 'en'" style="margin-right: 0 !important;">check</mat-icon>
-                English
-              </button>
-              <button mat-menu-item (click)="selectLang('de')">
-                <mat-icon *ngIf="lang == 'de'" style="margin-right: 0 !important;">check</mat-icon>
-                Deutsch
-              </button>
-            </mat-menu>
-          </div>
-        </ng-template>
-      </div>
-    </mat-toolbar>
-    <router-outlet></router-outlet>
+    <app-dashboard-toolbar [mobileView]="(isHandset$ | async) ?? false" [title]="service.title"
+                           (toggleSidenavEvent)="drawer.toggle()"
+    >
+    </app-dashboard-toolbar>
+    <div>
+
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

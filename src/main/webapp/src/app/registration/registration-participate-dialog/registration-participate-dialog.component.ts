@@ -4,9 +4,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ParticipateRequest} from "../model/registration-api";
 
 @Component({
-  selector: 'app-registration-participate-dialog',
-  templateUrl: './registration-participate-dialog.component.html',
-  styleUrls: ['./registration-participate-dialog.component.scss']
+    selector: 'app-registration-participate-dialog',
+    templateUrl: './registration-participate-dialog.component.html',
+    styleUrls: ['./registration-participate-dialog.component.scss'],
+    standalone: false
 })
 export class RegistrationParticipateDialogComponent {
 
@@ -22,7 +23,7 @@ export class RegistrationParticipateDialogComponent {
   }
 
   submit() {
-    if(!this.fg.valid) return
+    if (!this.fg.valid) return
     let value = this.fg.value
     this.dialogRef.close(new ParticipateRequest(value.size))
   }

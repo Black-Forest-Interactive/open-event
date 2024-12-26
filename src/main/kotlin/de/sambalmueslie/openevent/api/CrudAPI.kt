@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.api
 
-import de.sambalmueslie.openevent.core.BusinessObject
-import de.sambalmueslie.openevent.core.BusinessObjectChangeRequest
+import de.sambalmueslie.openevent.common.BusinessObject
+import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication

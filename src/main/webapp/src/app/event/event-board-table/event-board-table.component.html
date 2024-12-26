@@ -1,26 +1,38 @@
-<mat-progress-bar mode="indeterminate" *ngIf="service.reloading | async"></mat-progress-bar>
+<mat-progress-bar *ngIf="service.reloading | async" mode="indeterminate"></mat-progress-bar>
 
 
-<div class="d-flex flex-column gap-2 p-2 ">
+<div class="flex flex-col gap-2">
   <mat-card>
 
-    <table mat-table [dataSource]="service.infos">
+    <table [dataSource]="service.entries" mat-table>
 
       <!-- Account Column -->
       <ng-container matColumnDef="account">
-        <td mat-cell *matCellDef="let info">
-          <app-account [account]="info.event.owner"></app-account>
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
+            <mat-icon>account_box</mat-icon>
+            <span>{{ 'event.table.account' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <app-account [account]="info.owner"></app-account>
         </td>
       </ng-container>
 
       <!-- Period Column -->
       <ng-container matColumnDef="period">
-        <td mat-cell *matCellDef="let info">
-          <div class="d-flex flex-row gap-2 align-items-center flex-fill">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
             <mat-icon>schedule</mat-icon>
-            <div class="d-flex flex-column gap-1">
-              <div>{{info.event.start | date:'fullDate'}}</div>
-              <div>{{info.event.start | date:'shortTime'}} - {{info.event.finish | date:'shortTime'}}</div>
+            <span>{{ 'event.table.period' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <div class="flex flex-row gap-2 items-center flex-auto">
+            <div class="flex flex-col gap-1">
+              <div>{{ info.start | date:'fullDate' }}</div>
+              <div style="color: #707070">{{ info.start | date:'shortTime' }}- {{ info.finish | date:'shortTime' }}
+              </div>
             </div>
           </div>
         </td>
@@ -28,12 +40,17 @@
 
       <!-- Location Column -->
       <ng-container matColumnDef="location">
-        <td mat-cell *matCellDef="let info">
-          <div class="d-flex flex-row gap-2 align-items-center flex-fill" *ngIf="info.location">
-            <mat-icon>location_pin</mat-icon>
-            <div class="d-flex flex-column gap-1">
-              <div>{{info.location.street}} {{info.location.streetNumber}}</div>
-              <div>{{info.location.zip}} {{info.location.city}}</div>
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
+            <mat-icon>pin_drop</mat-icon>
+            <span>{{ 'event.table.location' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <div *ngIf="info.hasLocation" class="flex flex-row gap-2 items-center flex-auto">
+            <div class="flex flex-col gap-1">
+              <div>{{ info.street }} {{ info.streetNumber }}</div>
+              <div style="color: #707070">{{ info.zip }} {{ info.city }}</div>
             </div>
           </div>
         </td>
@@ -41,58 +58,85 @@
 
       <!-- Description Column -->
       <ng-container matColumnDef="description">
-        <td mat-cell *matCellDef="let info">
-          <div class="d-flex flex-row gap-2 align-items-center flex-fill">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
             <mat-icon>description</mat-icon>
-            <div>{{info.event.title}}</div>
+            <span>{{ 'event.table.description' | translate }}</span>
           </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <div>{{ info.title }}</div>
         </td>
       </ng-container>
 
       <!-- Status Column -->
       <ng-container matColumnDef="status">
-        <td mat-cell *matCellDef="let info">
-          <div class="d-flex flex-row gap-2 align-items-center flex-fill">
-            <app-registration-status [data]="info.registration"></app-registration-status>
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
+            <mat-icon>groups</mat-icon>
+            <span>{{ 'event.table.status' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <div class="flex flex-row gap-2 items-center flex-auto">
+            <app-registration-status [entry]="info"></app-registration-status>
           </div>
         </td>
       </ng-container>
 
-      <!-- Category Column -->
-      <ng-container matColumnDef="category">
-        <td mat-cell *matCellDef="let info">
-          <div class="d-flex flex-row flex-wrap gap-2 align-items-center flex-fill">
-            <mat-chip-listbox>
-              <ng-container *ngFor="let category of info.categories">
-                <mat-chip>{{category.name}}</mat-chip>
-              </ng-container>
-            </mat-chip-listbox>
+      <!-- Label Column -->
+      <ng-container matColumnDef="label">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
+            <mat-icon>label</mat-icon>
+            <span>{{ 'event.table.label' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <div class="flex flex-col gap-0">
+            <div class="flex flex-row flex-wrap gap-2 items-center">
+              @for (category of info.categories; track category) {
+                <b>{{ category }}</b>
+              }
+            </div>
+            <div class="flex flex-row flex-wrap gap-2 items-center">
+              @for (tag of info.tags; track tag) {
+                #{{ tag }}
+              }
+            </div>
           </div>
         </td>
       </ng-container>
 
       <!-- Publish Column -->
       <ng-container matColumnDef="publish">
-        <td mat-cell *matCellDef="let info">
-          <div class="d-flex flex-row flex-wrap">
-            <button mat-mini-fab class="action-fab" *ngIf="!info.event.published">
+        <th mat-header-cell *matHeaderCellDef>
+          <div class="flex flex-row gap-3 items-center">
+            <mat-icon>account_box</mat-icon>
+            <span>{{ 'event.table.publish' | translate }}</span>
+          </div>
+        </th>
+        <td *matCellDef="let info" mat-cell>
+          <div class="flex flex-row flex-wrap">
+            <button *ngIf="!info.published" class="action-fab" mat-mini-fab>
               <mat-icon>unpublished</mat-icon>
             </button>
           </div>
         </td>
       </ng-container>
 
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="./details/{{row.event.id}}" class="row">
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header" ></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" class="row" mat-row routerLink="./details/{{row.id}}">
       </tr>
     </table>
     <mat-divider></mat-divider>
-    <mat-paginator [length]="service.totalSize"
+    <mat-paginator (page)="service.handlePageChange($event)"
+                   [length]="service.totalSize"
                    [pageIndex]="service.pageIndex"
-                   [pageSize]="service.pageSize"
                    [pageSizeOptions]="[5, 10, 25, 100]"
-                   showFirstLastButtons="true"
-                   (page)="service.handlePageChange($event)"
+                   [pageSize]="service.pageSize"
                    class="mb-2 pe-5"
+                   showFirstLastButtons="true"
     >
     </mat-paginator>
   </mat-card>

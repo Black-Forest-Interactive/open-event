@@ -1,9 +1,11 @@
 .sidenav-container {
-  height: 100%;
+  height: 100vh;
 }
 
 .sidenav {
-  max-width: 200px;
+  min-width: 280px;
+  max-width: 280px;
+  background-color: #27272A;
 }
 
 .sidenav .mat-toolbar {
@@ -17,15 +19,4 @@
 }
 
 
-.collapse-button {
-  position: absolute;
-  left: 5px;
-  bottom: 10px;
-  color: black;
-}
 
-.active {
-  border-color: #388e3c;
-  border-width: 1px 1px 1px 5px;
-  border-style: solid;
-}

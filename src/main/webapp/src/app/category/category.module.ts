@@ -5,14 +5,17 @@ import {CategoryRoutingModule} from "./category-routing.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {MaterialModule} from "../material/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
-import {HotToastModule} from "@ngneat/hot-toast";
-import {CategoryChangeComponent} from './category-change/category-change.component';
+import {AccountModule} from "../account/account.module";
+import {RegistrationModule} from "../registration/registration.module";
+import {CategoryDeleteDialogComponent} from './category-delete-dialog/category-delete-dialog.component';
+import {CategoryChangeDialogComponent} from './category-change-dialog/category-change-dialog.component';
 
 
 @NgModule({
   declarations: [
     CategoryBoardComponent,
-    CategoryChangeComponent
+    CategoryDeleteDialogComponent,
+    CategoryChangeDialogComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +23,8 @@ import {CategoryChangeComponent} from './category-change/category-change.compone
     MaterialModule,
     TranslateModule,
     ReactiveFormsModule,
-    HotToastModule,
+    AccountModule,
+    RegistrationModule,
   ]
 })
 export class CategoryModule {

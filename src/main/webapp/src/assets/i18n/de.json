@@ -15,7 +15,10 @@
     "collapse": "Collapse",
     "close": "Schliesen",
     "ok": "Ok",
-    "details": "Details"
+    "details": "Details",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "delete": "Löschen"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -25,11 +28,12 @@
       "edit": "Veranstaltung Bearbeiten",
       "copy": "Veranstaltung Kopieren",
       "delete": "Veranstaltung Löschen",
-      "publish": "Veranstaltung Veröffentlichen"
+      "publish": "Veranstaltung Veröffentlichen",
+      "admin": "Teilnehmer anzeigen"
     },
     "step": {
       "event": "Veranstaltung",
-      "location": "Addresse",
+      "location": "Adresse",
       "registration": "Sonstiges",
       "incomplete": "Angaben unvollständig"
     },
@@ -44,6 +48,7 @@
       "startDate": "Datum",
       "startTime": "Begin",
       "endTime": "Ende",
+      "address": "Gespeicherte Adresse auswählen",
       "street": "Straße",
       "nr": "Nr",
       "info": "Addresszusatz",
@@ -52,13 +57,15 @@
       "country": "Land",
       "maxGuests": "Teilnehmer",
       "category": "Kategorien",
+      "tags": "Hashtags",
       "hint": {
         "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
         "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
         "startDate": "Datum der Veranstaltung",
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
-        "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?"
+        "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
+        "tags": "Eigene Hashtags hinzufügen"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
@@ -71,6 +78,34 @@
         "title": "Veranstaltung löschen",
         "question": "Soll die Veranstaltung wirklich gelöscht werden?"
       }
+    },
+    "filter": {
+      "reset": "Filter zurücksetzen",
+      "hide": "Filter schließen",
+      "history": "Vergangenheit anzeigen",
+      "own": "Meine Angebote anzeigen",
+      "available": "Verfügbare anzeigen",
+      "participating": "Meine Teilnahme anzeigen",
+      "range": {
+        "label": "Zeitraum wählen",
+        "today": "Nur heute anzeigen",
+        "week": "Diese Woche anzeigen",
+        "next": "Nächste Woche anzeigen",
+        "start": "Startdatum ",
+        "end": "Enddatum"
+      }
+    },
+    "table": {
+      "account": "Veranstalter",
+      "period": "Zeitram",
+      "location": "Ort",
+      "description": "Beschreibung",
+      "status": "Status",
+      "category": "Kategorien",
+      "label": "Markierung"
+    },
+    "admin": {
+      "registration": "Teilnehmerliste"
     }
   },
   "registration": {
@@ -114,16 +149,53 @@
     },
     "status": {
       "full": "Ausgebucht",
-      "available": "{{remaining}} von {{available}} Plätzen frei"
+      "available": "{{remaining}} Plätze frei"
     },
     "form": {
       "firstName": "Vorname",
       "lastName": "Familienname",
       "email": "Email"
+    },
+    "table": {
+      "rank": "Platz",
+      "size": "Personen",
+      "status": "Status",
+      "waitlist": "Warteliste",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Telefon",
+      "mobile": "Mobil",
+      "timestamp": "Timestamp",
+      "enum": {
+        "ACCEPTED": "Bestätigt",
+        "INTERESTED": "Interesiert",
+        "CANCELED": "Abgesagt"
+      }
     }
   },
   "category": {
-    "type": "Kategorien"
+    "type": "Kategorien",
+    "search": "Kategoriesuche",
+    "create": "Neue Kategorie anlegen",
+    "table": {
+      "name": "Name"
+    },
+    "dialog": {
+      "change": {
+        "title": "Kategorie bearbeiten"
+      },
+      "create": {
+        "title": "Kategorie erstellen"
+      },
+      "delete": {
+        "title": "Kategorie löschen",
+        "question": "Soll die Kategorie wirklich gelöscht werden?"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "iconUrl": "Icon URL"
+    }
   },
   "settings": {
     "type": "Einstellungen"
@@ -140,6 +212,8 @@
     }
   },
   "account": {
+    "title": "Benutzer",
+    "type": "Benutzerprofil",
     "search": "Suche nach Benutzer",
     "dialog": {
       "create": {
@@ -153,13 +227,16 @@
       "name": "Name",
       "firstName": "Vorname",
       "lastName": "Familienname",
-      "email": "Email"
+      "email": "Email",
+      "phone": "Telefon",
+      "mobile": "Mobilfunk"
     },
     "message": {
       "created": "Benutzer erfolgreich erstellt"
     }
   },
   "backoffice": {
+    "type": "Backoffice",
     "title": "Backoffice",
     "stats": {
       "title": "Statistik"
@@ -197,5 +274,108 @@
         "event": "Veranstaltung Index neu erstellen"
       }
     }
+  },
+  "mail": {
+    "type": "E-Mail Protokoll",
+    "title": "E-Mail",
+    "search": "Suche nach E-Mail",
+    "table": {
+      "timestamp": "Zeitstempel",
+      "status": "Status",
+      "title": "Betreff"
+    }
+  },
+  "history": {
+    "type": "Audit Log",
+    "title": "Überwachungsprotokoll",
+    "table": {
+      "timestamp": "Zeitstempel",
+      "actor": "Akteur",
+      "type": "Typ",
+      "message": "Nachricht",
+      "source": "Quelle",
+      "info": "Info"
+    }
+  },
+  "profile": {
+    "title": "Benutzerprofil",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "mobile": "Mobil",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "dateOfBirth": "Geburtstag",
+    "gender": "Geschlecht",
+    "profilePicture": "Profil-Bild",
+    "website": "Webseite",
+    "language": "Sprache"
+  },
+  "address": {
+    "title": "Adressen",
+    "dialog": {
+      "create": {
+        "title": "Neue Adresse erstellen"
+      },
+      "change": {
+        "title": "Bestehende Adresse ändern"
+      },
+      "delete": {
+        "title": "Adresse löschen",
+        "question": "Soll die Adresse wirklich gelöscht werden?"
+      }
+    },
+    "table": {
+      "street": "Straße",
+      "streetNumber": "Nr",
+      "info": "Addresszusatz",
+      "zip": "PLZ",
+      "city": "Wohnort",
+      "country": "Land"
+    },
+    "action": {
+      "add": "Neue Adresse anlegen",
+      "import": "Bestehende Adressen importieren"
+    }
+  },
+  "share": {
+    "title": "Share",
+    "action": {
+      "enable": "Enable Sharing"
+    }
+  },
+  "lang": {
+    "en": "English",
+    "de": "Deutsch"
+  },
+  "preferences": {
+    "title": "Einstellungen"
+  },
+  "activity": {
+    "title": "Benachrichtigungen",
+    "type": {
+      "EVENT_CREATED": "Veranstaltung erstellt",
+      "EVENT_CHANGED": "Veranstaltung geändert",
+      "PARTICIPANT_ACCEPTED": "Neuer Teilnehmer",
+      "PARTICIPANT_DECLINED": "Teilnahme abgesagt",
+      "PARTICIPANT_CHANGED": "Teilnehmer geändert"
+    },
+    "table": {
+      "type": "Typ",
+      "title": "Titel",
+      "actor": "Benutzer",
+      "timestamp": "Datum",
+      "read": "Gelesen"
+    },
+    "action": {
+      "read": "Gelesen",
+      "readAll": "Alle gelesen"
+    }
+  },
+  "paginator": {
+    "items": "Anzahl pro Seite",
+    "next": "Nächste Seite",
+    "prev": "Vorherige Seite",
+    "first": "Erste Seite",
+    "last": "Letzte Seite"
   }
 }

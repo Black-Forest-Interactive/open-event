@@ -1,11 +1,11 @@
-import {Account} from "../../account/model/account-api";
+import {AccountInfo} from "../../account/model/account-api";
 import {Location, LocationChangeRequest} from "../../location/model/location-api";
 import {RegistrationChangeRequest, RegistrationInfo} from "../../registration/model/registration-api";
 import {Category} from "../../category/model/category-api";
 
 export interface Event {
   id: number,
-  owner: Account,
+  owner: AccountInfo,
   start: string,
   finish: string,
 
@@ -18,6 +18,8 @@ export interface Event {
   hasLocation: boolean,
   hasRegistration: boolean,
   published: boolean,
+
+  tags: string[]
 }
 
 export interface EventInfo {
@@ -41,7 +43,8 @@ export class EventChangeRequest {
     public categoryIds: number[],
     public location: LocationChangeRequest,
     public registration: RegistrationChangeRequest,
-    public published: boolean
+    public published: boolean,
+    public tags: string[]
   ) {
   }
 }

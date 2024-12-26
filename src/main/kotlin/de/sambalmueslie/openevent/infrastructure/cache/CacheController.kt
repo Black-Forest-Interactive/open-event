@@ -4,7 +4,7 @@ package de.sambalmueslie.openevent.infrastructure.cache
 import de.sambalmueslie.openevent.api.CacheAPI
 import de.sambalmueslie.openevent.api.CacheAPI.Companion.PERMISSION_READ
 import de.sambalmueslie.openevent.api.CacheAPI.Companion.PERMISSION_WRITE
-import de.sambalmueslie.openevent.core.auth.checkPermission
+import de.sambalmueslie.openevent.core.checkPermission
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get

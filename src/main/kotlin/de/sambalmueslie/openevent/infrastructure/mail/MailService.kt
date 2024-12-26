@@ -1,12 +1,12 @@
 package de.sambalmueslie.openevent.infrastructure.mail
 
 
+import de.sambalmueslie.openevent.common.findByIdOrNull
 import de.sambalmueslie.openevent.config.MailConfig
 import de.sambalmueslie.openevent.infrastructure.mail.api.*
 import de.sambalmueslie.openevent.infrastructure.mail.db.*
 import de.sambalmueslie.openevent.infrastructure.mail.external.MailClient
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
-import de.sambalmueslie.openevent.storage.util.findByIdOrNull
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.scheduling.annotation.Scheduled

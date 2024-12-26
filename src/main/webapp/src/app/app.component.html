@@ -1,2 +1,5 @@
-<app-dashboard *ngIf="validated"></app-dashboard>
-
+@if (service.validated | async) {
+  <app-dashboard></app-dashboard>
+} @else {
+  <router-outlet></router-outlet>
+}

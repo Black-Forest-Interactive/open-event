@@ -13,6 +13,7 @@ export class SettingChangeRequest {
   ) {
   }
 }
+
 export interface UrlResponse {
   url: string
 }

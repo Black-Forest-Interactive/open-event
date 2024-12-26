@@ -1,15 +1,18 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "../../shared/model/base-service";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Account, AccountChangeRequest, AccountValidationResult} from "./account-api";
+import {Account, AccountChangeRequest, AccountInfo, AccountSetupRequest, AccountValidationResult} from "./account-api";
 import {Page} from "../../shared/model/page";
+import {Profile} from "../../profile/model/profile-api";
+import {Preferences} from "../../preferences/model/preferences-api";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService extends BaseService {
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, private translate: TranslateService) {
     super(http, 'account')
     this.retryCount = 1
   }
@@ -27,16 +30,26 @@ export class AccountService extends BaseService {
   }
 
   validate(): Observable<AccountValidationResult> {
-    return this.get('validate')
+    let lang = this.translate.currentLang
+    let params = new HttpParams()
+      .set("lang", lang)
+    return this.get('validate', params)
   }
 
-  searchAccounts(query: string, page: number, size: number): Observable<Page<Account>> {
-    let params = new HttpParams().set("query", query)
-    return this.getPaged('search', page, size, params)
+  getProfile(): Observable<Profile> {
+    return this.get('profile')
   }
 
-  buildIndex(): Observable<any> {
-    return this.post('search', {})
+  getPreferences(): Observable<Preferences> {
+    return this.get('preferences')
+  }
+
+  setupAccount(request: AccountSetupRequest): Observable<AccountInfo> {
+    return this.post('setup', request)
+  }
+
+  updateAccount(id: number, request: AccountSetupRequest): Observable<AccountInfo> {
+    return this.put('setup/' + id, request)
   }
 
 }

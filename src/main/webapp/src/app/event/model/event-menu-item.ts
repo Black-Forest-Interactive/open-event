@@ -9,7 +9,7 @@ export class EventMenuItem {
   }
 
   isAccessible(permission: string): boolean {
-    if(this.permissions.length <= 0) return true
+    if (this.permissions.length <= 0) return true
     return this.permissions.find(p => p === permission) != null
   }
 

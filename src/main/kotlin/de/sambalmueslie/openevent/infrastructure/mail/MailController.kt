@@ -3,7 +3,7 @@ package de.sambalmueslie.openevent.infrastructure.mail
 
 import de.sambalmueslie.openevent.api.MailAPI
 import de.sambalmueslie.openevent.api.MailAPI.Companion.PERMISSION_READ
-import de.sambalmueslie.openevent.core.auth.checkPermission
+import de.sambalmueslie.openevent.core.checkPermission
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
