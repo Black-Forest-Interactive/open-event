@@ -1,0 +1,50 @@
+<app-board [reloading]="loading()" (reload)="eventResource.reload()" [showSearch]="false" title="event.title" [showBack]="true" (back)="back()">
+  <board-toolbar-actions class="flex flex-row gap-2">
+    @if (!loading() && !menu.publishMenuItem.disabled) {
+      <app-event-publish-button [data]="event()!!.event"></app-event-publish-button>
+    }
+    @for (item of menu.menuItems; track item) {
+      <button (click)="item.handleClick()" class="action-fab" mat-mini-fab>
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </button>
+    }
+  </board-toolbar-actions>
+  <div class="flex flex-col gap-4 p-4 content-stretch ">
+    @if (event()) {
+      <div class="flex flex-row gap-6">
+        <div class="flex flex-col gap-4 content-stretch basis-1/4">
+          <app-event-details-info [event]="event()!!"></app-event-details-info>
+        </div>
+        <div class="rounded-lg border-gray-500 border flex-auto">
+          <mat-tab-group>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>map</mat-icon>
+                <span class="px-2">{{ 'event.details.location' | translate }}</span>
+              </ng-template>
+              <app-event-details-location [event]="event()!!"></app-event-details-location>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="pe-2">group</mat-icon>
+                <span class="px-2">{{ 'event.details.registration' | translate }}</span>
+              </ng-template>
+              <app-event-details-registration [event]="event()!!" (changeResponse)="eventResource.reload()"></app-event-details-registration>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="pe-2">history</mat-icon>
+                <span class="px-2">{{ 'event.details.history' | translate }}</span>
+              </ng-template>
+              <app-event-details-history [event]="event()!!"></app-event-details-history>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    }
+  </div>
+</app-board>
+
+<app-event-menu [event]="event()" #menu></app-event-menu>
+
+

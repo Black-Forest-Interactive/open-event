@@ -1,0 +1,118 @@
+<table [dataSource]="data()" mat-table>
+
+  <!-- name column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>badge</mat-icon>
+        <span>{{ 'account.table.name' | translate }}</span>
+      </div>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      {{ entry.name }}
+    </td>
+  </ng-container>
+
+  <!-- email column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>contact_mail</mat-icon>
+        <span>{{ 'account.table.email' | translate }}</span>
+      </div>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      {{ entry.email }}
+    </td>
+  </ng-container>
+
+  <!-- phone column -->
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>call</mat-icon>
+        <span>{{ 'account.table.phone' | translate }}</span>
+      </div>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      {{ entry.phone }}
+    </td>
+  </ng-container>
+
+
+  <!-- mobile column -->
+  <ng-container matColumnDef="mobile">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="flex flex-row gap-3 items-center">
+        <mat-icon>smartphone</mat-icon>
+        <span>{{ 'account.table.mobile' | translate }}</span>
+      </div>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      {{ entry.mobile }}
+    </td>
+  </ng-container>
+
+  <!-- firstname column -->
+  <ng-container matColumnDef="firstname">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="flex flex-row gap-3 items-center">
+        <span>{{ 'account.table.firstname' | translate }}</span>
+      </div>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      {{ entry.firstName }}
+    </td>
+  </ng-container>
+
+
+  <!-- lastname column -->
+  <ng-container matColumnDef="lastname">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="flex flex-row gap-3 items-center">
+        <span>{{ 'account.table.lastname' | translate }}</span>
+      </div>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      {{ entry.lastName }}
+    </td>
+  </ng-container>
+
+
+  <!-- name cmd -->
+  <ng-container matColumnDef="cmd">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+    <td *matCellDef="let entry" mat-cell>
+      <div class="flex flex-row gap-2 justify-end">
+        <button color="accent" mat-icon-button (click)="createEvent.emit(entry); $event.stopPropagation()">
+          <mat-icon>event</mat-icon>
+        </button>
+        <button color="primary" mat-icon-button (click)="editEvent.emit(entry); $event.stopPropagation()">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button color="warn" mat-icon-button (click)="deleteEvent.emit(entry); $event.stopPropagation()">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <a color="accent" mat-icon-button routerLink="./details/{{entry.id}}">
+          <mat-icon>arrow_circle_right</mat-icon>
+        </a>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row class="table-content-row cursor-pointer" routerLink="./details/{{row.id}}"></tr>
+</table>
+
+
+<mat-paginator
+  (page)="pageEvent.emit($event)"
+  [disabled]="reloading()"
+  [length]="totalElements()"
+  [pageIndex]="pageNumber()"
+  [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+  showFirstLastButtons
+>
+</mat-paginator>

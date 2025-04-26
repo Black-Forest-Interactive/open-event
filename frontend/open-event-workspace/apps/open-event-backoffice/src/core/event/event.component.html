@@ -1,0 +1,18 @@
+<app-board [reloading]="reloading" (fullTextSearch)="fullTextSearch = $event" (reload)="search()" title="event.title" searchPlaceholder="event.search">
+  <board-toolbar-actions class="flex flex-row gap-3 justify-center">
+    <lib-event-range-picker (rangeChanged)="handleRangeChanged($event)" [required]="false" #range/>
+    <button (click)="toggleHistory()" class="action-fab" mat-mini-fab>
+      <mat-icon>history</mat-icon>
+    </button>
+    <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent">
+      <mat-icon>search_off</mat-icon>
+    </button>
+  </board-toolbar-actions>
+  <mat-card>
+    <app-event-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"
+                     (pageEvent)="handlePageChange($event)"
+                     (editEvent)="edit($event)"
+                     (deleteEvent)="delete($event)"
+    ></app-event-table>
+  </mat-card>
+</app-board>

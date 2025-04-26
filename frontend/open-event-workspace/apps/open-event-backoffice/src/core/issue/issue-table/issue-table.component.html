@@ -1,0 +1,60 @@
+<table [dataSource]="data()" mat-table>
+  <ng-container matColumnDef="subject">
+    <th *matHeaderCellDef mat-header-cell>{{ 'issue.property.subject' | translate }}</th>
+    <td *matCellDef="let issue" mat-cell>{{ issue.subject }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="error">
+    <th *matHeaderCellDef mat-header-cell>{{ 'issue.property.error' | translate }}</th>
+    <td *matCellDef="let issue" mat-cell>{{ issue.error }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="url">
+    <th *matHeaderCellDef mat-header-cell>{{ 'issue.property.url' | translate }}</th>
+    <td *matCellDef="let issue" mat-cell>{{ issue.url }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actor">
+    <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'issue.property.account' | translate }}</th>
+    <td *matCellDef="let issue" mat-cell>
+      <div class="flex flex-col gap-1 ">
+        <div>{{ issue.account.name }}</div>
+        <div class="text-xs">{{ issue.account.email }}</div>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'issue.property.status' | translate }}</th>
+    <td *matCellDef="let issue" mat-cell>{{ 'issue.status.' + issue.status | translate }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="timestamp">
+    <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'issue.property.timestamp' | translate }}</th>
+    <td *matCellDef="let issue" mat-cell>{{ issue.timestamp | date:'medium' }}</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="cmd">
+    <th *matHeaderCellDef class="col-1" mat-header-cell></th>
+    <td *matCellDef="let issue" mat-cell>
+      <button color="accent" mat-icon-button (click)="showDetails(issue); $event.stopPropagation()">
+        <mat-icon>arrow_circle_right</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+  <tr *matRowDef="let issue; columns: displayedColumns;" mat-row class="table-content-row cursor-pointer"  (click)="showDetails(issue); $event.stopPropagation()"></tr>
+</table>
+
+
+<mat-paginator
+  (page)="pageEvent.emit($event)"
+  [disabled]="reloading()"
+  [length]="totalElements()"
+  [pageIndex]="pageNumber()"
+  [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+  showFirstLastButtons
+>
+</mat-paginator>

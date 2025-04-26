@@ -1,0 +1,26 @@
+<mat-form-field class="flex-auto dense-1 w-full">
+  <mat-label>{{ placeholder() }}</mat-label>
+  <mat-chip-grid #chipGrid aria-label="Entry selection">
+    @for (entry of selectedEntries; track entry) {
+      <mat-chip-row (removed)="handleRemoveEvent(entry)" [removable]="removable()">
+        {{ entry.name }}
+        @if (removable()) {
+          <mat-icon matChipRemove>cancel</mat-icon>
+        }
+      </mat-chip-row>
+    }
+  </mat-chip-grid>
+  <input #entryInput
+         [formControl]="formCtrl()"
+         [matAutocomplete]="auto"
+         [matChipInputFor]="chipGrid"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handleSelectedEvent($event)">
+    @for (entry of filteredEntries; track entry) {
+      <mat-option [value]="entry">
+        {{ entry.name }}
+      </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

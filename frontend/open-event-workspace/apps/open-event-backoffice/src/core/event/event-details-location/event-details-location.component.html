@@ -1,0 +1,30 @@
+<div class="p-2">
+  <app-board-card title="event.details.location">
+    <div class="flex flex-col gap-3 p-4">
+      @if (event().location) {
+        <div class="flex flex-row gap-2 justify-between content-center">
+          <div>{{ 'location.property.street' | translate }}</div>
+          <div>{{ event().location?.street }} {{ event().location?.streetNumber }}</div>
+        </div>
+        <div class="flex flex-row gap-2 justify-between content-center">
+          <div>{{ 'location.property.additionalInfo' | translate }}</div>
+          <div>{{ event().location?.additionalInfo }}</div>
+        </div>
+        <div class="flex flex-row gap-2 justify-between content-center">
+          <div>{{ 'location.property.city' | translate }}</div>
+          <div>{{ event().location?.zip }} {{ event().location?.city }}</div>
+        </div>
+        <div class="flex flex-row gap-2 justify-between content-center">
+          <div>{{ 'location.property.country' | translate }}</div>
+          <div>{{ event().location?.country }}</div>
+        </div>
+        <div class="flex flex-row gap-2 justify-between content-center">
+          <div>{{ 'location.property.size' | translate }}</div>
+          <div>{{ event().location?.size }}</div>
+        </div>
+
+        <lib-location-map [location]="event().location"></lib-location-map>
+      }
+    </div>
+  </app-board-card>
+</div>

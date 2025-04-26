@@ -1,8 +1,0 @@
-<div>
-  <ng-container *ngIf="spaceAvailable; else notAvailable">
-    <div class="available">{{ 'registration.status.available' | translate: space }}</div>
-  </ng-container>
-  <ng-template #notAvailable>
-    <div class="full">{{ 'registration.status.full' | translate }}</div>
-  </ng-template>
-</div>

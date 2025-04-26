@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-header>
+    <div class="flex flex-row gap-2 items-center pb-2">
+      <app-account [account]="info().event.owner"></app-account>
+      <div class="flex-auto"></div>
+      <div>{{ info().event.start | date:'fullDate' }}</div>
+      <div>{{ info().event.start | date:'shortTime' }} - {{ info().event.finish | date:'shortTime' }}</div>
+    </div>
+  </mat-card-header>
+  @if (info().event.longText.length > 0) {
+    <mat-divider></mat-divider>
+  }
+  @if (info().event.imageUrl && info().event.imageUrl.length > 0) {
+    <img alt="" mat-card-image src="{{info().event.imageUrl.length}}">
+  }
+  @if (info().event.longText.length > 0) {
+    <mat-card-content>
+      <div [innerHTML]="info().event.longText" class="pt-3"></div>
+    </mat-card-content>
+  }
+  @if (info().categories.length > 0 || info().event.tags.length > 0) {
+    <div class="pt-3"></div>
+    <mat-divider></mat-divider>
+    <mat-card-actions class="flex flex-row flex-wrap gap-2">
+      <mat-chip-listbox>
+        @for (category of info().categories; track category.id) {
+          <mat-chip color="primary">
+            <mat-icon matChipAvatar>label</mat-icon>
+            {{ category.name }}
+          </mat-chip>
+        }
+      </mat-chip-listbox>
+
+      <mat-chip-listbox>
+        @for (tag of info().event.tags; track tag) {
+          <mat-chip color="accent">
+            <mat-icon matChipAvatar>tag</mat-icon>
+            {{ tag }}
+          </mat-chip>
+        }
+      </mat-chip-listbox>
+    </mat-card-actions>
+  }
+</mat-card>

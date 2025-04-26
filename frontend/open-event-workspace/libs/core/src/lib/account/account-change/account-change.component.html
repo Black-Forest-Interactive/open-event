@@ -1,0 +1,29 @@
+<form [formGroup]="fg">
+  <div class="flex flex-col gap-2 py-2">
+    <mat-form-field class="dense-1">
+      <mat-label>{{ 'account.form.firstName' | translate }}</mat-label>
+      <input formControlName="firstName" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="dense-1">
+      <mat-label>{{ 'account.form.lastName' | translate }}</mat-label>
+      <input formControlName="lastName" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="dense-1">
+      <mat-label>{{ 'account.form.email' | translate }}</mat-label>
+      <input formControlName="email" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="dense-1">
+      <mat-label>{{ 'account.form.phone' | translate }}</mat-label>
+      <input formControlName="phone" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="dense-1">
+      <mat-label>{{ 'account.form.mobile' | translate }}</mat-label>
+      <input formControlName="mobile" matInput>
+    </mat-form-field>
+
+  </div>
+</form>

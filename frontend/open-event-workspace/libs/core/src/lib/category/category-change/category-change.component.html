@@ -1,0 +1,16 @@
+<form [formGroup]="fg">
+  <div class="flex flex-col gap-2 pt-2">
+    <!-- text-->
+    <mat-form-field class="dense-1" hintLabel="{{'category.form.hint.name' | translate}}">
+      <mat-label>{{ 'category.form.name' | translate }}</mat-label>
+      <input #nameInput formControlName="name" matInput maxlength="40">
+      <mat-hint align="end">{{ nameInput.value.length || 0 }}/40</mat-hint>
+    </mat-form-field>
+
+    <!-- icon url-->
+    <mat-form-field class="dense-1" hintLabel="{{'category.form.hint.iconUrl' | translate}}">
+      <mat-label>{{ 'category.form.iconUrl' | translate }}</mat-label>
+      <input #titleInput formControlName="iconUrl" matInput>
+    </mat-form-field>
+  </div>
+</form>

@@ -1,0 +1,60 @@
+# Ignore Kotlin and Java build artifacts
+/build/
+/out/
+
+# Gradle-specific files
+.gradle/
+/buildSrc/.gradle/
+buildSrc/build/
+/buildSrc/build/
+
+# IntelliJ IDEA-specific files
+.idea/
+*.iml
+*.iws
+
+# Ignore log files and OS files
+*.log
+*.tmp
+*.swp
+*.DS_Store
+
+# Ignore dependency caches
+/.gradle/
+/buildSrc/.gradle/
+/buildSrc/build/
+
+# Ignore generated Micronaut files
+/classes/
+/dependency-cache/
+/project-cache/
+/generated/
+/META-INF/native-image/
+
+# Exclude IDE-specific files and folders
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Exclude system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore test results
+/test-results/
+/test-output/
+/reports/
+
+# Ignore runtime-generated files
+*.hprof
+*.pid
+
+# Ignore IDE-specific settings
+*.run/
+run/
+/.vscode/
+
+# Ignore local environment properties
+application-local.yml
+.env

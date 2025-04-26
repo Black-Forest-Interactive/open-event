@@ -1,0 +1,19 @@
+<mat-sidenav-container autosize class="flex flex-col vh-full">
+  <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="accessibleItems.length > 2 && !(isHandset$ | async)"
+               class="sidenav"
+               fixedInViewport>
+    <div class="flex flex-col gap-4 justify-center content-center p-6">
+      <div class="flex flex-initial"><a routerLink="/"><img src="img/logo.png"/></a></div>
+      <app-main-menu class="flex-initial" [accessibleItems]="accessibleItems" (logoutEvent)="authService.logout()"></app-main-menu>
+    </div>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <boffice-dashboard-toolbar [mobileView]="(isHandset$ | async) ?? false" [title]="service.title()" (toggleSidenavEvent)="drawer.toggle()"/>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

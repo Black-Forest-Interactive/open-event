@@ -1,0 +1,497 @@
+{
+  "app": {
+    "title": "Willkommen bei open event",
+    "loading": "App lädt, bitte wraten"
+  },
+  "action": {
+    "next": "Weiter",
+    "back": "Zurück",
+    "submit": "Speichern",
+    "cancel": "Abbrechen",
+    "help": "Hilfe",
+    "yes": "Ja",
+    "no": "Nein",
+    "logout": "Ausloggen",
+    "collapse": "Collapse",
+    "close": "Schliesen",
+    "ok": "Ok",
+    "details": "Details",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "delete": "Löschen"
+  },
+  "event": {
+    "type": "Veranstaltungen",
+    "title": "Veranstaltung",
+    "search": "Suche nach einer Veranstaltung",
+    "create": "Neue Veranstaltung erstellen",
+    "action": {
+      "create": "Veranstaltung erstellen",
+      "edit": "Veranstaltung Bearbeiten",
+      "copy": "Veranstaltung Kopieren",
+      "delete": "Veranstaltung Löschen",
+      "publish": "Veranstaltung Veröffentlichen",
+      "admin": "Teilnehmer anzeigen"
+    },
+    "step": {
+      "event": "Veranstaltung",
+      "location": "Adresse",
+      "registration": "Sonstiges",
+      "incomplete": "Angaben unvollständig"
+    },
+    "change": {
+      "create": "Neue Veranstaltung erstellen",
+      "update": "Bearbeiten der Veranstaltung: {{ event }}",
+      "copy": "Kopieren der Veranstaltung: {{ event }}"
+    },
+    "form": {
+      "title": "Titel",
+      "longText": "Beschreibung",
+      "startDate": "Datum",
+      "startTime": "Begin",
+      "endTime": "Ende",
+      "address": "Gespeicherte Adresse auswählen",
+      "street": "Straße",
+      "nr": "Nr",
+      "info": "Addresszusatz",
+      "zip": "PLZ",
+      "city": "Wohnort",
+      "country": "Land",
+      "maxGuests": "Teilnehmer",
+      "category": "Kategorien",
+      "tags": "Hashtags",
+      "hint": {
+        "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
+        "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+        "startDate": "Datum der Veranstaltung",
+        "startTime": "Beginn der Veranstaltung",
+        "endTime": "Voraussichtliches Ende der Veranstaltung",
+        "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
+        "tags": "Eigene Hashtags hinzufügen"
+      },
+      "error": {
+        "title": "Bitte einen Titel angeben",
+        "shortText": "Bitte einen Kurztext angeben",
+        "longText": "Bitte eine Beschreibung angeben"
+      }
+    },
+    "dialog": {
+      "delete": {
+        "title": "Veranstaltung löschen",
+        "question": "Soll die Veranstaltung wirklich gelöscht werden?"
+      }
+    },
+    "filter": {
+      "reset": "Filter zurücksetzen",
+      "hide": "Filter schließen",
+      "history": "Vergangenheit anzeigen",
+      "own": "Meine Angebote anzeigen",
+      "available": "Verfügbare anzeigen",
+      "participating": "Meine Teilnahme anzeigen",
+      "range": {
+        "label": "Zeitraum wählen",
+        "today": "Nur heute anzeigen",
+        "week": "Diese Woche anzeigen",
+        "next": "Nächste Woche anzeigen",
+        "start": "Startdatum ",
+        "end": "Enddatum"
+      }
+    },
+    "table": {
+      "account": "Veranstalter",
+      "period": "Zeitram",
+      "location": "Ort",
+      "description": "Beschreibung",
+      "status": "Status",
+      "category": "Kategorien",
+      "label": "Markierung"
+    },
+    "admin": {
+      "registration": "Teilnehmerliste"
+    },
+    "property": {
+      "id": "ID",
+      "title": "Titel",
+      "shortText": "Kurztext",
+      "longText": "Beschreibung",
+      "published": "Veröffentlicht",
+      "tags": "Hashtags",
+      "categories": "Kategorien",
+      "owner": "Ersteller",
+      "date": "Datum",
+      "participants": "Teilnehmerinfo"
+    },
+    "details": {
+      "info": "Allgemein",
+      "location": "Ort",
+      "registration": "Anmeldungen",
+      "history": "Protokoll"
+    }
+  },
+  "registration": {
+    "title": "Teilnehmer",
+    "space": "Plätze",
+    "waitlist": "Warteliste",
+    "action": {
+      "participate": "Teilnehmen",
+      "participateAccount": "Account hinzufügen",
+      "participateManual": "Manuell hinzufügen",
+      "edit": "Teilnahme ändern",
+      "cancel": "Absagen"
+    },
+    "people": "Personen",
+    "peopleAmount": "Anzahl Personen",
+    "dialog": {
+      "accept": {
+        "title": "An Veranstaltung teilnehmen",
+        "question": "Mit wie vielen Personen möchten Sie teilnehmen?"
+      },
+      "edit": {
+        "title": "Teilnehmer anpassen",
+        "question": "Mit wie vielen Personen möchten Sie teilnehmen?",
+        "message": "Ihre Änderungen wurden erfolgreich übernommen"
+      },
+      "cancel": {
+        "title": "Teilnahme absagen",
+        "question": "Möchten Sie wirklich ihre Teilnahme absagen?",
+        "message": "Ihre Absage wurde erfolgreich verarbeitet"
+      },
+      "manual": {
+        "title": "Manuellen Teilnehmer hinzufügen",
+        "question": "Bitte Daten des Teilnehemers eingeben"
+      }
+    },
+    "message": {
+      "accepted": "Ihre Anmeldung wurde erfolgreich verarbeitet.",
+      "waiting": "Keine oder zu wenig Plätze frei, aber auf der Warteliste vorgemerkt.",
+      "declined": "Ihre Absage wurde erfolgreich verarbeitet.",
+      "failed": "Ein unerwarteter Fehler ist aufgetreten bitte kontaktiere den support"
+    },
+    "status": {
+      "full": "Ausgebucht",
+      "available": "{{remaining}} Plätze frei"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Familienname",
+      "email": "Email"
+    },
+    "table": {
+      "rank": "Platz",
+      "size": "Personen",
+      "status": "Status",
+      "waitlist": "Warteliste",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Telefon",
+      "mobile": "Mobil",
+      "timestamp": "Timestamp",
+      "enum": {
+        "ACCEPTED": "Bestätigt",
+        "INTERESTED": "Interesiert",
+        "CANCELED": "Abgesagt"
+      }
+    }
+  },
+  "category": {
+    "type": "Kategorien",
+    "title": "Kategorien",
+    "search": "Kategoriesuche",
+    "create": "Neue Kategorie anlegen",
+    "table": {
+      "name": "Name"
+    },
+    "dialog": {
+      "change": {
+        "title": "Kategorie bearbeiten"
+      },
+      "create": {
+        "title": "Kategorie erstellen"
+      },
+      "delete": {
+        "title": "Kategorie löschen",
+        "question": "Soll die Kategorie wirklich gelöscht werden?"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "iconUrl": "Icon URL"
+    }
+  },
+  "settings": {
+    "type": "Einstellungen",
+    "title": "Einstellungen",
+    "create": "Neuen Parameter anlegen",
+    "table": {
+      "key": "Key",
+      "value": "Value",
+      "type": "Typ"
+    },
+    "form": {
+      "key": "Key",
+      "value": "Value",
+      "type": "Typ"
+    },
+    "dialog": {
+      "create": {
+        "title": "Neuen Parameter anlegen"
+      }
+    }
+  },
+  "cache": {
+    "type": "Cache"
+  },
+  "user": {
+    "logout": {
+      "confirm": {
+        "Title": "Ausloggen bestätigen",
+        "Text": "Wollen Sie sich wirklich ausloggen?"
+      }
+    }
+  },
+  "account": {
+    "title": "Benutzer",
+    "type": "Benutzerprofil",
+    "admin": "Benutzerverwaltung",
+    "search": "Suche nach Benutzer",
+    "create": "Benutzer anlegen",
+    "dialog": {
+      "create": {
+        "title": "Neuen Benutzer erstellen"
+      },
+      "search": {
+        "title": "Existierende Benutzer durchsuchen"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "firstName": "Vorname",
+      "lastName": "Familienname",
+      "email": "Email",
+      "phone": "Telefon",
+      "mobile": "Mobilfunk"
+    },
+    "message": {
+      "created": "Benutzer erfolgreich erstellt"
+    },
+    "table": {
+      "name": "Benutzername",
+      "firstname": "Vorname",
+      "lastname": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "mobile": "Mobil"
+    },
+    "property": {
+      "id": "ID",
+      "externalId": "External ID",
+      "name": "Name",
+      "registered": "Registrierungsdatum",
+      "login": "Letzter Login",
+      "linked": "IDP verbunden"
+    },
+    "details": {
+      "events": "Veranstaltungen",
+      "address": "Addressen",
+      "title": "Allgemein",
+      "profile": "Profil",
+      "preferences": "Einstellungen"
+    }
+  },
+  "backoffice": {
+    "type": "Backoffice",
+    "title": "Backoffice",
+    "stats": {
+      "title": "Statistik"
+    },
+    "export": {
+      "title": "Export",
+      "action": {
+        "all": "Export per Download",
+        "mail": {
+          "title": "Export per Mail",
+          "success": "Export gestartet",
+          "failed": "Export fehlgeschlagen"
+        },
+        "summary": "Excel Zusammenfassung"
+      }
+    },
+    "account": {
+      "title": "Benutzer",
+      "action": {
+        "search": "Benutzer durchsuchen",
+        "create": "Benutzer erstellen"
+      }
+    },
+    "event": {
+      "title": "Veranstaltung",
+      "action": {
+        "create": "Veranstaltung erstellen"
+      }
+    },
+    "solr": {
+      "title": "Suche",
+      "action": {
+        "account": "Benutzer Index neu erstellen",
+        "category": "Kategorie Index neu erstellen",
+        "event": "Veranstaltung Index neu erstellen"
+      }
+    }
+  },
+  "mail": {
+    "type": "E-Mail Protokoll",
+    "title": "E-Mail",
+    "search": "Suche nach E-Mail",
+    "table": {
+      "timestamp": "Zeitstempel",
+      "status": "Status",
+      "title": "Betreff"
+    }
+  },
+  "history": {
+    "type": "Audit Log",
+    "title": "Überwachungsprotokoll",
+    "table": {
+      "timestamp": "Zeitstempel",
+      "actor": "Akteur",
+      "type": "Typ",
+      "message": "Nachricht",
+      "source": "Quelle",
+      "info": "Info"
+    }
+  },
+  "profile": {
+    "title": "Benutzerprofil",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "mobile": "Mobil",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "dateOfBirth": "Geburtstag",
+    "gender": "Geschlecht",
+    "profilePicture": "Profil-Bild",
+    "website": "Webseite",
+    "language": "Sprache",
+    "property": {
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "mobile": "Mobil",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "language": "Sprache"
+    }
+  },
+  "address": {
+    "type": "Adressen",
+    "title": "Adressen",
+    "dialog": {
+      "create": {
+        "title": "Neue Adresse erstellen"
+      },
+      "change": {
+        "title": "Bestehende Adresse ändern"
+      },
+      "delete": {
+        "title": "Adresse löschen",
+        "question": "Soll die Adresse wirklich gelöscht werden?"
+      }
+    },
+    "table": {
+      "street": "Straße",
+      "streetNumber": "Nr",
+      "info": "Addresszusatz",
+      "zip": "PLZ",
+      "city": "Wohnort",
+      "country": "Land"
+    },
+    "action": {
+      "add": "Neue Adresse anlegen",
+      "create": "Neue Adresse anlegen",
+      "import": "Bestehende Adressen importieren"
+    },
+    "property": {
+      "street": "Straße",
+      "streetNumber": "Nr",
+      "info": "Addresszusatz",
+      "zip": "PLZ",
+      "city": "Wohnort",
+      "country": "Land",
+      "additionalInfo": "Zusätzliche Angaben"
+    }
+  },
+  "share": {
+    "title": "Share",
+    "action": {
+      "enable": "Enable Sharing"
+    }
+  },
+  "lang": {
+    "en": "English",
+    "de": "Deutsch"
+  },
+  "preferences": {
+    "title": "Einstellungen"
+  },
+  "activity": {
+    "title": "Benachrichtigungen",
+    "type": {
+      "EVENT_CREATED": "Veranstaltung erstellt",
+      "EVENT_CHANGED": "Veranstaltung geändert",
+      "PARTICIPANT_ACCEPTED": "Neuer Teilnehmer",
+      "PARTICIPANT_DECLINED": "Teilnahme abgesagt",
+      "PARTICIPANT_CHANGED": "Teilnehmer geändert"
+    },
+    "table": {
+      "type": "Typ",
+      "title": "Titel",
+      "actor": "Benutzer",
+      "timestamp": "Datum",
+      "read": "Gelesen",
+      "source": "Quelle"
+    },
+    "action": {
+      "read": "Gelesen",
+      "readAll": "Alle gelesen"
+    }
+  },
+  "paginator": {
+    "items": "Anzahl pro Seite",
+    "next": "Nächste Seite",
+    "prev": "Vorherige Seite",
+    "first": "Erste Seite",
+    "last": "Letzte Seite"
+  },
+  "search": {
+    "type": "Suchindex",
+    "title": "Suchindex-Verwaltung",
+    "key": {
+      "event": "Ereignisse",
+      "account": "Konten",
+      "category": "Kategorien"
+    },
+    "status": {
+      "UNKNOWN": "Unbekannt",
+      "CREATE_INDEX": "Index erstellen",
+      "INITIAL_LOAD": "Erstmalige Ladung",
+      "READY": "Bereit",
+      "IDLE": "Inaktiv"
+    },
+    "statistics": {
+      "total": "Gesamte Einträge",
+      "successfull": "Erfolgreich",
+      "failed": "Fehlgeschlagen"
+    },
+    "action": {
+      "setup": "Neu erstellen"
+    }
+  },
+  "location": {
+    "property": {
+      "street": "Straße",
+      "additionalInfo": "Zusatzinfo",
+      "city": "Ort",
+      "country": "Land",
+      "size": "Maximale Teilnehmer"
+    }
+  }
+}

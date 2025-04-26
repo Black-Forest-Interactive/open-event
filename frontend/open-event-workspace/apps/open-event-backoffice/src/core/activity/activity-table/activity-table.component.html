@@ -1,0 +1,60 @@
+<table [dataSource]="data()" mat-table>
+  <ng-container matColumnDef="title">
+    <th *matHeaderCellDef mat-header-cell>{{ 'activity.table.title' | translate }}</th>
+    <td *matCellDef="let activity" mat-cell>{{ activity.title }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actor">
+    <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'activity.table.actor' | translate }}</th>
+    <td *matCellDef="let activity" mat-cell>
+      <div class="flex flex-col gap-1 ">
+        <div>{{ activity.actor.name }}</div>
+        <div class="text-xs">{{ activity.actor.email }}</div>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="source">
+    <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'activity.table.source' | translate }}</th>
+    <td *matCellDef="let activity" mat-cell>
+      <div class="flex flex-col gap-1 ">
+        <div>{{ activity.source }}</div>
+        <div>{{ activity.sourceId }}</div>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th *matHeaderCellDef mat-header-cell>{{ 'activity.table.type' | translate }}</th>
+    <td *matCellDef="let activity" mat-cell>{{ 'activity.type.' + activity.type | translate }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="timestamp">
+    <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'activity.table.timestamp' | translate }}</th>
+    <td *matCellDef="let activity" mat-cell>{{ activity.timestamp | date:'medium' }}</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="cmd">
+    <th *matHeaderCellDef class="col-1" mat-header-cell></th>
+    <td *matCellDef="let activity" mat-cell>
+      <button color="accent" mat-icon-button routerLink="./details/{{activity.id}}">
+        <mat-icon>arrow_circle_right</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row class="table-content-row cursor-pointer" routerLink="./details/{{row.id}}"></tr>
+</table>
+
+
+<mat-paginator
+  (page)="pageEvent.emit($event)"
+  [disabled]="reloading()"
+  [length]="totalElements()"
+  [pageIndex]="pageNumber()"
+  [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+  showFirstLastButtons
+>
+</mat-paginator>

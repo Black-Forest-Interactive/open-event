@@ -1,0 +1,24 @@
+<mat-toolbar>
+  <div class="flex flex-row gap-2 flex-auto items-center">
+    <button (click)="back()" mat-mini-fab>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="title ps-2">{{ info?.event?.title }}</span>
+    <div class="flex-auto"></div>
+
+
+    @if (!reloading) {
+      <app-event-action-export [event]="info?.event"></app-event-action-export>
+    }
+
+  </div>
+</mat-toolbar>
+
+<app-loading-bar [reloading]="reloading"></app-loading-bar>
+@if (info) {
+  <div class="flex flex-col gap-2 content-stretch p-4">
+    @if (info.registration) {
+      <app-registration-moderation [data]="info.registration"></app-registration-moderation>
+    }
+  </div>
+}

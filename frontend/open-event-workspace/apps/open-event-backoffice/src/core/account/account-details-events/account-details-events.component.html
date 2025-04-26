@@ -1,0 +1,95 @@
+<div class="p-2">
+  <app-board-card title="account.details.events">
+    <board-card-toolbar-actions>
+      <button mat-flat-button color="primary" (click)="createEvent()">
+        <mat-icon>add_circle</mat-icon>
+        {{ 'event.action.create' | translate }}
+      </button>
+    </board-card-toolbar-actions>
+
+    <table [dataSource]="events()" mat-table>
+
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.id' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>{{ event.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="owner">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.owner' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>{{ event.owner | accountDisplayName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.title' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>{{ event.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="start">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.start' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>{{ event.start |date:'medium' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="finish">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.finish' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>{{ event.finish |date:'medium' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.date' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>
+          <div class="flex flex-col gap-1">
+            <div class="text-sm">{{ event.start |date:'medium' }}</div>
+            <div class="text-sm">{{ event.finish |date:'medium' }}</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="published">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.published' | translate }}</th>
+        <td *matCellDef="let event" mat-cell><lib-event-published-icon [event]="event"></lib-event-published-icon></td>
+      </ng-container>
+
+      <ng-container matColumnDef="tags">
+        <th *matHeaderCellDef mat-header-cell>{{ 'event.property.tags' | translate }}</th>
+        <td *matCellDef="let event" mat-cell>{{ event.tags }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cmd">
+        <th *matHeaderCellDef class="col-1" mat-header-cell></th>
+        <td *matCellDef="let event" mat-cell>
+          <div class="flex flex-row gap-2 justify-end">
+            @if (!event.published) {
+              <button color="primary" mat-icon-button (click)="publishEvent(event); $event.stopPropagation()">
+                <mat-icon>publish</mat-icon>
+              </button>
+            }
+            <button color="primary" mat-icon-button (click)="editEvent(event); $event.stopPropagation()">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button color="warn" mat-icon-button (click)="deleteEvent(event); $event.stopPropagation()">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button color="accent" mat-icon-button routerLink="/event/details/{{event.id}}">
+              <mat-icon>arrow_circle_right</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row class="table-content-row cursor-pointer" routerLink="/event/details/{{row.id}}"></tr>
+
+    </table>
+    @if (totalSize() > size()) {
+      <mat-paginator
+        (page)="handlePageChange($event)"
+        [disabled]="loading()"
+        [length]="totalSize()"
+        [pageIndex]="page()"
+        [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="size()"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    }
+  </app-board-card>
+</div>

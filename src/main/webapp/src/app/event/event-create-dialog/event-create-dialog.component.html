@@ -1,7 +1,0 @@
-@if (loading) {
-  <div class="flex flex-row p-6 content-center items-center">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-  </div>
-} @else {
-  <app-event-change [account]="account" [showBackButton]="false" (changed)="dialogRef.close($event)"></app-event-change>
-}

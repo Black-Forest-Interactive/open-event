@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+  <div class="flex flex-row gap-2 flex-auto items-center">
+    <button (click)="back()" mat-mini-fab>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <h3>{{ 'mail.title' | translate }}</h3>
+    <div class="flex-auto"></div>
+  </div>
+</mat-toolbar>
+<app-loading-bar [reloading]="reloading"></app-loading-bar>
+<div class="p-2">
+  <mat-card>
+    <table [dataSource]="data" mat-table>
+
+      <ng-container matColumnDef="timestamp">
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'MAIL.Table.Timestamp' | translate }}</th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.timestamp | date:'medium' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="message">
+        <th *matHeaderCellDef mat-header-cell>{{ 'MAIL.Table.Message' | translate }}</th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.message }}</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+
+    <mat-paginator
+      (page)="handlePageChange($event)"
+      [disabled]="reloading"
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </mat-card>
+</div>

@@ -1,0 +1,35 @@
+<app-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="history.title">
+  <div class="flex flex-row gap-2 flex-auto">
+    <mat-card class="flex-auto basis-48">
+      <div class="flex flex-col">
+        @for (d of data; track d) {
+          <div class="flex flex-row justify-between items-center px-2 py-1 min-h-10 hover:bg-gray-200"
+               [ngClass]="selected === d ? 'bg-gray-100' : ''" (click)="selected = d">
+            <div class="font-bold">{{ d.event.title }}</div>
+            <div
+              class="font-light bg-gray-200 text-xs border border-gray-300 border-solid rounded-sm px-3 py-1"> {{ d.entries[0].timestamp | date:'medium' }}
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        }
+        <mat-paginator
+          (page)="handlePageChange($event)"
+          [disabled]="reloading"
+          [length]="totalElements"
+          [pageIndex]="pageNumber"
+          [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </div>
+    </mat-card>
+    @if (selected) {
+      <mat-card class="flex-auto">
+        <div class="flex flex-col flex-auto">
+          <app-history-table [data]="selected.entries" [pageSize]="selected.entries.length" [pageNumber]="0" [totalElements]="selected.entries.length" [reloading]="reloading"></app-history-table>
+          <div class="flex-auto"></div>
+        </div>
+      </mat-card>
+    }
+  </div>
+</app-board>

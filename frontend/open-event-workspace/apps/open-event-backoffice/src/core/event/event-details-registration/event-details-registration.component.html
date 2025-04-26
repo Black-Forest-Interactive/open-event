@@ -1,0 +1,15 @@
+<div class="p-2">
+  <app-board-card title="event.details.registration">
+    <board-card-toolbar-actions class="flex flex-row gap-2">
+      <button mat-flat-button color="primary" (click)="addParticipantAccount()">
+        <mat-icon>admin_panel_settings</mat-icon>
+        {{ 'registration.action.participateAccount' | translate }}
+      </button>
+      <button mat-flat-button color="primary" (click)="addParticipantManual()">
+        <mat-icon>admin_panel_settings</mat-icon>
+        {{ 'registration.action.participateManual' | translate }}
+      </button>
+    </board-card-toolbar-actions>
+    <app-registration-table [data]="event().registration!!" (changeResponse)="handleParticipateResponse($event)"/>
+  </app-board-card>
+</div>

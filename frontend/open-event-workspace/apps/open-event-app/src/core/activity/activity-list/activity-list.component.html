@@ -1,0 +1,16 @@
+@for (a of data(); track a; let last = $last) {
+  <div class="flex flex-row gap-2 px-3 py-2 items-center hover:bg-gray-100" (click)="$event.stopPropagation(); clicked.emit(a)">
+    <div class="flex flex-col items-center">
+      <mat-icon [color]="a.read ? 'primary' : 'accent'">event_note</mat-icon>
+    </div>
+    <div class="flex flex-col gap-2">
+      <div class="text-sm font-bold">{{ 'activity.type.' + a.activity.type | translate }}</div>
+      <div class="text-sm">{{ a.activity.title }}</div>
+      <div class="flex flex-row justify-between gap-1">
+        <div class="text-xs">{{ a.activity.actor.firstName }} {{ a.activity.actor.lastName }}</div>
+        <div class="text-xs">{{ a.activity.timestamp | date:'medium' }}</div>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+}

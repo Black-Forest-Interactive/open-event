@@ -1,0 +1,85 @@
+@use '@angular/material' as mat;
+@import "tailwindcss";
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.dense-1 {
+  @include mat.all-component-densities(-2);
+}
+
+.dense-3 {
+  @include mat.all-component-densities(-4);
+}
+
+.mat-mdc-mini-fab {
+  box-shadow: none !important;
+}
+
+.mat-mdc-form-field-hint {
+  font-size: 12px;
+}
+
+.mat-mdc-form-field-error {
+  font-size: 12px;
+}
+
+// show label for more dense inputs as well
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+.mat-mdc-floating-label {
+  display: inline !important;
+}
+
+.header {
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  line-height: 32px;
+}
+
+.mat-mdc-mini-fab {
+  border-radius: 5px !important;
+  min-height: 48px;
+  min-width: 48px;
+}
+
+.mat-mdc-fab {
+  border-radius: 5px !important;
+  min-height: 48px;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-right-style: hidden;
+}
+
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+
+  text-align: center;
+  border-radius: 15px;
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.marker-cluster span {
+  line-height: 30px;
+}
+.table-content-row:hover {
+  background-color: oklch(0.928 0.006 264.531);
+}

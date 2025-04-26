@@ -1,8 +1,0 @@
-<ng-container *ngIf="accessible">
-  <button (click)="export()" class="toolbar-action-fab" mat-mini-fab>
-    <mat-icon *ngIf="!exporting">download</mat-icon>
-    <mat-icon *ngIf="exporting">
-      <mat-spinner diameter="18"></mat-spinner>
-    </mat-icon>
-  </button>
-</ng-container>

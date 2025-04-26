@@ -1,0 +1,26 @@
+@if (data) {
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content>
+    <div class="flex flex-row gap-2">
+      <div class="flex flex-col gap-2">
+        <app-account [account]="data.owner" [showUserName]="false"></app-account>
+      </div>
+      <div class="flex flex-col gap-2">
+        <div><p class="event-card-header-text">{{ data.owner | accountDisplayName }}</p></div>
+        <div><p class="event-card-header-text">{{ data.start | date:'medium' }}</p></div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="flex flex-row gap-2">
+      <button (click)="onDetailsClick()" color="primary" mat-flat-button>
+        <mat-icon>read_more</mat-icon>
+        {{ "action.details" | translate }}
+      </button>
+      <button (click)="onCloseClick()" color="primary" mat-flat-button>
+        <mat-icon>close</mat-icon>
+        {{ 'action.close' | translate }}
+      </button>
+    </div>
+  </mat-dialog-actions>
+}

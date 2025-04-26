@@ -1,0 +1,13 @@
+<app-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="issue.title">
+  <board-toolbar-actions>
+
+  </board-toolbar-actions>
+  <mat-card>
+    <app-issue-table [data]="data"
+                     [reloading]="reloading"
+                     [pageSize]="pageSize"
+                     [pageNumber]="pageNumber"
+                     [totalElements]="totalElements"
+                     (pageEvent)="handlePageChange($event)"/>
+  </mat-card>
+</app-board>

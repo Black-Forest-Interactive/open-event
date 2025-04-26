@@ -1,0 +1,49 @@
+<app-board [showSearch]="false" [showReload]="false" title="settings.title">
+  <board-toolbar-actions>
+    <button color="accent" mat-flat-button (click)="create()" class="basis-72 min-h-10">
+      <mat-icon>new_label</mat-icon>
+      {{ 'settings.create' | translate }}
+    </button>
+  </board-toolbar-actions>
+  <mat-card>
+    <table [dataSource]="data" mat-table>
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>{{ 'settings.table.key' | translate }}</th>
+        <td *matCellDef="let setting" mat-cell>{{ setting.key }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <th *matHeaderCellDef mat-header-cell>{{ 'settings.table.value' | translate }}</th>
+        <td *matCellDef="let setting" mat-cell>{{ setting.value }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th *matHeaderCellDef mat-header-cell>{{ 'settings.table.type' | translate }}</th>
+        <td *matCellDef="let setting" mat-cell>{{ setting.type }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cmd">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let setting" class="cmd-cell" mat-cell>
+          <button color="primary" mat-icon-button (click)="edit(setting)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row class="table-content-row"></tr>
+    </table>
+
+    <mat-paginator
+      (page)="handlePageChange($event)"
+      [disabled]="reloading"
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </mat-card>
+
+</app-board>

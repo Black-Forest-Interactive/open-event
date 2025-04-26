@@ -1,0 +1,16 @@
+<mat-card class="flex-auto !border !border-gray-500 !shadow-none min-h-full">
+  <div class="flex flex-col gap-0">
+    <mat-toolbar class="flex flex-row gap-4 justify-between flex-auto !rounded-sm-t !bg-gray-300" >
+      <div class="text-xl px-4">{{ title() | translate }}</div>
+      <div class="flex-auto"></div>
+      <div class="flex gap-2">
+        <ng-content select="board-card-toolbar-actions"></ng-content>
+      </div>
+    </mat-toolbar>
+    <app-loading-bar [reloading]="reloading()"></app-loading-bar>
+    <div class="flex flex-col gap-2 content-between !rounded-sm-b-lg overflow-hidden flex-auto">
+      <ng-content></ng-content>
+      <div class="flex-auto"></div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,47 @@
+<app-board-card title="event.details.info">
+  <div class="flex flex-col gap-3 p-4">
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.id' | translate }}</div>
+      <div>{{ event().event.id }}</div>
+    </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.title' | translate }}</div>
+      <div>{{ event().event.title }}</div>
+    </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.shortText' | translate }}</div>
+      <div>{{ event().event.shortText }}</div>
+    </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.longText' | translate }}</div>
+      <div [innerHtml]=" event().event.longText "></div>
+    </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.published' | translate }}</div>
+      <div>
+        <lib-event-published-icon [event]="event().event"></lib-event-published-icon>
+      </div>
+    </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.tags' | translate }}</div>
+      <div class="flex flex-row gap-2 flex-wrap">
+        @for (tag of event().event.tags; track tag) {
+          <div class="px-3 py-1 rounded-xl bg-gray-300">{{ tag }}</div>
+        }
+      </div>
+    </div>
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.categories' | translate }}</div>
+      <div class="flex flex-row gap-2 flex-wrap">
+        @for (category of event().categories; track category.id) {
+          <div class="px-3 py-1 rounded-xl bg-gray-300">{{ category.name }}</div>
+        }
+      </div>
+    </div>
+  </div>
+</app-board-card>

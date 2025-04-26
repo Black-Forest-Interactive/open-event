@@ -1,0 +1,56 @@
+<mat-toolbar style="background-color:white;">
+  <div class="flex flex-row gap-3 flex-auto content-center items-center justify-center">
+    <button
+      (click)="toggleSidenavEvent.emit(true)"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      type="button">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    @if (mobileView()) {
+      <div class="flex-auto"></div>
+    } @else {
+      <span class="header"> {{ title() | translate }}</span>
+      <div class="flex-auto basis-24"></div>
+      @if (service.info) {
+        <div class="flex flex-row gap-3 content-center items-center basis-44" [matMenuTriggerFor]="menu">
+          <div>
+            <img [email]="service.info.email" alt="{{service.info | accountDisplayName}}"
+                 class="account-info-avatar"
+                 ngxGravatar
+                 src="{{service.info.iconUrl}}">
+          </div>
+          <div class="flex flex-col">
+            <div class="flex-auto font-bold text-base">{{ service.info.firstName }} {{ service.info.lastName }}</div>
+            <div class="flex-auto text-base"></div>
+          </div>
+
+        </div>
+      }
+    }
+  </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/account">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>{{ 'profile.title' | translate }}</span>
+  </button>
+  <button mat-menu-item routerLink="/address">
+    <mat-icon>contact_mail</mat-icon>
+    <span>{{ 'address.title' | translate }}</span>
+  </button>
+  <button mat-menu-item routerLink="/activity">
+    <mat-icon>contact_mail</mat-icon>
+    <span>{{ 'activity.title' | translate }}</span>
+  </button>
+  <!--  <button mat-menu-item routerLink="/account/preferences">-->
+  <!--    <mat-icon>settings</mat-icon>-->
+  <!--    <span>{{ 'preferences.title' | translate }}</span>-->
+  <!--  </button>-->
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>{{ 'action.logout' | translate }}</span>
+  </button>
+</mat-menu>

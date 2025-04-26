@@ -1,0 +1,8 @@
+<mat-menu #menu="matMenu">
+  @for (item of menuItems; track item) {
+    <button (click)="item.handleClick()" [disabled]="item.disabled" mat-menu-item>
+      <mat-icon>{{ item.icon }}</mat-icon>
+      {{ item.text | translate }}
+    </button>
+  }
+</mat-menu>

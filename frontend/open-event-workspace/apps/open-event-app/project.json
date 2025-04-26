@@ -1,0 +1,131 @@
+{
+  "name": "open-event-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/open-event-app/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/open-event-app",
+        "index": "apps/open-event-app/src/index.html",
+        "browser": "apps/open-event-app/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/open-event-app/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/open-event-app/public"
+          }
+        ],
+        "styles": [
+          "node_modules/leaflet/dist/leaflet.css",
+          "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
+          "node_modules/ngx-sharebuttons/themes/circles.scss",
+          "node_modules/ngx-sharebuttons/themes/modern.scss",
+          "apps/open-event-app/src/theme.scss",
+          "apps/open-event-app/src/styles.scss",
+          "node_modules/quill/dist/quill.core.css",
+          "node_modules/quill/dist/quill.bubble.css",
+          "node_modules/quill/dist/quill.snow.css",
+          "node_modules/@ngxpert/hot-toast/src/styles/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/open-event-app/src/environments/environment.ts",
+              "with": "apps/open-event-app/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "local": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/open-event-app/src/environments/environment.ts",
+              "with": "apps/open-event-app/src/environments/environment.local.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "open-event-app:build:production"
+        },
+        "development": {
+          "buildTarget": "open-event-app:build:development"
+        },
+        "local": {
+          "buildTarget": "open-event-app:build:local"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "open-event-app:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/open-event-app/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "open-event-app:build",
+        "staticFilePath": "dist/apps/open-event-app/browser",
+        "spa": true
+      }
+    }
+  }
+}

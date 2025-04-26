@@ -1,0 +1,6 @@
+<div class="p-2">
+  <app-loading-bar [reloading]="loading()"></app-loading-bar>
+  <app-board-card title="event.details.history">
+    <app-history-table [data]="history()" [reloading]="loading()" [totalElements]="totalSize()" (pageEvent)="handlePageChange($event)" [pageNumber]="page()" [pageSize]="size()"></app-history-table>
+  </app-board-card>
+</div>

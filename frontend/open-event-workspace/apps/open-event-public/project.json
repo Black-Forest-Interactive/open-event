@@ -1,0 +1,118 @@
+{
+  "name": "open-event-public",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/open-event-public/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/open-event-public",
+        "index": "apps/open-event-public/src/index.html",
+        "browser": "apps/open-event-public/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/open-event-public/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/open-event-public/public"
+          }
+        ],
+        "styles": [
+          "apps/open-event-public/src/theme.scss",
+          "apps/open-event-public/src/styles.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/open-event-backoffice/src/environments/environment.ts",
+              "with": "apps/open-event-backoffice/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "local": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/open-event-backoffice/src/environments/environment.ts",
+              "with": "apps/open-event-backoffice/src/environments/environment.local.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "open-event-public:build:production"
+        },
+        "development": {
+          "buildTarget": "open-event-public:build:development"
+        },
+        "local": {
+          "buildTarget": "open-event-public:build:local"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "proxy.conf.json",
+        "port": 4202
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "open-event-public:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/open-event-public/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "open-event-public:build",
+        "staticFilePath": "dist/apps/open-event-public/browser",
+        "spa": true
+      }
+    }
+  }
+}

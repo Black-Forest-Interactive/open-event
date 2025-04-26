@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@open-event-workspace/app": ["libs/gateway/app/src/index.ts"],
+      "@open-event-workspace/backoffice": [
+        "libs/gateway/backoffice/src/index.ts"
+      ],
+      "@open-event-workspace/core": ["libs/core/src/index.ts"],
+      "@open-event-workspace/events": ["libs/events/src/index.ts"],
+      "@open-event-workspace/shared": ["libs/shared/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

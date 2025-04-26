@@ -1,0 +1,43 @@
+<mat-toolbar>
+  <div class="flex flex-row gap-2 flex-auto items-center">
+    <button (click)="back()" mat-mini-fab>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="title ps-2">{{ info?.event?.title }}</span>
+    <div class="flex-auto"></div>
+
+    @if (!reloading && !menu.publishMenuItem.disabled && isOwner && !info?.event?.published) {
+      <button (click)="menu.publishMenuItem.handleClick()" class="action-fab" mat-mini-fab>
+        @if (menu.publishing) {
+          <mat-icon>
+            <mat-spinner diameter="18"></mat-spinner>
+          </mat-icon>
+        } @else {
+          <mat-icon>publish</mat-icon>
+        }
+
+      </button>
+    }
+    @if (isOwner) {
+      <ng-container *ngFor="let item of menu.menuItems">
+        <button (click)="item.handleClick()" class="toolbar-action-fab" mat-mini-fab>
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </button>
+      </ng-container>
+    }
+    @if (isOwner) {
+      <button [matMenuTriggerFor]="contextMenu" class="toolbar-action-fab" mat-mini-fab>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    }
+  </div>
+</mat-toolbar>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-container *ngFor="let item of menu.menuItems">
+    <button (click)="item.handleClick()" [disabled]="item.disabled" mat-menu-item>
+      <mat-icon>{{ item.icon }}</mat-icon>
+      {{ item.text | translate }}
+    </button>
+  </ng-container>
+</mat-menu>

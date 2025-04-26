@@ -1,5 +1,0 @@
-<div *ngIf="account" class="flex flex-row items-center gap-2">
-  <img [email]="account.email" alt="{{account | accountDisplayName}}" class="account-info-avatar" ngxGravatar
-       src="{{account.iconUrl}}">
-  <div *ngIf="showUserName" class="flex-auto">{{ account | accountDisplayName }}</div>
-</div>

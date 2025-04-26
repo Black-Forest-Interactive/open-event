@@ -1,0 +1,46 @@
+<app-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="mail.title">
+  <mat-card>
+    <table [dataSource]="data" mat-table>
+      <ng-container matColumnDef="timestamp">
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'mail.table.timestamp' | translate }}</th>
+        <td *matCellDef="let job" mat-cell>{{ job.timestamp | date:'medium' }}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'mail.table.status' | translate }}</th>
+        <td *matCellDef="let job" mat-cell>
+          <mat-chip>{{ 'mail.status.' + job.status | translate }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef mat-header-cell>{{ 'mail.table.title' | translate }}</th>
+        <td *matCellDef="let job" mat-cell>{{ job.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cmd">
+        <th *matHeaderCellDef class="col-1" mat-header-cell></th>
+        <td *matCellDef="let job" mat-cell>
+          <button mat-icon-button routerLink="./history/{{job.id}}">
+            <mat-icon>history</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+
+
+    <mat-paginator
+      (page)="handlePageChange($event)"
+      [disabled]="reloading"
+      [length]="totalElements"
+      [pageIndex]="pageNumber"
+      [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </mat-card>
+</app-board>

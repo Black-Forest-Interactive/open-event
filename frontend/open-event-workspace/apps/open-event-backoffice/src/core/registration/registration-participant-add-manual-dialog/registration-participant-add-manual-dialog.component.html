@@ -1,0 +1,51 @@
+<h1 mat-dialog-title class="bg-primary-default">{{ "registration.dialog.manual.title" | translate }}</h1>
+<div mat-dialog-content>
+
+  <div class="flex flex-col gap-3">
+    <form [formGroup]="fg">
+      <div class="flex flex-col gap-2 pt-4">
+        <mat-form-field class="dense-1">
+          <mat-label>{{ 'account.form.firstName' | translate }}</mat-label>
+          <input formControlName="firstName" matInput>
+        </mat-form-field>
+
+        <mat-form-field class="dense-1">
+          <mat-label>{{ 'account.form.lastName' | translate }}</mat-label>
+          <input formControlName="lastName" matInput>
+        </mat-form-field>
+
+        <mat-form-field class="dense-1">
+          <mat-label>{{ 'account.form.email' | translate }}</mat-label>
+          <input formControlName="email" matInput>
+        </mat-form-field>
+
+        <mat-form-field class="dense-1">
+          <mat-label>{{ 'account.form.phone' | translate }}</mat-label>
+          <input formControlName="phone" matInput>
+        </mat-form-field>
+
+        <mat-form-field class="dense-1">
+          <mat-label>{{ 'account.form.mobile' | translate }}</mat-label>
+          <input formControlName="mobile" matInput>
+        </mat-form-field>
+
+        <mat-form-field class="dense-1">
+          <mat-label>{{ "registration.peopleAmount" | translate }}</mat-label>
+          <input formControlName="size" matInput min="1" required type="number">
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</div>
+<mat-dialog-actions align="end">
+  <div class="flex flex-row gap-2">
+    <button cdkFocusInitial color="primary" mat-stroked-button (click)="onSaveClick()" [disabled]="!fg.valid">
+      <mat-icon>save</mat-icon>
+      {{ "action.submit" | translate }}
+    </button>
+    <button color="warn" mat-stroked-button (click)="onCancelClick()">
+      <mat-icon>cancel</mat-icon>
+      {{ "action.cancel" | translate }}
+    </button>
+  </div>
+</mat-dialog-actions>

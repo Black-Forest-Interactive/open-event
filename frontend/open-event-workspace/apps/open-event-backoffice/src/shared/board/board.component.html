@@ -1,0 +1,29 @@
+<mat-card class="flex-auto !border !border-gray-500 !shadow-none min-h-full !m-4">
+  <div class="flex flex-col gap-0">
+    <mat-toolbar class="px-2 second-toolbar">
+      <div class="flex flex-row gap-3 flex-auto items-center">
+        @if (showBack()) {
+          <button (click)="back.emit(true)" class="action-fab" mat-mini-fab>
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        }
+        <h3>{{ title() | translate }}</h3>
+        @if (showSearch()) {
+          <div class="flex-auto"></div>
+          <app-board-toolbar-search [placeholder]="searchPlaceholder()" (fullTextSearch)="fullTextSearch.emit($event)" class="flex flex-row gap-2 items-center basis-full sm:basis-1/4"/>
+        }
+        <div class="flex-auto"></div>
+        <ng-content select="board-toolbar-actions"></ng-content>
+        @if (showReload()) {
+          <button (click)="reload.emit(true)" class="action-fab" mat-mini-fab>
+            <mat-icon class="!m-0">refresh</mat-icon>
+          </button>
+        }
+      </div>
+    </mat-toolbar>
+    <app-loading-bar [reloading]="reloading()"/>
+    <div class="flex flex-col gap-2">
+      <ng-content/>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,48 @@
+<div class="flex flex-col gap-2 p-4 content-stretch ">
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.subject' | translate }}</div>
+    <div class="flex-auto">{{ issue()?.subject }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.description' | translate }}</div>
+    <div class="flex-auto">{{ issue()?.description }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs shrink-0">{{ 'issue.property.error' | translate }}</div>
+    <div class="flex-auto text-wrap">{{ issue()?.error }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.url' | translate }}</div>
+    <div class="flex-auto">{{ issue()?.url }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.status' | translate }}</div>
+    <div class="flex-auto">{{ 'issue.status.' + issue()?.status | translate }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.client_ip' | translate }}</div>
+    <div class="flex-auto">{{ issue()?.clientIp }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.user_agent' | translate }}</div>
+    <div class="flex-auto">{{ issue()?.userAgent }}</div>
+  </div>
+  <div class="flex flex-row gap-6">
+    <div class="font-bold basis-3xs">{{ 'issue.property.timestamp' | translate }}</div>
+    <div class="flex-auto">{{ issue()?.timestamp | date:'medium' }}</div>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="flex flex-row gap-6 justify-end">
+    @if (issue()?.status !== 'IN_PROGRESS') {
+      <button (click)="changeStatus('IN_PROGRESS')" mat-flat-button color="accent" [disabled]="loading">
+        {{ 'issue.status.IN_PROGRESS' | translate }}
+      </button>
+    }
+    @if (issue()?.status !== 'RESOLVED') {
+      <button (click)="changeStatus('RESOLVED')" mat-flat-button color="primary" [disabled]="loading">
+        {{ 'issue.status.RESOLVED' | translate }}
+      </button>
+    }
+  </div>
+</div>
