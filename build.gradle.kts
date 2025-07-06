@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.jpa") version "2.2.0"
     kotlin("plugin.serialization") version "2.2.0"
     id("org.sonarqube") version "6.2.0.5505"
-    id("com.gradleup.shadow") version "8.3.7" apply false
+    id("com.gradleup.shadow") version "8.3.8" apply false
     id("com.google.cloud.tools.jib") version "3.4.5" apply false
     id("io.micronaut.application") version "4.5.4" apply false
     id("io.micronaut.test-resources") version "4.5.4" apply false
