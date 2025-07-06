@@ -15,13 +15,13 @@
 </mat-toolbar>
 <app-loading-bar [reloading]="reloading"></app-loading-bar>
 @if (event) {
-  <lib-event-change title=""
-                    [addressReadAPI]="this"
-                    [categoryReadAPI]="this"
-                    [eventReadAPI]="this"
-                    (request)="handleRequest($event)"
-                    (cancel)="cancel()"
-                    [event]="event"
+  <lib-event-change
+    [addressReadAPI]="this"
+    [categoryReadAPI]="this"
+    [eventReadAPI]="this"
+    (request)="handleRequest($event)"
+    (cancel)="cancel()"
+    [event]="event"
   >
   </lib-event-change>
 }

@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 import {Page} from "@open-event-workspace/shared";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Router} from "@angular/router";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-event-create',
@@ -18,7 +19,8 @@ import {Router} from "@angular/router";
     MatIcon,
     MatMiniFabButton,
     MatToolbar,
-    TranslatePipe
+    TranslatePipe,
+    MatSlideToggle
   ],
   templateUrl: './event-create.component.html',
   styleUrl: './event-create.component.scss'

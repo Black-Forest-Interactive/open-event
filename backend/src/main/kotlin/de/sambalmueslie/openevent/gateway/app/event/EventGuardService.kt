@@ -19,7 +19,8 @@ import jakarta.inject.Singleton
 
 @Singleton
 class EventGuardService(
-    private val service: EventCrudService, private val searchService: SearchService,
+    private val service: EventCrudService,
+    private val searchService: SearchService,
     private val accountService: AccountCrudService,
     audit: AuditService,
 ) {

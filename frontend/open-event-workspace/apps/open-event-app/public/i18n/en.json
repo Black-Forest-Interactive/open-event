@@ -40,7 +40,8 @@
     "change": {
       "create": "Create new event",
       "update": "Change existing event: {{ event }}",
-      "copy": "Copy existing event: {{ event }}"
+      "copy": "Copy existing event: {{ event }}",
+      "mode": "Compact mode"
     },
     "form": {
       "title": "Title",

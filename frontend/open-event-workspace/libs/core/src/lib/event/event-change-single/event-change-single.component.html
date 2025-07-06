@@ -1,0 +1,33 @@
+<div class="flex justify-center">
+  <div class="flex flex-col gap-4 justify-center items-stretch p-4 container">
+    <div class="border border-gray-200 rounded-lg">
+      <div class="text-xl font-bold bg-gray-200 px-4 py-2 rounded-t-lg">{{ 'event.step.event' | translate }}</div>
+      <div class="px-4 py-2">
+        <lib-event-change-general [data]="info()" [hiddenFields]="hiddenFields()" [parent]="fg()"></lib-event-change-general>
+      </div>
+    </div>
+    <div class="border border-gray-200 rounded-lg">
+      <div class="text-xl font-bold bg-gray-200 px-4 py-2 rounded-t-lg">{{ 'event.step.location' | translate }}</div>
+      <div class="px-4 py-2">
+        <lib-event-change-location [data]="info()" [hiddenFields]="hiddenFields()" [addressReadAPI]="addressReadAPI()" [parent]="fg()"></lib-event-change-location>
+      </div>
+    </div>
+    <div class="border border-gray-200 rounded-lg">
+      <div class="text-xl font-bold bg-gray-200 px-4 py-2 rounded-t-lg">{{ 'event.step.registration' | translate }}</div>
+      <div class="px-4 py-2">
+        <lib-event-change-registration [data]="info()" [hiddenFields]="hiddenFields()" [categoryReadAPI]="categoryReadAPI()" [parent]="fg()"></lib-event-change-registration>
+      </div>
+    </div>
+    <div class="flex gap-4 px-4">
+      <button (click)="submit.emit(true)" color="accent" mat-flat-button type="submit" [disabled]="!fg().valid && !loading()">
+        <mat-icon>save</mat-icon>
+        {{ 'action.submit' | translate }}
+      </button>
+      <button (click)="cancel.emit(true)" color="warn" mat-flat-button>
+        <mat-icon>close</mat-icon>
+        {{ 'action.cancel' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>

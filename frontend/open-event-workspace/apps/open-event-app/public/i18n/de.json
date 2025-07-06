@@ -40,7 +40,8 @@
     "change": {
       "create": "Neue Veranstaltung erstellen",
       "update": "Bearbeiten der Veranstaltung: {{ event }}",
-      "copy": "Kopieren der Veranstaltung: {{ event }}"
+      "copy": "Kopieren der Veranstaltung: {{ event }}",
+      "mode": "Kompakte Ansicht"
     },
     "form": {
       "title": "Titel",
@@ -125,17 +126,17 @@
     "dialog": {
       "accept": {
         "title": "An Veranstaltung teilnehmen",
-        "question": "Mit wie vielen Personen möchten Sie teilnehmen?"
+        "question": "Mit wie vielen Personen möchtest du teilnehmen?"
       },
       "edit": {
         "title": "Teilnehmer anpassen",
-        "question": "Mit wie vielen Personen möchten Sie teilnehmen?",
-        "message": "Ihre Änderungen wurden erfolgreich übernommen"
+        "question": "Mit wie vielen Personen möchtest du teilnehmen?",
+        "message": "Deine Änderungen wurden erfolgreich übernommen"
       },
       "cancel": {
         "title": "Teilnahme absagen",
-        "question": "Möchten Sie wirklich ihre Teilnahme absagen?",
-        "message": "Ihre Absage wurde erfolgreich verarbeitet"
+        "question": "Möchtest du wirklich deine Teilnahme absagen?",
+        "message": "Deine Absage wurde erfolgreich verarbeitet"
       },
       "manual": {
         "title": "Manuellen Teilnehmer hinzufügen",
@@ -143,9 +144,9 @@
       }
     },
     "message": {
-      "accepted": "Ihre Anmeldung wurde erfolgreich verarbeitet.",
+      "accepted": "Deine Anmeldung wurde erfolgreich verarbeitet.",
       "waiting": "Keine oder zu wenig Plätze frei, aber auf der Warteliste vorgemerkt.",
-      "declined": "Ihre Absage wurde erfolgreich verarbeitet.",
+      "declined": "Deine Absage wurde erfolgreich verarbeitet.",
       "failed": "Ein unerwarteter Fehler ist aufgetreten bitte kontaktiere den support"
     },
     "status": {
@@ -208,7 +209,7 @@
     "logout": {
       "confirm": {
         "Title": "Ausloggen bestätigen",
-        "Text": "Wollen Sie sich wirklich ausloggen?"
+        "Text": "Möchtest du dich wirklich ausloggen?"
       }
     }
   },

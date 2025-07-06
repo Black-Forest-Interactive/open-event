@@ -44,7 +44,7 @@
           "2": "Du erhälst in Kürze eine Bestätigungs-E-Mail mit weiteren Informationen und Anweisungen.",
           "3": "Bitte überprüfen auch deinen Spam-Ordner, falls die E-Mail nicht in deinem Posteingang ankommt."
         },
-        "error": "Leider konnte Ihre Teilnahmeanfrage nicht übermittelt werden. Es ist ein technischer Fehler aufgetreten.\n\nBitte versuchen Sie es in wenigen Minuten erneut oder wenden Sie sich an den Support, falls das Problem weiterhin besteht."
+        "error": "Leider konnte deine Teilnahmeanfrage nicht übermittelt werden. Es ist ein technischer Fehler aufgetreten.\n\nBitte versuche es in wenigen Minuten erneut oder wende dich  an den Support, falls das Problem weiterhin besteht."
       },
       "confirm": {
         "title": "Anmeldung abschließen",
