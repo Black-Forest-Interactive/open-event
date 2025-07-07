@@ -1,7 +1,7 @@
 import {Component, effect, input} from '@angular/core';
 import {Location} from "@open-event-workspace/core";
 import * as L from "leaflet";
-import {icon, Map, Marker} from "leaflet";
+import {icon, Map, Marker, Zoom} from "leaflet";
 
 const iconRetinaUrl = 'marker/marker-icon-2x.png';
 const iconUrl = 'marker/marker-icon.png';
@@ -26,6 +26,7 @@ Marker.prototype.options.icon = iconDefault;
 })
 export class LocationMapComponent {
   location = input<Location>();
+  scrollWheelZoom = input<Zoom>("center")
   private map: Map | undefined
   private marker: Marker | undefined
 
@@ -61,7 +62,8 @@ export class LocationMapComponent {
   private initMap(): void {
     this.map = L.map('map', {
       center: [39.8282, -98.5795],
-      zoom: 3
+      zoom: 3,
+      scrollWheelZoom: this.scrollWheelZoom()
     });
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

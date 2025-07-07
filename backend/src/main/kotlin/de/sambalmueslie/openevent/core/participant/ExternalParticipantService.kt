@@ -68,7 +68,7 @@ class ExternalParticipantService(
         val id = UUID.randomUUID().toString()
         val now = timeProvider.now()
         val expiresTimestamp = now.plus(expires)
-        val code = Random.nextInt(100000).toString().format("%05d")
+        val code = Random.nextInt(10000, 100000).toString().format("%05d")
         return repository.save(ExternalParticipantData.create(id, event, request, lang.ifBlank { settingsService.getLanguage() }, code, expiresTimestamp, now))
     }
 

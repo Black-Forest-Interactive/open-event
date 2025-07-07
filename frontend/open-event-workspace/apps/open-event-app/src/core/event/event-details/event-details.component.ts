@@ -9,6 +9,9 @@ import {RegistrationDetailsComponent} from "../../registration/registration-deta
 import {ShareDetailsComponent} from "../../share/share-details/share-details.component";
 import {EventService} from "@open-event-workspace/app";
 import {LoadingBarComponent} from "@open-event-workspace/shared";
+import {EventDetailsBannerComponent} from "../event-details-banner/event-details-banner.component";
+import {MatCard} from "@angular/material/card";
+import {MatDivider} from "@angular/material/divider";
 
 
 @Component({
@@ -21,7 +24,10 @@ import {LoadingBarComponent} from "@open-event-workspace/shared";
     EventDetailsLocationComponent,
     RegistrationDetailsComponent,
     ShareDetailsComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    EventDetailsBannerComponent,
+    MatCard,
+    MatDivider
   ],
   standalone: true
 })

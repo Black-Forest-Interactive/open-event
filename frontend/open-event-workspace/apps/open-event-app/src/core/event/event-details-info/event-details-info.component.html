@@ -1,12 +1,10 @@
-<mat-card>
-  <mat-card-header>
-    <div class="flex flex-row gap-2 items-center pb-2">
-      <app-account [account]="info().event.owner"></app-account>
-      <div class="flex-auto"></div>
-      <div>{{ info().event.start | date:'fullDate' }}</div>
-      <div>{{ info().event.start | date:'shortTime' }} - {{ info().event.finish | date:'shortTime' }}</div>
-    </div>
-  </mat-card-header>
+<div class="p-4">
+  <div class="flex flex-row gap-2 items-center pb-2">
+    <app-account [account]="info().event.owner"></app-account>
+    <div class="flex-auto"></div>
+    <div>{{ info().event.start | date:'fullDate' }}</div>
+    <div>{{ info().event.start | date:'shortTime' }} - {{ info().event.finish | date:'shortTime' }}</div>
+  </div>
   @if (info().event.longText.length > 0) {
     <mat-divider></mat-divider>
   }
@@ -41,4 +39,4 @@
       </mat-chip-listbox>
     </mat-card-actions>
   }
-</mat-card>
+</div>
