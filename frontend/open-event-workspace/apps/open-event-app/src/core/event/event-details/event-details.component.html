@@ -1,5 +1,5 @@
 <mat-card class="container mx-auto !my-4 overflow-hidden h-[calc(100vh-100px)]">
-  <app-event-details-banner></app-event-details-banner>
+  <app-event-details-banner [data]="info" ></app-event-details-banner>
   <app-event-details-header (changed)="reload()" [data]="info" [reloading]="reloading"></app-event-details-header>
   <app-loading-bar [reloading]="reloading"></app-loading-bar>
   @if (info) {

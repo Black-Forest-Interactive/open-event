@@ -25,6 +25,8 @@ export * from './lib/export/export.service';
 
 export * from './lib/history/history.api';
 
+export * from './lib/image/image.api';
+
 export * from './lib/issue/issue.api';
 export * from './lib/issue/error.interceptor';
 export * from './lib/issue/issue-create/issue-create-dialog.component';

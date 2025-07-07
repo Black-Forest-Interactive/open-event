@@ -1,3 +1,44 @@
-<div class="w-full h-[250px] overflow-hidden">
-  <img src="/img/banner.jpg" alt="Banner" class="w-full h-full" style="object-fit: cover">
+<div class="relative w-full h-[250px] overflow-hidden group">
+  <img [src]="bannerImage()" alt="Banner" class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
+
+  @if (canEdit()) {
+    <!-- Edit Button -->
+    <div class="absolute top-3 right-3">
+      <button
+        mat-mini-fab
+        class="!bg-unset !bg-opacity-80 hover:!bg-opacity-100 !backdrop-blur-sm !shadow-lg !transition-all !duration-200 hover:!scale-105"
+        (click)="fileInput.click()"
+        [disabled]="uploadService.isUploading()"
+        matTooltip="Edit banner image"
+        matTooltipPosition="left"
+      >
+        @if (!uploadService.isUploading()) {
+          <mat-icon class="text-gray-700">edit</mat-icon>
+        } @else {
+          <mat-spinner diameter="20" class="text-gray-700"></mat-spinner>
+        }
+      </button>
+
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        (change)="onImageSelected($event)"
+        class="hidden"
+      />
+    </div>
+
+    <!-- Upload Progress Bar -->
+    @if (uploadService.isUploading()) {
+      <div class="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-2">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="uploadService.uploadPercentage()">
+        </mat-progress-bar>
+        <div class="text-xs text-gray-600 mt-1 text-center">
+          Uploading... {{ uploadService.uploadPercentage() }}%
+        </div>
+      </div>
+    }
+  }
 </div>
