@@ -54,7 +54,7 @@
     "@angular/compiler-cli": "19.2.14",
     "@angular/language-service": "19.2.14",
     "@eslint/js": "^9.26.0",
-    "@nx/angular": "21.2.1",
+    "@nx/angular": "21.2.3",
     "@nx/eslint": "21.2.1",
     "@nx/eslint-plugin": "21.2.1",
     "@nx/jest": "21.2.1",
