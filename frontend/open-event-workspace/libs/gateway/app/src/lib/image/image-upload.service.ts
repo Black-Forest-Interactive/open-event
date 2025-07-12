@@ -23,7 +23,11 @@ export class ImageUploadService extends BaseService {
   isUploading = computed(() => this.uploadProgressSignal().uploading)
   uploadPercentage = computed(() => this.uploadProgressSignal().progress)
 
-  getBannerImage(eventId: number): Observable<any>{
+  getBannerImageUrl(eventId: number): string {
+    return this.createUrl('event/' + eventId + '/banner')
+  }
+
+  getBannerImage(eventId: number): Observable<any> {
     return this.getBlob('event/' + eventId + '/banner')
   }
 

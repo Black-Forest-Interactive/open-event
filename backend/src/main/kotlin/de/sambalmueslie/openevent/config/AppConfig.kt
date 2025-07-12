@@ -15,13 +15,6 @@ class AppConfig {
 
 
     @NotBlank
-    var searchEngine: String = "opensearch"
-        set(value) {
-            logger.info("Set search engine from '$field' to '$value'")
-            field = value
-        }
-
-    @NotBlank
     var externalParticipantExpires: String = "en"
         set(value) {
             logger.info("Set external participant expires from '$field' to '$value'")
@@ -33,5 +26,6 @@ class AppConfig {
             logger.info("Set max confirmation trials from '$field' to '$value'")
             field = value
         }
+
 
 }

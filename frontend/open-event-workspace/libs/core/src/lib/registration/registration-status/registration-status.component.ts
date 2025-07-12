@@ -20,7 +20,7 @@ export class RegistrationStatusComponent {
     available: 0
   }
 
-  indicator: string[] = []
+  indicator: any[] = []
 
   @Input()
   set data(info: RegistrationInfo | undefined) {
@@ -55,7 +55,7 @@ export class RegistrationStatusComponent {
     if (this.space.available >= this.maxIndicatorSize() || !this.spaceAvailable) {
       this.indicator = []
     } else {
-      this.indicator = Array.from({length: this.space.available}, (_, i) => (i < this.space.remaining ? 'bg-green-500' : 'bg-orange-300'));
+      this.indicator = Array.from({length: this.space.available}, (_, i) => (i < this.space.remaining ? {key: i, value: 'bg-green-500'} : {key: i, value: 'bg-orange-300'}))
     }
   }
 
