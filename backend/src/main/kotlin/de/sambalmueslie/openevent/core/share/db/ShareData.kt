@@ -1,12 +1,9 @@
 package de.sambalmueslie.openevent.core.share.db
 
-import de.sambalmueslie.openevent.common.DataObject
-import de.sambalmueslie.openevent.core.account.api.Account
-import de.sambalmueslie.openevent.core.account.api.AccountInfo
+import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.share.api.Share
 import de.sambalmueslie.openevent.core.share.api.ShareChangeRequest
-import io.micronaut.http.uri.UriBuilder
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -20,17 +17,14 @@ data class ShareData(
     @Id var id: String = UUID.randomUUID().toString(),
 
     @Column var eventId: Long,
-    @Column var ownerId: Long,
-
-    @Column var published: Boolean,
+    @Column var enabled: Boolean,
 
     @Column var created: LocalDateTime = LocalDateTime.now(),
     @Column var updated: LocalDateTime? = null
-) : DataObject {
+) : SimpleDataObject<Share> {
 
     companion object {
         fun create(
-            account: Account,
             event: Event,
             request: ShareChangeRequest,
             timestamp: LocalDateTime
@@ -38,29 +32,26 @@ data class ShareData(
             return ShareData(
                 UUID.randomUUID().toString(),
                 event.id,
-                account.id,
-                request.published,
+                request.enabled,
                 timestamp
             )
         }
     }
 
     fun update(request: ShareChangeRequest, timestamp: LocalDateTime): ShareData {
-        published = request.published
+        enabled = request.enabled
         updated = timestamp
         return this
     }
 
     fun setPublished(value: Boolean, timestamp: LocalDateTime): ShareData {
-        this.published = value
+        this.enabled = value
         updated = timestamp
         return this
     }
 
-    fun convert(owner: AccountInfo, baseUrl: String): Share {
-        val url = UriBuilder.of(baseUrl).path("share").path("info").path(id)
-            .queryParam("lang", "en")
-            .toString()
-        return Share(id, eventId, published, url, owner, created, updated)
+    override fun convert(): Share {
+        return Share(id, eventId, enabled, created, updated)
     }
+
 }

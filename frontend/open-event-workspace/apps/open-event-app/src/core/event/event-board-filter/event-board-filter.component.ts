@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatChipListbox, MatChipOption, MatChipSelectionChange} from "@angular/material/chips";
-import {DateTime} from "luxon";
 import {EventBoardService} from "../event-board.service";
 import {ChipSelectEntry} from "../../../../../../libs/shared/src/lib/chip-select-pane/chip-select-entry";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
@@ -53,50 +52,20 @@ export class EventBoardFilterComponent {
   categoryForm = new FormControl([])
   allCategories: ChipSelectEntry[] = []
 
+
   constructor(public service: EventBoardService) {
   }
 
   onDateRangePickerClosed() {
     if (!this.service.range.valid) return
-    this.service.handleRangeChanged()
-  }
-
-
-  selectToday() {
-    let now = DateTime.now()
-    this.selectRange(now, now)
-  }
-
-  selectThisWeek() {
-    let now = DateTime.now()
-    let start = now.startOf('week')
-    let end = now.endOf('week')
-    this.selectRange(start, end)
-  }
-
-  selectNextWeek() {
-    let now = DateTime.now()
-
-    let start = now.plus({weeks: 1}).startOf('week')
-
-    let end = now.plus({weeks: 1}).endOf('week')
-    this.selectRange(start, end)
-  }
-
-  private selectRange(start: DateTime, end: DateTime) {
-    this.service.updateRange(start, end)
+    console.log(`[${new Date().toISOString()}] date picker closed`)
+    this.service.handleDatePickerChanged()
   }
 
   handleDatePreselectionChange(event: MatChipSelectionChange) {
-    let selected = event.selected
-    if (!selected) {
-      this.service.updateRange(null, null)
-    } else if (event.source.value === 'today') {
-      this.selectToday()
-    } else if (event.source.value === 'this_week') {
-      this.selectThisWeek()
-    } else if (event.source.value === 'next_week') {
-      this.selectNextWeek()
-    }
+    console.log(`[${new Date().toISOString()}] date preselection changed`)
+    const value = event.selected ? event.source.value : undefined
+    this.service.handlePreselectionChanged(event.selected, value)
   }
+
 }

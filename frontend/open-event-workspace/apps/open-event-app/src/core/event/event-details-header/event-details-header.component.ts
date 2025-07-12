@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, computed, EventEmitter, Input, Output, Signal} from '@angular/core';
 import {Location, NgForOf} from "@angular/common";
 import {EventMenuComponent} from "../event-menu/event-menu.component";
 import {Router} from "@angular/router";
@@ -12,6 +12,8 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatIcon} from "@angular/material/icon";
 import {TranslatePipe} from "@ngx-translate/core";
 import {EventService} from "@open-event-workspace/app";
+import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-event-details-header',
@@ -38,15 +40,22 @@ export class EventDetailsHeaderComponent {
   @Output() changed: EventEmitter<Event> = new EventEmitter();
   menu: EventMenuComponent
 
+  private mobileBreakpoint: Signal<BreakpointState | undefined>
+  isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
+
+
   constructor(
     router: Router,
     private location: Location,
     service: EventService,
     toastService: HotToastService,
-    dialog: MatDialog
+    dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.menu = new EventMenuComponent(router, dialog, service, toastService)
+    this.mobileBreakpoint = toSignal(this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]))
   }
+
 
   @Input()
   set data(value: EventInfo | undefined) {

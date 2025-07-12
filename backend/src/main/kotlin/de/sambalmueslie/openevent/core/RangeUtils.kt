@@ -6,6 +6,9 @@ import java.util.*
 
 private val dateFormatter = DateTimeFormatter.ofPattern("dd. MMMM. YYYY", Locale.GERMAN)
 private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.GERMAN)
+private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd. MMMM. YYYY HH:mm", Locale.GERMAN)
+
+fun formatTimestamp(timestamp: LocalDateTime) = "${dateTimeFormatter.format(timestamp)}"
 
 fun formatRange(start: LocalDateTime, finish: LocalDateTime): String {
     val startDate = start.toLocalDate()

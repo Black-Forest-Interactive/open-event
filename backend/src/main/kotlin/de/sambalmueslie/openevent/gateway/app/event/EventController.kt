@@ -50,4 +50,11 @@ class EventController(private val service: EventGuardService) {
     fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>): Event? {
         return service.setPublished(auth, id, value)
     }
+
+
+    @Put("/{id}/shared")
+    fun setShared(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>): EventInfo? {
+        return service.setShared(auth, id, value)
+    }
+
 }

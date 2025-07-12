@@ -1,0 +1,42 @@
+<div class="flex flex-col">
+  <div class="header p-4 bg-gray-100">{{ event().title }}</div>
+  <mat-divider class="!p-0"></mat-divider>
+  <div class="flex flex-col gap-2 p-4">
+    <div class="flex flex-row gap-4">
+      <div class="basis-32 font-bold">{{ 'event.property.owner' | translate }}</div>
+      <div>{{ event().owner.name }}</div>
+    </div>
+    <div class="flex flex-row gap-4">
+      <div class="basis-32 font-bold">{{ 'event.property.date' | translate }}</div>
+      <div>{{ event().start | date:'fullDate' }}</div>
+    </div>
+    <div class="flex flex-row gap-4">
+      <div class="basis-32 font-bold">{{ 'event.property.time' | translate }}</div>
+      <div>{{ event().start | date:'shortTime' }} - {{ event().finish | date:'shortTime' }}</div>
+    </div>
+    @if (event().hasLocation) {
+      <div class="flex flex-row gap-4">
+        <div class="basis-32 font-bold">{{ 'event.property.location' | translate }}</div>
+        <div>{{ event().zip }} {{ event().city }} // {{ event().country }}</div>
+      </div>
+    }
+    <div class="flex flex-row gap-4">
+      <div class="basis-32 font-bold">{{ 'event.property.registration' | translate }}</div>
+      <div class="flex justify-center">
+        <lib-registration-status [public]="event()"></lib-registration-status>
+      </div>
+    </div>
+  </div>
+</div>
+<div [innerHTML]="event().longText" class="p-4"></div>
+@if (event().categories.length > 0 || event().tags.length > 0) {
+  <div class="flex flex-row flex-wrap gap-2 p-4">
+    @for (category of event().categories; track category) {
+      <div class="rounded-full border-accent-default bg-accent-lighter px-3 py-1">{{ category }}</div>
+    }
+    @for (tag of event().tags; track tag) {
+      <div class="rounded-full border-primary-default bg-primary-lighter px-3 py-1">{{ tag }}</div>
+    }
+  </div>
+}
+

@@ -10,6 +10,7 @@ import de.sambalmueslie.openevent.core.notification.api.NotificationSchemeChange
 import de.sambalmueslie.openevent.core.notification.api.NotificationType
 import de.sambalmueslie.openevent.core.notification.api.SubscriptionStatus
 import de.sambalmueslie.openevent.core.notification.db.NotificationSchemeStorage
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -26,6 +27,9 @@ class NotificationSchemeCrudService(
         private val logger: Logger = LoggerFactory.getLogger(NotificationSchemeCrudService::class.java)
     }
 
+    override fun isValid(request: NotificationSchemeChangeRequest) {
+        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank.")
+    }
 
     fun setEnabled(id: Long, value: PatchRequest<Boolean>): NotificationScheme? {
         return storage.setEnabled(id, value)

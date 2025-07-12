@@ -43,9 +43,6 @@ class LocationStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: LocationChangeRequest) {
-        // intentionally left empty
-    }
 
     override fun findByEvent(event: Event): Location? {
         return repository.findByEventId(event.id)?.convert()

@@ -5,7 +5,6 @@ import de.sambalmueslie.openevent.common.BaseStorageService
 import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.category.api.CategoryChangeRequest
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import jakarta.inject.Singleton
@@ -32,10 +31,6 @@ class CategoryStorageService(
     override fun createData(request: CategoryChangeRequest, properties: Map<String, Any>): CategoryData {
         logger.info("Create category $request")
         return CategoryData.create(request, timeProvider.now())
-    }
-
-    override fun isValid(request: CategoryChangeRequest) {
-        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank")
     }
 
     override fun updateData(data: CategoryData, request: CategoryChangeRequest): CategoryData {

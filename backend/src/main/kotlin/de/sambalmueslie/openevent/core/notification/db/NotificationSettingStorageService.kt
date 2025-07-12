@@ -6,7 +6,6 @@ import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
 import de.sambalmueslie.openevent.core.notification.api.NotificationSetting
 import de.sambalmueslie.openevent.core.notification.api.NotificationSettingChangeRequest
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import jakarta.inject.Singleton
@@ -43,10 +42,6 @@ class NotificationSettingStorageService(
         request: NotificationSettingChangeRequest
     ): NotificationSettingData {
         return data.update(request, timeProvider.now())
-    }
-
-    override fun isValid(request: NotificationSettingChangeRequest) {
-        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank.")
     }
 
     override fun findByName(name: String): NotificationSetting? {

@@ -3,9 +3,7 @@ package de.sambalmueslie.openevent.core.participant.db
 
 import de.sambalmueslie.openevent.common.DataObjectConverter
 import de.sambalmueslie.openevent.core.account.api.AccountDetails
-import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.account.db.AccountStorageService
-import de.sambalmueslie.openevent.core.participant.api.Participant
 import de.sambalmueslie.openevent.core.participant.api.ParticipantDetails
 import de.sambalmueslie.openevent.error.InconsistentDataException
 import io.micronaut.data.model.Page

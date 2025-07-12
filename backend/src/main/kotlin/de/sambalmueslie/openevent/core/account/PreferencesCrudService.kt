@@ -38,5 +38,7 @@ class PreferencesCrudService(
         create(actor, account, request)
     }
 
-
+    override fun isValid(request: PreferencesChangeRequest) {
+        // intentionally left empty
+    }
 }

@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.*
 import de.sambalmueslie.openevent.core.account.api.*
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
@@ -75,6 +76,9 @@ class AccountCrudService(
         return account
     }
 
+    override fun isValid(request: AccountChangeRequest) {
+        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank")
+    }
 
     fun get(auth: Authentication): Account? {
         var account = findByExternalId(auth.getExternalId())

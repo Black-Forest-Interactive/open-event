@@ -35,6 +35,10 @@ class AddressCrudService(
         return result
     }
 
+    override fun isValid(request: AddressChangeRequest) {
+        // intentionally left empty
+    }
+
     private fun resolveGeoAddress(request: AddressChangeRequest): AddressChangeRequest {
         val geoAddress = geoAddressResolver.get(request) ?: return request
 

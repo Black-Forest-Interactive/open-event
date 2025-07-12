@@ -1,17 +1,19 @@
-<mat-toolbar>
-  <div class="flex flex-row gap-2 flex-auto items-center">
+<mat-toolbar class="justify-center items-center">
+  <div class="flex flex-row gap-2 flex-auto items-center container px-4">
     <button (click)="cancel()" mat-mini-fab>
       <mat-icon>arrow_back</mat-icon>
     </button>
     <span class="title ps-2">{{ "event.change.create" | translate }}</span>
     <div class="flex-auto"></div>
+    <mat-slide-toggle #mode checked>{{ "event.change.mode" | translate }}</mat-slide-toggle>
   </div>
 </mat-toolbar>
-<lib-event-change title=""
-                  [addressReadAPI]="this"
-                  [categoryReadAPI]="this"
-                  [eventReadAPI]="this"
-                  (request)="handleRequest($event)"
-                  (cancel)="cancel()"
+<lib-event-change
+  [mode]="mode.checked ? 'single' : 'stepper'"
+  [addressReadAPI]="this"
+  [categoryReadAPI]="this"
+  [eventReadAPI]="this"
+  (request)="handleRequest($event)"
+  (cancel)="cancel()"
 >
 </lib-event-change>

@@ -1,4 +1,4 @@
-import {Page} from "../../../../shared/src/lib/page";
+import {Page} from "@open-event-workspace/shared";
 import {AccountInfo} from "../account/account.api";
 import {Category} from "../category/category-api";
 
@@ -34,6 +34,7 @@ export interface EventSearchEntry {
   shortText: string,
   longText: string,
   published: boolean,
+  shared: boolean,
 
   owner: AccountInfo,
 

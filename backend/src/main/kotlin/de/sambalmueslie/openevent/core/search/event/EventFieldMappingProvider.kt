@@ -19,6 +19,7 @@ class EventFieldMappingProvider : FieldMappingProvider {
             text(EventSearchEntryData::shortText)
             text(EventSearchEntryData::longText)
             bool(EventSearchEntryData::published)
+            bool(EventSearchEntryData::shared)
             number<Long>(EventSearchEntryData::owner)
 
             keyword(EventSearchEntryData::street)

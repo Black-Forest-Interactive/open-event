@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.kotlin.plugin.allopen")
-    id("org.jetbrains.kotlin.kapt")
+//    id("org.jetbrains.kotlin.kapt")
     kotlin("plugin.serialization")
-//    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp")
     id("org.sonarqube")
     id("com.gradleup.shadow")
     id("com.google.cloud.tools.jib")
@@ -41,12 +41,12 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.18")
     runtimeOnly("org.yaml:snakeyaml")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.12.2")
-    testImplementation("io.mockk:mockk:1.14.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.3")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.3")
+    testImplementation("io.mockk:mockk:1.14.4")
 
     // jackson
-    kapt("io.micronaut.serde:micronaut-serde-processor")
+    ksp("io.micronaut.serde:micronaut-serde-processor")
     implementation("io.micronaut:micronaut-jackson-databind")
 //    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -57,28 +57,29 @@ dependencies {
 
     // validation
     implementation("jakarta.validation:jakarta.validation-api")
-    kapt("io.micronaut.validation:micronaut-validation-processor")
+    ksp("io.micronaut.validation:micronaut-validation-processor")
     implementation("io.micronaut.validation:micronaut-validation")
 
     // openapi
-    kapt("io.micronaut.openapi:micronaut-openapi")
+    ksp("io.micronaut.openapi:micronaut-openapi")
     implementation("io.swagger.core.v3:swagger-annotations")
 
     // security
-    kapt("io.micronaut.security:micronaut-security-annotations")
+    ksp("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:4.12.1")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:4.13.0")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.20")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0")
 
     // caching
-    implementation("io.micronaut.cache:micronaut-cache-caffeine")
+//    implementation("io.micronaut.cache:micronaut-cache-caffeine")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.2.1")
 
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
@@ -88,7 +89,7 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     // data
-    kapt("io.micronaut.data:micronaut-data-processor")
+    ksp("io.micronaut.data:micronaut-data-processor")
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
@@ -121,7 +122,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.opensearch:opensearch-testcontainers:2.1.3")
+    testImplementation("org.opensearch:opensearch-testcontainers:3.0.1")
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
     testImplementation("io.fusionauth:fusionauth-jwt:5.3.3")
 
@@ -131,10 +132,10 @@ dependencies {
     // tracing
     implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
     // opensearch
-    implementation("com.jillesvangurp:search-client:2.4.1")
+    implementation("com.jillesvangurp:search-client:2.5.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.20.1")
+    implementation("org.jsoup:jsoup:1.21.1")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
@@ -185,5 +186,27 @@ jib {
         image = "open-event-backend"
         tags = setOf(version.toString(), "latest")
     }
-    container.creationTime.set("USE_CURRENT_TIMESTAMP")
+    container {
+        creationTime.set("USE_CURRENT_TIMESTAMP")
+
+        jvmFlags = listOf(
+            "-server",
+            "-XX:+UseContainerSupport",
+            "-XX:MaxRAMPercentage=75.0",
+
+            // Java 21+ ZGC for better performance
+            "-XX:+UseZGC",
+            "-XX:+UnlockExperimentalVMOptions",
+
+            "-XX:+TieredCompilation",
+            "-Dmicronaut.runtime.environment=prod",
+            "-Dio.netty.allocator.maxOrder=3"
+        )
+
+        user = "1001"
+
+        environment = mapOf(
+            "JAVA_TOOL_OPTIONS" to "-XX:+ExitOnOutOfMemoryError"
+        )
+    }
 }

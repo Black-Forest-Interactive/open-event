@@ -374,14 +374,12 @@ CREATE TABLE history_entry
 -- share
 CREATE TABLE share
 (
-    id        VARCHAR(40) PRIMARY KEY,
-    event_id  BIGINT                      NOT NULL references event (id),
-    owner_id  BIGINT                      NOT NULL references account (id),
+    id       VARCHAR(40) PRIMARY KEY,
+    event_id BIGINT                      NOT NULL references event (id),
+    enabled  BOOLEAN                     NOT NULL,
 
-    published BOOLEAN                     NOT NULL,
-
-    created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated   TIMESTAMP WITHOUT TIME ZONE
+    created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated  TIMESTAMP WITHOUT TIME ZONE
 );
 
 
@@ -470,4 +468,26 @@ CREATE TABLE issue
 
     created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated     TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE participant_external
+(
+    id                          VARCHAR(40) PRIMARY KEY,
+
+    event_id                    BIGINT                      NOT NULL references event (id),
+
+    first_name                  VARCHAR(255)                NOT NULL,
+    last_name                   VARCHAR(255)                NOT NULL,
+    email                       VARCHAR(255)                NOT NULL,
+    phone                       VARCHAR(255),
+    mobile                      VARCHAR(255),
+    language                    VARCHAR(50),
+    size                        BIGINT                      NOT NULL,
+
+    expires                     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    code                        VARCHAR(10)                 NOT NULL,
+    invalid_confirmation_trials INT                         NOT NULL,
+
+    created                     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated                     TIMESTAMP WITHOUT TIME ZONE
 );

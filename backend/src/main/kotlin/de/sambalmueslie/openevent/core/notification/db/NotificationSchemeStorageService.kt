@@ -11,7 +11,6 @@ import de.sambalmueslie.openevent.core.notification.api.NotificationScheme
 import de.sambalmueslie.openevent.core.notification.api.NotificationSchemeChangeRequest
 import de.sambalmueslie.openevent.core.notification.api.NotificationType
 import de.sambalmueslie.openevent.core.notification.api.SubscriptionStatus
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import io.micronaut.data.model.Page
@@ -55,9 +54,6 @@ class NotificationSchemeStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: NotificationSchemeChangeRequest) {
-        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank.")
-    }
 
     override fun setEnabled(id: Long, value: PatchRequest<Boolean>): NotificationScheme? {
         return patchData(id) { it.setEnabled(value.value, timeProvider.now()) }

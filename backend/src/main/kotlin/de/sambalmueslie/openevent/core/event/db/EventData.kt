@@ -30,7 +30,6 @@ data class EventData(
     @Column var hasLocation: Boolean,
     @Column var hasRegistration: Boolean,
     @Column var published: Boolean,
-
     @Column(name = "tags") var tagsJson: String,
 
     @Column var created: LocalDateTime = LocalDateTime.now(),

@@ -5,5 +5,6 @@ enum class ParticipateStatus {
     WAITING_LIST_DECREASE_SIZE,
     WAITING_LIST,
     DECLINED,
-    FAILED
+    FAILED,
+    UNCONFIRMED
 }

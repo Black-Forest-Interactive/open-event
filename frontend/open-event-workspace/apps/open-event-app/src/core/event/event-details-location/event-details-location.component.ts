@@ -1,8 +1,7 @@
 import {Component, input} from '@angular/core';
-import {EventInfo} from "@open-event-workspace/core";
+import {EventInfo, LocationMapComponent} from "@open-event-workspace/core";
 import {MatCard, MatCardImage} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
-import {LocationMapComponent} from "../../location/location-map/location-map.component";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";

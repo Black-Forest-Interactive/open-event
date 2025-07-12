@@ -20,6 +20,7 @@ export class EventBoardService {
   request: EventSearchRequest = new EventSearchRequest('', undefined, undefined, false, false, false)
   infiniteScrollMode: boolean = false
   filterToolbarVisible: boolean = true
+  preselection: string | undefined
 
   range = new FormGroup({
     start: new FormControl<DateTime | null>(null),
@@ -31,18 +32,61 @@ export class EventBoardService {
     this.updateRange(null, null)
   }
 
-  handleRangeChanged() {
+
+  handleDatePickerChanged() {
+    this.preselection = undefined
+    this.handleRangeChanged()
+  }
+
+  handlePreselectionChanged(selected: boolean, value: any) {
+    if (this.preselection === value) return
+    this.preselection = value
+
+    if (!selected) {
+      this.updateRange(null, null)
+    } else if (value === 'today') {
+      this.selectToday()
+    } else if (value === 'this_week') {
+      this.selectThisWeek()
+    } else if (value === 'next_week') {
+      this.selectNextWeek()
+    }
+  }
+
+  private selectToday() {
+    let now = DateTime.now()
+    this.updateRange(now, now)
+  }
+
+  private selectThisWeek() {
+    let now = DateTime.now()
+    let start = now.startOf('week')
+    let end = now.endOf('week')
+    this.updateRange(start, end)
+  }
+
+  private selectNextWeek() {
+    let now = DateTime.now()
+
+    let start = now.plus({weeks: 1}).startOf('week')
+
+    let end = now.plus({weeks: 1}).endOf('week')
+    this.updateRange(start, end)
+  }
+
+  private handleRangeChanged() {
     let value = this.range.value
     let start = value.start
     let end = value.end
     this.updateRange(start, end)
   }
 
-  updateRange(start: DateTime | null | undefined, end: DateTime | null | undefined) {
+  private updateRange(start: DateTime | null | undefined, end: DateTime | null | undefined) {
     this.range.setValue({
       start: start ?? null,
       end: end ?? null
     })
+    console.log(`[${new Date().toISOString()}] update range ${JSON.stringify(this.range.value)}`)
     let startDate = null
     if (start) {
       startDate = start.startOf('day')
@@ -119,6 +163,7 @@ export class EventBoardService {
   resetFilter() {
     this.request = new EventSearchRequest('', undefined, undefined, false, false, false)
     this._showHistory = false
+    this.preselection = undefined
     this.updateRange(null, null)
   }
 

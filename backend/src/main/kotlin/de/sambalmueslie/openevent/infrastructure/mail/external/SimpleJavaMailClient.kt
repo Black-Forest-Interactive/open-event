@@ -10,7 +10,6 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
 import jakarta.inject.Singleton
 import org.simplejavamail.MailException
-import org.simplejavamail.api.mailer.config.TransportStrategy
 import org.simplejavamail.email.EmailBuilder
 import org.simplejavamail.mailer.MailerBuilder
 import org.slf4j.Logger
@@ -32,7 +31,7 @@ class SimpleJavaMailClient(
 
     private val mailer = MailerBuilder
         .withSMTPServer(config.server, config.port, config.username, config.password)
-        .withTransportStrategy(TransportStrategy.SMTPS)
+        .withTransportStrategy(config.transportStrategy)
         .withDebugLogging(false)
         .buildMailer()
 

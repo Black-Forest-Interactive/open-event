@@ -21,6 +21,7 @@
       ],
       "@open-event-workspace/core": ["libs/core/src/index.ts"],
       "@open-event-workspace/events": ["libs/events/src/index.ts"],
+      "@open-event-workspace/external": ["libs/gateway/external/src/index.ts"],
       "@open-event-workspace/shared": ["libs/shared/src/index.ts"]
     }
   },

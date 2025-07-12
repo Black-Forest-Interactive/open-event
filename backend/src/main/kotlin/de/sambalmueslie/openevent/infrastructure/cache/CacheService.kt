@@ -16,15 +16,15 @@ class CacheService {
 
     private val caches = mutableMapOf<String, LoadingCache<*, *>>()
 
-    fun <T, O : Any> register(key: String, builder: () -> LoadingCache<T, O>): LoadingCache<T, O> {
+    fun <T : Any, O> register(type: KClass<out Any>, builder: () -> LoadingCache<T, O>): LoadingCache<T, O> {
+        return register(type.java.canonicalName, builder)
+    }
+
+    fun <T : Any, O> register(key: String, builder: () -> LoadingCache<T, O>): LoadingCache<T, O> {
         logger.info("Register cache for $key")
         val cache = builder.invoke()
         caches[key] = cache
         return cache
-    }
-
-    fun <T, O : Any> register(type: KClass<O>, builder: () -> LoadingCache<T, O>): LoadingCache<T, O> {
-        return register(type.java.canonicalName, builder)
     }
 
     fun get(key: String): CacheInfo? {

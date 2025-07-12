@@ -38,7 +38,7 @@ class NotificationService(
             ?: return logger.warn("Cannot find definition by $key")
         logger.debug("[${event.key}] found type ${type.id} / ${type.key}")
         val template = templateService.find(type, Locale.GERMAN)
-            ?: return logger.warn("Cannot template for type ${type.key}")
+            ?: return logger.warn("Cannot find template for type ${type.key}")
         logger.debug("[${event.key}] found template ${template.id}")
         val mail = renderer.render(event, template)
         event.attachments.forEach { mail.attachments.add(it) }

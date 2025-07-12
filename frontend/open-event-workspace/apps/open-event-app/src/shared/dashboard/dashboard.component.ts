@@ -9,6 +9,7 @@ import {DashboardService} from "./dashboard.service";
 import {AsyncPipe} from "@angular/common";
 import {DashboardToolbarComponent} from "../dashboard-toolbar/dashboard-toolbar.component";
 import {Roles} from "../roles";
+import {AppService} from "../app.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -39,12 +40,14 @@ export class DashboardComponent implements AfterViewInit {
     new MainNavItem('/account', 'account.type', 'person', [Roles.ACCOUNT_READ]),
     new MainNavItem('/address', 'address.title', 'contact_mail', [Roles.ADDRESS_READ]),
     new MainNavItem('/activity', 'activity.title', 'notifications', [Roles.ACTIVITY_READ]),
+    new MainNavItem('/imprint', 'imprint.title', 'copyright', []),
   ]
 
   accessibleItems: MainNavItem[] = []
 
   constructor(
     public authService: AuthService,
+    public appService: AppService,
     router: Router,
     private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,

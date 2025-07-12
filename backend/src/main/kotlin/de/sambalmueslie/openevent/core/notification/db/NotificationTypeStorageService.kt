@@ -5,7 +5,6 @@ import de.sambalmueslie.openevent.common.BaseStorageService
 import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
 import de.sambalmueslie.openevent.core.notification.api.NotificationType
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import jakarta.inject.Singleton
@@ -42,10 +41,6 @@ class NotificationTypeStorageService(
         request: NotificationTypeChangeRequest
     ): NotificationTypeData {
         return data.update(request, timeProvider.now())
-    }
-
-    override fun isValid(request: NotificationTypeChangeRequest) {
-        if (request.key.isBlank()) throw InvalidRequestException("Key cannot be blank.")
     }
 
     override fun findByKey(key: String): NotificationType? {

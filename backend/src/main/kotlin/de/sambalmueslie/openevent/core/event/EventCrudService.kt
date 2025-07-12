@@ -18,6 +18,9 @@ import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.registration.api.Registration
 import de.sambalmueslie.openevent.core.search.common.ChangeType
 import de.sambalmueslie.openevent.core.search.common.SearchUpdateEvent
+import de.sambalmueslie.openevent.core.share.ShareCrudService
+import de.sambalmueslie.openevent.core.share.api.ShareChangeRequest
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.logTimeMillisWithValue
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -30,7 +33,8 @@ class EventCrudService(
     private val storage: EventStorage,
     private val locationCrudService: LocationCrudService,
     private val registrationCrudService: RegistrationCrudService,
-    private val categoryCrudService: CategoryCrudService
+    private val categoryCrudService: CategoryCrudService,
+    private val shareCrudService: ShareCrudService,
 ) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
 
     companion object {
@@ -50,8 +54,13 @@ class EventCrudService(
         notifyCreated(actor, result)
         request.location?.let { locationCrudService.create(actor, result, it) }
         registrationCrudService.create(actor, result, request.registration)
+        shareCrudService.create(actor, result, ShareChangeRequest(request.shared))
         updateSearch(actor, result, ChangeType.CREATED)
         return result
+    }
+
+    override fun isValid(request: EventChangeRequest) {
+        if (request.title.isBlank()) throw InvalidRequestException("Title cannot be blank")
     }
 
     private fun updateSearch(actor: Account, event: Event, type: ChangeType) {
@@ -78,6 +87,7 @@ class EventCrudService(
         val event = storage.get(id) ?: return null
         locationCrudService.deleteByEvent(actor, event)
         registrationCrudService.deleteByEvent(actor, event)
+        shareCrudService.deleteByEvent(actor, event)
         val result = super.delete(actor, id) ?: return null
         updateSearch(actor, result, ChangeType.DELETED)
         return result
@@ -88,6 +98,12 @@ class EventCrudService(
         notify { it.publishedChanged(actor, result) }
         updateSearch(actor, result, ChangeType.UPDATED)
         return result
+    }
+
+    fun setShared(account: Account, id: Long, value: PatchRequest<Boolean>): EventInfo? {
+        val event = storage.get(id) ?: return null
+        shareCrudService.setEnabled(account, event, value)
+        return getInfo(event, account)
     }
 
     fun getLocation(id: Long): Location? {
@@ -115,31 +131,26 @@ class EventCrudService(
         val location = locationCrudService.findByEvent(event)
         val registration = registrationCrudService.findInfoByEvent(event)
         val categories = storage.getCategories(event)
+        val share = shareCrudService.getInfo(event, account)
         val canEdit = event.owner.id == account?.id
-        return EventInfo(event, location, registration, categories, canEdit)
+        return EventInfo(event, location, registration, categories, share, canEdit)
     }
 
     fun getInfos(pageable: Pageable): Page<EventInfo> {
         return convertInfo(getAll(pageable))
     }
 
-    fun getAllForAccount(account: Account, pageable: Pageable): Page<Event> {
-        return storage.getAllForAccount(account, pageable)
-    }
-
     fun getOwned(owner: Account, pageable: Pageable): Page<Event> {
         return storage.getOwned(owner, pageable)
     }
 
-    fun getInfosForAccount(account: Account, pageable: Pageable): Page<EventInfo> {
-        return convertInfo(getAllForAccount(account, pageable), account)
-    }
 
     internal fun convertInfo(events: Page<Event>, account: Account? = null): Page<EventInfo> {
         val eventIds = events.content.map { it.id }.toSet()
         val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.eventId }
         val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.eventId }
         val categories = storage.getCategoriesByEventIds(eventIds)
+        val shares = shareCrudService.findInfosByEventIds(eventIds, account).associateBy { it.share.eventId }
         val canEdit = events.content.associate { it.id to (it.owner.id == account?.id) }
         return events.map {
             EventInfo(
@@ -147,6 +158,7 @@ class EventCrudService(
                 locations[it.id],
                 registrations[it.id],
                 categories[it.id] ?: emptyList(),
+                shares[it.id],
                 canEdit[it.id] ?: false
             )
         }
@@ -188,8 +200,6 @@ class EventCrudService(
             waitingListAmount
         )
     }
-
-
 
 
 }

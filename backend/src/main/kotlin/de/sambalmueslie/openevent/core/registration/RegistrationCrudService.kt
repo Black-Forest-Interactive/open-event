@@ -3,7 +3,6 @@ package de.sambalmueslie.openevent.core.registration
 
 import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.core.account.AccountCrudService
-import de.sambalmueslie.openevent.core.account.ProfileCrudService
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountChangeRequest
 import de.sambalmueslie.openevent.core.account.api.AccountSetupRequest
@@ -21,6 +20,7 @@ import de.sambalmueslie.openevent.core.registration.api.RegistrationInfo
 import de.sambalmueslie.openevent.core.registration.db.RegistrationStorage
 import de.sambalmueslie.openevent.core.search.common.ChangeType
 import de.sambalmueslie.openevent.core.search.common.SearchUpdateEvent
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,7 +30,6 @@ class RegistrationCrudService(
     private val storage: RegistrationStorage,
     private val participantCrudService: ParticipantCrudService,
     private val accountCrudService: AccountCrudService,
-    private val profileCrudService: ProfileCrudService
 ) : BaseCrudService<Long, Registration, RegistrationChangeRequest, RegistrationChangeListener>(storage) {
 
     companion object {
@@ -49,6 +48,10 @@ class RegistrationCrudService(
         return result
     }
 
+
+    override fun isValid(request: RegistrationChangeRequest) {
+        if (request.maxGuestAmount <= 0) throw InvalidRequestException("Max guest must be positive number")
+    }
 
     fun findByEvent(event: Event): Registration? {
         return storage.findByEvent(event)

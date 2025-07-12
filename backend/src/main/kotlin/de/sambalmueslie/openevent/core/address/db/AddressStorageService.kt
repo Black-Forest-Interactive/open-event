@@ -46,10 +46,6 @@ class AddressStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: AddressChangeRequest) {
-        // intentionally left empty
-    }
-
     override fun findByAccount(account: Account, pageable: Pageable): Page<Address> {
         return repository.findByAccountId(account.id, pageable).map { it.convert() }
     }

@@ -1,0 +1,26 @@
+<div class="flex flex-col gap-2 items-center flex-auto">
+  <mat-toolbar>
+    <div class="flex flex-row gap-3 flex-auto content-center items-center justify-center">
+      <a routerLink="/"><img src="img/logo.png"/></a>
+      <div class="flex-auto"></div>
+    </div>
+  </mat-toolbar>
+  <app-loading-bar [reloading]="loading()"></app-loading-bar>
+  @if (event()) {
+    <div class="flex flex-col container gap-4 content-stretch w-full">
+      <mat-card class="flex flex-col">
+        <app-event-info [event]="event()!!" class="container flex-auto"/>
+      </mat-card>
+      @if (confirmationPossible()) {
+        <mat-card>
+          <div class="header p-4 bg-gray-100">{{ "registration.dialog.confirm.title" | translate }}</div>
+          <div class="flex flex-col items-center py-2">
+            <h3 class="text-lg font-medium text-gray-700">{{ "registration.dialog.confirm.question" | translate }}</h3>
+            <lib-confirmation-code [digitsLength]="5" (codeComplete)="onCodeComplete($event)">
+            </lib-confirmation-code>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

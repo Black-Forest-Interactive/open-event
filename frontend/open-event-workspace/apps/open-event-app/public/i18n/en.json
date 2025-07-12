@@ -40,7 +40,8 @@
     "change": {
       "create": "Create new event",
       "update": "Change existing event: {{ event }}",
-      "copy": "Copy existing event: {{ event }}"
+      "copy": "Copy existing event: {{ event }}",
+      "mode": "Compact mode"
     },
     "form": {
       "title": "Title",
@@ -365,7 +366,8 @@
       "enable": "Enable Sharing",
       "disable": "Disable Sharing",
       "participate": "Participate (without login)",
-      "activate": "Yes i like to activate sharing"
+      "activate": "Yes i like to activate sharing",
+      "show": "Show shared event"
     },
     "info": {
       "description": {
@@ -430,5 +432,9 @@
       "calendar": "Add to calendar",
       "routing": "Plan routing"
     }
+  },
+  "imprint": {
+    "title": "Imprint",
+    "privacy-policy": "Privacy Policy"
   }
 }

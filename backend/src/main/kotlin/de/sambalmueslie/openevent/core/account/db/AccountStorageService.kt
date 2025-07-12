@@ -10,7 +10,6 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountChangeRequest
 import de.sambalmueslie.openevent.core.account.api.AccountDetails
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import io.micronaut.data.model.Page
@@ -47,10 +46,6 @@ class AccountStorageService(
         val idpLinked = !request.externalId.isNullOrBlank()
         logger.info("Create account $request")
         return AccountData.create(request, serviceAccount, idpLinked, timeProvider.now())
-    }
-
-    override fun isValid(request: AccountChangeRequest) {
-        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank")
     }
 
     override fun updateData(data: AccountData, request: AccountChangeRequest): AccountData {

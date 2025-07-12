@@ -56,11 +56,6 @@ class NotificationTemplateStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: NotificationTemplateChangeRequest) {
-        if (request.subject.isBlank()) throw InvalidRequestException("Subject cannot be blank.")
-    }
-
-
     override fun findByType(type: NotificationType, pageable: Pageable): Page<NotificationTemplate> {
         return repository.findByTypeId(type.id, pageable).map { it.convert() }
     }

@@ -1,9 +1,7 @@
 package de.sambalmueslie.openevent.core.location.api
 
 import de.sambalmueslie.openevent.common.BusinessObject
-import io.micronaut.serde.annotation.Serdeable
 
-@Serdeable
 data class Location(
     override val id: Long,
 

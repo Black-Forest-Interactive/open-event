@@ -6,6 +6,7 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.participant.api.*
 import de.sambalmueslie.openevent.core.participant.db.ParticipantStorage
 import de.sambalmueslie.openevent.core.registration.api.Registration
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -32,11 +33,16 @@ class ParticipantCrudService(
         return storage.getDetails(registration)
     }
 
+    override fun isValid(request: ParticipantChangeRequest) {
+        if (request.size <= 0) throw InvalidRequestException("Size cannot be below zero")
+    }
+
     fun change(
         actor: Account,
         registration: Registration,
         account: Account,
-        request: ParticipateRequest
+        request: ParticipateRequest,
+        status: ParticipantStatus = ParticipantStatus.ACCEPTED
     ): ParticipateResponse {
         if (request.size <= 0) return remove(actor, registration, account)
         val participant = storage.findByAccount(registration, account)
@@ -54,7 +60,7 @@ class ParticipantCrudService(
 
         val changeRequest = ParticipantChangeRequest(
             request.size,
-            ParticipantStatus.ACCEPTED,
+            status,
             participants.size,
             waitingList
         )

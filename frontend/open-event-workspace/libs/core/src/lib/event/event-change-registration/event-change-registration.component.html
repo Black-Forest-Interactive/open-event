@@ -23,14 +23,16 @@
       </mat-select>
       <mat-hint align="start">{{ 'event.form.hint.ticketsEnabled' | translate }}</mat-hint>
     </mat-form-field>
+
+
     <app-loading-bar [reloading]="loading()"></app-loading-bar>
-    @if(!loading()) {
-    <app-chip-select-pane
-      [entries]="allCategories()"
-      [formCtrl]="categories"
-      placeholder='{{"event.form.category" | translate}}'
-    >
-    </app-chip-select-pane>
+    @if (!loading()) {
+      <app-chip-select-pane
+        [entries]="allCategories()"
+        [formCtrl]="categories"
+        placeholder='{{"event.form.category" | translate}}'
+      >
+      </app-chip-select-pane>
     }
     <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row sm:flex-col gap-3 align-items-stretch">
       <mat-form-field class="dense-1" style="flex: 1 1 auto">
@@ -53,6 +55,18 @@
         <mat-hint align="start">{{ 'event.form.hint.tags'| translate }}</mat-hint>
       </mat-form-field>
     </div>
+
+    @if (isVisible('shared')) {
+      <div class="flex flex-col gap-2 p-4 border rounded " style="border-color: var(--mdc-outlined-text-field-outline-color);">
+        <mat-checkbox formControlName="shared">{{ 'share.action.activate' | translate }}</mat-checkbox>
+        <div class="flex flex-row justify-center gap-1">
+          <div class="w-12 flex justify-center items-center">
+            <mat-icon>info</mat-icon>
+          </div>
+          <div class="text-sm text-justify hyphens-auto">{{ 'share.info.description.content' | translate }}</div>
+        </div>
+      </div>
+    }
 
   </div>
 </form>

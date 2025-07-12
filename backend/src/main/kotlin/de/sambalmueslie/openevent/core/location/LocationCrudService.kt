@@ -28,6 +28,10 @@ class LocationCrudService(
         return result
     }
 
+    override fun isValid(request: LocationChangeRequest) {
+        // intentionally left empty
+    }
+    
     fun findByEvent(event: Event): Location? {
         return storage.findByEvent(event)
     }

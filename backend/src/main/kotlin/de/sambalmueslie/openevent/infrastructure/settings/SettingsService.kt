@@ -32,7 +32,7 @@ class SettingsService(
     logger
 ) {
 
-    private val keyCache: LoadingCache<String, Setting> = cacheService.register("Settings-Key") {
+    private val keyCache: LoadingCache<String, Setting?> = cacheService.register("Settings-Key") {
         Caffeine.newBuilder()
             .maximumSize(100)
             .expireAfterWrite(1, TimeUnit.HOURS)
@@ -58,10 +58,6 @@ class SettingsService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: SettingChangeRequest) {
-        // intentionally left empty
-    }
-
     fun setValue(id: Long, value: Any): Setting? {
         val result = patchData(id) { it.setValue(value) } ?: return null
         keyCache.invalidate(result.key)
@@ -76,6 +72,10 @@ class SettingsService(
         return findByKey(SettingsAPI.SETTINGS_TEXT_TITLE)?.value as? String ?: ""
     }
 
+    fun getTerms(): String {
+        return findByKey(SettingsAPI.SETTINGS_TEXT_TERMS_AND_CONDITIONS)?.value as? String ?: ""
+    }
+
     fun getLanguage(): String {
         return findByKey(SettingsAPI.SETTINGS_DEFAULT_LANGUAGE)?.value as? String ?: ""
     }
@@ -83,6 +83,7 @@ class SettingsService(
     fun getShareUrl(): String {
         return findByKey(SettingsAPI.SETTINGS_URL_SHARE)?.value as? String ?: ""
     }
+
 
     override fun getByIds(ids: Set<Long>): List<Setting> {
         return repository.findByIdIn(ids).map { it.convert() }

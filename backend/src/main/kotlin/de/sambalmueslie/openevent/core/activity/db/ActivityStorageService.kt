@@ -62,12 +62,6 @@ class ActivityStorageService(
         unreadInfosCache.invalidateAll()
     }
 
-    @Deprecated("Move that to core")
-    override fun isValid(request: ActivityChangeRequest) {
-        if (request.title.isBlank()) throw InvalidRequestException("Title cannot be blank")
-        if (request.referenceId <= 0) throw InvalidRequestException("Source id must be valid")
-    }
-
     override fun getRecentForAccount(account: Account, pageable: Pageable): Page<Activity> {
         val activities = repository.findRecentForAccount(account.id, pageable)
         return converter.convert(activities)

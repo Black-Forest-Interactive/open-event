@@ -1,4 +1,4 @@
-package de.sambalmueslie.openevent.core.notification.handler
+package handler
 
 
 import biweekly.Biweekly
@@ -9,8 +9,11 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
+import de.sambalmueslie.openevent.core.notification.NotificationEvent
 import de.sambalmueslie.openevent.core.notification.NotificationService
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
+import de.sambalmueslie.openevent.core.notification.handler.NotificationHandler
+import de.sambalmueslie.openevent.core.notification.handler.RegistrationEventContent
 import de.sambalmueslie.openevent.core.participant.api.Participant
 import de.sambalmueslie.openevent.core.participant.api.ParticipateStatus
 import de.sambalmueslie.openevent.core.registration.RegistrationChangeListener
@@ -66,7 +69,7 @@ class RegistrationNotificationHandler(
 
     override fun handleCreated(actor: Account, obj: Registration) {
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 KEY_REGISTRATION_CREATED,
                 actor,
                 obj
@@ -77,7 +80,7 @@ class RegistrationNotificationHandler(
 
     override fun handleUpdated(actor: Account, obj: Registration) {
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 KEY_REGISTRATION_UPDATED,
                 actor,
                 obj
@@ -87,7 +90,7 @@ class RegistrationNotificationHandler(
 
     override fun handleDeleted(actor: Account, obj: Registration) {
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 KEY_REGISTRATION_DELETED,
                 actor,
                 obj
@@ -128,7 +131,7 @@ class RegistrationNotificationHandler(
             eventService.getLocation(event.id) ?: return logger.error("Cannot find location for event ${event.id}")
         val content = RegistrationEventContent(event, registration, participant, location)
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 KEY_PARTICIPANT_CHANGED,
                 actor,
                 content
@@ -150,7 +153,7 @@ class RegistrationNotificationHandler(
         val attachment = createAttachment(event)
 
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 eventType,
                 actor,
                 content,
@@ -187,7 +190,7 @@ class RegistrationNotificationHandler(
         val content = RegistrationEventContent(event, registration, participant, location)
 
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 KEY_PARTICIPANT_REMOVED,
                 actor,
                 content
@@ -195,7 +198,7 @@ class RegistrationNotificationHandler(
         )
 
         service.process(
-            de.sambalmueslie.openevent.core.notification.NotificationEvent(
+            NotificationEvent(
                 KEY_PARTICIPANT_DECLINED,
                 actor,
                 content

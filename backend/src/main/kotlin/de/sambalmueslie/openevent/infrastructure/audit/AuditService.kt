@@ -4,7 +4,6 @@ package de.sambalmueslie.openevent.infrastructure.audit
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.sambalmueslie.openevent.common.BaseStorageService
 import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogger
@@ -43,11 +42,6 @@ class AuditService(
     override fun updateData(data: AuditLogEntryData, request: AuditLogEntryChangeRequest): AuditLogEntryData {
         return data.update(request, mapper)
     }
-
-    override fun isValid(request: AuditLogEntryChangeRequest) {
-        if (request.source.isBlank()) throw InvalidRequestException("Source is not allowed to be blank")
-    }
-
 
     override fun getAll(pageable: Pageable): Page<AuditLogEntry> {
         return repository.findAllOrderByTimestampDesc(pageable).map { it.convert() }

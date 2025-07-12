@@ -4,6 +4,7 @@ import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.common.PageSequence
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.activity.api.*
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -24,6 +25,11 @@ class ActivityCrudService(
         val result = storage.create(request, actor, source, type)
         notifyCreated(actor, result)
         return result
+    }
+
+    override fun isValid(request: ActivityChangeRequest) {
+        if (request.title.isBlank()) throw InvalidRequestException("Title cannot be blank")
+        if (request.referenceId <= 0) throw InvalidRequestException("Source id must be valid")
     }
 
     fun getForAccount(account: Account, id: Long): Activity? {

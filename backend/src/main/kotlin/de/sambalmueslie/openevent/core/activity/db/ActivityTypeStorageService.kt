@@ -40,11 +40,6 @@ class ActivityTypeStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    @Deprecated("Move that to core")
-    override fun isValid(request: ActivityTypeChangeRequest) {
-        if (request.key.isBlank()) throw InvalidRequestException("Key cannot be blank")
-    }
-
     override fun findBySource(source: ActivitySource): List<ActivityType> {
         return repository.findBySourceId(source.id).map { it.convert() }
     }

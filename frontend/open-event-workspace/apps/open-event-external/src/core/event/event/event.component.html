@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-2 items-center flex-auto">
+  <mat-toolbar>
+    <div class="flex flex-row gap-3 flex-auto content-center items-center justify-center">
+      <a routerLink="/"><img src="img/logo.png"/></a>
+      <div class="flex-auto"></div>
+    </div>
+  </mat-toolbar>
+  <app-loading-bar [reloading]="loading()"></app-loading-bar>
+  @if (event()) {
+    <div class="flex flex-col container gap-4 content-stretch w-full">
+      <mat-card class="flex flex-col">
+        <app-event-info [event]="event()!!" class="container flex-auto"/>
+        <app-event-action [status]="status()" [processing]="processing()" (participateEvent)="participate()"></app-event-action>
+      </mat-card>
+    </div>
+  }
+</div>

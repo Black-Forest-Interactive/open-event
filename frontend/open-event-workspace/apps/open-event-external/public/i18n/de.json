@@ -1,0 +1,83 @@
+{
+  "action": {
+    "next": "Weiter",
+    "back": "Zurück",
+    "submit": "Speichern",
+    "cancel": "Abbrechen",
+    "help": "Hilfe",
+    "yes": "Ja",
+    "no": "Nein",
+    "logout": "Ausloggen",
+    "collapse": "Collapse",
+    "close": "Schliesen",
+    "ok": "Ok",
+    "details": "Details",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "delete": "Löschen"
+  },
+  "event": {
+    "property": {
+      "owner": "Veranstalter",
+      "date": "Datum",
+      "time": "Zeit",
+      "location": "Adresse",
+      "registration": "Anmeldestatus"
+    }
+  },
+  "registration": {
+    "peopleAmount": "Anzahl Personen",
+    "code": "Bestätigungscode",
+    "status": {
+      "full": "Ausgebucht",
+      "available": "Plätze frei"
+    },
+    "dialog": {
+      "manual": {
+        "title": "Anmelden",
+        "question": "Bitte Daten des Teilnehemers eingeben"
+      },
+      "response": {
+        "title": "Anmeldung eingegangen",
+        "content": {
+          "1": "Vielen Dank für deine Anmeldung! Deine Teilnahmeanfrage wurde erfolgreich übermittelt.",
+          "2": "Du erhälst in Kürze eine Bestätigungs-E-Mail mit weiteren Informationen und Anweisungen.",
+          "3": "Bitte überprüfen auch deinen Spam-Ordner, falls die E-Mail nicht in deinem Posteingang ankommt."
+        },
+        "error": "Leider konnte deine Teilnahmeanfrage nicht übermittelt werden. Es ist ein technischer Fehler aufgetreten.\n\nBitte versuche es in wenigen Minuten erneut oder wende dich  an den Support, falls das Problem weiterhin besteht."
+      },
+      "confirm": {
+        "title": "Anmeldung abschließen",
+        "question": "Bitte den Bestätigungscode aus der E-Mail eingeben"
+      },
+      "confirmed": {
+        "title": "Anmeldung bestätigt",
+        "content": {
+          "1": "Deine Anmeldung wurde erfolgreich abgeschlossen."
+        }
+      }
+    },
+    "action": {
+      "participate": "Anmelden",
+      "confirm": "Anmeldung abschließen"
+    }
+  },
+  "account": {
+    "form": {
+      "name": "Name",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "Email",
+      "phone": "Telefon",
+      "mobile": "Mobil"
+    }
+  },
+  "participant": {
+    "property": {
+      "size": "Personen",
+      "rank": "Position",
+      "status": "Status",
+      "waitingList": "Warteliste"
+    }
+  }
+}

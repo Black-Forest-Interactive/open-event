@@ -34,6 +34,10 @@ class HistoryCrudService(
         return result
     }
 
+    override fun isValid(request: HistoryEntryChangeRequest) {
+        // intentionally left empty
+    }
+
     fun getForEvent(eventId: Long, pageable: Pageable): Page<HistoryEntry> {
         val event = eventService.get(eventId) ?: return Page.empty()
         return storage.findByEvent(event, pageable)

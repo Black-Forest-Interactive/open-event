@@ -16,6 +16,7 @@ data class EventSearchEntry(
     val shortText: String,
     val longText: String,
     val published: Boolean,
+    val shared: Boolean,
 
     val owner: AccountInfo,
 

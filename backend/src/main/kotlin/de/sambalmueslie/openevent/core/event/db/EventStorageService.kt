@@ -55,9 +55,6 @@ class EventStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: EventChangeRequest) {
-        if (request.title.isBlank()) throw InvalidRequestException("Title cannot be blank")
-    }
 
     override fun assign(event: Event, category: Category) {
         categoryRelationService.assign(event, category)

@@ -44,4 +44,8 @@ export class EventService extends BaseService {
   publish(id: number): Observable<Event> {
     return this.put('' + id + '/published', new PatchRequest(true))
   }
+
+  setShared(id: number, enabled: boolean): Observable<EventInfo> {
+    return this.put('' + id + '/shared', new PatchRequest(enabled))
+  }
 }

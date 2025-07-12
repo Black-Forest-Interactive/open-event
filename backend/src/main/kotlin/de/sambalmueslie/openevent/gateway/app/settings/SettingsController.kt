@@ -27,4 +27,6 @@ class SettingsController(
     @Get("title")
     fun getTitle(auth: Authentication) = TextResponse(service.getTitle())
 
+    @Get("terms")
+    fun getTerms(auth: Authentication) = TextResponse(service.getTerms())
 }

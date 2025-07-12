@@ -1,0 +1,19 @@
+@if (visible()) {
+  <mat-divider class="!p-0"></mat-divider>
+  <div class="flex flex-col">
+    <div class="header p-4 flex flex-row justify-end gap-2">
+      @if (participationPossible()) {
+        <button mat-flat-button color="accent" (click)="participateEvent.emit()">
+          @if (processing()) {
+            <mat-icon>
+              <mat-spinner diameter="18" mode="indeterminate" color="primary"></mat-spinner>
+            </mat-icon>
+          } @else {
+            <mat-icon>person_add</mat-icon>
+          }
+          {{ 'registration.action.participate' | translate }}
+        </button>
+      }
+    </div>
+  </div>
+}

@@ -1,10 +1,8 @@
 package de.sambalmueslie.openevent.core.account.api
 
 import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
-import io.micronaut.serde.annotation.Serdeable
 import java.time.LocalDate
 
-@Serdeable
 data class ProfileChangeRequest(
 
     val email: String? = null,

@@ -40,9 +40,6 @@ class AnnouncementStorageService(
         return AnnouncementData.create(account, request, timeProvider.now())
     }
 
-    override fun isValid(request: AnnouncementChangeRequest) {
-        if (request.subject.isBlank()) throw InvalidRequestException("Subject cannot be blank")
-    }
 
     override fun updateData(data: AnnouncementData, request: AnnouncementChangeRequest): AnnouncementData {
         return data.update(request, timeProvider.now())

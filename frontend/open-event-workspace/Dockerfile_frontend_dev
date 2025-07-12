@@ -1,12 +1,12 @@
 # Stage 1: Build the Angular app
-FROM node:23-alpine AS build
+FROM node:20.19.3-slim AS build
 
 # Set the working directory
 WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm ci --legacy-peer-deps
 
 # Install Nx CLI globally
 RUN npm install -g nx
@@ -18,8 +18,10 @@ COPY . .
 #ARG BACKEND_URL=http://192.168.0.223:8080/api
 #RUN sed -i "s|http://localhost:8080/api|${BACKEND_URL}|g" apps/open-event-app/src/app/service.config.ts
 
+ENV NX_DAEMON=false
 # Build the Angular app
 RUN npx nx build open-event-app --configuration=development
+RUN npx nx build open-event-external --configuration=development --base-href /external/
 
 # Stage 2: Serve the Angular app with a lightweight web server
 FROM nginx:1.27-alpine
@@ -27,8 +29,8 @@ FROM nginx:1.27-alpine
 # Remove the default Nginx static content
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy the built Angular app from the build stage to the Nginx HTML directory
-COPY --from=build /app/dist/apps/open-event-app/browser /usr/share/nginx/html
+COPY --from=build /app/dist/apps/open-event-app/browser /usr/share/nginx/html/app/
+COPY --from=build /app/dist/apps/open-event-external/browser /usr/share/nginx/html/external/
 
 # Copy the custom Nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf

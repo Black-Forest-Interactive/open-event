@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.notification.api.NotificationTemplateChan
 import de.sambalmueslie.openevent.core.notification.api.NotificationType
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
 import de.sambalmueslie.openevent.core.notification.db.NotificationTypeStorage
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -25,15 +26,15 @@ class NotificationTypeCrudService(
         private val logger: Logger = LoggerFactory.getLogger(NotificationTypeCrudService::class.java)
     }
 
-
-    fun createTemplate(
-        actor: Account,
-        typeId: Long,
-        request: NotificationTemplateChangeRequest
-    ): NotificationTemplate? {
+    fun createTemplate(actor: Account, typeId: Long, request: NotificationTemplateChangeRequest): NotificationTemplate? {
         val type = get(typeId) ?: return null
         return templateService.create(actor, type, request)
     }
+
+    override fun isValid(request: NotificationTypeChangeRequest) {
+        if (request.key.isBlank()) throw InvalidRequestException("Key cannot be blank.")
+    }
+
 
     fun getTemplates(typeId: Long, pageable: Pageable): Page<NotificationTemplate> {
         val type = get(typeId) ?: return Page.empty()

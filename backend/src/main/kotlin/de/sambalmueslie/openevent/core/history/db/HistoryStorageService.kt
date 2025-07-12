@@ -74,10 +74,6 @@ class HistoryStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: HistoryEntryChangeRequest) {
-        // intentionally left empty
-    }
-
     override fun getAll(pageable: Pageable): Page<HistoryEntry> {
         return repository.findAllOrderByTimestampDesc(pageable).map { converter.convert(it) }
     }

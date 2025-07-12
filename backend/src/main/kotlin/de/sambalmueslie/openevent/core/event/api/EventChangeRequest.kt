@@ -4,10 +4,8 @@ package de.sambalmueslie.openevent.core.event.api
 import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import de.sambalmueslie.openevent.core.location.api.LocationChangeRequest
 import de.sambalmueslie.openevent.core.registration.api.RegistrationChangeRequest
-import io.micronaut.serde.annotation.Serdeable
 import java.time.LocalDateTime
 
-@Serdeable
 data class EventChangeRequest(
     val start: LocalDateTime,
     val finish: LocalDateTime,
@@ -22,5 +20,6 @@ data class EventChangeRequest(
     val location: LocationChangeRequest?,
     val registration: RegistrationChangeRequest,
     val published: Boolean,
+    val shared: Boolean,
     val tags: Set<String>,
 ) : BusinessObjectChangeRequest

@@ -1,9 +1,7 @@
 package de.sambalmueslie.openevent.core.address.api
 
 import de.sambalmueslie.openevent.common.BusinessObject
-import io.micronaut.serde.annotation.Serdeable
 
-@Serdeable
 data class Address(
     override val id: Long,
 

@@ -31,6 +31,10 @@ class IssueCrudService(
         return result
     }
 
+    override fun isValid(request: IssueChangeRequest) {
+        // intentionally left empty
+    }
+
     fun getByAccount(account: Account, pageable: Pageable): Page<Issue> {
         return storage.findByAccount(account, pageable)
     }

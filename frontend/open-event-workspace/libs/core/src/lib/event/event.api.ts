@@ -1,7 +1,7 @@
 import {RegistrationChangeRequest, RegistrationInfo} from "../registration/registration.api";
 import {Category} from "../category/category-api";
 import {LocationChangeRequest} from "../location/location.api";
-import {AccountInfo, Location} from "@open-event-workspace/core";
+import {AccountInfo, Location, ShareInfo} from "@open-event-workspace/core";
 import {Observable} from "rxjs";
 
 export interface Event {
@@ -19,6 +19,7 @@ export interface Event {
   hasLocation: boolean,
   hasRegistration: boolean,
   published: boolean,
+  shared: boolean,
 
   tags: string[]
 }
@@ -28,6 +29,7 @@ export interface EventInfo {
   location: Location | undefined
   registration: RegistrationInfo | undefined,
   categories: Category[],
+  share: ShareInfo | undefined,
   canEdit: boolean
 }
 
@@ -45,6 +47,7 @@ export class EventChangeRequest {
     public location: LocationChangeRequest,
     public registration: RegistrationChangeRequest,
     public published: boolean,
+    public shared: boolean,
     public tags: string[]
   ) {
   }

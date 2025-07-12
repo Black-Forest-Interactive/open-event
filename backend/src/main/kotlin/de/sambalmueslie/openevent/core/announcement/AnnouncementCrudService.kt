@@ -6,6 +6,7 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.announcement.db.AnnouncementStorage
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,4 +26,7 @@ class AnnouncementCrudService(
         return result
     }
 
+    override fun isValid(request: AnnouncementChangeRequest) {
+        if (request.subject.isBlank()) throw InvalidRequestException("Subject cannot be blank")
+    }
 }

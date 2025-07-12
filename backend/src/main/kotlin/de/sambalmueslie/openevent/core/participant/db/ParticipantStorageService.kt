@@ -55,10 +55,6 @@ class ParticipantStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: ParticipantChangeRequest) {
-        if (request.size <= 0) throw InvalidRequestException("Size cannot be below zero")
-    }
-
     override fun get(registration: Registration): List<Participant> {
         return repository.findByRegistrationId(registration.id).let { converter.convert(it) }
     }

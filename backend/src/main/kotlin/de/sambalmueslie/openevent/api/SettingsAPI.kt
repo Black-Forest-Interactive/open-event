@@ -12,6 +12,7 @@ interface SettingsAPI : CrudAPI<Long, Setting, SettingChangeRequest> {
 
         const val SETTINGS_URL_HELP = "url.help"
         const val SETTINGS_URL_TERMS_AND_CONDITIONS = "url.terms-and-conditions"
+        const val SETTINGS_TEXT_TERMS_AND_CONDITIONS = "text.terms-and-conditions"
         const val SETTINGS_URL_SHARE = "url.share"
         const val SETTINGS_TEXT_TITLE = "text.title"
         const val SETTINGS_MAIL_FROM_ADDRESS = "mail.from-address"

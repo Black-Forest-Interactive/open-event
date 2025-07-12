@@ -1,18 +1,25 @@
-<app-event-details-header (changed)="reload()" [data]="info" [reloading]="reloading"></app-event-details-header>
-<app-loading-bar [reloading]="reloading"></app-loading-bar>
-@if (info) {
-  <div class="container mx-auto px-4 flex flex-col lg:flex-row gap-4 py-4 align-stretch">
-    <div class="flex flex-col gap-4 flex-auto">
-      <app-event-details-info [info]="info"></app-event-details-info>
-      @if (info.registration) {
-        <app-registration-details [data]="info.registration"></app-registration-details>
-      }
+<mat-card class="container mx-auto !my-4 overflow-hidden h-[calc(100vh-100px)]">
+  <app-event-details-banner [data]="info" ></app-event-details-banner>
+  <app-event-details-header (changed)="reload()" [data]="info" [reloading]="reloading"></app-event-details-header>
+  <app-loading-bar [reloading]="reloading"></app-loading-bar>
+  @if (info) {
+    <div class="flex flex-col lg:flex-row gap-6 lg:justify-stretch overflow-y-auto px-6 py-4">
+      <div class="flex flex-col flex-auto">
+        <app-event-details-info [info]="info"></app-event-details-info>
+        @if (info.registration) {
+          <app-registration-details [data]="info.registration"></app-registration-details>
+        }
+        @if (info.canEdit && info.share) {
+          <app-share-details [info]="info" [reloading]="reloading" (changed)="setSharingEnabled($event)"></app-share-details>
+        }
+      </div>
+      <mat-divider vertical></mat-divider>
+      <div class="flex flex-col gap-4 lg:basis-lg lg:flex-shrink-0">
+        @if (info.location) {
+          <app-event-details-location [info]="info" class="px-2"></app-event-details-location>
+        }
+      </div>
     </div>
-    <div class="flex flex-col gap-4 basis-auto shrink grow-0 content-stretch">
-      <app-event-details-location [info]="info"></app-event-details-location>
-      @if (info.canEdit) {
-        <app-share-details [event]="info.event"></app-share-details>
-      }
-    </div>
-  </div>
-}
+  }
+</mat-card>
+

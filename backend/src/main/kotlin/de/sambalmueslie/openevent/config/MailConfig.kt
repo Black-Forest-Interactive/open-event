@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.config
 
 import io.micronaut.context.annotation.ConfigurationProperties
 import jakarta.validation.constraints.NotBlank
+import org.simplejavamail.api.mailer.config.TransportStrategy
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -53,6 +54,12 @@ class MailConfig {
     var replyToAddress: String = ""
         set(value) {
             logger.info("Set replyToAddress from '$field' to '$value'")
+            field = value
+        }
+
+    var transportStrategy: TransportStrategy = TransportStrategy.SMTPS
+        set(value) {
+            logger.info("Set transportStrategy from '$field' to '$value'")
             field = value
         }
 

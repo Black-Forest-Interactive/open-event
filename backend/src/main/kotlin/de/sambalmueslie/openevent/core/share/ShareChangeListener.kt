@@ -5,6 +5,6 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.share.api.Share
 
 interface ShareChangeListener : BusinessObjectChangeListener<String, Share> {
-    fun publishedChanged(actor: Account, share: Share)
+    fun enabledChanged(actor: Account, share: Share)
 
 }

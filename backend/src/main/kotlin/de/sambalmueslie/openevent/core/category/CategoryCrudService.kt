@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.category.api.CategoryChangeRequest
 import de.sambalmueslie.openevent.core.category.db.CategoryStorage
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,5 +23,8 @@ class CategoryCrudService(
         return storage.findByName(name)
     }
 
+    override fun isValid(request: CategoryChangeRequest) {
+        if (request.name.isBlank()) throw InvalidRequestException("Name cannot be blank")
+    }
 
 }

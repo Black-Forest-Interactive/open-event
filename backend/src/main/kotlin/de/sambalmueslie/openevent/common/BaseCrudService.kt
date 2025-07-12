@@ -46,12 +46,14 @@ abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChang
     }
 
     override fun create(actor: Account, request: R, properties: Map<String, Any>): O {
+        isValid(request)
         val result = storage.create(request, properties)
         notifyCreated(actor, result)
         return result
     }
 
     override fun update(actor: Account, id: T, request: R): O {
+        isValid(request)
         val result = storage.update(id, request)
         notifyUpdated(actor, result)
         return result
@@ -66,6 +68,8 @@ abstract class BaseCrudService<T, O : BusinessObject<T>, R : BusinessObjectChang
     override fun getByIds(ids: Set<T>): List<O> {
         return storage.getByIds(ids)
     }
+
+    abstract fun isValid(request: R)
 }
 
 

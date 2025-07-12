@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.core.notification.api.NotificationTemplate
 import de.sambalmueslie.openevent.core.notification.api.NotificationTemplateChangeRequest
 import de.sambalmueslie.openevent.core.notification.api.NotificationType
 import de.sambalmueslie.openevent.core.notification.db.NotificationTemplateStorage
+import de.sambalmueslie.openevent.error.InvalidRequestException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
@@ -33,6 +34,10 @@ class NotificationTemplateCrudService(
         val result = storage.create(type, request)
         notifyCreated(actor, result)
         return result
+    }
+
+    override fun isValid(request: NotificationTemplateChangeRequest) {
+        if (request.subject.isBlank()) throw InvalidRequestException("Subject cannot be blank.")
     }
 
     fun findByType(type: NotificationType, pageable: Pageable): Page<NotificationTemplate> {

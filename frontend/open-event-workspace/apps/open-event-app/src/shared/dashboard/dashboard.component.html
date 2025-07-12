@@ -6,7 +6,7 @@
                fixedInViewport>
     <div class="flex flex-col gap-4 justify-center content-center p-6">
       <div class="flex flex-initial"><a routerLink="/"><img src="img/logo.png"/></a></div>
-      <app-main-menu class="flex-initial" [accessibleItems]="accessibleItems" (logoutEvent)="authService.logout()"></app-main-menu>
+      <app-main-menu class="flex-initial" [accessibleItems]="accessibleItems" (logoutEvent)="appService.logout()"/>
     </div>
 
   </mat-sidenav>

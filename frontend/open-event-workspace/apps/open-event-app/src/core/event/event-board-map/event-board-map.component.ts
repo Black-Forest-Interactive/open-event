@@ -99,16 +99,21 @@ export class EventBoardMapComponent implements AfterViewInit {
       .resolveComponentFactory(EventBoardMapPopupComponent)
       .create(this.injector);
     component.instance.data = e
+    component.changeDetectorRef.detectChanges()
+
+    marker.bindPopup(component.location.nativeElement)
+
     component.instance.close.asObservable().subscribe(res => {
         marker.closePopup()
+
         if (res) {
           EventNavigationService.navigateToEventDetails(this.router, +e.id)
         }
       }
     )
-    component.changeDetectorRef.detectChanges()
 
-    g.addLayer(marker).bindPopup(component.location.nativeElement)
+    g.addLayer(marker)
+    // g.addLayer(marker).bindPopup(component.location.nativeElement)
   }
 
   private addEventMarker(i: EventSearchEntry) {

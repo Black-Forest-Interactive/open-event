@@ -45,11 +45,6 @@ class PreferencesStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: PreferencesChangeRequest) {
-        // intentionally left empty
-    }
-
-
     override fun findByAccount(account: Account): Preferences? {
         return repository.findByIdOrNull(account.id)?.convert()
     }

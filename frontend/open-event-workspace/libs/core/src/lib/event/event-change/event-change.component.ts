@@ -1,36 +1,33 @@
 import {Component, effect, input, output, signal} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
-import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
+import {MatStepperModule} from "@angular/material/stepper";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {Event, EventChangeRequest, EventInfo, EventReadAPI} from "../event.api";
-import {map, Observable} from "rxjs";
-import {BreakpointObserver} from "@angular/cdk/layout";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {EventChangeGeneralComponent} from "../event-change-general/event-change-general.component";
-import {EventChangeLocationComponent} from "../event-change-location/event-change-location.component";
 import {AddressReadAPI} from "../../address/address.api";
 import {CategoryReadAPI} from "../../category/category-api";
-import {EventChangeRegistrationComponent} from "../event-change-registration/event-change-registration.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {LocationChangeRequest} from "../../location/location.api";
 import {RegistrationChangeRequest} from "../../registration/registration.api";
 import {DateTime} from 'luxon';
 import {LoadingBarComponent} from "@open-event-workspace/shared";
+import {EventChangeStepperComponent} from "../event-change-stepper/event-change-stepper.component";
+import {EventChangeSingleComponent} from "../event-change-single/event-change-single.component";
 
 @Component({
   selector: 'lib-event-change',
-  imports: [CommonModule, MatCardModule, MatStepperModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, TranslateModule, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent, LoadingBarComponent],
+  imports: [CommonModule, MatCardModule, MatStepperModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, TranslateModule, LoadingBarComponent, EventChangeStepperComponent, EventChangeSingleComponent],
   templateUrl: './event-change.component.html',
   styleUrl: './event-change.component.scss'
 })
 export class EventChangeComponent {
 
-  title = input.required<string>()
   event = input<Event>()
   info = signal<EventInfo | undefined>(undefined)
+  mode = input<string>('single')
   request = output<EventChangeRequest>()
   cancel = output<boolean>()
 
@@ -42,20 +39,11 @@ export class EventChangeComponent {
   categoryReadAPI = input.required<CategoryReadAPI>()
   eventReadAPI = input.required<EventReadAPI>()
 
-  stepperOrientation: Observable<StepperOrientation>
 
   fg: FormGroup
 
-  constructor(
-    fb: FormBuilder,
-    breakpointObserver: BreakpointObserver
-  ) {
-
+  constructor(fb: FormBuilder) {
     this.fg = fb.group({})
-
-    this.stepperOrientation = breakpointObserver
-      .observe('(min-width: 800px)')
-      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')))
 
     effect(() => {
       let event = this.event()
@@ -72,6 +60,7 @@ export class EventChangeComponent {
     if (!this.fg.valid) return
     let value = this.fg.value
     let request = this.createRequest(value, this.isEndHidden())
+
     if (!request) return
     this.loading = true
     this.request.emit(request)
@@ -113,6 +102,7 @@ export class EventChangeComponent {
       location,
       registration,
       true,
+      value.registration.shared,
       value.registration.tags ?? []
     )
   }

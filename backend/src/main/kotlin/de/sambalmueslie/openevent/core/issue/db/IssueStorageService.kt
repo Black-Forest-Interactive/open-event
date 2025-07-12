@@ -55,9 +55,6 @@ class IssueStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: IssueChangeRequest) {
-        // intentionally left empty
-    }
 
     override fun findByAccount(account: Account, pageable: Pageable): Page<Issue> {
         return repository.findByAccountId(account.id, pageable).let { converter.convert(it) }

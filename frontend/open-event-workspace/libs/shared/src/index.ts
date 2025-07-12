@@ -15,6 +15,8 @@ export * from './lib/chip-select-pane/chip-select-pane.component'
 export * from './lib/confirm-dialog/confirm-dialog.component'
 export * from './lib/confirm-dialog/confirm-dialog-config'
 
+export * from './lib/confirmation-code/confirmation-code.component'
+
 export * from './lib/forbidden/forbidden.component'
 
 export * from './lib/loading-bar/loading-bar.component'

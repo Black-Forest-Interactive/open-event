@@ -44,9 +44,6 @@ class MessageStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: MessageChangeRequest) {
-        if (request.subject.isBlank()) throw InvalidRequestException("Subject cannot be blank")
-    }
 
 
 }

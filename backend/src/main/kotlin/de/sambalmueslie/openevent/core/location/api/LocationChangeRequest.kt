@@ -1,9 +1,7 @@
 package de.sambalmueslie.openevent.core.location.api
 
 import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
-import io.micronaut.serde.annotation.Serdeable
 
-@Serdeable
 data class LocationChangeRequest(
     val street: String,
     val streetNumber: String,

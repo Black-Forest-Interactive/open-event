@@ -23,6 +23,7 @@ data class EventSearchEntryData(
     var shortText: String,
     var longText: String,
     var published: Boolean,
+    var shared: Boolean,
     var owner: Long,
 
     var hasLocation: Boolean,
@@ -54,6 +55,7 @@ data class EventSearchEntryData(
             val r = info.registration
             val p = r?.participants ?: emptyList()
             val c = info.categories
+            info.share
 
             val (waitingList, accepted) = p.partition { it.waitingList }
             val maxGuestAmount = r?.registration?.maxGuestAmount ?: 0
@@ -73,6 +75,7 @@ data class EventSearchEntryData(
                 Jsoup.parse(e.shortText).text(),
                 Jsoup.parse(e.longText).text(),
                 e.published,
+                info.share?.share?.enabled ?: false,
                 e.owner.id,
 
                 l != null,
@@ -110,6 +113,7 @@ data class EventSearchEntryData(
             shortText,
             longText,
             published,
+            shared,
             owner,
             hasLocation,
             street ?: "",

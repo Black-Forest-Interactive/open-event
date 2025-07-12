@@ -19,7 +19,8 @@ import jakarta.inject.Singleton
 
 @Singleton
 class EventGuardService(
-    private val service: EventCrudService, private val searchService: SearchService,
+    private val service: EventCrudService,
+    private val searchService: SearchService,
     private val accountService: AccountCrudService,
     audit: AuditService,
 ) {
@@ -78,6 +79,15 @@ class EventGuardService(
         }
     }
 
+    fun setShared(auth: Authentication, id: Long, value: PatchRequest<Boolean>): EventInfo? {
+        return auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            logger.traceAction(auth, "PUBLISHED", id.toString(), value) {
+                service.setShared(account, event.id, value)
+            }
+        }
+
+    }
 
     fun getIfAccessible(auth: Authentication, id: Long): Pair<Event, Account>? {
         val event = service.get(id) ?: return null

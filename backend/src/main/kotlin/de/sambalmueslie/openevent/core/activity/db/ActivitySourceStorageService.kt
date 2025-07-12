@@ -5,7 +5,6 @@ import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
 import de.sambalmueslie.openevent.core.activity.ActivitySourceStorage
 import de.sambalmueslie.openevent.core.activity.api.ActivitySource
 import de.sambalmueslie.openevent.core.activity.api.ActivitySourceChangeRequest
-import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import jakarta.inject.Singleton
@@ -31,11 +30,6 @@ class ActivitySourceStorageService(
 
     override fun updateData(data: ActivitySourceData, request: ActivitySourceChangeRequest): ActivitySourceData {
         return data.update(request, timeProvider.now())
-    }
-
-    @Deprecated("Move that to core")
-    override fun isValid(request: ActivitySourceChangeRequest) {
-        if (request.key.isBlank()) throw InvalidRequestException("Key cannot be blank")
     }
 
     override fun findByKey(key: String): ActivitySource? {

@@ -77,5 +77,9 @@ class ProfileCrudService(
         }
     }
 
+    override fun isValid(request: ProfileChangeRequest) {
+        // intentionally left empty
+    }
+
 
 }

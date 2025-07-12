@@ -45,10 +45,6 @@ class ProfileStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun isValid(request: ProfileChangeRequest) {
-        // intentionally left empty
-    }
-
     override fun findByAccount(account: Account): Profile? {
         return repository.findByIdOrNull(account.id)?.convert()
     }

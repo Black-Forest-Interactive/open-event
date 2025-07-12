@@ -20,7 +20,7 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
     cacheSize: Long = 100,
 ) : Storage<T, O, R> {
 
-    private val cache: LoadingCache<T, O> = cacheService.register(type) {
+    private val cache: LoadingCache<T, O?> = cacheService.register(type) {
         Caffeine.newBuilder()
             .maximumSize(cacheSize)
             .expireAfterWrite(1, TimeUnit.HOURS)
@@ -45,7 +45,6 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
     }
 
     override fun create(request: R, properties: Map<String, Any>): O {
-        isValid(request)
         val existing = existing(request)
         if (existing != null) return converter.convert(existing)
 
@@ -63,7 +62,6 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
 
     override fun update(id: T, request: R): O {
         val data = repository.findByIdOrNull(id) ?: return create(request)
-        isValid(request)
         val result = repository.update(updateData(data, request)).let { converter.convert(it) }
         updateDependencies(request, result)
         cache.put(result.id, result)
@@ -85,7 +83,7 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
     protected fun patchData(data: D, patch: (D) -> Unit): O {
         patch.invoke(data)
         val result = repository.update(data).let { converter.convert(it) }
-        cache.put(result.id, result)
+        cache.put(result.id,result)
         return result
     }
 
@@ -102,8 +100,6 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
         return result
     }
 
-    @Deprecated("Move that to core")
-    abstract fun isValid(request: R)
     protected open fun existing(request: R): D? {
         return null
     }
