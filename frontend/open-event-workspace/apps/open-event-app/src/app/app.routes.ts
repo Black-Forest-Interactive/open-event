@@ -32,6 +32,11 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('../core/share/share.routes').then(m => m.routes),
     data: {public: true}
   },
+  {
+    path: 'imprint',
+    loadChildren: () => import('../core/imprint/imprint.routes').then(m => m.routes),
+    data: {public: true}
+  },
   {path: 'forbidden', component: ForbiddenComponent},
   {path: '**', component: PageNotFoundComponent}
 ]

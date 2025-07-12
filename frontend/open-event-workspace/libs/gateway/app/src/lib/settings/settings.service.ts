@@ -17,4 +17,8 @@ export class SettingsService extends BaseService {
   getTitle(): Observable<TextResponse> {
     return this.get('title')
   }
+
+  getTerms(): Observable<TextResponse> {
+    return this.get('terms')
+  }
 }

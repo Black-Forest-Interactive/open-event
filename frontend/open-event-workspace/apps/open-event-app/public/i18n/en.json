@@ -432,5 +432,9 @@
       "calendar": "Add to calendar",
       "routing": "Plan routing"
     }
+  },
+  "imprint": {
+    "title": "Imprint",
+    "privacy-policy": "Privacy Policy"
   }
 }

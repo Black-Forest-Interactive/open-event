@@ -72,6 +72,10 @@ class SettingsService(
         return findByKey(SettingsAPI.SETTINGS_TEXT_TITLE)?.value as? String ?: ""
     }
 
+    fun getTerms(): String {
+        return findByKey(SettingsAPI.SETTINGS_TEXT_TERMS_AND_CONDITIONS)?.value as? String ?: ""
+    }
+
     fun getLanguage(): String {
         return findByKey(SettingsAPI.SETTINGS_DEFAULT_LANGUAGE)?.value as? String ?: ""
     }

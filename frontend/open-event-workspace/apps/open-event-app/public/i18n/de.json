@@ -411,5 +411,9 @@
       "calendar": "Im Kalender hinzufügen",
       "routing": "Routenplaner öffnen"
     }
+  },
+  "imprint": {
+    "title": "Datenschutz",
+    "privacy-policy": "Datenschutzrichtlinie"
   }
 }
