@@ -4,6 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {IssueCreateDialogComponent} from "./issue-create/issue-create-dialog.component";
+import {environment} from "../../../../../apps/open-event-app/src/environments/environment";
 
 
 export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
@@ -13,10 +14,12 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       console.log("Error intercepted")
-      if (error.status >= 500) {
-        dialog.open(IssueCreateDialogComponent, {
-          data: error
-        });
+      if (environment.features.errorInterception) {
+        if (error.status >= 500) {
+          dialog.open(IssueCreateDialogComponent, {
+            data: error
+          });
+        }
       }
       return throwError(() => error);
     })

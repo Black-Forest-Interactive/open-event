@@ -43,7 +43,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.12.2")
-    testImplementation("io.mockk:mockk:1.14.0")
+    testImplementation("io.mockk:mockk:1.14.2")
 
     // jackson
     kapt("io.micronaut.serde:micronaut-serde-processor")
@@ -100,8 +100,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // FOP
-    implementation("org.apache.xmlgraphics:fop:2.10")
-    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.10")
+    implementation("org.apache.xmlgraphics:fop:2.11")
+    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.11")
 
 
     // qrcode
@@ -134,7 +134,7 @@ dependencies {
     implementation("com.jillesvangurp:search-client:2.4.1")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.19.1")
+    implementation("org.jsoup:jsoup:1.20.1")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }

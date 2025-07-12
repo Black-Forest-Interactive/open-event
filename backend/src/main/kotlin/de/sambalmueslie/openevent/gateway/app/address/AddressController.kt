@@ -5,7 +5,7 @@ import de.sambalmueslie.openevent.core.address.AddressCrudService
 import de.sambalmueslie.openevent.core.address.api.Address
 import de.sambalmueslie.openevent.core.address.api.AddressChangeRequest
 import de.sambalmueslie.openevent.core.checkPermission
-import de.sambalmueslie.openevent.error.InsufficientPermissionsException
+import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -73,7 +73,7 @@ class AddressController(
             } else if (address.accountId == account.id) {
                 logger.traceUpdate(auth, request) { service.update(account, id, request) }
             } else {
-                throw InsufficientPermissionsException("Cannot access address cause user is not author")
+                throw IllegalAccessException("Cannot access address cause user is not author")
             }
         }
     }
@@ -86,7 +86,7 @@ class AddressController(
             if (address.accountId == account.id) {
                 logger.traceDelete(auth) { service.delete(accountService.find(auth), id) }
             } else {
-                throw InsufficientPermissionsException("Cannot access address cause user is not author")
+                throw IllegalAccessException("Cannot access address cause user is not author")
             }
         }
     }

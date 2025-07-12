@@ -138,7 +138,7 @@ class EventCrudService(
     internal fun convertInfo(events: Page<Event>, account: Account? = null): Page<EventInfo> {
         val eventIds = events.content.map { it.id }.toSet()
         val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.eventId }
-        val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.id }
+        val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.eventId }
         val categories = storage.getCategoriesByEventIds(eventIds)
         val canEdit = events.content.associate { it.id to (it.owner.id == account?.id) }
         return events.map {

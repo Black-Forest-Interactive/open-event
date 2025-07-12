@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, computed, model} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {RegistrationParticipateDialogComponent} from "../registration-participate-dialog/registration-participate-dialog.component";
@@ -6,15 +6,13 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {RegistrationEditDialogComponent} from "../registration-edit-dialog/registration-edit-dialog.component";
 import {RegistrationCancelDialogComponent} from "../registration-cancel-dialog/registration-cancel-dialog.component";
 import {AuthService, LoadingBarComponent} from "@open-event-workspace/shared";
-import {Participant, ParticipateRequest, ParticipateResponse, RegistrationInfo} from '@open-event-workspace/core';
+import {ParticipateRequest, ParticipateResponse, RegistrationInfo, RegistrationStatusComponent} from '@open-event-workspace/core';
 import {MatButton} from "@angular/material/button";
 import {NgTemplateOutlet} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {MatCard, MatCardActions, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {RegistrationStatusComponent} from "../registration-status/registration-status.component";
+import {MatCard} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {AccountComponent} from "../../account/account/account.component";
-import {Roles} from "../../../shared/roles";
 import {RegistrationService} from "@open-event-workspace/app";
 
 @Component({
@@ -25,25 +23,26 @@ import {RegistrationService} from "@open-event-workspace/app";
     MatIcon,
     TranslatePipe,
     MatCard,
-    MatCardHeader,
     RegistrationStatusComponent,
     MatDivider,
-    MatCardContent,
     NgTemplateOutlet,
     MatButton,
-    MatCardActions,
     AccountComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    RegistrationStatusComponent
   ],
   standalone: true
 })
 export class RegistrationDetailsComponent {
-  registration: RegistrationInfo | undefined
-  accepted: Participant[] = []
-  waitList: Participant[] = []
+
+  data = model.required<RegistrationInfo>()
+  participants = computed(() => this.data().participants)
+
+  accepted = computed(() => this.participants().filter(p => !p.waitingList))
+  waitList = computed(() => this.participants().filter(p => p.waitingList))
   reloading: boolean = false
-  userParticipant: Participant | undefined
-  adminOrManager: boolean = false
+  userParticipant = computed(() => this.participants().find(p => p.author.email === this.authService.getPrincipal()?.email))
+
 
   constructor(
     private service: RegistrationService,
@@ -54,20 +53,7 @@ export class RegistrationDetailsComponent {
   ) {
   }
 
-  @Input()
-  set data(value: RegistrationInfo) {
-    this.registration = value
-    this.updateData()
-  }
-
-  ngOnInit() {
-    this.adminOrManager = this.authService.hasRole(Roles.REGISTRATION_MANAGE, Roles.REGISTRATION_ADMIN)
-    let principal = this.authService.getPrincipal()
-    if (principal) this.adminOrManager = principal.roles.find(r => r === Roles.REGISTRATION_MANAGE || r === Roles.REGISTRATION_ADMIN) != null
-  }
-
   participateSelf() {
-    if (!this.registration) return
     if (this.reloading) return
     let dialogRef = this.dialog.open(RegistrationParticipateDialogComponent)
     dialogRef.afterClosed().subscribe(request => {
@@ -76,7 +62,6 @@ export class RegistrationDetailsComponent {
   }
 
   editSelf() {
-    if (!this.registration) return
     if (this.reloading) return
 
     let dialogRef = this.dialog.open(RegistrationEditDialogComponent, {data: this.userParticipant})
@@ -86,7 +71,6 @@ export class RegistrationDetailsComponent {
   }
 
   cancelSelf() {
-    if (!this.registration) return
     if (this.reloading) return
 
     let dialogRef = this.dialog.open(RegistrationCancelDialogComponent)
@@ -96,38 +80,27 @@ export class RegistrationDetailsComponent {
   }
 
 
-  private updateData() {
-    if (this.registration) {
-      this.accepted = this.registration.participants.filter(p => !p.waitingList)
-      this.waitList = this.registration.participants.filter(p => p.waitingList)
-      this.userParticipant = this.registration.participants.find(p => p.author.email === this.authService.getPrincipal()?.email)
-    }
-  }
-
   private requestParticipateSelf(request: ParticipateRequest) {
-    if (!this.registration) return
     if (this.reloading) return
     this.reloading = true
-    this.service.addParticipant(this.registration.registration.id, request).subscribe(r => this.handleParticipateResponse(r))
+    this.service.addParticipant(this.data().registration.id, request).subscribe(r => this.handleParticipateResponse(r))
   }
 
   private requestEditSelf(request: ParticipateRequest) {
-    if (!this.registration) return
     if (this.reloading) return
     this.reloading = true
-    this.service.changeParticipant(this.registration.registration.id, request).subscribe(r => this.handleParticipateResponse(r))
+    this.service.changeParticipant(this.data().registration.id, request).subscribe(r => this.handleParticipateResponse(r))
   }
 
   private requestCancelSelf() {
-    if (!this.registration) return
     if (this.reloading) return
     this.reloading = true
-    this.service.removeParticipant(this.registration.registration.id).subscribe(r => this.handleParticipateResponse(r))
+    this.service.removeParticipant(this.data().registration.id).subscribe(r => this.handleParticipateResponse(r))
   }
 
 
   private handleParticipateResponse(response: ParticipateResponse) {
-    this.updateParticipants(response.participants)
+    this.data.set({...this.data(), participants: response.participants})
     switch (response.status) {
       case 'ACCEPTED':
         this.translation.get('registration.message.accepted').subscribe(msg => this.hotToast.success(msg))
@@ -147,9 +120,4 @@ export class RegistrationDetailsComponent {
   }
 
 
-  private updateParticipants(participants: Participant[]) {
-    if (!this.registration) return
-    this.registration.participants = participants
-    this.updateData()
-  }
 }

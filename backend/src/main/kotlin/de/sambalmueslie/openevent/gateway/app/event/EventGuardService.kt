@@ -11,7 +11,7 @@ import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
-import de.sambalmueslie.openevent.error.InsufficientPermissionsException
+import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
@@ -82,7 +82,7 @@ class EventGuardService(
     fun getIfAccessible(auth: Authentication, id: Long): Pair<Event, Account>? {
         val event = service.get(id) ?: return null
         val account = accountService.find(auth)
-        if (event.owner.id != account.id) throw InsufficientPermissionsException("You are not allowed to change that event")
+        if (event.owner.id != account.id) throw IllegalAccessException("You are not allowed to change that event")
         return Pair(event, account)
     }
 

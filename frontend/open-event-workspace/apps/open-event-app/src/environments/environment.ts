@@ -8,4 +8,7 @@ export const environment = {
     realm: 'open-church',
     clientId: 'open-church-frontend',
   },
+  features: {
+    errorInterception: false
+  }
 };

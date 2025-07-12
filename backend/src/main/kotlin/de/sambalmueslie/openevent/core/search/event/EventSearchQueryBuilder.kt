@@ -37,7 +37,7 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             }
             if (request.to != null) {
                 filter(range(EventSearchEntryData::date) {
-                    lte = request.to.plusDays(1).atStartOfDay()
+                    lte = request.to.atStartOfDay().withHour(23).withMinute(59).withSecond(59)
                 })
             }
             if (request.ownEvents) {

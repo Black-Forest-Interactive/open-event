@@ -97,7 +97,7 @@ open class EventSearchOperator(
 
     fun searchCreated(actor: Account, request: EventCreatedSearchRequest, pageable: Pageable): EventSearchResponse {
         val response = runBlocking {
-            client.search(name, block = createdQueryBuilder.buildSearchQuery(pageable, request, actor))
+            client.search(key(), block = createdQueryBuilder.buildSearchQuery(pageable, request, actor))
         }
         return processSearchResponse(actor, request, response, pageable)
     }

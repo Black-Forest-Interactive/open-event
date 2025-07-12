@@ -4,7 +4,7 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {RegistrationParticipateManualDialogComponent} from "../../registration/registration-participate-manual-dialog/registration-participate-manual-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {HotToastService} from "@ngxpert/hot-toast";
-import {ParticipantAddRequest, SharedParticipateResponse, ShareInfo, ShareService} from "@open-event-workspace/core";
+import {ParticipantAddRequest, RegistrationStatusComponent, SharedParticipateResponse, ShareInfo, ShareService} from "@open-event-workspace/core";
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardImage, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
@@ -13,7 +13,6 @@ import {DatePipe} from "@angular/common";
 import {MatDivider} from "@angular/material/divider";
 import {MatChip, MatChipListbox} from "@angular/material/chips";
 import {LocationMapComponent} from "../../location/location-map/location-map.component";
-import {RegistrationStatusComponent} from "../../registration/registration-status/registration-status.component";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 

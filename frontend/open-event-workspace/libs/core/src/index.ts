@@ -54,6 +54,7 @@ export * from './lib/profile/profile.service';
 
 export * from './lib/registration/registration.api';
 export * from './lib/registration/registration.service';
+export * from './lib/registration/registration-status/registration-status.component';
 
 export * from './lib/search/search.api';
 export * from './lib/search/search.service';

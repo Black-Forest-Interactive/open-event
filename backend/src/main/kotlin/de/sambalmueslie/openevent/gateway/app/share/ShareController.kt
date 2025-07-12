@@ -7,7 +7,7 @@ import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.core.share.ShareCrudService
 import de.sambalmueslie.openevent.core.share.api.Share
 import de.sambalmueslie.openevent.core.share.api.ShareChangeRequest
-import de.sambalmueslie.openevent.error.InsufficientPermissionsException
+import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.gateway.app.event.EventGuardService
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
@@ -67,7 +67,7 @@ class ShareController(
     private fun validateUpdate(auth: Authentication, id: String): Pair<Account, Share> {
         val account = accountService.find(auth)
         val share = service.get(id) ?: throw InvalidRequestException("Cannot find share by id")
-        if (share.owner.id != account.id) throw InsufficientPermissionsException("You are not allowed to change that share")
+        if (share.owner.id != account.id) throw IllegalAccessException("You are not allowed to change that share")
         return account to share
     }
 

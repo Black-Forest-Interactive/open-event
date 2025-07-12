@@ -10,7 +10,7 @@ import de.sambalmueslie.openevent.core.account.api.Profile
 import de.sambalmueslie.openevent.core.account.api.ProfileChangeRequest
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.core.getRealmRoles
-import de.sambalmueslie.openevent.error.InsufficientPermissionsException
+import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -59,7 +59,7 @@ class ProfileController(
             if (isAdmin(auth) || isOwn(auth, id)) {
                 logger.traceUpdate(auth, request) { service.update(accountService.find(auth), id, request) }
             } else {
-                throw InsufficientPermissionsException("No permission to access resource")
+                throw IllegalAccessException("No permission to access resource")
             }
         }
     }
@@ -71,7 +71,7 @@ class ProfileController(
             if (isAdmin(auth) || isOwn(auth, id)) {
                 logger.traceDelete(auth) { service.delete(accountService.find(auth), id) }
             } else {
-                throw InsufficientPermissionsException("No permission to access resource")
+                throw IllegalAccessException("No permission to access resource")
             }
         }
     }

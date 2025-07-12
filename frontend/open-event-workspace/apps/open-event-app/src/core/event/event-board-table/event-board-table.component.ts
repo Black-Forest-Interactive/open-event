@@ -6,12 +6,12 @@ import {MatTableModule} from "@angular/material/table";
 import {MatIcon} from "@angular/material/icon";
 import {TranslatePipe} from "@ngx-translate/core";
 import {AccountComponent} from "../../account/account/account.component";
-import {RegistrationStatusComponent} from "../../registration/registration-status/registration-status.component";
 import {MatDivider} from "@angular/material/divider";
 import {MatMiniFabButton} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {LoadingBarComponent} from "@open-event-workspace/shared";
+import {RegistrationStatusComponent} from "@open-event-workspace/core";
 
 @Component({
   selector: 'app-event-board-table',

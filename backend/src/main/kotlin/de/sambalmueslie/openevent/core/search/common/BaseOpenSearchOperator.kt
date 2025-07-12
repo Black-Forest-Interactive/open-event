@@ -23,7 +23,7 @@ import kotlin.time.Duration.Companion.seconds
 
 abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T>>(
     openSearch: SearchClientFactory,
-    protected val name: String,
+    private val name: String,
     config: OpenSearchConfig,
     private val logger: Logger
 ) : SearchOperator<T, R, S> {
@@ -84,10 +84,10 @@ abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T
     }
 
     private suspend fun createIndex() {
-        val exists = client.exists(name)
-        if (exists) client.deleteIndex(name)
+        val exists = client.exists(key)
+        if (exists) client.deleteIndex(key)
 
-        client.createIndex(name) {
+        client.createIndex(key) {
             settings {
                 replicas = 0
                 shards = 3
@@ -108,7 +108,7 @@ abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T
         data.forEach { page ->
             statsTotal = page.totalSize
             try {
-                client.bulk(target = name) {
+                client.bulk(target = key) {
                     page.forEach { (id, value) -> index(value, id = id) }
                 }
                 statsSuccessful += page.content.size
@@ -132,14 +132,14 @@ abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T
         val duration = measureTimeMillis {
             val refresh = if (blocking) Refresh.WaitFor else null
             val existing = try {
-                client.getDocument(target = name, id = id).found
+                client.getDocument(target = key, id = id).found
             } catch (e: Exception) {
                 false
             }
             val type = if (existing) OperationType.Index else OperationType.Create
 
             client.indexDocument(
-                target = name,
+                target = key,
                 serializedJson = value,
                 id = id,
                 opType = type,
@@ -154,7 +154,7 @@ abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T
     private suspend fun indexDocument(id: String, value: String, type: OperationType) {
         val duration = measureTimeMillis {
             client.indexDocument(
-                target = name,
+                target = key,
                 serializedJson = value,
                 id = id,
                 opType = type
@@ -168,7 +168,7 @@ abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T
     protected fun deleteDocument(id: String) {
         runBlocking {
             val duration = measureTimeMillis {
-                client.deleteDocument(name, id, refresh = Refresh.True)
+                client.deleteDocument(key, id, refresh = Refresh.True)
             }
             logger.info("[$name] delete document within $duration ms.")
         }
@@ -178,7 +178,7 @@ abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T
 
     override fun search(actor: Account, request: R, pageable: Pageable): S {
         val response = runBlocking {
-            client.search(name, block = getSearchQueryBuilder().buildSearchQuery(pageable, request, actor))
+            client.search(key, block = getSearchQueryBuilder().buildSearchQuery(pageable, request, actor))
         }
         return processSearchResponse(actor, request, response, pageable)
     }

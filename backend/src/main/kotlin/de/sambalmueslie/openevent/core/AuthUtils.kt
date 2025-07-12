@@ -7,7 +7,7 @@ import io.micronaut.security.authentication.Authentication
 fun <T> Authentication.checkPermission(vararg permissions: String, function: () -> T): T {
     val realmRoles = getRealmRoles()
     if (permissions.find { realmRoles.contains(it) } != null) return function.invoke()
-    throw InsufficientPermissionsException("No permission to access resource")
+    throw InsufficientPermissionsException("No permission to access resource", permissions.toList())
 }
 
 @Suppress("UNCHECKED_CAST")

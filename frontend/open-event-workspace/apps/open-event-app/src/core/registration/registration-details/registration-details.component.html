@@ -1,33 +1,35 @@
 <mat-card>
-  <mat-card-header class="!p-2">
-    <div class="header flex-auto">{{ 'registration.title' | translate }}</div>
-    <app-registration-status [data]="registration"></app-registration-status>
-  </mat-card-header>
-  <mat-divider></mat-divider>
-  <mat-card-content>
+  <div class="flex flex-col gap-3">
+    <div class="flex flex-row items-center gap-2 px-3 pt-3">
+      <div class="header flex-auto">{{ 'registration.title' | translate }}</div>
+      <lib-registration-status [data]="data()"></lib-registration-status>
+    </div>
+    <mat-divider class="p-0"></mat-divider>
     <app-loading-bar [reloading]="reloading"></app-loading-bar>
-    <div class="flex flex-col gap-2 py-2">
-      @if (accepted.length > 0) {
-        @for (part of accepted; track part.id; let i = $index) {
+    <div class="flex flex-col justify-center px-3 pb-3 gap-4">
+      @if (accepted().length <= 0) {
+        <div>{{ 'registration.empty' | translate }}</div>
+      }
+
+      @if (accepted().length > 0) {
+        @for (part of accepted(); track part.id; let i = $index) {
           <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
         }
       }
-      @if (waitList.length > 0) {
+      @if (waitList().length > 0) {
         <div class="flex flex-row flex-auto gap-2 items-center">
           <mat-divider class="flex-auto"></mat-divider>
           <div>{{ 'registration.waitlist' | translate }}</div>
           <mat-divider class="flex-auto"></mat-divider>
         </div>
-        @for (part of waitList; track part.id; let i = $index) {
+        @for (part of waitList(); track part.id; let i = $index) {
           <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
         }
       }
     </div>
-  </mat-card-content>
-  <mat-divider></mat-divider>
-  <mat-card-actions>
-    <div class="flex flex-row gap-2 flex-auto">
-      @if (userParticipant) {
+    <mat-divider class="p-0"></mat-divider>
+    <div class="flex flex-row flex-wrap gap-4 px-3 pb-3">
+      @if (userParticipant()) {
         <button (click)="editSelf()" color="accent" mat-flat-button>
           <mat-icon>manage_accounts</mat-icon>
           {{ 'registration.action.edit' | translate }}
@@ -43,7 +45,7 @@
         </button>
       }
     </div>
-  </mat-card-actions>
+  </div>
 </mat-card>
 
 <ng-template #participant let-part='part'>

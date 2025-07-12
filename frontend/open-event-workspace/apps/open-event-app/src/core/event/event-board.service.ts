@@ -22,8 +22,8 @@ export class EventBoardService {
   filterToolbarVisible: boolean = true
 
   range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
+    start: new FormControl<DateTime | null>(null),
+    end: new FormControl<DateTime | null>(null),
   })
 
 
@@ -33,15 +33,15 @@ export class EventBoardService {
 
   handleRangeChanged() {
     let value = this.range.value
-    let start = value.start ? DateTime.fromJSDate(value.start) : null
-    let end = value.end ? DateTime.fromJSDate(value.end) : null
+    let start = value.start
+    let end = value.end
     this.updateRange(start, end)
   }
 
   updateRange(start: DateTime | null | undefined, end: DateTime | null | undefined) {
     this.range.setValue({
-      start: start?.toJSDate() ?? null,
-      end: end?.toJSDate() ?? null
+      start: start ?? null,
+      end: end ?? null
     })
     let startDate = null
     if (start) {

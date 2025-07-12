@@ -1,0 +1,15 @@
+<div class="flex flex-row gap-2">
+  @if (indicator.length) {
+    <div class="flex flex-row gap-0.5">
+      @for (i of indicator; track i) {
+        <div class="rounded min-w-2 !max-h-[20px]" [ngClass]="i"></div>
+      }
+    </div>
+  }
+  @if (spaceAvailable) {
+    <div class="available">{{ space.remaining }} {{ 'registration.status.available' | translate }}</div>
+  } @else {
+    <div class="full">{{ 'registration.status.full' | translate }}</div>
+  }
+
+</div>

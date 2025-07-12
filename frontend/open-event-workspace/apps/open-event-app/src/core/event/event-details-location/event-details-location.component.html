@@ -1,10 +1,30 @@
 @if (info().location) {
   <mat-card>
-    <mat-card-header class="!p-2">
-      <mat-card-title>{{ info().location?.street }} {{ info().location?.streetNumber }} {{ info().location?.additionalInfo }}</mat-card-title>
-      <mat-card-subtitle>{{ info().location?.zip }} {{ info().location?.city }} {{ info().location?.country }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <app-location-map [data]="info().location!!" mat-card-image></app-location-map>
+    <div class="flex flex-col gap-3">
+      <div class="flex flex-row gap-2 px-3 pt-3">
+        <div class="header flex-auto">{{ 'location.title' | translate }}</div>
+      </div>
+      <mat-divider class="p-0"></mat-divider>
+      <div class="flex flex-col flex-wrap gap-1 px-3">
+        <div>{{ info().location?.street }} {{ info().location?.streetNumber }}</div>
+        @if (info().location?.additionalInfo?.length) {
+          <div>{{ info().location?.additionalInfo }}</div>
+        }
+        <div>{{ info().location?.zip }} {{ info().location?.city }}</div>
+        <div>{{ info().location?.country }}</div>
+      </div>
+      <app-location-map [data]="info().location!!" mat-card-image></app-location-map>
+      <div class="flex flex-row flex-wrap gap-4 px-3 pb-3 justify-between">
+        <button mat-flat-button (click)="openRoute()" color="primary">
+          <mat-icon>map_search</mat-icon>
+          {{ 'location.action.routing' | translate }}
+        </button>
+        <button mat-flat-button (click)="downloadICS()" color="primary">
+          <mat-icon>edit_calendar</mat-icon>
+          {{ 'location.action.calendar' | translate }}
+        </button>
+      </div>
+
+    </div>
   </mat-card>
 }

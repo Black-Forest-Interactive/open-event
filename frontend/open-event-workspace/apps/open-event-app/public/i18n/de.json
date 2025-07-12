@@ -121,6 +121,7 @@
     },
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",
+    "empty": "Momentan gibt es noch keine Teilnehmer – mach den Anfang und melde dich jetzt an.",
     "dialog": {
       "accept": {
         "title": "An Veranstaltung teilnehmen",
@@ -149,7 +150,7 @@
     },
     "status": {
       "full": "Ausgebucht",
-      "available": "{{remaining}} Plätze frei"
+      "available": "Plätze frei"
     },
     "form": {
       "firstName": "Vorname",
@@ -339,9 +340,21 @@
     }
   },
   "share": {
-    "title": "Share",
+    "title": "Veranstaltung Teilen",
     "action": {
-      "enable": "Enable Sharing"
+      "enable": "Teilen aktivieren",
+      "disable": "Teilen deaktivieren",
+      "activate": "Ja, ich möchte die Veranstaltung gerne teilen"
+    },
+    "info": {
+      "description": {
+        "title": "Veranstaltung teilen",
+        "content": "Mit dieser Funktion kannst du deine Veranstaltung mit anderen Personen teilen – zum Beispiel über E-Mail oder soziale Netzwerke. Dafür wird ein spezieller Link erstellt, den du an Freunde, Familie oder Gäste weiterleiten kannst. Über diesen Link können sie die wichtigsten Informationen zur Veranstaltung sehen und daran teilnehmen."
+      },
+      "disclaimer": {
+        "title": "Hinweis zum Datenschutz",
+        "content": "Beim Teilen deiner Veranstaltung werden einige Angaben wie der Titel und der Veranstaltungsort für alle sichtbar, die den Link haben. Der Link enthält jedoch eine zufällig erzeugte Kennung, sodass er nicht erraten werden kann. Nur Personen, denen du den Link gibst, können auf die Veranstaltungsseite zugreifen.\nDu kannst die Freigabe jederzeit wieder deaktivieren. Dann ist der Link nicht mehr gültig und die Veranstaltung nicht mehr einsehbar."
+      }
     }
   },
   "lang": {
@@ -388,6 +401,13 @@
     "form": {
       "subject": "Betreff",
       "description": "Beschreibung"
+    }
+  },
+  "location": {
+    "title": "Veranstaltungsort",
+    "action": {
+      "calendar": "Im Kalender hinzufügen",
+      "routing": "Routenplaner öffnen"
     }
   }
 }

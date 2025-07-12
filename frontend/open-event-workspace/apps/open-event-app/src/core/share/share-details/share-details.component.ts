@@ -1,13 +1,14 @@
-import {Component, Input} from '@angular/core';
-import {AuthService, LoadingBarComponent} from "@open-event-workspace/shared";
-import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {Component, computed, input, resource, signal} from '@angular/core';
+import {LoadingBarComponent, toPromise} from "@open-event-workspace/shared";
 import {Event, Share, ShareChangeRequest} from "@open-event-workspace/core";
 import {MatCard} from "@angular/material/card";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatDivider} from "@angular/material/divider";
 import {ShareButtons} from "ngx-sharebuttons/buttons";
 import {ShareService} from "@open-event-workspace/app";
-import {Roles} from "../../../shared/roles";
+import {Observable} from "rxjs";
+import {HotToastService} from "@ngxpert/hot-toast";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-share-details',
@@ -16,94 +17,70 @@ import {Roles} from "../../../shared/roles";
   imports: [
     MatCard,
     TranslatePipe,
-    MatSlideToggle,
     MatDivider,
     ShareButtons,
-    LoadingBarComponent
+    LoadingBarComponent,
+    MatButton
   ],
   standalone: true
 })
 export class ShareDetailsComponent {
 
-  @Input()
-  set data(value: Event) {
-    this.event = value
-    this.updateData()
-  }
+  event = input.required<Event>()
+  shareResource = resource({
+    request: this.event,
+    loader: (param) => {
+      return toPromise(this.service.getShareForEvent(param.request))
+    }
+  })
 
-  event: Event | undefined
-  share: Share | undefined
-  reloading: boolean = false
-  adminOrManager: boolean = false
+
+  share = computed(this.shareResource.value ?? undefined)
+  loading = this.shareResource.isLoading
+  updating = signal(false)
+  reloading = computed(() => this.loading() || this.updating())
+  active = computed(() => this.share() && this.share()?.published)
+
+  error = this.shareResource.error
+
 
   constructor(
     private service: ShareService,
-    private authService: AuthService
+    private toast: HotToastService
   ) {
   }
 
-  ngOnInit() {
-    this.adminOrManager = this.authService.hasRole(Roles.REGISTRATION_MANAGE, Roles.REGISTRATION_ADMIN)
-    let principal = this.authService.getPrincipal()
-    if (principal) this.adminOrManager = principal.roles.find(r => r === 'openevent.registration.manage' || r === 'openevent.registration.admin') != null
+  enableSharing() {
+    let share = this.share()
+    if (share && !share.published) {
+      this.update(this.service.publish(share.id))
+    } else if (!this.share) {
+      this.update(this.service.createShare(new ShareChangeRequest(this.event().id, true)))
+    }
   }
 
-  private updateData() {
-    if (!this.event) return
-    this.reloading = true
-    this.service.getShareForEvent(this.event).subscribe({
-      next: value => this.handleData(value),
-      error: err => this.handleError(err)
-    })
+  disableSharing() {
+    let share = this.share()
+    if (!share) return
+    this.update(this.service.updateShare(share.id, new ShareChangeRequest(this.event().id, false)))
+  }
+
+  private update(observable: Observable<Share>) {
+    this.updating.set(true)
+    observable.subscribe(
+      {
+        next: value => this.handleData(value),
+        error: err => this.handleError(err),
+        complete: () => this.updating.set(false)
+      }
+    )
   }
 
   private handleData(d: Share) {
-    this.share = d
-    this.reloading = false
+    this.shareResource.set(d)
   }
 
   private handleError(err: any) {
-    this.reloading = false
-  }
-
-  handleToggleChanged(event: MatSlideToggleChange) {
-    if (event.checked) {
-      this.enableSharing()
-    } else {
-      this.disableSharing()
-    }
-  }
-
-  private enableSharing() {
-    if (!this.event) return
-    if (this.share && !this.share.published) {
-      this.reloading = true
-      this.service.publish(this.share.id).subscribe(
-        {
-          next: value => this.handleData(value),
-          error: err => this.handleError(err)
-        }
-      )
-    } else if (!this.share) {
-      this.reloading = true
-      this.service.createShare(new ShareChangeRequest(this.event.id, true)).subscribe(
-        {
-          next: value => this.handleData(value),
-          error: err => this.handleError(err)
-        }
-      )
-    }
-  }
-
-  private disableSharing() {
-    if (!this.event) return
-    if (!this.share) return
-    this.reloading = true
-    this.service.updateShare(this.share.id, new ShareChangeRequest(this.event.id, false)).subscribe(
-      {
-        next: value => this.handleData(value),
-        error: err => this.handleError(err)
-      }
-    )
+    this.toast.error("Something went wrong")
   }
 }
