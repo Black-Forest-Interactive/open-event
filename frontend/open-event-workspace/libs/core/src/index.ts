@@ -23,6 +23,9 @@ export * from './lib/event/event-range-picker/event-range-selection';
 
 export * from './lib/export/export.service';
 
+export * from './lib/feedback/feedback.api';
+export * from './lib/feedback/feedback-form/feedback-form.component';
+
 export * from './lib/history/history.api';
 
 export * from './lib/image/image.api';
@@ -34,7 +37,8 @@ export * from './lib/issue/issue-create/issue-create-dialog.component';
 export * from './lib/location/location.api';
 export * from './lib/location/location-map/location-map.component';
 
-export * from './lib/mail/mail-api';
+export * from './lib/mail/mail.api';
+export * from './lib/metrics/metrics.api';
 
 export * from './lib/participant/participant.api';
 export * from './lib/participant/waiting-list.pipe';

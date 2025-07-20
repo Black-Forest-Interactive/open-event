@@ -6,6 +6,7 @@ import de.sambalmueslie.openevent.core.participant.ExternalParticipantService
 import de.sambalmueslie.openevent.core.participant.api.*
 import de.sambalmueslie.openevent.core.share.ShareCrudService
 import de.sambalmueslie.openevent.core.share.api.Share
+import de.sambalmueslie.openevent.infrastructure.settings.SettingsService
 import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
 
@@ -13,7 +14,8 @@ import org.slf4j.LoggerFactory
 class ExternalEventService(
     private val service: EventCrudService,
     private val shareService: ShareCrudService,
-    private val participantService: ExternalParticipantService
+    private val participantService: ExternalParticipantService,
+    private val settingsService: SettingsService
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(ExternalEventService::class.java)
@@ -23,6 +25,10 @@ class ExternalEventService(
     fun getPublicEvent(id: String): PublicEvent? {
         val (share, event) = getEvent(id) ?: return null
         return event.toPublicEvent(share)
+    }
+
+    fun getSettings(): EventParticipationSettings {
+        return EventParticipationSettings(settingsService.getValidateRegistrationCode())
     }
 
     fun requestParticipation(id: String, request: ExternalParticipantAddRequest, lang: String): ExternalParticipantChangeResponse {
@@ -55,4 +61,5 @@ class ExternalEventService(
         if (!event.event.published) return null
         return Pair(share, event)
     }
+
 }

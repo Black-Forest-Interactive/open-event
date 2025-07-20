@@ -18,7 +18,8 @@
     "details": "Details",
     "edit": "Edit",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "reset": "Reset"
   },
   "event": {
     "type": "Event",
@@ -385,7 +386,12 @@
     "de": "Deutsch"
   },
   "preferences": {
-    "title": "Preferences"
+    "title": "Preferences",
+    "newsletter": {
+      "description": "By giving your consent, you’ll be signed up for our newsletter. We’ll send you regular updates about new events straight to your inbox. You can unsubscribe or withdraw your consent at any time.",
+      "subscribe": "Subscribe to newsletter",
+      "unsubscribe": "Unsubscribe from newsletter"
+    }
   },
   "activity": {
     "title": "Notifications",
@@ -436,5 +442,48 @@
   "imprint": {
     "title": "Imprint",
     "privacy-policy": "Privacy Policy"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "introduction": "We really appreciate your feedback – it helps us improve and offer you an even better experience. It only takes a few minutes. Thank you for your support!",
+    "subject": {
+      "label": "Subject",
+      "placeholder": "Enter subject",
+      "error_required": "Subject is required",
+      "error_minlength": "Subject must be at least 3 characters long"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Describe your feedback request in detail...",
+      "error_required": "Description is required",
+      "error_minlength": "Description must be at least 10 characters long"
+    },
+    "topic": {
+      "label": "Topic",
+      "error_required": "Please select a topic",
+      "options": {
+        "bug": "Bug Report",
+        "feature": "Feature Request",
+        "improvement": "Improvement",
+        "ui_ux": "UI/UX",
+        "performance": "Performance",
+        "documentation": "Documentation",
+        "other": "Other"
+      }
+    },
+    "tags": {
+      "label": "Tags",
+      "placeholder": "Add tags...",
+      "hint": "Press Enter or comma to add tags"
+    },
+    "rating": {
+      "label": "Satisfaction Rating",
+      "very_unsatisfied": "Very Unsatisfied (1)",
+      "neutral": "Neutral (3)",
+      "very_satisfied": "Very Satisfied (5)",
+      "current": "Current Rating",
+      "error_required": "Please select a rating"
+    },
+    "confirmation": "We received your feedback, thanks"
   }
 }

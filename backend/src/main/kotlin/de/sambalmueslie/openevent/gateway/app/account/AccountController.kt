@@ -68,7 +68,7 @@ class AccountController(
     }
 
     @Get("/preferences")
-    fun getPreferences(auth: Authentication, @Body request: PreferencesChangeRequest): Preferences? {
+    fun getPreferences(auth: Authentication): Preferences? {
         return auth.checkPermission(PERMISSION_READ) {
             val account = service.get(auth) ?: return@checkPermission null
             preferencesService.getForAccount(account)

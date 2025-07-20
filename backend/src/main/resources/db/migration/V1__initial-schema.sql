@@ -470,6 +470,8 @@ CREATE TABLE issue
     updated     TIMESTAMP WITHOUT TIME ZONE
 );
 
+-- participant external
+
 CREATE TABLE participant_external
 (
     id                          VARCHAR(40) PRIMARY KEY,
@@ -490,4 +492,38 @@ CREATE TABLE participant_external
 
     created                     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated                     TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- feedback
+
+CREATE SEQUENCE feedback_seq;
+CREATE TABLE feedback
+(
+    id          BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('feedback_seq'::regclass),
+    subject     TEXT                        NOT NULL,
+    description TEXT                        NOT NULL,
+    topic       TEXT                        NOT NULL,
+    tags        TEXT                        NOT NULL,
+    rating      INT                         NOT NULL,
+
+    client_ip   VARCHAR(30)                 NOT NULL,
+    user_agent  TEXT                        NOT NULL,
+
+    account_id  BIGINT                      NOT NULL references account (id),
+
+    created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated     TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- metrics
+CREATE TABLE metrics
+(
+    id          VARCHAR(255) PRIMARY KEY,
+
+    source      TEXT                        NOT NULL,
+    resource    TEXT                        NOT NULL,
+    action      TEXT                        NOT NULL,
+    timestamp   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    total_count  INT                         NOT NULL,
+    unique_count INT                         NOT NULL
 );

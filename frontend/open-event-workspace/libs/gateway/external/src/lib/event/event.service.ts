@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BaseService} from "@open-event-workspace/shared";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {PublicEvent} from "./event.api";
+import {EventParticipationSettings, PublicEvent} from "./event.api";
 import {
   ExternalParticipantAddRequest,
   ExternalParticipantChangeRequest,
@@ -25,6 +25,9 @@ export class EventService extends BaseService {
     return this.get(id)
   }
 
+  getSettings(): Observable<EventParticipationSettings> {
+    return this.get('settings')
+  }
 
   requestParticipation(id: string, request: ExternalParticipantAddRequest): Observable<ExternalParticipantChangeResponse> {
     return this.post(id + '/participant', request)

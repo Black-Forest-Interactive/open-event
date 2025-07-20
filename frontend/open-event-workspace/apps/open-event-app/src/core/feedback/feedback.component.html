@@ -1,0 +1,11 @@
+<div class="container mx-auto py-8">
+  <div class="flex flex-col gap-4">
+    <mat-card>
+      <div class="font-bold text-2xl py-4 px-4">{{ 'feedback.title' | translate }}</div>
+      <mat-divider></mat-divider>
+      <app-loading-bar [reloading]="loading()"></app-loading-bar>
+      <div class=" pt-4 px-4">{{ 'feedback.introduction' | translate }}</div>
+      <lib-feedback-form (request)="submit($event)"></lib-feedback-form>
+    </mat-card>
+  </div>
+</div>

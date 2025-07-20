@@ -18,25 +18,24 @@ class EventController(
         return service.getPublicEvent(id)
     }
 
+    @Get("settings")
+    fun getSettings(): EventParticipationSettings = service.getSettings()
+
     @Post("/{id}/participant")
-    fun requestParticipation(id: String, @Body request: ExternalParticipantAddRequest, @QueryValue(defaultValue = "") lang: String): ExternalParticipantChangeResponse {
-        return service.requestParticipation(id, request, lang)
-    }
+    fun requestParticipation(id: String, @Body request: ExternalParticipantAddRequest, @QueryValue(defaultValue = "") lang: String): ExternalParticipantChangeResponse =
+        service.requestParticipation(id, request, lang)
 
 
     @Put("/{id}/participant/{participantId}")
-    fun changeParticipation(id: String, participantId: String, @Body request: ExternalParticipantChangeRequest): ExternalParticipantChangeResponse {
-        return service.changeParticipation(id, participantId, request)
-    }
+    fun changeParticipation(id: String, participantId: String, @Body request: ExternalParticipantChangeRequest): ExternalParticipantChangeResponse =
+        service.changeParticipation(id, participantId, request)
 
     @Delete("/{id}/participant/{participantId}")
-    fun cancelParticipation(id: String, participantId: String): ExternalParticipantChangeResponse {
-        return service.cancelParticipation(id, participantId)
-    }
+    fun cancelParticipation(id: String, participantId: String): ExternalParticipantChangeResponse = service.cancelParticipation(id, participantId)
 
     @Post("/{id}/participant/{participantId}/confirm")
-    fun confirmParticipation(id: String, participantId: String, @Body request: ExternalParticipantConfirmRequest): ExternalParticipantConfirmResponse {
-        return service.confirmParticipation(id, participantId, request)
-    }
+    fun confirmParticipation(id: String, participantId: String, @Body request: ExternalParticipantConfirmRequest): ExternalParticipantConfirmResponse =
+        service.confirmParticipation(id, participantId, request)
+
 
 }

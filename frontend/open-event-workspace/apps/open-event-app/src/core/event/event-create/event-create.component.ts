@@ -81,4 +81,8 @@ export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, Ev
       )
     })
   }
+
+  private handleCreated(event: Event) {
+
+  }
 }

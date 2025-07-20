@@ -87,7 +87,7 @@ class NewsletterNotificationHandler(
             val preferences = preferencesService.getByIds(validAccounts.keys).associateBy { it.id }
             val profiles = profilesService.getByIds(validAccounts.keys).associateBy { it.id }
 
-            val recipients = validAccounts.mapNotNull { (accountId, account) -> getRecipient(actor, result, account, preferences[accountId], profiles[accountId]) }
+            val recipients = validAccounts.mapNotNull { (accountId, account) -> getRecipient( account, preferences[accountId], profiles[accountId]) }
             logger.debug("[${page.pageable.number}] Found ${recipients.size} recipients")
             if (recipients.isEmpty()) return@measureTimeMillis
 
@@ -102,7 +102,7 @@ class NewsletterNotificationHandler(
         return lastLoginDate.toLocalDate().isAfter(timestamp.minusYears(1))
     }
 
-    private fun getRecipient(actor: Account, result: EventSearchResponse, account: Account, preferences: Preferences?, profile: Profile?): AccountInfo? {
+    private fun getRecipient(account: Account, preferences: Preferences?, profile: Profile?): AccountInfo? {
         if (preferences == null) {
             logger.error("Cannot find preferences for account ${account.id}")
             return null

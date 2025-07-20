@@ -27,5 +27,16 @@ class AppConfig {
             field = value
         }
 
+    var metricsWatermark: Int = 20
+        set(value) {
+            logger.info("Set metrics watermark from '$field' to '$value'")
+            field = value
+        }
 
+
+    var metricsExpirationDays: Long = 90L
+        set(value) {
+            logger.info("Set metrics expiration days from '$field' to '$value'")
+            field = value
+        }
 }

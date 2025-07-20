@@ -4,7 +4,7 @@ import {ConfirmationCodeComponent, LoadingBarComponent, toPromise} from "@open-e
 import {MatCard} from "@angular/material/card";
 import {MatToolbar} from "@angular/material/toolbar";
 import {ActivatedRoute, ParamMap, Params, RouterLink} from "@angular/router";
-import {EventService, ExternalParticipantConfirmRequest, ExternalParticipantConfirmResponse} from "@open-event-workspace/external";
+import {EventParticipationSettings, EventService, ExternalParticipantConfirmRequest, ExternalParticipantConfirmResponse, PublicEvent} from "@open-event-workspace/external";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
 import {HotToastService} from "@ngxpert/hot-toast";
@@ -19,8 +19,8 @@ import {ConfirmParticipationResponseDialogComponent} from "../../participant/con
     MatCard,
     MatToolbar,
     RouterLink,
-    ConfirmationCodeComponent,
-    TranslatePipe
+    TranslatePipe,
+    ConfirmationCodeComponent
   ],
   templateUrl: './event-confirm.component.html',
   styleUrl: './event-confirm.component.scss'
@@ -28,23 +28,33 @@ import {ConfirmParticipationResponseDialogComponent} from "../../participant/con
 export class EventConfirmComponent {
 
   eventId = signal<string | undefined>(undefined)
-  eventResource = resource({
+  private eventResource = resource({
     request: this.eventId,
     loader: (param) => {
       return toPromise(this.service.getEvent(param.request))
     }
   })
 
+  private settingsResource = resource({
+    request: this.eventId,
+    loader: (param) => {
+      return toPromise(this.service.getSettings())
+    }
+  })
+
 
   event = computed(this.eventResource.value ?? undefined)
-  loading = this.eventResource.isLoading
-  error = this.eventResource.error
+  settings = computed(this.settingsResource.value)
+  loading = computed(() => this.eventResource.isLoading() || this.settingsResource.isLoading())
+  error = computed(() => this.eventResource.error() || this.settingsResource.error())
 
   processing = signal(false)
   status = signal('')
 
   participantId = signal<string | undefined>(undefined)
-  confirmationPossible = computed(() => this.participantId() && (this.status() === 'UNCONFIRMED' || this.status() === '' || this.status() === 'FAILED'))
+  confirmationPossible = computed(() => this.isConfirmationPossible(this.participantId(), this.status()))
+  requireValidateCode = computed(() => this.settings()?.requireValidateCode ?? true)
+
 
   constructor(
     private service: EventService,
@@ -59,13 +69,27 @@ export class EventConfirmComponent {
     this.translate.setDefaultLang('en')
     this.route.queryParams.pipe(takeUntilDestroyed()).subscribe(p => this.handleQueryParams(p))
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe(p => this.handleParams(p))
+
     effect(() => {
       let eventId = this.eventId()
       if (eventId) {
         let status = sessionStorage.getItem(eventId)
         if (status) this.status.set(status)
       }
+    })
+
+    effect(() => {
+      const event = this.event()
+      const settings = this.settings()
+      const participantId = this.participantId()
+      const confirmationPossible = this.confirmationPossible()
+      if (event && settings && participantId) this.updateAutoCompletion(event, settings, participantId, confirmationPossible)
     });
+  }
+
+  private isConfirmationPossible(participantId: string | undefined, status: string): boolean {
+    if (!participantId) return false
+    return (status === 'UNCONFIRMED' || status === '' || status === 'FAILED')
   }
 
   private handleParams(p: ParamMap) {
@@ -106,7 +130,6 @@ export class EventConfirmComponent {
     })
   }
 
-
   private handleConfirmationResponse(response: ExternalParticipantConfirmResponse) {
     let participant = response.participant
     if (response.status == 'FAILED' || !participant) {
@@ -119,5 +142,11 @@ export class EventConfirmComponent {
       if (eventId) sessionStorage.setItem(eventId, response.status)
     }
     this.eventResource.reload()
+  }
+
+  private updateAutoCompletion(event: PublicEvent, settings: EventParticipationSettings, participantId: string, confirmationPossible: boolean) {
+    if (settings.requireValidateCode) return
+    if (!confirmationPossible) return
+    this.confirm('000000', participantId)
   }
 }

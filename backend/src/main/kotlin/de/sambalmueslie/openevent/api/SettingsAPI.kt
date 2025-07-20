@@ -22,6 +22,7 @@ interface SettingsAPI : CrudAPI<Long, Setting, SettingChangeRequest> {
         const val SETTINGS_PDF_IMAGE_URL = "pdf.image"
         const val SETTINGS_PDF_EVENT_DETAILS_URL = "pdf.event-details-url"
         const val SETTINGS_DEFAULT_LANGUAGE = "default.language"
+        const val SETTINGS_REGISTRATION_VALIDATE_CODE = "registration.validate-code"
     }
 
     fun setValue(auth: Authentication, id: Long, value: PatchRequest<Any>): Setting?

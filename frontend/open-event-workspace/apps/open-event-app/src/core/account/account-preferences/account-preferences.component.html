@@ -1,1 +1,28 @@
-<p>account-preferences works!</p>
+<mat-card class="flex-auto h-full">
+  <div class="flex flex-col gap-3">
+    <div class="flex flex-row gap-2 justify-between items-center flex-auto px-3 pt-3">
+      <div class="header min-h-12">
+        {{ 'preferences.title' | translate }}
+      </div>
+      <div class="flex-auto"></div>
+    </div>
+    <mat-divider></mat-divider>
+    <app-loading-bar [reloading]="reloading()"></app-loading-bar>
+
+    <div class="flex flex-col gap-3 px-4 pb-4">
+      <p class="text-wrap">{{ 'preferences.newsletter.description' | translate }}</p>
+      @if (preferences()?.emailNotificationsPreferences?.enabled) {
+        <button mat-flat-button color="primary" (click)="unsubscribe()">
+          <mat-icon>unsubscribe</mat-icon>
+          {{ 'preferences.newsletter.unsubscribe' | translate }}
+        </button>
+      } @else {
+        <button mat-flat-button color="accent" (click)="subscribe()">
+          <mat-icon>mail</mat-icon>
+          {{ 'preferences.newsletter.subscribe' | translate }}
+        </button>
+      }
+
+    </div>
+  </div>
+</mat-card>

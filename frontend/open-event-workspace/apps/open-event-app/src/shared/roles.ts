@@ -1,5 +1,3 @@
-
-
 export class Roles {
   public static SETTINGS_READ = "settings.read"
   public static SETTINGS_WRITE = "settings.write"
@@ -43,4 +41,6 @@ export class Roles {
 
   public static ACTIVITY_READ = "activity.read"
   public static ACTIVITY_WRITE = "activity.write"
+
+  public static FEEDBACK_WRITE = "feedback.write"
 }

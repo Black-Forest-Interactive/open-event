@@ -84,6 +84,9 @@ class SettingsService(
         return findByKey(SettingsAPI.SETTINGS_URL_SHARE)?.value as? String ?: ""
     }
 
+    fun getValidateRegistrationCode(): Boolean {
+        return findByKey(SettingsAPI.SETTINGS_REGISTRATION_VALIDATE_CODE)?.value as? Boolean ?: true
+    }
 
     override fun getByIds(ids: Set<Long>): List<Setting> {
         return repository.findByIdIn(ids).map { it.convert() }

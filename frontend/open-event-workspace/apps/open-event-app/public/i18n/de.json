@@ -18,7 +18,8 @@
     "details": "Details",
     "edit": "Bearbeiten",
     "save": "Speichern",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "reset": "Zurücksetzen"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -415,5 +416,48 @@
   "imprint": {
     "title": "Datenschutz",
     "privacy-policy": "Datenschutzrichtlinie"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "introduction": "Wir freuen uns sehr über dein Feedback – damit hilfst du uns, besser zu werden und dir ein noch besseres Erlebnis zu bieten. Es dauert nur ein paar Minuten. Vielen Dank für deine Unterstützung!",
+    "subject": {
+      "label": "Betreff",
+      "placeholder": "Gib einen Betreff ein",
+      "error_required": "Der Betreff fehlt noch",
+      "error_minlength": "Der Betreff muss mindestens 3 Zeichen lang sein"
+    },
+    "description": {
+      "label": "Beschreibung",
+      "placeholder": "Beschreib dein Feedback möglichst genau...",
+      "error_required": "Die Beschreibung fehlt noch",
+      "error_minlength": "Die Beschreibung muss mindestens 10 Zeichen lang sein"
+    },
+    "topic": {
+      "label": "Thema",
+      "error_required": "Bitte wähle ein Thema aus",
+      "options": {
+        "bug": "Fehler melden",
+        "feature": "Neue Funktion vorschlagen",
+        "improvement": "Verbesserung",
+        "ui_ux": "Design / Bedienung",
+        "performance": "Performance",
+        "documentation": "Dokumentation",
+        "other": "Sonstiges"
+      }
+    },
+    "tags": {
+      "label": "Tags",
+      "placeholder": "Tags hinzufügen...",
+      "hint": "Drück Enter oder Komma, um einen Tag hinzuzufügen"
+    },
+    "rating": {
+      "label": "Wie zufrieden bist du?",
+      "very_unsatisfied": "Gar nicht zufrieden (1)",
+      "neutral": "Geht so (3)",
+      "very_satisfied": "Super zufrieden (5)",
+      "current": "Aktuelle Bewertung",
+      "error_required": "Bitte gib eine Bewertung ab"
+    },
+    "confirmation": "Wir haben dein Feedback erhalten, vielen Dank"
   }
 }

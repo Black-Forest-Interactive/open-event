@@ -29,3 +29,8 @@ export interface PublicEvent {
   categories: string[],
   tags: string[],
 }
+
+
+export interface EventParticipationSettings {
+  requireValidateCode: boolean
+}

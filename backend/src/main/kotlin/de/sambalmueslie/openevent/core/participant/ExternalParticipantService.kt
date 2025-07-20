@@ -55,7 +55,7 @@ class ExternalParticipantService(
         validate(request)
         val existing = repository.findByEventIdAndEmail(event.event.id, request.email)
         val result = if (existing != null) {
-            requestParticipationForExisting(event, existing, request)
+            requestParticipationForExisting(existing)
         } else {
             requestParticipationNew(event, request, lang)
         } ?: return ExternalParticipantChangeResponse.failed()
@@ -72,7 +72,7 @@ class ExternalParticipantService(
         return repository.save(ExternalParticipantData.create(id, event, request, lang.ifBlank { settingsService.getLanguage() }, code, expiresTimestamp, now))
     }
 
-    private fun requestParticipationForExisting(event: EventInfo, existing: ExternalParticipantData, request: ExternalParticipantAddRequest): ExternalParticipantData? {
+    private fun requestParticipationForExisting(existing: ExternalParticipantData): ExternalParticipantData? {
         val now = timeProvider.now()
         val expiresTimestamp = now.plus(expires)
         return repository.update(existing.updateExpires(expiresTimestamp, now))
@@ -102,11 +102,11 @@ class ExternalParticipantService(
         val eventValid = participant.eventId == event.event.id
         if (!eventValid) return ExternalParticipantConfirmResponse.failed()
 
-        val codeValid = request.code == participant.code
+        val codeValid = if (settingsService.getValidateRegistrationCode()) request.code == participant.code else true
         return if (!codeValid) {
             handleInvalidConfirmation(participant)
         } else {
-            handleValidConfirmation(event, registration, participant)
+            handleValidConfirmation(registration, participant)
         }
     }
 
@@ -120,7 +120,7 @@ class ExternalParticipantService(
         return ExternalParticipantConfirmResponse.failed()
     }
 
-    private fun handleValidConfirmation(event: EventInfo, registration: RegistrationInfo, participant: ExternalParticipantData): ExternalParticipantConfirmResponse {
+    private fun handleValidConfirmation(registration: RegistrationInfo, participant: ExternalParticipantData): ExternalParticipantConfirmResponse {
         val (_, account) = getOrCreateAccount(participant) ?: return ExternalParticipantConfirmResponse.failed()
         if (registration.participants.any { it.author.id == account.id }) return ExternalParticipantConfirmResponse.failed()
 

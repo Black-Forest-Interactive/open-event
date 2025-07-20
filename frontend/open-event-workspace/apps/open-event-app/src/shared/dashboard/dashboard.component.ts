@@ -40,6 +40,7 @@ export class DashboardComponent implements AfterViewInit {
     new MainNavItem('/account', 'account.type', 'person', [Roles.ACCOUNT_READ]),
     new MainNavItem('/address', 'address.title', 'contact_mail', [Roles.ADDRESS_READ]),
     new MainNavItem('/activity', 'activity.title', 'notifications', [Roles.ACTIVITY_READ]),
+    new MainNavItem('/feedback', 'feedback.title', 'feedback', [Roles.FEEDBACK_WRITE]),
     new MainNavItem('/imprint', 'imprint.title', 'copyright', []),
   ]
 

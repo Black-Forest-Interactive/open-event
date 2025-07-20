@@ -72,4 +72,6 @@ export class EventDetailsComponent {
     this.reloading = true
     this.service.setShared(eventId, enabled).subscribe(d => this.handleData(d))
   }
+
+
 }

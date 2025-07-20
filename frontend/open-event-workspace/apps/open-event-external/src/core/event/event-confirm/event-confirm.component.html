@@ -11,13 +11,12 @@
       <mat-card class="flex flex-col">
         <app-event-info [event]="event()!!" class="container flex-auto"/>
       </mat-card>
-      @if (confirmationPossible()) {
+      @if (confirmationPossible() && requireValidateCode()) {
         <mat-card>
           <div class="header p-4 bg-gray-100">{{ "registration.dialog.confirm.title" | translate }}</div>
           <div class="flex flex-col items-center py-2">
             <h3 class="text-lg font-medium text-gray-700">{{ "registration.dialog.confirm.question" | translate }}</h3>
-            <lib-confirmation-code [digitsLength]="5" (codeComplete)="onCodeComplete($event)">
-            </lib-confirmation-code>
+            <lib-confirmation-code [digitsLength]="5" (codeComplete)="onCodeComplete($event)"/>
           </div>
         </mat-card>
       }

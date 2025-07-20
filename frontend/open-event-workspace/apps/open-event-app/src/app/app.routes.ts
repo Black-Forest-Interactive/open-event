@@ -37,6 +37,11 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('../core/imprint/imprint.routes').then(m => m.routes),
     data: {public: true}
   },
+  {
+    path: 'feedback',
+    loadChildren: () => import('../core/feedback/feedback.routes').then(m => m.routes),
+    data: {roles: [Roles.FEEDBACK_WRITE]}
+  },
   {path: 'forbidden', component: ForbiddenComponent},
   {path: '**', component: PageNotFoundComponent}
 ]

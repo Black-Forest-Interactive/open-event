@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.gateway.app.settings
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import de.sambalmueslie.openevent.infrastructure.settings.SettingsService
+import de.sambalmueslie.openevent.infrastructure.settings.api.BooleanResponse
 import de.sambalmueslie.openevent.infrastructure.settings.api.TextResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -29,4 +30,7 @@ class SettingsController(
 
     @Get("terms")
     fun getTerms(auth: Authentication) = TextResponse(service.getTerms())
+
+    @Get("registration-validate-code")
+    fun getValidateRegistrationCode(auth: Authentication) = BooleanResponse(service.getValidateRegistrationCode())
 }
