@@ -43,7 +43,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.3")
-    testImplementation("io.mockk:mockk:1.14.4")
+    testImplementation("io.mockk:mockk:1.14.5")
 
     // jackson
     ksp("io.micronaut.serde:micronaut-serde-processor")
@@ -79,7 +79,7 @@ dependencies {
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.2.1")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.2.2")
 
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
