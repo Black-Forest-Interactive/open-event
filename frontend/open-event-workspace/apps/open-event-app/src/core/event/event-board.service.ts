@@ -195,7 +195,7 @@ export class EventBoardService {
 
   private handleData(response: EventSearchResponse) {
     let value = response.result
-    if (this.infiniteScrollMode) {
+    if (this.infiniteScrollMode && value.pageable.number > 0) {
       this.entries.push(...value.content)
     } else {
       this.entries = value.content

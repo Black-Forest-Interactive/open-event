@@ -1,7 +1,7 @@
 import {Component, EventEmitter} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {defaultEventSearchRequest, EventRangePickerComponent, EventRangeSelection, EventSearchEntry, EventSearchResponse} from "@open-event-workspace/core";
-import {EventService} from "@open-event-workspace/backoffice";
+import {EventService, ExportService} from "@open-event-workspace/backoffice";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {MatDialog} from "@angular/material/dialog";
 import {debounceTime, distinctUntilChanged} from "rxjs";
@@ -15,10 +15,13 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatMiniFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {DateTime} from "luxon";
+import {ExportEventsButtonComponent} from "../export/export-events-button/export-events-button.component";
+import {ExportSummaryButtonComponent} from "../export/export-summary-button/export-summary-button.component";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'boffice-event',
-  imports: [CommonModule, MatCard, EventTableComponent, BoardComponent, BoardToolbarActions, ReactiveFormsModule, EventRangePickerComponent, MatIcon, MatMiniFabButton, MatMiniFabButton],
+  imports: [CommonModule, MatCard, EventTableComponent, BoardComponent, BoardToolbarActions, ReactiveFormsModule, EventRangePickerComponent, MatIcon, MatMiniFabButton, MatMiniFabButton, ExportEventsButtonComponent, ExportSummaryButtonComponent],
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss',
 })
@@ -35,7 +38,13 @@ export class EventComponent {
   keyUp: EventEmitter<string> = new EventEmitter<string>()
   request = defaultEventSearchRequest()
 
-  constructor(private service: EventService, private toast: HotToastService, private dialog: MatDialog) {
+  constructor(
+    private service: EventService,
+    private exportService: ExportService,
+    private translateService: TranslateService,
+    private toast: HotToastService,
+    private dialog: MatDialog
+  ) {
   }
 
 
@@ -132,5 +141,14 @@ export class EventComponent {
       this.request.from = DateTime.now().startOf('day').toISODate() ?? ''
     }
     this.search()
+  }
+
+  exportMail() {
+    this.exportService.exportEventsToEmail(this.request).subscribe(
+      {
+        next: _ => this.translateService.get('backoffice.export.action.mail.success').subscribe(text => this.toast.success(text)),
+        error: err => this.translateService.get('backoffice.export.action.mail.error').subscribe(text => this.toast.error(text)),
+      }
+    )
   }
 }

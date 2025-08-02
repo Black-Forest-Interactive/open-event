@@ -1,0 +1,9 @@
+<button (click)="export()" mat-mini-fab  class="action-fab">
+  @if (exporting) {
+    <mat-icon>
+      <mat-spinner diameter="22"></mat-spinner>
+    </mat-icon>
+  } @else {
+    <mat-icon>cloud_download</mat-icon>
+  }
+</button>

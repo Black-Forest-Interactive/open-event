@@ -10,6 +10,8 @@ export * from './lib/category/category.service';
 
 export * from './lib/event/event.service';
 
+export * from './lib/export/export.service';
+
 export * from './lib/history/history.service';
 
 export * from './lib/issue/issue.service';

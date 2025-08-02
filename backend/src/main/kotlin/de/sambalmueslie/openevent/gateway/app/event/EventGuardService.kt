@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.export.ExportService
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
@@ -15,12 +16,14 @@ import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import de.sambalmueslie.openevent.infrastructure.metrics.MetricsService
 import io.micronaut.data.model.Pageable
+import io.micronaut.http.server.types.files.SystemFile
 import io.micronaut.security.authentication.Authentication
 import jakarta.inject.Singleton
 
 @Singleton
 class EventGuardService(
     private val service: EventCrudService,
+    private val exportService: ExportService,
     private val searchService: SearchService,
     private val accountService: AccountCrudService,
     audit: AuditService,
@@ -105,4 +108,10 @@ class EventGuardService(
     }
 
 
+    fun export(auth: Authentication, eventId: Long): SystemFile? {
+        return auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, eventId) ?: return@checkPermission null
+            exportService.exportEventPdf(event.id, account)
+        }
+    }
 }

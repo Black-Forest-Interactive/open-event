@@ -7,6 +7,18 @@
     <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent">
       <mat-icon>search_off</mat-icon>
     </button>
+    <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent">
+      <mat-icon>search_off</mat-icon>
+    </button>
+    <app-export-events-button [request]="request"></app-export-events-button>
+
+
+    <button (click)="exportMail()" mat-mini-fab class="action-fab">
+      <mat-icon>attach_email</mat-icon>
+    </button>
+
+    <app-export-summary-button [request]="request"></app-export-summary-button>
+
   </board-toolbar-actions>
   <mat-card>
     <app-event-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"

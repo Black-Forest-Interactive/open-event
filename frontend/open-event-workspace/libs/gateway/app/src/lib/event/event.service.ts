@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import {BaseService, PatchRequest} from "@open-event-workspace/shared";
 import {Event, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse} from "@open-event-workspace/core";
 import {Observable} from "rxjs";
@@ -47,5 +47,9 @@ export class EventService extends BaseService {
 
   setShared(id: number, enabled: boolean): Observable<EventInfo> {
     return this.put('' + id + '/shared', new PatchRequest(enabled))
+  }
+
+  exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
+    return this.getBlob('event/' + eventId + '/pdf')
   }
 }

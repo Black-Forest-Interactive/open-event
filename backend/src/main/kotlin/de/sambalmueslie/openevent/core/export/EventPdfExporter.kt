@@ -71,15 +71,23 @@ class EventPdfExporter(
         return renderPdf(listOf(info))
     }
 
-    private fun createQrCode(event: Event): String {
+    private fun createQrCode(info: EventInfo): String {
         val barcodeWriter = QRCodeWriter()
-        val url = settingsService.findByKey(SettingsAPI.SETTINGS_PDF_EVENT_DETAILS_URL)?.value ?: ""
-        val eventUrl = "${url}${event.id}"
-        val bitMatrix = barcodeWriter.encode(eventUrl, BarcodeFormat.QR_CODE, 250, 250)
+        val bitMatrix = barcodeWriter.encode(getUrl(info), BarcodeFormat.QR_CODE, 250, 250)
         val qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
         val qrCodeByteArray = ByteArrayOutputStream()
         ImageIO.write(qrCodeImage, "png", qrCodeByteArray)
         return Base64.getEncoder().encodeToString(qrCodeByteArray.toByteArray())
+    }
+
+    private fun getUrl(info: EventInfo): String {
+        val share = info.share
+        return if (share == null) {
+            val url = settingsService.findByKey(SettingsAPI.SETTINGS_PDF_EVENT_DETAILS_URL)?.value ?: ""
+            "${url}${info.event.id}"
+        } else {
+            share.url
+        }
     }
 
     private fun getAvailableSpace(registration: Registration): List<Char> {
@@ -94,7 +102,7 @@ class EventPdfExporter(
         val registration: RegistrationInfo = info.registration ?: return null
         val categories: List<Category> = info.categories
 
-        val qrCode = createQrCode(info.event)
+        val qrCode = createQrCode(info)
         val availableSpace = getAvailableSpace(registration.registration)
 
         return EventPdfContent(event, location, registration, categories, qrCode, availableSpace)
@@ -121,7 +129,7 @@ class EventPdfExporter(
                 context,
                 writer,
                 "PDF Export",
-                InputStreamReader(loader.getResourceAsStream("classpath:fop/event1.vm").getOrNull()!!)
+                InputStreamReader(loader.getResourceAsStream("classpath:fop/event3.vm").getOrNull()!!)
             )
         }
         logger.info("Template result size ${writer.buffer.length} bytes")

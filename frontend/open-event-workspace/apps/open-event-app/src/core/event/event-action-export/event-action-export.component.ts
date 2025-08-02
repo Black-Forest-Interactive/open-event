@@ -1,12 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {HttpResponse} from "@angular/common/http";
-import FileSaver from "file-saver";
-import {AuthService} from "@open-event-workspace/shared";
-import {Event, ExportService} from "@open-event-workspace/core";
+import {AuthService, download} from "@open-event-workspace/shared";
+import {Event} from "@open-event-workspace/core";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatMiniFabButton} from "@angular/material/button";
 import {Roles} from "../../../shared/roles";
+import {EventService} from "@open-event-workspace/app";
 
 @Component({
   selector: 'app-event-action-export',
@@ -26,7 +26,7 @@ export class EventActionExportComponent {
 
   constructor(
     private authService: AuthService,
-    private exportService: ExportService,
+    private service: EventService,
   ) {
   }
 
@@ -45,16 +45,11 @@ export class EventActionExportComponent {
 
     if (this.exporting) return
     this.exporting = true
-    this.exportService.exportEvent(this.data.id).subscribe(r => this.handleExportResponse(r))
+    this.service.exportEvent(this.data.id).subscribe(r => this.handleExportResponse(r))
   }
 
   private handleExportResponse(response: HttpResponse<Blob>) {
-    let contentDispositionHeader = response.headers.get("content-disposition")
-    if (contentDispositionHeader) {
-      let fileName = contentDispositionHeader.split(';')[1].trim().split('=')[1].replace(/"/g, '')
-      let content = response.body
-      if (content) FileSaver.saveAs(content, fileName)
-    }
+    download(response)
     this.exporting = false
   }
 }

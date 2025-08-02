@@ -1,0 +1,9 @@
+<button (click)="exportSummary()" mat-mini-fab  class="action-fab">
+  @if (summarizing) {
+    <mat-icon>
+      <mat-spinner diameter="22"></mat-spinner>
+    </mat-icon>
+  } @else {
+    <mat-icon>summarize</mat-icon>
+  }
+</button>

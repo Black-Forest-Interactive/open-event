@@ -1,13 +1,13 @@
-package de.sambalmueslie.openevent.core.export
+package de.sambalmueslie.openevent.gateway.backoffice.export
 
 
-import de.sambalmueslie.openevent.api.ExportAPI
-import de.sambalmueslie.openevent.api.ExportAPI.Companion.PERMISSION_EXPORT
-import de.sambalmueslie.openevent.core.CoreAPI
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.checkPermission
+import de.sambalmueslie.openevent.core.export.ExportService
+import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
@@ -17,28 +17,30 @@ import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
 
 
-@Controller("/api/export")
+@Controller("/api/backoffice/export")
 @Tag(name = "Export API")
-@CoreAPI
 class ExportController(
     private val service: ExportService,
     private val accountService: AccountCrudService,
-) : ExportAPI {
+) {
+    companion object {
+        private const val PERMISSION_ADMIN = "export.admin"
+    }
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
-    @Get("/event/pdf")
-    override fun exportEventsPdf(auth: Authentication): SystemFile? {
-        return auth.checkPermission(PERMISSION_EXPORT) {
+    @Post("/event/pdf")
+    fun exportEventsPdf(auth: Authentication, @Body request: EventSearchRequest): SystemFile? {
+        return auth.checkPermission(PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: return@checkPermission null
-            service.exportEventsPdf(account)
+            service.exportEventsPdf(account, request)
         }
     }
 
     @Post("/event/pdf")
-    override fun exportEventsPdfToEmail(auth: Authentication): HttpStatus {
-        return auth.checkPermission(PERMISSION_EXPORT) {
+    fun exportEventsPdfToEmail(auth: Authentication, @Body request: EventSearchRequest): HttpStatus {
+        return auth.checkPermission(PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: return@checkPermission HttpStatus.BAD_REQUEST
-            service.exportEventsPdfToEmail(account)
+            service.exportEventsPdfToEmail(account, request)
             HttpStatus.CREATED
         }
     }
@@ -46,19 +48,19 @@ class ExportController(
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
     @Get("/event/{eventId}/pdf")
-    override fun exportEventPdf(auth: Authentication, eventId: Long): SystemFile? {
-        return auth.checkPermission(PERMISSION_EXPORT) {
+    fun exportEventPdf(auth: Authentication, eventId: Long): SystemFile? {
+        return auth.checkPermission(PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: return@checkPermission null
             service.exportEventPdf(eventId, account)
         }
     }
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
-    @Get("/event/summary")
-    override fun exportEventSummaryExcel(auth: Authentication): SystemFile? {
-        return auth.checkPermission(PERMISSION_EXPORT) {
+    @Post("/event/summary")
+    fun exportEventSummaryExcel(auth: Authentication, @Body request: EventSearchRequest): SystemFile? {
+        return auth.checkPermission(PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: return@checkPermission null
-            service.exportEventSummaryExcel(account)
+            service.exportEventSummaryExcel(account, request)
         }
     }
 }

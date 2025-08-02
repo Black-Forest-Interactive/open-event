@@ -140,6 +140,10 @@ class EventCrudService(
         return convertInfo(getAll(pageable))
     }
 
+    fun getInfoByIds(ids: Set<Long>): List<EventInfo> {
+        return convertInfo(getByIds(ids))
+    }
+
     fun getOwned(owner: Account, pageable: Pageable): Page<Event> {
         return storage.getOwned(owner, pageable)
     }
@@ -152,6 +156,25 @@ class EventCrudService(
         val categories = storage.getCategoriesByEventIds(eventIds)
         val shares = shareCrudService.findInfosByEventIds(eventIds, account).associateBy { it.share.eventId }
         val canEdit = events.content.associate { it.id to (it.owner.id == account?.id) }
+        return events.map {
+            EventInfo(
+                it,
+                locations[it.id],
+                registrations[it.id],
+                categories[it.id] ?: emptyList(),
+                shares[it.id],
+                canEdit[it.id] ?: false
+            )
+        }
+    }
+
+    internal fun convertInfo(events: List<Event>, account: Account? = null): List<EventInfo> {
+        val eventIds = events.map { it.id }.toSet()
+        val locations = locationCrudService.findByEventIds(eventIds).associateBy { it.eventId }
+        val registrations = registrationCrudService.findInfosByEventIds(eventIds).associateBy { it.registration.eventId }
+        val categories = storage.getCategoriesByEventIds(eventIds)
+        val shares = shareCrudService.findInfosByEventIds(eventIds, account).associateBy { it.share.eventId }
+        val canEdit = events.associate { it.id to (it.owner.id == account?.id) }
         return events.map {
             EventInfo(
                 it,

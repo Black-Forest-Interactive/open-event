@@ -43,4 +43,6 @@ export class Roles {
   public static ACTIVITY_WRITE = "activity.write"
 
   public static FEEDBACK_WRITE = "feedback.write"
+
+  public static EXPORT_ADMIN = "export.admin"
 }
