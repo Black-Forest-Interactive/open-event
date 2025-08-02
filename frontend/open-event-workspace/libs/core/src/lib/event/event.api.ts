@@ -1,5 +1,5 @@
 import {RegistrationChangeRequest, RegistrationInfo} from "../registration/registration.api";
-import {Category} from "../category/category-api";
+import {Category} from "../category/category.api";
 import {LocationChangeRequest} from "../location/location.api";
 import {AccountInfo, Location, ShareInfo} from "@open-event-workspace/core";
 import {Observable} from "rxjs";

@@ -1,5 +1,4 @@
 import {Component, input, output} from '@angular/core';
-import {AddressReadAPI, CategoryReadAPI, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent, EventInfo} from "@open-event-workspace/core";
 import {map, Observable} from "rxjs";
 import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -10,6 +9,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {TranslateModule} from "@ngx-translate/core";
+import {EventChangeLocationComponent} from "../event-change-location/event-change-location.component";
+import {EventChangeRegistrationComponent} from "../event-change-registration/event-change-registration.component";
+import {EventChangeGeneralComponent} from "../event-change-general/event-change-general.component";
+import {AddressReadAPI} from "../../address";
+import {CategoryReadAPI} from "../../category";
+import {EventInfo} from "../event.api";
 
 @Component({
   selector: 'lib-event-change-stepper',
@@ -25,7 +30,7 @@ export class EventChangeStepperComponent {
   hiddenFields = input.required<string[]>()
   loading = input.required<boolean>()
   fg = input.required<FormGroup>()
-  info = input.required<EventInfo>()
+  info = input<EventInfo>()
 
   submit = output<boolean>()
   cancel = output<boolean>()

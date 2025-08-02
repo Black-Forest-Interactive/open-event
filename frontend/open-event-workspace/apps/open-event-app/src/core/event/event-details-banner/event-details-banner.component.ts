@@ -1,4 +1,4 @@
-import {Component, computed, effect, input, Signal, signal, WritableSignal} from '@angular/core';
+import {Component, computed, effect, input, signal} from '@angular/core';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatIconModule} from "@angular/material/icon";
 import {EventInfo} from "@open-event-workspace/core";

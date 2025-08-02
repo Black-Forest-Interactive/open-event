@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import "tailwindcss";
+@use "tailwindcss";
 
 @include mat.elevation-classes();
 @include mat.app-background();
@@ -67,6 +67,7 @@ body {
   background-clip: padding-box;
   border-radius: 20px;
 }
+
 .marker-cluster div {
   width: 30px;
   height: 30px;
@@ -77,9 +78,11 @@ body {
   border-radius: 15px;
   font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+
 .marker-cluster span {
   line-height: 30px;
 }
+
 .table-content-row:hover {
   background-color: oklch(0.928 0.006 264.531);
 }

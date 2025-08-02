@@ -1,6 +1,6 @@
 import {Page} from "@open-event-workspace/shared";
 import {AccountInfo} from "../account/account.api";
-import {Category} from "../category/category-api";
+import {Category} from "../category/category.api";
 
 export class EventSearchRequest {
   public constructor(

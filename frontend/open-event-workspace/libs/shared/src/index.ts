@@ -11,6 +11,7 @@ export * from './lib/auth/auth.guard'
 export * from './lib/auth/principal'
 
 export * from './lib/chip-select-pane/chip-select-pane.component'
+export * from './lib/chip-select-pane/chip-select-entry'
 
 export * from './lib/confirm-dialog/confirm-dialog.component'
 export * from './lib/confirm-dialog/confirm-dialog-config'

@@ -79,6 +79,9 @@
       }
     },
     "dialog": {
+      "create": {
+        "title": "Create event"
+      },
       "delete": {
         "title": "Delete event",
         "question": "Do you really want to delete the event?"
@@ -427,7 +430,18 @@
     "title": "Share",
     "action": {
       "enable": "Enable Sharing",
-      "participate": "Participate (without login)"
+      "participate": "Participate (without login)",
+      "activate": "Yes i like to activate sharing"
+    },
+    "info": {
+      "description": {
+        "title": "Share Your Event",
+        "content": "This function allows you to share your event with others – for example via email or social media. A special link is generated that you can send to friends, family, or guests. With this link, they can view key details about the event and participate."
+      },
+      "disclaimer": {
+        "title": "Privacy Notice",
+        "content": "When you share your event, some information such as the title and location will be visible to anyone with the link. However, the link includes a randomly generated code, making it very difficult to guess. Only people you share the link with can access the event page.\nYou can deactivate sharing at any time. Once deactivated, the link will no longer work and the event will no longer be accessible."
+      }
     }
   },
   "lang": {

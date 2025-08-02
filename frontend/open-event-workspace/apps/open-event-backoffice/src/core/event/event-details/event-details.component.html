@@ -1,6 +1,6 @@
 <app-board [reloading]="loading()" (reload)="eventResource.reload()" [showSearch]="false" title="event.title" [showBack]="true" (back)="back()">
   <board-toolbar-actions class="flex flex-row gap-2">
-    @if (!loading() && !menu.publishMenuItem.disabled) {
+    @if (!loading()) {
       <app-event-publish-button [data]="event()!!.event"></app-event-publish-button>
     }
     @for (item of menu.menuItems; track item) {

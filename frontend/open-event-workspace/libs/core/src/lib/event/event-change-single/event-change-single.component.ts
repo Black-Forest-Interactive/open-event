@@ -4,10 +4,12 @@ import {MatButton} from "@angular/material/button";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatIcon} from "@angular/material/icon";
 import {FormGroup} from "@angular/forms";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'lib-event-change-single',
   imports: [
+    CommonModule,
     EventChangeGeneralComponent,
     EventChangeLocationComponent,
     EventChangeRegistrationComponent,
@@ -26,7 +28,7 @@ export class EventChangeSingleComponent {
   hiddenFields = input.required<string[]>()
   loading = input.required<boolean>()
   fg = input.required<FormGroup>()
-  info = input.required<EventInfo>()
+  info = input<EventInfo>()
 
 
   submit = output<boolean>()

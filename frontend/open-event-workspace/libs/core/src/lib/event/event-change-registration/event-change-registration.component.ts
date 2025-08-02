@@ -8,9 +8,8 @@ import {MatInputModule} from "@angular/material/input";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
-import {CategoryReadAPI} from "../../category/category-api";
-import {ChipSelectPaneComponent, LoadingBarComponent, toPromise} from "@open-event-workspace/shared";
-import {ChipSelectEntry} from "../../../../../shared/src/lib/chip-select-pane/chip-select-entry";
+import {CategoryReadAPI} from "../../category";
+import {ChipSelectEntry, ChipSelectPaneComponent, LoadingBarComponent, toPromise} from "@open-event-workspace/shared";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCheckbox} from "@angular/material/checkbox";
 

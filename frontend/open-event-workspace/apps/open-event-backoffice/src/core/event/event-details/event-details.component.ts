@@ -1,4 +1,4 @@
-import {Component, computed, resource, signal, viewChild} from '@angular/core';
+import {Component, computed, effect, resource, signal, viewChild} from '@angular/core';
 import {toPromise} from "@open-event-workspace/shared";
 import {EventService} from "@open-event-workspace/backoffice";
 import {ActivatedRoute} from "@angular/router";
@@ -40,6 +40,7 @@ import {EventDetailsInfoComponent} from "../event-details-info/event-details-inf
 export class EventDetailsComponent {
   id = signal(-1)
 
+
   eventResource = resource({
     request: this.id,
     loader: (param) => {
@@ -61,6 +62,10 @@ export class EventDetailsComponent {
       let id = params.get('id')!
       this.id.set(+id)
     })
+
+    effect(() => {
+      this.menu().reload.subscribe(e => this.eventResource.reload())
+    });
 
   }
 

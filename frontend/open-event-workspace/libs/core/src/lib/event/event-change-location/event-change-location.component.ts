@@ -8,7 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSelectChange, MatSelectModule} from "@angular/material/select";
-import {Address, AddressReadAPI} from "../../address/address.api";
+import {Address, AddressReadAPI} from "../../address";
 import {toPromise} from "@open-event-workspace/shared";
 
 @Component({

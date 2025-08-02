@@ -1,7 +1,5 @@
 import {Component, input} from '@angular/core';
 import {EventInfo, LocationMapComponent} from "@open-event-workspace/core";
-import {MatCard, MatCardImage} from "@angular/material/card";
-import {MatDivider} from "@angular/material/divider";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -12,10 +10,7 @@ import {DateTime} from "luxon";
   templateUrl: './event-details-location.component.html',
   styleUrl: './event-details-location.component.scss',
   imports: [
-    MatCard,
-    MatDivider,
     LocationMapComponent,
-    MatCardImage,
     TranslatePipe,
     MatButtonModule,
     MatIcon

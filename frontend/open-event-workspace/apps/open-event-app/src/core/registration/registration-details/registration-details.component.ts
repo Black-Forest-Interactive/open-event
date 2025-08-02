@@ -10,7 +10,6 @@ import {ParticipateRequest, ParticipateResponse, RegistrationInfo, RegistrationS
 import {MatButton} from "@angular/material/button";
 import {NgTemplateOutlet} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {MatCard} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {AccountComponent} from "../../account/account/account.component";
 import {RegistrationService} from "@open-event-workspace/app";
@@ -22,7 +21,6 @@ import {RegistrationService} from "@open-event-workspace/app";
   imports: [
     MatIcon,
     TranslatePipe,
-    MatCard,
     RegistrationStatusComponent,
     MatDivider,
     NgTemplateOutlet,

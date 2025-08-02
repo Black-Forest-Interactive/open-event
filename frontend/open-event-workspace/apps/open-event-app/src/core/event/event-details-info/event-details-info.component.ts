@@ -1,6 +1,6 @@
 import {Component, input} from '@angular/core';
 import {EventInfo} from "@open-event-workspace/core";
-import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardImage} from "@angular/material/card";
+import {MatCardActions, MatCardContent, MatCardImage} from "@angular/material/card";
 import {AccountComponent} from "../../account/account/account.component";
 import {DatePipe} from "@angular/common";
 import {MatDivider} from "@angular/material/divider";
@@ -12,8 +12,6 @@ import {MatIcon} from "@angular/material/icon";
   templateUrl: './event-details-info.component.html',
   styleUrl: './event-details-info.component.scss',
   imports: [
-    MatCard,
-    MatCardHeader,
     AccountComponent,
     DatePipe,
     MatDivider,

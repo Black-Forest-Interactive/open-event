@@ -1,0 +1,69 @@
+<div class="space-y-4">
+  <label class="block text-sm font-medium text-gray-700">Event Image</label>
+
+  <!-- File Input (Hidden) -->
+  <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)"
+         class="hidden" [attr.id]="'file-input-' + componentId">
+
+  <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors"
+       [class.border-blue-500]="isDragOver"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)">
+    @if (!selectedFile && !imagePreview) {
+      <div class="space-y-2">
+        <mat-icon class="text-gray-400 text-4xl">cloud_upload</mat-icon>
+        <p class="text-gray-500">Drag and drop an image here, or
+          <button type="button" (click)="fileInput.click()"
+                  class="text-blue-600 hover:text-blue-800 font-medium">
+            browse
+          </button>
+        </p>
+        <p class="text-xs text-gray-400">PNG, JPG, GIF up to 5MB</p>
+      </div>
+    }
+
+    <!-- Image Preview -->
+    @if (imagePreview) {
+      <div class="space-y-4">
+        <img [src]="imagePreview" alt="Preview"
+             class="max-w-full h-48 object-cover rounded-lg mx-auto">
+        <div class="flex justify-center space-x-2">
+          <button type="button" mat-raised-button color="primary"
+                  (click)="fileInput.click()">
+            <mat-icon>edit</mat-icon>
+            Change Image
+          </button>
+          <button type="button" mat-raised-button color="warn"
+                  (click)="removeImage()">
+            <mat-icon>delete</mat-icon>
+            Remove
+          </button>
+        </div>
+      </div>
+    }
+    <!-- Upload Progress -->
+    @if (uploadProgress > 0 && uploadProgress < 100) {
+      <div class="w-full">
+        <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+        <p class="text-sm text-gray-600 mt-2">Uploading... {{ uploadProgress }}%</p>
+      </div>
+    }
+  </div>
+
+  <!-- File Info -->
+  @if (selectedFile) {
+  <div class="bg-gray-50 p-3 rounded-lg">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <mat-icon class="text-gray-500">image</mat-icon>
+        <span class="text-sm font-medium">{{ selectedFile!!.name }}</span>
+        <span class="text-xs text-gray-500">({{ formatFileSize(selectedFile!!.size) }})</span>
+      </div>
+      <button type="button" mat-icon-button color="warn" (click)="removeImage()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  }
+</div>
