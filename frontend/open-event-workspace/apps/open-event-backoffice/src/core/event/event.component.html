@@ -1,19 +1,16 @@
 <app-board [reloading]="reloading" (fullTextSearch)="fullTextSearch = $event" (reload)="search()" title="event.title" searchPlaceholder="event.search">
   <board-toolbar-actions class="flex flex-row gap-3 justify-center">
     <lib-event-range-picker (rangeChanged)="handleRangeChanged($event)" [required]="false" #range/>
-    <button (click)="toggleHistory()" class="action-fab" mat-mini-fab>
+    <button (click)="toggleHistory()" class="action-fab" mat-mini-fab matTooltip="{{'event.filter.history' | translate}}">
       <mat-icon>history</mat-icon>
     </button>
-    <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent">
-      <mat-icon>search_off</mat-icon>
-    </button>
-    <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent">
+    <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent" matTooltip="{{'event.filter.reset' | translate}}">
       <mat-icon>search_off</mat-icon>
     </button>
     <app-export-events-button [request]="request"></app-export-events-button>
 
 
-    <button (click)="exportMail()" mat-mini-fab class="action-fab">
+    <button (click)="exportMail()" mat-mini-fab class="action-fab" matTooltip="{{'backoffice.export.action.mail.title' | translate}}">
       <mat-icon>attach_email</mat-icon>
     </button>
 

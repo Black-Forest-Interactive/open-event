@@ -147,8 +147,8 @@ class EventPdfExporter(
 
         return logger.logTimeMillisWithValue("Write result to file with ${out.size()} bytes") {
             val file = File.createTempFile(
-                HEADER_PDF_FILE_SUFIX,
-                HEADER_PDF_FILE_PREFIX
+                HEADER_PDF_FILE_PREFIX,
+                HEADER_PDF_FILE_SUFIX
             )
             file.writeBytes(out.toByteArray())
             val date = timeProvider.now().toLocalDate()

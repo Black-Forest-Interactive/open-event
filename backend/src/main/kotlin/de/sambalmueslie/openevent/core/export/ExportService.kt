@@ -11,12 +11,14 @@ import de.sambalmueslie.openevent.infrastructure.mail.api.Attachment
 import de.sambalmueslie.openevent.infrastructure.mail.api.Mail
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailParticipant
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailSender
+import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import io.micronaut.data.model.Page
 import io.micronaut.http.server.types.files.SystemFile
 import io.micronaut.scheduling.annotation.Async
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.atomic.AtomicBoolean
 
 @Singleton
@@ -26,7 +28,8 @@ open class ExportService(
     private val profileService: ProfileCrudService,
     private val excelExporter: EventExcelExporter,
     private val pdfExporter: EventPdfExporter,
-    private val mailSender: MailSender
+    private val mailSender: MailSender,
+    private val timeProvider: TimeProvider,
 ) {
 
     companion object {
@@ -52,8 +55,9 @@ open class ExportService(
         exporting.set(true)
         try {
             val result = exportEvents(account, request, pdfExporter) ?: return
-
-            val attachment = Attachment(result.file.name, result.file.readBytes(), result.mediaType.name)
+            val date = timeProvider.now().toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+            val filename = "${date}-event-export.pdf"
+            val attachment = Attachment(filename, result.file.readBytes(), "application/pdf")
             val mail = Mail("Export der Veranstaltungen", null, "", mutableListOf(), mutableListOf(attachment))
             mailSender.send(mail, listOf(MailParticipant(account.name, email)))
 

@@ -1,8 +1,6 @@
-<button (click)="export()" mat-mini-fab  class="action-fab">
+<button (click)="export()" mat-mini-fab matTooltip="{{'backoffice.export.action.all' | translate}}">
   @if (exporting) {
-    <mat-icon>
-      <mat-spinner diameter="22"></mat-spinner>
-    </mat-icon>
+    <mat-spinner diameter="22"></mat-spinner>
   } @else {
     <mat-icon>cloud_download</mat-icon>
   }

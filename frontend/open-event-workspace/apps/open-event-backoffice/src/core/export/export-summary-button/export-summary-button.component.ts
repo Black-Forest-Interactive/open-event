@@ -6,13 +6,17 @@ import {MatMiniFabButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {EventSearchRequest} from "@open-event-workspace/core";
+import {TranslatePipe} from "@ngx-translate/core";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-export-summary-button',
   imports: [
     MatMiniFabButton,
     MatIcon,
-    MatProgressSpinner
+    MatProgressSpinner,
+    MatTooltip,
+    TranslatePipe
   ],
   templateUrl: './export-summary-button.component.html',
   styleUrl: './export-summary-button.component.scss'

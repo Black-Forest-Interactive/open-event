@@ -365,7 +365,12 @@
     "de": "Deutsch"
   },
   "preferences": {
-    "title": "Einstellungen"
+    "title": "Einstellungen",
+    "newsletter": {
+      "description": "Wenn du zustimmst, meldest du dich für unseren Newsletter an. Du bekommst regelmäßig Infos zu neuen Events direkt in dein Postfach. Du kannst dich jederzeit wieder abmelden oder deine Zustimmung widerrufen.",
+      "subscribe": "Newsletter abonnieren",
+      "unsubscribe": "Vom Newsletter abmelden"
+    }
   },
   "activity": {
     "title": "Benachrichtigungen",

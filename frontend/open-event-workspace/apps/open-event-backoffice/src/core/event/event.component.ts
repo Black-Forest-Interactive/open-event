@@ -17,11 +17,15 @@ import {MatIcon} from "@angular/material/icon";
 import {DateTime} from "luxon";
 import {ExportEventsButtonComponent} from "../export/export-events-button/export-events-button.component";
 import {ExportSummaryButtonComponent} from "../export/export-summary-button/export-summary-button.component";
-import {TranslateService} from "@ngx-translate/core";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'boffice-event',
-  imports: [CommonModule, MatCard, EventTableComponent, BoardComponent, BoardToolbarActions, ReactiveFormsModule, EventRangePickerComponent, MatIcon, MatMiniFabButton, MatMiniFabButton, ExportEventsButtonComponent, ExportSummaryButtonComponent],
+  imports: [
+    CommonModule, MatCard, EventTableComponent, BoardComponent, BoardToolbarActions, ReactiveFormsModule, EventRangePickerComponent,
+    MatIcon, MatMiniFabButton, MatMiniFabButton, ExportEventsButtonComponent, ExportSummaryButtonComponent, MatTooltip, TranslatePipe
+  ],
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss',
 })

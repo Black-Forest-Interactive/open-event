@@ -1,8 +1,6 @@
-<button (click)="exportSummary()" mat-mini-fab  class="action-fab">
+<button (click)="exportSummary()" mat-mini-fab class="action-fab" matTooltip="{{'backoffice.export.action.summary' | translate}}">
   @if (summarizing) {
-    <mat-icon>
-      <mat-spinner diameter="22"></mat-spinner>
-    </mat-icon>
+    <mat-spinner diameter="22"></mat-spinner>
   } @else {
     <mat-icon>summarize</mat-icon>
   }
