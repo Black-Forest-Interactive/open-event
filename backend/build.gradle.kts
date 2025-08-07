@@ -3,15 +3,14 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.kotlin.plugin.allopen")
-//    id("org.jetbrains.kotlin.kapt")
     kotlin("plugin.serialization")
     id("com.google.devtools.ksp")
     id("org.sonarqube")
-    id("com.gradleup.shadow")
-    id("com.google.cloud.tools.jib")
-    id("io.micronaut.application")
-    id("io.micronaut.test-resources")
-    id("io.micronaut.aot")
+    id("com.gradleup.shadow") version "8.3.8"
+    id("com.google.cloud.tools.jib") version "3.4.5"
+    id("io.micronaut.application") version "4.5.4"
+    id("io.micronaut.test-resources") version "4.5.4"
+    id("io.micronaut.aot") version "4.5.4"
     jacoco
 }
 
