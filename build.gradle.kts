@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.10"
     id("org.jetbrains.kotlin.plugin.jpa") version "2.2.10"
     kotlin("plugin.serialization") version "2.2.10"
-    id("org.sonarqube") version "6.2.0.5505"
+    id("org.sonarqube") version "6.3.0.5676"
     id("net.researchgate.release") version "3.1.0"
     id("maven-publish")
     id("jacoco")
