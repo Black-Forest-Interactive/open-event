@@ -6,7 +6,7 @@ plugins {
     kotlin("plugin.serialization")
     id("com.google.devtools.ksp")
     id("org.sonarqube")
-    id("com.gradleup.shadow") version "8.3.8"
+    id("com.gradleup.shadow") version "9.0.2"
     id("com.google.cloud.tools.jib") version "3.4.5"
     id("io.micronaut.application") version "4.5.4"
     id("io.micronaut.test-resources") version "4.5.4"
@@ -73,8 +73,8 @@ dependencies {
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.10")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
@@ -134,10 +134,10 @@ dependencies {
     // tracing
     implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
     // opensearch
-    implementation("com.jillesvangurp:search-client:2.5.0")
+    implementation("com.jillesvangurp:search-client:2.6.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.21.1")
+    implementation("org.jsoup:jsoup:1.21.2")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }

@@ -1,10 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.2.0"
-    id("com.google.devtools.ksp") version "2.2.0-2.0.2"
-    id("org.jetbrains.kotlin.plugin.allopen") version "2.2.0"
-    id("org.jetbrains.kotlin.plugin.jpa") version "2.2.0"
-    kotlin("plugin.serialization") version "2.2.0"
-    id("org.sonarqube") version "6.2.0.5505"
+    id("org.jetbrains.kotlin.jvm") version "2.2.10"
+    id("com.google.devtools.ksp") version "2.2.10-2.0.2"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.2.10"
+    id("org.jetbrains.kotlin.plugin.jpa") version "2.2.10"
+    kotlin("plugin.serialization") version "2.2.10"
+    id("org.sonarqube") version "6.3.1.5724"
     id("net.researchgate.release") version "3.1.0"
     id("maven-publish")
     id("jacoco")
