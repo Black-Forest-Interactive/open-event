@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.plugin.allopen")
+    kotlin("jvm")
+    kotlin("plugin.allopen")
+    kotlin("plugin.jpa")
     kotlin("plugin.serialization")
     id("com.google.devtools.ksp")
     id("org.sonarqube")
-    id("com.gradleup.shadow") version "9.0.2"
     id("com.google.cloud.tools.jib") version "3.4.5"
     id("io.micronaut.application") version "4.5.4"
     id("io.micronaut.test-resources") version "4.5.4"
