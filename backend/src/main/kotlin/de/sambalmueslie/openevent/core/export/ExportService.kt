@@ -27,7 +27,7 @@ open class ExportService(
     private val searchService: SearchService,
     private val profileService: ProfileCrudService,
     private val excelExporter: EventExcelExporter,
-    private val pdfExporter: EventPdfExporter,
+    private val pdfExporter: EventOpenPdfExporter,
     private val mailSender: MailSender,
     private val timeProvider: TimeProvider,
 ) {
