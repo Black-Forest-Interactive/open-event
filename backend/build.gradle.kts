@@ -105,7 +105,7 @@ dependencies {
 
     // OpenPDF
     implementation("com.github.librepdf:openpdf:2.4.0")
-    implementation("org.xhtmlrenderer:flying-saucer-pdf:9.13.1")
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.0.0")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.3")
