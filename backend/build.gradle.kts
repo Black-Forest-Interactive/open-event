@@ -104,7 +104,7 @@ dependencies {
     implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.11")
 
     // OpenPDF
-    implementation("com.github.librepdf:openpdf:2.4.0")
+    implementation("com.github.librepdf:openpdf:3.0.0")
     implementation("org.xhtmlrenderer:flying-saucer-pdf:10.0.0")
 
     // qrcode
