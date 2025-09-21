@@ -25,12 +25,27 @@ class FeedbackController(
 
     private val logger = audit.getLogger("BACKOFFICE Feedback API")
 
+    @Get()
+    fun getAll(auth: Authentication, pageable: Pageable): Page<Feedback> {
+        return auth.checkPermission(PERMISSION_ADMIN) {
+            service.getAll(pageable)
+        }
+    }
+
+    @Get("{id}")
+    fun get(auth: Authentication, id: Long): Feedback? {
+        return auth.checkPermission(PERMISSION_ADMIN) {
+            service.get(id)
+        }
+    }
+
     @Get("/by/topic/{topic}")
     fun getByTopic(auth: Authentication, topic: String, pageable: Pageable): Page<Feedback> {
         return auth.checkPermission(PERMISSION_ADMIN) {
             service.getByTopic(topic, pageable)
         }
     }
+
     @Get("/by/account/{accountId}")
     fun getByAccount(auth: Authentication, accountId: Long, pageable: Pageable): Page<Feedback> {
         return auth.checkPermission(PERMISSION_ADMIN) {

@@ -70,6 +70,12 @@ export const appRoutes: Route[] = [
     canActivate: [canActivateAuthRole],
     data: {roles: [Roles.ISSUE_ADMIN]}
   },
+  {
+    path: 'feedback',
+    loadChildren: () => import('../core/feedback/feedback.routes').then(m => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: {roles: [Roles.FEEDBACK_ADMIN]}
+  },
   {path: 'forbidden', component: ForbiddenComponent},
   {path: '**', component: PageNotFoundComponent}
 ];

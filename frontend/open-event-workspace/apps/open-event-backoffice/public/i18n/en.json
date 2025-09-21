@@ -122,7 +122,10 @@
       "categories": "Categories",
       "owner": "Owner",
       "date": "Date",
-      "participants": "Participants"
+      "participants": "Participants",
+      "shared": "Shared",
+      "created": "Created",
+      "changed": "Changed"
     },
     "details": {
       "info": "Common",
@@ -531,6 +534,22 @@
       "CREATED": "Created",
       "IN_PROGRESS": "In Progress",
       "RESOLVED": "Resolved"
+    }
+  },
+  "feedback": {
+    "type": "Feedback",
+    "dialog": {
+      "details": {
+        "title": "Feedback Details"
+      }
+    },
+    "property": {
+      "id": "Id",
+      "subject": "Subject",
+      "topic": "Topic",
+      "account": "Account",
+      "rating": "Rating",
+      "timestamp": "Timestamp"
     }
   }
 }

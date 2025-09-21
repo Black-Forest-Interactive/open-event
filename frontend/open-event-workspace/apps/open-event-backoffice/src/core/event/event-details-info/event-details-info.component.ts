@@ -1,14 +1,17 @@
 import {Component, input} from '@angular/core';
-import {EventInfo, EventPublishedIconComponent} from "@open-event-workspace/core";
+import {EventInfo, EventPublishedIconComponent, EventSharedIconComponent} from "@open-event-workspace/core";
 import {BoardCardComponent} from "../../../shared/board-card/board-card.component";
 import {TranslatePipe} from "@ngx-translate/core";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-event-details-info',
   imports: [
     BoardCardComponent,
     TranslatePipe,
-    EventPublishedIconComponent
+    EventPublishedIconComponent,
+    EventSharedIconComponent,
+    DatePipe
   ],
   templateUrl: './event-details-info.component.html',
   styleUrl: './event-details-info.component.scss'

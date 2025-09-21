@@ -50,4 +50,6 @@ export class Roles {
   public static SEARCH_ADMIN = "search.admin"
 
   public static ISSUE_ADMIN = "issue.admin"
+
+  public static FEEDBACK_ADMIN = "feedback.admin"
 }

@@ -12,6 +12,8 @@ export * from './lib/event/event.service';
 
 export * from './lib/export/export.service';
 
+export * from './lib/feedback/feedback.service';
+
 export * from './lib/history/history.service';
 
 export * from './lib/issue/issue.service';

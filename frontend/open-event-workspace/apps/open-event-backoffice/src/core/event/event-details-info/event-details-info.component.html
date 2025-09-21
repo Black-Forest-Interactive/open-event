@@ -28,6 +28,13 @@
     </div>
 
     <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.shared' | translate }}</div>
+      <div>
+        <lib-event-shared-icon [event]="event()"></lib-event-shared-icon>
+      </div>
+    </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
       <div>{{ 'event.property.tags' | translate }}</div>
       <div class="flex flex-row gap-2 flex-wrap">
         @for (tag of event().event.tags; track tag) {
@@ -43,5 +50,18 @@
         }
       </div>
     </div>
+
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div>{{ 'event.property.created' | translate }}</div>
+      <div>{{ event().event.created | date:'medium' }}</div>
+    </div>
+
+    @if (event().event.changed) {
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'event.property.changed' | translate }}</div>
+        <div>{{ event().event.changed | date:'medium' }}</div>
+      </div>
+    }
+
   </div>
 </app-board-card>

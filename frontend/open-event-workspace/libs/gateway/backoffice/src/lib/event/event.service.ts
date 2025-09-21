@@ -3,6 +3,7 @@ import {BaseService, Page, PatchRequest} from "@open-event-workspace/shared";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Category, Event, EventChangeRequest, EventInfo, EventReadAPI, EventSearchRequest, EventSearchResponse, EventStats, HistoryEntry, Location, Registration} from "@open-event-workspace/core";
+import {Sort} from "@angular/material/sort";
 
 
 @Injectable({
@@ -23,10 +24,13 @@ export class EventService extends BaseService implements EventReadAPI {
     return this.get('' + id + '/info')
   }
 
-  search(request: EventSearchRequest, page: number, size: number): Observable<EventSearchResponse> {
+  search(request: EventSearchRequest, page: number, size: number, sort: Sort | undefined ): Observable<EventSearchResponse> {
     let params = new HttpParams()
       .set("page", page)
       .set("size", size)
+    if (sort && sort.active && sort.direction !== '') {
+      params = params.append("sort", `${sort.active},${sort.direction}`)
+    }
     return this.post('search', request, params)
   }
 

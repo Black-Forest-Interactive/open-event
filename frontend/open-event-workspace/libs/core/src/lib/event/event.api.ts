@@ -1,6 +1,6 @@
-import {RegistrationChangeRequest, RegistrationInfo} from "../registration/registration.api";
-import {Category} from "../category/category.api";
-import {LocationChangeRequest} from "../location/location.api";
+import {RegistrationChangeRequest, RegistrationInfo} from "../registration";
+import {Category} from "../category";
+import {LocationChangeRequest} from "../location";
 import {AccountInfo, Location, ShareInfo} from "@open-event-workspace/core";
 import {Observable} from "rxjs";
 
@@ -19,9 +19,11 @@ export interface Event {
   hasLocation: boolean,
   hasRegistration: boolean,
   published: boolean,
-  shared: boolean,
 
-  tags: string[]
+  tags: string[],
+
+  created: string,
+  changed: string | null
 }
 
 export interface EventInfo {

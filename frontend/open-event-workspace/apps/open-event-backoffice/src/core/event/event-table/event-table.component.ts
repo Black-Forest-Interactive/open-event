@@ -7,6 +7,8 @@ import {MatTableModule} from "@angular/material/table";
 import {TranslatePipe} from "@ngx-translate/core";
 import {RouterLink} from "@angular/router";
 import {DatePipe} from "@angular/common";
+import {MatSortModule, Sort} from "@angular/material/sort";
+import {ExportEventButtonComponent} from "../../export/export-event-button/export-event-button.component";
 
 @Component({
   selector: 'app-event-table',
@@ -15,11 +17,13 @@ import {DatePipe} from "@angular/common";
     MatButtonModule,
     MatPaginatorModule,
     MatTableModule,
+    MatSortModule,
     TranslatePipe,
     RouterLink,
     AccountDisplayNamePipe,
     DatePipe,
-    EventPublishedIconComponent
+    EventPublishedIconComponent,
+    ExportEventButtonComponent,
   ],
   templateUrl: './event-table.component.html',
   styleUrl: './event-table.component.scss'
@@ -31,9 +35,15 @@ export class EventTableComponent {
   pageSize = input.required<number>()
   totalElements = input.required<number>()
 
+
   pageEvent = output<PageEvent>()
+  sortEvent = output<Sort>()
   editEvent = output<EventSearchEntry>()
   deleteEvent = output<EventSearchEntry>()
+  exportEvent = output<EventSearchEntry>()
   publishEvent = output<EventSearchEntry>()
-  displayedColumns: string[] = ['id', 'owner', 'title', 'date', 'published', 'participants', 'tags', 'cmd']
+
+  displayedColumns: string[] = ['id', 'owner', 'title', 'date', 'published', 'updated', 'participants', 'tags', 'cmd']
+
+
 }

@@ -14,6 +14,7 @@ import {EventDetailsRegistrationComponent} from "../event-details-registration/e
 import {EventDetailsHistoryComponent} from "../event-details-history/event-details-history.component";
 import {EventDetailsLocationComponent} from "../event-details-location/event-details-location.component";
 import {EventDetailsInfoComponent} from "../event-details-info/event-details-info.component";
+import {ExportEventButtonComponent} from "../../export/export-event-button/export-event-button.component";
 
 @Component({
   selector: 'app-event-details',
@@ -32,7 +33,8 @@ import {EventDetailsInfoComponent} from "../event-details-info/event-details-inf
     EventDetailsHistoryComponent,
     MatTabLabel,
     EventDetailsLocationComponent,
-    EventDetailsInfoComponent
+    EventDetailsInfoComponent,
+    ExportEventButtonComponent
   ],
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.scss'

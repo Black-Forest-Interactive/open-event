@@ -122,7 +122,10 @@
       "categories": "Kategorien",
       "owner": "Ersteller",
       "date": "Datum",
-      "participants": "Teilnehmerinfo"
+      "participants": "Teilnehmerinfo",
+      "shared": "Geteilt",
+      "created": "Erstellt",
+      "changed": "Geändert"
     },
     "details": {
       "info": "Allgemein",
@@ -511,5 +514,16 @@
   },
   "issue": {
     "type": "Fehler"
+  },
+  "feedback": {
+    "type": "Feedback",
+    "property": {
+      "id": "Id",
+      "subject": "Betreff",
+      "topic": "Kategorie",
+      "account": "Benutzer",
+      "rating": "Bewertung",
+      "timestamp": "Zeitstempel"
+    }
   }
 }

@@ -19,6 +19,7 @@ import {ExportEventsButtonComponent} from "../export/export-events-button/export
 import {ExportSummaryButtonComponent} from "../export/export-summary-button/export-summary-button.component";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {MatTooltip} from "@angular/material/tooltip";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'boffice-event',
@@ -37,6 +38,7 @@ export class EventComponent {
   pageNumber: number = 0
   totalElements: number = 0
   showHistory: boolean = false
+  sort: Sort | undefined = undefined
   data: EventSearchEntry[] = []
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
@@ -78,7 +80,7 @@ export class EventComponent {
   private load(page: number, size: number) {
     if (this.reloading) return
     this.reloading = true
-    this.service.search(this.request, page, size).subscribe(
+    this.service.search(this.request, page, size, this.sort).subscribe(
       {
         next: value => this.handleData(value),
         error: e => this.handleError(e)
@@ -107,6 +109,11 @@ export class EventComponent {
     this.load(event.pageIndex, event.pageSize)
   }
 
+  handleSortChange(event: Sort) {
+    if (this.reloading) return
+    this.sort = event
+    this.load(0, this.pageSize)
+  }
 
   edit(entry: EventSearchEntry) {
     const dialogRef = this.dialog.open(EventChangeDialogComponent, {
@@ -155,4 +162,5 @@ export class EventComponent {
       }
     )
   }
+
 }

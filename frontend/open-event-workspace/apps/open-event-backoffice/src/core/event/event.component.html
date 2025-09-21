@@ -20,6 +20,7 @@
   <mat-card>
     <app-event-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"
                      (pageEvent)="handlePageChange($event)"
+                     (sortEvent)="handleSortChange($event)"
                      (editEvent)="edit($event)"
                      (deleteEvent)="delete($event)"
     ></app-event-table>

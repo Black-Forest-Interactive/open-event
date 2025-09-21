@@ -57,9 +57,17 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             )
 
         }
-        sort {
-            add(EventSearchEntryData::start, SortOrder.ASC)
-            add(EventSearchEntryData::id, SortOrder.ASC)
+        if (pageable.isSorted) {
+            sort {
+                pageable.orderBy.forEach { order ->
+                    add(order.property, if (order.isAscending) SortOrder.ASC else SortOrder.DESC)
+                }
+            }
+        } else {
+            sort {
+                add(EventSearchEntryData::start, SortOrder.ASC)
+                add(EventSearchEntryData::id, SortOrder.ASC)
+            }
         }
     }
 

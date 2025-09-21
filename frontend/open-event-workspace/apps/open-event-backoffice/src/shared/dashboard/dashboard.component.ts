@@ -47,6 +47,7 @@ export class DashboardComponent implements AfterViewInit {
     new MainNavItem('/backoffice', 'backoffice.type', 'admin_panel_settings', [Roles.BACKOFFICE_ACCESS]),
     new MainNavItem('/history', 'history.type', 'history', [Roles.HISTORY_ADMIN]),
     new MainNavItem('/issue', 'issue.type', 'bug_report', [Roles.ISSUE_ADMIN]),
+    new MainNavItem('/feedback', 'feedback.type', 'feedback', [Roles.FEEDBACK_ADMIN]),
 
 
     // new MainNavItem('/inquiry', 'INQUIRY.Type', 'question_answer'),

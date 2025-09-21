@@ -3,6 +3,7 @@
     @if (!loading()) {
       <app-event-publish-button [data]="event()!!.event"></app-event-publish-button>
     }
+    <app-export-event-button [event]="event()!!.event"></app-export-event-button>
     @for (item of menu.menuItems; track item) {
       <button (click)="item.handleClick()" class="action-fab" mat-mini-fab>
         <mat-icon>{{ item.icon }}</mat-icon>

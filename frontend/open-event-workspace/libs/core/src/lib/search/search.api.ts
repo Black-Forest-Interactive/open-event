@@ -26,7 +26,9 @@ export interface EventSearchResponse {
 
 export interface EventSearchEntry {
   // event data
-  id: string,
+  id: number,
+  created: string,
+  updated: string,
   start: string,
   finish: string,
 
