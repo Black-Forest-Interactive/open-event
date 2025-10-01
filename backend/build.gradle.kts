@@ -8,9 +8,9 @@ plugins {
     id("com.google.devtools.ksp")
     id("org.sonarqube")
     id("com.google.cloud.tools.jib") version "3.4.5"
-    id("io.micronaut.application") version "4.5.4"
-    id("io.micronaut.test-resources") version "4.5.4"
-    id("io.micronaut.aot") version "4.5.4"
+    id("io.micronaut.application") version "4.5.5"
+    id("io.micronaut.test-resources") version "4.5.5"
+    id("io.micronaut.aot") version "4.5.5"
     jacoco
 }
 
@@ -37,11 +37,11 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.5.18")
+    implementation("ch.qos.logback:logback-classic:1.5.19")
     runtimeOnly("org.yaml:snakeyaml")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.0")
     testImplementation("io.mockk:mockk:1.14.5")
 
     // jackson
