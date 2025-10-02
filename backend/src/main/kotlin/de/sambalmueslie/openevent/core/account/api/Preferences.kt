@@ -10,16 +10,16 @@ data class Preferences(
 ) : BusinessObject<Long>
 
 data class EmailNotificationsPreferences(
-    val enabled: Boolean = true
+    val enabled: Boolean = false
     // TODO add some content
 )
 
 data class CommunicationPreferences(
-    val enabled: Boolean = true
+    val enabled: Boolean = false
     // TODO add some content
 )
 
 data class NotificationPreferences(
-    val enabled: Boolean = true
+    val enabled: Boolean = false
     // TODO add some content
 )
