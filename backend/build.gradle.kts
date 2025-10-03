@@ -42,7 +42,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.0")
-    testImplementation("io.mockk:mockk:1.14.5")
+    testImplementation("io.mockk:mockk:1.14.6")
 
     // jackson
     ksp("io.micronaut.serde:micronaut-serde-processor")
