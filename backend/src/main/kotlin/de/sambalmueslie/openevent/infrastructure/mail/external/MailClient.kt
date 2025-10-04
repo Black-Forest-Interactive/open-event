@@ -10,4 +10,5 @@ interface MailClient {
         to: List<MailParticipant>,
         bcc: List<MailParticipant> = emptyList()
     ): Boolean
+
 }

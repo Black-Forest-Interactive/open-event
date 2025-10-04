@@ -10,6 +10,7 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
 import jakarta.inject.Singleton
 import org.simplejavamail.MailException
+import org.simplejavamail.api.email.Email
 import org.simplejavamail.email.EmailBuilder
 import org.simplejavamail.mailer.MailerBuilder
 import org.slf4j.Logger
@@ -27,6 +28,7 @@ class SimpleJavaMailClient(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(SimpleJavaMailClient::class.java)
+        private const val SESSION_SEND_LIMIT = 40
     }
 
     private val mailer = MailerBuilder
@@ -34,6 +36,8 @@ class SimpleJavaMailClient(
         .withTransportStrategy(config.transportStrategy)
         .withDebugLogging(false)
         .buildMailer()
+
+    private var sendMailsCounter = SESSION_SEND_LIMIT
 
     override fun send(
         mail: Mail,
@@ -54,13 +58,7 @@ class SimpleJavaMailClient(
         mail.attachments.forEach { builder.withAttachment(it.name, it.data, it.mimeType) }
 
         val email = builder.buildEmail()
-        try {
-            mailer.sendMail(email)
-        } catch (e: MailException) {
-            logger.error("Failed to send mail '${mail.subject}'", e)
-            return false
-        }
-        return true
+        return sendMail(email)
     }
 
     private fun getReplyToAddress(): String {
@@ -71,4 +69,25 @@ class SimpleJavaMailClient(
 
         return value
     }
+
+    private fun sendMail(email: Email): Boolean {
+        return try {
+            mailer.sendMail(email)
+            handleMailSent()
+            true
+        } catch (e: MailException) {
+            logger.error("Failed to send mail '${email.subject}' to ${email.recipients}", e)
+            false
+        }
+    }
+
+    private fun handleMailSent() {
+        sendMailsCounter--
+        if (sendMailsCounter <= 0) {
+            logger.info("Session mail limit reached, restart session")
+            mailer.shutdownConnectionPool()
+            sendMailsCounter = SESSION_SEND_LIMIT
+        }
+    }
+
 }

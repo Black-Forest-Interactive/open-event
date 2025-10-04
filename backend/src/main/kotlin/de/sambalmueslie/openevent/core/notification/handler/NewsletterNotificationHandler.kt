@@ -36,12 +36,12 @@ class NewsletterNotificationHandler(
     private val timeProvider: TimeProvider
 ) : NotificationHandler {
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(EventNotificationHandler::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(NewsletterNotificationHandler::class.java)
         const val KEY_EVENT_NEWSLETTER = "newsletter.event"
         const val MAX_RESULT = 1000
     }
 
-    override fun getName(): String = EventNotificationHandler::class.java.simpleName
+    override fun getName(): String = NewsletterNotificationHandler::class.java.simpleName
 
     override fun getTypes(): Set<NotificationTypeChangeRequest> {
         return setOf(
@@ -72,7 +72,7 @@ class NewsletterNotificationHandler(
                 logger.debug("Found {} events for request {}", result.result.size, request)
                 logger.debug("Events: ${result.result.content.joinToString { "[${it.id}] - ${it.title}" }}")
 
-                val accountSequence = PageSequence(30) { accountService.getAll(it) }
+                val accountSequence = PageSequence(1000) { accountService.getAll(it) }
                 accountSequence.forEach { page ->
                     createAccountsDailyNewsletterNotification(actor, timestamp, result, page)
                 }
@@ -84,9 +84,7 @@ class NewsletterNotificationHandler(
         processing.set(false)
     }
 
-    private fun createAccountsDailyNewsletterNotification(
-        actor: Account, timestamp: LocalDate, result: EventSearchResponse, page: Page<Account>
-    ) {
+    private fun createAccountsDailyNewsletterNotification(actor: Account, timestamp: LocalDate, result: EventSearchResponse, page: Page<Account>) {
         logger.info("Starting daily newsletter notification for page ${page.pageable.number}")
         val duration = measureTimeMillis {
 
@@ -105,7 +103,6 @@ class NewsletterNotificationHandler(
             if (recipients.isEmpty()) return@measureTimeMillis
 
             service.process(NotificationEvent(KEY_EVENT_NEWSLETTER, actor, result.result.content), recipients.toSet())
-            Thread.sleep(Duration.ofMinutes(5))
         }
         logger.info("Finished daily newsletter notification for page ${page.pageable.number} within $duration ms")
     }
