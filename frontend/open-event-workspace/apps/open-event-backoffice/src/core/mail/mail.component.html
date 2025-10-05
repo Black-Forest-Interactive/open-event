@@ -25,6 +25,9 @@
           <button mat-icon-button routerLink="./history/{{job.id}}">
             <mat-icon>history</mat-icon>
           </button>
+          <button color="accent" mat-icon-button (click)="retryFailedJob(job); $event.stopPropagation()">
+            <mat-icon>update</mat-icon>
+          </button>
         </td>
       </ng-container>
 

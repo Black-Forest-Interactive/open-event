@@ -95,4 +95,8 @@ export class MailComponent {
     }
     this.reloading = false;
   }
+
+  retryFailedJob(job: MailJob) {
+    this.service.retryFailedJob(job.id).subscribe(p => this.reload())
+  }
 }

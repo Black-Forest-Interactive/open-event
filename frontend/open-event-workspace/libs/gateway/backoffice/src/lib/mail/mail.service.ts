@@ -26,5 +26,8 @@ export class MailService extends BaseService {
     return this.getPaged(jobId + '/history', page, size)
   }
 
+  retryFailedJob(jobId: number): Observable<any> {
+    return this.put(jobId + '/retry', {})
+  }
 
 }
