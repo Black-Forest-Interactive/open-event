@@ -13,6 +13,7 @@ import io.micronaut.scheduling.annotation.Scheduled
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.math.log
 import kotlin.system.measureTimeMillis
 
 @Singleton
@@ -157,6 +158,17 @@ class MailService(
 
     fun getJobHistory(jobId: Long, pageable: Pageable): Page<MailJobHistoryEntry> {
         return jobHistoryRepository.findByJobIdOrderByTimestampDesc(jobId, pageable).map { it.convert() }
+    }
+
+    fun retryJob(jobId: Long) {
+        val jobData = jobRepository.findByIdOrNull(jobId) ?: return logger.error("Cannot find job $jobId")
+        if (jobData.status == MailJobStatus.FAILED) {
+            jobRepository.update(jobData.updateStatus(MailJobStatus.RETRY, timeProvider.now()))
+        }
+        val jobContent = jobContentRepository.findByJobId(jobData.id)?.convert() ?: return logger.error("Cannot find job content for $jobId")
+        val job = MailSendJob(jobData.id, jobContent, jobHistoryRepository, timeProvider)
+        logger.info("Retrying job ${job.jobId}")
+        failedJobs.add(job)
     }
 
 
