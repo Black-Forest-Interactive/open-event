@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.gateway.backoffice.mail
 
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.infrastructure.mail.MailService
+import de.sambalmueslie.openevent.infrastructure.mail.api.MailJob
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
