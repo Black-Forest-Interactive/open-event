@@ -31,7 +31,7 @@ class MailController(private val service: MailService) {
     fun getJobHistory(auth: Authentication, jobId: Long, pageable: Pageable) =
         auth.checkPermission(PERMISSION_ADMIN) { service.getJobHistory(jobId, pageable) }
 
-    @Put("/{jobId}/retry")
+    @Put("{jobId}/retry")
     fun retryJob(auth: Authentication, jobId: Long): MailJob? =
         auth.checkPermission(PERMISSION_ADMIN) { service.retryJob(jobId) }
 }
