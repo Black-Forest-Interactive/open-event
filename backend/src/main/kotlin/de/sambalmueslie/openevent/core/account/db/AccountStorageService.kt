@@ -91,6 +91,10 @@ class AccountStorageService(
         return patchData(id) { it.setExternalId(value.value, timeProvider.now()) }
     }
 
+    override fun updateLastLoginDate(account: Account): Account? {
+        return patchData(account.id) { it.login(timeProvider.now()) }
+    }
+
     fun getDetails(id: Long): AccountDetails? {
         val account = get(id) ?: return null
         return getDetails(account)

@@ -42,10 +42,17 @@ class AccountCrudService(
     }
 
     fun validate(auth: Authentication, lang: String): AccountValidationResult {
-        val account = findExistingAccount(auth) ?: createNewAccount(auth, lang)
+        var account = findExistingAccount(auth)
+        var created = false
+        if (account == null) {
+            account = createNewAccount(auth, lang)
+            created = true
+        } else {
+            storage.updateLastLoginDate(account)
+        }
         val profile = profileService.getForAccount(account) ?: createNewProfile(auth, account, lang)
         val info = AccountInfo.create(account, profile)
-        return AccountValidationResult(true, account, profile, info)
+        return AccountValidationResult(created, account, profile, info)
     }
 
     private fun findExistingAccount(auth: Authentication) =
