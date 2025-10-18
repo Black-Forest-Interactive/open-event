@@ -9,7 +9,7 @@ plugins {
     id("org.sonarqube")
     id("com.google.cloud.tools.jib") version "3.4.5"
     id("io.micronaut.application") version "4.6.0"
-    id("io.micronaut.test-resources") version "4.5.5"
+    id("io.micronaut.test-resources") version "4.6.0"
     id("io.micronaut.aot") version "4.6.0"
     jacoco
 }
