@@ -3,7 +3,7 @@ plugins {
     kotlin("plugin.allopen") version "2.2.20"
     kotlin("plugin.jpa") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
-    id("com.google.devtools.ksp") version "2.2.20-2.0.4"
+    id("com.google.devtools.ksp") version "2.3.0"
     id("org.sonarqube") version "7.0.0.6105"
     id("net.researchgate.release") version "3.1.0"
     id("maven-publish")
