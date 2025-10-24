@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.2.20"
-    kotlin("plugin.allopen") version "2.2.20"
+    kotlin("plugin.allopen") version "2.2.21"
     kotlin("plugin.jpa") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
     id("com.google.devtools.ksp") version "2.2.20-2.0.4"
