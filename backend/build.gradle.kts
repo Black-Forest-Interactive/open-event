@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.2.20"
-    kotlin("plugin.allopen") version "2.2.20"
-    kotlin("plugin.jpa") version "2.2.20"
-    kotlin("plugin.serialization") version "2.2.20"
-    id("com.google.devtools.ksp") version "2.2.20-2.0.4"
+    kotlin("jvm") version "2.2.21"
+    kotlin("plugin.allopen") version "2.2.21"
+    kotlin("plugin.jpa") version "2.2.21"
+    kotlin("plugin.serialization") version "2.2.21"
+    id("com.google.devtools.ksp") version "2.3.0"
     id("org.sonarqube") version "7.0.0.6105"
     id("net.researchgate.release") version "3.1.0"
     id("maven-publish")
@@ -51,7 +51,7 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.5.19")
+    implementation("ch.qos.logback:logback-classic:1.5.20")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
@@ -87,8 +87,8 @@ dependencies {
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.20")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.21")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
@@ -119,7 +119,7 @@ dependencies {
 
     // OpenPDF
     implementation("com.github.librepdf:openpdf:3.0.0")
-    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.0.0")
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.0.3")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.3")
