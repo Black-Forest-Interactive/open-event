@@ -1,17 +1,31 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.allopen")
-    kotlin("plugin.jpa")
-    kotlin("plugin.serialization")
-    id("com.google.devtools.ksp")
-    id("org.sonarqube")
+    kotlin("jvm") version "2.2.20"
+    kotlin("plugin.allopen") version "2.2.20"
+    kotlin("plugin.jpa") version "2.2.20"
+    kotlin("plugin.serialization") version "2.2.20"
+    id("com.google.devtools.ksp") version "2.2.20-2.0.4"
+    id("org.sonarqube") version "7.0.0.6105"
+    id("net.researchgate.release") version "3.1.0"
+    id("maven-publish")
     id("com.google.cloud.tools.jib") version "3.4.5"
     id("io.micronaut.application") version "4.6.0"
     id("io.micronaut.test-resources") version "4.6.0"
     id("io.micronaut.aot") version "4.6.0"
     jacoco
+}
+
+repositories {
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        mavenContent { snapshotsOnly() }
+    }
+    mavenCentral()
+    maven("https://maven.tryformation.com/releases") {
+        content {
+            includeGroup("com.jillesvangurp")
+        }
+    }
 }
 
 
@@ -165,6 +179,10 @@ tasks {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs = listOf(
+        "-XX:+UnlockExperimentalVMOptions",
+        "-XX:+UseParallelGC"
+    )
     finalizedBy(tasks.jacocoTestReport)
 }
 tasks.jacocoTestReport {
@@ -176,6 +194,17 @@ tasks.jacocoTestReport {
 }
 jacoco {
     toolVersion = "0.8.13"
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "Black-Forrest-Development_open-event")
+        property("sonar.organization", "black-forrest-development")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.core.codeCoveragePlugin", "jacoco")
+        property("sonar.sources", "src/main")
+    }
 }
 
 application {
@@ -211,4 +240,12 @@ jib {
             "JAVA_TOOL_OPTIONS" to "-XX:+ExitOnOutOfMemoryError"
         )
     }
+}
+
+
+release {
+    git {
+        requireBranch.set("development")
+    }
+    pushReleaseVersionBranch.set("master")
 }
