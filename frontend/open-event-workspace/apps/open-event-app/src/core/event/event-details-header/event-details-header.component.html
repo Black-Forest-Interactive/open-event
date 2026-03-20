@@ -19,11 +19,11 @@
       </button>
     }
     @if (isOwner && !isMobile()) {
-      <ng-container *ngFor="let item of menu.menuItems">
+      @for (item of menu.menuItems; track item) {
         <button (click)="item.handleClick()" class="toolbar-action-fab" mat-mini-fab>
           <mat-icon>{{ item.icon }}</mat-icon>
         </button>
-      </ng-container>
+      }
     }
     @if (isOwner) {
       <button [matMenuTriggerFor]="contextMenu" class="toolbar-action-fab" mat-mini-fab>
@@ -34,10 +34,10 @@
 </mat-toolbar>
 
 <mat-menu #contextMenu="matMenu">
-  <ng-container *ngFor="let item of menu.menuItems">
+  @for (item of menu.menuItems; track item) {
     <button (click)="item.handleClick()" [disabled]="item.disabled" mat-menu-item>
       <mat-icon>{{ item.icon }}</mat-icon>
       {{ item.text | translate }}
     </button>
-  </ng-container>
+  }
 </mat-menu>

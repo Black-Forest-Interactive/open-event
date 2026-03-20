@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {Profile, ProfileChangeRequest} from "@open-event-workspace/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
@@ -16,7 +16,7 @@ import {AccountService} from "@open-event-workspace/app";
 
 @Component({
   selector: 'app-account-profile',
-  imports: [CommonModule, TranslatePipe, MatIcon, MatCard, MatDivider, MatListItem, MatList, ReactiveFormsModule, MatInput, MatFormField, MatSelect, MatOption, MatButton, MatMiniFabButton, LoadingBarComponent],
+  imports: [TranslatePipe, MatIcon, MatCard, MatDivider, MatListItem, MatList, ReactiveFormsModule, MatInput, MatFormField, MatSelect, MatOption, MatButton, MatMiniFabButton, LoadingBarComponent],
   templateUrl: './account-profile.component.html',
   styleUrl: './account-profile.component.scss',
 })

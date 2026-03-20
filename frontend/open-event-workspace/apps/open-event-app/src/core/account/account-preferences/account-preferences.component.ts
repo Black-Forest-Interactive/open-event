@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
@@ -12,7 +12,7 @@ import {HotToastService} from "@ngxpert/hot-toast";
 
 @Component({
   selector: 'app-account-preferences',
-  imports: [CommonModule, TranslatePipe, MatCardModule, MatButtonModule, MatIconModule, MatDivider, LoadingBarComponent],
+  imports: [TranslatePipe, MatCardModule, MatButtonModule, MatIconModule, MatDivider, LoadingBarComponent],
   templateUrl: './account-preferences.component.html',
   styleUrl: './account-preferences.component.scss',
 })

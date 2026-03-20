@@ -4,7 +4,7 @@
     <lib-registration-status [data]="data()"></lib-registration-status>
   </div>
   <mat-divider class="p-0"></mat-divider>
-  <app-loading-bar [reloading]="reloading"></app-loading-bar>
+  <lib-loading-bar [reloading]="reloading"></lib-loading-bar>
   <div class="flex flex-col justify-center px-3 pb-3 gap-4">
     @if (accepted().length <= 0) {
       <div>{{ 'registration.empty' | translate }}</div>

@@ -1,30 +1,40 @@
-import {Component, effect, input, output, signal} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {MatCardModule} from "@angular/material/card";
-import {MatStepperModule} from "@angular/material/stepper";
-import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {TranslateModule} from "@ngx-translate/core";
-import {Event, EventChangeRequest, EventInfo, EventReadAPI} from "../event.api";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {AddressReadAPI} from "../../address";
-import {CategoryReadAPI} from "../../category";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {LocationChangeRequest} from "../../location";
-import {RegistrationChangeRequest} from "../../registration";
-import {DateTime} from 'luxon';
-import {LoadingBarComponent} from "@open-event-workspace/shared";
-import {EventChangeStepperComponent} from "../event-change-stepper/event-change-stepper.component";
-import {EventChangeSingleComponent} from "../event-change-single/event-change-single.component";
+import { Component, effect, input, output, signal } from '@angular/core'
+
+import { MatCardModule } from '@angular/material/card'
+import { MatStepperModule } from '@angular/material/stepper'
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { TranslateModule } from '@ngx-translate/core'
+import { Event, EventChangeRequest, EventInfo, EventReadAPI } from '../event.api'
+import { MatIconModule } from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { AddressReadAPI } from '../../address'
+import { CategoryReadAPI } from '../../category'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { LocationChangeRequest } from '../../location'
+import { RegistrationChangeRequest } from '../../registration'
+import { DateTime } from 'luxon'
+import { LoadingBarComponent } from '@open-event-workspace/shared'
+import { EventChangeStepperComponent } from '../event-change-stepper/event-change-stepper.component'
+import { EventChangeSingleComponent } from '../event-change-single/event-change-single.component'
 
 @Component({
   selector: 'lib-event-change',
-  imports: [CommonModule, MatCardModule, MatStepperModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, TranslateModule, LoadingBarComponent, EventChangeStepperComponent, EventChangeSingleComponent],
+  imports: [
+    MatCardModule,
+    MatStepperModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    LoadingBarComponent,
+    EventChangeStepperComponent,
+    EventChangeSingleComponent
+  ],
   templateUrl: './event-change.component.html',
   styleUrl: './event-change.component.scss'
 })
 export class EventChangeComponent {
-
   event = input<Event>()
   info = signal<EventInfo | undefined>(undefined)
   mode = input<string>('single')
@@ -39,7 +49,6 @@ export class EventChangeComponent {
   categoryReadAPI = input.required<CategoryReadAPI>()
   eventReadAPI = input.required<EventReadAPI>()
 
-
   fg: FormGroup
 
   constructor(fb: FormBuilder) {
@@ -51,9 +60,8 @@ export class EventChangeComponent {
     })
   }
 
-
   private isEndHidden() {
-    return this.hiddenFields.find(f => f === 'endDate') != null
+    return this.hiddenFields.find((f) => f === 'endDate') != null
   }
 
   submit() {
@@ -65,7 +73,6 @@ export class EventChangeComponent {
     this.loading = true
     this.request.emit(request)
   }
-
 
   private createRequest(value: any, endHidden: boolean): EventChangeRequest | undefined {
     let start = this.createDateTime(value.general.startTime, value.general.startDate)
@@ -83,12 +90,7 @@ export class EventChangeComponent {
       0.0,
       -1
     )
-    let registration = new RegistrationChangeRequest(
-      value.registration.maxGuestAmount,
-      value.registration.interestedAllowed,
-      value.registration.ticketsEnabled
-    )
-
+    let registration = new RegistrationChangeRequest(value.registration.maxGuestAmount, value.registration.interestedAllowed, value.registration.ticketsEnabled)
 
     return new EventChangeRequest(
       start.toFormat("yyyy-MM-dd'T'HH:mm:ss"),
@@ -108,20 +110,21 @@ export class EventChangeComponent {
   }
 
   private createDateTime(timeStr: string, date: DateTime): DateTime | undefined {
-    let time = timeStr.split(":");
+    let time = timeStr.split(':')
     if (time.length == 2 && date.isValid) {
-      date = date.set({hour: parseInt(time[0]), minute: parseInt(time[1])});
+      date = date.set({ hour: parseInt(time[0]), minute: parseInt(time[1]) })
       return date
     }
-    return undefined;
+    return undefined
   }
 
   private loadEventInfo(event: Event) {
     this.loading = true
-    this.eventReadAPI().getEventInfo(event.id).subscribe({
-      next: value => this.info.set(value),
-      complete: () => this.loading = false
-    })
+    this.eventReadAPI()
+      .getEventInfo(event.id)
+      .subscribe({
+        next: (value) => this.info.set(value),
+        complete: () => (this.loading = false)
+      })
   }
-
 }

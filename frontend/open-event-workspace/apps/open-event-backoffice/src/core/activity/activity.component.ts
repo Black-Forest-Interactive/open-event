@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {ActivityService} from "@open-event-workspace/backoffice";
 import {Activity, ActivityCleanupRequest} from "@open-event-workspace/core";
 import {Page} from "@open-event-workspace/shared";
@@ -16,7 +16,7 @@ import {BoardComponent, BoardToolbarActions} from "../../shared/board/board.comp
 
 @Component({
   selector: 'boffice-activity',
-  imports: [CommonModule, MatCard, MatIcon, MatTableModule, ActivityTableComponent, BoardComponent, BoardToolbarActions, MatButton],
+  imports: [MatCard, MatIcon, MatTableModule, ActivityTableComponent, BoardComponent, BoardToolbarActions, MatButton],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.scss',
 })

@@ -1,25 +1,17 @@
-import {Component, effect, input, output} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Address, AddressChangeRequest} from "../address.api";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {TranslatePipe} from "@ngx-translate/core";
+import { Component, effect, input, output } from '@angular/core'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Address, AddressChangeRequest } from '../address.api'
+import { MatFormField, MatLabel } from '@angular/material/form-field'
+import { MatInput } from '@angular/material/input'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'lib-address-change',
-  imports: [
-    FormsModule,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    TranslatePipe
-  ],
+  imports: [FormsModule, MatFormField, MatInput, MatLabel, ReactiveFormsModule, TranslatePipe],
   templateUrl: './address-change.component.html',
   styleUrl: './address-change.component.scss'
 })
 export class AddressChangeComponent {
-
   data = input<Address>()
   request = output<AddressChangeRequest>()
 
@@ -34,16 +26,14 @@ export class AddressChangeComponent {
       country: ['Deutschland', Validators.required],
       additionalInfo: [''],
       lat: [''],
-      lon: [''],
-    });
-
+      lon: ['']
+    })
 
     effect(() => {
       let address = this.data()
       if (address) this.handleDataChanged(address)
-    });
+    })
   }
-
 
   private handleDataChanged(address: Address) {
     this.fg.get('street')?.setValue(address.street)

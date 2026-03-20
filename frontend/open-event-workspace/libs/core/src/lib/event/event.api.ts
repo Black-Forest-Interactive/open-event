@@ -1,40 +1,39 @@
-import {RegistrationChangeRequest, RegistrationInfo} from "../registration";
-import {Category} from "../category";
-import {LocationChangeRequest} from "../location";
-import {AccountInfo, Location, ShareInfo} from "@open-event-workspace/core";
-import {Observable} from "rxjs";
+import { RegistrationChangeRequest, RegistrationInfo } from '../registration'
+import { Category } from '../category'
+import { LocationChangeRequest } from '../location'
+import { AccountInfo, Location, ShareInfo } from '@open-event-workspace/core'
+import { Observable } from 'rxjs'
 
 export interface Event {
-  id: number,
-  owner: AccountInfo,
-  start: string,
-  finish: string,
+  id: number
+  owner: AccountInfo
+  start: string
+  finish: string
 
-  title: string,
-  shortText: string,
-  longText: string,
-  imageUrl: string,
-  iconUrl: string,
+  title: string
+  shortText: string
+  longText: string
+  imageUrl: string
+  iconUrl: string
 
-  hasLocation: boolean,
-  hasRegistration: boolean,
-  published: boolean,
+  hasLocation: boolean
+  hasRegistration: boolean
+  published: boolean
 
-  tags: string[],
+  tags: string[]
 
-  created: string,
+  created: string
   changed: string | null
 }
 
 export interface EventInfo {
-  event: Event,
+  event: Event
   location: Location | undefined
-  registration: RegistrationInfo | undefined,
-  categories: Category[],
-  share: ShareInfo | undefined,
+  registration: RegistrationInfo | undefined
+  categories: Category[]
+  share: ShareInfo | undefined
   canEdit: boolean
 }
-
 
 export class EventChangeRequest {
   constructor(
@@ -51,18 +50,16 @@ export class EventChangeRequest {
     public published: boolean,
     public shared: boolean,
     public tags: string[]
-  ) {
-  }
+  ) {}
 }
 
-
 export interface EventStats {
-  event: Event,
-  isFull: boolean,
-  isEmpty: boolean,
-  participantsSize: number,
-  participantsAmount: number,
-  waitingListSize: number,
+  event: Event
+  isFull: boolean
+  isEmpty: boolean
+  participantsSize: number
+  participantsAmount: number
+  waitingListSize: number
   waitingListAmount: number
 }
 

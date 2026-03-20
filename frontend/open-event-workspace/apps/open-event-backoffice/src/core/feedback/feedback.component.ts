@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {Feedback} from "@open-event-workspace/core";
 import {FeedbackService} from "@open-event-workspace/backoffice";
 import {HotToastService} from "@ngxpert/hot-toast";
@@ -11,7 +11,7 @@ import {FeedbackTableComponent} from "./feedback-table/feedback-table.component"
 
 @Component({
   selector: 'app-feedback',
-  imports: [CommonModule, BoardComponent, BoardToolbarActions, MatCard, FeedbackTableComponent],
+  imports: [BoardComponent, BoardToolbarActions, MatCard, FeedbackTableComponent],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
 })

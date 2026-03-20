@@ -1,111 +1,67 @@
-@use '@angular/material' as mat;
-@use "tailwindcss";
+@use 'theme';
 
-@include mat.elevation-classes();
-@include mat.app-background();
-
-html, body {
-  height: 100%;
+/* ROBOTO */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/roboto-v50-latin-300.woff2') format('woff2');
+  font-display: swap;
 }
 
-body {
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/roboto-v50-latin-regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/roboto-v50-latin-500.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* MATERIAL ICONS */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/MaterialIcons-Regular.woff2') format('woff2');
+}
+
+
+// Set the base font and body styles.
+html, body {
+  height: 100%;
+  // Apply Angular Material's system-level CSS variables for background/text color
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.dense-1 {
-  @include mat.all-component-densities(-2);
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.dense-3 {
-  @include mat.all-component-densities(-4);
-}
+// The Tailwind directives MUST come AFTER Angular Material theming
+@import "tailwindcss";
 
-.mat-mdc-mini-fab {
-  box-shadow: none !important;
-}
-
-.mat-mdc-form-field-hint {
-  font-size: 12px;
-}
-
-.mat-mdc-form-field-error {
-  font-size: 12px;
-}
-
-// show label for more dense inputs as well
-.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
-.mat-mdc-floating-label {
-  display: inline !important;
-}
-
-.alert {
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.alert-info {
-  color: #0c5460;
-  background-color: #d1ecf1;
-  border-color: #bee5eb;
-}
-
-.alert-warning {
-  color: #856404;
-  background-color: #fff3cd;
-  border-color: #ffeeba;
-}
-
-.alert-secondary {
-  color: #383d41;
-  background-color: #e2e3e5;;
-  border-color: #d6d8db;
-}
-
-.header {
-  font-family: Roboto, sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.25px;
-  line-height: 32px;
-}
-
-.mat-mdc-mini-fab {
-  border-radius: 5px !important;
-  min-height: 48px;
-  min-width: 48px;
-}
-
-.mat-mdc-fab {
-  border-radius: 5px !important;
-  min-height: 48px;
-}
-
-.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
-  border-right-style: hidden;
-}
-
-
-.marker-cluster {
-  background-clip: padding-box;
-  border-radius: 20px;
-}
-.marker-cluster div {
-  width: 30px;
-  height: 30px;
-  margin-left: 5px;
-  margin-top: 5px;
-
-  text-align: center;
-  border-radius: 15px;
-  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-.marker-cluster span {
-  line-height: 30px;
-}
+/* You can add custom global styles below this line */

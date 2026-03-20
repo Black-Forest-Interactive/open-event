@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatButton} from "@angular/material/button";
 import {MatCard} from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";
@@ -17,7 +17,7 @@ import {EventCreateDialogComponent} from "../event/event-create-dialog/event-cre
 
 @Component({
   selector: 'boffice-account',
-  imports: [CommonModule, MatButton, MatCard, MatIcon, TranslatePipe, AccountTableComponent, BoardComponent, BoardToolbarActions],
+  imports: [MatButton, MatCard, MatIcon, TranslatePipe, AccountTableComponent, BoardComponent, BoardToolbarActions],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss',
 })

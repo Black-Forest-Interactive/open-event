@@ -1,26 +1,37 @@
-import {Component, computed, effect, input, resource} from '@angular/core';
-import {EventInfo} from "../event.api";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatInputModule} from "@angular/material/input";
-import {TranslatePipe} from "@ngx-translate/core";
-import {MatSelectModule} from "@angular/material/select";
-import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
-import {CategoryReadAPI} from "../../category";
-import {ChipSelectEntry, ChipSelectPaneComponent, LoadingBarComponent, toPromise} from "@open-event-workspace/shared";
-import {MatIconModule} from "@angular/material/icon";
-import {MatCheckbox} from "@angular/material/checkbox";
+import { Component, computed, effect, input, resource } from '@angular/core'
+import { EventInfo } from '../event.api'
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatInputModule } from '@angular/material/input'
+import { TranslatePipe } from '@ngx-translate/core'
+import { MatSelectModule } from '@angular/material/select'
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips'
+import { CategoryReadAPI } from '../../category'
+import { ChipSelectEntry, ChipSelectPaneComponent, LoadingBarComponent, toPromise } from '@open-event-workspace/shared'
+import { MatIconModule } from '@angular/material/icon'
+import { MatCheckbox } from '@angular/material/checkbox'
 
 @Component({
   selector: 'lib-event-change-registration',
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatChipsModule, MatIconModule, TranslatePipe, LoadingBarComponent, ChipSelectPaneComponent, MatCheckbox],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    TranslatePipe,
+    LoadingBarComponent,
+    ChipSelectPaneComponent,
+    MatCheckbox
+  ],
   templateUrl: './event-change-registration.component.html',
   styleUrl: './event-change-registration.component.scss'
 })
 export class EventChangeRegistrationComponent {
-
   data = input<EventInfo>()
   hiddenFields = input<string[]>([])
   parent = input.required<FormGroup>()
@@ -35,7 +46,7 @@ export class EventChangeRegistrationComponent {
   })
 
   category = computed(this.categoryResource.value ?? undefined)
-  allCategories = computed(() => this.category()?.content?.map(d => ({id: d.id, name: d.name} as ChipSelectEntry)) ?? [])
+  allCategories = computed(() => this.category()?.content?.map((d) => ({ id: d.id, name: d.name }) as ChipSelectEntry) ?? [])
   loading = this.categoryResource.isLoading
   error = this.categoryResource.error
 
@@ -46,7 +57,7 @@ export class EventChangeRegistrationComponent {
       ticketsEnabled: [false, Validators.required],
       shared: [true, Validators.required],
       categories: [[]],
-      tags: fb.control([]),
+      tags: fb.control([])
     })
 
     effect(() => {
@@ -56,10 +67,9 @@ export class EventChangeRegistrationComponent {
 
     effect(() => {
       let parent = this.parent()
-      parent.addControl("registration", this.fg)
-    });
+      parent.addControl('registration', this.fg)
+    })
   }
-
 
   private handleDataChanged(info: EventInfo) {
     let registration = info.registration
@@ -69,14 +79,14 @@ export class EventChangeRegistrationComponent {
         maxGuestAmount: registration.registration.maxGuestAmount,
         interestedAllowed: registration.registration.interestedAllowed,
         shared: info.share?.share.enabled ?? false,
-        categories: info.categories.map(c => c.id) ?? [],
-        tags: info.event.tags ?? [],
+        categories: info.categories.map((c) => c.id) ?? [],
+        tags: info.event.tags ?? []
       })
     }
   }
 
   isVisible(ctrl: string): boolean {
-    return this.hiddenFields().find(x => x == ctrl) == null
+    return this.hiddenFields().find((x) => x == ctrl) == null
   }
 
   get ticketsEnabled(): FormControl<any> {
@@ -97,11 +107,11 @@ export class EventChangeRegistrationComponent {
       let index = data.indexOf(value)
       if (index < 0) data.push(value)
     }
-    event.chipInput!.clear();
+    event.chipInput!.clear()
   }
 
   get tags(): FormControl {
-    return this.fg.get('tags') as FormControl;
+    return this.fg.get('tags') as FormControl
   }
 
   removeTag(tag: string) {
@@ -110,7 +120,7 @@ export class EventChangeRegistrationComponent {
 
     let index = (t.value as string[]).indexOf(tag)
     if (index >= 0) {
-      (t.value as string[]).splice(index, 1)
+      ;(t.value as string[]).splice(index, 1)
     }
   }
 }

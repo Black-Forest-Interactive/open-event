@@ -3,9 +3,9 @@
   <div class="pb-2"></div>
 }
 
-<app-loading-bar [reloading]="service.reloading()"></app-loading-bar>
+<lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
 
-<div class="flex flex-col gap-2" appScrollNearEnd (nearEnd)="this.service.onScroll()">
+<div class="flex flex-col gap-2" libScrollNearEnd (nearEnd)="this.service.onScroll()">
 
   @for (info of service.entries; track info) {
     <app-event-board-list-entry [info]="info"></app-event-board-list-entry>

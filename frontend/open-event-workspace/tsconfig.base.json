@@ -15,13 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@open-event-workspace/app": ["libs/gateway/app/src/index.ts"],
-      "@open-event-workspace/backoffice": [
-        "libs/gateway/backoffice/src/index.ts"
-      ],
+      "@open-event-workspace/app": ["libs/app/src/index.ts"],
+      "@open-event-workspace/backoffice": ["libs/backoffice/src/index.ts"],
       "@open-event-workspace/core": ["libs/core/src/index.ts"],
       "@open-event-workspace/events": ["libs/events/src/index.ts"],
-      "@open-event-workspace/external": ["libs/gateway/external/src/index.ts"],
+      "@open-event-workspace/external": ["libs/external/src/index.ts"],
       "@open-event-workspace/shared": ["libs/shared/src/index.ts"]
     }
   },

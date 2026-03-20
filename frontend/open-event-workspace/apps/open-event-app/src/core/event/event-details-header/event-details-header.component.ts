@@ -1,5 +1,5 @@
 import {Component, computed, EventEmitter, Input, Output, Signal} from '@angular/core';
-import {Location, NgForOf} from "@angular/common";
+import { Location } from "@angular/common";
 import {EventMenuComponent} from "../event-menu/event-menu.component";
 import {Router} from "@angular/router";
 import {HotToastService} from "@ngxpert/hot-toast";
@@ -27,9 +27,8 @@ import {toSignal} from "@angular/core/rxjs-interop";
     MatMenu,
     MatIcon,
     TranslatePipe,
-    NgForOf,
     MatMenuItem
-  ],
+],
   standalone: true
 })
 export class EventDetailsHeaderComponent {

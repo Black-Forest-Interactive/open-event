@@ -1,28 +1,18 @@
-import {Component, OnInit, output} from '@angular/core';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatSliderModule} from "@angular/material/slider";
-import {MatButtonModule} from "@angular/material/button";
-import {MatChipInputEvent, MatChipsModule} from "@angular/material/chips";
-import {MatSelectModule} from "@angular/material/select";
-import {MatIconModule} from "@angular/material/icon";
-import {FeedbackChangeRequest} from "@open-event-workspace/core";
-import {MatInput} from "@angular/material/input";
-import {TranslatePipe} from "@ngx-translate/core";
+import { Component, OnInit, output } from '@angular/core'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatSliderModule } from '@angular/material/slider'
+import { MatButtonModule } from '@angular/material/button'
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips'
+import { MatSelectModule } from '@angular/material/select'
+import { MatIconModule } from '@angular/material/icon'
+import { FeedbackChangeRequest } from '@open-event-workspace/core'
+import { MatInput } from '@angular/material/input'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'lib-feedback-form',
-  imports: [
-    MatFormFieldModule,
-    MatSliderModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatSelectModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatInput,
-    TranslatePipe,
-  ],
+  imports: [MatFormFieldModule, MatSliderModule, MatButtonModule, MatChipsModule, MatSelectModule, MatIconModule, ReactiveFormsModule, MatInput, TranslatePipe],
   templateUrl: './feedback-form.component.html',
   styleUrl: './feedback-form.component.scss'
 })
@@ -42,8 +32,7 @@ export class FeedbackFormComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get tagsArray(): FormArray {
     return this.feedbackForm.get('tags') as FormArray
@@ -83,6 +72,6 @@ export class FeedbackFormComponent implements OnInit {
   onReset(): void {
     this.feedbackForm.reset()
     this.tagsArray.clear()
-    this.feedbackForm.patchValue({rating: 3})
+    this.feedbackForm.patchValue({ rating: 3 })
   }
 }

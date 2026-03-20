@@ -3,7 +3,7 @@
     <div class="header flex-auto">{{ 'share.title' | translate }}</div>
   </div>
 <!--  <mat-divider class="p-0"></mat-divider>-->
-  <app-loading-bar [reloading]="reloading()"></app-loading-bar>
+  <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
   <div class="flex flex-col justify-center px-3 pb-3 gap-4">
     @if (active()) {
       <share-buttons theme="modern-dark"

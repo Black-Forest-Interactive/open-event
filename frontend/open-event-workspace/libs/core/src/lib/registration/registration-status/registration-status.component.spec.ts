@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import {RegistrationStatusComponent} from './registration-status.component';
+import { RegistrationStatusComponent } from './registration-status.component'
 
 describe('RegistrationStatusComponent', () => {
-  let component: RegistrationStatusComponent;
-  let fixture: ComponentFixture<RegistrationStatusComponent>;
+  let component: RegistrationStatusComponent
+  let fixture: ComponentFixture<RegistrationStatusComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RegistrationStatusComponent]
-    })
-    .compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(RegistrationStatusComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(RegistrationStatusComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

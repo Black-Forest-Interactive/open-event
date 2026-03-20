@@ -1,8 +1,8 @@
-import {Component, input, Input} from '@angular/core';
-import {EventSearchEntry, Participant, RegistrationInfo} from "@open-event-workspace/core";
-import {TranslatePipe} from "@ngx-translate/core";
-import {NgClass} from "@angular/common";
-import {PublicEvent} from "@open-event-workspace/external";
+import { Component, input, Input } from '@angular/core'
+import { EventSearchEntry, Participant, RegistrationInfo } from '@open-event-workspace/core'
+import { TranslatePipe } from '@ngx-translate/core'
+import { NgClass } from '@angular/common'
+import { PublicEvent } from '@open-event-workspace/external'
 
 @Component({
   selector: 'lib-registration-status',
@@ -11,7 +11,6 @@ import {PublicEvent} from "@open-event-workspace/external";
   styleUrl: './registration-status.component.scss'
 })
 export class RegistrationStatusComponent {
-
   maxIndicatorSize = input(10)
 
   spaceAvailable: boolean = false
@@ -25,14 +24,13 @@ export class RegistrationStatusComponent {
   @Input()
   set data(info: RegistrationInfo | undefined) {
     if (info) {
-      let totalAmount = info.participants.filter(p => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
+      let totalAmount = info.participants.filter((p) => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
       this.space.available = info.registration.maxGuestAmount
       this.space.remaining = this.space.available - totalAmount
       this.spaceAvailable = this.space.remaining > 0
       this.updateIndicator()
     }
   }
-
 
   @Input()
   set entry(entry: EventSearchEntry) {
@@ -55,8 +53,7 @@ export class RegistrationStatusComponent {
     if (this.space.available >= this.maxIndicatorSize() || !this.spaceAvailable) {
       this.indicator = []
     } else {
-      this.indicator = Array.from({length: this.space.available}, (_, i) => (i < this.space.remaining ? {key: i, value: 'bg-green-500'} : {key: i, value: 'bg-orange-300'}))
+      this.indicator = Array.from({ length: this.space.available }, (_, i) => (i < this.space.remaining ? { key: i, value: 'bg-green-500' } : { key: i, value: 'bg-orange-300' }))
     }
   }
-
 }

@@ -1,23 +1,20 @@
-import {AccountInfo} from "../account/account.api";
+import { AccountInfo } from '../account/account.api'
 
 export interface ActivityInfo {
-  activity: Activity,
+  activity: Activity
   read: boolean
 }
 
 export interface Activity {
-  id: number,
-  title: string,
-  actor: AccountInfo,
-  source: string,
-  sourceId: number,
-  type: string,
+  id: number
+  title: string
+  actor: AccountInfo
+  source: string
+  sourceId: number
+  type: string
   timestamp: string
 }
 
 export class ActivityCleanupRequest {
-  constructor(
-    public timestamp: string
-  ) {
-  }
+  constructor(public timestamp: string) {}
 }

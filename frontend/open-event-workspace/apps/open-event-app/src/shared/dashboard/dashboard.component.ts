@@ -1,37 +1,24 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {NavigationEnd, Router, RouterLink, RouterOutlet} from "@angular/router";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {filter, map, Observable, withLatestFrom} from "rxjs";
-import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
-import {MainNavItem} from "./main-nav-item";
-import {AuthService, MainMenuComponent} from "@open-event-workspace/shared";
-import {DashboardService} from "./dashboard.service";
-import {AsyncPipe} from "@angular/common";
-import {DashboardToolbarComponent} from "../dashboard-toolbar/dashboard-toolbar.component";
-import {Roles} from "../roles";
-import {AppService} from "../app.service";
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core'
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+import { filter, map, Observable, withLatestFrom } from 'rxjs'
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav'
+import { AuthService, MainMenuComponent, MainNavItem } from '@open-event-workspace/shared'
+import { DashboardService } from './dashboard.service'
+import { AsyncPipe } from '@angular/common'
+import { DashboardToolbarComponent } from '../dashboard-toolbar/dashboard-toolbar.component'
+import { Roles } from '../roles'
+import { AppService } from '../app.service'
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [
-    MatSidenavContainer,
-    AsyncPipe,
-    MatSidenav,
-    MatSidenavContent,
-    RouterLink,
-    MainMenuComponent,
-    RouterOutlet,
-    DashboardToolbarComponent
-  ],
+  imports: [MatSidenavContainer, AsyncPipe, MatSidenav, MatSidenavContent, RouterLink, MainMenuComponent, RouterOutlet, DashboardToolbarComponent],
   standalone: true
 })
 export class DashboardComponent implements AfterViewInit {
-
-
   isHandset$: Observable<boolean>
-
 
   @ViewChild('drawer') drawer: MatSidenav | undefined
 
@@ -41,7 +28,7 @@ export class DashboardComponent implements AfterViewInit {
     new MainNavItem('/address', 'address.title', 'contact_mail', [Roles.ADDRESS_READ]),
     new MainNavItem('/activity', 'activity.title', 'notifications', [Roles.ACTIVITY_READ]),
     new MainNavItem('/feedback', 'feedback.title', 'feedback', [Roles.FEEDBACK_WRITE]),
-    new MainNavItem('/imprint', 'imprint.title', 'copyright', []),
+    new MainNavItem('/imprint', 'imprint.title', 'copyright', [])
   ]
 
   accessibleItems: MainNavItem[] = []
@@ -52,26 +39,23 @@ export class DashboardComponent implements AfterViewInit {
     router: Router,
     private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
-    public service: DashboardService,
+    public service: DashboardService
   ) {
-    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
-      .pipe(map(result => result.matches))
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map((result) => result.matches))
 
-    router.events.pipe(
-      withLatestFrom(this.isHandset$),
-      filter(([a, b]) => b && a instanceof NavigationEnd)
-    ).subscribe(_ => this.drawer?.close())
+    router.events
+      .pipe(
+        withLatestFrom(this.isHandset$),
+        filter(([a, b]) => b && a instanceof NavigationEnd)
+      )
+      .subscribe((_) => this.drawer?.close())
   }
 
-
   ngOnInit() {
-    this.accessibleItems = this.navItems.filter(item => item.isAccessible(this.authService))
-
+    this.accessibleItems = this.navItems.filter((item) => item.isAccessible(this.authService))
   }
 
   ngAfterViewInit() {
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.detectChanges()
   }
-
-
 }

@@ -1,6 +1,6 @@
-import {DateTime} from "luxon";
+import { DateTime } from 'luxon'
 
 export interface EventRangeSelection {
-  from: DateTime,
-  to: DateTime,
+  from: DateTime
+  to: DateTime
 }

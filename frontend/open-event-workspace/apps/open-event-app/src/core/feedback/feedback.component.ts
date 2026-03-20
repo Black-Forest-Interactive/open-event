@@ -1,5 +1,5 @@
 import {Component, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatCard} from "@angular/material/card";
 import {FeedbackChangeRequest, FeedbackFormComponent} from "@open-event-workspace/core";
 import {FeedbackService} from "@open-event-workspace/app";
@@ -10,7 +10,7 @@ import {HotToastService} from "@ngxpert/hot-toast";
 
 @Component({
   selector: 'app-feedback',
-  imports: [CommonModule, MatCard, FeedbackFormComponent, TranslatePipe, MatDivider, LoadingBarComponent],
+  imports: [MatCard, FeedbackFormComponent, TranslatePipe, MatDivider, LoadingBarComponent],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
 })

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {IssueService} from "@open-event-workspace/backoffice";
 import {PageEvent} from "@angular/material/paginator";
 import {Issue} from "@open-event-workspace/core";
@@ -11,7 +11,7 @@ import {IssueTableComponent} from "./issue-table/issue-table.component";
 
 @Component({
   selector: 'app-issue',
-  imports: [CommonModule, BoardComponent, BoardToolbarActions, MatCard, IssueTableComponent],
+  imports: [BoardComponent, BoardToolbarActions, MatCard, IssueTableComponent],
   templateUrl: './issue.component.html',
   styleUrl: './issue.component.scss',
 })

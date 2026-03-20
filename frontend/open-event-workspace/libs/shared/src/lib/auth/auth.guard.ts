@@ -1,31 +1,25 @@
-import {inject} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {AuthGuardData, createAuthGuard} from "keycloak-angular";
+import { inject } from '@angular/core'
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router'
+import { AuthGuardData, createAuthGuard } from 'keycloak-angular'
 
-
-const isAccessAllowed = async (
-  route: ActivatedRouteSnapshot,
-  _: RouterStateSnapshot,
-  authData: AuthGuardData
-): Promise<boolean | UrlTree> => {
-  const {authenticated, grantedRoles} = authData;
-  const requiredRoles = route.data['roles'];
+const isAccessAllowed = async (route: ActivatedRouteSnapshot, _: RouterStateSnapshot, authData: AuthGuardData): Promise<boolean | UrlTree> => {
+  const { authenticated, grantedRoles } = authData
+  const requiredRoles = route.data['roles']
   if (authenticated && (!Array.isArray(requiredRoles) || requiredRoles.length === 0)) {
-    return true;
+    return true
   }
 
-  const hasRequiredRole = (role: string): boolean =>
-    Object.values(grantedRoles.realmRoles).some((roles) => roles.includes(role));
+  const hasRequiredRole = (role: string): boolean => Object.values(grantedRoles.realmRoles).some((roles) => roles.includes(role))
 
   if (authenticated && hasRequiredRole(requiredRoles)) {
-    return true;
+    return true
   }
 
-  const router = inject(Router);
-  return router.parseUrl('/forbidden');
-};
+  const router = inject(Router)
+  return router.parseUrl('/forbidden')
+}
 
-export const canActivateAuthRole = createAuthGuard<CanActivateFn>(isAccessAllowed);
+export const canActivateAuthRole = createAuthGuard<CanActivateFn>(isAccessAllowed)
 
 // @Injectable({
 //   providedIn: 'root'

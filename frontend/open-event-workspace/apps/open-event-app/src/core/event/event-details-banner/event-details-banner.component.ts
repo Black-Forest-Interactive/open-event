@@ -2,7 +2,7 @@ import {Component, computed, effect, input, signal} from '@angular/core';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatIconModule} from "@angular/material/icon";
 import {EventInfo} from "@open-event-workspace/core";
-import {CommonModule} from "@angular/common";
+
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ImageUploadService} from "@open-event-workspace/app";
 import {MatButtonModule} from '@angular/material/button';
@@ -12,13 +12,12 @@ import {HotToastService} from "@ngxpert/hot-toast";
 @Component({
   selector: 'app-event-details-banner',
   imports: [
-    CommonModule,
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
     MatProgressBarModule,
     MatProgressSpinnerModule
-  ],
+],
   templateUrl: './event-details-banner.component.html',
   styleUrl: './event-details-banner.component.scss'
 })

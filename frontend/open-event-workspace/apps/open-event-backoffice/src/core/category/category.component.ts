@@ -1,5 +1,5 @@
 import {Component, EventEmitter} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -20,7 +20,7 @@ import {BoardComponent, BoardToolbarActions} from "../../shared/board/board.comp
 
 @Component({
   selector: 'boffice-category',
-  imports: [CommonModule, MatCardModule, MatIconModule, MatToolbarModule, MatFormFieldModule, MatButtonModule, MatInputModule, TranslatePipe, CategoryTableComponent, BoardComponent, BoardToolbarActions],
+  imports: [MatCardModule, MatIconModule, MatToolbarModule, MatFormFieldModule, MatButtonModule, MatInputModule, TranslatePipe, CategoryTableComponent, BoardComponent, BoardToolbarActions],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
 })

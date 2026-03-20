@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {AddressBoardComponent} from "../../address/address-board/address-board.component";
 
 @Component({
   selector: 'app-account-address',
-  imports: [CommonModule, AddressBoardComponent],
+  imports: [AddressBoardComponent],
   templateUrl: './account-address.component.html',
   styleUrl: './account-address.component.scss',
 })

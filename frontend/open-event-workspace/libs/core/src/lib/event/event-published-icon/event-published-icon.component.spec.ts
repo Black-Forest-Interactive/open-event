@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import {EventPublishedIconComponent} from './event-published-icon.component';
+import { EventPublishedIconComponent } from './event-published-icon.component'
 
 describe('EventPublishedIconComponent', () => {
-  let component: EventPublishedIconComponent;
-  let fixture: ComponentFixture<EventPublishedIconComponent>;
+  let component: EventPublishedIconComponent
+  let fixture: ComponentFixture<EventPublishedIconComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EventPublishedIconComponent]
-    })
-    .compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(EventPublishedIconComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(EventPublishedIconComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import {CategoryChangeComponent} from './category-change.component';
+import { CategoryChangeComponent } from './category-change.component'
 
 describe('CategoryChangeComponent', () => {
-  let component: CategoryChangeComponent;
-  let fixture: ComponentFixture<CategoryChangeComponent>;
+  let component: CategoryChangeComponent
+  let fixture: ComponentFixture<CategoryChangeComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CategoryChangeComponent]
-    })
-    .compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(CategoryChangeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(CategoryChangeComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

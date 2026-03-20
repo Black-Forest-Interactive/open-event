@@ -1,23 +1,22 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import {EventRangePickerComponent} from './event-range-picker.component';
+import { EventRangePickerComponent } from './event-range-picker.component'
 
 describe('EventRangePickerComponent', () => {
-  let component: EventRangePickerComponent;
-  let fixture: ComponentFixture<EventRangePickerComponent>;
+  let component: EventRangePickerComponent
+  let fixture: ComponentFixture<EventRangePickerComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EventRangePickerComponent]
-    })
-    .compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(EventRangePickerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(EventRangePickerComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

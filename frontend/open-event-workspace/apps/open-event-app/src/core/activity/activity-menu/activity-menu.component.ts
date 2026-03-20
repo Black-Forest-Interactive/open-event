@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, signal, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
@@ -13,7 +13,7 @@ import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-activity-menu',
-  imports: [CommonModule, MatButton, MatIcon, MatMenu, TranslatePipe, ActivityListComponent, MatProgressBar],
+  imports: [MatButton, MatIcon, MatMenu, TranslatePipe, ActivityListComponent, MatProgressBar],
   templateUrl: './activity-menu.component.html',
   styleUrl: './activity-menu.component.scss',
 })

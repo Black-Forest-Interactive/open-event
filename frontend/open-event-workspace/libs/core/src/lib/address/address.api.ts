@@ -1,20 +1,19 @@
-import {Observable} from "rxjs";
-import {Page} from "@open-event-workspace/shared";
+import { Observable } from 'rxjs'
+import { Page } from '@open-event-workspace/shared'
 
 export interface Address {
-  id: number,
+  id: number
 
-  street: string,
-  streetNumber: string,
-  zip: string,
-  city: string,
-  country: string,
-  additionalInfo: string,
+  street: string
+  streetNumber: string
+  zip: string
+  city: string
+  country: string
+  additionalInfo: string
 
-  lat: number,
-  lon: number,
+  lat: number
+  lon: number
 }
-
 
 export class AddressChangeRequest {
   constructor(
@@ -25,9 +24,8 @@ export class AddressChangeRequest {
     public country: string,
     public additionalInfo: string,
     public lat: number,
-    public lon: number,
-  ) {
-  }
+    public lon: number
+  ) {}
 }
 
 export interface AddressReadAPI {

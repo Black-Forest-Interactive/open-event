@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
-import {CommonModule} from "@angular/common";
+
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -13,7 +13,7 @@ import {DateTime} from "luxon";
 
 @Component({
   selector: 'app-activity-cleanup-dialog',
-  imports: [CommonModule, TranslatePipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatDialogModule, MatButtonModule],
+  imports: [TranslatePipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatDialogModule, MatButtonModule],
   templateUrl: './activity-cleanup-dialog.component.html',
   styleUrl: './activity-cleanup-dialog.component.scss'
 })

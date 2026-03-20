@@ -26,6 +26,7 @@ export * from './lib/loading-bar/loading-bar.component'
 export * from './lib/loading-screen/loading-screen.component'
 
 export * from './lib/main-menu/main-menu.component'
+export * from './lib/main-menu/main-nav-item'
 
 export * from './lib/page-not-found/page-not-found.component'
 

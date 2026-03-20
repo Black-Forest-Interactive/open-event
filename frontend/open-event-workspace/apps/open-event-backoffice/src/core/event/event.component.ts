@@ -1,5 +1,5 @@
 import {Component, EventEmitter} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {defaultEventSearchRequest, EventRangePickerComponent, EventRangeSelection, EventSearchEntry, EventSearchResponse} from "@open-event-workspace/core";
 import {EventService, ExportService} from "@open-event-workspace/backoffice";
 import {HotToastService} from "@ngxpert/hot-toast";
@@ -24,9 +24,20 @@ import {Sort} from "@angular/material/sort";
 @Component({
   selector: 'boffice-event',
   imports: [
-    CommonModule, MatCard, EventTableComponent, BoardComponent, BoardToolbarActions, ReactiveFormsModule, EventRangePickerComponent,
-    MatIcon, MatMiniFabButton, MatMiniFabButton, ExportEventsButtonComponent, ExportSummaryButtonComponent, MatTooltip, TranslatePipe
-  ],
+    MatCard,
+    EventTableComponent,
+    BoardComponent,
+    BoardToolbarActions,
+    ReactiveFormsModule,
+    EventRangePickerComponent,
+    MatIcon,
+    MatMiniFabButton,
+    MatMiniFabButton,
+    ExportEventsButtonComponent,
+    ExportSummaryButtonComponent,
+    MatTooltip,
+    TranslatePipe
+],
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss',
 })

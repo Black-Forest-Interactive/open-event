@@ -1,14 +1,14 @@
-import {Participant, ParticipantDetails} from "../participant/participant.api";
+import { Participant, ParticipantDetails } from '../participant/participant.api'
 
 export interface Registration {
-  id: number,
-  maxGuestAmount: number,
-  interestedAllowed: boolean,
+  id: number
+  maxGuestAmount: number
+  interestedAllowed: boolean
   ticketsEnabled: boolean
 }
 
 export interface RegistrationInfo {
-  registration: Registration,
+  registration: Registration
   participants: Participant[]
 }
 
@@ -17,15 +17,11 @@ export class RegistrationChangeRequest {
     public maxGuestAmount: number,
     public interestedAllowed: boolean,
     public ticketsEnabled: boolean
-  ) {
-  }
+  ) {}
 }
 
 export class ParticipateRequest {
-  constructor(
-    public size: number
-  ) {
-  }
+  constructor(public size: number) {}
 }
 
 export class ParticipantAddRequest {
@@ -36,18 +32,16 @@ export class ParticipantAddRequest {
     public phone: string,
     public mobile: string,
     public size: number
-  ) {
-  }
+  ) {}
 }
 
 export interface ParticipateResponse {
-  registration: Registration,
-  participants: Participant[],
+  registration: Registration
+  participants: Participant[]
   status: string
 }
 
-
 export interface RegistrationDetails {
-  registration: Registration,
+  registration: Registration
   participants: ParticipantDetails[]
 }

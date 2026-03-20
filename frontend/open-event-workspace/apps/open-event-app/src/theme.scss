@@ -1,251 +1,165 @@
 @use '@angular/material' as mat;
-@use "sass:map";
 
-$open-event-primary-palette: (
-  50 : #e5e5e5,
-  100 : #bebebf,
-  200 : #939395,
-  300 : #68686a,
-  400 : #47474a,
-  500 : #27272a,
-  600 : #232325,
-  700 : #1d1d1f,
-  800 : #171719,
-  900 : #0e0e0f,
-  A100 : #6767ee,
-  A200 : #3a3ae9,
-  A400 : #0000ef,
-  A700 : #0000d5,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #ffffff,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #ffffff,
-    A200 : #ffffff,
-    A400 : #ffffff,
-    A700 : #ffffff,
-  )
-);
+// ─────────────────────────────────────────────────────────────────────────────
+// M3 Theme Definition
+//
+// M3 no longer uses hand-crafted Sass color maps — it uses tonal palettes.
+// Mapping from your M2 setup:
+//   primary  → primary   (mat.$azure-palette  — swap to mat.$violet-palette etc. to taste)
+//   accent   → secondary (mat.$green-palette  — matches your #239158 green)
+//   warn     → error     (handled automatically by M3, no palette needed)
+//
+// For pixel-perfect brand colors, generate a custom theme at:
+// https://material-foundation.github.io/material-theme-builder/
+// ─────────────────────────────────────────────────────────────────────────────
 
-
-$open-event-accent-palette: (
-  50: #e5f2eb,
-  100: #bddecd,
-  200: #91c8ac,
-  300: #65b28a,
-  400: #44a271,
-  500: #239158,
-  600: #1f8950,
-  700: #1a7e47,
-  800: #15743d,
-  900: #0c622d,
-  A100: #96ffb9,
-  A200: #63ff97,
-  A400: #30ff75,
-  A700: #16ff64,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #000000,
-    400 : #000000,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
-  )
-);
-
-$open-event-warn-palette: (
-  50 : #fde8e5,
-  100 : #fac5be,
-  200 : #f79e92,
-  300 : #f47766,
-  400 : #f15a46,
-  500 : #ef3d25,
-  600 : #ed3721,
-  700 : #eb2f1b,
-  800 : #e82716,
-  900 : #e41a0d,
-  A100 : #ffffff,
-  A200 : #ffdedc,
-  A400 : #ffada9,
-  A700 : #ff9490,
-  contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #000000,
-    400 : #000000,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #000000,
-    A200 : #000000,
-    A400 : #000000,
-    A700 : #000000,
-  )
-);
-
-
-$open-event-primary: mat.m2-define-palette($open-event-primary-palette);
-$open-event-accent: mat.m2-define-palette($open-event-accent-palette);
-$open-event-warn: mat.m2-define-palette($open-event-warn-palette);
-
-$open-event-theme: mat.m2-define-light-theme((
+$open-event-theme: mat.define-theme((
   color: (
-    primary: $open-event-primary,
-    accent: $open-event-accent,
-    warn: $open-event-warn,
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$green-palette,
   ),
-  typography: mat.m2-define-typography-config(),
-  density: 0,
-)
-);
+  typography: (
+    use-system-variables: true,
+  ),
+  density: (scale: 0),
+));
 
-@include mat.all-component-themes($open-event-theme);
+html {
+  @include mat.all-component-themes($open-event-theme);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Utility classes
+//
+// M3 replaces Sass map.get($palette, default / lighter / default-contrast) with
+// CSS custom properties (--mat-sys-*). Key mappings:
+//
+//   M2                                  M3
+//   map.get($accent,  default)        → var(--mat-sys-secondary)
+//   map.get($accent,  default-contrast)→ var(--mat-sys-on-secondary)
+//   map.get($accent,  lighter)        → var(--mat-sys-secondary-container)
+//   map.get($accent,  lighter-contrast)→ var(--mat-sys-on-secondary-container)
+//   map.get($primary, default)        → var(--mat-sys-primary)
+//   map.get($primary, default-contrast)→ var(--mat-sys-on-primary)
+//   map.get($primary, lighter)        → var(--mat-sys-primary-container)
+//   map.get($warn,    default)        → var(--mat-sys-error)
+//   map.get($warn,    default-contrast)→ var(--mat-sys-on-error)
+//   map.get($warn,    lighter)        → var(--mat-sys-error-container)
+// ─────────────────────────────────────────────────────────────────────────────
 
 .available {
-  //background: map.get($open-event-accent, default);
-  //color: map.get($open-event-accent, default-contrast);
-  color: map.get($open-event-accent, default);
+  color: var(--mat-sys-secondary);
 }
 
 .full {
-  //background: map.get($open-event-warn, default);
-  //color: map.get($open-event-warn, default-contrast);
-  color: map.get($open-event-warn, default);
+  color: var(--mat-sys-error);
 }
 
 .mat-button-toggle-checked button {
-  background-color: map.get($open-event-accent, default);
-  color: map.get($open-event-accent, default-contrast);
+  background-color: var(--mat-sys-secondary);
+  color: var(--mat-sys-on-secondary);
 }
-
 
 .toolbar-action-fab {
   background-color: unset !important;
   color: black !important;
-  border: map.get($open-event-primary, default) 1px solid !important;
+  border: var(--mat-sys-primary) 1px solid !important;
 }
 
 .toolbar-action-fab:hover {
-  background-color: map.get($open-event-accent, default) !important;
+  background-color: var(--mat-sys-secondary) !important;
 }
 
 .bg-accent-default {
-  background-color: map.get($open-event-accent, default) !important;
-  color: map.get($open-event-accent, default-contrast) !important;
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
 }
 
 .bg-primary-default {
-  background-color: map.get($open-event-primary, default) !important;
-  color: map.get($open-event-primary, default-contrast) !important;
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
 }
 
 .bg-warn-default {
-  background-color: map.get($open-event-warn, default) !important;
-  color: map.get($open-event-warn, default-contrast) !important;
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
 }
 
 .border-accent-default {
-  border-color: map.get($open-event-accent, default) !important;
+  border-color: var(--mat-sys-secondary) !important;
 }
 
 .border-primary-default {
-  border-color: map.get($open-event-primary, default) !important;
+  border-color: var(--mat-sys-primary) !important;
 }
 
 .border-warn-default {
-  border-color: map.get($open-event-warn, default) !important;
+  border-color: var(--mat-sys-error) !important;
 }
 
+// Marker clusters — "lighter" maps to M3 container colors
 .marker-cluster-small {
-  //background-color: rgba(181, 226, 140, 0.6);
-  background-color: map.get($open-event-primary, lighter) !important;
-  color: map.get($open-event-primary, default-contrast) !important;
+  background-color: var(--mat-sys-primary-container) !important;
+  color: var(--mat-sys-on-primary-container) !important;
 }
 
 .marker-cluster-small div {
-  //background-color: rgba(110, 204, 57, 0.6);
-  background-color: map.get($open-event-primary, default) !important;
-  color: map.get($open-event-primary, default-contrast) !important;
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
 }
 
 .marker-cluster-medium {
-  //background-color: rgba(241, 211, 87, 0.6);
-  background-color: map.get($open-event-accent, lighter) !important;
-  color: map.get($open-event-accent, default-contrast) !important;
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
 }
 
 .marker-cluster-medium div {
-  //background-color: rgba(240, 194, 12, 0.6);
-  background-color: map.get($open-event-accent, default) !important;
-  color: map.get($open-event-accent, default-contrast) !important;
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
 }
 
 .marker-cluster-large {
-  //background-color: rgba(253, 156, 115, 0.6);
-  background-color: map.get($open-event-warn, lighter) !important;
-  color: map.get($open-event-warn, default-contrast) !important;
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
 }
 
 .marker-cluster-large div {
-  //background-color: rgba(241, 128, 23, 0.6);
-  background-color: map.get($open-event-warn, default) !important;
-  color: map.get($open-event-warn, default-contrast) !important;
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
 }
-
 
 .sidenav {
   min-width: 280px;
   max-width: 280px;
-  background-color: map.get($open-event-primary, default) !important;
-  color: map.get($open-event-primary, default-contrast) !important;
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
 }
 
 .main-menu-item {
-  //color: map.get($open-event-primary, default-contrast) !important;
+  // color: var(--mat-sys-on-primary) !important;
 }
 
 .active {
-  background-color: map.get($open-event-accent, default) !important;
-  color: map.get($open-event-accent, default-contrast) !important;
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
   border-style: solid;
 }
 
-.main-menu-item {
-  //color: map.get($open-event-primary, default-contrast) !important;
-}
-
 .menu-active {
-  background-color: map.get($open-event-accent, default) !important;
-  color: map.get($open-event-accent, default-contrast) !important;
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
   border-style: solid;
 }
 
 .menu-unselected {
-  background-color: map.get($open-event-accent, lighter);
-  color: map.get($open-event-accent, lighter-contrast);
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
   border-style: solid;
 }
 
 .second-toolbar {
-  background-color: map.get($open-event-accent, lighter) !important;
-  color: map.get($open-event-accent, lighter-contrast) !important;
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
 }
-

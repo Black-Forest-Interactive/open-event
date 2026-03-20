@@ -1,26 +1,17 @@
-import {Component, effect, input, output} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {TranslatePipe} from "@ngx-translate/core";
-import {Category, CategoryChangeRequest} from '../category.api';
+import { Component, effect, input, output } from '@angular/core'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field'
+import { MatInput } from '@angular/material/input'
+import { TranslatePipe } from '@ngx-translate/core'
+import { Category, CategoryChangeRequest } from '../category.api'
 
 @Component({
   selector: 'lib-category-change',
-  imports: [
-    FormsModule,
-    MatFormField,
-    MatHint,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    TranslatePipe
-  ],
+  imports: [FormsModule, MatFormField, MatHint, MatInput, MatLabel, ReactiveFormsModule, TranslatePipe],
   templateUrl: './category-change.component.html',
   styleUrl: './category-change.component.scss'
 })
 export class CategoryChangeComponent {
-
   data = input<Category>()
   request = output<CategoryChangeRequest>()
 
@@ -29,17 +20,14 @@ export class CategoryChangeComponent {
   constructor(private fb: FormBuilder) {
     this.fg = this.fb.group({
       name: this.fb.control('', Validators.required),
-      iconUrl: this.fb.control(''),
+      iconUrl: this.fb.control('')
     })
-
 
     effect(() => {
       let category = this.data()
-      if(category) this.handleDataChanged(category)
-    });
+      if (category) this.handleDataChanged(category)
+    })
   }
-
-
 
   private handleDataChanged(category: Category) {
     this.fg.get('name')?.setValue(category.name)

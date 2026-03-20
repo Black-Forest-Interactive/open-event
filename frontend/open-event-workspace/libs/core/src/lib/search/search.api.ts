@@ -1,6 +1,6 @@
-import {Page} from "@open-event-workspace/shared";
-import {AccountInfo} from "../account/account.api";
-import {Category} from "../category/category.api";
+import { Page } from '@open-event-workspace/shared'
+import { AccountInfo } from '../account/account.api'
+import { Category } from '../category/category.api'
 
 export class EventSearchRequest {
   public constructor(
@@ -10,68 +10,62 @@ export class EventSearchRequest {
     public ownEvents: boolean,
     public participatingEvents: boolean,
     public onlyAvailableEvents: boolean
-  ) {
-  }
+  ) {}
 }
 
 export function defaultEventSearchRequest() {
   return new EventSearchRequest('', undefined, undefined, false, false, false)
 }
 
-
 export interface EventSearchResponse {
   result: Page<EventSearchEntry>
 }
 
-
 export interface EventSearchEntry {
   // event data
-  id: number,
-  created: string,
-  updated: string,
-  start: string,
-  finish: string,
+  id: number
+  created: string
+  updated: string
+  start: string
+  finish: string
 
-  title: string,
-  shortText: string,
-  longText: string,
-  published: boolean,
-  shared: boolean,
+  title: string
+  shortText: string
+  longText: string
+  published: boolean
+  shared: boolean
 
-  owner: AccountInfo,
+  owner: AccountInfo
 
   // location data
-  hasLocation: boolean,
-  street: string,
-  streetNumber: string,
-  zip: string,
-  city: string,
-  country: string,
+  hasLocation: boolean
+  street: string
+  streetNumber: string
+  zip: string
+  city: string
+  country: string
 
-  lat: number,
-  lon: number,
+  lat: number
+  lon: number
 
   // registration data
-  hasSpaceLeft: boolean,
-  maxGuestAmount: number,
-  amountAccepted: number,
-  amountOnWaitingList: number,
-  remainingSpace: number,
+  hasSpaceLeft: boolean
+  maxGuestAmount: number
+  amountAccepted: number
+  amountOnWaitingList: number
+  remainingSpace: number
 
   // user specific flags
-  ownEvent: boolean,
-  participatingEvent: boolean,
+  ownEvent: boolean
+  participatingEvent: boolean
 
   // categories
-  categories: string[],
-  tags: string[],
+  categories: string[]
+  tags: string[]
 }
 
 export class AccountSearchRequest {
-  public constructor(
-    public fullTextSearch: string,
-  ) {
-  }
+  public constructor(public fullTextSearch: string) {}
 }
 
 export interface AccountSearchResponse {
@@ -79,20 +73,17 @@ export interface AccountSearchResponse {
 }
 
 export interface AccountSearchEntry {
-  id: number,
-  name: string,
-  email: string,
-  phone: string,
-  mobile: string,
-  firstName: string,
-  lastName: string,
+  id: number
+  name: string
+  email: string
+  phone: string
+  mobile: string
+  firstName: string
+  lastName: string
 }
 
 export class CategorySearchRequest {
-  public constructor(
-    public fullTextSearch: string,
-  ) {
-  }
+  public constructor(public fullTextSearch: string) {}
 }
 
 export interface CategorySearchResponse {
@@ -100,14 +91,14 @@ export interface CategorySearchResponse {
 }
 
 export interface SearchOperatorInfo {
-  key: string,
-  name: string,
-  status: string,
+  key: string
+  name: string
+  status: string
   statistics: SearchOperatorStats
 }
 
 export interface SearchOperatorStats {
-  total: number,
-  successful: number,
-  failed: number,
+  total: number
+  successful: number
+  failed: number
 }

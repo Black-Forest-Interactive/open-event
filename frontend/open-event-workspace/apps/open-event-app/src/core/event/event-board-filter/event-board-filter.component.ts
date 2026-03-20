@@ -11,7 +11,7 @@ import {MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput, MatDateRang
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {NgClass, NgForOf} from "@angular/common";
+import { NgClass } from "@angular/common";
 import {MatButton} from "@angular/material/button";
 
 @Component({
@@ -35,14 +35,15 @@ import {MatButton} from "@angular/material/button";
     MatProgressBar,
     MatSelect,
     MatOption,
-    NgForOf,
     MatButton,
     NgClass,
     MatLabel,
     MatError,
     MatCardTitle,
-    MatFormFieldModule, MatDatepickerModule, FormsModule
-  ],
+    MatFormFieldModule,
+    MatDatepickerModule,
+    FormsModule
+],
   standalone: true
 })
 export class EventBoardFilterComponent {

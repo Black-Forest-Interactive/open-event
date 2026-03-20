@@ -1,5 +1,5 @@
 import {Component, EventEmitter} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {Setting} from "@open-event-workspace/core";
 import {MatDialog} from "@angular/material/dialog";
 import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
@@ -17,7 +17,6 @@ import {BoardComponent, BoardToolbarActions} from "../../shared/board/board.comp
 @Component({
   selector: 'boffice-settings',
   imports: [
-    CommonModule,
     TranslatePipe,
     MatToolbarModule,
     MatCardModule,
@@ -27,9 +26,8 @@ import {BoardComponent, BoardToolbarActions} from "../../shared/board/board.comp
     MatButton,
     BoardComponent,
     BoardToolbarActions,
-    MatIconButton,
-
-  ],
+    MatIconButton
+],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
 })
