@@ -1,19 +1,22 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.2.21"
-    kotlin("plugin.allopen") version "2.2.21"
-    kotlin("plugin.jpa") version "2.2.21"
-    kotlin("plugin.serialization") version "2.2.21"
-    id("com.google.devtools.ksp") version "2.3.0"
-    id("org.sonarqube") version "7.0.0.6105"
+    kotlin("jvm") version "2.3.10"
+    kotlin("plugin.allopen") version "2.3.10"
+    kotlin("plugin.jpa") version "2.3.10"
+    kotlin("plugin.serialization") version "2.3.10"
+
+    id("com.google.devtools.ksp") version "2.3.6"
+    id("org.sonarqube") version "7.2.3.7755"
     id("net.researchgate.release") version "3.1.0"
+    id("com.google.cloud.tools.jib") version "3.5.3"
+
+    id("io.micronaut.application") version "4.6.2"
+    id("io.micronaut.test-resources") version "4.6.2"
+    id("io.micronaut.aot") version "4.6.2"
+
     id("maven-publish")
-    id("com.google.cloud.tools.jib") version "3.4.5"
-    id("io.micronaut.application") version "4.6.0"
-    id("io.micronaut.test-resources") version "4.6.0"
-    id("io.micronaut.aot") version "4.6.0"
-    jacoco
+    id("jacoco")
 }
 
 repositories {
@@ -51,12 +54,12 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.5.20")
+    implementation("ch.qos.logback:logback-classic:1.5.32")
     runtimeOnly("org.yaml:snakeyaml")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.0")
-    testImplementation("io.mockk:mockk:1.14.6")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.3")
+    testImplementation("io.mockk:mockk:1.14.9")
 
     // jackson
     ksp("io.micronaut.serde:micronaut-serde-processor")
@@ -82,17 +85,17 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:4.15.0")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:4.17.1")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.21")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.3.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.10")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.2.2")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
 
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
@@ -118,16 +121,17 @@ dependencies {
     implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.11")
 
     // OpenPDF
-    implementation("com.github.librepdf:openpdf:3.0.0")
-    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.0.3")
+    implementation("com.github.librepdf:openpdf:3.0.3")
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.1.0")
 
     // qrcode
-    implementation("com.google.zxing:core:3.5.3")
-    implementation("com.google.zxing:javase:3.5.3")
+    implementation("com.google.zxing:core:3.5.4")
+    implementation("com.google.zxing:javase:3.5.4")
 
     // POI
-    implementation("org.apache.poi:poi:5.4.1")
-    implementation("org.apache.poi:poi-ooxml:5.4.1")
+    implementation("org.apache.poi:poi:5.5.1")
+    implementation("org.apache.poi:poi-ooxml:5.5.1")
+    implementation("builders.dsl:spreadsheet-builder-poi:3.1.1.1")
 
     // mail
     implementation("org.simplejavamail:simple-java-mail:8.12.6")
@@ -138,9 +142,9 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.opensearch:opensearch-testcontainers:4.0.0")
+    testImplementation("org.opensearch:opensearch-testcontainers:4.1.0")
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
-    testImplementation("io.fusionauth:fusionauth-jwt:5.3.3")
+    testImplementation("io.fusionauth:fusionauth-jwt:6.0.0")
 
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
@@ -157,20 +161,27 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
 }
+
+
+graalvmNative.toolchainDetection = false
+
+tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
+    jdkVersion = "25"
+}
+
 
 tasks {
     compileKotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_25)
         }
     }
 
     compileTestKotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_25)
         }
     }
 }
@@ -196,10 +207,14 @@ jacoco {
     toolVersion = "0.8.13"
 }
 
+tasks.named("internalStartTestResourcesService") {
+    setProperty("useClassDataSharing", false)
+}
+
 sonar {
     properties {
-        property("sonar.projectKey", "Black-Forrest-Development_open-event")
-        property("sonar.organization", "black-forrest-development")
+        property("sonar.projectKey", "Black-Forest-Interactive_open-event")
+        property("sonar.organization", "black-forest-interactive")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.core.codeCoveragePlugin", "jacoco")
@@ -212,32 +227,35 @@ application {
 }
 
 jib {
-    from.image = "eclipse-temurin:24-jre-ubi9-minimal"
+    from.image = "eclipse-temurin:25-jre-alpine"
     to {
         image = "open-event-backend"
         tags = setOf(version.toString(), "latest")
     }
     container {
         creationTime.set("USE_CURRENT_TIMESTAMP")
-
+        mainClass = application.mainClass.get()
         jvmFlags = listOf(
             "-server",
             "-XX:+UseContainerSupport",
             "-XX:MaxRAMPercentage=75.0",
-
-            // Java 21+ ZGC for better performance
             "-XX:+UseZGC",
-            "-XX:+UnlockExperimentalVMOptions",
-
+            "-XX:ZCollectionInterval=5",
+            "-XX:ZUncommitDelay=300",
             "-XX:+TieredCompilation",
+            "-XX:TieredStopAtLevel=1",  // Fast startup for microservices
+            "-XX:+UseStringDeduplication",
+            "-XX:+OptimizeStringConcat",
             "-Dmicronaut.runtime.environment=prod",
-            "-Dio.netty.allocator.maxOrder=3"
+            "-Dio.netty.allocator.maxOrder=3",
+            "-Dio.netty.leakDetection.level=disabled"  // Production setting
         )
 
         user = "1001"
 
         environment = mapOf(
-            "JAVA_TOOL_OPTIONS" to "-XX:+ExitOnOutOfMemoryError"
+            "JAVA_TOOL_OPTIONS" to "-XX:+ExitOnOutOfMemoryError",
+            "MALLOC_ARENA_MAX" to "2"  // Reduce memory fragmentation
         )
     }
 }
