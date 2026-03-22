@@ -1,0 +1,78 @@
+{
+  "action": {
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "help": "Help",
+    "yes": "Yes",
+    "no": "No",
+    "logout": "Logout",
+    "collapse": "Collapse",
+    "close": "Close",
+    "ok": "Ok",
+    "details": "Details",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete"
+  },
+  "event": {
+    "property": {
+      "owner": "Owner",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "registration": "Registration"
+    }
+  },
+  "registration": {
+    "peopleAmount": "Amount of people",
+    "status": {
+      "full": "Full",
+      "available": "seats available"
+    },
+    "dialog": {
+      "manual": {
+        "title": "Add participant",
+        "question": "Add the data of the participant please"
+      },
+      "response": {
+        "title": "Participation request Received",
+        "content": {
+          "1": "Thank you for your registration! Your participation request has been successfully submitted.",
+          "2": "You will receive a confirmation email shortly with further information and instructions.",
+          "3": "Please also check your spam folder if the email doesn't appear in your inbox."
+        },
+        "error": "Unfortunately, your participation request could not be submitted. A technical error has occurred.\\n\\nPlease try again in a few minutes or contact support if the problem persists."
+      },
+      "confirmed": {
+        "title": "Registration confirmed",
+        "content": {
+          "1": "Your Registration has been completed successfully."
+        }
+      }
+    },
+    "action": {
+      "participate": "Participate on event",
+      "confirm": "Complete registration"
+    }
+  },
+  "account": {
+    "form": {
+      "name": "Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "mobile": "Mobile"
+    }
+  },
+  "participant": {
+    "property": {
+      "size": "Size",
+      "rank": "Rank",
+      "status": "Status",
+      "waitingList": "Waiting List"
+    }
+  }
+}

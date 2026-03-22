@@ -1,0 +1,31 @@
+<app-board [reloading]="loading()" (reload)="accountResource.reload()" [showSearch]="false" title="account.title" [showBack]="true" (back)="back()">
+  <div class="flex flex-col gap-4 p-4 content-stretch ">
+    @if (account()) {
+      <div class="flex flex-row gap-6">
+        <div class="flex flex-col gap-4 content-stretch">
+          <app-account-details-title [data]="account()!!" class="flex-auto"></app-account-details-title>
+          <app-account-details-profile [data]="account()!!" class="flex-auto"></app-account-details-profile>
+          <app-account-details-preferences [data]="account()!!" class="flex-auto"></app-account-details-preferences>
+        </div>
+        <div class="rounded-lg border-gray-500 border flex-auto">
+          <mat-tab-group>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>event_note</mat-icon>
+                {{ 'account.details.events' | translate }}
+              </ng-template>
+              <app-account-details-events [data]="account()!!"></app-account-details-events>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>home_pin</mat-icon>
+                {{ 'account.details.address' | translate }}
+              </ng-template>
+              <app-account-details-address [data]="account()!!"></app-account-details-address>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    }
+  </div>
+</app-board>

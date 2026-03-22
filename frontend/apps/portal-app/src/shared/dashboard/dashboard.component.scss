@@ -1,0 +1,22 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  min-width: 280px;
+  max-width: 280px;
+  background-color: #27272A;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
+

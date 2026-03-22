@@ -1,0 +1,110 @@
+<form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 p-6 mx-auto">
+
+  <!-- Topic Field -->
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>{{ 'feedback.topic.label' | translate }}</mat-label>
+    <mat-select formControlName="topic">
+      <mat-option value="bug">{{ 'feedback.topic.options.bug' | translate }}</mat-option>
+      <mat-option value="feature">{{ 'feedback.topic.options.feature' | translate }}</mat-option>
+      <mat-option value="improvement">{{ 'feedback.topic.options.improvement' | translate }}</mat-option>
+      <mat-option value="ui-ux">{{ 'feedback.topic.options.ui_ux' | translate }}</mat-option>
+      <mat-option value="performance">{{ 'feedback.topic.options.performance' | translate }}</mat-option>
+      <mat-option value="documentation">{{ 'feedback.topic.options.documentation' | translate }}</mat-option>
+      <mat-option value="other">{{ 'feedback.topic.options.other' | translate }}</mat-option>
+    </mat-select>
+    @if (feedbackForm.get('topic')?.errors?.['required'] && feedbackForm.get('topic')?.touched) {
+      <mat-error>{{ 'feedback.topic.error_required' | translate }}</mat-error>
+    }
+  </mat-form-field>
+
+  <!--  &lt;!&ndash; Subject Field &ndash;&gt;-->
+  <!--  <mat-form-field appearance="outline" class="w-full">-->
+  <!--    <mat-label>{{ 'feedback.subject.label' | translate }}</mat-label>-->
+  <!--    <input matInput-->
+  <!--           [placeholder]="'feedback.subject.placeholder' | translate"-->
+  <!--           formControlName="subject">-->
+  <!--    @if (feedbackForm.get('subject')?.errors?.['required'] && feedbackForm.get('subject')?.touched) {-->
+  <!--      <mat-error>{{ 'feedback.subject.error_required' | translate }}</mat-error>-->
+  <!--    }-->
+  <!--    @if (feedbackForm.get('subject')?.errors?.['minlength'] && feedbackForm.get('subject')?.touched) {-->
+  <!--      <mat-error>{{ 'feedback.subject.error_minlength' | translate }}</mat-error>-->
+  <!--    }-->
+  <!--  </mat-form-field>-->
+
+  <!-- Description Field -->
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>{{ 'feedback.description.label' | translate }}</mat-label>
+    <textarea matInput
+              [placeholder]="'feedback.description.placeholder' | translate"
+              rows="8"
+              formControlName="description">
+            </textarea>
+    @if (feedbackForm.get('description')?.errors?.['required'] && feedbackForm.get('description')?.touched) {
+      <mat-error>{{ 'feedback.description.error_required' | translate }}</mat-error>
+    }
+    @if (feedbackForm.get('description')?.errors?.['minlength'] && feedbackForm.get('description')?.touched) {
+      <mat-error>{{ 'feedback.description.error_minlength' | translate }}</mat-error>
+    }
+  </mat-form-field>
+
+
+  <!--  &lt;!&ndash; Tags Field &ndash;&gt;-->
+  <!--  <div class="flex flex-col gap-2">-->
+  <!--    <label class="text-sm font-medium text-gray-700">{{ 'feedback.tags.label' | translate }}</label>-->
+  <!--    <mat-form-field appearance="outline" class="w-full">-->
+  <!--      <mat-chip-grid #chipGrid>-->
+  <!--        @for (tag of tagsArray.controls; track $index; let i = $index) {-->
+  <!--          <mat-chip-row (removed)="removeTag(i)"-->
+  <!--                        [removable]="true">-->
+  <!--            {{tag.value}}-->
+  <!--            <button matChipRemove>-->
+  <!--              <mat-icon>cancel</mat-icon>-->
+  <!--            </button>-->
+  <!--          </mat-chip-row>-->
+  <!--        }-->
+  <!--      </mat-chip-grid>-->
+  <!--      <input [placeholder]="'feedback.tags.placeholder' | translate"-->
+  <!--             [matChipInputFor]="chipGrid"-->
+  <!--             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"-->
+  <!--             (matChipInputTokenEnd)="addTag($event)"-->
+  <!--             #tagInput>-->
+  <!--      <mat-hint>{{ 'feedback.tags.hint' | translate }}</mat-hint>-->
+  <!--    </mat-form-field>-->
+  <!--  </div>-->
+
+  <!-- Rating Field -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium text-gray-700">{{ 'feedback.rating.label' | translate }}</label>
+    <mat-slider class="w-full" min="1" max="5" step="1" discrete color="accent">
+      <input matSliderThumb formControlName="rating">
+    </mat-slider>
+    <div class="flex justify-between text-xs text-gray-500 px-2">
+      <span>{{ 'feedback.rating.very_unsatisfied' | translate }}</span>
+      <span>{{ 'feedback.rating.neutral' | translate }}</span>
+      <span>{{ 'feedback.rating.very_satisfied' | translate }}</span>
+    </div>
+    <div class="text-center text-sm text-gray-600 mt-1">
+      {{ 'feedback.rating.current' | translate }}: <span class="font-semibold">{{ feedbackForm.get('rating')?.value }}</span>
+    </div>
+    @if (feedbackForm.get('rating')?.errors?.['required'] && feedbackForm.get('rating')?.touched) {
+      <mat-error class="text-center">{{ 'feedback.rating.error_required' | translate }}</mat-error>
+    }
+  </div>
+
+  <!-- Form Actions -->
+  <div class="flex gap-4 justify-end pt-4 border-t border-gray-200">
+    <button mat-stroked-button
+            type="button"
+            (click)="onReset()"
+            class="px-6 py-2">
+      {{ 'action.reset' |translate }}
+    </button>
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="feedbackForm.invalid"
+            class="px-6 py-2">
+      {{ 'action.submit' |translate }}
+    </button>
+  </div>
+</form>

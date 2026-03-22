@@ -1,0 +1,15 @@
+<app-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="activity.title">
+  <board-toolbar-actions>
+    <button (click)="cleanup()" mat-flat-button color="accent">
+      <mat-icon class="!m-0">auto_delete</mat-icon>
+    </button>
+  </board-toolbar-actions>
+  <mat-card>
+    <app-activity-table [data]="data"
+                        [reloading]="reloading"
+                        [pageSize]="pageSize"
+                        [pageNumber]="pageNumber"
+                        [totalElements]="totalElements"
+                        (pageEvent)="handlePageChange($event)"/>
+  </mat-card>
+</app-board>

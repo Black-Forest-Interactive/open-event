@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>
+  {{ "issue.dialog.create.title" | translate }}
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="fg">
+    <div class="flex flex-col gap-2 py-2">
+      <mat-form-field class="dense-1">
+        <mat-label>{{ 'issue.form.subject' | translate }}</mat-label>
+        <input formControlName="subject" matInput>
+      </mat-form-field>
+
+      <mat-form-field class="dense-1">
+        <mat-label>{{ 'issue.form.description' | translate }}</mat-label>
+        <textarea formControlName="description" matInput placeholder=""></textarea>
+      </mat-form-field>
+
+    </div>
+  </form>
+  <div class="flex flex-col gap-2 text-sm">
+    <div class="flex flex-row gap-2">
+      <div class="basis-10"><strong>Error:</strong></div>
+      <div class="flex-auto">{{ data.status }} - {{ data.statusText }}</div>
+    </div>
+
+    <div class="flex flex-row gap-2">
+      <div class="basis-10"><strong>URL:</strong></div>
+      <div class="flex-auto">{{ data.url }}</div>
+    </div>
+
+  </div>
+</div>
+<mat-dialog-actions align="end">
+  <button (click)="report()" [disabled]="!fg.valid" color="primary" mat-flat-button>
+    <mat-icon>check</mat-icon>
+    {{ "action.submit" | translate }}
+  </button>
+  <button color="warn" mat-dialog-close mat-flat-button>
+    <mat-icon>cancel</mat-icon>
+    {{ "action.cancel" | translate }}
+  </button>
+</mat-dialog-actions>

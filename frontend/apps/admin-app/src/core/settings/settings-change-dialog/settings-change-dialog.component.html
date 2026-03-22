@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>
+  @if (data) {
+    {{ "settings.dialog.change.title" | translate }}
+  } @else {
+    {{ "settings.dialog.create.title" | translate }}
+  }
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="fg">
+    <div class="flex flex-col gap-2 pt-2">
+      <!-- key-->
+      <mat-form-field class="dense-1">
+        <mat-label>{{ 'settings.form.key' | translate }}</mat-label>
+        <input formControlName="key" matInput type="text">
+      </mat-form-field>
+      <!-- value-->
+      <mat-form-field class="dense-1">
+        <mat-label>{{ 'settings.form.value' | translate }}</mat-label>
+        <input formControlName="value" matInput type="text">
+      </mat-form-field>
+      <!-- type-->
+      <mat-form-field class="dense-1">
+        <mat-label>{{ 'settings.form.type' | translate }}</mat-label>
+        <input formControlName="type" matInput type="text">
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<mat-dialog-actions align="end">
+  <div class="flex flex-row gap-2">
+    <button cdkFocusInitial color="primary" mat-stroked-button (click)="onSaveClick()">
+      <mat-icon>save</mat-icon>
+      {{ "action.submit" | translate }}
+    </button>
+    <button color="warn" mat-stroked-button (click)="onCancelClick()">
+      <mat-icon>cancel</mat-icon>
+      {{ "action.cancel" | translate }}
+    </button>
+  </div>
+</mat-dialog-actions>

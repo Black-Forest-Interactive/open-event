@@ -1,0 +1,5 @@
+@if (service.validated | async) {
+  <app-dashboard></app-dashboard>
+} @else {
+  <router-outlet></router-outlet>
+}

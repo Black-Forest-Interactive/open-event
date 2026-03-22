@@ -1,0 +1,11 @@
+@if (!data().published) {
+  <button (click)="publish()" class="action-fab" mat-mini-fab>
+    @if (publishing) {
+      <mat-icon>
+        <mat-spinner diameter="18"></mat-spinner>
+      </mat-icon>
+    } @else {
+      <mat-icon>publish</mat-icon>
+    }
+  </button>
+}

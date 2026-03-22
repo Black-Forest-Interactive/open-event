@@ -1,0 +1,44 @@
+<table [dataSource]="data()" mat-table>
+
+  <ng-container matColumnDef="timestamp">
+    <th *matHeaderCellDef mat-header-cell> {{ 'history.table.timestamp' | translate }}</th>
+    <td *matCellDef="let element" mat-cell> {{ element.timestamp | date:'medium' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actor">
+    <th *matHeaderCellDef mat-header-cell> {{ 'history.table.actor' | translate }}</th>
+    <td *matCellDef="let element" mat-cell> {{ element.actor | accountDisplayName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th *matHeaderCellDef mat-header-cell> {{ 'history.table.type' | translate }}</th>
+    <td *matCellDef="let element" mat-cell> {{ element.type }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="message">
+    <th *matHeaderCellDef mat-header-cell> {{ 'history.table.message' | translate }}</th>
+    <td *matCellDef="let element" mat-cell> {{ element.message }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="source">
+    <th *matHeaderCellDef mat-header-cell> {{ 'history.table.source' | translate }}</th>
+    <td *matCellDef="let element" mat-cell> {{ element.source }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="info">
+    <th *matHeaderCellDef mat-header-cell> {{ 'history.table.info' | translate }}</th>
+    <td *matCellDef="let element" mat-cell> {{ element.info }}</td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row class="bg-primary-default"></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
+<mat-paginator
+  (page)="pageEvent.emit($event)"
+  [disabled]="reloading()"
+  [length]="totalElements()"
+  [pageIndex]="pageNumber()"
+  [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+  showFirstLastButtons
+>
+</mat-paginator>

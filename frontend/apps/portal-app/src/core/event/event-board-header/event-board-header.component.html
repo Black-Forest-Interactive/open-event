@@ -1,0 +1,61 @@
+<mat-toolbar class="px-2">
+  <div class="flex flex-row gap-3 flex-auto items-center">
+
+    <div class="flex flex-row gap-2 items-center basis-full sm:basis-1/4">
+      <mat-form-field class="dense-3 flex-auto" subscriptSizing="dynamic">
+        <mat-label class="flex flex-row gap-3">
+          <mat-icon>search</mat-icon>
+          {{ 'event.search' | translate }}
+        </mat-label>
+        <input #input (keyup)="keyUp.emit(input.value)" matInput placeholder="" value="">
+        @if (service.searching) {
+          <mat-icon>
+            <mat-spinner diameter="18"></mat-spinner>
+          </mat-icon>
+        }
+        @if (input.value.length > 0) {
+          <button (click)="input.value = ''; service.fullTextSearch = ''" mat-icon-button
+                  matSuffix>
+            <mat-icon>clear</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+    </div>
+
+    @if (!mobileView()) {
+      <div class="flex-auto"></div>
+      <button color="accent" mat-flat-button routerLink="./create" class="basis-72 min-h-10">
+        <mat-icon>event</mat-icon>
+        {{ 'event.create' | translate }}
+      </button>
+
+
+      <div class="flex flex-row gap-2 basis-72 justify-end">
+        <mat-button-toggle-group class="dense-1" [hideSingleSelectionIndicator]="true">
+          <mat-button-toggle value="list" [checked]="mode() == 'list'" (click)="modeChanged.emit('list')">
+            <mat-icon>list</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="map" [checked]="mode() == 'map'" (click)="modeChanged.emit('map')">
+            <mat-icon>map</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="calendar" [checked]="mode() == 'calendar'" (click)="modeChanged.emit('calendar')">
+            <mat-icon>calendar_month</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    } @else {
+      <div class="flex-auto"></div>
+      <button [matMenuTriggerFor]="contextMenu" mat-icon-button>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    }
+  </div>
+</mat-toolbar>
+
+
+<mat-menu #contextMenu="matMenu">
+  <button mat-menu-item routerLink="./create">
+    <mat-icon>event</mat-icon>
+    {{ 'event.create' | translate }}
+  </button>
+</mat-menu>

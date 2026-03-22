@@ -1,0 +1,31 @@
+<app-board-card title="account.details.profile">
+  <div class="flex flex-col gap-3 p-4">
+    @if (profile()) {
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'profile.property.email' | translate }}</div>
+        <div>{{ profile()!!.email }}</div>
+      </div>
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'profile.property.phone' | translate }}</div>
+        <div>{{ profile()!!.phone }}</div>
+      </div>
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'profile.property.mobile' | translate }}</div>
+        <div>{{ profile()!!.mobile }}</div>
+      </div>
+
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'profile.property.firstName' | translate }}</div>
+        <div>{{ profile()!!.firstName }}</div>
+      </div>
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'profile.property.lastName' | translate }}</div>
+        <div>{{ profile()!!.lastName }}</div>
+      </div>
+      <div class="flex flex-row gap-2 justify-between content-center">
+        <div>{{ 'profile.property.language' | translate }}</div>
+        <div>{{ profile()!!.language }}</div>
+      </div>
+    }
+  </div>
+</app-board-card>

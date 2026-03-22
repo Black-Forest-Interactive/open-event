@@ -1,0 +1,18 @@
+@if (type() === 'icon') {
+  <button mat-icon-button (click)="export(); $event.stopPropagation()">
+    @if (exporting) {
+      <mat-spinner diameter="22"></mat-spinner>
+    } @else {
+      <mat-icon>cloud_download</mat-icon>
+    }
+  </button>
+} @else {
+  <button (click)="export()" mat-mini-fab matTooltip="{{'backoffice.export.action.single' | translate}}">
+    @if (exporting) {
+      <mat-spinner diameter="22"></mat-spinner>
+    } @else {
+      <mat-icon>cloud_download</mat-icon>
+    }
+  </button>
+}
+

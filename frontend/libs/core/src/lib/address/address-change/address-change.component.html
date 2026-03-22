@@ -1,0 +1,35 @@
+<form [formGroup]="fg">
+  <div class="flex flex-col gap-2 py-2">
+    <div class="flex flex-col gap-2 align-items-stretch flex-auto pt-2">
+
+      <div class="flex flex-row gap-3">
+        <mat-form-field class="dense-1 flex-auto">
+          <mat-label>{{ 'address.property.street' | translate }}</mat-label>
+          <input formControlName="street" matInput required>
+        </mat-form-field>
+        <mat-form-field class="dense-1" style="flex: 0 1 100px">
+          <mat-label>{{ 'address.property.streetNumber' | translate }}</mat-label>
+          <input formControlName="streetNumber" matInput required>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="dense-1 flex-auto">
+        <mat-label>{{ 'address.property.info' | translate }}</mat-label>
+        <input formControlName="additionalInfo" matInput>
+      </mat-form-field>
+      <div class="flex flex-row gap-3">
+        <mat-form-field class="dense-1" style="flex: 0 1 200px">
+          <mat-label>{{ 'address.property.zip' | translate }}</mat-label>
+          <input formControlName="zip" matInput required>
+        </mat-form-field>
+        <mat-form-field class="dense-1 flex-auto">
+          <mat-label>{{ 'address.property.city' | translate }}</mat-label>
+          <input formControlName="city" matInput required>
+        </mat-form-field>
+      </div>
+      <mat-form-field class="dense-1 flex-auto">
+        <mat-label>{{ 'address.property.country' | translate }}</mat-label>
+        <input formControlName="country" matInput required>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

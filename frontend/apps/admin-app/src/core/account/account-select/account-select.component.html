@@ -1,0 +1,17 @@
+<div class="flex flex-row gap-2 content-stretch items-center">
+  <mat-form-field class="dense-1 flex-auto">
+    <mat-label>{{ 'account.action.select' | translate }}</mat-label>
+    <input type="text" matInput (keyup)="keyUp.emit(input.value)" [matAutocomplete]="auto" #input>
+<!--    <mat-icon *ngIf="loading()">-->
+<!--      <mat-spinner diameter="18"></mat-spinner>-->
+<!--    </mat-icon>-->
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+      @for (a of accounts(); track a.id) {
+        <mat-option [value]="a.name" (onSelectionChange)="select($event, a)">
+          {{ a.name }}
+        </mat-option>
+      }
+    </mat-autocomplete>
+
+  </mat-form-field>
+</div>

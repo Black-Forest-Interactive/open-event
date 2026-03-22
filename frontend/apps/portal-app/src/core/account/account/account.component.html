@@ -1,0 +1,13 @@
+<div class="flex flex-row items-center gap-2">
+  <img [email]="account().email"
+       alt="{{account() | accountDisplayName}}"
+       class="account-info-avatar"
+       ngxGravatar
+       [preferGravatar]="false"
+       [fallback]=FALLBACK.mp
+       [rating]=RATING.x
+       src="{{account().iconUrl}}">
+  @if (showUserName()) {
+    <div class="flex-auto">{{ account() | accountDisplayName }}</div>
+  }
+</div>

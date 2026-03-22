@@ -1,0 +1,7 @@
+:host ::ng-deep .mat-mdc-mini-fab {
+  --mdc-fab-small-container-color: rgba(255, 255, 255, 0.8);
+}
+
+:host ::ng-deep .mat-mdc-mini-fab:hover {
+  --mdc-fab-small-container-color: rgba(255, 255, 255, 1);
+}

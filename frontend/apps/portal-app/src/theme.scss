@@ -1,0 +1,165 @@
+@use '@angular/material' as mat;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M3 Theme Definition
+//
+// M3 no longer uses hand-crafted Sass color maps — it uses tonal palettes.
+// Mapping from your M2 setup:
+//   primary  → primary   (mat.$azure-palette  — swap to mat.$violet-palette etc. to taste)
+//   accent   → secondary (mat.$green-palette  — matches your #239158 green)
+//   warn     → error     (handled automatically by M3, no palette needed)
+//
+// For pixel-perfect brand colors, generate a custom theme at:
+// https://material-foundation.github.io/material-theme-builder/
+// ─────────────────────────────────────────────────────────────────────────────
+
+$open-event-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$green-palette,
+  ),
+  typography: (
+    use-system-variables: true,
+  ),
+  density: (scale: 0),
+));
+
+html {
+  @include mat.all-component-themes($open-event-theme);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Utility classes
+//
+// M3 replaces Sass map.get($palette, default / lighter / default-contrast) with
+// CSS custom properties (--mat-sys-*). Key mappings:
+//
+//   M2                                  M3
+//   map.get($accent,  default)        → var(--mat-sys-secondary)
+//   map.get($accent,  default-contrast)→ var(--mat-sys-on-secondary)
+//   map.get($accent,  lighter)        → var(--mat-sys-secondary-container)
+//   map.get($accent,  lighter-contrast)→ var(--mat-sys-on-secondary-container)
+//   map.get($primary, default)        → var(--mat-sys-primary)
+//   map.get($primary, default-contrast)→ var(--mat-sys-on-primary)
+//   map.get($primary, lighter)        → var(--mat-sys-primary-container)
+//   map.get($warn,    default)        → var(--mat-sys-error)
+//   map.get($warn,    default-contrast)→ var(--mat-sys-on-error)
+//   map.get($warn,    lighter)        → var(--mat-sys-error-container)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.available {
+  color: var(--mat-sys-secondary);
+}
+
+.full {
+  color: var(--mat-sys-error);
+}
+
+.mat-button-toggle-checked button {
+  background-color: var(--mat-sys-secondary);
+  color: var(--mat-sys-on-secondary);
+}
+
+.toolbar-action-fab {
+  background-color: unset !important;
+  color: black !important;
+  border: var(--mat-sys-primary) 1px solid !important;
+}
+
+.toolbar-action-fab:hover {
+  background-color: var(--mat-sys-secondary) !important;
+}
+
+.bg-accent-default {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.bg-primary-default {
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
+}
+
+.bg-warn-default {
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
+}
+
+.border-accent-default {
+  border-color: var(--mat-sys-secondary) !important;
+}
+
+.border-primary-default {
+  border-color: var(--mat-sys-primary) !important;
+}
+
+.border-warn-default {
+  border-color: var(--mat-sys-error) !important;
+}
+
+// Marker clusters — "lighter" maps to M3 container colors
+.marker-cluster-small {
+  background-color: var(--mat-sys-primary-container) !important;
+  color: var(--mat-sys-on-primary-container) !important;
+}
+
+.marker-cluster-small div {
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
+}
+
+.marker-cluster-medium {
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
+}
+
+.marker-cluster-medium div {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.marker-cluster-large {
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
+}
+
+.marker-cluster-large div {
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
+}
+
+.sidenav {
+  min-width: 280px;
+  max-width: 280px;
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
+}
+
+.main-menu-item {
+  // color: var(--mat-sys-on-primary) !important;
+}
+
+.active {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+  border-style: solid;
+}
+
+.menu-active {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+  border-style: solid;
+}
+
+.menu-unselected {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  border-style: solid;
+}
+
+.second-toolbar {
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
+}

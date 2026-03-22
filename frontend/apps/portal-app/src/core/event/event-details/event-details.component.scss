@@ -1,0 +1,20 @@
+.action-fab {
+  background-color: white;
+  color: black;
+}
+
+.col {
+  flex: 0 1 auto;
+  width: 50%;
+}
+
+.left-column {
+  flex: 0 0 60%;
+}
+
+.right-column {
+  flex: 1 1 auto;
+  @media (max-width: 768px) {
+    flex: 0 0 100%;
+  }
+}

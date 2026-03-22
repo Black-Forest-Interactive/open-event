@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@open-event/app": ["libs/app/src/index.ts"],
+      "@open-event/backoffice": ["libs/backoffice/src/index.ts"],
+      "@open-event/core": ["libs/core/src/index.ts"],
+      "@open-event/events": ["libs/events/src/index.ts"],
+      "@open-event/external": ["libs/external/src/index.ts"],
+      "@open-event/shared": ["libs/shared/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

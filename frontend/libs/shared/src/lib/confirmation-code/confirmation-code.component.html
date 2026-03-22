@@ -1,0 +1,46 @@
+<div class="flex justify-center items-center p-5">
+  <form [formGroup]="codeForm" class="w-full max-w-md">
+    <div class="flex gap-3 justify-center">
+      @for (digit of digitIndices(); track digit; let i = $index) {
+        <input
+          #codeInput
+          [formControlName]="'digit' + i"
+          maxlength="1"
+          type="text"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          autocomplete="one-time-code"
+          (input)="onInput($event, i)"
+          (keydown)="onKeyDown($event, i)"
+          (paste)="onPaste($event)"
+          class="w-14 h-14 text-center text-2xl font-semibold border-2 rounded-lg
+                 transition-all duration-200 ease-in-out
+                 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200
+                 hover:border-gray-400 outline-none
+                 sm:w-12 sm:h-12 sm:text-xl"
+          [class.border-red-500]="isFieldInvalid(i)"
+          [class.focus:ring-red-200]="isFieldInvalid(i)"
+          [class.border-green-500]="codeForm.get('digit' + i)?.valid && codeForm.get('digit' + i)?.value">
+
+        <!-- Error indicator -->
+        @if (isFieldInvalid(i)) {
+          <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
+            <span class="text-xs text-red-500">!</span>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Progress indicator -->
+    <div class="mt-6 flex justify-center">
+      <div class="flex gap-1">
+        @for (digit of digitIndices(); track digit; let i = $index) {
+          <div class="w-2 h-2 rounded-full transition-colors duration-200"
+               [class.bg-blue-500]="codeForm.get('digit' + i)?.value"
+               [class.bg-gray-300]="!codeForm.get('digit' + i)?.value">
+          </div>
+        }
+      </div>
+    </div>
+  </form>
+</div>

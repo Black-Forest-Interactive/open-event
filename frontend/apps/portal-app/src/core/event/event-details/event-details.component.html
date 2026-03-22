@@ -1,0 +1,25 @@
+<mat-card class="container mx-auto !my-4 overflow-hidden h-[calc(100vh-100px)]">
+  <app-event-details-banner [data]="info"></app-event-details-banner>
+  <app-event-details-header (changed)="reload()" [data]="info" [reloading]="reloading"></app-event-details-header>
+  <lib-loading-bar [reloading]="reloading"></lib-loading-bar>
+  @if (info) {
+    <div class="flex flex-col lg:flex-row gap-6 lg:justify-stretch overflow-y-auto px-6 py-4">
+      <div class="flex flex-col flex-auto">
+        <app-event-details-info [info]="info"></app-event-details-info>
+        @if (info.registration) {
+          <app-registration-details [data]="info.registration"></app-registration-details>
+        }
+        @if (info.canEdit && info.share) {
+          <app-share-details [info]="info" [reloading]="reloading" (changed)="setSharingEnabled($event)"></app-share-details>
+        }
+      </div>
+      <mat-divider vertical></mat-divider>
+      <div class="flex flex-col gap-4 lg:basis-lg lg:flex-shrink-0">
+        @if (info.location) {
+          <app-event-details-location [info]="info" class="px-2"></app-event-details-location>
+        }
+      </div>
+    </div>
+  }
+</mat-card>
+

@@ -1,0 +1,48 @@
+<app-board [showSearch]="false" [showReload]="false" title="search.title">
+
+  @for (info of data; track info.key) {
+    <mat-card class="p-2">
+      <div class="flex flex-row gap-4 items-center">
+        <div class="text-lg font-bold basis-36 grow-0">{{ 'search.key.' + info.name | translate }}</div>
+        <div class="flex flex-row basis-36 justify-end">
+          <div class="flex flex-row gap-2 justify-between items-center rounded-sm bg-gray-200 px-2 py-1">
+            <div class="rounded-md min-w-3 min-h-3" [ngClass]="{
+              'bg-gray-500 ': info.status === 'UNKNOWN',
+              'bg-orange-500 ': info.status === 'CREATE_INDEX',
+              'bg-yellow-500 ': info.status === 'INITIAL_LOAD',
+              'bg-green-500': info.status === 'READY'
+              }">
+            </div>
+            <div>{{ 'search.status.' + info.status | translate }}</div>
+          </div>
+        </div>
+        <div class="flex-auto flex flex-col gap-2">
+          <div>
+            <mat-progress-bar mode="determinate" [value]="(info.statistics.successful + info.statistics.failed) / info.statistics.total * 100"></mat-progress-bar>
+          </div>
+          <div class="flex flex-row justify-between gap-2">
+            <div class="text-sm flex flex-row gap-1">
+              <div>{{ 'search.statistics.total' | translate }}</div>
+              <div>{{ info.statistics.total }}</div>
+            </div>
+            <div class="text-sm flex flex-row gap-1">
+              <div>{{ 'search.statistics.successful' | translate }}</div>
+              <div>{{ info.statistics.successful }}</div>
+            </div>
+            <div class="text-sm flex flex-row gap-1">
+              <div>{{ 'search.statistics.failed' | translate }}</div>
+              <div>{{ info.statistics.failed }}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button mat-flat-button color="primary" (click)="setup(info)">
+            <mat-icon>play_arrow</mat-icon>
+            {{ 'search.action.setup' | translate }}
+          </button>
+        </div>
+
+      </div>
+    </mat-card>
+  }
+</app-board>

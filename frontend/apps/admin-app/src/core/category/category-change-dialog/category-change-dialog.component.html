@@ -1,0 +1,22 @@
+<h1 mat-dialog-title class="bg-primary-default">
+  @if (data) {
+    {{ "category.dialog.change.title" | translate }}
+  } @else {
+    {{ "category.dialog.create.title" | translate }}
+  }
+</h1>
+<div mat-dialog-content>
+  <lib-category-change [data]="this.data" (request)="handleRequest($event)" #change></lib-category-change>
+</div>
+<mat-dialog-actions align="end">
+  <div class="flex flex-row gap-2">
+    <button cdkFocusInitial color="primary" mat-stroked-button (click)="change.submit()">
+      <mat-icon>save</mat-icon>
+      {{ "action.submit" | translate }}
+    </button>
+    <button color="warn" mat-stroked-button (click)="onCancelClick()">
+      <mat-icon>cancel</mat-icon>
+      {{ "action.cancel" | translate }}
+    </button>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,8 @@
+<app-board [reloading]="loading()" (reload)="issueResource.reload()" [showSearch]="false" title="issue.title" [showBack]="true" (back)="back()">
+  @if (issue()) {
+    <app-issue-card [issue]="issue()!!"></app-issue-card>
+  }
+</app-board>
+
+
+

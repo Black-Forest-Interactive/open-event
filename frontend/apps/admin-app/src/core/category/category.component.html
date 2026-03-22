@@ -1,0 +1,15 @@
+<app-board [reloading]="reloading" (fullTextSearch)="fullTextSearch = $event" (reload)="reload()" title="category.title" searchPlaceholder="category.search">
+  <board-toolbar-actions>
+    <button (click)="create()" mat-flat-button color="accent">
+      <mat-icon>new_label</mat-icon>
+      {{ 'category.create' | translate }}
+    </button>
+  </board-toolbar-actions>
+  <mat-card>
+    <app-category-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"
+                        (pageEvent)="handlePageChange($event)"
+                        (editEvent)="edit($event)"
+                        (deleteEvent)="delete($event)"
+    ></app-category-table>
+  </mat-card>
+</app-board>

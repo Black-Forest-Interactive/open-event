@@ -1,0 +1,15 @@
+<div class="bg-primary-default flex flex-row justify-between items-center p-4 gap-2">
+  <div class="text-2xl font-bold">{{ "event.dialog.change.title" | translate }}</div>
+  <div class="bg-accent-default rounded-sm px-4 py-1">{{ data.owner.name }}</div>
+</div>
+<div mat-dialog-content>
+  <lib-event-change title="event.dialog.create.title"
+                    [event]="data"
+                    [addressReadAPI]="this"
+                    [categoryReadAPI]="this"
+                    [eventReadAPI]="this"
+                    (request)="handleRequest($event)"
+                    (cancel)="onCancelClick()"
+  >
+  </lib-event-change>
+</div>

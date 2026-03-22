@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ "registration.dialog.confirmed.title" | translate }}</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="flex flex-col justify-center gap-4">
+    <div class="flex flex-row justify-center">
+      <mat-icon color="accent" class="!w-12 !h-12 !text-5xl">check</mat-icon>
+    </div>
+
+    <div class="flex flex-col gap-2 p-4">
+      <div class="flex flex-row gap-4">
+        <div class="basis-32 font-bold">{{ 'participant.property.size' | translate }}</div>
+        <div>{{ participant.size }}</div>
+      </div>
+      <div class="flex flex-row gap-4">
+        <div class="basis-32 font-bold">{{ 'participant.property.rank' | translate }}</div>
+        <div>{{ participant.rank }}</div>
+      </div>
+      <div class="flex flex-row gap-4">
+        <div class="basis-32 font-bold">{{ 'participant.property.status' | translate }}</div>
+        <div>{{ participant.status }}</div>
+      </div>
+      <div class="flex flex-row gap-4">
+        <div class="basis-32 font-bold">{{ 'participant.property.waitingList' | translate }}</div>
+        <div>{{ participant.waitingList | waitingList }}</div>
+      </div>
+
+      <p>{{ "registration.dialog.confirmed.content.1" | translate }}</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="center">
+  <button mat-flat-button mat-dialog-close color="primary">{{ 'action.ok' | translate }}</button>
+</mat-dialog-actions>

@@ -1,0 +1,10 @@
+<lib-loading-bar [reloading]="loading"></lib-loading-bar>
+@if (mode() === 'single') {
+  <lib-event-change-single [addressReadAPI]="addressReadAPI()" [categoryReadAPI]="categoryReadAPI()"
+                           [hiddenFields]="hiddenFields" [loading]="loading" [fg]="fg"
+                           [info]="info()" (cancel)="cancel.emit(true)" (submit)="submit()"/>
+} @else {
+  <lib-event-change-stepper [addressReadAPI]="addressReadAPI()" [categoryReadAPI]="categoryReadAPI()"
+                            [hiddenFields]="hiddenFields" [loading]="loading" [fg]="fg"
+                            [info]="info()" (cancel)="cancel.emit(true)" (submit)="submit()"/>
+}

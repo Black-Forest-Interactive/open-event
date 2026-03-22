@@ -1,0 +1,76 @@
+<form [formGroup]="fg">
+  <div class="flex flex-col gap-2 align-items-stretch flex-auto pt-2">
+    <mat-form-field class="dense-1" style="flex: 1 1 auto">
+      <mat-label>{{ 'event.form.maxGuests' | translate }}</mat-label>
+      <input formControlName="maxGuestAmount" matInput required type="number">
+      <mat-hint align="start">{{ 'event.form.hint.maxGuest'| translate }}</mat-hint>
+    </mat-form-field>
+
+    @if (isVisible('interestedAllowed')) {
+      <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-label>{{ 'event.form.interestedAllowed' | translate }}</mat-label>
+        <mat-select formControlName="interestedAllowed">
+          <mat-option [value]="true">{{ 'ACTION.YES'|translate }}</mat-option>
+          <mat-option [value]="false">{{ 'ACTION.NO'|translate }}</mat-option>
+        </mat-select>
+        <mat-hint align="start">{{ 'event.form.hint.interestedAllowed' | translate }}</mat-hint>
+      </mat-form-field>
+    }
+
+    @if (isVisible('ticketsEnabled')) {
+      <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-label>{{ 'event.form.ticketsEnabled' | translate }}</mat-label>
+        <mat-select formControlName="ticketsEnabled">
+          <mat-option [value]="true">{{ 'ACTION.YES'|translate }}</mat-option>
+          <mat-option [value]="false">{{ 'ACTION.NO'|translate }}</mat-option>
+        </mat-select>
+        <mat-hint align="start">{{ 'event.form.hint.ticketsEnabled' | translate }}</mat-hint>
+      </mat-form-field>
+    }
+
+
+    <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
+    @if (!loading()) {
+      <lib-chip-select-pane
+        [entries]="allCategories()"
+        [formCtrl]="categories"
+        placeholder='{{"event.form.category" | translate}}'
+        >
+      </lib-chip-select-pane>
+    }
+    <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row sm:flex-col gap-3 align-items-stretch">
+      <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-label>{{ 'event.form.tags' | translate }}</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter tags" formControlName="tags">
+          @for (tag of tags.value; track tag) {
+            <mat-chip-row (removed)="removeTag(tag)">
+              {{ tag }}
+              <button matChipRemove aria-label="'remove ' + keyword">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        </mat-chip-grid>
+        <input placeholder="New tag..."
+          [matChipInputFor]="chipGrid"
+          (matChipInputTokenEnd)="addTag($event)"
+          matChipInputAddOnBlur="true"
+          />
+        <mat-hint align="start">{{ 'event.form.hint.tags'| translate }}</mat-hint>
+      </mat-form-field>
+    </div>
+
+    @if (isVisible('shared')) {
+      <div class="flex flex-col gap-2 p-4 border rounded " style="border-color: var(--mdc-outlined-text-field-outline-color);">
+        <mat-checkbox formControlName="shared">{{ 'share.action.activate' | translate }}</mat-checkbox>
+        <div class="flex flex-row justify-center gap-1">
+          <div class="w-12 flex justify-center items-center">
+            <mat-icon>info</mat-icon>
+          </div>
+          <div class="text-sm text-justify hyphens-auto">{{ 'share.info.description.content' | translate }}</div>
+        </div>
+      </div>
+    }
+
+  </div>
+</form>

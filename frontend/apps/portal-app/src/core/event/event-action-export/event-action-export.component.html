@@ -1,0 +1,11 @@
+@if (accessible) {
+  <button (click)="export()" class="toolbar-action-fab" mat-mini-fab>
+    @if (exporting) {
+      <mat-icon>
+        <mat-spinner diameter="18"></mat-spinner>
+      </mat-icon>
+    } @else {
+      <mat-icon>download</mat-icon>
+    }
+  </button>
+}
