@@ -10,7 +10,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
-import { ExternalParticipantConfirmRequest } from "@open-event-workspace/external";
+import { ExternalParticipantConfirmRequest } from "@open-event/external";
 
 @Component({
   selector: "app-confirm-participation-dialog",

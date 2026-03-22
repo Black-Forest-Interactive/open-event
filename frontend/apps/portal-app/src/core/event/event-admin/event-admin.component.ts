@@ -2,14 +2,14 @@ import { Component } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { Location } from "@angular/common";
-import { EventInfo } from "@open-event-workspace/core";
+import { EventInfo } from "@open-event/core";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIcon } from "@angular/material/icon";
 import { EventActionExportComponent } from "../event-action-export/event-action-export.component";
 import { RegistrationModerationComponent } from "../../registration/registration-moderation/registration-moderation.component";
 import { MatMiniFabButton } from "@angular/material/button";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
-import { EventService } from "@open-event-workspace/app";
+import { LoadingBarComponent } from "@open-event/shared";
+import { EventService } from "@open-event/app";
 
 @Component({
   selector: "app-event-admin",

@@ -1,7 +1,7 @@
 import { Component, input, output } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
-import { Feedback } from "@open-event-workspace/core";
+import { Feedback } from "@open-event/core";
 import { FeedbackDetailsDialogComponent } from "../feedback-details-dialog/feedback-details-dialog.component";
 import { DatePipe } from "@angular/common";
 import {

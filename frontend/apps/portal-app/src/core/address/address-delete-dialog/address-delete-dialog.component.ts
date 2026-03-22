@@ -6,7 +6,7 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from "@angular/material/dialog";
-import { Address } from "@open-event-workspace/core";
+import { Address } from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";

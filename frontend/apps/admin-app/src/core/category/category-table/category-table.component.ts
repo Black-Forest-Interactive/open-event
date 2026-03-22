@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { Category } from "@open-event-workspace/core";
+import { Category } from "@open-event/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import {
   MatCell,

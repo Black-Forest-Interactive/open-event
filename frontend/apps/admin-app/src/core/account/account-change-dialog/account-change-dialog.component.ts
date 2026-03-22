@@ -25,7 +25,7 @@ import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatButton } from "@angular/material/button";
-import { AccountService } from "@open-event/backoffice";
+import { AccountService } from "@open-event/admin";
 
 @Component({
   selector: "app-account-change-dialog",

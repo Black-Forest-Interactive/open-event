@@ -4,12 +4,12 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { TranslatePipe } from "@ngx-translate/core";
-import { CategoryService } from "@open-event-workspace/backoffice";
+import { CategoryService } from "@open-event/admin";
 import {
   Category,
   CategorySearchRequest,
   CategorySearchResponse,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatDialog } from "@angular/material/dialog";
 import { debounceTime, distinctUntilChanged } from "rxjs";
 import { CategoryChangeDialogComponent } from "./category-change-dialog/category-change-dialog.component";
@@ -26,7 +26,7 @@ import {
 } from "../../shared/board/board.component";
 
 @Component({
-  selector: "boffice-category",
+  selector: "admin-category",
   imports: [
     MatCardModule,
     MatIconModule,

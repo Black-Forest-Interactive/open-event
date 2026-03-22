@@ -11,10 +11,10 @@ import { EventBoardMapPopupComponent } from "../event-board-map-popup/event-boar
 import { EventNavigationService } from "../event-navigation.service";
 import { Router } from "@angular/router";
 import { EventBoardService } from "../event-board.service";
-import { EventSearchEntry } from "@open-event-workspace/core";
+import { EventSearchEntry } from "@open-event/core";
 import { MatCard } from "@angular/material/card";
 import "leaflet.markercluster";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
+import { LoadingBarComponent } from "@open-event/shared";
 
 const iconRetinaUrl = "marker/marker-icon-2x.png";
 const iconUrl = "marker/marker-icon.png";

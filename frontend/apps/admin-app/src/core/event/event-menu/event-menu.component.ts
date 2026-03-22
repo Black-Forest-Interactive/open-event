@@ -5,9 +5,9 @@ import {
   output,
   viewChild,
 } from "@angular/core";
-import { EventInfo } from "@open-event-workspace/core";
+import { EventInfo } from "@open-event/core";
 import { EventMenuItem } from "./event-menu-item";
-import { EventService } from "@open-event-workspace/backoffice";
+import { EventService } from "@open-event/admin";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatIcon } from "@angular/material/icon";

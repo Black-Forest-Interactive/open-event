@@ -11,7 +11,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { ActivityCleanupRequest } from "@open-event-workspace/core";
+import { ActivityCleanupRequest } from "@open-event/core";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { DateTime } from "luxon";

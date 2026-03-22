@@ -5,19 +5,19 @@ import { RegistrationParticipateDialogComponent } from "../registration-particip
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { RegistrationEditDialogComponent } from "../registration-edit-dialog/registration-edit-dialog.component";
 import { RegistrationCancelDialogComponent } from "../registration-cancel-dialog/registration-cancel-dialog.component";
-import { AuthService, LoadingBarComponent } from "@open-event-workspace/shared";
+import { AuthService, LoadingBarComponent } from "@open-event/shared";
 import {
   ParticipateRequest,
   ParticipateResponse,
   RegistrationInfo,
   RegistrationStatusComponent,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatButton } from "@angular/material/button";
 import { NgTemplateOutlet } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { MatDivider } from "@angular/material/divider";
 import { AccountComponent } from "../../account/account/account.component";
-import { RegistrationService } from "@open-event-workspace/app";
+import { RegistrationService } from "@open-event/app";
 
 @Component({
   selector: "app-registration-details",

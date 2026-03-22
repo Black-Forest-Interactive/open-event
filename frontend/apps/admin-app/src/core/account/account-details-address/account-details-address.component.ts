@@ -6,10 +6,10 @@ import {
   resource,
   signal,
 } from "@angular/core";
-import { Account, Address } from "@open-event-workspace/core";
+import { Account, Address } from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
-import { toPromise } from "@open-event-workspace/shared";
-import { AccountService } from "@open-event-workspace/backoffice";
+import { toPromise } from "@open-event/shared";
+import { AccountService } from "@open-event/admin";
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatIconModule } from "@angular/material/icon";

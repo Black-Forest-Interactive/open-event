@@ -4,7 +4,7 @@ import {
   ConfirmationCodeComponent,
   LoadingBarComponent,
   toPromise,
-} from "@open-event-workspace/shared";
+} from "@open-event/shared";
 import { MatCard } from "@angular/material/card";
 import { MatToolbar } from "@angular/material/toolbar";
 import { ActivatedRoute, ParamMap, Params, RouterLink } from "@angular/router";
@@ -14,7 +14,7 @@ import {
   ExternalParticipantConfirmRequest,
   ExternalParticipantConfirmResponse,
   PublicEvent,
-} from "@open-event-workspace/external";
+} from "@open-event/external";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { MatDialog } from "@angular/material/dialog";
 import { HotToastService } from "@ngxpert/hot-toast";

@@ -11,7 +11,7 @@
 
   </mat-sidenav>
   <mat-sidenav-content>
-    <boffice-dashboard-toolbar [mobileView]="(isHandset$ | async) ?? false" [title]="service.title()" (toggleSidenavEvent)="drawer.toggle()"/>
+    <admin-dashboard-toolbar [mobileView]="(isHandset$ | async) ?? false" [title]="service.title()" (toggleSidenavEvent)="drawer.toggle()"/>
     <div>
       <router-outlet></router-outlet>
     </div>

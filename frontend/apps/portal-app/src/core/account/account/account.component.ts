@@ -1,8 +1,5 @@
 import { Component, input } from "@angular/core";
-import {
-  AccountDisplayNamePipe,
-  AccountInfo,
-} from "@open-event-workspace/core";
+import { AccountDisplayNamePipe, AccountInfo } from "@open-event/core";
 import { FALLBACK, GravatarModule, RATING } from "ngx-gravatar";
 
 @Component({

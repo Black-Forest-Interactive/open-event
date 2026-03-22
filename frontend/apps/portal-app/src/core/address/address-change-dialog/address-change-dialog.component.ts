@@ -12,7 +12,7 @@ import {
   Address,
   AddressChangeComponent,
   AddressChangeRequest,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";

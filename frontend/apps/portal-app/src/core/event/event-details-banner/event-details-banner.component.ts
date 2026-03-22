@@ -1,10 +1,10 @@
 import { Component, computed, effect, input, signal } from "@angular/core";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatIconModule } from "@angular/material/icon";
-import { EventInfo } from "@open-event-workspace/core";
+import { EventInfo } from "@open-event/core";
 
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { ImageUploadService } from "@open-event-workspace/app";
+import { ImageUploadService } from "@open-event/app";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { HotToastService } from "@ngxpert/hot-toast";

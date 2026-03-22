@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 
-import { ActivityService } from "@open-event-workspace/backoffice";
-import { Activity, ActivityCleanupRequest } from "@open-event-workspace/core";
-import { Page } from "@open-event-workspace/shared";
+import { ActivityService } from "@open-event/admin";
+import { Activity, ActivityCleanupRequest } from "@open-event/core";
+import { Page } from "@open-event/shared";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { MatCard } from "@angular/material/card";
 import { MatIcon } from "@angular/material/icon";
@@ -18,7 +18,7 @@ import {
 } from "../../shared/board/board.component";
 
 @Component({
-  selector: "boffice-activity",
+  selector: "admin-activity",
   imports: [
     MatCard,
     MatIcon,

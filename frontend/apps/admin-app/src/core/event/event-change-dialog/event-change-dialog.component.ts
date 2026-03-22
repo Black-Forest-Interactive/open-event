@@ -4,7 +4,7 @@ import {
   AddressService,
   CategoryService,
   EventService,
-} from "@open-event-workspace/backoffice";
+} from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
   MatDialogContent,
@@ -20,9 +20,9 @@ import {
   EventChangeRequest,
   EventInfo,
   EventReadAPI,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { Observable } from "rxjs";
-import { Page } from "@open-event-workspace/shared";
+import { Page } from "@open-event/shared";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({

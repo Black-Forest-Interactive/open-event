@@ -6,8 +6,8 @@ import {
   EventRangeSelection,
   EventSearchEntry,
   EventSearchResponse,
-} from "@open-event-workspace/core";
-import { EventService, ExportService } from "@open-event-workspace/backoffice";
+} from "@open-event/core";
+import { EventService, ExportService } from "@open-event/admin";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { MatDialog } from "@angular/material/dialog";
 import { debounceTime, distinctUntilChanged } from "rxjs";
@@ -31,7 +31,7 @@ import { MatTooltip } from "@angular/material/tooltip";
 import { Sort } from "@angular/material/sort";
 
 @Component({
-  selector: "boffice-event",
+  selector: "admin-event",
   imports: [
     MatCard,
     EventTableComponent,

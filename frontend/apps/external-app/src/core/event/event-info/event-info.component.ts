@@ -1,9 +1,9 @@
 import { Component, input } from "@angular/core";
-import { PublicEvent } from "@open-event-workspace/external";
+import { PublicEvent } from "@open-event/external";
 import { DatePipe } from "@angular/common";
 import { MatDivider } from "@angular/material/divider";
 import { TranslatePipe } from "@ngx-translate/core";
-import { RegistrationStatusComponent } from "@open-event-workspace/core";
+import { RegistrationStatusComponent } from "@open-event/core";
 
 @Component({
   selector: "app-event-info",

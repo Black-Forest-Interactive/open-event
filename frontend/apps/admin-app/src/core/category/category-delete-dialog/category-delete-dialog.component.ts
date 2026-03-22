@@ -1,11 +1,11 @@
 import { Component, Inject } from "@angular/core";
-import { CategoryService } from "@open-event-workspace/backoffice";
+import { CategoryService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
 } from "@angular/material/dialog";
-import { Category } from "@open-event-workspace/core";
+import { Category } from "@open-event/core";
 
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";

@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { Feedback } from "@open-event-workspace/core";
+import { Feedback } from "@open-event/core";
 import { MAT_DIALOG_DATA, MatDialogContent } from "@angular/material/dialog";
 import { TranslatePipe } from "@ngx-translate/core";
 import { FeedbackCardComponent } from "../feedback-card/feedback-card.component";

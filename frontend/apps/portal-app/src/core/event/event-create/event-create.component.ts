@@ -9,19 +9,15 @@ import {
   EventChangeRequest,
   EventInfo,
   EventReadAPI,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatToolbar } from "@angular/material/toolbar";
 import { Location } from "@angular/common";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
-import {
-  AddressService,
-  CategoryService,
-  EventService,
-} from "@open-event-workspace/app";
+import { AddressService, CategoryService, EventService } from "@open-event/app";
 import { Observable } from "rxjs";
-import { Page } from "@open-event-workspace/shared";
+import { Page } from "@open-event/shared";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { Router } from "@angular/router";
 import { MatSlideToggle } from "@angular/material/slide-toggle";

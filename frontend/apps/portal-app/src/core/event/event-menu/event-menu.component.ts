@@ -4,9 +4,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { EventDeleteDialogComponent } from "../event-delete-dialog/event-delete-dialog.component";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { EventMenuItem } from "../event-menu-item";
-import { Event } from "@open-event-workspace/core";
+import { Event } from "@open-event/core";
 import { EventNavigationService } from "../event-navigation.service";
-import { EventService } from "@open-event-workspace/app";
+import { EventService } from "@open-event/app";
 
 @Component({
   selector: "app-event-menu",

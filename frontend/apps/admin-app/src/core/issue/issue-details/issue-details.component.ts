@@ -1,6 +1,6 @@
 import { Component, computed, resource, signal } from "@angular/core";
-import { toPromise } from "@open-event-workspace/shared";
-import { IssueService } from "@open-event-workspace/backoffice";
+import { toPromise } from "@open-event/shared";
+import { IssueService } from "@open-event/admin";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { BoardComponent } from "../../../shared/board/board.component";

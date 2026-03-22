@@ -9,15 +9,11 @@ import {
   EventChangeRequest,
   EventInfo,
   EventReadAPI,
-} from "@open-event-workspace/core";
-import { LoadingBarComponent, Page } from "@open-event-workspace/shared";
+} from "@open-event/core";
+import { LoadingBarComponent, Page } from "@open-event/shared";
 import { MatToolbar } from "@angular/material/toolbar";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import {
-  AddressService,
-  CategoryService,
-  EventService,
-} from "@open-event-workspace/app";
+import { AddressService, CategoryService, EventService } from "@open-event/app";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Location } from "@angular/common";

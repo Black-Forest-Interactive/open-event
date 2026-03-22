@@ -5,15 +5,15 @@ import { MatButton } from "@angular/material/button";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Subject, switchMap, takeUntil, timer } from "rxjs";
 import { tap } from "rxjs/operators";
-import { SearchService } from "@open-event-workspace/backoffice";
+import { SearchService } from "@open-event/admin";
 import { HotToastService } from "@ngxpert/hot-toast";
-import { SearchOperatorInfo } from "@open-event-workspace/core";
+import { SearchOperatorInfo } from "@open-event/core";
 import { MatCard } from "@angular/material/card";
 import { MatProgressBar } from "@angular/material/progress-bar";
 import { BoardComponent } from "../../shared/board/board.component";
 
 @Component({
-  selector: "boffice-search",
+  selector: "admin-search",
   imports: [
     CommonModule,
     MatIcon,

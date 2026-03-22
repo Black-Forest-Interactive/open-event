@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogContent } from "@angular/material/dialog";
-import { Issue } from "@open-event-workspace/core";
+import { Issue } from "@open-event/core";
 import { IssueCardComponent } from "../issue-card/issue-card.component";
 import { TranslatePipe } from "@ngx-translate/core";
 

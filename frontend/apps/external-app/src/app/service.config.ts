@@ -1,5 +1,5 @@
 import { Provider } from "@angular/core";
-import { BASE_API_URL } from "@open-event-workspace/shared";
+import { BASE_API_URL } from "@open-event/shared";
 
 export const BASE_URL_PROVIDER: Provider = {
   provide: BASE_API_URL,

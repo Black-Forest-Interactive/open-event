@@ -1,6 +1,6 @@
 import { Component, computed, resource, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { AccountService } from "@open-event/backoffice";
+import { AccountService } from "@open-event/admin";
 import { toPromise } from "@open-event/shared";
 import { MatCardModule } from "@angular/material/card";
 import { MatToolbarModule } from "@angular/material/toolbar";

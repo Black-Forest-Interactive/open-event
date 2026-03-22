@@ -1,7 +1,7 @@
 import { Component, computed, inject, resource } from "@angular/core";
 
-import { toPromise } from "@open-event-workspace/shared";
-import { SettingsService } from "@open-event-workspace/app";
+import { toPromise } from "@open-event/shared";
+import { SettingsService } from "@open-event/app";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatCard } from "@angular/material/card";
 import { TranslatePipe } from "@ngx-translate/core";

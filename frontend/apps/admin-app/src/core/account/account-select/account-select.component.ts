@@ -6,12 +6,9 @@ import {
   resource,
   signal,
 } from "@angular/core";
-import {
-  AccountSearchEntry,
-  AccountSearchRequest,
-} from "@open-event-workspace/core";
-import { AccountService } from "@open-event-workspace/backoffice";
-import { toPromise } from "@open-event-workspace/shared";
+import { AccountSearchEntry, AccountSearchRequest } from "@open-event/core";
+import { AccountService } from "@open-event/admin";
+import { toPromise } from "@open-event/shared";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import {

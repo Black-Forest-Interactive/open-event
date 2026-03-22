@@ -1,11 +1,11 @@
 import { Component, input } from "@angular/core";
 import { MatMiniFabButton } from "@angular/material/button";
 import { HttpResponse } from "@angular/common/http";
-import { ExportService } from "@open-event-workspace/backoffice";
-import { download } from "@open-event-workspace/shared";
+import { ExportService } from "@open-event/admin";
+import { download } from "@open-event/shared";
 import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { EventSearchRequest } from "@open-event-workspace/core";
+import { EventSearchRequest } from "@open-event/core";
 import { MatTooltip } from "@angular/material/tooltip";
 import { TranslatePipe } from "@ngx-translate/core";
 

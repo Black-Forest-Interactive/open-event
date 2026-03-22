@@ -1,5 +1,5 @@
 import { Component, Directive, input } from "@angular/core";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
+import { LoadingBarComponent } from "@open-event/shared";
 import { MatToolbar } from "@angular/material/toolbar";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatCard } from "@angular/material/card";

@@ -5,7 +5,7 @@ import { MatIcon } from "@angular/material/icon";
 import { MatIconButton } from "@angular/material/button";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
-import { AccountDisplayNamePipe } from "@open-event-workspace/core";
+import { AccountDisplayNamePipe } from "@open-event/core";
 import { GravatarModule } from "ngx-gravatar";
 import { MatDivider } from "@angular/material/divider";
 import { RouterLink } from "@angular/router";

@@ -5,10 +5,7 @@ import {
   MatDialogTitle,
 } from "@angular/material/dialog";
 import { AccountComponent } from "../../account/account/account.component";
-import {
-  AccountDisplayNamePipe,
-  EventSearchEntry,
-} from "@open-event-workspace/core";
+import { AccountDisplayNamePipe, EventSearchEntry } from "@open-event/core";
 import { DatePipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";

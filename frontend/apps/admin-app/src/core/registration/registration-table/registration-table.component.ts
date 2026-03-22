@@ -7,14 +7,14 @@ import {
   resource,
   signal,
 } from "@angular/core";
-import { RegistrationService } from "@open-event-workspace/backoffice";
+import { RegistrationService } from "@open-event/admin";
 import {
   Participant,
   ParticipantDetails,
   ParticipateResponse,
   RegistrationInfo,
-} from "@open-event-workspace/core";
-import { toPromise } from "@open-event-workspace/shared";
+} from "@open-event/core";
+import { toPromise } from "@open-event/shared";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";

@@ -1,10 +1,10 @@
 import { Component, EventEmitter } from "@angular/core";
 
-import { Setting } from "@open-event-workspace/core";
+import { Setting } from "@open-event/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
-import { Page } from "@open-event-workspace/shared";
-import { SettingsService } from "@open-event-workspace/backoffice";
+import { Page } from "@open-event/shared";
+import { SettingsService } from "@open-event/admin";
 import { SettingsChangeDialogComponent } from "./settings-change-dialog/settings-change-dialog.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from "@angular/material/card";
@@ -18,7 +18,7 @@ import {
 } from "../../shared/board/board.component";
 
 @Component({
-  selector: "boffice-settings",
+  selector: "admin-settings",
   imports: [
     TranslatePipe,
     MatToolbarModule,

@@ -6,8 +6,8 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { toPromise } from "@open-event-workspace/shared";
-import { EventService } from "@open-event-workspace/backoffice";
+import { toPromise } from "@open-event/shared";
+import { EventService } from "@open-event/admin";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import {

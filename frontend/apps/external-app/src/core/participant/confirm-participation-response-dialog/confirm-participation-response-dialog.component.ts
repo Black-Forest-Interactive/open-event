@@ -6,12 +6,12 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from "@angular/material/dialog";
-import { ExternalParticipant } from "@open-event-workspace/external";
+import { ExternalParticipant } from "@open-event/external";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDivider } from "@angular/material/divider";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatIcon } from "@angular/material/icon";
-import { WaitingListPipe } from "@open-event-workspace/core";
+import { WaitingListPipe } from "@open-event/core";
 
 @Component({
   selector: "app-confirm-participation-response-dialog",

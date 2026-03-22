@@ -7,13 +7,10 @@ import {
   AccountInfo,
   AccountValidationResult,
   Profile,
-} from "@open-event-workspace/core";
-import {
-  AuthService,
-  ConfirmDialogComponent,
-} from "@open-event-workspace/shared";
+} from "@open-event/core";
+import { AuthService, ConfirmDialogComponent } from "@open-event/shared";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { AccountService } from "@open-event-workspace/app";
+import { AccountService } from "@open-event/app";
 
 @Injectable({
   providedIn: "root",

@@ -6,11 +6,11 @@ import { MatMiniFabButton } from "@angular/material/button";
 import { NgxEchartsDirective } from "ngx-echarts";
 import { CacheInfo } from "@open-event/core";
 import type { EChartsCoreOption } from "echarts/core";
-import { CacheService } from "@open-event-workspace/backoffice";
+import { CacheService } from "@open-event/admin";
 import { BoardComponent } from "../../shared/board/board.component";
 
 @Component({
-  selector: "boffice-cache",
+  selector: "admin-cache",
   imports: [
     MatMiniFabButton,
     MatCard,

@@ -1,7 +1,7 @@
 import { Component, computed, input, resource } from "@angular/core";
-import { Account } from "@open-event-workspace/core";
-import { toPromise } from "@open-event-workspace/shared";
-import { AccountService } from "@open-event-workspace/backoffice";
+import { Account } from "@open-event/core";
+import { toPromise } from "@open-event/shared";
+import { AccountService } from "@open-event/admin";
 import { TranslatePipe } from "@ngx-translate/core";
 import { BoardCardComponent } from "../../../shared/board-card/board-card.component";
 

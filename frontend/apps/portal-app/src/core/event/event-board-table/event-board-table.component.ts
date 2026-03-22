@@ -10,8 +10,8 @@ import { MatDivider } from "@angular/material/divider";
 import { MatMiniFabButton } from "@angular/material/button";
 import { RouterLink } from "@angular/router";
 import { MatPaginator } from "@angular/material/paginator";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
-import { RegistrationStatusComponent } from "@open-event-workspace/core";
+import { LoadingBarComponent } from "@open-event/shared";
+import { RegistrationStatusComponent } from "@open-event/core";
 
 @Component({
   selector: "app-event-board-table",

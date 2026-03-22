@@ -11,14 +11,14 @@ import { EventMenuComponent } from "../event-menu/event-menu.component";
 import { Router } from "@angular/router";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { MatDialog } from "@angular/material/dialog";
-import { Event, EventInfo } from "@open-event-workspace/core";
+import { Event, EventInfo } from "@open-event/core";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";
-import { EventService } from "@open-event-workspace/app";
+import { EventService } from "@open-event/app";
 import {
   BreakpointObserver,
   Breakpoints,

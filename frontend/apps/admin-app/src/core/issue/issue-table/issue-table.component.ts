@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { Issue } from "@open-event-workspace/core";
+import { Issue } from "@open-event/core";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { DatePipe } from "@angular/common";
 import { MatTableModule } from "@angular/material/table";

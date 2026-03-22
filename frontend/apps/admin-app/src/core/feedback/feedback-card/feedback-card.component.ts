@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { Feedback } from "@open-event-workspace/core";
+import { Feedback } from "@open-event/core";
 import { DatePipe } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
 

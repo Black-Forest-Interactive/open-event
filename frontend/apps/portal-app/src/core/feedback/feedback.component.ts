@@ -1,14 +1,11 @@
 import { Component, signal } from "@angular/core";
 
 import { MatCard } from "@angular/material/card";
-import {
-  FeedbackChangeRequest,
-  FeedbackFormComponent,
-} from "@open-event-workspace/core";
-import { FeedbackService } from "@open-event-workspace/app";
+import { FeedbackChangeRequest, FeedbackFormComponent } from "@open-event/core";
+import { FeedbackService } from "@open-event/app";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { MatDivider } from "@angular/material/divider";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
+import { LoadingBarComponent } from "@open-event/shared";
 import { HotToastService } from "@ngxpert/hot-toast";
 
 @Component({

@@ -3,7 +3,7 @@ import {
   AccountSearchEntry,
   Participant,
   Registration,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -11,7 +11,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from "@angular/material/dialog";
-import { RegistrationService } from "@open-event-workspace/backoffice";
+import { RegistrationService } from "@open-event/admin";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";

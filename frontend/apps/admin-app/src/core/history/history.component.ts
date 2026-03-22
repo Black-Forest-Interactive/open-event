@@ -1,18 +1,18 @@
 import { Component, EventEmitter } from "@angular/core";
 import { DatePipe, NgClass } from "@angular/common";
-import { HistoryEventInfo } from "@open-event-workspace/core";
-import { Page } from "@open-event-workspace/shared";
+import { HistoryEventInfo } from "@open-event/core";
+import { Page } from "@open-event/shared";
 import { MatCard } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
 import { MatDivider } from "@angular/material/divider";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { FormControl, FormGroup } from "@angular/forms";
-import { HistoryService } from "@open-event-workspace/backoffice";
+import { HistoryService } from "@open-event/admin";
 import { BoardComponent } from "../../shared/board/board.component";
 import { HistoryTableComponent } from "./history-table/history-table.component";
 
 @Component({
-  selector: "boffice-history",
+  selector: "admin-history",
   imports: [
     MatCard,
     NgClass,

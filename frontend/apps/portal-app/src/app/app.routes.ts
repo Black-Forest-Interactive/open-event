@@ -3,7 +3,7 @@ import {
   canActivateAuthRole,
   ForbiddenComponent,
   PageNotFoundComponent,
-} from "@open-event-workspace/shared";
+} from "@open-event/shared";
 import { Roles } from "../shared/roles";
 
 export const appRoutes: Route[] = [

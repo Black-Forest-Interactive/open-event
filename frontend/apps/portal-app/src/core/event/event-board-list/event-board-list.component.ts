@@ -7,7 +7,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import {
   LoadingBarComponent,
   ScrollNearEndDirective,
-} from "@open-event-workspace/shared";
+} from "@open-event/shared";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({

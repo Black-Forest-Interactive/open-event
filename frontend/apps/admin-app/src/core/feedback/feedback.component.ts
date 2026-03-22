@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 
-import { Feedback } from "@open-event-workspace/core";
-import { FeedbackService } from "@open-event-workspace/backoffice";
+import { Feedback } from "@open-event/core";
+import { FeedbackService } from "@open-event/admin";
 import { HotToastService } from "@ngxpert/hot-toast";
-import { Page } from "@open-event-workspace/shared";
+import { Page } from "@open-event/shared";
 import { PageEvent } from "@angular/material/paginator";
 import {
   BoardComponent,

@@ -9,8 +9,8 @@ import {
 } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";
-import { AddressService } from "@open-event-workspace/backoffice";
-import { Address } from "@open-event-workspace/core";
+import { AddressService } from "@open-event/admin";
+import { Address } from "@open-event/core";
 
 @Component({
   selector: "app-address-delete-dialog",

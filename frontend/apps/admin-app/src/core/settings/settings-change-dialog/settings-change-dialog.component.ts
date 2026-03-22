@@ -10,8 +10,8 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from "@angular/material/dialog";
-import { Setting, SettingChangeRequest } from "@open-event-workspace/core";
-import { SettingsService } from "@open-event-workspace/backoffice";
+import { Setting, SettingChangeRequest } from "@open-event/core";
+import { SettingsService } from "@open-event/admin";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatInput } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
@@ -19,7 +19,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-  selector: "boffice-settings-change-dialog",
+  selector: "admin-settings-change-dialog",
   templateUrl: "./settings-change-dialog.component.html",
   styleUrl: "./settings-change-dialog.component.scss",
   imports: [

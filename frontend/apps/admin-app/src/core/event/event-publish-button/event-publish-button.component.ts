@@ -1,7 +1,7 @@
 import { Component, input, output } from "@angular/core";
-import { Event } from "@open-event-workspace/core";
+import { Event } from "@open-event/core";
 import { HotToastService } from "@ngxpert/hot-toast";
-import { EventService } from "@open-event-workspace/backoffice";
+import { EventService } from "@open-event/admin";
 import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatMiniFabButton } from "@angular/material/button";

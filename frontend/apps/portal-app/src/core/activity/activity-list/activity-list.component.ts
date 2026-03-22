@@ -1,6 +1,6 @@
 import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ActivityInfo } from "@open-event-workspace/core";
+import { ActivityInfo } from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";

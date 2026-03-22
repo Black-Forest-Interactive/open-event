@@ -17,7 +17,7 @@ import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
-import { ParticipateRequest } from "@open-event-workspace/core";
+import { ParticipateRequest } from "@open-event/core";
 
 @Component({
   selector: "app-registration-participate-dialog",

@@ -1,5 +1,5 @@
 import { Component, Directive, input, output } from "@angular/core";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
+import { LoadingBarComponent } from "@open-event/shared";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { BoardToolbarSearchComponent } from "../board-toolbar-search/board-toolbar-search.component";

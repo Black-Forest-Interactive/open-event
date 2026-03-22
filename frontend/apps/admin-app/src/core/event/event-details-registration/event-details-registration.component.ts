@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { EventInfo, ParticipateResponse } from "@open-event-workspace/core";
+import { EventInfo, ParticipateResponse } from "@open-event/core";
 import {
   BoardCardComponent,
   BoardCardToolbarActions,

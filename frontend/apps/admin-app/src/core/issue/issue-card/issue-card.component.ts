@@ -1,10 +1,10 @@
 import { Component, model } from "@angular/core";
-import { Issue } from "@open-event-workspace/core";
+import { Issue } from "@open-event/core";
 import { DatePipe } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatDivider } from "@angular/material/divider";
 import { MatButton } from "@angular/material/button";
-import { IssueService } from "@open-event-workspace/backoffice";
+import { IssueService } from "@open-event/admin";
 import { HotToastService } from "@ngxpert/hot-toast";
 
 @Component({

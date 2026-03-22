@@ -3,7 +3,7 @@ import {
   AccountDisplayNamePipe,
   EventPublishedIconComponent,
   EventSearchEntry,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";

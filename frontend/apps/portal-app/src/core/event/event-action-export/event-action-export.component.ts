@@ -1,12 +1,12 @@
 import { Component, Input } from "@angular/core";
 import { HttpResponse } from "@angular/common/http";
-import { AuthService, download } from "@open-event-workspace/shared";
-import { Event } from "@open-event-workspace/core";
+import { AuthService, download } from "@open-event/shared";
+import { Event } from "@open-event/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatMiniFabButton } from "@angular/material/button";
 import { Roles } from "../../../shared/roles";
-import { EventService } from "@open-event-workspace/app";
+import { EventService } from "@open-event/app";
 
 @Component({
   selector: "app-event-action-export",

@@ -3,7 +3,7 @@ import {
   EventInfo,
   EventPublishedIconComponent,
   EventSharedIconComponent,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { BoardCardComponent } from "../../../shared/board-card/board-card.component";
 import { TranslatePipe } from "@ngx-translate/core";
 import { DatePipe } from "@angular/common";

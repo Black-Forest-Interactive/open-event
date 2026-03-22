@@ -1,5 +1,5 @@
 import { Component, OnInit, output, signal } from "@angular/core";
-import { ActivityService } from "@open-event-workspace/app";
+import { ActivityService } from "@open-event/app";
 import { interval, startWith, switchMap } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatBadge } from "@angular/material/badge";

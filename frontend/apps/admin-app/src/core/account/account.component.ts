@@ -8,8 +8,8 @@ import {
   AccountSearchEntry,
   AccountSearchRequest,
   AccountSearchResponse,
-} from "@open-event-workspace/core";
-import { AccountService } from "@open-event-workspace/backoffice";
+} from "@open-event/core";
+import { AccountService } from "@open-event/admin";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
@@ -23,7 +23,7 @@ import {
 import { EventCreateDialogComponent } from "../event/event-create-dialog/event-create-dialog.component";
 
 @Component({
-  selector: "boffice-account",
+  selector: "admin-account",
   imports: [
     MatButton,
     MatCard,

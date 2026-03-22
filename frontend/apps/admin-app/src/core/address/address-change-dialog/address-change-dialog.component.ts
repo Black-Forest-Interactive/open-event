@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { AddressService } from "@open-event-workspace/backoffice";
+import { AddressService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -11,7 +11,7 @@ import {
   Address,
   AddressChangeComponent,
   AddressChangeRequest,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";

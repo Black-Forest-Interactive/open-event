@@ -3,17 +3,14 @@ import { TranslateService } from "@ngx-translate/core";
 import { map, Subject } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { toSignal } from "@angular/core/rxjs-interop";
-import {
-  AuthService,
-  ConfirmDialogComponent,
-} from "@open-event-workspace/shared";
+import { AuthService, ConfirmDialogComponent } from "@open-event/shared";
 import {
   Account,
   AccountInfo,
   AccountValidationResult,
   Profile,
-} from "@open-event-workspace/core";
-import { AccountService } from "@open-event-workspace/backoffice";
+} from "@open-event/core";
+import { AccountService } from "@open-event/admin";
 
 @Injectable({
   providedIn: "root",

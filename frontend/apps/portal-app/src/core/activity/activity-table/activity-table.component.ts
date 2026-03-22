@@ -16,10 +16,10 @@ import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";
 import { DatePipe, NgClass } from "@angular/common";
 import { MatDivider } from "@angular/material/divider";
-import { ActivityInfo } from "@open-event-workspace/core";
-import { LoadingBarComponent, Page } from "@open-event-workspace/shared";
+import { ActivityInfo } from "@open-event/core";
+import { LoadingBarComponent, Page } from "@open-event/shared";
 import { ActivityReadComponent } from "../activity-read/activity-read.component";
-import { ActivityService } from "@open-event-workspace/app";
+import { ActivityService } from "@open-event/app";
 
 @Component({
   selector: "app-activity-table",

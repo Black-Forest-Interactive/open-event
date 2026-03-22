@@ -18,7 +18,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { provideShareButtonsOptions } from "ngx-sharebuttons";
 import { shareIcons } from "ngx-sharebuttons/icons";
 import { MatPaginatorIntl } from "@angular/material/paginator";
-import { MatPaginatorI18nService } from "@open-event-workspace/shared";
+import { MatPaginatorI18nService } from "@open-event/shared";
 import { provideTranslateConfig } from "./translate.config";
 import { provideServiceConfig } from "./service.config";
 import { provideQuill } from "./quill.config";

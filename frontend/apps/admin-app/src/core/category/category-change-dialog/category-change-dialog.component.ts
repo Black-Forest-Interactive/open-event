@@ -1,6 +1,6 @@
 import { Component, Inject } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { CategoryService } from "@open-event-workspace/backoffice";
+import { CategoryService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -10,7 +10,7 @@ import {
   Category,
   CategoryChangeComponent,
   CategoryChangeRequest,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatFormFieldModule } from "@angular/material/form-field";

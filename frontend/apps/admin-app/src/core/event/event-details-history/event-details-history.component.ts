@@ -1,7 +1,7 @@
 import { Component, computed, input, resource, signal } from "@angular/core";
-import { EventInfo } from "@open-event-workspace/core";
-import { EventService } from "@open-event-workspace/backoffice";
-import { LoadingBarComponent, toPromise } from "@open-event-workspace/shared";
+import { EventInfo } from "@open-event/core";
+import { EventService } from "@open-event/admin";
+import { LoadingBarComponent, toPromise } from "@open-event/shared";
 import { HistoryTableComponent } from "../../history/history-table/history-table.component";
 import { PageEvent } from "@angular/material/paginator";
 import { BoardCardComponent } from "../../../shared/board-card/board-card.component";

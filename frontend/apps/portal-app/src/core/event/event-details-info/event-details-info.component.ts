@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { EventInfo } from "@open-event-workspace/core";
+import { EventInfo } from "@open-event/core";
 import {
   MatCardActions,
   MatCardContent,

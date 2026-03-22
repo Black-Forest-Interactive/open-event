@@ -6,12 +6,11 @@ import { Subscription } from "rxjs";
 import LogRocket from "logrocket";
 import { LoadingScreenComponent } from "@open-event/shared";
 import { AppService } from "../shared/app.service";
-import { DashboardComponent } from "../shared/dashboard/dashboard.component";
 import { environment } from "../environments/environment";
 
 @Component({
-  imports: [RouterModule, AsyncPipe, DashboardComponent],
-  selector: "boffice-root",
+  imports: [RouterModule, AsyncPipe],
+  selector: "admin-root",
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })

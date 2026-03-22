@@ -1,6 +1,6 @@
 import { Component, EventEmitter } from "@angular/core";
 import { DatePipe, Location } from "@angular/common";
-import { LoadingBarComponent, Page } from "@open-event-workspace/shared";
+import { LoadingBarComponent, Page } from "@open-event/shared";
 import { MatCard } from "@angular/material/card";
 import {
   MatCell,
@@ -18,14 +18,14 @@ import { MatMiniFabButton } from "@angular/material/button";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatToolbar } from "@angular/material/toolbar";
 import { TranslatePipe } from "@ngx-translate/core";
-import { MailJobHistoryEntry } from "@open-event-workspace/core";
+import { MailJobHistoryEntry } from "@open-event/core";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { ActivatedRoute, Router } from "@angular/router";
 import { debounceTime, distinctUntilChanged } from "rxjs";
-import { MailService } from "@open-event-workspace/backoffice";
+import { MailService } from "@open-event/admin";
 
 @Component({
-  selector: "boffice-mail-history",
+  selector: "admin-mail-history",
   imports: [
     DatePipe,
     LoadingBarComponent,

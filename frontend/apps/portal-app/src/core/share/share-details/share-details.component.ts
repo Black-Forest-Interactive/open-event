@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from "@angular/core";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
-import { EventInfo } from "@open-event-workspace/core";
+import { LoadingBarComponent } from "@open-event/shared";
+import { EventInfo } from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ShareButtons } from "ngx-sharebuttons/buttons";
 import { MatButtonModule } from "@angular/material/button";

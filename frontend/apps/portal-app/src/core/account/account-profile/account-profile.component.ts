@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { Profile, ProfileChangeRequest } from "@open-event-workspace/core";
+import { Profile, ProfileChangeRequest } from "@open-event/core";
 import {
   FormBuilder,
   FormGroup,
@@ -16,8 +16,8 @@ import { MatList, MatListItem } from "@angular/material/list";
 import { MatFormField, MatInput } from "@angular/material/input";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatButton, MatMiniFabButton } from "@angular/material/button";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
-import { AccountService } from "@open-event-workspace/app";
+import { LoadingBarComponent } from "@open-event/shared";
+import { AccountService } from "@open-event/app";
 
 @Component({
   selector: "app-account-profile",

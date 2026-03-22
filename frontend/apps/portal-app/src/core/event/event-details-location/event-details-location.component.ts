@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { EventInfo, LocationMapComponent } from "@open-event-workspace/core";
+import { EventInfo, LocationMapComponent } from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";

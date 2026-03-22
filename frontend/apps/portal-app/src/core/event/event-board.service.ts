@@ -6,8 +6,8 @@ import {
   EventSearchEntry,
   EventSearchRequest,
   EventSearchResponse,
-} from "@open-event-workspace/core";
-import { EventService } from "@open-event-workspace/app";
+} from "@open-event/core";
+import { EventService } from "@open-event/app";
 
 @Injectable({
   providedIn: "root",

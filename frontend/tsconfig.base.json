@@ -15,12 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@open-event/app": ["libs/app/src/index.ts"],
-      "@open-event/backoffice": ["libs/backoffice/src/index.ts"],
+      "@open-event/admin": ["libs/admin/src/index.ts"],
       "@open-event/core": ["libs/core/src/index.ts"],
-      "@open-event/events": ["libs/events/src/index.ts"],
       "@open-event/external": ["libs/external/src/index.ts"],
-      "@open-event/shared": ["libs/shared/src/index.ts"]
+      "@open-event/portal": ["libs/portal/src/index.ts"],
+      "@open-event/shared": ["libs/shared/src/index.ts"],
+      "@open-event/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

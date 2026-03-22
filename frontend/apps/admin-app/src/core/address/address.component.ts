@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
-
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'boffice-address',
+  selector: "admin-address",
   imports: [],
-  templateUrl: './address.component.html',
-  styleUrl: './address.component.scss',
+  templateUrl: "./address.component.html",
+  styleUrl: "./address.component.scss",
 })
 export class AddressComponent {}

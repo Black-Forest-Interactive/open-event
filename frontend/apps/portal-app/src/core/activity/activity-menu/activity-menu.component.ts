@@ -5,9 +5,9 @@ import { MatIcon } from "@angular/material/icon";
 import { MatMenu, MatMenuTrigger } from "@angular/material/menu";
 import { TranslatePipe } from "@ngx-translate/core";
 import { ActivityListComponent } from "../activity-list/activity-list.component";
-import { ActivityService } from "@open-event-workspace/app";
+import { ActivityService } from "@open-event/app";
 import { MatProgressBar } from "@angular/material/progress-bar";
-import { ActivityInfo } from "@open-event-workspace/core";
+import { ActivityInfo } from "@open-event/core";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { switchMap } from "rxjs";
 

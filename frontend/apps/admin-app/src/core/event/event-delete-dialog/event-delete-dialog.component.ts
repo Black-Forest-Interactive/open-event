@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { EventService } from "@open-event-workspace/backoffice";
+import { EventService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -7,7 +7,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from "@angular/material/dialog";
-import { AccountDisplayNamePipe, Event } from "@open-event-workspace/core";
+import { AccountDisplayNamePipe, Event } from "@open-event/core";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";

@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { EventInfo, LocationMapComponent } from "@open-event-workspace/core";
+import { EventInfo, LocationMapComponent } from "@open-event/core";
 import { BoardCardComponent } from "../../../shared/board-card/board-card.component";
 import { TranslatePipe } from "@ngx-translate/core";
 

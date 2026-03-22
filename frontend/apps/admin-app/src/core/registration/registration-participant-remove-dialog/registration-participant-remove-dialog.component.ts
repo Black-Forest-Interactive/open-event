@@ -7,12 +7,12 @@ import {
   MatDialogTitle,
 } from "@angular/material/dialog";
 import { TranslatePipe } from "@ngx-translate/core";
-import { RegistrationService } from "@open-event-workspace/backoffice";
+import { RegistrationService } from "@open-event/admin";
 import {
   AccountDisplayNamePipe,
   Participant,
   Registration,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";
 import { DatePipe } from "@angular/common";

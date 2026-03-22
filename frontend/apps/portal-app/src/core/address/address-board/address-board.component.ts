@@ -3,8 +3,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { AddressChangeDialogComponent } from "../address-change-dialog/address-change-dialog.component";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { AddressDeleteDialogComponent } from "../address-delete-dialog/address-delete-dialog.component";
-import { Address } from "@open-event-workspace/core";
-import { LoadingBarComponent, Page } from "@open-event-workspace/shared";
+import { Address } from "@open-event/core";
+import { LoadingBarComponent, Page } from "@open-event/shared";
 import { AppService } from "../../../shared/app.service";
 import { MatCard } from "@angular/material/card";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -12,7 +12,7 @@ import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatDivider } from "@angular/material/divider";
 import { MatTableModule } from "@angular/material/table";
 import { MatIcon } from "@angular/material/icon";
-import { AddressService } from "@open-event-workspace/app";
+import { AddressService } from "@open-event/app";
 
 @Component({
   selector: "app-address-board",

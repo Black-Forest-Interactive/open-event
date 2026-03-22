@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { ExternalParticipantAddRequest } from "@open-event-workspace/external";
+import { ExternalParticipantAddRequest } from "@open-event/external";
 import { MatInputModule } from "@angular/material/input";
 import { TranslateModule } from "@ngx-translate/core";
 import { MatButtonModule } from "@angular/material/button";

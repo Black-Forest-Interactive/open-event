@@ -1,5 +1,5 @@
-import { BaseIssueService } from "@open-event-workspace/core";
-import { IssueService } from "@open-event-workspace/app";
+import { BaseIssueService } from "@open-event/core";
+import { IssueService } from "@open-event/app";
 import { Provider } from "@angular/core";
 
 export const ISSUE_SERVICE_PROVIDER: Provider = {

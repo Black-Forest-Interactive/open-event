@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { Registration } from "@open-event-workspace/core";
+import { Registration } from "@open-event/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -7,7 +7,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from "@angular/material/dialog";
-import { RegistrationService } from "@open-event-workspace/backoffice";
+import { RegistrationService } from "@open-event/admin";
 import { TranslatePipe } from "@ngx-translate/core";
 import {
   FormBuilder,
@@ -15,7 +15,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { atLeastOneRequiredValidator } from "@open-event-workspace/shared";
+import { atLeastOneRequiredValidator } from "@open-event/shared";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatFormField, MatLabel } from "@angular/material/form-field";

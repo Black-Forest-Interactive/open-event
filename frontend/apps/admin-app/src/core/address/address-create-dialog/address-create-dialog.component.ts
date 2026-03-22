@@ -3,7 +3,7 @@ import {
   Account,
   AddressChangeComponent,
   AddressChangeRequest,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatButton } from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
@@ -13,7 +13,7 @@ import {
 } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";
-import { AccountService } from "@open-event-workspace/backoffice";
+import { AccountService } from "@open-event/admin";
 
 @Component({
   selector: "app-address-create-dialog",

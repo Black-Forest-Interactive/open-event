@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { AccountSearchEntry } from "@open-event-workspace/core";
+import { AccountSearchEntry } from "@open-event/core";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";

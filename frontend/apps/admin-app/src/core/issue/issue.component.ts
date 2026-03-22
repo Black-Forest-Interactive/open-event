@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 
-import { IssueService } from "@open-event/backoffice";
+import { IssueService } from "@open-event/admin";
 import { PageEvent } from "@angular/material/paginator";
-import { Issue } from "@open-event-workspace/core";
-import { Page } from "@open-event-workspace/shared";
+import { Issue } from "@open-event/core";
+import { Page } from "@open-event/shared";
 import {
   BoardComponent,
   BoardToolbarActions,

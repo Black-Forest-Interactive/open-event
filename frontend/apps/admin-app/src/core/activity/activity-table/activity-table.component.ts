@@ -5,7 +5,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
-import { Activity } from "@open-event-workspace/core";
+import { Activity } from "@open-event/core";
 import { MatButtonModule } from "@angular/material/button";
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, EventEmitter } from "@angular/core";
 import { DatePipe } from "@angular/common";
-import { Page } from "@open-event-workspace/shared";
+import { Page } from "@open-event/shared";
 import { MatCard } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
 import { MatChip } from "@angular/material/chips";
@@ -9,14 +9,14 @@ import { MatIconButton } from "@angular/material/button";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { RouterLink } from "@angular/router";
 import { TranslatePipe } from "@ngx-translate/core";
-import { MailJob } from "@open-event-workspace/core";
+import { MailJob } from "@open-event/core";
 import { Subject, switchMap, takeUntil, timer } from "rxjs";
 import { tap } from "rxjs/operators";
-import { MailService } from "@open-event-workspace/backoffice";
+import { MailService } from "@open-event/admin";
 import { BoardComponent } from "../../shared/board/board.component";
 
 @Component({
-  selector: "boffice-mail",
+  selector: "admin-mail",
   imports: [
     MatIcon,
     TranslatePipe,

@@ -3,7 +3,7 @@ import {
   AccountDisplayNamePipe,
   EventSearchEntry,
   RegistrationStatusComponent,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatCard } from "@angular/material/card";
 import { RouterLink } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";

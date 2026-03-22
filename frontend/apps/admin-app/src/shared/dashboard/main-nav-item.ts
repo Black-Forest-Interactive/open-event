@@ -1,4 +1,4 @@
-import { AuthService } from "@open-event-workspace/shared";
+import { AuthService } from "@open-event/shared";
 
 export class MainNavItem {
   constructor(

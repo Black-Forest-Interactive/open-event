@@ -2,9 +2,9 @@ import { Component, EventEmitter, input, Output } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { Activity, ActivityInfo } from "@open-event-workspace/core";
+import { Activity, ActivityInfo } from "@open-event/core";
 import { MatIcon } from "@angular/material/icon";
-import { ActivityService } from "@open-event-workspace/app";
+import { ActivityService } from "@open-event/app";
 
 @Component({
   selector: "app-activity-read",

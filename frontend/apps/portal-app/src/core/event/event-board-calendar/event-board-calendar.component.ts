@@ -13,7 +13,7 @@ import { EventNavigationService } from "../event-navigation.service";
 import { Router } from "@angular/router";
 import { EventBoardService } from "../event-board.service";
 import { MatCard } from "@angular/material/card";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
+import { LoadingBarComponent } from "@open-event/shared";
 
 @Component({
   selector: "app-event-board-calendar",

@@ -18,14 +18,13 @@ import {
   MatSidenavContent,
 } from "@angular/material/sidenav";
 import { MainNavItem } from "./main-nav-item";
-import { AuthService, MainMenuComponent } from "@open-event-workspace/shared";
+import { AuthService, MainMenuComponent } from "@open-event/shared";
 import { DashboardService } from "./dashboard.service";
 import { AsyncPipe } from "@angular/common";
-import { DashboardToolbarComponent } from "../dashboard-toolbar/dashboard-toolbar.component";
 import { Roles } from "../roles";
 
 @Component({
-  selector: "boffice-dashboard",
+  selector: "admin-dashboard",
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"],
   imports: [
@@ -36,7 +35,6 @@ import { Roles } from "../roles";
     RouterLink,
     MainMenuComponent,
     RouterOutlet,
-    DashboardToolbarComponent,
   ],
   standalone: true,
 })

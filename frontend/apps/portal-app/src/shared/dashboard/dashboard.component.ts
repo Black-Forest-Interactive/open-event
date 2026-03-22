@@ -21,7 +21,7 @@ import {
   AuthService,
   MainMenuComponent,
   MainNavItem,
-} from "@open-event-workspace/shared";
+} from "@open-event/shared";
 import { DashboardService } from "./dashboard.service";
 import { AsyncPipe } from "@angular/common";
 import { DashboardToolbarComponent } from "../dashboard-toolbar/dashboard-toolbar.component";

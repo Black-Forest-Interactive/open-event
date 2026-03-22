@@ -4,10 +4,10 @@ import {
   AccountDisplayNamePipe,
   Event,
   EventPublishedIconComponent,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { TranslatePipe } from "@ngx-translate/core";
-import { toPromise } from "@open-event-workspace/shared";
-import { AccountService, EventService } from "@open-event-workspace/backoffice";
+import { toPromise } from "@open-event/shared";
+import { AccountService, EventService } from "@open-event/admin";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";

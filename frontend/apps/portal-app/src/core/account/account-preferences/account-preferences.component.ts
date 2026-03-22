@@ -5,12 +5,9 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDivider } from "@angular/material/divider";
-import { LoadingBarComponent } from "@open-event-workspace/shared";
-import { AccountService } from "@open-event-workspace/app";
-import {
-  Preferences,
-  PreferencesChangeRequest,
-} from "@open-event-workspace/core";
+import { LoadingBarComponent } from "@open-event/shared";
+import { AccountService } from "@open-event/app";
+import { Preferences, PreferencesChangeRequest } from "@open-event/core";
 import { HotToastService } from "@ngxpert/hot-toast";
 
 @Component({

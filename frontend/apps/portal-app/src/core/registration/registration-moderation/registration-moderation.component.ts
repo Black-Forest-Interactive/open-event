@@ -3,7 +3,7 @@ import { MatSort, MatSortHeader } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { RegistrationEditDialogComponent } from "../registration-edit-dialog/registration-edit-dialog.component";
 import { RegistrationCancelDialogComponent } from "../registration-cancel-dialog/registration-cancel-dialog.component";
-import { AuthService, LoadingBarComponent } from "@open-event-workspace/shared";
+import { AuthService, LoadingBarComponent } from "@open-event/shared";
 import { MatDialog } from "@angular/material/dialog";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
@@ -17,7 +17,7 @@ import {
   ParticipateResponse,
   RegistrationDetails,
   RegistrationInfo,
-} from "@open-event-workspace/core";
+} from "@open-event/core";
 import { MatButton } from "@angular/material/button";
 import { DatePipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
@@ -29,7 +29,7 @@ import {
 } from "@angular/material/card";
 import { MatDivider } from "@angular/material/divider";
 import { Roles } from "../../../shared/roles";
-import { RegistrationService } from "@open-event-workspace/app";
+import { RegistrationService } from "@open-event/app";
 
 @Component({
   selector: "app-registration-moderation",

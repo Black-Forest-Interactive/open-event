@@ -1,6 +1,6 @@
 import { Injectable, OnInit, signal } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { SettingsService } from "@open-event-workspace/app";
+import { SettingsService } from "@open-event/app";
 
 @Injectable({
   providedIn: "root",

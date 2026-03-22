@@ -1,6 +1,6 @@
 import { Component, computed, effect, resource, signal } from "@angular/core";
 import { MatToolbar } from "@angular/material/toolbar";
-import { ParticipantAddRequest } from "@open-event-workspace/core";
+import { ParticipantAddRequest } from "@open-event/core";
 import { ActivatedRoute, ParamMap, Params, RouterLink } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { MatDialog } from "@angular/material/dialog";
@@ -9,8 +9,8 @@ import {
   EventService,
   ExternalParticipantAddRequest,
   ExternalParticipantChangeResponse,
-} from "@open-event-workspace/external";
-import { LoadingBarComponent, toPromise } from "@open-event-workspace/shared";
+} from "@open-event/external";
+import { LoadingBarComponent, toPromise } from "@open-event/shared";
 import { EventInfoComponent } from "../event-info/event-info.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RequestParticipationDialogComponent } from "../../participant/request-participation-dialog/request-participation-dialog.component";

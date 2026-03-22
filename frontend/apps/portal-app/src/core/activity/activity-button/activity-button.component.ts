@@ -2,10 +2,10 @@ import { Component, viewChild } from "@angular/core";
 import { Subscription } from "rxjs";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { Router } from "@angular/router";
-import { Activity, ActivityInfo } from "@open-event-workspace/core";
+import { Activity, ActivityInfo } from "@open-event/core";
 import { ActivityIndicatorComponent } from "../activity-indicator/activity-indicator.component";
 import { ActivityMenuComponent } from "../activity-menu/activity-menu.component";
-import { ActivityService } from "@open-event-workspace/app";
+import { ActivityService } from "@open-event/app";
 
 @Component({
   selector: "app-activity-button",
