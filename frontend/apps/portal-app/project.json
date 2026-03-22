@@ -1,25 +1,25 @@
 {
-  "name": "open-event-app",
+  "name": "portal-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/open-event-app/src",
+  "sourceRoot": "apps/portal-app/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/open-event-app",
-        "index": "apps/open-event-app/src/index.html",
-        "browser": "apps/open-event-app/src/main.ts",
+        "outputPath": "dist/apps/portal-app",
+        "index": "apps/portal-app/src/index.html",
+        "browser": "apps/portal-app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/open-event-app/tsconfig.app.json",
+        "tsConfig": "apps/portal-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/open-event-app/public"
+            "input": "apps/portal-app/public"
           }
         ],
         "styles": [
@@ -27,8 +27,8 @@
           "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
           "node_modules/ngx-sharebuttons/themes/circles.scss",
           "node_modules/ngx-sharebuttons/themes/modern.scss",
-          "apps/open-event-app/src/theme.scss",
-          "apps/open-event-app/src/styles.scss",
+          "apps/portal-app/src/theme.scss",
+          "apps/portal-app/src/styles.scss",
           "node_modules/quill/dist/quill.core.css",
           "node_modules/quill/dist/quill.bubble.css",
           "node_modules/quill/dist/quill.snow.css",
@@ -59,8 +59,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "apps/open-event-app/src/environments/environment.ts",
-              "with": "apps/open-event-app/src/environments/environment.development.ts"
+              "replace": "apps/portal-app/src/environments/environment.ts",
+              "with": "apps/portal-app/src/environments/environment.development.ts"
             }
           ]
         },
@@ -71,8 +71,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "apps/open-event-app/src/environments/environment.ts",
-              "with": "apps/open-event-app/src/environments/environment.local.ts"
+              "replace": "apps/portal-app/src/environments/environment.ts",
+              "with": "apps/portal-app/src/environments/environment.local.ts"
             }
           ]
         }
@@ -83,13 +83,13 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "open-event-app:build:production"
+          "buildTarget": "portal-app:build:production"
         },
         "development": {
-          "buildTarget": "open-event-app:build:development"
+          "buildTarget": "portal-app:build:development"
         },
         "local": {
-          "buildTarget": "open-event-app:build:local"
+          "buildTarget": "portal-app:build:local"
         }
       },
       "defaultConfiguration": "development",
@@ -100,7 +100,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "open-event-app:build"
+        "buildTarget": "portal-app:build"
       }
     },
     "lint": {
@@ -110,15 +110,15 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/open-event-app/jest.config.ts",
-        "tsConfig": "apps/open-event-app/tsconfig.spec.json"
+        "jestConfig": "apps/portal-app/jest.config.ts",
+        "tsConfig": "apps/portal-app/tsconfig.spec.json"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "open-event-app:build",
-        "staticFilePath": "dist/apps/open-event-app/browser",
+        "buildTarget": "portal-app:build",
+        "staticFilePath": "dist/apps/portal-app/browser",
         "spa": true
       }
     }

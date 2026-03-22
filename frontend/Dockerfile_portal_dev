@@ -16,12 +16,12 @@ COPY . .
 
 ## Replace the placeholder backend URL at build time
 #ARG BACKEND_URL=http://192.168.0.223:8080/api
-#RUN sed -i "s|http://localhost:8080/api|${BACKEND_URL}|g" apps/open-event-app/src/app/service.config.ts
+#RUN sed -i "s|http://localhost:8080/api|${BACKEND_URL}|g" apps/portal-app/src/app/service.config.ts
 
 ENV NX_DAEMON=false
 # Build the Angular app
-RUN npx nx build open-event-app --configuration=development
-RUN npx nx build open-event-external --configuration=development --base-href /external/
+RUN npx nx build portal-app --configuration=development
+RUN npx nx build external-app --configuration=development --base-href /external/
 
 # Stage 2: Serve the Angular app with a lightweight web server
 FROM nginx:1.27-alpine
@@ -29,8 +29,8 @@ FROM nginx:1.27-alpine
 # Remove the default Nginx static content
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build /app/dist/apps/open-event-app/browser /usr/share/nginx/html/app/
-COPY --from=build /app/dist/apps/open-event-external/browser /usr/share/nginx/html/external/
+COPY --from=build /app/dist/apps/portal-app/browser /usr/share/nginx/html/app/
+COPY --from=build /app/dist/apps/external-app/browser /usr/share/nginx/html/external/
 
 # Copy the custom Nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf

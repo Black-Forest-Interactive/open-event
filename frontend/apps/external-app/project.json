@@ -1,32 +1,32 @@
 {
-  "name": "open-event-external",
+  "name": "external-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/open-event-external/src",
+  "sourceRoot": "apps/external-app/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/open-event-external",
-        "index": "apps/open-event-external/src/index.html",
-        "browser": "apps/open-event-external/src/main.ts",
+        "outputPath": "dist/apps/external-app",
+        "index": "apps/external-app/src/index.html",
+        "browser": "apps/external-app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/open-event-external/tsconfig.app.json",
+        "tsConfig": "apps/external-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/open-event-external/public"
+            "input": "apps/external-app/public"
           }
         ],
         "styles": [
           "node_modules/leaflet/dist/leaflet.css",
           "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
-          "apps/open-event-external/src/theme.scss",
-          "apps/open-event-external/src/styles.scss",
+          "apps/external-app/src/theme.scss",
+          "apps/external-app/src/styles.scss",
           "node_modules/@ngxpert/hot-toast/src/styles/styles.css"
         ],
         "scripts": []
@@ -54,8 +54,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "apps/open-event-backoffice/src/environments/environment.ts",
-              "with": "apps/open-event-backoffice/src/environments/environment.development.ts"
+              "replace": "apps/admin-app/src/environments/environment.ts",
+              "with": "apps/admin-app/src/environments/environment.development.ts"
             }
           ]
         },
@@ -66,8 +66,8 @@
           "namedChunks": true,
           "fileReplacements": [
             {
-              "replace": "apps/open-event-backoffice/src/environments/environment.ts",
-              "with": "apps/open-event-backoffice/src/environments/environment.local.ts"
+              "replace": "apps/admin-app/src/environments/environment.ts",
+              "with": "apps/admin-app/src/environments/environment.local.ts"
             }
           ]
         }
@@ -78,13 +78,13 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "open-event-external:build:production"
+          "buildTarget": "external-app:build:production"
         },
         "development": {
-          "buildTarget": "open-event-external:build:development"
+          "buildTarget": "external-app:build:development"
         },
         "local": {
-          "buildTarget": "open-event-external:build:local"
+          "buildTarget": "external-app:build:local"
         }
       },
       "defaultConfiguration": "development",
@@ -96,7 +96,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "open-event-external:build"
+        "buildTarget": "external-app:build"
       }
     },
     "lint": {
@@ -106,15 +106,15 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/open-event-external/jest.config.ts",
-        "tsConfig": "apps/open-event-external/tsconfig.spec.json"
+        "jestConfig": "apps/external-app/jest.config.ts",
+        "tsConfig": "apps/external-app/tsconfig.spec.json"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "open-event-external:build",
-        "staticFilePath": "dist/apps/open-event-external/browser",
+        "buildTarget": "external-app:build",
+        "staticFilePath": "dist/apps/external-app/browser",
         "spa": true
       }
     }

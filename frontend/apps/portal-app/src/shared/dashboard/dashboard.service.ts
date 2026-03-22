@@ -1,20 +1,20 @@
-import { Injectable } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { SettingsService } from "@open-event/app";
+import { Injectable } from '@angular/core'
+import { Title } from '@angular/platform-browser'
+import { SettingsService } from '@open-event/portal'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class DashboardService {
-  title: string = "app.title";
+  title: string = 'app.title'
 
   constructor(
     settingsService: SettingsService,
-    private pageTitle: Title,
+    private pageTitle: Title
   ) {
     settingsService.getTitle().subscribe((d) => {
-      this.pageTitle.setTitle(d.text);
-      this.title = d.text;
-    });
+      this.pageTitle.setTitle(d.text)
+      this.title = d.text
+    })
   }
 }

@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 @Component({
   imports: [RouterModule],
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
 })
 export class AppComponent {
-  title = 'open-event-external';
+  title = "external-app";
 }

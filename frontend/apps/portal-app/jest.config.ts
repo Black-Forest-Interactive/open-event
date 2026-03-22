@@ -1,21 +1,21 @@
 export default {
-  displayName: 'open-event-app',
-  preset: '../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/open-event-app',
+  displayName: "portal-app",
+  preset: "../../jest.preset.js",
+  setupFilesAfterEnv: ["<rootDir>/src/test-setup.ts"],
+  coverageDirectory: "../../coverage/apps/portal-app",
   transform: {
-    '^.+\\.(ts|mjs|js|html)$': [
-      'jest-preset-angular',
+    "^.+\\.(ts|mjs|js|html)$": [
+      "jest-preset-angular",
       {
-        tsconfig: '<rootDir>/tsconfig.spec.json',
-        stringifyContentPathRegex: '\\.(html|svg)$',
+        tsconfig: "<rootDir>/tsconfig.spec.json",
+        stringifyContentPathRegex: "\\.(html|svg)$",
       },
     ],
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$)"],
   snapshotSerializers: [
-    'jest-preset-angular/build/serializers/no-ng-attributes',
-    'jest-preset-angular/build/serializers/ng-snapshot',
-    'jest-preset-angular/build/serializers/html-comment',
+    "jest-preset-angular/build/serializers/no-ng-attributes",
+    "jest-preset-angular/build/serializers/ng-snapshot",
+    "jest-preset-angular/build/serializers/html-comment",
   ],
 };
