@@ -1,19 +1,19 @@
-import { Account } from "@open-event-workspace/core";
+import { Account } from '@open-event/core'
 
 export interface Feedback {
-  id: number;
-  subject: string;
-  description: string;
-  topic: string;
-  tags: string[];
-  rating: number;
+  id: number
+  subject: string
+  description: string
+  topic: string
+  tags: string[]
+  rating: number
 
-  account: Account;
+  account: Account
 
-  clientIp: string;
-  userAgent: string;
+  clientIp: string
+  userAgent: string
 
-  timestamp: string;
+  timestamp: string
 }
 
 export class FeedbackChangeRequest {
@@ -22,6 +22,6 @@ export class FeedbackChangeRequest {
     public description: string,
     public topic: string,
     public tags: string[],
-    public rating: number,
+    public rating: number
   ) {}
 }

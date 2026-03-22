@@ -7,9 +7,10 @@ import LogRocket from 'logrocket'
 import { LoadingScreenComponent } from '@open-event/shared'
 import { AppService } from '../shared/app.service'
 import { environment } from '../environments/environment'
+import { DashboardComponent } from '../shared/dashboard/dashboard.component'
 
 @Component({
-  imports: [RouterModule, AsyncPipe],
+  imports: [RouterModule, AsyncPipe, DashboardComponent],
   selector: 'admin-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

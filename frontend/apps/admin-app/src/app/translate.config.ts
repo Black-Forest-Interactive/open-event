@@ -1,17 +1,12 @@
-import {HttpClient} from "@angular/common/http";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {importProvidersFrom} from "@angular/core";
-import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-
-const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
-  new TranslateHttpLoader(http, './i18n/', '.json')
-
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
+import { provideTranslateService } from '@ngx-translate/core'
 
 export const provideTranslateConfig = () =>
-  importProvidersFrom([TranslateModule.forRoot({
-    loader: {
-      provide: TranslateLoader,
-      useFactory: httpLoaderFactory,
-      deps: [HttpClient],
-    },
-  })])
+  provideTranslateService({
+    loader: provideTranslateHttpLoader({
+      prefix: '/i18n/',
+      suffix: '.json'
+    }),
+    fallbackLang: 'de',
+    lang: 'en'
+  })

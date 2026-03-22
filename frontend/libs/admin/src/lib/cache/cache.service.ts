@@ -1,30 +1,30 @@
-import { Injectable } from "@angular/core";
-import { CacheInfo } from "@open-event-workspace/core";
-import { Observable } from "rxjs";
-import { BaseService } from "@open-event-workspace/shared";
+import { Injectable } from '@angular/core'
+import { CacheInfo } from '@open-event/core'
+import { Observable } from 'rxjs'
+import { BaseService } from '@open-event/shared'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class CacheService extends BaseService {
   constructor() {
-    super("backoffice/cache");
-    this.retryCount = 0;
+    super('backoffice/cache')
+    this.retryCount = 0
   }
 
   getCache(key: string): Observable<CacheInfo> {
-    return this.get(key);
+    return this.get(key)
   }
 
   getAllCaches(): Observable<CacheInfo[]> {
-    return this.get("");
+    return this.get('')
   }
 
   resetCache(key: string): Observable<CacheInfo> {
-    return this.delete(key);
+    return this.delete(key)
   }
 
   resetAllCaches(): Observable<CacheInfo[]> {
-    return this.delete("");
+    return this.delete('')
   }
 }

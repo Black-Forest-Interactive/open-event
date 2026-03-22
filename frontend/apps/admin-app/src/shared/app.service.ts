@@ -1,68 +1,56 @@
-import { Injectable, Signal } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
-import { map, Subject } from "rxjs";
-import { MatDialog } from "@angular/material/dialog";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { AuthService, ConfirmDialogComponent } from "@open-event/shared";
-import {
-  Account,
-  AccountInfo,
-  AccountValidationResult,
-  Profile,
-} from "@open-event/core";
-import { AccountService } from "@open-event/admin";
+import { Injectable, Signal } from '@angular/core'
+import { TranslateService } from '@ngx-translate/core'
+import { map, Subject } from 'rxjs'
+import { MatDialog } from '@angular/material/dialog'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { AuthService, ConfirmDialogComponent } from '@open-event/shared'
+import { Account, AccountInfo, AccountValidationResult, Profile } from '@open-event/core'
+import { AccountService } from '@open-event/admin'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class AppService {
-  validated: Subject<boolean> = new Subject();
-  lang: Signal<string>;
-  account: Account | undefined;
-  profile: Profile | undefined;
-  info: AccountInfo | undefined;
+  validated: Subject<boolean> = new Subject()
+  lang: Signal<string>
+  account: Account | undefined
+  profile: Profile | undefined
+  info: AccountInfo | undefined
 
   constructor(
     private accountService: AccountService,
     private translate: TranslateService,
     public authService: AuthService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {
-    this.lang = toSignal(
-      this.translate.onLangChange
-        .asObservable()
-        .pipe(map((value) => value.lang)),
-      { initialValue: translate.currentLang },
-    );
+    this.lang = toSignal(this.translate.onLangChange.pipe(map((value) => value.lang)), { initialValue: translate.currentLang })
   }
 
   validate() {
-    let l = this.lang() ?? this.translate.currentLang ?? "de";
-    this.accountService
-      .validate(l)
-      .subscribe((d) => this.handleValidationResult(d));
+    let l = this.lang() ?? this.translate.currentLang ?? 'de'
+    this.accountService.validate(l).subscribe((d) => this.handleValidationResult(d))
   }
 
   private handleValidationResult(d: AccountValidationResult) {
-    this.info = d.info;
-    this.account = d.account;
-    this.profile = d.profile;
-    this.translate.setDefaultLang("en");
-    this.translate.use(d.profile.language);
+    this.info = d.info
+    this.account = d.account
+    this.profile = d.profile
+    this.translate.setDefaultLang('en')
+    this.translate.use(d.profile.language)
 
-    this.validated.next(true);
+    this.validated.next(true)
   }
 
   logout() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "250px",
+      width: '250px',
       data: {
-        title: "user.logout.confirm.Title",
-        text: "user.logout.confirm.Text",
-      },
-    });
+        title: 'user.logout.confirm.Title',
+        text: 'user.logout.confirm.Text'
+      }
+    })
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) this.authService.logout();
-    });
+      if (result) this.authService.logout()
+    })
   }
 }

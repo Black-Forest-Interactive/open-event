@@ -16,8 +16,8 @@
 $open-event-theme: mat.define-theme((
         color: (
                 theme-type: light,
-                primary:   mat.$blue-palette,   // overridden via tokens below
-                secondary: mat.$blue-palette,
+                primary: mat.$blue-palette, // overridden via tokens below
+                tertiary: mat.$blue-palette,
         ),
         typography: (
                 use-system-variables: true,
@@ -32,21 +32,21 @@ html {
   // ── Override M3 system tokens with brand colours ───────────────────────────
 
   // Primary – dark neutral  (#27272a)
-  --mat-sys-primary:              #27272a;
-  --mat-sys-on-primary:           #ffffff;
-  --mat-sys-primary-container:    #47474a;
+  --mat-sys-primary: #27272a;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #47474a;
   --mat-sys-on-primary-container: #ffffff;
 
   // Secondary – blue  (#2b5a9c)
-  --mat-sys-secondary:              #2b5a9c;
-  --mat-sys-on-secondary:           #ffffff;
-  --mat-sys-secondary-container:    #95adce;   // ~200 tonal equivalent
+  --mat-sys-secondary: #2b5a9c;
+  --mat-sys-on-secondary: #ffffff;
+  --mat-sys-secondary-container: #95adce; // ~200 tonal equivalent
   --mat-sys-on-secondary-container: #000000;
 
   // Error – red  (#ba1a1a)
-  --mat-sys-error:              #ba1a1a;
-  --mat-sys-on-error:           #ffffff;
-  --mat-sys-error-container:    #dd8d8d;       // ~200 tonal equivalent
+  --mat-sys-error: #ba1a1a;
+  --mat-sys-on-error: #ffffff;
+  --mat-sys-error-container: #dd8d8d; // ~200 tonal equivalent
   --mat-sys-on-error-container: #000000;
 }
 
@@ -67,68 +67,68 @@ html {
 // ── Button toggle ─────────────────────────────────────────────────────────────
 .mat-button-toggle-checked button {
   background-color: var(--mat-sys-secondary);
-  color:            var(--mat-sys-on-secondary);
+  color: var(--mat-sys-on-secondary);
 }
 
 // ── Toolbar FAB ───────────────────────────────────────────────────────────────
 .toolbar-action-fab {
   background-color: unset !important;
-  color:  black !important;
+  color: black !important;
   border: var(--mat-sys-primary) 1px solid !important;
   max-height: 32px !important;
-  max-width:  32px !important;
+  max-width: 32px !important;
 }
 
 .toolbar-action-fab:hover {
   background-color: var(--mat-sys-secondary) !important;
-  color:            var(--mat-sys-on-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
 }
 
 // ── Background helpers ────────────────────────────────────────────────────────
 .bg-accent-default {
   background-color: var(--mat-sys-secondary) !important;
-  color:            var(--mat-sys-on-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
 }
 
 .bg-primary-default {
   background-color: var(--mat-sys-primary) !important;
-  color:            var(--mat-sys-on-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
 }
 
 .bg-warn-default {
   background-color: var(--mat-sys-error) !important;
-  color:            var(--mat-sys-on-error) !important;
+  color: var(--mat-sys-on-error) !important;
 }
 
 // ── Leaflet marker clusters ───────────────────────────────────────────────────
 .marker-cluster-small {
   background-color: var(--mat-sys-primary-container) !important;
-  color:            var(--mat-sys-on-primary-container) !important;
+  color: var(--mat-sys-on-primary-container) !important;
 }
 
 .marker-cluster-small div {
   background-color: var(--mat-sys-primary) !important;
-  color:            var(--mat-sys-on-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
 }
 
 .marker-cluster-medium {
   background-color: var(--mat-sys-secondary-container) !important;
-  color:            var(--mat-sys-on-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
 }
 
 .marker-cluster-medium div {
   background-color: var(--mat-sys-secondary) !important;
-  color:            var(--mat-sys-on-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
 }
 
 .marker-cluster-large {
   background-color: var(--mat-sys-error-container) !important;
-  color:            var(--mat-sys-on-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
 }
 
 .marker-cluster-large div {
   background-color: var(--mat-sys-error) !important;
-  color:            var(--mat-sys-on-error) !important;
+  color: var(--mat-sys-on-error) !important;
 }
 
 // ── Sidenav ───────────────────────────────────────────────────────────────────
@@ -142,17 +142,17 @@ html {
 // ── Navigation state ──────────────────────────────────────────────────────────
 .menu-active {
   background-color: var(--mat-sys-secondary) !important;
-  color:            var(--mat-sys-on-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
   border-style: solid;
 }
 
 .menu-unselected {
   background-color: var(--mat-sys-secondary-container);
-  color:            var(--mat-sys-on-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
   border-style: solid;
 }
 
 .second-toolbar {
   background-color: var(--mat-sys-secondary-container) !important;
-  color:            var(--mat-sys-on-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
 }

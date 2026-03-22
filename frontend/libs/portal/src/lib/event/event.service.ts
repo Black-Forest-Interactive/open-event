@@ -1,62 +1,52 @@
-import { Injectable } from "@angular/core";
-import { HttpParams, HttpResponse } from "@angular/common/http";
-import { BaseService, PatchRequest } from "@open-event-workspace/shared";
-import {
-  Event,
-  EventChangeRequest,
-  EventInfo,
-  EventSearchRequest,
-  EventSearchResponse,
-} from "@open-event-workspace/core";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core'
+import { HttpParams, HttpResponse } from '@angular/common/http'
+import { BaseService, PatchRequest } from '@open-event/shared'
+import { Event, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse } from '@open-event/core'
+import { Observable } from 'rxjs'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class EventService extends BaseService {
   constructor() {
-    super("app/event");
-    this.retryCount = 1;
+    super('app/event')
+    this.retryCount = 1
   }
 
-  search(
-    request: EventSearchRequest,
-    page: number,
-    size: number,
-  ): Observable<EventSearchResponse> {
-    let params = new HttpParams().set("page", page).set("size", size);
-    return this.post("search", request, params);
+  search(request: EventSearchRequest, page: number, size: number): Observable<EventSearchResponse> {
+    let params = new HttpParams().set('page', page).set('size', size)
+    return this.post('search', request, params)
   }
 
   getEvent(id: number): Observable<Event> {
-    return this.get("" + id);
+    return this.get('' + id)
   }
 
   getEventInfo(id: number): Observable<EventInfo> {
-    return this.get("" + id + "/info");
+    return this.get('' + id + '/info')
   }
 
   create(request: EventChangeRequest): Observable<Event> {
-    return this.post("", request);
+    return this.post('', request)
   }
 
   update(id: number, request: EventChangeRequest): Observable<Event> {
-    return this.put(id + "", request);
+    return this.put(id + '', request)
   }
 
   deleteEvent(id: number): Observable<Event> {
-    return this.delete("" + id);
+    return this.delete('' + id)
   }
 
   publish(id: number): Observable<Event> {
-    return this.put("" + id + "/published", new PatchRequest(true));
+    return this.put('' + id + '/published', new PatchRequest(true))
   }
 
   setShared(id: number, enabled: boolean): Observable<EventInfo> {
-    return this.put("" + id + "/shared", new PatchRequest(enabled));
+    return this.put('' + id + '/shared', new PatchRequest(enabled))
   }
 
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
-    return this.getBlob("event/" + eventId + "/pdf");
+    return this.getBlob('event/' + eventId + '/pdf')
   }
 }

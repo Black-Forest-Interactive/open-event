@@ -1,31 +1,31 @@
-import { Injectable } from "@angular/core";
-import { HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { BaseService } from "@open-event-workspace/shared";
-import { EventSearchRequest } from "@open-event-workspace/core";
+import { Injectable } from '@angular/core'
+import { HttpResponse } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { BaseService } from '@open-event/shared'
+import { EventSearchRequest } from '@open-event/core'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class ExportService extends BaseService {
   constructor() {
-    super("backoffice/export");
-    this.retryCount = 0;
+    super('backoffice/export')
+    this.retryCount = 0
   }
 
   exportEvents(request: EventSearchRequest): Observable<HttpResponse<Blob>> {
-    return this.postBlob("event/pdf", request);
+    return this.postBlob('event/pdf', request)
   }
 
   exportEventsToEmail(request: EventSearchRequest): Observable<any> {
-    return this.post("event/pdf", request);
+    return this.post('event/pdf', request)
   }
 
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
-    return this.getBlob("event/" + eventId + "/pdf");
+    return this.getBlob('event/' + eventId + '/pdf')
   }
 
   exportSummary(request: EventSearchRequest): Observable<HttpResponse<Blob>> {
-    return this.postBlob("event/summary", request);
+    return this.postBlob('event/summary', request)
   }
 }

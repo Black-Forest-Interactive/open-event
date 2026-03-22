@@ -1,22 +1,20 @@
-import { Injectable, OnInit, signal } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { SettingsService } from "@open-event/app";
+import { Injectable, signal } from '@angular/core'
+import { Title } from '@angular/platform-browser'
+import { SettingsService } from '@open-event/admin'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
-export class DashboardService implements OnInit {
-  title = signal("app.title");
+export class DashboardService {
+  title = signal('app.title')
 
   constructor(
     private settingsService: SettingsService,
-    private pageTitle: Title,
-  ) {}
-
-  ngOnInit(): void {
+    private pageTitle: Title
+  ) {
     this.settingsService.getTitle().subscribe((d) => {
-      this.pageTitle.setTitle(d.text);
-      this.title.set(d.text + " Backoffice");
-    });
+      this.pageTitle.setTitle(d.text)
+      this.title.set(d.text + ' Backoffice')
+    })
   }
 }

@@ -1,37 +1,34 @@
-import { Injectable } from "@angular/core";
-import { ActivityInfo } from "@open-event-workspace/core";
-import { Observable } from "rxjs";
-import { BaseService, Page } from "@open-event-workspace/shared";
+import { Injectable } from '@angular/core'
+import { ActivityInfo } from '@open-event/core'
+import { Observable } from 'rxjs'
+import { BaseService, Page } from '@open-event/shared'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class ActivityService extends BaseService {
   constructor() {
-    super("app/activity");
-    this.retryCount = 1;
+    super('app/activity')
+    this.retryCount = 1
   }
 
   unreadAmount(): Observable<number> {
-    return this.get("unread/amount");
+    return this.get('unread/amount')
   }
 
   unreadInfo(): Observable<ActivityInfo[]> {
-    return this.get("unread/info");
+    return this.get('unread/info')
   }
 
-  getRecentActivityInfos(
-    page: number,
-    size: number,
-  ): Observable<Page<ActivityInfo>> {
-    return this.getPaged("recent", page, size);
+  getRecentActivityInfos(page: number, size: number): Observable<Page<ActivityInfo>> {
+    return this.getPaged('recent', page, size)
   }
 
   markReadSingle(id: number): Observable<any> {
-    return this.put("read/" + id, {});
+    return this.put('read/' + id, {})
   }
 
   markReadAll(): Observable<any> {
-    return this.put("read", {});
+    return this.put('read', {})
   }
 }

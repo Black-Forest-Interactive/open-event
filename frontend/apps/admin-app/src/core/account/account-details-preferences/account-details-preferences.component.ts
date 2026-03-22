@@ -1,28 +1,28 @@
-import { Component, computed, input, resource } from "@angular/core";
-import { Account } from "@open-event/core";
-import { toPromise } from "@open-event/shared";
-import { AccountService } from "@open-event/admin";
-import { BoardCardComponent } from "../../../shared/board-card/board-card.component";
+import { Component, computed, input, resource } from '@angular/core'
+import { Account } from '@open-event/core'
+import { toPromise } from '@open-event/shared'
+import { AccountService } from '@open-event/admin'
+import { BoardCardComponent } from '../../../shared/board-card/board-card.component'
 
 @Component({
-  selector: "app-account-details-preferences",
+  selector: 'app-account-details-preferences',
   imports: [BoardCardComponent],
-  templateUrl: "./account-details-preferences.component.html",
-  styleUrl: "./account-details-preferences.component.scss",
+  templateUrl: './account-details-preferences.component.html',
+  styleUrl: './account-details-preferences.component.scss'
 })
 export class AccountDetailsPreferencesComponent {
-  data = input.required<Account>();
+  data = input.required<Account>()
 
   preferencesResource = resource({
-    request: this.data,
+    params: this.data,
     loader: (param) => {
-      return toPromise(this.service.getPreferences(param.request.id));
-    },
-  });
+      return toPromise(this.service.getPreferences(param.params.id))
+    }
+  })
 
-  preferences = computed(this.preferencesResource.value ?? undefined);
-  loading = this.preferencesResource.isLoading;
-  error = this.preferencesResource.error;
+  preferences = computed(this.preferencesResource.value ?? undefined)
+  loading = this.preferencesResource.isLoading
+  error = this.preferencesResource.error
 
   constructor(private service: AccountService) {}
 }

@@ -1,22 +1,22 @@
-import { Injectable } from "@angular/core";
-import { BaseService } from "@open-event-workspace/shared";
-import { Observable } from "rxjs";
-import { TextResponse } from "@open-event-workspace/core";
+import { Injectable } from '@angular/core'
+import { BaseService } from '@open-event/shared'
+import { Observable } from 'rxjs'
+import { TextResponse } from '@open-event/core'
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class SettingsService extends BaseService {
   constructor() {
-    super("app/settings");
-    this.retryCount = 1;
+    super('app/settings')
+    this.retryCount = 1
   }
 
   getTitle(): Observable<TextResponse> {
-    return this.get("title");
+    return this.get('title')
   }
 
   getTerms(): Observable<TextResponse> {
-    return this.get("terms");
+    return this.get('terms')
   }
 }

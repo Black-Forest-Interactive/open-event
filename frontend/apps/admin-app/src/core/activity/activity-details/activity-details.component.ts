@@ -1,42 +1,42 @@
-import { Component, computed, resource, signal } from "@angular/core";
-import { toPromise } from "@open-event/shared";
-import { ActivityService } from "@open-event/admin";
-import { ActivatedRoute } from "@angular/router";
-import { Location } from "@angular/common";
-import { BoardComponent } from "../../../shared/board/board.component";
+import { Component, computed, resource, signal } from '@angular/core'
+import { toPromise } from '@open-event/shared'
+import { ActivityService } from '@open-event/admin'
+import { ActivatedRoute } from '@angular/router'
+import { Location } from '@angular/common'
+import { BoardComponent } from '../../../shared/board/board.component'
 
 @Component({
-  selector: "app-activity-details",
+  selector: 'app-activity-details',
   imports: [BoardComponent],
-  templateUrl: "./activity-details.component.html",
-  styleUrl: "./activity-details.component.scss",
+  templateUrl: './activity-details.component.html',
+  styleUrl: './activity-details.component.scss'
 })
 export class ActivityDetailsComponent {
-  id = signal(-1);
+  id = signal(-1)
 
   activityResource = resource({
-    request: this.id,
+    params: this.id,
     loader: (param) => {
-      return toPromise(this.service.getActivity(param.request));
-    },
-  });
+      return toPromise(this.service.getActivity(param.params))
+    }
+  })
 
-  activity = computed(this.activityResource.value ?? undefined);
-  loading = this.activityResource.isLoading;
-  error = this.activityResource.error;
+  activity = computed(this.activityResource.value ?? undefined)
+  loading = this.activityResource.isLoading
+  error = this.activityResource.error
 
   constructor(
     private service: ActivityService,
     private route: ActivatedRoute,
-    private location: Location,
+    private location: Location
   ) {
     this.route.paramMap.subscribe((params) => {
-      let id = params.get("id")!;
-      this.id.set(+id);
-    });
+      let id = params.get('id')!
+      this.id.set(+id)
+    })
   }
 
   back() {
-    this.location.back();
+    this.location.back()
   }
 }

@@ -1,33 +1,23 @@
-import {
-  Component,
-  computed,
-  effect,
-  resource,
-  signal,
-  viewChild,
-} from "@angular/core";
-import { toPromise } from "@open-event/shared";
-import { EventService } from "@open-event/admin";
-import { ActivatedRoute } from "@angular/router";
-import { Location } from "@angular/common";
-import {
-  BoardComponent,
-  BoardToolbarActions,
-} from "../../../shared/board/board.component";
-import { EventMenuComponent } from "../event-menu/event-menu.component";
-import { EventPublishButtonComponent } from "../event-publish-button/event-publish-button.component";
-import { MatIcon } from "@angular/material/icon";
-import { MatMiniFabButton } from "@angular/material/button";
-import { MatTab, MatTabGroup, MatTabLabel } from "@angular/material/tabs";
-import { TranslatePipe } from "@ngx-translate/core";
-import { EventDetailsRegistrationComponent } from "../event-details-registration/event-details-registration.component";
-import { EventDetailsHistoryComponent } from "../event-details-history/event-details-history.component";
-import { EventDetailsLocationComponent } from "../event-details-location/event-details-location.component";
-import { EventDetailsInfoComponent } from "../event-details-info/event-details-info.component";
-import { ExportEventButtonComponent } from "../../export/export-event-button/export-event-button.component";
+import { Component, computed, effect, resource, signal, viewChild } from '@angular/core'
+import { toPromise } from '@open-event/shared'
+import { EventService } from '@open-event/admin'
+import { ActivatedRoute } from '@angular/router'
+import { Location } from '@angular/common'
+import { BoardComponent, BoardToolbarActions } from '../../../shared/board/board.component'
+import { EventMenuComponent } from '../event-menu/event-menu.component'
+import { EventPublishButtonComponent } from '../event-publish-button/event-publish-button.component'
+import { MatIcon } from '@angular/material/icon'
+import { MatMiniFabButton } from '@angular/material/button'
+import { MatTab, MatTabGroup, MatTabLabel } from '@angular/material/tabs'
+import { TranslatePipe } from '@ngx-translate/core'
+import { EventDetailsRegistrationComponent } from '../event-details-registration/event-details-registration.component'
+import { EventDetailsHistoryComponent } from '../event-details-history/event-details-history.component'
+import { EventDetailsLocationComponent } from '../event-details-location/event-details-location.component'
+import { EventDetailsInfoComponent } from '../event-details-info/event-details-info.component'
+import { ExportEventButtonComponent } from '../../export/export-event-button/export-event-button.component'
 
 @Component({
-  selector: "app-event-details",
+  selector: 'app-event-details',
   imports: [
     BoardComponent,
     BoardToolbarActions,
@@ -44,43 +34,43 @@ import { ExportEventButtonComponent } from "../../export/export-event-button/exp
     MatTabLabel,
     EventDetailsLocationComponent,
     EventDetailsInfoComponent,
-    ExportEventButtonComponent,
+    ExportEventButtonComponent
   ],
-  templateUrl: "./event-details.component.html",
-  styleUrl: "./event-details.component.scss",
+  templateUrl: './event-details.component.html',
+  styleUrl: './event-details.component.scss'
 })
 export class EventDetailsComponent {
-  id = signal(-1);
+  id = signal(-1)
 
   eventResource = resource({
-    request: this.id,
+    params: this.id,
     loader: (param) => {
-      return toPromise(this.service.getEventInfo(param.request));
-    },
-  });
+      return toPromise(this.service.getEventInfo(param.params))
+    }
+  })
 
-  event = computed(this.eventResource.value ?? undefined);
-  loading = this.eventResource.isLoading;
-  error = this.eventResource.error;
+  event = computed(this.eventResource.value ?? undefined)
+  loading = this.eventResource.isLoading
+  error = this.eventResource.error
 
-  menu = viewChild.required<EventMenuComponent>("menu");
+  menu = viewChild.required<EventMenuComponent>('menu')
 
   constructor(
     private service: EventService,
     private route: ActivatedRoute,
-    private location: Location,
+    private location: Location
   ) {
     this.route.paramMap.subscribe((params) => {
-      let id = params.get("id")!;
-      this.id.set(+id);
-    });
+      let id = params.get('id')!
+      this.id.set(+id)
+    })
 
     effect(() => {
-      this.menu().reload.subscribe((e) => this.eventResource.reload());
-    });
+      this.menu().reload.subscribe((e) => this.eventResource.reload())
+    })
   }
 
   back() {
-    this.location.back();
+    this.location.back()
   }
 }
