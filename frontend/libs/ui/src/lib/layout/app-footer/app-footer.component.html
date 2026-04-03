@@ -1,0 +1,8 @@
+<footer class="flex items-center justify-center gap-2 h-12 px-4 text-xs shrink-0 border-t border-outline-variant text-on-surface-variant">
+  <span class="font-medium">{{ version() | translate }}</span>
+  @if (info()) {
+    <span class="opacity-50">·</span>
+    <span class="opacity-75">{{ info() | translate }}</span>
+  }
+  <ng-content></ng-content>
+</footer>

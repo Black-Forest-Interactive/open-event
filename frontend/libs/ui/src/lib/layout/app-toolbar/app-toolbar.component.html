@@ -1,0 +1,10 @@
+<mat-toolbar class="!h-16 shrink-0 shadow-md z-10">
+  @if (showMenuToggle()) {
+    <button mat-icon-button type="button" [attr.aria-label]="'action.collapse' | translate" (click)="menuToggle.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+  <span class="ml-2 text-lg font-medium">{{ title() }}</span>
+  <span class="flex-1"></span>
+  <ng-content select="[toolbar-right]"></ng-content>
+</mat-toolbar>
