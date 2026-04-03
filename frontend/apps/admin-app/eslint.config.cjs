@@ -1,34 +1,40 @@
-const nx = require("@nx/eslint-plugin");
-const baseConfig = require("../../eslint.config.cjs");
+const nx = require('@nx/eslint-plugin')
+const baseConfig = require('../../eslint.config.cjs')
 
 module.exports = [
   ...baseConfig,
-  ...nx.configs["flat/angular"],
-  ...nx.configs["flat/angular-template"],
+  ...nx.configs['flat/angular'],
+  ...nx.configs['flat/angular-template'],
   {
-    files: ["**/*.ts"],
+    files: ['**/*.ts'],
     rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
+      '@angular-eslint/directive-selector': [
+        'error',
         {
-          type: "attribute",
-          prefix: "admin",
-          style: "camelCase",
-        },
+          type: 'attribute',
+          prefix: 'admin',
+          style: 'camelCase'
+        }
       ],
-      "@angular-eslint/component-selector": [
-        "error",
+      '@angular-eslint/component-selector': [
+        'error',
         {
-          type: "element",
-          prefix: "admin",
-          style: "kebab-case",
-        },
-      ],
-    },
+          type: 'element',
+          prefix: 'admin',
+          style: 'kebab-case'
+        }
+      ]
+    }
   },
   {
-    files: ["**/*.html"],
+    files: ['**/*.html'],
     // Override or add rules here
-    rules: {},
+    rules: {}
   },
-];
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@angular-eslint/prefer-standalone': 'off'
+    }
+  }
+]

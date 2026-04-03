@@ -44,3 +44,6 @@ Thumbs.db
 .github/instructions/nx.instructions.md
 
 .angular
+
+.claude/worktrees
+.claude/settings.local.json

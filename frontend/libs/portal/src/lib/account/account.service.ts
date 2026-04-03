@@ -22,7 +22,7 @@ export class AccountService extends BaseService {
   }
 
   validate(lang: string): Observable<AccountValidationResult> {
-    let params = new HttpParams().set('lang', lang)
+    const params = new HttpParams().set('lang', lang)
     return this.get('validate', params)
   }
 

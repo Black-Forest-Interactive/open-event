@@ -95,7 +95,8 @@
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "proxy.conf.json"
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
