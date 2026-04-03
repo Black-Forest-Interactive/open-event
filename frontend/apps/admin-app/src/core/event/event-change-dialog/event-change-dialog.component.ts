@@ -51,8 +51,8 @@ export class EventChangeDialogComponent implements AddressReadAPI, CategoryReadA
   handleRequest(request: EventChangeRequest | undefined) {
     if (!request) return this.onCancelClick()
     this.service.updateEvent(this.data.id, request).subscribe({
-      next: (val) => this.dialogRef.close(true),
-      error: (err) => this.dialogRef.close(true)
+      next: () => this.dialogRef.close(true),
+      error: () => this.dialogRef.close(true)
     })
   }
 }

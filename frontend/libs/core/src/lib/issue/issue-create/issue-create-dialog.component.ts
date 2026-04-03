@@ -4,11 +4,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { HttpErrorResponse } from '@angular/common/http'
-import { BaseIssueService, IssueChangeRequest } from '@open-event/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { MatInput } from '@angular/material/input'
+import { BaseIssueService, IssueChangeRequest } from '../issue.api'
 
 @Component({
   selector: 'lib-issue-create-dialog',

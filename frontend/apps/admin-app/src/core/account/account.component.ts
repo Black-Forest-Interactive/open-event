@@ -90,7 +90,7 @@ export class AccountComponent implements OnInit {
       width: '350px',
       data: null
     })
-    dialogRef.afterClosed().subscribe((d) => this.search())
+    dialogRef.afterClosed().subscribe(() => this.search())
   }
 
   edit(entry: AccountSearchEntry) {
@@ -98,7 +98,7 @@ export class AccountComponent implements OnInit {
       width: '350px',
       data: entry
     })
-    dialogRef.afterClosed().subscribe((d) => this.search())
+    dialogRef.afterClosed().subscribe(() => this.search())
   }
 
   delete(entry: AccountSearchEntry) {
@@ -106,7 +106,7 @@ export class AccountComponent implements OnInit {
       width: '350px',
       data: entry
     })
-    dialogRef.afterClosed().subscribe((d) => this.search())
+    dialogRef.afterClosed().subscribe(() => this.search())
   }
 
   createEvent(entry: AccountSearchEntry) {

@@ -70,7 +70,7 @@ export class SettingsComponent implements OnInit {
       width: '350px',
       data: null
     })
-    dialogRef.afterClosed().subscribe((d) => this.reload())
+    dialogRef.afterClosed().subscribe(() => this.reload())
   }
 
   edit(entry: Setting) {
@@ -78,6 +78,6 @@ export class SettingsComponent implements OnInit {
       width: '350px',
       data: entry
     })
-    dialogRef.afterClosed().subscribe((d) => this.reload())
+    dialogRef.afterClosed().subscribe(() => this.reload())
   }
 }

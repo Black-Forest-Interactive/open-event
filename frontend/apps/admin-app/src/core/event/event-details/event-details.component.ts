@@ -1,4 +1,4 @@
-import { Component, computed, effect, resource, signal, viewChild, inject } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal, viewChild } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { EventService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -59,12 +59,12 @@ export class EventDetailsComponent {
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id')!
-      this.id.set(+id)
+      const id = params.get('id')
+      if (id) this.id.set(+id)
     })
 
     effect(() => {
-      this.menu().reload.subscribe((e) => this.eventResource.reload())
+      this.menu().reload.subscribe(() => this.eventResource.reload())
     })
   }
 

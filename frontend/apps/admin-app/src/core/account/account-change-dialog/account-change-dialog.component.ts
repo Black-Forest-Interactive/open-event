@@ -47,7 +47,7 @@ export class AccountChangeDialogComponent {
     const observable = this.data ? this.service.updateSetupAccount(+this.data.id, request) : this.service.setupAccount(request)
     observable.subscribe({
       next: (a) => this.dialogRef.close(a),
-      error: (err) => this.dialogRef.close()
+      error: () => this.dialogRef.close()
     })
   }
 }

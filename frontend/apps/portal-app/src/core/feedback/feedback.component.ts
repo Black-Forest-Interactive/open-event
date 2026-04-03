@@ -22,12 +22,11 @@ export class FeedbackComponent {
   loading = signal(false)
 
   submit(request: FeedbackChangeRequest) {
-    debugger
     if (this.loading()) return
     this.loading.set(true)
     this.service.createFeedback(request).subscribe({
-      next: (result) => this.toast.success(this.translate.instant('feedback.confirmation')),
-      error: (error) => this.toast.error(),
+      next: () => this.toast.success(this.translate.instant('feedback.confirmation')),
+      error: () => this.toast.error(),
       complete: () => this.loading.set(false)
     })
   }

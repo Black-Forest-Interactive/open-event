@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, input, output, viewChild, inject } from '@angular/core'
+import { AfterViewInit, Component, inject, input, output, viewChild } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { EventMenuItem } from './event-menu-item'
 import { EventService } from '@open-event/admin'
@@ -50,7 +50,7 @@ export class EventMenuComponent implements AfterViewInit {
   private handleActionEdit() {
     if (!this.event()) return
     this.dialog
-      .open(EventChangeDialogComponent, { data: this.event()!.event })
+      .open(EventChangeDialogComponent, { data: this.event()?.event })
       .afterClosed()
       .subscribe((value) => {
         if (value) this.reload.emit()
@@ -77,7 +77,8 @@ export class EventMenuComponent implements AfterViewInit {
       data: this.event()
     })
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && this.event()) this.service.deleteEvent(this.event()!.event.id).subscribe((d) => this.router.navigate(['event']))
+      const event = this.event()
+      if (result && event) this.service.deleteEvent(event.event.id).subscribe(() => this.router.navigate(['event']))
     })
   }
 }

@@ -20,7 +20,7 @@ export class BoardToolbarSearchComponent implements OnInit {
   private keyUpSubject = new Subject<string>()
 
   onKeyUp(value: string) {
-    this.keyUpSubject.next()
+    this.keyUpSubject.next(value)
   }
 
   clear() {

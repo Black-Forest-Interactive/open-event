@@ -65,26 +65,26 @@ export class AccountDetailsAddressComponent {
     this.dialog
       .open(AddressCreateDialogComponent, { data: this.data() })
       .afterClosed()
-      .subscribe((value) => this.addressResource.reload())
+      .subscribe(() => this.addressResource.reload())
   }
 
   editAddress(address: Address) {
     this.dialog
       .open(AddressChangeDialogComponent, { data: address })
       .afterClosed()
-      .subscribe((value) => this.addressResource.reload())
+      .subscribe(() => this.addressResource.reload())
   }
 
   deleteAddress(address: Address) {
     this.dialog
       .open(AddressDeleteDialogComponent, { data: address })
       .afterClosed()
-      .subscribe((value) => this.addressResource.reload())
+      .subscribe(() => this.addressResource.reload())
   }
 
   importAddress() {
     this.service.importAddress(this.data().id).subscribe({
-      next: (value) => this.addressResource.reload(),
+      next: () => this.addressResource.reload(),
       error: (e) => this.handleError(e)
     })
   }

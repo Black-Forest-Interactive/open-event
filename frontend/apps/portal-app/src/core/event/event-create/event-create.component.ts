@@ -63,9 +63,7 @@ export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, Ev
           this.router.navigate(['/event/details/' + event.id]).then()
         })
       },
-      error: (err) => this.translationService.get('event.message.create.failed').subscribe((msg) => this.toastService.error())
+      error: () => this.translationService.get('event.message.create.failed').subscribe((msg) => this.toastService.error())
     })
   }
-
-  private handleCreated(event: Event) {}
 }

@@ -1,4 +1,4 @@
-import { Component, computed, resource, signal, inject } from '@angular/core'
+import { Component, computed, inject, resource, signal } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { IssueService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -30,8 +30,8 @@ export class IssueDetailsComponent {
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id')!
-      this.id.set(+id)
+      const id = params.get('id')
+      if (id) this.id.set(+id)
     })
   }
 

@@ -118,7 +118,7 @@ export class EventComponent implements OnInit {
       width: '650px',
       data: entry
     })
-    dialogRef.afterClosed().subscribe((d) => this.search())
+    dialogRef.afterClosed().subscribe(() => this.search())
   }
 
   delete(entry: EventSearchEntry) {
@@ -126,7 +126,7 @@ export class EventComponent implements OnInit {
       width: '650px',
       data: entry
     })
-    dialogRef.afterClosed().subscribe((d) => this.search())
+    dialogRef.afterClosed().subscribe(() => this.search())
   }
 
   handleRangeChanged(event: EventRangeSelection) {
@@ -154,8 +154,8 @@ export class EventComponent implements OnInit {
 
   exportMail() {
     this.exportService.exportEventsToEmail(this.request).subscribe({
-      next: (_) => this.translateService.get('backoffice.export.action.mail.success').subscribe((text) => this.toast.success(text)),
-      error: (err) => this.translateService.get('backoffice.export.action.mail.error').subscribe((text) => this.toast.error())
+      next: () => this.translateService.get('backoffice.export.action.mail.success').subscribe((text) => this.toast.success(text)),
+      error: () => this.translateService.get('backoffice.export.action.mail.error').subscribe((text) => this.toast.error(text))
     })
   }
 }

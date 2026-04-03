@@ -1,4 +1,4 @@
-import { Component, computed, resource, signal, inject } from '@angular/core'
+import { Component, computed, inject, resource, signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AccountService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'
@@ -53,8 +53,8 @@ export class AccountDetailsComponent {
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id')!
-      this.id.set(+id)
+      const id = params.get('id')
+      if (id) this.id.set(+id)
     })
   }
 

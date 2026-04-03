@@ -57,7 +57,7 @@ export class EventDetailsRegistrationComponent {
         this.translation.get('registration.message.declined').subscribe((msg) => this.hotToast.warning(msg))
         break
       case 'FAILED':
-        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error())
+        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error(msg))
         break
     }
     this.changeResponse.emit(response)

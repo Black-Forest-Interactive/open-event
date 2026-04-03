@@ -4,7 +4,7 @@ import { ConfirmationCodeComponent, LoadingBarComponent, toPromise } from '@open
 import { MatCard } from '@angular/material/card'
 import { MatToolbar } from '@angular/material/toolbar'
 import { ActivatedRoute, ParamMap, Params, RouterLink } from '@angular/router'
-import { EventParticipationSettings, EventService, ExternalParticipantConfirmRequest, ExternalParticipantConfirmResponse, PublicEvent } from '@open-event/external'
+import { EventParticipationSettings, EventService, ExternalParticipantConfirmRequest, ExternalParticipantConfirmResponse } from '@open-event/external'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
@@ -67,7 +67,7 @@ export class EventConfirmComponent {
       const settings = this.settings()
       const participantId = this.participantId()
       const confirmationPossible = this.confirmationPossible()
-      if (event && settings && participantId) this.updateAutoCompletion(event, settings, participantId, confirmationPossible)
+      if (event && settings && participantId) this.updateAutoCompletion(settings, participantId, confirmationPossible)
     })
   }
 
@@ -129,7 +129,7 @@ export class EventConfirmComponent {
     this.eventResource.reload()
   }
 
-  private updateAutoCompletion(event: PublicEvent, settings: EventParticipationSettings, participantId: string, confirmationPossible: boolean) {
+  private updateAutoCompletion(settings: EventParticipationSettings, participantId: string, confirmationPossible: boolean) {
     if (settings.requireValidateCode) return
     if (!confirmationPossible) return
     this.confirm('000000', participantId)

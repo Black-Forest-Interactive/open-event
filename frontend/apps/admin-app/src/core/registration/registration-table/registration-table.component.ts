@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, output, resource, signal, inject } from '@angular/core'
+import { Component, computed, effect, inject, input, output, resource, signal } from '@angular/core'
 import { RegistrationService } from '@open-event/admin'
 import { Participant, ParticipantDetails, ParticipateResponse, RegistrationInfo } from '@open-event/core'
 import { toPromise } from '@open-event/shared'
@@ -49,7 +49,7 @@ export class RegistrationTableComponent {
     this.updating.set(true)
     const dialogRef = this.dialog.open(RegistrationParticipantEditDialogComponent, {
       data: {
-        registration: this.registration()!.registration,
+        registration: this.registration()?.registration,
         participant: part
       }
     })
@@ -63,7 +63,7 @@ export class RegistrationTableComponent {
     this.updating.set(true)
     const dialogRef = this.dialog.open(RegistrationParticipantRemoveDialogComponent, {
       data: {
-        registration: this.registration()!.registration,
+        registration: this.registration()?.registration,
         participant: part
       }
     })

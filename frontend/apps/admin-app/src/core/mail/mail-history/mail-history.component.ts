@@ -101,7 +101,7 @@ export class MailHistoryComponent implements OnInit {
     this.reloading = false
   }
 
-  private search(data: string) {
+  private search() {
     this.toastService.error()
   }
 }

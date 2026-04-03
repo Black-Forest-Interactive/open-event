@@ -29,7 +29,7 @@ export class EventPublishButtonComponent {
         this.changed.emit(d)
         this.publishing = false
       },
-      error: (err) => {
+      error: () => {
         this.toastService.error()
         this.publishing = false
       }

@@ -53,8 +53,8 @@ export class SettingsChangeDialogComponent {
       const request = new SettingChangeRequest(value.key, value.value, value.type)
       const observable = this.data ? this.service.updateSetting(this.data.id, request) : this.service.createSetting(request)
       observable.subscribe({
-        next: (val) => this.dialogRef.close(true),
-        error: (err) => this.dialogRef.close(true)
+        next: () => this.dialogRef.close(true),
+        error: () => this.dialogRef.close(true)
       })
     }
   }

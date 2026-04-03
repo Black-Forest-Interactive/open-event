@@ -49,7 +49,7 @@ export class RegistrationModerationComponent {
 
   ngOnInit() {
     this.adminOrManager = this.authService.hasRole(Roles.REGISTRATION_MANAGE, Roles.REGISTRATION_ADMIN)
-    let principal = this.authService.getPrincipal()
+    const principal = this.authService.getPrincipal()
     if (principal) this.adminOrManager = principal.roles.find((r) => r === 'openevent.registration.manage' || r === 'openevent.registration.admin') != null
   }
 
@@ -62,7 +62,7 @@ export class RegistrationModerationComponent {
   editParticipant(part: Participant) {
     if (this.reloading || !this.registration) return
 
-    let dialogRef = this.dialog.open(RegistrationEditDialogComponent, {
+    const dialogRef = this.dialog.open(RegistrationEditDialogComponent, {
       data: part
     })
     dialogRef.afterClosed().subscribe((request) => {
@@ -73,7 +73,7 @@ export class RegistrationModerationComponent {
   removeParticipant(part: Participant) {
     if (this.reloading || !this.registration) return
 
-    let dialogRef = this.dialog.open(RegistrationCancelDialogComponent, {
+    const dialogRef = this.dialog.open(RegistrationCancelDialogComponent, {
       data: part
     })
     dialogRef.afterClosed().subscribe((request) => {

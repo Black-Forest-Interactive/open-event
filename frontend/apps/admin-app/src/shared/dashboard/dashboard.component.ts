@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject, OnInit } from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core'
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { filter, map, Observable, withLatestFrom } from 'rxjs'
@@ -61,7 +61,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         withLatestFrom(this.isHandset$),
         filter(([a, b]) => b && a instanceof NavigationEnd)
       )
-      .subscribe((_) => this.drawer?.close())
+      .subscribe(() => this.drawer?.close())
   }
 
   ngOnInit() {

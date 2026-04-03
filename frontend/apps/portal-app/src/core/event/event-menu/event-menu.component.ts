@@ -60,7 +60,7 @@ export class EventMenuComponent {
       data: this.event
     })
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && this.event) this.service.deleteEvent(this.event.id).subscribe((d) => EventNavigationService.navigateToEventShow(this.router))
+      if (result && this.event) this.service.deleteEvent(this.event.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
     })
   }
 
@@ -74,7 +74,7 @@ export class EventMenuComponent {
         this.changed.emit(d)
         this.publishing = false
       },
-      error: (err) => {
+      error: () => {
         this.toastService.error()
         this.publishing = false
       }

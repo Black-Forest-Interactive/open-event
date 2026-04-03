@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, OnDestroy } from '@angular/core'
+import { Component, EventEmitter, inject, OnDestroy, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { Page } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -84,6 +84,6 @@ export class MailComponent implements OnInit, OnDestroy {
   }
 
   retryFailedJob(job: MailJob) {
-    this.service.retryFailedJob(job.id).subscribe((p) => this.reload())
+    this.service.retryFailedJob(job.id).subscribe(() => this.reload())
   }
 }

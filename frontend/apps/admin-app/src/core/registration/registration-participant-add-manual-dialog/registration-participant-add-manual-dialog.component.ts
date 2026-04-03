@@ -50,7 +50,7 @@ export class RegistrationParticipantAddManualDialogComponent {
     const request = this.fg.value
     this.service.addParticipantManual(this.data.registration.id, request).subscribe({
       next: (val) => this.dialogRef.close(val),
-      error: (err) => this.dialogRef.close(null)
+      error: () => this.dialogRef.close(null)
     })
   }
 }

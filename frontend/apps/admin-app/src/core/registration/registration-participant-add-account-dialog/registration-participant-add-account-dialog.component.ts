@@ -43,7 +43,7 @@ export class RegistrationParticipantAddAccountDialogComponent {
 
     this.service.addParticipantAccount(this.data.registration.id, accountId, request).subscribe({
       next: (val) => this.dialogRef.close(val),
-      error: (err) => this.dialogRef.close(null)
+      error: () => this.dialogRef.close(null)
     })
   }
 
