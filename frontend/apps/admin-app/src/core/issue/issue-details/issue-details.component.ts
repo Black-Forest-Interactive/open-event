@@ -39,6 +39,10 @@ export class IssueDetailsComponent {
     this.location.back()
   }
 
+  reload() {
+    this.issueResource.reload()
+  }
+
   changeStatus(status: string) {
     const i = this.issue()
     if (!i) return

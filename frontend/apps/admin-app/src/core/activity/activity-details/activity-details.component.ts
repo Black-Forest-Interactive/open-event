@@ -37,4 +37,7 @@ export class ActivityDetailsComponent {
   back() {
     this.location.back()
   }
+  reload() {
+    this.activityResource.reload()
+  }
 }

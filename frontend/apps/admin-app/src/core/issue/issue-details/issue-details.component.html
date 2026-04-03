@@ -1,4 +1,4 @@
-<admin-board [reloading]="loading()" (reload)="issueResource.reload()" [showSearch]="false" title="issue.title" [showBack]="true" (back)="back()">
+<admin-board [reloading]="loading()" (reload)="reload()" [showSearch]="false" title="issue.title" [showBack]="true" (back)="back()">
   @if (issue()) {
     <admin-issue-card [issue]="issue()!!"></admin-issue-card>
   }

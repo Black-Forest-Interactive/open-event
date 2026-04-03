@@ -447,6 +447,16 @@
       }
     }
   },
+  "nav": {
+    "group": {
+      "content": "Content",
+      "communication": "Communication",
+      "system": "System",
+      "monitoring": "Monitoring",
+      "main": "Overview",
+      "info": "Info"
+    }
+  },
   "lang": {
     "en": "English",
     "de": "Deutsch"

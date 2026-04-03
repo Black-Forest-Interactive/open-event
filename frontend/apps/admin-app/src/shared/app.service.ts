@@ -1,9 +1,10 @@
-import { inject, Injectable, Signal } from '@angular/core'
+import { computed, effect, inject, Injectable, Signal } from '@angular/core'
+import { resource } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
-import { map, Subject } from 'rxjs'
+import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { AuthService, ConfirmDialogComponent } from '@open-event/shared'
+import { AuthService, ConfirmDialogComponent, toPromise } from '@open-event/shared'
 import { Account, AccountInfo, AccountValidationResult, Profile } from '@open-event/core'
 import { AccountService } from '@open-event/admin'
 
@@ -11,45 +12,36 @@ import { AccountService } from '@open-event/admin'
   providedIn: 'root'
 })
 export class AppService {
-  private accountService = inject(AccountService)
-  private translate = inject(TranslateService)
-  authService = inject(AuthService)
-  private dialog = inject(MatDialog)
+  private readonly accountService = inject(AccountService)
+  private readonly translate = inject(TranslateService)
+  private readonly dialog = inject(MatDialog)
+  readonly authService = inject(AuthService)
 
-  validated: Subject<boolean> = new Subject()
-  lang: Signal<string>
-  account: Account | undefined
-  profile: Profile | undefined
-  info: AccountInfo | undefined
+  readonly lang: Signal<string> = toSignal(this.translate.onLangChange.pipe(map((e) => e.lang)), { initialValue: this.translate.currentLang })
+
+  private readonly validationResource = resource<AccountValidationResult, string>({
+    params: () => this.translate.currentLang ?? 'de',
+    loader: ({ params: lang, abortSignal }) => toPromise(this.accountService.validate(lang), abortSignal)
+  })
+
+  readonly account = computed<Account | undefined>(() => this.validationResource.value()?.account)
+  readonly profile = computed<Profile | undefined>(() => this.validationResource.value()?.profile)
+  readonly info = computed<AccountInfo | undefined>(() => this.validationResource.value()?.info)
+  readonly isValidated = computed(() => !!this.validationResource.value())
 
   constructor() {
-    const translate = this.translate
-
-    this.lang = toSignal(this.translate.onLangChange.pipe(map((value) => value.lang)), { initialValue: translate.currentLang })
-  }
-
-  validate() {
-    const l = this.lang() ?? this.translate.currentLang ?? 'de'
-    this.accountService.validate(l).subscribe((d) => this.handleValidationResult(d))
-  }
-
-  private handleValidationResult(d: AccountValidationResult) {
-    this.info = d.info
-    this.account = d.account
-    this.profile = d.profile
-    this.translate.setDefaultLang('en')
-    this.translate.use(d.profile.language)
-
-    this.validated.next()
+    effect(() => {
+      const result = this.validationResource.value()
+      if (!result) return
+      this.translate.setDefaultLang('en')
+      this.translate.use(result.profile.language)
+    })
   }
 
   logout() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
-      data: {
-        title: 'user.logout.confirm.Title',
-        text: 'user.logout.confirm.Text'
-      }
+      data: { title: 'user.logout.confirm.Title', text: 'user.logout.confirm.Text' }
     })
     dialogRef.afterClosed().subscribe((result) => {
       if (result) this.authService.logout()

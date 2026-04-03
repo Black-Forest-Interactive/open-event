@@ -21,6 +21,8 @@ import { provideQuill } from './quill.config'
 import { provideEchartsConfig } from './echarts.config'
 import { provideServiceConfig } from './service.config'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
+import { ENVIRONMENT } from '@open-event/core'
+import { environment } from '../environments/environment'
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra)
 
@@ -39,6 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideQuill(),
     provideEchartsConfig(),
     provideServiceConfig(),
+    { provide: ENVIRONMENT, useValue: environment },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     provideKeycloakAngular(),
     provideZoneChangeDetection({ eventCoalescing: true }),

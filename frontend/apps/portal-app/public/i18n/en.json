@@ -381,6 +381,13 @@
       }
     }
   },
+  "nav": {
+    "group": {
+      "main": "Overview",
+      "communication": "Communication",
+      "info": "Info"
+    }
+  },
   "lang": {
     "en": "English",
     "de": "Deutsch"

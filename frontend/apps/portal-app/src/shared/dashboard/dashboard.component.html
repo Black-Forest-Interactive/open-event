@@ -1,22 +1,35 @@
-<mat-sidenav-container autosize class="flex flex-col vh-full">
-  <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="accessibleItems.length > 2 && (isHandset$ | async) === false"
-               class="sidenav"
-               fixedInViewport>
-    <div class="flex flex-col gap-4 justify-center content-center p-6">
-      <div class="flex flex-initial"><a routerLink="/"><img src="img/logo.png" alt="Logo"/></a></div>
-      <lib-main-menu class="flex-initial" [accessibleItems]="accessibleItems" (logoutEvent)="appService.logout()"/>
-    </div>
+<lib-app-layout [navGroups]="navGroups" [title]="dashboardService.title" (logoutClick)="appService.logout()">
+  <ng-container toolbar-right>
+    <portal-activity-button></portal-activity-button>
+    @if (appService.info(); as info) {
+      <div class="flex items-center gap-2 cursor-pointer px-2" [matMenuTriggerFor]="userMenu">
+        <img [email]="info.email"
+             [alt]="info | accountDisplayName"
+             class="w-8 h-8 rounded-full"
+             ngxGravatar
+             [src]="info.iconUrl">
+        <span class="text-sm font-medium hidden md:block">{{ info.firstName }} {{ info.lastName }}</span>
+      </div>
+    }
+  </ng-container>
+</lib-app-layout>
 
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <portal-dashboard-toolbar [mobileView]="(isHandset$ | async) ?? false" [title]="service.title"
-                           (toggleSidenavEvent)="drawer.toggle()">
-    </portal-dashboard-toolbar>
-    <div>
-
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item routerLink="/account">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>{{ 'profile.title' | translate }}</span>
+  </button>
+  <button mat-menu-item routerLink="/address">
+    <mat-icon>contact_mail</mat-icon>
+    <span>{{ 'address.title' | translate }}</span>
+  </button>
+  <button mat-menu-item routerLink="/activity">
+    <mat-icon>notifications</mat-icon>
+    <span>{{ 'activity.title' | translate }}</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="appService.logout()">
+    <mat-icon>logout</mat-icon>
+    <span>{{ 'action.logout' | translate }}</span>
+  </button>
+</mat-menu>

@@ -1,4 +1,4 @@
-<admin-board [reloading]="loading()" (reload)="eventResource.reload()" [showSearch]="false" title="event.title" [showBack]="true" (back)="back()">
+<admin-board [reloading]="loading()" (reload)="reload()" [showSearch]="false" title="event.title" [showBack]="true" (back)="back()">
   <board-toolbar-actions class="flex flex-row gap-2">
     @if (!loading()) {
       <admin-event-publish-button [data]="event()!!.event"></admin-event-publish-button>
@@ -30,7 +30,7 @@
                 <mat-icon class="pe-2">group</mat-icon>
                 <span class="px-2">{{ 'event.details.registration' | translate }}</span>
               </ng-template>
-              <admin-event-details-registration [event]="event()!!" (changeResponse)="eventResource.reload()"></admin-event-details-registration>
+              <admin-event-details-registration [event]="event()!!" (changeResponse)="reload()"></admin-event-details-registration>
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>

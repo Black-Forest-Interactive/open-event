@@ -176,15 +176,16 @@ For the usage of the resources api use the following pattern
 - Use computed signals for providing the data 
 - If there is more then one signal triggering the resource use a signal called *Criteria
 - Try to write the code as compact as possible
-- Always add the abortSignal
+- Always add the abortSignal- 
 
 ```typescript
+export class AccountComponent {
     // ✅ correct
     data = input.required<Account>()
 
     private page = signal(0)
     private size = signal(20)
-    
+
     private addressCriteria = computed(() => ({
         data: this.data(),
         page: this.page(),
@@ -193,11 +194,11 @@ For the usage of the resources api use the following pattern
 
     private addressResource = resource({
         params: this.addressCriteria,
-        loader: (param) =>toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size), param.abortSignal)
+        loader: (param) => toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size), param.abortSignal)
     })
 
     private result = computed(this.addressResource.value ?? undefined)
-    
+
     readonly address = computed(() => this.result()?.content ?? [])
     readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
     readonly loading = this.addressResource.isLoading
@@ -221,25 +222,73 @@ For the usage of the resources api use the following pattern
     // ❌ wrong — expose the data public and not read only
     page = signal(0)
     size = signal(20)
-    
+
     addressCriteria = computed(() => ({
         data: this.data(),
         page: this.page(),
         size: this.size()
     }))
-    
+
     addressResource = resource({
         params: this.addressCriteria,
         loader: (param) => {
             return toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size))
         }
     })
-    
+
     result = computed(this.addressResource.value ?? undefined)
-    
+
     address = computed(() => this.result()?.content ?? [])
     totalSize = computed(() => this.result()?.totalSize ?? 0)
     loading = this.addressResource.isLoading
     error = this.addressResource.error
+}
 ```
+### SCSS/CSS Classes
+
+Use always the tailwind classes and use as little as possible. Keep it simple stupid.
+
+---
+
+## Internationalisation
+
+Always use `@ngx-translate/core` for user-visible strings. Never hardcode display text.
+
+- Import `TranslatePipe` in the component's `imports` array
+- Use the pipe in templates: `{{ 'some.key' | translate }}`
+- Pass translation keys as string inputs where the component itself renders the label — the pipe is applied inside the component template, not by the caller
+appp
+### Key structure
+
+Top-level keys are lowercase feature names (`event`, `account`, `address`, …). Each feature follows a consistent set of standard sub-namespaces:
+
+| Sub-key | Purpose | Example |
+|---------|---------|---------|
+| `type` | Singular noun for the feature (nav labels, chips) | `event.type` → "Event" |
+| `title` | Page / section heading | `event.title` → "Event" |
+| `search` | Search field placeholder | `event.search` → "Search for event" |
+| `create` | Top-level create button label | `event.create` → "Create new event" |
+| `action.*` | User-triggered actions (buttons, links) | `event.action.publish` |
+| `form.*` | Form field labels | `event.form.title` |
+| `form.hint.*` | Field hints / helper text | `event.form.hint.startDate` |
+| `form.error.*` | Validation error messages | `event.form.error.title` |
+| `table.*` | Table column headers | `event.table.status` |
+| `property.*` | Read-only property labels (detail views) | `event.property.published` |
+| `dialog.<type>.title` | Dialog heading — type is `create`, `edit`, `change`, `delete` | `event.dialog.delete.title` |
+| `dialog.<type>.question` | Confirmation question inside a dialog | `event.dialog.delete.question` |
+| `message.*` | Success / error feedback (snackbar, inline) | `registration.message.accepted` |
+| `status.*` | Status enum display values | `registration.status.full` |
+| `filter.*` | Filter panel labels | `event.filter.reset` |
+| `details.*` | Tab / section labels in detail views | `account.details.profile` |
+| `step.*` | Stepper step labels | `event.step.location` |
+
+**Global (not feature-scoped):**
+- `action.*` — shared actions reused across features: `action.save`, `action.cancel`, `action.logout`, …
+- `paginator.*` — shared paginator labels
+- `lang.*` — language names
+
+**Naming conventions inside keys:**
+- Sub-keys are camelCase: `startDate`, `maxGuests`, `firstName`
+- Enum value keys are SCREAMING_SNAKE_CASE matching the backend enum: `status.ACCEPTED`, `status.IN_PROGRESS`
+- Dynamic interpolation uses double curly braces: `"Update event: {{ event }}"`
 

@@ -71,4 +71,8 @@ export class EventDetailsComponent {
   back() {
     this.location.back()
   }
+
+  reload() {
+    this.eventResource.reload()
+  }
 }

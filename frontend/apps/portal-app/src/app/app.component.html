@@ -1,4 +1,4 @@
-@if (service.validated | async) {
+@if (service.isValidated()) {
   <portal-dashboard></portal-dashboard>
 } @else {
   <router-outlet></router-outlet>

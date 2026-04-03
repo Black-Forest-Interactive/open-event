@@ -14,6 +14,8 @@ import { provideToastConfig } from './hot-toast.config'
 import { provideQuill } from './quill.config'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
 import { provideTranslateConfig } from './translate.config'
+import { ENVIRONMENT } from '@open-event/core'
+import { environment } from '../environments/environment'
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra)
 
@@ -32,6 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
     provideTranslateConfig(),
     provideQuill(),
-    provideRouter(appRoutes)
+    provideRouter(appRoutes),
+    { provide: ENVIRONMENT, useValue: environment }
   ]
 }

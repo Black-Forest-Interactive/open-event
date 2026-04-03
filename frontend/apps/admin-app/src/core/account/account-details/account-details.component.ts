@@ -61,4 +61,7 @@ export class AccountDetailsComponent {
   back() {
     this.location.back()
   }
+  reload() {
+    this.accountResource.reload()
+  }
 }
