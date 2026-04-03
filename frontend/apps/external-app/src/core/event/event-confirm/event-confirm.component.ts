@@ -1,4 +1,4 @@
-import { Component, computed, effect, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal } from '@angular/core'
 import { EventInfoComponent } from '../event-info/event-info.component'
 import { ConfirmationCodeComponent, LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -18,40 +18,35 @@ import { ConfirmParticipationResponseDialogComponent } from '../../participant/c
   styleUrl: './event-confirm.component.scss'
 })
 export class EventConfirmComponent {
+  private service = inject(EventService)
+  private translate = inject(TranslateService)
+  private route = inject(ActivatedRoute)
+  private dialog = inject(MatDialog)
+  private hotToast = inject(HotToastService)
+
   eventId = signal<string | undefined>(undefined)
+  processing = signal(false)
+  status = signal('')
+  participantId = signal<string | undefined>(undefined)
+
   private eventResource = resource({
     params: this.eventId,
-    loader: (param) => {
-      return toPromise(this.service.getEvent(param.params))
-    }
+    loader: (param) => toPromise(this.service.getEvent(param.params), param.abortSignal)
   })
 
   private settingsResource = resource({
     params: this.eventId,
-    loader: (param) => {
-      return toPromise(this.service.getSettings())
-    }
+    loader: (param) => toPromise(this.service.getSettings(), param.abortSignal)
   })
 
-  event = computed(this.eventResource.value ?? undefined)
-  settings = computed(this.settingsResource.value)
-  loading = computed(() => this.eventResource.isLoading() || this.settingsResource.isLoading())
-  error = computed(() => this.eventResource.error() || this.settingsResource.error())
+  readonly event = computed(this.eventResource.value ?? undefined)
+  readonly settings = computed(this.settingsResource.value)
+  readonly loading = computed(() => this.eventResource.isLoading() || this.settingsResource.isLoading())
+  readonly error = computed(() => this.eventResource.error() || this.settingsResource.error())
+  readonly confirmationPossible = computed(() => this.isConfirmationPossible(this.participantId(), this.status()))
+  readonly requireValidateCode = computed(() => this.settings()?.requireValidateCode ?? true)
 
-  processing = signal(false)
-  status = signal('')
-
-  participantId = signal<string | undefined>(undefined)
-  confirmationPossible = computed(() => this.isConfirmationPossible(this.participantId(), this.status()))
-  requireValidateCode = computed(() => this.settings()?.requireValidateCode ?? true)
-
-  constructor(
-    private service: EventService,
-    private translate: TranslateService,
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private hotToast: HotToastService
-  ) {
+  constructor() {
     effect(() => {
       this.handleError(this.error())
     })
@@ -60,9 +55,9 @@ export class EventConfirmComponent {
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((p) => this.handleParams(p))
 
     effect(() => {
-      let eventId = this.eventId()
+      const eventId = this.eventId()
       if (eventId) {
-        let status = sessionStorage.getItem(eventId)
+        const status = sessionStorage.getItem(eventId)
         if (status) this.status.set(status)
       }
     })
@@ -82,16 +77,16 @@ export class EventConfirmComponent {
   }
 
   private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
+    const idParam = p.get('id')
     if (!idParam) return
     this.eventId.set(idParam)
   }
 
   private handleQueryParams(p: Params) {
-    let lang = p['lang']
+    const lang = p['lang']
     if (lang) this.translate.use(lang)
 
-    let participantId = p['pid']
+    const participantId = p['pid']
     this.participantId.set(participantId)
   }
 
@@ -101,16 +96,16 @@ export class EventConfirmComponent {
   }
 
   onCodeComplete(code: string) {
-    let participantId = this.participantId()
+    const participantId = this.participantId()
     if (!participantId) return
     this.confirm(code, participantId)
   }
 
   private confirm(code: string, participantId: string) {
     if (this.processing()) return
-    let id = this.eventId()
+    const id = this.eventId()
     if (!id) return
-    let request = new ExternalParticipantConfirmRequest(code)
+    const request = new ExternalParticipantConfirmRequest(code)
     this.processing.set(true)
     this.service.confirmParticipation(id, participantId, request).subscribe({
       next: (value) => this.handleConfirmationResponse(value),
@@ -119,7 +114,7 @@ export class EventConfirmComponent {
   }
 
   private handleConfirmationResponse(response: ExternalParticipantConfirmResponse) {
-    let participant = response.participant
+    const participant = response.participant
     if (response.status == 'FAILED' || !participant) {
       this.translate.get('registration.dialog.response.error').subscribe((v) => this.handleError(v))
     } else {
@@ -128,7 +123,7 @@ export class EventConfirmComponent {
       })
       this.processing.set(false)
       this.status.set(response.status)
-      let eventId = this.eventId()
+      const eventId = this.eventId()
       if (eventId) sessionStorage.setItem(eventId, response.status)
     }
     this.eventResource.reload()

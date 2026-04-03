@@ -1,4 +1,4 @@
-import { Component, computed, effect, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal } from '@angular/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { ParticipantAddRequest } from '@open-event/core'
 import { ActivatedRoute, ParamMap, Params, RouterLink } from '@angular/router'
@@ -21,28 +21,26 @@ import { MatCard } from '@angular/material/card'
   styleUrl: './event.component.scss'
 })
 export class EventComponent {
+  private service = inject(EventService)
+  private translate = inject(TranslateService)
+  private route = inject(ActivatedRoute)
+  private dialog = inject(MatDialog)
+  private hotToast = inject(HotToastService)
+
   eventId = signal<string | undefined>(undefined)
-  eventResource = resource({
-    params: this.eventId,
-    loader: (param) => {
-      return toPromise(this.service.getEvent(param.params))
-    }
-  })
-
-  event = computed(this.eventResource.value ?? undefined)
-  loading = this.eventResource.isLoading
-  error = this.eventResource.error
-
   processing = signal(false)
   status = signal('')
 
-  constructor(
-    private service: EventService,
-    private translate: TranslateService,
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private hotToast: HotToastService
-  ) {
+  private eventResource = resource({
+    params: this.eventId,
+    loader: (param) => toPromise(this.service.getEvent(param.params), param.abortSignal)
+  })
+
+  readonly event = computed(this.eventResource.value ?? undefined)
+  readonly loading = this.eventResource.isLoading
+  readonly error = this.eventResource.error
+
+  constructor() {
     effect(() => {
       this.handleError(this.error())
     })
@@ -50,22 +48,22 @@ export class EventComponent {
     this.route.queryParams.pipe(takeUntilDestroyed()).subscribe((p) => this.handleQueryParams(p))
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((p) => this.handleParams(p))
     effect(() => {
-      let eventId = this.eventId()
+      const eventId = this.eventId()
       if (eventId) {
-        let status = sessionStorage.getItem(eventId)
+        const status = sessionStorage.getItem(eventId)
         if (status) this.status.set(status)
       }
     })
   }
 
   private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
+    const idParam = p.get('id')
     if (!idParam) return
     this.eventId.set(idParam)
   }
 
   private handleQueryParams(p: Params) {
-    let lang = p['lang']
+    const lang = p['lang']
     if (lang) this.translate.use(lang)
   }
 
@@ -76,7 +74,7 @@ export class EventComponent {
 
   participate() {
     if (this.processing()) return
-    let dialogRef = this.dialog.open(RequestParticipationDialogComponent, {
+    const dialogRef = this.dialog.open(RequestParticipationDialogComponent, {
       disableClose: true
     })
     dialogRef.afterClosed().subscribe((request) => {
@@ -86,7 +84,7 @@ export class EventComponent {
 
   private requestParticipate(request: ExternalParticipantAddRequest) {
     if (!this.isValid(request)) return
-    let id = this.eventId()
+    const id = this.eventId()
     if (!id) return
     this.processing.set(true)
     this.service.requestParticipation(id, request).subscribe({
@@ -107,7 +105,7 @@ export class EventComponent {
       this.showRequestParticipationResponseDialog()
       this.processing.set(false)
       this.status.set(response.status)
-      let eventId = this.eventId()
+      const eventId = this.eventId()
       if (eventId) sessionStorage.setItem(eventId, response.status)
     }
     this.eventResource.reload()

@@ -5,6 +5,7 @@
 - No semicolons anywhere — not in TypeScript, not in templates
 - Single quotes for strings
 - 2-space indentation
+- Use `const` for never reassigned values like `const eventId = this.eventId()`
 
 ---
 
@@ -166,4 +167,79 @@ For a component use the following structure
 - Resources and computed signals
 - Constructor
 - Methods
+
+### Usage of resources
+
+For the usage of the resources api use the following pattern
+
+- The resource itself should be always private
+- Use computed signals for providing the data 
+- If there is more then one signal triggering the resource use a signal called *Criteria
+- Try to write the code as compact as possible
+- Always add the abortSignal
+
+```typescript
+    // ✅ correct
+    data = input.required<Account>()
+
+    private page = signal(0)
+    private size = signal(20)
+    
+    private addressCriteria = computed(() => ({
+        data: this.data(),
+        page: this.page(),
+        size: this.size()
+    }))
+
+    private addressResource = resource({
+        params: this.addressCriteria,
+        loader: (param) =>toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size), param.abortSignal)
+    })
+
+    private result = computed(this.addressResource.value ?? undefined)
+    
+    readonly address = computed(() => this.result()?.content ?? [])
+    readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+    readonly loading = this.addressResource.isLoading
+    readonly error = this.addressResource.error
+
+
+    handlePageChange($event: PageEvent) {
+        this.page.set($event.pageIndex)
+        this.size.set($event.pageSize)
+    }
+
+
+    // ❌ wrong — not using the resource in a compact way
+    private addressResource = resource({
+        params: this.addressCriteria,
+        loader: (param) => {
+            return toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size))
+        }
+    })
+
+    // ❌ wrong — expose the data public and not read only
+    page = signal(0)
+    size = signal(20)
+    
+    addressCriteria = computed(() => ({
+        data: this.data(),
+        page: this.page(),
+        size: this.size()
+    }))
+    
+    addressResource = resource({
+        params: this.addressCriteria,
+        loader: (param) => {
+            return toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size))
+        }
+    })
+    
+    result = computed(this.addressResource.value ?? undefined)
+    
+    address = computed(() => this.result()?.content ?? [])
+    totalSize = computed(() => this.result()?.totalSize ?? 0)
+    loading = this.addressResource.isLoading
+    error = this.addressResource.error
+```
 
