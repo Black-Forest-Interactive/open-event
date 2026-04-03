@@ -1,23 +1,25 @@
 <div class="flex flex-col h-screen overflow-hidden">
-    <lib-app-toolbar [title]="title()" [showMenuToggle]="isHandset()" (menuToggle)="sidenav?.toggle()">
-        @if (!isHandset()) {
-            <button toolbar-right mat-icon-button type="button" (click)="toggleCollapse()" [attr.aria-label]="'action.collapse' | translate">
-                <mat-icon>{{ sidenavCollapsed() ? 'menu_open' : 'menu' }}</mat-icon>
-            </button>
-        }
-        <ng-content select="[toolbar-right]"></ng-content>
-    </lib-app-toolbar>
+  <lib-app-toolbar [title]="title()" [showMenuToggle]="isHandset()" (menuToggle)="sidenav?.toggle()">
+    <ng-content select="[toolbar-right]"></ng-content>
+  </lib-app-toolbar>
 
-    <mat-sidenav-container class="flex-1 min-h-0" autosize>
-        <mat-sidenav #sidenav class="!border-r-0 !p-0" [mode]="sidenavMode()" [opened]="sidenavOpened()">
-            <lib-app-sidenav [navGroups]="navGroups()" [collapsed]="sidenavCollapsed()"
-                             (logoutClick)="logoutClick.emit()"/>
-        </mat-sidenav>
+  <mat-sidenav-container class="flex-1 min-h-0" autosize>
+    <mat-sidenav #sidenav
+                 class="!border-r-0 !p-0 transition-[width] duration-[250ms] ease-in-out"
+                 [style.width]="sidenavCollapsed() ? '4rem' : '16rem'"
+                 [mode]="sidenavMode()"
+                 [opened]="sidenavOpened()">
+      <lib-app-sidenav [navGroups]="navGroups()"
+                       [collapsed]="sidenavCollapsed()"
+                       [showCollapse]="!isHandset()"
+                       (collapseClick)="toggleCollapse()"
+                       (logoutClick)="logoutClick.emit()"/>
+    </mat-sidenav>
 
-        <mat-sidenav-content class="overflow-y-auto overflow-x-hidden">
-            <router-outlet></router-outlet>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+    <mat-sidenav-content class="overflow-y-auto overflow-x-hidden">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
-    <lib-app-footer [version]="version()" [info]="footerInfo()"></lib-app-footer>
+  <lib-app-footer [version]="version()" [info]="footerInfo()"></lib-app-footer>
 </div>

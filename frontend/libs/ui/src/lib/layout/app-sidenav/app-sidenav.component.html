@@ -1,47 +1,64 @@
-<nav class="flex flex-col h-full overflow-hidden transition-[width] duration-[250ms] ease-in-out"
-     [class.w-64]="!collapsed()"
-     [class.w-16]="collapsed()">
-
-  <div class="flex-1 overflow-y-auto overflow-x-hidden p-2 flex flex-col gap-1">
-    @for (group of navGroups(); track group.title) {
-      @if (group.items.length > 0) {
-        <div class="flex flex-col gap-0.5 [&+&]:mt-2 [&+&]:pt-2 [&+&]:border-t [&+&]:border-outline-variant">
-          @if (group.title && !collapsed()) {
-            <div class="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant px-3 py-1">{{ group.title | translate }}</div>
-          }
-          @for (item of group.items; track item.url) {
-            <a class="flex items-center h-11 rounded-lg text-on-surface-variant no-underline transition-colors duration-150 hover:bg-surface-container-high hover:text-on-surface"
-               [class.px-3]="!collapsed()"
-               [class.justify-center]="collapsed()"
-               [class.gap-3]="!collapsed()"
-               [routerLink]="item.url"
-               routerLinkActive="!bg-secondary-container !text-on-secondary-container font-semibold"
-               [matTooltip]="collapsed() ? (item.text | translate) : ''"
-               matTooltipPosition="right">
-              <mat-icon class="shrink-0">{{ item.icon }}</mat-icon>
-              @if (!collapsed()) {
-                <span class="text-sm overflow-hidden text-ellipsis whitespace-nowrap">{{ item.text | translate }}</span>
-              }
-            </a>
-          }
-        </div>
+<div class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col py-1">
+  @for (group of navGroups(); track group.title; let first = $first) {
+    @if (group.items.length > 0) {
+      @if (!first) {
+        <div class="h-px bg-outline-variant my-1"></div>
       }
+      <div class="flex flex-col gap-0.5 px-2">
+        @if (group.title && !collapsed()) {
+          <div class="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant px-2 pt-2 pb-1">{{ group.title | translate }}</div>
+        }
+        @for (item of group.items; track item.url) {
+          <a class="flex items-center h-10 rounded-lg text-on-surface-variant no-underline transition-colors duration-150 hover:bg-surface-container-high hover:text-on-surface border-l-[3px] border-transparent"
+             [class.px-3]="!collapsed()"
+             [class.justify-center]="collapsed()"
+             [class.gap-3]="!collapsed()"
+             [routerLink]="item.url"
+             routerLinkActive="!bg-primary/10 !text-primary !border-primary !font-semibold"
+             [matTooltip]="collapsed() ? (item.text | translate) : ''"
+             matTooltipPosition="right">
+            <mat-icon class="shrink-0 text-[20px]">{{ item.icon }}</mat-icon>
+            @if (!collapsed()) {
+              <span class="text-sm overflow-hidden text-ellipsis whitespace-nowrap">{{ item.text | translate }}</span>
+            }
+          </a>
+        }
+      </div>
     }
-  </div>
+  }
+</div>
 
-  <div class="shrink-0 p-2 border-t border-outline-variant">
+<div class="shrink-0 border-t border-outline-variant">
+  @if (showCollapse()) {
+    <div class="px-2 pt-2">
+      <button type="button"
+              class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-on-surface-variant cursor-pointer transition-colors duration-150 hover:bg-surface-container-high"
+              [class.px-3]="!collapsed()"
+              [class.justify-center]="collapsed()"
+              [class.gap-3]="!collapsed()"
+              [matTooltip]="collapsed() ? ('action.collapse' | translate) : ''"
+              matTooltipPosition="right"
+              (click)="collapseClick.emit()">
+        <mat-icon class="shrink-0 text-[20px]">{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+        @if (!collapsed()) {
+          <span class="text-sm">{{ 'action.collapse' | translate }}</span>
+        }
+      </button>
+    </div>
+  }
+  <div class="px-2 py-2">
     <button type="button"
-            class="flex items-center h-11 w-full rounded-lg border-none bg-transparent text-on-surface-variant cursor-pointer transition-colors duration-150 hover:bg-error-container hover:text-on-error-container"
+            class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-on-surface-variant cursor-pointer transition-colors duration-150 hover:bg-error-container hover:text-on-error-container"
             [class.px-3]="!collapsed()"
             [class.justify-center]="collapsed()"
             [class.gap-3]="!collapsed()"
             [matTooltip]="collapsed() ? ('action.logout' | translate) : ''"
             matTooltipPosition="right"
             (click)="logoutClick.emit()">
-      <mat-icon class="shrink-0">logout</mat-icon>
+      <mat-icon class="shrink-0 text-[20px]">logout</mat-icon>
       @if (!collapsed()) {
         <span class="text-sm">{{ 'action.logout' | translate }}</span>
       }
     </button>
   </div>
-</nav>
+</div>

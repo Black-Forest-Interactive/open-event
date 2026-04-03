@@ -10,11 +10,14 @@ import { NavGroup } from '../nav.api'
   templateUrl: './app-sidenav.component.html',
   styleUrl: './app-sidenav.component.scss',
   standalone: true,
+  host: { class: 'flex flex-col h-full w-full overflow-hidden' },
   imports: [RouterLink, RouterLinkActive, MatIcon, MatTooltip, TranslatePipe]
 })
 export class AppSidenavComponent {
   navGroups = input<NavGroup[]>([])
   collapsed = input<boolean>(false)
+  showCollapse = input<boolean>(false)
 
   logoutClick = output<void>()
+  collapseClick = output<void>()
 }
