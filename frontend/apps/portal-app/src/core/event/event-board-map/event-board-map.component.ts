@@ -89,7 +89,7 @@ export class EventBoardMapComponent implements AfterViewInit {
     const marker = this.createEventMarker(e)
 
     const component = this.resolver.resolveComponentFactory(EventBoardMapPopupComponent).create(this.injector)
-    component.instance.data = e
+    component.instance.data.set(e)
     component.changeDetectorRef.detectChanges()
 
     marker.bindPopup(component.location.nativeElement)
@@ -109,7 +109,7 @@ export class EventBoardMapComponent implements AfterViewInit {
   private addEventMarker(i: EventSearchEntry) {
     const marker = this.createEventMarker(i)
     const component = this.resolver.resolveComponentFactory(EventBoardMapPopupComponent).create(this.injector)
-    component.instance.data = i
+    component.instance.data.set(i)
     component.instance.close.asObservable().subscribe((res) => {
       marker.closePopup()
       if (res) {
