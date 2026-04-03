@@ -496,7 +496,7 @@
     },
     "statistics": {
       "total": "Gesamte Einträge",
-      "successfull": "Erfolgreich",
+      "successfully": "Erfolgreich",
       "failed": "Fehlgeschlagen"
     },
     "action": {

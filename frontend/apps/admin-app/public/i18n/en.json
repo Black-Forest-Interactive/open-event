@@ -510,7 +510,7 @@
     },
     "statistics": {
       "total": "Total entries",
-      "successfull": "Successfull",
+      "successfully": "Successfull",
       "failed": "Failed"
     },
     "action": {
