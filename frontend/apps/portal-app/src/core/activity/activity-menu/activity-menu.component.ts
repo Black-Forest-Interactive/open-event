@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, signal, ViewChild, inject } from '@angular/core'
+import { AfterViewInit, Component, inject, signal, ViewChild } from '@angular/core'
 
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
@@ -18,8 +18,8 @@ import { switchMap } from 'rxjs'
   styleUrl: './activity-menu.component.scss'
 })
 export class ActivityMenuComponent implements AfterViewInit {
-  private service = inject(ActivityService);
-  private toast = inject(HotToastService);
+  private service = inject(ActivityService)
+  private toast = inject(HotToastService)
 
   @ViewChild('menu') menu!: MatMenu
   menuTrigger = new MatMenuTrigger()
@@ -75,6 +75,6 @@ export class ActivityMenuComponent implements AfterViewInit {
   private handleError(err: any) {
     this.data.set([])
     this.reloading.set(false)
-    if (err) this.toast.error(err)
+    if (err) this.toast.error()
   }
 }

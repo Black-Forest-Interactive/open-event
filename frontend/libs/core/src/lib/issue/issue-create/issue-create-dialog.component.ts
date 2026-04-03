@@ -35,7 +35,7 @@ export class IssueCreateDialogComponent {
     const request = new IssueChangeRequest(value.subject ?? '', value.description ?? '', error, url)
     this.service.createIssue(request).subscribe({
       next: () => console.log('Bug reported'),
-      error: (err) => console.error('Failed to report bug', err)
+      error: (err) => console.error(err)
     })
     this.dialogRef.close()
   }

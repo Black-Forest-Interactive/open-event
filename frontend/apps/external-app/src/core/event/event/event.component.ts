@@ -69,7 +69,7 @@ export class EventComponent {
 
   private handleError(err: any) {
     if (!err) return
-    this.hotToast.error('Something went wrong')
+    this.hotToast.error()
   }
 
   participate() {

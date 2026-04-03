@@ -40,28 +40,26 @@ import { ExportEventButtonComponent } from '../../export/export-event-button/exp
   styleUrl: './event-details.component.scss'
 })
 export class EventDetailsComponent {
-  private service = inject(EventService);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  private service = inject(EventService)
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
 
   id = signal(-1)
 
-  eventResource = resource({
+  private eventResource = resource({
     params: this.id,
-    loader: (param) => {
-      return toPromise(this.service.getEventInfo(param.params))
-    }
+    loader: (param) => toPromise(this.service.getEventInfo(param.params), param.abortSignal)
   })
 
-  event = computed(this.eventResource.value ?? undefined)
-  loading = this.eventResource.isLoading
-  error = this.eventResource.error
+  readonly event = computed(this.eventResource.value ?? undefined)
+  readonly loading = this.eventResource.isLoading
+  readonly error = this.eventResource.error
 
   menu = viewChild.required<EventMenuComponent>('menu')
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      let id = params.get('id')!
+      const id = params.get('id')!
       this.id.set(+id)
     })
 

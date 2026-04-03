@@ -92,7 +92,7 @@ export class EventConfirmComponent {
 
   private handleError(err: any) {
     if (!err) return
-    this.hotToast.error(err)
+    this.hotToast.error()
   }
 
   onCodeComplete(code: string) {

@@ -13,26 +13,24 @@ import { IssueCardComponent } from '../issue-card/issue-card.component'
   styleUrl: './issue-details.component.scss'
 })
 export class IssueDetailsComponent {
-  private service = inject(IssueService);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  private service = inject(IssueService)
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
 
   id = signal(-1)
 
-  issueResource = resource({
+  private issueResource = resource({
     params: this.id,
-    loader: (param) => {
-      return toPromise(this.service.getIssue(param.params))
-    }
+    loader: (param) => toPromise(this.service.getIssue(param.params), param.abortSignal)
   })
 
-  issue = computed(this.issueResource.value ?? undefined)
-  loading = this.issueResource.isLoading
-  error = this.issueResource.error
+  readonly issue = computed(this.issueResource.value ?? undefined)
+  readonly loading = this.issueResource.isLoading
+  readonly error = this.issueResource.error
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      let id = params.get('id')!
+      const id = params.get('id')!
       this.id.set(+id)
     })
   }
@@ -42,7 +40,7 @@ export class IssueDetailsComponent {
   }
 
   changeStatus(status: string) {
-    let i = this.issue()
+    const i = this.issue()
     if (!i) return
     this.service.updateStatus(i.id, status).subscribe(() => this.issueResource.reload())
   }

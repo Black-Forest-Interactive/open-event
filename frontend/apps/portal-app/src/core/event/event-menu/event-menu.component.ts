@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core'
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
@@ -15,10 +15,10 @@ import { EventService } from '@open-event/portal'
   standalone: true
 })
 export class EventMenuComponent {
-  private router = inject(Router);
-  dialog = inject(MatDialog);
-  private service = inject(EventService);
-  private toastService = inject(HotToastService);
+  private router = inject(Router)
+  dialog = inject(MatDialog)
+  private service = inject(EventService)
+  private toastService = inject(HotToastService)
 
   @Output() changed: EventEmitter<Event> = new EventEmitter()
   event: Event | undefined
@@ -75,7 +75,7 @@ export class EventMenuComponent {
         this.publishing = false
       },
       error: (err) => {
-        this.toastService.error(err)
+        this.toastService.error()
         this.publishing = false
       }
     })

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject , OnInit} from '@angular/core'
+import { Component, EventEmitter, inject, OnInit } from '@angular/core'
 
 import { defaultEventSearchRequest, EventRangePickerComponent, EventRangeSelection, EventSearchEntry, EventSearchResponse } from '@open-event/core'
 import { EventService, ExportService } from '@open-event/admin'
@@ -88,7 +88,7 @@ export class EventComponent implements OnInit {
   }
 
   private handleData(response: EventSearchResponse) {
-    let p = response.result
+    const p = response.result
     this.data = p.content
     this.pageSize = p.pageable.size
     this.pageNumber = p.pageable.number
@@ -97,7 +97,7 @@ export class EventComponent implements OnInit {
   }
 
   private handleError(err: any) {
-    if (err) this.toast.error(err)
+    if (err) this.toast.error()
     this.reloading = false
   }
 
@@ -155,7 +155,7 @@ export class EventComponent implements OnInit {
   exportMail() {
     this.exportService.exportEventsToEmail(this.request).subscribe({
       next: (_) => this.translateService.get('backoffice.export.action.mail.success').subscribe((text) => this.toast.success(text)),
-      error: (err) => this.translateService.get('backoffice.export.action.mail.error').subscribe((text) => this.toast.error(text))
+      error: (err) => this.translateService.get('backoffice.export.action.mail.error').subscribe((text) => this.toast.error())
     })
   }
 }

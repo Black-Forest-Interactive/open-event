@@ -1,4 +1,4 @@
-import { Injectable, Signal, inject } from '@angular/core'
+import { inject, Injectable, Signal } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { map, Subject } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
@@ -11,10 +11,10 @@ import { AccountService } from '@open-event/admin'
   providedIn: 'root'
 })
 export class AppService {
-  private accountService = inject(AccountService);
-  private translate = inject(TranslateService);
-  authService = inject(AuthService);
-  private dialog = inject(MatDialog);
+  private accountService = inject(AccountService)
+  private translate = inject(TranslateService)
+  authService = inject(AuthService)
+  private dialog = inject(MatDialog)
 
   validated: Subject<boolean> = new Subject()
   lang: Signal<string>
@@ -23,13 +23,13 @@ export class AppService {
   info: AccountInfo | undefined
 
   constructor() {
-    const translate = this.translate;
+    const translate = this.translate
 
     this.lang = toSignal(this.translate.onLangChange.pipe(map((value) => value.lang)), { initialValue: translate.currentLang })
   }
 
   validate() {
-    let l = this.lang() ?? this.translate.currentLang ?? 'de'
+    const l = this.lang() ?? this.translate.currentLang ?? 'de'
     this.accountService.validate(l).subscribe((d) => this.handleValidationResult(d))
   }
 
@@ -40,7 +40,7 @@ export class AppService {
     this.translate.setDefaultLang('en')
     this.translate.use(d.profile.language)
 
-    this.validated.next(true)
+    this.validated.next()
   }
 
   logout() {

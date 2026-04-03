@@ -1,94 +1,83 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, inject, OnInit } from '@angular/core'
 
-import { ActivityService } from "@open-event/admin";
-import { Activity, ActivityCleanupRequest } from "@open-event/core";
-import { Page } from "@open-event/shared";
-import { HotToastService } from "@ngxpert/hot-toast";
-import { MatCard } from "@angular/material/card";
-import { MatIcon } from "@angular/material/icon";
-import { MatButton } from "@angular/material/button";
-import { MatTableModule } from "@angular/material/table";
-import { PageEvent } from "@angular/material/paginator";
-import { ActivityTableComponent } from "./activity-table/activity-table.component";
-import { MatDialog } from "@angular/material/dialog";
-import { ActivityCleanupDialogComponent } from "./activity-cleanup-dialog/activity-cleanup-dialog.component";
-import {
-  BoardComponent,
-  BoardToolbarActions,
-} from "../../shared/board/board.component";
+import { ActivityService } from '@open-event/admin'
+import { Activity, ActivityCleanupRequest } from '@open-event/core'
+import { Page } from '@open-event/shared'
+import { HotToastService } from '@ngxpert/hot-toast'
+import { MatCard } from '@angular/material/card'
+import { MatIcon } from '@angular/material/icon'
+import { MatButton } from '@angular/material/button'
+import { MatTableModule } from '@angular/material/table'
+import { PageEvent } from '@angular/material/paginator'
+import { ActivityTableComponent } from './activity-table/activity-table.component'
+import { MatDialog } from '@angular/material/dialog'
+import { ActivityCleanupDialogComponent } from './activity-cleanup-dialog/activity-cleanup-dialog.component'
+import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.component'
 
 @Component({
-  selector: "admin-activity",
-  imports: [
-    MatCard,
-    MatIcon,
-    MatTableModule,
-    ActivityTableComponent,
-    BoardComponent,
-    BoardToolbarActions,
-    MatButton,
-  ],
-  templateUrl: "./activity.component.html",
-  styleUrl: "./activity.component.scss",
+  selector: 'admin-activity',
+  imports: [MatCard, MatIcon, MatTableModule, ActivityTableComponent, BoardComponent, BoardToolbarActions, MatButton],
+  templateUrl: './activity.component.html',
+  styleUrl: './activity.component.scss'
 })
 export class ActivityComponent implements OnInit {
-  private service = inject(ActivityService);
-  private toast = inject(HotToastService);
-  private dialog = inject(MatDialog);
+  private service = inject(ActivityService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
 
-  reloading: boolean = false;
-  pageNumber = 0;
-  pageSize = 25;
-  totalElements = 0;
+  reloading: boolean = false
+  pageNumber = 0
+  pageSize = 25
+  totalElements = 0
 
-  data: Activity[] = [];
+  data: Activity[] = []
 
   ngOnInit(): void {
-    this.reload();
+    this.reload()
   }
 
   reload() {
-    this.load(0, this.pageSize);
+    this.load(0, this.pageSize)
   }
 
   private load(page: number, size: number) {
-    if (this.reloading) return;
-    this.reloading = true;
+    if (this.reloading) return
+    this.reloading = true
     this.service.getAllActivities(page, size).subscribe({
       next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err),
-    });
+      error: (err) => this.handleError(err)
+    })
   }
 
   private handleData(value: Page<Activity>) {
-    this.data = value.content;
-    this.totalElements = value.totalSize;
-    this.pageNumber = value.pageable.number;
-    this.reloading = false;
+    this.data = value.content
+    this.totalElements = value.totalSize
+    this.pageNumber = value.pageable.number
+    this.reloading = false
   }
 
   private handleError(err: any) {
-    if (err) this.toast.error(err);
-    this.reloading = false;
+    if (err) this.toast.error()
+    this.reloading = false
   }
 
   handlePageChange(event: PageEvent) {
-    if (this.reloading) return;
-    this.pageSize = event.pageSize;
-    this.load(event.pageIndex, event.pageSize);
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
   }
 
   cleanup() {
-    let ref = this.dialog.open(ActivityCleanupDialogComponent);
+    const ref = this.dialog.open(ActivityCleanupDialogComponent)
     ref.afterClosed().subscribe((value) => {
-      if (value) this.runCleanupJob(value);
-    });
+      if (value) this.runCleanupJob(value)
+    })
   }
 
   private runCleanupJob(request: ActivityCleanupRequest) {
     this.service.cleanup(request).subscribe({
-      next: (value) => this.reload(),
-      error: (err) => this.handleError(err),
-    });
+      next: () => this.reload(),
+      error: (err) => this.handleError(err)
+    })
   }
 }

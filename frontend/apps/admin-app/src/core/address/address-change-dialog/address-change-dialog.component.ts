@@ -1,52 +1,31 @@
-import { Component, inject } from "@angular/core";
-import { AddressService } from "@open-event/admin";
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from "@angular/material/dialog";
-import {
-  Address,
-  AddressChangeComponent,
-  AddressChangeRequest,
-} from "@open-event/core";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { TranslatePipe } from "@ngx-translate/core";
+import { Component, inject } from '@angular/core'
+import { AddressService } from '@open-event/admin'
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
+import { Address, AddressChangeComponent, AddressChangeRequest } from '@open-event/core'
+import { MatButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-  selector: "admin-address-change-dialog",
-  imports: [
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatIcon,
-    TranslatePipe,
-    AddressChangeComponent,
-  ],
-  templateUrl: "./address-change-dialog.component.html",
-  styleUrl: "./address-change-dialog.component.scss",
+  selector: 'admin-address-change-dialog',
+  imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, AddressChangeComponent],
+  templateUrl: './address-change-dialog.component.html',
+  styleUrl: './address-change-dialog.component.scss'
 })
 export class AddressChangeDialogComponent {
-  private service = inject(AddressService);
-  dialogRef = inject<MatDialogRef<AddressChangeDialogComponent>>(MatDialogRef);
-  data = inject<Address | undefined>(MAT_DIALOG_DATA);
-
+  private service = inject(AddressService)
+  dialogRef = inject<MatDialogRef<AddressChangeDialogComponent>>(MatDialogRef)
+  data = inject<Address | undefined>(MAT_DIALOG_DATA)
 
   onCancelClick(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(false)
   }
 
   handleRequest(request: AddressChangeRequest) {
-    let observable = this.data
-      ? this.service.updateAddress(this.data.id, request)
-      : this.service.createAddress(request);
+    const observable = this.data ? this.service.updateAddress(this.data.id, request) : this.service.createAddress(request)
     observable.subscribe({
-      next: (val) => this.dialogRef.close(true),
-      error: (err) => this.dialogRef.close(true),
-    });
+      next: () => this.dialogRef.close(true),
+      error: () => this.dialogRef.close(true)
+    })
   }
 }

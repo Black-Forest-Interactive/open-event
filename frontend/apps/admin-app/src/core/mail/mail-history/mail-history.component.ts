@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject , OnInit} from '@angular/core'
+import { Component, EventEmitter, inject, OnInit } from '@angular/core'
 import { DatePipe, Location } from '@angular/common'
 import { LoadingBarComponent, Page } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -10,7 +10,7 @@ import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MailJobHistoryEntry } from '@open-event/core'
 import { HotToastService } from '@ngxpert/hot-toast'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { debounceTime, distinctUntilChanged } from 'rxjs'
 import { MailService } from '@open-event/admin'
 
@@ -40,11 +40,10 @@ import { MailService } from '@open-event/admin'
   styleUrl: './mail-history.component.scss'
 })
 export class MailHistoryComponent implements OnInit {
-  private service = inject(MailService);
-  private toastService = inject(HotToastService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  private service = inject(MailService)
+  private toastService = inject(HotToastService)
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
 
   reloading: boolean = false
   pageNumber = 0
@@ -103,6 +102,6 @@ export class MailHistoryComponent implements OnInit {
   }
 
   private search(data: string) {
-    this.toastService.error("Sorry searching '" + data + "' is not supported yet")
+    this.toastService.error()
   }
 }

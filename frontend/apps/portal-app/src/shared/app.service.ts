@@ -34,7 +34,7 @@ export class AppService {
     this.translate.setFallbackLang('en')
     this.translate.use(d.profile.language)
 
-    this.validated.next(true)
+    this.validated.next()
   }
 
   logout() {

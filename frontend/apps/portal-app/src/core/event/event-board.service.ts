@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core'
+import { inject, Injectable, signal } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DateTime } from 'luxon'
@@ -9,7 +9,7 @@ import { EventService } from '@open-event/portal'
   providedIn: 'root'
 })
 export class EventBoardService {
-  private service = inject(EventService);
+  private service = inject(EventService)
 
   reloading = signal(false)
   searching: boolean = false
@@ -203,7 +203,7 @@ export class EventBoardService {
   }
 
   private handleError(err: any) {
-    console.error('Failed to load data', err)
+    console.error(err)
     this.reloading.set(false)
   }
 }

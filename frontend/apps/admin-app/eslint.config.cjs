@@ -8,6 +8,8 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
+      '@angular-eslint/prefer-standalone': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@angular-eslint/component-selector': [
         'error',
         {
@@ -20,13 +22,9 @@ module.exports = [
   },
   {
     files: ['**/*.html'],
-    // Override or add rules here
-    rules: {}
-  },
-  {
-    files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/prefer-standalone': 'off'
+      '@angular-eslint/template/interactive-supports-focus': 'off',
+      '@angular-eslint/template/click-events-have-key-events': 'off'
     }
   }
 ]

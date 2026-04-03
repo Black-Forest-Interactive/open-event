@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeComponent, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
@@ -18,14 +18,14 @@ import { LoadingBarComponent, Page } from '@open-event/shared'
   styleUrl: './event-edit.component.scss'
 })
 export class EventEditComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI, OnInit {
-  private service = inject(EventService);
-  private addressService = inject(AddressService);
-  private categoryService = inject(CategoryService);
-  private translationService = inject(TranslateService);
-  private toastService = inject(HotToastService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  private service = inject(EventService)
+  private addressService = inject(AddressService)
+  private categoryService = inject(CategoryService)
+  private translationService = inject(TranslateService)
+  private toastService = inject(HotToastService)
+  private router = inject(Router)
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
 
   reloading: boolean = false
   event: Event | undefined
@@ -85,7 +85,7 @@ export class EventEditComponent implements AddressReadAPI, CategoryReadAPI, Even
           this.router.navigate(['/event/details/' + event.id]).then()
         })
       },
-      error: (err) => this.translationService.get('event.message.update.failed').subscribe((msg) => this.toastService.error(msg))
+      error: (err) => this.translationService.get('event.message.update.failed').subscribe((msg) => this.toastService.error())
     })
   }
 }

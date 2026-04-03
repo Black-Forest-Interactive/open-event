@@ -19,14 +19,13 @@ import { MatSlideToggle } from '@angular/material/slide-toggle'
   styleUrl: './event-create.component.scss'
 })
 export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
-  private service = inject(EventService);
-  private addressService = inject(AddressService);
-  private categoryService = inject(CategoryService);
-  private translationService = inject(TranslateService);
-  private toastService = inject(HotToastService);
-  private router = inject(Router);
-  private location = inject(Location);
-
+  private service = inject(EventService)
+  private addressService = inject(AddressService)
+  private categoryService = inject(CategoryService)
+  private translationService = inject(TranslateService)
+  private toastService = inject(HotToastService)
+  private router = inject(Router)
+  private location = inject(Location)
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.addressService.getAddresses(page, size)
@@ -64,7 +63,7 @@ export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, Ev
           this.router.navigate(['/event/details/' + event.id]).then()
         })
       },
-      error: (err) => this.translationService.get('event.message.create.failed').subscribe((msg) => this.toastService.error(msg))
+      error: (err) => this.translationService.get('event.message.create.failed').subscribe((msg) => this.toastService.error())
     })
   }
 

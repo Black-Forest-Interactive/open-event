@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, inject } from '@angular/core'
+import { Component, inject, Input, ViewChild } from '@angular/core'
 import { MatSort, MatSortHeader } from '@angular/material/sort'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { RegistrationEditDialogComponent } from '../registration-edit-dialog/registration-edit-dialog.component'
@@ -26,11 +26,11 @@ import { RegistrationService } from '@open-event/portal'
   standalone: true
 })
 export class RegistrationModerationComponent {
-  private service = inject(RegistrationService);
-  private dialog = inject(MatDialog);
-  private hotToast = inject(HotToastService);
-  private translation = inject(TranslateService);
-  private authService = inject(AuthService);
+  private service = inject(RegistrationService)
+  private dialog = inject(MatDialog)
+  private hotToast = inject(HotToastService)
+  private translation = inject(TranslateService)
+  private authService = inject(AuthService)
 
   @Input()
   set data(value: RegistrationInfo) {
@@ -106,7 +106,7 @@ export class RegistrationModerationComponent {
         this.translation.get('registration.message.declined').subscribe((msg) => this.hotToast.warning(msg))
         break
       case 'FAILED':
-        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error(msg))
+        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error())
         break
     }
     this.reloadDetails()
@@ -172,7 +172,7 @@ export class RegistrationModerationComponent {
   }
 
   private handleError(err: any) {
-    this.hotToast.error('Something went wrong')
+    this.hotToast.error()
     this.reloading = false
   }
 }

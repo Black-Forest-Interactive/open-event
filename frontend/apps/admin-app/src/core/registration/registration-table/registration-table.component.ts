@@ -20,23 +20,21 @@ import { RegistrationParticipantRemoveDialogComponent } from '../registration-pa
   styleUrl: './registration-table.component.scss'
 })
 export class RegistrationTableComponent {
-  private service = inject(RegistrationService);
-  private dialog = inject(MatDialog);
+  private service = inject(RegistrationService)
+  private dialog = inject(MatDialog)
 
   data = input.required<RegistrationInfo>()
   changeResponse = output<ParticipateResponse>()
 
-  registrationResource = resource({
+  private registrationResource = resource({
     params: this.data,
-    loader: (param) => {
-      return toPromise(this.service.getRegistrationDetails(param.params.registration.id))
-    }
+    loader: (param) => toPromise(this.service.getRegistrationDetails(param.params.registration.id), param.abortSignal)
   })
-  registration = computed(this.registrationResource.value ?? undefined)
+  readonly registration = computed(this.registrationResource.value ?? undefined)
 
   updating = signal(false)
-  loading = computed(() => this.registrationResource.isLoading() || this.updating())
-  error = this.registrationResource.error
+  readonly loading = computed(() => this.registrationResource.isLoading() || this.updating())
+  readonly error = this.registrationResource.error
 
   displayedColumns: string[] = ['rank', 'size', 'status', 'waitinglist', 'name', 'email', 'phone', 'mobile', 'timestamp', 'action']
   dataSource = new MatTableDataSource<ParticipantDetails>([])
@@ -51,7 +49,7 @@ export class RegistrationTableComponent {
     this.updating.set(true)
     const dialogRef = this.dialog.open(RegistrationParticipantEditDialogComponent, {
       data: {
-        registration: this.registration()!!.registration,
+        registration: this.registration()!.registration,
         participant: part
       }
     })
@@ -65,7 +63,7 @@ export class RegistrationTableComponent {
     this.updating.set(true)
     const dialogRef = this.dialog.open(RegistrationParticipantRemoveDialogComponent, {
       data: {
-        registration: this.registration()!!.registration,
+        registration: this.registration()!.registration,
         participant: part
       }
     })

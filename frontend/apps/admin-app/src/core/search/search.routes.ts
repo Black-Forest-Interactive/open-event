@@ -1,5 +1,3 @@
-import {Routes} from "@angular/router";
+import { Routes } from '@angular/router'
 
-export const routes: Routes = [
-  {path: '', loadComponent: () => import('./search.component').then(m => m.SearchComponent)},
-];
+export const routes: Routes = [{ path: '', loadComponent: () => import('./search.component').then((m) => m.SearchComponent) }]

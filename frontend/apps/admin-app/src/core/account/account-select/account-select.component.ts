@@ -18,24 +18,22 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './account-select.component.scss'
 })
 export class AccountSelectComponent {
-  private service = inject(AccountService);
+  private service = inject(AccountService)
 
   selectionChanged = output<AccountSearchEntry>()
 
   request = signal<AccountSearchRequest>(new AccountSearchRequest(''))
 
-  accountResource = resource({
+  private accountResource = resource({
     params: this.request,
-    loader: (param) => {
-      return toPromise(this.service.search(param.params, 0, 10))
-    }
+    loader: (param) => toPromise(this.service.search(param.params, 0, 10), param.abortSignal)
   })
   private result = computed(() => this.accountResource.value()?.result ?? undefined)
 
-  accounts = computed(() => this.result()?.content ?? [])
-  totalSize = computed(() => this.result()?.totalSize ?? 0)
-  loading = this.accountResource.isLoading
-  error = this.accountResource.error
+  readonly accounts = computed(() => this.result()?.content ?? [])
+  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+  readonly loading = this.accountResource.isLoading
+  readonly error = this.accountResource.error
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
 

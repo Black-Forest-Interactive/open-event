@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, resource, signal, inject } from '@angular/core'
+import { Component, computed, effect, inject, input, resource, signal } from '@angular/core'
 import { Account, Address } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
@@ -21,34 +21,32 @@ import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/boa
   styleUrl: './account-details-address.component.scss'
 })
 export class AccountDetailsAddressComponent {
-  private service = inject(AccountService);
-  private toast = inject(HotToastService);
-  private dialog = inject(MatDialog);
+  private service = inject(AccountService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
 
   data = input.required<Account>()
 
   page = signal(0)
   size = signal(20)
 
-  addressCriteria = computed(() => ({
+  readonly addressCriteria = computed(() => ({
     data: this.data(),
     page: this.page(),
     size: this.size()
   }))
 
-  addressResource = resource({
+  private addressResource = resource({
     params: this.addressCriteria,
-    loader: (param) => {
-      return toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size))
-    }
+    loader: (param) => toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size), param.abortSignal)
   })
 
-  result = computed(this.addressResource.value ?? undefined)
+  readonly result = computed(this.addressResource.value ?? undefined)
 
-  address = computed(() => this.result()?.content ?? [])
-  totalSize = computed(() => this.result()?.totalSize ?? 0)
-  loading = this.addressResource.isLoading
-  error = this.addressResource.error
+  readonly address = computed(() => this.result()?.content ?? [])
+  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+  readonly loading = this.addressResource.isLoading
+  readonly error = this.addressResource.error
 
   displayedColumns: string[] = ['street', 'streetNumber', 'zip', 'city', 'country', 'additionalInfo', 'cmd']
 
@@ -92,6 +90,6 @@ export class AccountDetailsAddressComponent {
   }
 
   private handleError(e: any) {
-    if (e) this.toast.error(e)
+    if (e) this.toast.error()
   }
 }

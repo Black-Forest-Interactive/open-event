@@ -1,84 +1,53 @@
-import { Component, inject } from "@angular/core";
-import {
-  AccountSearchEntry,
-  Participant,
-  Registration,
-} from "@open-event/core";
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from "@angular/material/dialog";
-import { RegistrationService } from "@open-event/admin";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { TranslatePipe } from "@ngx-translate/core";
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
-import { AccountSelectComponent } from "../../account/account-select/account-select.component";
-import { MatFormField, MatInput } from "@angular/material/input";
-import { MatLabel } from "@angular/material/form-field";
+import { Component, inject } from '@angular/core'
+import { AccountSearchEntry, Participant, Registration } from '@open-event/core'
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
+import { RegistrationService } from '@open-event/admin'
+import { MatButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
+import { TranslatePipe } from '@ngx-translate/core'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { AccountSelectComponent } from '../../account/account-select/account-select.component'
+import { MatFormField, MatInput } from '@angular/material/input'
+import { MatLabel } from '@angular/material/form-field'
 
 @Component({
-  selector: "admin-registration-participant-add-account-dialog",
-  imports: [
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatIcon,
-    TranslatePipe,
-    ReactiveFormsModule,
-    AccountSelectComponent,
-    MatFormField,
-    MatInput,
-    MatFormField,
-    MatLabel,
-  ],
-  templateUrl: "./registration-participant-add-account-dialog.component.html",
-  styleUrl: "./registration-participant-add-account-dialog.component.scss",
+  selector: 'admin-registration-participant-add-account-dialog',
+  imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, ReactiveFormsModule, AccountSelectComponent, MatFormField, MatInput, MatFormField, MatLabel],
+  templateUrl: './registration-participant-add-account-dialog.component.html',
+  styleUrl: './registration-participant-add-account-dialog.component.scss'
 })
 export class RegistrationParticipantAddAccountDialogComponent {
-  private service = inject(RegistrationService);
-  dialogRef = inject<MatDialogRef<RegistrationParticipantAddAccountDialogComponent>>(MatDialogRef);
+  private service = inject(RegistrationService)
+  dialogRef = inject<MatDialogRef<RegistrationParticipantAddAccountDialogComponent>>(MatDialogRef)
 
-  data: { registration: Registration; participant: Participant } =
-    inject(MAT_DIALOG_DATA);
-  account: AccountSearchEntry | undefined;
-  fg: FormGroup;
+  data: { registration: Registration; participant: Participant } = inject(MAT_DIALOG_DATA)
+  account: AccountSearchEntry | undefined
+  fg: FormGroup
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({
-      size: [0, Validators.compose([Validators.required, Validators.min(1)])],
-    });
+      size: [0, Validators.compose([Validators.required, Validators.min(1)])]
+    })
   }
 
   onCancelClick(): void {
-    this.dialogRef.close(null);
+    this.dialogRef.close(null)
   }
 
   onSaveClick() {
-    if (!this.fg.valid || !this.account) return;
-    let request = this.fg.value;
-    let accountId = this.account.id;
+    if (!this.fg.valid || !this.account) return
+    const request = this.fg.value
+    const accountId = this.account.id
 
-    this.service
-      .addParticipantAccount(this.data.registration.id, accountId, request)
-      .subscribe({
-        next: (val) => this.dialogRef.close(val),
-        error: (err) => this.dialogRef.close(null),
-      });
+    this.service.addParticipantAccount(this.data.registration.id, accountId, request).subscribe({
+      next: (val) => this.dialogRef.close(val),
+      error: (err) => this.dialogRef.close(null)
+    })
   }
 
   handleAccountSelectionChanged(entry: AccountSearchEntry) {
-    this.account = entry;
+    this.account = entry
   }
 }

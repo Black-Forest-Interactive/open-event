@@ -11,18 +11,16 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   styleUrl: './account-details-preferences.component.scss'
 })
 export class AccountDetailsPreferencesComponent {
-  private service = inject(AccountService);
+  private service = inject(AccountService)
 
   data = input.required<Account>()
 
-  preferencesResource = resource({
+  private preferencesResource = resource({
     params: this.data,
-    loader: (param) => {
-      return toPromise(this.service.getPreferences(param.params.id))
-    }
+    loader: (param) => toPromise(this.service.getPreferences(param.params.id), param.abortSignal)
   })
 
-  preferences = computed(this.preferencesResource.value ?? undefined)
-  loading = this.preferencesResource.isLoading
-  error = this.preferencesResource.error
+  readonly preferences = computed(this.preferencesResource.value ?? undefined)
+  readonly loading = this.preferencesResource.isLoading
+  readonly error = this.preferencesResource.error
 }

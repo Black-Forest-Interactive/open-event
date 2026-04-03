@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, signal, inject } from '@angular/core'
+import { Component, computed, effect, inject, input, signal } from '@angular/core'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatIconModule } from '@angular/material/icon'
 import { EventInfo } from '@open-event/core'
@@ -16,8 +16,8 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './event-details-banner.component.scss'
 })
 export class EventDetailsBannerComponent {
-  protected service = inject(ImageUploadService);
-  private toast = inject(HotToastService);
+  protected service = inject(ImageUploadService)
+  private toast = inject(HotToastService)
 
   data = input<EventInfo>()
 
@@ -43,7 +43,7 @@ export class EventDetailsBannerComponent {
 
     const validation = this.service.validateImage(file)
     if (!validation.valid) {
-      this.toast.error('Invalid file')
+      this.toast.error()
       return
     }
 
@@ -61,8 +61,8 @@ export class EventDetailsBannerComponent {
         }
       },
       error: (error) => {
-        console.error('Upload error:', error)
-        this.toast.error('Upload failed. Please try again.')
+        console.error(error)
+        this.toast.error()
         this.bannerImage.set(this.defaultBannerImage)
       }
     })

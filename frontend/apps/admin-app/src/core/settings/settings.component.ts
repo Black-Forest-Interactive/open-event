@@ -1,99 +1,83 @@
-import { Component, EventEmitter, inject , OnInit} from "@angular/core";
+import { Component, EventEmitter, inject, OnInit } from '@angular/core'
 
-import { Setting } from "@open-event/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
-import { Page } from "@open-event/shared";
-import { SettingsService } from "@open-event/admin";
-import { SettingsChangeDialogComponent } from "./settings-change-dialog/settings-change-dialog.component";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { TranslatePipe } from "@ngx-translate/core";
-import { MatTableModule } from "@angular/material/table";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import {
-  BoardComponent,
-  BoardToolbarActions,
-} from "../../shared/board/board.component";
+import { Setting } from '@open-event/core'
+import { MatDialog } from '@angular/material/dialog'
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
+import { Page } from '@open-event/shared'
+import { SettingsService } from '@open-event/admin'
+import { SettingsChangeDialogComponent } from './settings-change-dialog/settings-change-dialog.component'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatCardModule } from '@angular/material/card'
+import { MatIconModule } from '@angular/material/icon'
+import { TranslatePipe } from '@ngx-translate/core'
+import { MatTableModule } from '@angular/material/table'
+import { MatButton, MatIconButton } from '@angular/material/button'
+import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.component'
 
 @Component({
-  selector: "admin-settings",
-  imports: [
-    TranslatePipe,
-    MatToolbarModule,
-    MatCardModule,
-    MatIconModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatButton,
-    BoardComponent,
-    BoardToolbarActions,
-    MatIconButton,
-  ],
-  templateUrl: "./settings.component.html",
-  styleUrl: "./settings.component.scss",
+  selector: 'admin-settings',
+  imports: [TranslatePipe, MatToolbarModule, MatCardModule, MatIconModule, MatTableModule, MatPaginatorModule, MatButton, BoardComponent, BoardToolbarActions, MatIconButton],
+  templateUrl: './settings.component.html',
+  styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
-  private service = inject(SettingsService);
-  private dialog = inject(MatDialog);
+  private service = inject(SettingsService)
+  private dialog = inject(MatDialog)
 
-  reloading: boolean = false;
-  pageNumber = 0;
-  pageSize = 10;
-  totalElements = 0;
+  reloading: boolean = false
+  pageNumber = 0
+  pageSize = 10
+  totalElements = 0
 
-  data: Setting[] = [];
+  data: Setting[] = []
 
-  displayedColumns: string[] = ["id", "value", "type", "cmd"];
+  displayedColumns: string[] = ['id', 'value', 'type', 'cmd']
 
-  keyUp: EventEmitter<string> = new EventEmitter<string>();
+  keyUp: EventEmitter<string> = new EventEmitter<string>()
 
   ngOnInit(): void {
-    this.reload();
+    this.reload()
   }
 
   handlePageChange(event: PageEvent) {
-    if (this.reloading) return;
-    this.pageSize = event.pageSize;
-    this.loadPage(event.pageIndex);
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.loadPage(event.pageIndex)
   }
 
   private reload() {
-    this.loadPage(0);
+    this.loadPage(0)
   }
 
   private loadPage(number: number) {
-    if (this.reloading) return;
-    this.reloading = true;
+    if (this.reloading) return
+    this.reloading = true
 
-    this.service
-      .getAllSetting(number, this.pageSize)
-      .subscribe((p) => this.handleData(p));
+    this.service.getAllSetting(number, this.pageSize).subscribe((p) => this.handleData(p))
   }
 
   private handleData(p: Page<Setting>) {
-    this.data = p.content;
+    this.data = p.content
 
-    this.totalElements = p.totalSize;
-    this.pageNumber = p.pageable.number;
-    this.pageSize = p.pageable.size;
-    this.reloading = false;
+    this.totalElements = p.totalSize
+    this.pageNumber = p.pageable.number
+    this.pageSize = p.pageable.size
+    this.reloading = false
   }
 
   create() {
     const dialogRef = this.dialog.open(SettingsChangeDialogComponent, {
-      width: "350px",
-      data: null,
-    });
-    dialogRef.afterClosed().subscribe((d) => this.reload());
+      width: '350px',
+      data: null
+    })
+    dialogRef.afterClosed().subscribe((d) => this.reload())
   }
 
   edit(entry: Setting) {
     const dialogRef = this.dialog.open(SettingsChangeDialogComponent, {
-      width: "350px",
-      data: entry,
-    });
-    dialogRef.afterClosed().subscribe((d) => this.reload());
+      width: '350px',
+      data: entry
+    })
+    dialogRef.afterClosed().subscribe((d) => this.reload())
   }
 }

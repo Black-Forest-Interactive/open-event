@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 
 import { MatCard } from '@angular/material/card'
 import { FeedbackChangeRequest, FeedbackFormComponent } from '@open-event/core'
@@ -15,9 +15,9 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {
-  private service = inject(FeedbackService);
-  private toast = inject(HotToastService);
-  private translate = inject(TranslateService);
+  private service = inject(FeedbackService)
+  private toast = inject(HotToastService)
+  private translate = inject(TranslateService)
 
   loading = signal(false)
 
@@ -27,7 +27,7 @@ export class FeedbackComponent {
     this.loading.set(true)
     this.service.createFeedback(request).subscribe({
       next: (result) => this.toast.success(this.translate.instant('feedback.confirmation')),
-      error: (error) => this.toast.error(this.translate.instant('feedback.error')),
+      error: (error) => this.toast.error(),
       complete: () => this.loading.set(false)
     })
   }

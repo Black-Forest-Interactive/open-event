@@ -36,26 +36,24 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './account-details.component.scss'
 })
 export class AccountDetailsComponent {
-  private service = inject(AccountService);
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
+  private service = inject(AccountService)
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
 
   id = signal(-1)
 
-  accountResource = resource({
+  private accountResource = resource({
     params: this.id,
-    loader: (param) => {
-      return toPromise(this.service.getAccount(param.params))
-    }
+    loader: (param) => toPromise(this.service.getAccount(param.params), param.abortSignal)
   })
 
-  account = computed(this.accountResource.value ?? undefined)
-  loading = this.accountResource.isLoading
-  error = this.accountResource.error
+  readonly account = computed(this.accountResource.value ?? undefined)
+  readonly loading = this.accountResource.isLoading
+  readonly error = this.accountResource.error
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      let id = params.get('id')!
+      const id = params.get('id')!
       this.id.set(+id)
     })
   }

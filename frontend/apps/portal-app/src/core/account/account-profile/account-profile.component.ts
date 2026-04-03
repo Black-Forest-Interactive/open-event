@@ -21,10 +21,10 @@ import { AccountService } from '@open-event/portal'
   styleUrl: './account-profile.component.scss'
 })
 export class AccountProfileComponent {
-  private fb = inject(FormBuilder);
-  private service = inject(AccountService);
-  private translate = inject(TranslateService);
-  private toast = inject(HotToastService);
+  private fb = inject(FormBuilder)
+  private service = inject(AccountService)
+  private translate = inject(TranslateService)
+  private toast = inject(HotToastService)
 
   profile: Profile | undefined
   reloading: boolean = false
@@ -88,6 +88,6 @@ export class AccountProfileComponent {
   }
 
   private handleError(err: any) {
-    this.toast.error('Somethong went wrong')
+    this.toast.error()
   }
 }

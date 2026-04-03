@@ -1,21 +1,21 @@
-import { Component, Directive, input } from "@angular/core";
-import { LoadingBarComponent } from "@open-event/shared";
-import { MatToolbar } from "@angular/material/toolbar";
-import { TranslatePipe } from "@ngx-translate/core";
-import { MatCard } from "@angular/material/card";
+import { Component, Directive, input } from '@angular/core'
+import { LoadingBarComponent } from '@open-event/shared'
+import { MatToolbar } from '@angular/material/toolbar'
+import { TranslatePipe } from '@ngx-translate/core'
+import { MatCard } from '@angular/material/card'
 
 @Component({
   imports: [LoadingBarComponent, MatToolbar, TranslatePipe, MatCard],
-  selector: "admin-board-card",
-  styleUrl: "./board-card.component.scss",
-  templateUrl: "./board-card.component.html",
+  selector: 'admin-board-card',
+  styleUrl: './board-card.component.scss',
+  templateUrl: './board-card.component.html'
 })
 export class BoardCardComponent {
-  reloading = input(false);
-  title = input.required<string>();
+  reloading = input(false)
+  title = input.required<string>()
 }
 
 @Directive({
-  selector: `board-card-toolbar-actions, [board-card-toolbar-actions], [boardCardToolbarActions]`,
+  selector: `board-card-toolbar-actions, [board-card-toolbar-actions], [boardCardToolbarActions]`
 })
 export class BoardCardToolbarActions {}

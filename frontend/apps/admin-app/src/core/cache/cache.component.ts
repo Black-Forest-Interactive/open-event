@@ -1,167 +1,160 @@
-import { Component, inject , OnInit} from "@angular/core";
-import { MatCard } from "@angular/material/card";
-import { MatDivider } from "@angular/material/divider";
-import { MatIcon } from "@angular/material/icon";
-import { MatMiniFabButton } from "@angular/material/button";
-import { NgxEchartsDirective } from "ngx-echarts";
-import { CacheInfo } from "@open-event/core";
-import type { EChartsCoreOption } from "echarts/core";
-import { CacheService } from "@open-event/admin";
-import { BoardComponent } from "../../shared/board/board.component";
+import { Component, inject, OnInit } from '@angular/core'
+import { MatCard } from '@angular/material/card'
+import { MatDivider } from '@angular/material/divider'
+import { MatIcon } from '@angular/material/icon'
+import { MatMiniFabButton } from '@angular/material/button'
+import { NgxEchartsDirective } from 'ngx-echarts'
+import { CacheInfo } from '@open-event/core'
+import type { EChartsCoreOption } from 'echarts/core'
+import { CacheService } from '@open-event/admin'
+import { BoardComponent } from '../../shared/board/board.component'
 
 @Component({
-  selector: "admin-cache",
-  imports: [
-    MatMiniFabButton,
-    MatCard,
-    MatDivider,
-    MatIcon,
-    NgxEchartsDirective,
-    BoardComponent,
-  ],
-  templateUrl: "./cache.component.html",
-  styleUrl: "./cache.component.scss",
+  selector: 'admin-cache',
+  imports: [MatMiniFabButton, MatCard, MatDivider, MatIcon, NgxEchartsDirective, BoardComponent],
+  templateUrl: './cache.component.html',
+  styleUrl: './cache.component.scss'
 })
 export class CacheComponent implements OnInit {
-  private service = inject(CacheService);
+  private service = inject(CacheService)
 
-  reloading: boolean = false;
-  info: CacheInfo[] = [];
-  displayedColumns: string[] = ["name", "cmd"];
+  reloading: boolean = false
+  info: CacheInfo[] = []
+  displayedColumns: string[] = ['name', 'cmd']
   chart: EChartsCoreOption = {
     tooltip: {
-      trigger: "axis",
+      trigger: 'axis',
       axisPointer: {
-        type: "shadow",
-      },
+        type: 'shadow'
+      }
     },
     legend: {},
     grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true,
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
     },
     xAxis: {
-      type: "value",
+      type: 'value'
     },
     yAxis: {
-      type: "category",
-      data: ["hit", "load", "evict"],
+      type: 'category',
+      data: ['hit', 'load', 'evict']
     },
-    series: [],
-  };
-  values: EChartsCoreOption = {};
+    series: []
+  }
+  values: EChartsCoreOption = {}
 
   ngOnInit() {
-    this.reload();
+    this.reload()
   }
 
   reload() {
-    if (this.reloading) return;
-    this.reloading = true;
-    this.service.getAllCaches().subscribe((d) => this.handleData(d));
+    if (this.reloading) return
+    this.reloading = true
+    this.service.getAllCaches().subscribe((d) => this.handleData(d))
   }
 
   reset(info: CacheInfo) {
-    this.service.resetCache(info.key).subscribe((d) => this.handleUpdate(d));
+    this.service.resetCache(info.key).subscribe((d) => this.handleUpdate(d))
   }
 
   updateChart() {
     this.values = {
       yAxis: {
-        data: this.info.map((i) => i.name).reverse(),
+        data: this.info.map((i) => i.name).reverse()
       },
       series: [
         {
-          name: "Hit",
-          type: "bar",
-          stack: "hit",
+          name: 'Hit',
+          type: 'bar',
+          stack: 'hit',
           label: {
-            show: true,
+            show: true
           },
           emphasis: {
-            focus: "series",
+            focus: 'series'
           },
-          data: this.info.map((i) => i.hitCount),
+          data: this.info.map((i) => i.hitCount)
         },
         {
-          name: "Miss",
-          type: "bar",
-          stack: "hit",
+          name: 'Miss',
+          type: 'bar',
+          stack: 'hit',
           label: {
-            show: true,
+            show: true
           },
           emphasis: {
-            focus: "series",
+            focus: 'series'
           },
-          data: this.info.map((i) => i.missCount),
+          data: this.info.map((i) => i.missCount)
         },
         {
-          name: "Evict Count",
-          type: "bar",
-          stack: "evict",
+          name: 'Evict Count',
+          type: 'bar',
+          stack: 'evict',
           label: {
-            show: true,
+            show: true
           },
           emphasis: {
-            focus: "series",
+            focus: 'series'
           },
-          data: this.info.map((i) => i.evictionCount),
+          data: this.info.map((i) => i.evictionCount)
         },
         {
-          name: "Evict Weight",
-          type: "bar",
-          stack: "evict",
+          name: 'Evict Weight',
+          type: 'bar',
+          stack: 'evict',
           label: {
-            show: true,
+            show: true
           },
           emphasis: {
-            focus: "series",
+            focus: 'series'
           },
-          data: this.info.map((i) => i.evictionWeight),
+          data: this.info.map((i) => i.evictionWeight)
         },
         {
-          name: "Load Success",
-          type: "bar",
-          stack: "load",
+          name: 'Load Success',
+          type: 'bar',
+          stack: 'load',
           label: {
-            show: true,
+            show: true
           },
           emphasis: {
-            focus: "series",
+            focus: 'series'
           },
-          data: this.info.map((i) => i.loadSuccessCount),
+          data: this.info.map((i) => i.loadSuccessCount)
         },
         {
-          name: "Load Failure",
-          type: "bar",
-          stack: "load",
+          name: 'Load Failure',
+          type: 'bar',
+          stack: 'load',
           label: {
-            show: true,
+            show: true
           },
           emphasis: {
-            focus: "series",
+            focus: 'series'
           },
-          data: this.info.map((i) => i.loadFailureCount),
-        },
-      ],
-    };
+          data: this.info.map((i) => i.loadFailureCount)
+        }
+      ]
+    }
   }
 
   private handleData(d: CacheInfo[]) {
-    this.info = d;
-    this.updateChart();
-    this.reloading = false;
+    this.info = d
+    this.updateChart()
+    this.reloading = false
   }
 
   private handleUpdate(d: CacheInfo) {
-    let index = this.info.findIndex((value) => d.key === value.key);
+    const index = this.info.findIndex((value) => d.key === value.key)
     if (index < 0) {
-      this.info.push(d);
+      this.info.push(d)
     } else {
-      this.info[index] = d;
+      this.info[index] = d
     }
-    this.updateChart();
+    this.updateChart()
   }
 }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'admin-feedback-details',
@@ -6,6 +6,4 @@ import {Component} from '@angular/core';
   templateUrl: './feedback-details.component.html',
   styleUrl: './feedback-details.component.scss'
 })
-export class FeedbackDetailsComponent {
-
-}
+export class FeedbackDetailsComponent {}

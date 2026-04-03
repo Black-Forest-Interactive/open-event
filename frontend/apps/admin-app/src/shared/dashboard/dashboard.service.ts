@@ -6,8 +6,8 @@ import { SettingsService } from '@open-event/admin'
   providedIn: 'root'
 })
 export class DashboardService {
-  private settingsService = inject(SettingsService);
-  private pageTitle = inject(Title);
+  private settingsService = inject(SettingsService)
+  private pageTitle = inject(Title)
 
   title = signal('app.title')
 

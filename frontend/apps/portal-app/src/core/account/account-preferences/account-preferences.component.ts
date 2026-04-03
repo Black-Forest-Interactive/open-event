@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core'
+import { Component, inject, OnInit, signal } from '@angular/core'
 
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatCardModule } from '@angular/material/card'
@@ -17,8 +17,8 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './account-preferences.component.scss'
 })
 export class AccountPreferencesComponent implements OnInit {
-  private service = inject(AccountService);
-  private toast = inject(HotToastService);
+  private service = inject(AccountService)
+  private toast = inject(HotToastService)
 
   preferences = signal<Preferences | undefined>(undefined)
   reloading = signal(false)
@@ -43,7 +43,7 @@ export class AccountPreferencesComponent implements OnInit {
   }
 
   private handleError(err: any) {
-    if (err) this.toast.error(err)
+    if (err) this.toast.error()
     this.reloading.set(false)
   }
 

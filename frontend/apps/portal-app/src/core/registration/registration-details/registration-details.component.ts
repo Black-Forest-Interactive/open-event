@@ -1,4 +1,4 @@
-import { Component, computed, model, inject } from '@angular/core'
+import { Component, computed, inject, model } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { RegistrationParticipateDialogComponent } from '../registration-participate-dialog/registration-participate-dialog.component'
@@ -22,11 +22,11 @@ import { RegistrationService } from '@open-event/portal'
   standalone: true
 })
 export class RegistrationDetailsComponent {
-  private service = inject(RegistrationService);
-  private dialog = inject(MatDialog);
-  private hotToast = inject(HotToastService);
-  private translation = inject(TranslateService);
-  private authService = inject(AuthService);
+  private service = inject(RegistrationService)
+  private dialog = inject(MatDialog)
+  private hotToast = inject(HotToastService)
+  private translation = inject(TranslateService)
+  private authService = inject(AuthService)
 
   data = model.required<RegistrationInfo>()
   participants = computed(() => this.data().participants)
@@ -96,7 +96,7 @@ export class RegistrationDetailsComponent {
         this.translation.get('registration.message.declined').subscribe((msg) => this.hotToast.warning(msg))
         break
       case 'FAILED':
-        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error(msg))
+        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error())
         break
     }
     this.reloading = false

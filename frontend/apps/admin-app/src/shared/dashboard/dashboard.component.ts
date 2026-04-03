@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject , OnInit} from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject, OnInit } from '@angular/core'
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { filter, map, Observable, withLatestFrom } from 'rxjs'
@@ -17,11 +17,11 @@ import { DashboardToolbarComponent } from '../dashboard-toolbar/dashboard-toolba
   imports: [MatSidenavContainer, AsyncPipe, MatSidenav, MatSidenavContent, RouterLink, MainMenuComponent, RouterOutlet, DashboardToolbarComponent],
   standalone: true
 })
-export class DashboardComponent implements AfterViewInit , OnInit {
-  authService = inject(AuthService);
-  private breakpointObserver = inject(BreakpointObserver);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  service = inject(DashboardService);
+export class DashboardComponent implements AfterViewInit, OnInit {
+  authService = inject(AuthService)
+  private breakpointObserver = inject(BreakpointObserver)
+  private changeDetectorRef = inject(ChangeDetectorRef)
+  service = inject(DashboardService)
 
   isHandset$: Observable<boolean>
 
@@ -52,7 +52,7 @@ export class DashboardComponent implements AfterViewInit , OnInit {
   accessibleItems: MainNavItem[] = []
 
   constructor() {
-    const router = inject(Router);
+    const router = inject(Router)
 
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map((result) => result.matches))
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
@@ -38,8 +38,8 @@ import { ActivityService } from '@open-event/portal'
   standalone: true
 })
 export class ActivityTableComponent implements OnInit {
-  private service = inject(ActivityService);
-  private toast = inject(HotToastService);
+  private service = inject(ActivityService)
+  private toast = inject(HotToastService)
 
   reloading: boolean = false
   pageSize: number = 25
@@ -69,7 +69,7 @@ export class ActivityTableComponent implements OnInit {
   }
 
   private handleError(err: any) {
-    this.toast.error('Something went wrong')
+    this.toast.error()
     this.reloading = false
   }
 

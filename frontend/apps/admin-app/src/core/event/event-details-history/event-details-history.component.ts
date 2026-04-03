@@ -13,30 +13,28 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   styleUrl: './event-details-history.component.scss'
 })
 export class EventDetailsHistoryComponent {
-  private service = inject(EventService);
+  private service = inject(EventService)
 
   event = input.required<EventInfo>()
   page = signal(0)
   size = signal(20)
 
-  historyCriteria = computed(() => ({
+  readonly historyCriteria = computed(() => ({
     data: this.event(),
     page: this.page(),
     size: this.size()
   }))
 
-  historyResource = resource({
+  private historyResource = resource({
     params: this.historyCriteria,
-    loader: (param) => {
-      return toPromise(this.service.getEventHistory(param.params.data.event.id, param.params.page, param.params.size))
-    }
+    loader: (param) => toPromise(this.service.getEventHistory(param.params.data.event.id, param.params.page, param.params.size), param.abortSignal)
   })
 
-  result = computed(this.historyResource.value ?? undefined)
-  history = computed(() => this.result()?.content ?? [])
-  totalSize = computed(() => this.result()?.totalSize ?? 0)
-  loading = this.historyResource.isLoading
-  error = this.historyResource.error
+  readonly result = computed(this.historyResource.value ?? undefined)
+  readonly history = computed(() => this.result()?.content ?? [])
+  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+  readonly loading = this.historyResource.isLoading
+  readonly error = this.historyResource.error
 
   handlePageChange($event: PageEvent) {
     this.page.set($event.pageIndex)

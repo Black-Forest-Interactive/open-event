@@ -1,66 +1,63 @@
-import { Component, inject , OnInit} from "@angular/core";
+import { Component, inject, OnInit } from '@angular/core'
 
-import { IssueService } from "@open-event/admin";
-import { PageEvent } from "@angular/material/paginator";
-import { Issue } from "@open-event/core";
-import { Page } from "@open-event/shared";
-import {
-  BoardComponent,
-  BoardToolbarActions,
-} from "../../shared/board/board.component";
-import { MatCard } from "@angular/material/card";
-import { HotToastService } from "@ngxpert/hot-toast";
-import { IssueTableComponent } from "./issue-table/issue-table.component";
+import { IssueService } from '@open-event/admin'
+import { PageEvent } from '@angular/material/paginator'
+import { Issue } from '@open-event/core'
+import { Page } from '@open-event/shared'
+import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.component'
+import { MatCard } from '@angular/material/card'
+import { HotToastService } from '@ngxpert/hot-toast'
+import { IssueTableComponent } from './issue-table/issue-table.component'
 
 @Component({
-  selector: "admin-issue",
+  selector: 'admin-issue',
   imports: [BoardComponent, BoardToolbarActions, MatCard, IssueTableComponent],
-  templateUrl: "./issue.component.html",
-  styleUrl: "./issue.component.scss",
+  templateUrl: './issue.component.html',
+  styleUrl: './issue.component.scss'
 })
 export class IssueComponent implements OnInit {
-  private service = inject(IssueService);
-  private toast = inject(HotToastService);
+  private service = inject(IssueService)
+  private toast = inject(HotToastService)
 
-  reloading: boolean = false;
-  pageNumber = 0;
-  pageSize = 25;
-  totalElements = 0;
+  reloading: boolean = false
+  pageNumber = 0
+  pageSize = 25
+  totalElements = 0
 
-  data: Issue[] = [];
+  data: Issue[] = []
 
   ngOnInit(): void {
-    this.reload();
+    this.reload()
   }
 
   reload() {
-    this.load(0, this.pageSize);
+    this.load(0, this.pageSize)
   }
 
   private load(page: number, size: number) {
-    if (this.reloading) return;
-    this.reloading = true;
+    if (this.reloading) return
+    this.reloading = true
     this.service.getAllIssues(page, size).subscribe({
       next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err),
-    });
+      error: (err) => this.handleError(err)
+    })
   }
 
   private handleData(value: Page<Issue>) {
-    this.data = value.content;
-    this.totalElements = value.totalSize;
-    this.pageNumber = value.pageable.number;
-    this.reloading = false;
+    this.data = value.content
+    this.totalElements = value.totalSize
+    this.pageNumber = value.pageable.number
+    this.reloading = false
   }
 
   private handleError(err: any) {
-    if (err) this.toast.error(err);
-    this.reloading = false;
+    if (err) this.toast.error()
+    this.reloading = false
   }
 
   handlePageChange(event: PageEvent) {
-    if (this.reloading) return;
-    this.pageSize = event.pageSize;
-    this.load(event.pageIndex, event.pageSize);
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
   }
 }

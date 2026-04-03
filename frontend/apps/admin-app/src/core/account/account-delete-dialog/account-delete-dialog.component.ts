@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'admin-account-delete-dialog',
@@ -6,6 +6,4 @@ import {Component} from '@angular/core';
   templateUrl: './account-delete-dialog.component.html',
   styleUrl: './account-delete-dialog.component.scss'
 })
-export class AccountDeleteDialogComponent {
-
-}
+export class AccountDeleteDialogComponent {}

@@ -1,8 +1,8 @@
-import { Component, computed, input, resource, signal, inject } from '@angular/core'
+import { Component, computed, inject, input, resource, signal } from '@angular/core'
 import { Account, AccountDisplayNamePipe, Event, EventPublishedIconComponent } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
-import { AccountService, EventService } from '@open-event/admin'
+import { AccountService } from '@open-event/admin'
 import { MatTableModule } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
@@ -35,34 +35,31 @@ import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/boa
   styleUrl: './account-details-events.component.scss'
 })
 export class AccountDetailsEventsComponent {
-  private service = inject(AccountService);
-  private eventService = inject(EventService);
-  private dialog = inject(MatDialog);
+  private service = inject(AccountService)
+  private dialog = inject(MatDialog)
 
   data = input.required<Account>()
 
   page = signal(0)
   size = signal(20)
 
-  eventsCriteria = computed(() => ({
+  readonly eventsCriteria = computed(() => ({
     data: this.data(),
     page: this.page(),
     size: this.size()
   }))
 
-  eventsResource = resource({
+  private eventsResource = resource({
     params: this.eventsCriteria,
-    loader: (param) => {
-      return toPromise(this.service.getEvents(param.params.data.id, param.params.page, param.params.size))
-    }
+    loader: (param) => toPromise(this.service.getEvents(param.params.data.id, param.params.page, param.params.size), param.abortSignal)
   })
 
-  result = computed(this.eventsResource.value ?? undefined)
+  readonly result = computed(this.eventsResource.value ?? undefined)
 
-  events = computed(() => this.result()?.content ?? [])
-  totalSize = computed(() => this.result()?.totalSize ?? 0)
-  loading = this.eventsResource.isLoading
-  error = this.eventsResource.error
+  readonly events = computed(() => this.result()?.content ?? [])
+  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+  readonly loading = this.eventsResource.isLoading
+  readonly error = this.eventsResource.error
 
   displayedColumns: string[] = ['id', 'owner', 'title', 'date', 'published', 'cmd']
 

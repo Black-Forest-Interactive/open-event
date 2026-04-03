@@ -12,18 +12,16 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   styleUrl: './account-details-profile.component.scss'
 })
 export class AccountDetailsProfileComponent {
-  private service = inject(AccountService);
+  private service = inject(AccountService)
 
   data = input.required<Account>()
 
-  profileResource = resource({
+  private profileResource = resource({
     params: this.data,
-    loader: (param) => {
-      return toPromise(this.service.getProfile(param.params.id))
-    }
+    loader: (param) => toPromise(this.service.getProfile(param.params.id), param.abortSignal)
   })
 
-  profile = computed(this.profileResource.value ?? undefined)
-  loading = this.profileResource.isLoading
-  error = this.profileResource.error
+  readonly profile = computed(this.profileResource.value ?? undefined)
+  readonly loading = this.profileResource.isLoading
+  readonly error = this.profileResource.error
 }
