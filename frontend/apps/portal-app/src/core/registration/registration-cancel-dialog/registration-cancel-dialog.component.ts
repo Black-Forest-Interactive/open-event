@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {TranslatePipe} from "@ngx-translate/core";
 import {MatButton} from "@angular/material/button";
@@ -20,11 +20,8 @@ import {MatIcon} from "@angular/material/icon";
     standalone: true
 })
 export class RegistrationCancelDialogComponent {
+  dialogRef = inject<MatDialogRef<RegistrationCancelDialogComponent>>(MatDialogRef);
 
-  constructor(
-    public dialogRef: MatDialogRef<RegistrationCancelDialogComponent>,
-  ) {
-  }
 
   submit() {
     this.dialogRef.close(true)

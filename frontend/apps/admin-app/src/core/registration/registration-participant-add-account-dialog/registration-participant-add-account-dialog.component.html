@@ -3,7 +3,7 @@
   <form [formGroup]="fg">
     <div class="flex flex-col gap-2 pt-4">
       <div class="flex flex-col gap-2">
-        <app-account-select (selectionChanged)="handleAccountSelectionChanged($event)" class="flex-auto items-stretch"/>
+        <admin-account-select (selectionChanged)="handleAccountSelectionChanged($event)" class="flex-auto items-stretch"/>
         <mat-form-field class="dense-1">
           <mat-label>{{ "registration.peopleAmount" | translate }}</mat-label>
           <input formControlName="size" matInput min="1" required type="number">

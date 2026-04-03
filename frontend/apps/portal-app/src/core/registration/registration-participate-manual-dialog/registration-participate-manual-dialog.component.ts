@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -41,12 +41,14 @@ import { MatLabel } from "@angular/material/form-field";
   standalone: true,
 })
 export class RegistrationParticipateManualDialogComponent {
+  dialogRef = inject<MatDialogRef<RegistrationParticipateManualDialogComponent>>(MatDialogRef);
+  private fb = inject(FormBuilder);
+
   fg: FormGroup;
 
-  constructor(
-    public dialogRef: MatDialogRef<RegistrationParticipateManualDialogComponent>,
-    private fb: FormBuilder,
-  ) {
+  constructor() {
+    const fb = this.fb;
+
     this.fg = fb.group(
       {
         firstName: ["", Validators.required],

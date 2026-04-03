@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core'
+import { Injectable, signal, inject } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DateTime } from 'luxon'
@@ -9,6 +9,8 @@ import { EventService } from '@open-event/portal'
   providedIn: 'root'
 })
 export class EventBoardService {
+  private service = inject(EventService);
+
   reloading = signal(false)
   searching: boolean = false
   pageSize: number = 200
@@ -26,7 +28,7 @@ export class EventBoardService {
     end: new FormControl<DateTime | null>(null)
   })
 
-  constructor(private service: EventService) {
+  constructor() {
     this.updateRange(null, null)
   }
 

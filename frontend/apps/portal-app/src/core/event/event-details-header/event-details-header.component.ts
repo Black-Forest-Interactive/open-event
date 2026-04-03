@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, Output, Signal } from '@angular/core'
+import { Component, computed, EventEmitter, Input, Output, Signal, inject } from '@angular/core'
 import { Location } from '@angular/common'
 import { EventMenuComponent } from '../event-menu/event-menu.component'
 import { Router } from '@angular/router'
@@ -23,6 +23,9 @@ import { toSignal } from '@angular/core/rxjs-interop'
   standalone: true
 })
 export class EventDetailsHeaderComponent {
+  private location = inject(Location);
+  private breakpointObserver = inject(BreakpointObserver);
+
   info: EventInfo | undefined
   @Input() reloading: boolean = false
   isOwner: boolean = false
@@ -32,14 +35,12 @@ export class EventDetailsHeaderComponent {
   private mobileBreakpoint: Signal<BreakpointState | undefined>
   isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
 
-  constructor(
-    router: Router,
-    private location: Location,
-    service: EventService,
-    toastService: HotToastService,
-    dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver
-  ) {
+  constructor() {
+    const router = inject(Router);
+    const service = inject(EventService);
+    const toastService = inject(HotToastService);
+    const dialog = inject(MatDialog);
+
     this.menu = new EventMenuComponent(router, dialog, service, toastService)
     this.mobileBreakpoint = toSignal(this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]))
   }

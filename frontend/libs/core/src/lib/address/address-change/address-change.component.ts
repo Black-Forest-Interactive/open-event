@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core'
+import { Component, effect, input, output, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Address, AddressChangeRequest } from '../address.api'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
@@ -17,7 +17,9 @@ export class AddressChangeComponent {
 
   fg: FormGroup
 
-  constructor(fb: FormBuilder) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       street: ['', Validators.required],
       streetNumber: ['', Validators.required],

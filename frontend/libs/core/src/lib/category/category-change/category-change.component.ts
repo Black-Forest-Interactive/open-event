@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core'
+import { Component, effect, input, output, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
@@ -12,12 +12,14 @@ import { Category, CategoryChangeRequest } from '../category.api'
   styleUrl: './category-change.component.scss'
 })
 export class CategoryChangeComponent {
+  private fb = inject(FormBuilder);
+
   data = input<Category>()
   request = output<CategoryChangeRequest>()
 
   fg: FormGroup
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.fg = this.fb.group({
       name: this.fb.control('', Validators.required),
       iconUrl: this.fb.control('')

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, inject } from '@angular/core'
 import { HttpResponse } from '@angular/common/http'
 import { AuthService, download } from '@open-event/shared'
 import { Event } from '@open-event/core'
@@ -16,14 +16,12 @@ import { EventService } from '@open-event/portal'
   standalone: true
 })
 export class EventActionExportComponent {
+  private authService = inject(AuthService);
+  private service = inject(EventService);
+
   data: Event | undefined
   accessible: boolean = false
   exporting: boolean = false
-
-  constructor(
-    private authService: AuthService,
-    private service: EventService
-  ) {}
 
   @Input()
   set event(value: Event | undefined) {

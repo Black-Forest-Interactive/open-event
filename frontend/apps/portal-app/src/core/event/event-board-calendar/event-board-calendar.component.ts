@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, effect, ViewChild, inject } from "@angular/core";
 import {
   CalendarApi,
   CalendarOptions,
@@ -23,6 +23,9 @@ import { LoadingBarComponent } from "@open-event/shared";
   standalone: true,
 })
 export class EventBoardCalendarComponent implements AfterViewInit {
+  service = inject(EventBoardService);
+  private router = inject(Router);
+
   @ViewChild(FullCalendarComponent) calendarComponent:
     | FullCalendarComponent
     | undefined;
@@ -54,10 +57,7 @@ export class EventBoardCalendarComponent implements AfterViewInit {
 
   private calendarApi: CalendarApi | undefined;
 
-  constructor(
-    public service: EventBoardService,
-    private router: Router,
-  ) {
+  constructor() {
     effect(() => {
       if (this.service.reloading()) this.updateCalendar();
     });

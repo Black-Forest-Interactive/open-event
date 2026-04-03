@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  input,
-  output,
-  viewChild,
-} from "@angular/core";
+import { AfterViewInit, Component, input, output, viewChild, inject } from "@angular/core";
 import { EventInfo } from "@open-event/core";
 import { EventMenuItem } from "./event-menu-item";
 import { EventService } from "@open-event/admin";
@@ -17,13 +11,17 @@ import { Router } from "@angular/router";
 import { EventChangeDialogComponent } from "../event-change-dialog/event-change-dialog.component";
 
 @Component({
-  selector: "app-event-menu",
+  selector: "admin-event-menu",
   imports: [MatIcon, MatMenu, TranslatePipe, MatIcon, MatMenuItem],
   templateUrl: "./event-menu.component.html",
   styleUrl: "./event-menu.component.scss",
   exportAs: "matMenu",
 })
 export class EventMenuComponent implements AfterViewInit {
+  private service = inject(EventService);
+  private dialog = inject(MatDialog);
+  private router = inject(Router);
+
   event = input<EventInfo>();
   menu = viewChild.required<MatMenu>("menu");
   reload = output();
@@ -49,12 +47,6 @@ export class EventMenuComponent implements AfterViewInit {
     this.deleteMenuItem,
     // this.adminMenuItem
   ];
-
-  constructor(
-    private service: EventService,
-    private dialog: MatDialog,
-    private router: Router,
-  ) {}
 
   ngAfterViewInit() {
     this.menuTrigger.menu = this.menu();

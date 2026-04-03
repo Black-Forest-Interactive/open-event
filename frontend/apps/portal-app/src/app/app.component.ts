@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
@@ -16,16 +16,16 @@ import { DashboardComponent } from "../shared/dashboard/dashboard.component";
   styleUrl: "./app.component.scss",
 })
 export class AppComponent implements OnInit {
+  protected service = inject(AppService);
+  private location = inject(Location);
+  private dialog = inject(MatDialog);
+
   title = "open-event-app";
 
   dialogRef: MatDialogRef<any> | undefined;
   private subscription: Subscription | undefined;
 
-  constructor(
-    protected service: AppService,
-    private location: Location,
-    private dialog: MatDialog,
-  ) {
+  constructor() {
     if (environment.logrocket && environment.logrocketAppId.length > 0) {
       LogRocket.init(environment.logrocketAppId);
     }

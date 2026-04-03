@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, inject , OnInit, OnDestroy} from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { Page } from "@open-event/shared";
 import { MatCard } from "@angular/material/card";
@@ -32,7 +32,9 @@ import { BoardComponent } from "../../shared/board/board.component";
   templateUrl: "./mail.component.html",
   styleUrl: "./mail.component.scss",
 })
-export class MailComponent {
+export class MailComponent implements OnInit , OnDestroy {
+  private service = inject(MailService);
+
   reloading: boolean = false;
   pageNumber = 0;
   pageSize = 25;
@@ -44,8 +46,6 @@ export class MailComponent {
 
   keyUp: EventEmitter<string> = new EventEmitter<string>();
   private unsub = new Subject<void>();
-
-  constructor(private service: MailService) {}
 
   ngOnInit(): void {
     timer(0, 15000)

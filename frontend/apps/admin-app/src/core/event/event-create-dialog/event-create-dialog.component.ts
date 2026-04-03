@@ -28,7 +28,7 @@ import { Observable } from "rxjs";
 import { Page } from "@open-event/shared";
 
 @Component({
-  selector: "app-event-create-dialog",
+  selector: "admin-event-create-dialog",
   imports: [MatDialogContent, TranslatePipe, EventChangeComponent],
   templateUrl: "./event-create-dialog.component.html",
   styleUrl: "./event-create-dialog.component.scss",
@@ -36,15 +36,13 @@ import { Page } from "@open-event/shared";
 export class EventCreateDialogComponent
   implements AddressReadAPI, CategoryReadAPI, EventReadAPI
 {
-  data: Account | AccountSearchEntry = inject(MAT_DIALOG_DATA);
+  private service = inject(AccountService);
+  private eventService = inject(EventService);
+  private addressService = inject(AddressService);
+  private categoryService = inject(CategoryService);
+  dialogRef = inject<MatDialogRef<EventCreateDialogComponent>>(MatDialogRef);
 
-  constructor(
-    private service: AccountService,
-    private eventService: EventService,
-    private addressService: AddressService,
-    private categoryService: CategoryService,
-    public dialogRef: MatDialogRef<EventCreateDialogComponent>,
-  ) {}
+  data: Account | AccountSearchEntry = inject(MAT_DIALOG_DATA);
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.service.getAddress(this.data.id, page, size);

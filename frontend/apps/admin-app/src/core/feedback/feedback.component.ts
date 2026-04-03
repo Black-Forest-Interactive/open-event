@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject , OnInit} from "@angular/core";
 
 import { Feedback } from "@open-event/core";
 import { FeedbackService } from "@open-event/admin";
@@ -13,7 +13,7 @@ import { MatCard } from "@angular/material/card";
 import { FeedbackTableComponent } from "./feedback-table/feedback-table.component";
 
 @Component({
-  selector: "app-feedback",
+  selector: "admin-feedback",
   imports: [
     BoardComponent,
     BoardToolbarActions,
@@ -23,18 +23,16 @@ import { FeedbackTableComponent } from "./feedback-table/feedback-table.componen
   templateUrl: "./feedback.component.html",
   styleUrl: "./feedback.component.scss",
 })
-export class FeedbackComponent {
+export class FeedbackComponent implements OnInit {
+  private service = inject(FeedbackService);
+  private toast = inject(HotToastService);
+
   reloading: boolean = false;
   pageNumber = 0;
   pageSize = 25;
   totalElements = 0;
 
   data: Feedback[] = [];
-
-  constructor(
-    private service: FeedbackService,
-    private toast: HotToastService,
-  ) {}
 
   ngOnInit(): void {
     this.reload();

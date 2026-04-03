@@ -1,4 +1,4 @@
-import { Component, computed, resource, signal } from '@angular/core'
+import { Component, computed, resource, signal, inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AccountService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'
@@ -17,7 +17,7 @@ import { BoardComponent } from '../../../shared/board/board.component'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-  selector: 'app-account-details',
+  selector: 'admin-account-details',
   imports: [
     MatCardModule,
     MatToolbarModule,
@@ -36,6 +36,10 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './account-details.component.scss'
 })
 export class AccountDetailsComponent {
+  private service = inject(AccountService);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
+
   id = signal(-1)
 
   accountResource = resource({
@@ -49,11 +53,7 @@ export class AccountDetailsComponent {
   loading = this.accountResource.isLoading
   error = this.accountResource.error
 
-  constructor(
-    private service: AccountService,
-    private route: ActivatedRoute,
-    private location: Location
-  ) {
+  constructor() {
     this.route.paramMap.subscribe((params) => {
       let id = params.get('id')!
       this.id.set(+id)

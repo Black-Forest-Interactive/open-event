@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   MatDialogActions,
   MatDialogClose,
@@ -39,12 +39,14 @@ import { ParticipateRequest } from "@open-event/core";
   standalone: true,
 })
 export class RegistrationParticipateDialogComponent {
+  dialogRef = inject<MatDialogRef<RegistrationParticipateDialogComponent>>(MatDialogRef);
+  private fb = inject(FormBuilder);
+
   fg: FormGroup;
 
-  constructor(
-    public dialogRef: MatDialogRef<RegistrationParticipateDialogComponent>,
-    private fb: FormBuilder,
-  ) {
+  constructor() {
+    const fb = this.fb;
+
     this.fg = fb.group({
       size: [0, Validators.required],
     });

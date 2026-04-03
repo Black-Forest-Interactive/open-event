@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject , OnInit} from "@angular/core";
 
 import { IssueService } from "@open-event/admin";
 import { PageEvent } from "@angular/material/paginator";
@@ -13,23 +13,21 @@ import { HotToastService } from "@ngxpert/hot-toast";
 import { IssueTableComponent } from "./issue-table/issue-table.component";
 
 @Component({
-  selector: "app-issue",
+  selector: "admin-issue",
   imports: [BoardComponent, BoardToolbarActions, MatCard, IssueTableComponent],
   templateUrl: "./issue.component.html",
   styleUrl: "./issue.component.scss",
 })
-export class IssueComponent {
+export class IssueComponent implements OnInit {
+  private service = inject(IssueService);
+  private toast = inject(HotToastService);
+
   reloading: boolean = false;
   pageNumber = 0;
   pageSize = 25;
   totalElements = 0;
 
   data: Issue[] = [];
-
-  constructor(
-    private service: IssueService,
-    private toast: HotToastService,
-  ) {}
 
   ngOnInit(): void {
     this.reload();

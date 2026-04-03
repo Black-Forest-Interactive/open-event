@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core'
+import { Component, OnInit, signal, inject } from '@angular/core'
 
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatCardModule } from '@angular/material/card'
@@ -17,13 +17,11 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './account-preferences.component.scss'
 })
 export class AccountPreferencesComponent implements OnInit {
+  private service = inject(AccountService);
+  private toast = inject(HotToastService);
+
   preferences = signal<Preferences | undefined>(undefined)
   reloading = signal(false)
-
-  constructor(
-    private service: AccountService,
-    private toast: HotToastService
-  ) {}
 
   ngOnInit() {
     this.reload()

@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
@@ -13,7 +13,7 @@ import { AddressService } from "@open-event/admin";
 import { Address } from "@open-event/core";
 
 @Component({
-  selector: "app-address-delete-dialog",
+  selector: "admin-address-delete-dialog",
   imports: [
     MatButton,
     MatDialogActions,
@@ -26,11 +26,10 @@ import { Address } from "@open-event/core";
   styleUrl: "./address-delete-dialog.component.scss",
 })
 export class AddressDeleteDialogComponent {
-  constructor(
-    private service: AddressService,
-    public dialogRef: MatDialogRef<AddressDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Address,
-  ) {}
+  private service = inject(AddressService);
+  dialogRef = inject<MatDialogRef<AddressDeleteDialogComponent>>(MatDialogRef);
+  data = inject<Address>(MAT_DIALOG_DATA);
+
 
   onNoClick(): void {
     this.dialogRef.close(false);

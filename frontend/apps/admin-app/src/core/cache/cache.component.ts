@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject , OnInit} from "@angular/core";
 import { MatCard } from "@angular/material/card";
 import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
@@ -22,7 +22,9 @@ import { BoardComponent } from "../../shared/board/board.component";
   templateUrl: "./cache.component.html",
   styleUrl: "./cache.component.scss",
 })
-export class CacheComponent {
+export class CacheComponent implements OnInit {
+  private service = inject(CacheService);
+
   reloading: boolean = false;
   info: CacheInfo[] = [];
   displayedColumns: string[] = ["name", "cmd"];
@@ -50,8 +52,6 @@ export class CacheComponent {
     series: [],
   };
   values: EChartsCoreOption = {};
-
-  constructor(private service: CacheService) {}
 
   ngOnInit() {
     this.reload();

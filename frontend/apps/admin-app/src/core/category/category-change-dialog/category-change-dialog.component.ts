@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CategoryService } from "@open-event/admin";
 import {
@@ -19,7 +19,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-  selector: "app-category-change-dialog",
+  selector: "admin-category-change-dialog",
   imports: [
     MatDialogModule,
     MatFormFieldModule,
@@ -34,11 +34,10 @@ import { MatIconModule } from "@angular/material/icon";
   styleUrl: "./category-change-dialog.component.scss",
 })
 export class CategoryChangeDialogComponent {
-  constructor(
-    private service: CategoryService,
-    public dialogRef: MatDialogRef<CategoryChangeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Category | undefined,
-  ) {}
+  private service = inject(CategoryService);
+  dialogRef = inject<MatDialogRef<CategoryChangeDialogComponent>>(MatDialogRef);
+  data = inject<Category | undefined>(MAT_DIALOG_DATA);
+
 
   onCancelClick(): void {
     this.dialogRef.close(false);

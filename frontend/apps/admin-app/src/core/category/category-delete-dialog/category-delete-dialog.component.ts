@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CategoryService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
@@ -15,7 +15,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
 @Component({
-  selector: "app-category-delete-dialog",
+  selector: "admin-category-delete-dialog",
   imports: [
     MatDialogModule,
     MatFormFieldModule,
@@ -29,11 +29,10 @@ import { ReactiveFormsModule } from "@angular/forms";
   styleUrl: "./category-delete-dialog.component.scss",
 })
 export class CategoryDeleteDialogComponent {
-  constructor(
-    private service: CategoryService,
-    public dialogRef: MatDialogRef<CategoryDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Category,
-  ) {}
+  private service = inject(CategoryService);
+  dialogRef = inject<MatDialogRef<CategoryDeleteDialogComponent>>(MatDialogRef);
+  data = inject<Category>(MAT_DIALOG_DATA);
+
 
   onNoClick(): void {
     this.dialogRef.close(false);

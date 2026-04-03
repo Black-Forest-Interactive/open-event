@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core'
+import { Component, Input, ViewChild, inject } from '@angular/core'
 import { MatSort, MatSortHeader } from '@angular/material/sort'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { RegistrationEditDialogComponent } from '../registration-edit-dialog/registration-edit-dialog.component'
@@ -26,6 +26,12 @@ import { RegistrationService } from '@open-event/portal'
   standalone: true
 })
 export class RegistrationModerationComponent {
+  private service = inject(RegistrationService);
+  private dialog = inject(MatDialog);
+  private hotToast = inject(HotToastService);
+  private translation = inject(TranslateService);
+  private authService = inject(AuthService);
+
   @Input()
   set data(value: RegistrationInfo) {
     this.registration = value
@@ -40,14 +46,6 @@ export class RegistrationModerationComponent {
   userParticipant: Participant | undefined
   displayedColumns: string[] = ['rank', 'size', 'status', 'waitinglist', 'name', 'email', 'phone', 'mobile', 'timestamp', 'action']
   dataSource = new MatTableDataSource<ParticipantDetails>([])
-
-  constructor(
-    private service: RegistrationService,
-    private dialog: MatDialog,
-    private hotToast: HotToastService,
-    private translation: TranslateService,
-    private authService: AuthService
-  ) {}
 
   ngOnInit() {
     this.adminOrManager = this.authService.hasRole(Roles.REGISTRATION_MANAGE, Roles.REGISTRATION_ADMIN)

@@ -6,7 +6,7 @@ import { AccountDisplayNamePipe, HistoryEntry } from "@open-event/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 
 @Component({
-  selector: "app-history-table",
+  selector: "admin-history-table",
   imports: [
     MatTableModule,
     TranslatePipe,

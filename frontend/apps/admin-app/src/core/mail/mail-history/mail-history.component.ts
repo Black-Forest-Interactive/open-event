@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core'
+import { Component, EventEmitter, inject , OnInit} from '@angular/core'
 import { DatePipe, Location } from '@angular/common'
 import { LoadingBarComponent, Page } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -39,7 +39,13 @@ import { MailService } from '@open-event/admin'
   templateUrl: './mail-history.component.html',
   styleUrl: './mail-history.component.scss'
 })
-export class MailHistoryComponent {
+export class MailHistoryComponent implements OnInit {
+  private service = inject(MailService);
+  private toastService = inject(HotToastService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
+
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
@@ -52,14 +58,6 @@ export class MailHistoryComponent {
   keyUp: EventEmitter<string> = new EventEmitter<string>()
 
   jobId: number | undefined
-
-  constructor(
-    private service: MailService,
-    private toastService: HotToastService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location
-  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')

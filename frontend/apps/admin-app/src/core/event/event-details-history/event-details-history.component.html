@@ -1,6 +1,6 @@
 <div class="p-2">
   <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
-  <app-board-card title="event.details.history">
-    <app-history-table [data]="history()" [reloading]="loading()" [totalElements]="totalSize()" (pageEvent)="handlePageChange($event)" [pageNumber]="page()" [pageSize]="size()"></app-history-table>
-  </app-board-card>
+  <admin-board-card title="event.details.history">
+    <admin-history-table [data]="history()" [reloading]="loading()" [totalElements]="totalSize()" (pageEvent)="handlePageChange($event)" [pageNumber]="page()" [pageSize]="size()"></admin-history-table>
+  </admin-board-card>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
@@ -38,6 +38,9 @@ import { ActivityService } from '@open-event/portal'
   standalone: true
 })
 export class ActivityTableComponent implements OnInit {
+  private service = inject(ActivityService);
+  private toast = inject(HotToastService);
+
   reloading: boolean = false
   pageSize: number = 25
   pageIndex: number = 0
@@ -45,11 +48,6 @@ export class ActivityTableComponent implements OnInit {
   unread: number = 0
   displayedColumns: string[] = ['type', 'title', 'actor', 'timestamp', 'read']
   datasource = new MatTableDataSource<ActivityInfo>()
-
-  constructor(
-    private service: ActivityService,
-    private toast: HotToastService
-  ) {}
 
   ngOnInit() {
     this.reload(this.pageIndex, this.pageSize)

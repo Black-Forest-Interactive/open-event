@@ -8,7 +8,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: "app-account-table",
+  selector: "admin-account-table",
   imports: [
     MatIconModule,
     MatButtonModule,

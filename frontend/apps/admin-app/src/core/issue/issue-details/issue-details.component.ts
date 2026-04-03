@@ -1,4 +1,4 @@
-import { Component, computed, resource, signal } from '@angular/core'
+import { Component, computed, resource, signal, inject } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { IssueService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -7,12 +7,16 @@ import { BoardComponent } from '../../../shared/board/board.component'
 import { IssueCardComponent } from '../issue-card/issue-card.component'
 
 @Component({
-  selector: 'app-issue-details',
+  selector: 'admin-issue-details',
   imports: [BoardComponent, IssueCardComponent],
   templateUrl: './issue-details.component.html',
   styleUrl: './issue-details.component.scss'
 })
 export class IssueDetailsComponent {
+  private service = inject(IssueService);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
+
   id = signal(-1)
 
   issueResource = resource({
@@ -26,11 +30,7 @@ export class IssueDetailsComponent {
   loading = this.issueResource.isLoading
   error = this.issueResource.error
 
-  constructor(
-    private service: IssueService,
-    private route: ActivatedRoute,
-    private location: Location
-  ) {
+  constructor() {
     this.route.paramMap.subscribe((params) => {
       let id = params.get('id')!
       this.id.set(+id)

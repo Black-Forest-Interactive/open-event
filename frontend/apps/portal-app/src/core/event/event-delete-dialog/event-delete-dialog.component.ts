@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -27,5 +27,5 @@ import { MatIcon } from "@angular/material/icon";
   standalone: true,
 })
 export class EventDeleteDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Event) {}
+  data = inject<Event>(MAT_DIALOG_DATA);
 }

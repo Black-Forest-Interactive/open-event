@@ -4,7 +4,7 @@ import { DatePipe } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "app-feedback-card",
+  selector: "admin-feedback-card",
   imports: [DatePipe, TranslatePipe],
   templateUrl: "./feedback-card.component.html",
   styleUrl: "./feedback-card.component.scss",

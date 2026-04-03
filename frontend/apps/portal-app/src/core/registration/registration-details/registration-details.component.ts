@@ -1,4 +1,4 @@
-import { Component, computed, model } from '@angular/core'
+import { Component, computed, model, inject } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { RegistrationParticipateDialogComponent } from '../registration-participate-dialog/registration-participate-dialog.component'
@@ -22,6 +22,12 @@ import { RegistrationService } from '@open-event/portal'
   standalone: true
 })
 export class RegistrationDetailsComponent {
+  private service = inject(RegistrationService);
+  private dialog = inject(MatDialog);
+  private hotToast = inject(HotToastService);
+  private translation = inject(TranslateService);
+  private authService = inject(AuthService);
+
   data = model.required<RegistrationInfo>()
   participants = computed(() => this.data().participants)
 
@@ -29,14 +35,6 @@ export class RegistrationDetailsComponent {
   waitList = computed(() => this.participants().filter((p) => p.waitingList))
   reloading: boolean = false
   userParticipant = computed(() => this.participants().find((p) => p.author.email === this.authService.getPrincipal()?.email))
-
-  constructor(
-    private service: RegistrationService,
-    private dialog: MatDialog,
-    private hotToast: HotToastService,
-    private translation: TranslateService,
-    private authService: AuthService
-  ) {}
 
   participateSelf() {
     if (this.reloading) return

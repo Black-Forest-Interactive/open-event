@@ -18,7 +18,7 @@ import { MatIconAnchor, MatIconButton } from "@angular/material/button";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "app-category-table",
+  selector: "admin-category-table",
   imports: [
     MatCell,
     MatCellDef,

@@ -1,4 +1,4 @@
-import { Component, effect, input, output, signal } from '@angular/core'
+import { Component, effect, input, output, signal, inject } from '@angular/core'
 
 import { MatCardModule } from '@angular/material/card'
 import { MatStepperModule } from '@angular/material/stepper'
@@ -51,7 +51,9 @@ export class EventChangeComponent {
 
   fg: FormGroup
 
-  constructor(fb: FormBuilder) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({})
 
     effect(() => {

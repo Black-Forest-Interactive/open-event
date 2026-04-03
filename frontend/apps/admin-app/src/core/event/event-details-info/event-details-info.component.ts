@@ -9,7 +9,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { DatePipe } from "@angular/common";
 
 @Component({
-  selector: "app-event-details-info",
+  selector: "admin-event-details-info",
   imports: [
     BoardCardComponent,
     TranslatePipe,

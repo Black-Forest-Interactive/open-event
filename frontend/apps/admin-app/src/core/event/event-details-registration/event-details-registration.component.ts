@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output, inject } from "@angular/core";
 import { EventInfo, ParticipateResponse } from "@open-event/core";
 import {
   BoardCardComponent,
@@ -14,7 +14,7 @@ import { RegistrationParticipantAddAccountDialogComponent } from "../../registra
 import { HotToastService } from "@ngxpert/hot-toast";
 
 @Component({
-  selector: "app-event-details-registration",
+  selector: "admin-event-details-registration",
   imports: [
     BoardCardComponent,
     RegistrationTableComponent,
@@ -27,14 +27,12 @@ import { HotToastService } from "@ngxpert/hot-toast";
   styleUrl: "./event-details-registration.component.scss",
 })
 export class EventDetailsRegistrationComponent {
+  private dialog = inject(MatDialog);
+  private hotToast = inject(HotToastService);
+  private translation = inject(TranslateService);
+
   event = input.required<EventInfo>();
   changeResponse = output<ParticipateResponse>();
-
-  constructor(
-    private dialog: MatDialog,
-    private hotToast: HotToastService,
-    private translation: TranslateService,
-  ) {}
 
   addParticipantAccount() {
     let event = this.event();

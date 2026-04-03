@@ -6,7 +6,7 @@ import { MatCard } from "@angular/material/card";
 
 @Component({
   imports: [LoadingBarComponent, MatToolbar, TranslatePipe, MatCard],
-  selector: "app-board-card",
+  selector: "admin-board-card",
   styleUrl: "./board-card.component.scss",
   templateUrl: "./board-card.component.html",
 })

@@ -1,4 +1,4 @@
-import { Component, computed, input, resource, signal } from '@angular/core'
+import { Component, computed, input, resource, signal, inject } from '@angular/core'
 import { Account, AccountDisplayNamePipe, Event, EventPublishedIconComponent } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
@@ -17,7 +17,7 @@ import { RouterLink } from '@angular/router'
 import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/board-card/board-card.component'
 
 @Component({
-  selector: 'app-account-details-events',
+  selector: 'admin-account-details-events',
   imports: [
     TranslatePipe,
     MatTableModule,
@@ -35,6 +35,10 @@ import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/boa
   styleUrl: './account-details-events.component.scss'
 })
 export class AccountDetailsEventsComponent {
+  private service = inject(AccountService);
+  private eventService = inject(EventService);
+  private dialog = inject(MatDialog);
+
   data = input.required<Account>()
 
   page = signal(0)
@@ -61,12 +65,6 @@ export class AccountDetailsEventsComponent {
   error = this.eventsResource.error
 
   displayedColumns: string[] = ['id', 'owner', 'title', 'date', 'published', 'cmd']
-
-  constructor(
-    private service: AccountService,
-    private eventService: EventService,
-    private dialog: MatDialog
-  ) {}
 
   handlePageChange($event: PageEvent) {
     this.page.set($event.pageIndex)

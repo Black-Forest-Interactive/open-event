@@ -1,4 +1,4 @@
-import {Component, EventEmitter, input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output, inject } from '@angular/core';
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {EventBoardService} from "../event-board.service";
 import {MatToolbar} from "@angular/material/toolbar";
@@ -36,16 +36,14 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
   standalone: true
 })
 export class EventBoardHeaderComponent implements OnInit {
+  service = inject(EventBoardService);
+
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
   mobileView = input<boolean>(false)
   mode = input<string>('')
 
   @Output() modeChanged = new EventEmitter<string>
-
-
-  constructor(public service: EventBoardService) {
-  }
 
   ngOnInit() {
     this.keyUp.pipe(

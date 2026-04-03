@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeComponent, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { Location } from '@angular/common'
@@ -19,15 +19,14 @@ import { MatSlideToggle } from '@angular/material/slide-toggle'
   styleUrl: './event-create.component.scss'
 })
 export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
-  constructor(
-    private service: EventService,
-    private addressService: AddressService,
-    private categoryService: CategoryService,
-    private translationService: TranslateService,
-    private toastService: HotToastService,
-    private router: Router,
-    private location: Location
-  ) {}
+  private service = inject(EventService);
+  private addressService = inject(AddressService);
+  private categoryService = inject(CategoryService);
+  private translationService = inject(TranslateService);
+  private toastService = inject(HotToastService);
+  private router = inject(Router);
+  private location = inject(Location);
+
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.addressService.getAddresses(page, size)

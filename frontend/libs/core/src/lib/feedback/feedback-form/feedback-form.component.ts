@@ -1,4 +1,4 @@
-import { Component, OnInit, output } from '@angular/core'
+import { Component, OnInit, output, inject } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatSliderModule } from '@angular/material/slider'
@@ -17,12 +17,14 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './feedback-form.component.scss'
 })
 export class FeedbackFormComponent implements OnInit {
+  private fb = inject(FormBuilder);
+
   feedbackForm: FormGroup
   separatorKeysCodes: number[] = [13, 188]
 
   request = output<FeedbackChangeRequest>()
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.feedbackForm = this.fb.group({
       // subject: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],

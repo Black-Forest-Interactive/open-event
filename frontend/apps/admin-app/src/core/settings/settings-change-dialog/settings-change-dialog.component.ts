@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -34,14 +34,16 @@ import { MatIconModule } from "@angular/material/icon";
   standalone: true,
 })
 export class SettingsChangeDialogComponent {
+  private fb = inject(FormBuilder);
+  private service = inject(SettingsService);
+  dialogRef = inject<MatDialogRef<SettingsChangeDialogComponent>>(MatDialogRef);
+  data = inject<Setting | null>(MAT_DIALOG_DATA);
+
   fg: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private service: SettingsService,
-    public dialogRef: MatDialogRef<SettingsChangeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Setting | null,
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.fg = this.fb.group({
       key: [data?.key ?? "", Validators.required],
       value: [data?.value ?? "", Validators.required],

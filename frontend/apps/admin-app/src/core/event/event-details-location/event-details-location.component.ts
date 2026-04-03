@@ -4,7 +4,7 @@ import { BoardCardComponent } from "../../../shared/board-card/board-card.compon
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "app-event-details-location",
+  selector: "admin-event-details-location",
   imports: [BoardCardComponent, TranslatePipe, LocationMapComponent],
   templateUrl: "./event-details-location.component.html",
   styleUrl: "./event-details-location.component.scss",

@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, resource } from '@angular/core'
+import { Component, computed, effect, input, resource, inject } from '@angular/core'
 import { EventInfo } from '../event.api'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -50,7 +50,9 @@ export class EventChangeRegistrationComponent {
   loading = this.categoryResource.isLoading
   error = this.categoryResource.error
 
-  constructor(fb: FormBuilder) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       maxGuestAmount: [4, Validators.required],
       interestedAllowed: [false, Validators.required],

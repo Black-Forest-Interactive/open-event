@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from "@angular/core";
+import { Component, EventEmitter, input, Output, inject } from "@angular/core";
 import { AppService } from "../app.service";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIcon } from "@angular/material/icon";
@@ -30,11 +30,11 @@ import { RouterLink } from "@angular/router";
   standalone: true,
 })
 export class DashboardToolbarComponent {
+  service = inject(AppService);
+
   mobileView = input<boolean>(false);
   title = input<string>("");
   @Output() toggleSidenavEvent = new EventEmitter<boolean>();
-
-  constructor(public service: AppService) {}
 
   logout() {
     this.service.logout();

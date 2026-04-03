@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { TranslatePipe } from "@ngx-translate/core";
 
 import {
@@ -17,7 +17,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { DateTime } from "luxon";
 
 @Component({
-  selector: "app-activity-cleanup-dialog",
+  selector: "admin-activity-cleanup-dialog",
   imports: [
     TranslatePipe,
     ReactiveFormsModule,
@@ -32,12 +32,13 @@ import { DateTime } from "luxon";
   styleUrl: "./activity-cleanup-dialog.component.scss",
 })
 export class ActivityCleanupDialogComponent {
+  dialogRef = inject<MatDialogRef<ActivityCleanupDialogComponent>>(MatDialogRef);
+
   fg: FormGroup;
 
-  constructor(
-    public dialogRef: MatDialogRef<ActivityCleanupDialogComponent>,
-    fb: FormBuilder,
-  ) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       timestamp: [
         DateTime.now().minus({ days: 90 }).toJSDate(),

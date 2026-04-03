@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, output, resource, signal } from '@angular/core'
+import { Component, computed, EventEmitter, output, resource, signal, inject } from '@angular/core'
 import { AccountSearchEntry, AccountSearchRequest } from '@open-event/core'
 import { AccountService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'
@@ -12,12 +12,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-  selector: 'app-account-select',
+  selector: 'admin-account-select',
   imports: [MatFormField, MatInput, MatAutocomplete, MatOption, MatLabel, ReactiveFormsModule, MatAutocompleteTrigger, TranslatePipe],
   templateUrl: './account-select.component.html',
   styleUrl: './account-select.component.scss'
 })
 export class AccountSelectComponent {
+  private service = inject(AccountService);
+
   selectionChanged = output<AccountSearchEntry>()
 
   request = signal<AccountSearchRequest>(new AccountSearchRequest(''))
@@ -37,7 +39,7 @@ export class AccountSelectComponent {
 
   keyUp: EventEmitter<string> = new EventEmitter<string>()
 
-  constructor(private service: AccountService) {
+  constructor() {
     this.keyUp
       .pipe(
         debounceTime(500),

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core'
+import { Injectable, signal, inject } from '@angular/core'
 import { Title } from '@angular/platform-browser'
 import { SettingsService } from '@open-event/admin'
 
@@ -6,12 +6,12 @@ import { SettingsService } from '@open-event/admin'
   providedIn: 'root'
 })
 export class DashboardService {
+  private settingsService = inject(SettingsService);
+  private pageTitle = inject(Title);
+
   title = signal('app.title')
 
-  constructor(
-    private settingsService: SettingsService,
-    private pageTitle: Title
-  ) {
+  constructor() {
     this.settingsService.getTitle().subscribe((d) => {
       this.pageTitle.setTitle(d.text)
       this.title.set(d.text + ' Backoffice')

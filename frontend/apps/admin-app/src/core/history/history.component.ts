@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, inject , OnInit} from "@angular/core";
 import { DatePipe, NgClass } from "@angular/common";
 import { HistoryEventInfo } from "@open-event/core";
 import { Page } from "@open-event/shared";
@@ -26,7 +26,9 @@ import { HistoryTableComponent } from "./history-table/history-table.component";
   templateUrl: "./history.component.html",
   styleUrl: "./history.component.scss",
 })
-export class HistoryComponent {
+export class HistoryComponent implements OnInit {
+  private service = inject(HistoryService);
+
   reloading: boolean = false;
   pageNumber = 0;
   pageSize = 25;
@@ -50,8 +52,6 @@ export class HistoryComponent {
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
-
-  constructor(private service: HistoryService) {}
 
   ngOnInit() {
     this.reload();

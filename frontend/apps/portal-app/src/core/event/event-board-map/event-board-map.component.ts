@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ComponentFactoryResolver,
-  effect,
-  Injector,
-} from "@angular/core";
+import { AfterViewInit, Component, ComponentFactoryResolver, effect, Injector, inject } from "@angular/core";
 import * as L from "leaflet";
 import { icon, layerGroup, Map, Marker, MarkerClusterGroup } from "leaflet";
 import { EventBoardMapPopupComponent } from "../event-board-map-popup/event-board-map-popup.component";
@@ -39,15 +33,15 @@ Marker.prototype.options.icon = iconDefault;
   standalone: true,
 })
 export class EventBoardMapComponent implements AfterViewInit {
+  service = inject(EventBoardService);
+  private resolver = inject(ComponentFactoryResolver);
+  private injector = inject(Injector);
+  private router = inject(Router);
+
   private map: Map | undefined;
   private markerLayer = layerGroup();
 
-  constructor(
-    public service: EventBoardService,
-    private resolver: ComponentFactoryResolver,
-    private injector: Injector,
-    private router: Router,
-  ) {
+  constructor() {
     effect(() => {
       if (this.service.reloading()) this.updateMarker();
     });

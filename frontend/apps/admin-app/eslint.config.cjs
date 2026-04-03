@@ -8,14 +8,6 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'admin',
-          style: 'camelCase'
-        }
-      ],
       '@angular-eslint/component-selector': [
         'error',
         {

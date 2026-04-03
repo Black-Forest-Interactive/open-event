@@ -10,7 +10,7 @@
         <h3>{{ title() | translate }}</h3>
         @if (showSearch()) {
           <div class="flex-auto"></div>
-          <app-board-toolbar-search [placeholder]="searchPlaceholder()" (fullTextSearch)="fullTextSearch.emit($event)" class="flex flex-row gap-2 items-center basis-full sm:basis-1/4"/>
+          <admin-board-toolbar-search [placeholder]="searchPlaceholder()" (fullTextSearch)="fullTextSearch.emit($event)" class="flex flex-row gap-2 items-center basis-full sm:basis-1/4"/>
         }
         <div class="flex-auto"></div>
         <ng-content select="board-toolbar-actions"></ng-content>

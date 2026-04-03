@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, signal } from '@angular/core'
+import { Component, computed, effect, input, signal, inject } from '@angular/core'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatIconModule } from '@angular/material/icon'
 import { EventInfo } from '@open-event/core'
@@ -16,6 +16,9 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './event-details-banner.component.scss'
 })
 export class EventDetailsBannerComponent {
+  protected service = inject(ImageUploadService);
+  private toast = inject(HotToastService);
+
   data = input<EventInfo>()
 
   private defaultBannerImage = '/img/banner.jpg'
@@ -23,10 +26,7 @@ export class EventDetailsBannerComponent {
 
   canEdit = computed(() => this.data()?.canEdit ?? false)
 
-  constructor(
-    protected service: ImageUploadService,
-    private toast: HotToastService
-  ) {
+  constructor() {
     effect(() => {
       if (this.data()) {
         const url = this.service.getBannerImageUrl(this.data()!!.event.id)

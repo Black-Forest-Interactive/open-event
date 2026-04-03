@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 
 import { ActivityService } from "@open-event/admin";
 import { Activity, ActivityCleanupRequest } from "@open-event/core";
@@ -32,18 +32,16 @@ import {
   styleUrl: "./activity.component.scss",
 })
 export class ActivityComponent implements OnInit {
+  private service = inject(ActivityService);
+  private toast = inject(HotToastService);
+  private dialog = inject(MatDialog);
+
   reloading: boolean = false;
   pageNumber = 0;
   pageSize = 25;
   totalElements = 0;
 
   data: Activity[] = [];
-
-  constructor(
-    private service: ActivityService,
-    private toast: HotToastService,
-    private dialog: MatDialog,
-  ) {}
 
   ngOnInit(): void {
     this.reload();

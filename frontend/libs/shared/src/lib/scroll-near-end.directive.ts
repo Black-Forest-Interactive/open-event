@@ -1,18 +1,18 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
+import { Directive, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, inject } from '@angular/core'
 
 @Directive({
   selector: '[libScrollNearEnd]',
   standalone: true
 })
 export class ScrollNearEndDirective implements OnInit {
+  private el = inject(ElementRef);
+
   @Output() nearEnd = new EventEmitter<void>()
 
   /** threshold in PX when to emit before page end scroll */
   @Input() threshold = 120
 
   private window!: Window
-
-  constructor(private el: ElementRef) {}
 
   ngOnInit(): void {
     this.window = window

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, input, output, viewChildren } from '@angular/core'
+import { AfterViewInit, Component, computed, ElementRef, input, output, viewChildren, inject } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 @Component({
@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './confirmation-code.component.scss'
 })
 export class ConfirmationCodeComponent implements AfterViewInit {
+  private fb = inject(FormBuilder);
+
   codeComplete = output<string>()
   codeChange = output<string>()
   digitsLength = input(5)
@@ -18,7 +20,7 @@ export class ConfirmationCodeComponent implements AfterViewInit {
 
   codeInputs = viewChildren<ElementRef>('codeInput')
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     const formControls: { [key: string]: any } = {}
 
     for (let i = 0; i < this.digitsLength(); i++) {

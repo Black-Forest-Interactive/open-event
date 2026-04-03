@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   Account,
   AddressChangeComponent,
@@ -16,7 +16,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { AccountService } from "@open-event/admin";
 
 @Component({
-  selector: "app-address-create-dialog",
+  selector: "admin-address-create-dialog",
   imports: [
     AddressChangeComponent,
     MatButton,
@@ -29,11 +29,10 @@ import { AccountService } from "@open-event/admin";
   styleUrl: "./address-create-dialog.component.scss",
 })
 export class AddressCreateDialogComponent {
-  constructor(
-    private service: AccountService,
-    public dialogRef: MatDialogRef<AddressCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Account,
-  ) {}
+  private service = inject(AccountService);
+  dialogRef = inject<MatDialogRef<AddressCreateDialogComponent>>(MatDialogRef);
+  data = inject<Account>(MAT_DIALOG_DATA);
+
 
   onCancelClick(): void {
     this.dialogRef.close(false);

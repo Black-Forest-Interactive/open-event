@@ -5,7 +5,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { FeedbackCardComponent } from "../feedback-card/feedback-card.component";
 
 @Component({
-  selector: "app-feedback-details-dialog",
+  selector: "admin-feedback-details-dialog",
   imports: [MatDialogContent, TranslatePipe, FeedbackCardComponent],
   templateUrl: "./feedback-details-dialog.component.html",
   styleUrl: "./feedback-details-dialog.component.scss",

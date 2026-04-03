@@ -21,7 +21,7 @@ import { MatFormField, MatInput } from "@angular/material/input";
 import { MatLabel } from "@angular/material/form-field";
 
 @Component({
-  selector: "app-registration-participant-edit-dialog",
+  selector: "admin-registration-participant-edit-dialog",
   imports: [
     MatButton,
     MatDialogActions,
@@ -39,15 +39,16 @@ import { MatLabel } from "@angular/material/form-field";
   styleUrl: "./registration-participant-edit-dialog.component.scss",
 })
 export class RegistrationParticipantEditDialogComponent {
+  private service = inject(RegistrationService);
+  dialogRef = inject<MatDialogRef<RegistrationParticipantEditDialogComponent>>(MatDialogRef);
+
   data: { registration: Registration; participant: Participant } =
     inject(MAT_DIALOG_DATA);
   fg: FormGroup;
 
-  constructor(
-    fb: FormBuilder,
-    private service: RegistrationService,
-    public dialogRef: MatDialogRef<RegistrationParticipantEditDialogComponent>,
-  ) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       size: [
         this.data.participant.size,

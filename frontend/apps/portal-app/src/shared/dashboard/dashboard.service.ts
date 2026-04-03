@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, inject } from '@angular/core'
 import { Title } from '@angular/platform-browser'
 import { SettingsService } from '@open-event/portal'
 
@@ -6,12 +6,13 @@ import { SettingsService } from '@open-event/portal'
   providedIn: 'root'
 })
 export class DashboardService {
+  private pageTitle = inject(Title);
+
   title: string = 'app.title'
 
-  constructor(
-    settingsService: SettingsService,
-    private pageTitle: Title
-  ) {
+  constructor() {
+    const settingsService = inject(SettingsService);
+
     settingsService.getTitle().subscribe((d) => {
       this.pageTitle.setTitle(d.text)
       this.title = d.text

@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output, inject } from "@angular/core";
 import { Issue } from "@open-event/core";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { DatePipe } from "@angular/common";
@@ -10,7 +10,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { IssueDetailsDialogComponent } from "../issue-details-dialog/issue-details-dialog.component";
 
 @Component({
-  selector: "app-issue-table",
+  selector: "admin-issue-table",
   imports: [
     DatePipe,
     MatTableModule,
@@ -23,6 +23,8 @@ import { IssueDetailsDialogComponent } from "../issue-details-dialog/issue-detai
   styleUrl: "./issue-table.component.scss",
 })
 export class IssueTableComponent {
+  private dialog = inject(MatDialog);
+
   data = input.required<Issue[]>();
   reloading = input.required<boolean>();
   pageNumber = input.required<number>();
@@ -31,8 +33,6 @@ export class IssueTableComponent {
 
   pageEvent = output<PageEvent>();
   displayedColumns: string[] = ["error", "actor", "status", "timestamp", "cmd"];
-
-  constructor(private dialog: MatDialog) {}
 
   showDetails(issue: Issue) {
     this.dialog.open(IssueDetailsDialogComponent, { data: issue });

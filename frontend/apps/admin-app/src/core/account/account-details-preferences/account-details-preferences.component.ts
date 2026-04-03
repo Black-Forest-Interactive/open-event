@@ -1,16 +1,18 @@
-import { Component, computed, input, resource } from '@angular/core'
+import { Component, computed, input, resource, inject } from '@angular/core'
 import { Account } from '@open-event/core'
 import { toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/admin'
 import { BoardCardComponent } from '../../../shared/board-card/board-card.component'
 
 @Component({
-  selector: 'app-account-details-preferences',
+  selector: 'admin-account-details-preferences',
   imports: [BoardCardComponent],
   templateUrl: './account-details-preferences.component.html',
   styleUrl: './account-details-preferences.component.scss'
 })
 export class AccountDetailsPreferencesComponent {
+  private service = inject(AccountService);
+
   data = input.required<Account>()
 
   preferencesResource = resource({
@@ -23,6 +25,4 @@ export class AccountDetailsPreferencesComponent {
   preferences = computed(this.preferencesResource.value ?? undefined)
   loading = this.preferencesResource.isLoading
   error = this.preferencesResource.error
-
-  constructor(private service: AccountService) {}
 }

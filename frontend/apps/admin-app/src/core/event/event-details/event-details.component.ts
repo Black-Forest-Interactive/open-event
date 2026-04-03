@@ -1,4 +1,4 @@
-import { Component, computed, effect, resource, signal, viewChild } from '@angular/core'
+import { Component, computed, effect, resource, signal, viewChild, inject } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { EventService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -17,7 +17,7 @@ import { EventDetailsInfoComponent } from '../event-details-info/event-details-i
 import { ExportEventButtonComponent } from '../../export/export-event-button/export-event-button.component'
 
 @Component({
-  selector: 'app-event-details',
+  selector: 'admin-event-details',
   imports: [
     BoardComponent,
     BoardToolbarActions,
@@ -40,6 +40,10 @@ import { ExportEventButtonComponent } from '../../export/export-event-button/exp
   styleUrl: './event-details.component.scss'
 })
 export class EventDetailsComponent {
+  private service = inject(EventService);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
+
   id = signal(-1)
 
   eventResource = resource({
@@ -55,11 +59,7 @@ export class EventDetailsComponent {
 
   menu = viewChild.required<EventMenuComponent>('menu')
 
-  constructor(
-    private service: EventService,
-    private route: ActivatedRoute,
-    private location: Location
-  ) {
+  constructor() {
     this.route.paramMap.subscribe((params) => {
       let id = params.get('id')!
       this.id.set(+id)

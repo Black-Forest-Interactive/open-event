@@ -1,4 +1,4 @@
-import { Component, effect, input, OnInit } from '@angular/core'
+import { Component, effect, input, OnInit, inject } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { EventInfo } from '../event.api'
 import { DateTime } from 'luxon'
@@ -20,7 +20,9 @@ export class EventChangeGeneralComponent implements OnInit {
   parent = input.required<FormGroup>()
   fg: FormGroup
 
-  constructor(fb: FormBuilder) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       startTime: fb.control('', Validators.required),
       startDate: fb.control('', Validators.required),

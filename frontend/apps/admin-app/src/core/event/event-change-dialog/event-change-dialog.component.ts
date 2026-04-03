@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   AccountService,
   AddressService,
@@ -26,7 +26,7 @@ import { Page } from "@open-event/shared";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "app-event-change-dialog",
+  selector: "admin-event-change-dialog",
   imports: [EventChangeComponent, MatDialogContent, TranslatePipe],
   templateUrl: "./event-change-dialog.component.html",
   styleUrl: "./event-change-dialog.component.scss",
@@ -34,14 +34,13 @@ import { TranslatePipe } from "@ngx-translate/core";
 export class EventChangeDialogComponent
   implements AddressReadAPI, CategoryReadAPI, EventReadAPI
 {
-  constructor(
-    private service: EventService,
-    private accountService: AccountService,
-    private addressService: AddressService,
-    private categoryService: CategoryService,
-    public dialogRef: MatDialogRef<EventChangeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Event,
-  ) {}
+  private service = inject(EventService);
+  private accountService = inject(AccountService);
+  private addressService = inject(AddressService);
+  private categoryService = inject(CategoryService);
+  dialogRef = inject<MatDialogRef<EventChangeDialogComponent>>(MatDialogRef);
+  data = inject<Event>(MAT_DIALOG_DATA);
+
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.accountService.getAddress(this.data.owner.id, page, size);

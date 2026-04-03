@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { EventBoardService } from "../event-board.service";
 import { EventBoardFilterComponent } from "../event-board-filter/event-board-filter.component";
 import { EventBoardListEntryComponent } from "../event-board-list-entry/event-board-list-entry.component";
@@ -27,9 +27,13 @@ import { MatIcon } from "@angular/material/icon";
   standalone: true,
 })
 export class EventBoardListComponent {
+  service = inject(EventBoardService);
+
   filterOverlayOpen: boolean = false;
 
-  constructor(public service: EventBoardService) {
+  constructor() {
+    const service = this.service;
+
     this.filterOverlayOpen = service.filterToolbarVisible;
   }
 }

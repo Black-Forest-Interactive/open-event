@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output, inject } from "@angular/core";
 import { AppService } from "../app.service";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatIcon } from "@angular/material/icon";
@@ -32,11 +32,11 @@ import { ActivityButtonComponent } from "../../core/activity/activity-button/act
   standalone: true,
 })
 export class DashboardToolbarComponent {
+  service = inject(AppService);
+
   mobileView = input<boolean>(false);
   title = input<string>("");
   toggleSidenavEvent = output<boolean>();
-
-  constructor(public service: AppService) {}
 
   logout() {
     this.service.logout();

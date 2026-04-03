@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, OnInit, resource } from '@angular/core'
+import { Component, computed, effect, input, OnInit, resource, inject } from '@angular/core'
 import { EventInfo } from '../event.api'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -33,7 +33,9 @@ export class EventChangeLocationComponent implements OnInit {
   loading = this.addressResource.isLoading
   error = this.addressResource.error
 
-  constructor(fb: FormBuilder) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       city: ['', Validators.required],
       country: ['Deutschland', Validators.required],

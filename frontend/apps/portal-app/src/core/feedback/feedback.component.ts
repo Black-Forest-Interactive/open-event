@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core'
+import { Component, signal, inject } from '@angular/core'
 
 import { MatCard } from '@angular/material/card'
 import { FeedbackChangeRequest, FeedbackFormComponent } from '@open-event/core'
@@ -15,13 +15,11 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {
-  loading = signal(false)
+  private service = inject(FeedbackService);
+  private toast = inject(HotToastService);
+  private translate = inject(TranslateService);
 
-  constructor(
-    private service: FeedbackService,
-    private toast: HotToastService,
-    private translate: TranslateService
-  ) {}
+  loading = signal(false)
 
   submit(request: FeedbackChangeRequest) {
     debugger

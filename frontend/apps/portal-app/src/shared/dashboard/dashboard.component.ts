@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ViewChild,
-} from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from "@angular/core";
 import {
   NavigationEnd,
   Router,
@@ -45,6 +40,12 @@ import { AppService } from "../app.service";
   standalone: true,
 })
 export class DashboardComponent implements AfterViewInit {
+  authService = inject(AuthService);
+  appService = inject(AppService);
+  private breakpointObserver = inject(BreakpointObserver);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  service = inject(DashboardService);
+
   isHandset$: Observable<boolean>;
 
   @ViewChild("drawer") drawer: MatSidenav | undefined;
@@ -66,14 +67,9 @@ export class DashboardComponent implements AfterViewInit {
 
   accessibleItems: MainNavItem[] = [];
 
-  constructor(
-    public authService: AuthService,
-    public appService: AppService,
-    router: Router,
-    private breakpointObserver: BreakpointObserver,
-    private changeDetectorRef: ChangeDetectorRef,
-    public service: DashboardService,
-  ) {
+  constructor() {
+    const router = inject(Router);
+
     this.isHandset$ = this.breakpointObserver
       .observe(Breakpoints.Handset)
       .pipe(map((result) => result.matches));

@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, inject } from "@angular/core";
 import { download } from "@open-event/shared";
 import { HttpResponse } from "@angular/common/http";
 import { ExportService } from "@open-event/admin";
@@ -10,7 +10,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
-  selector: "app-export-summary-button",
+  selector: "admin-export-summary-button",
   imports: [
     MatMiniFabButton,
     MatIcon,
@@ -22,10 +22,10 @@ import { MatTooltip } from "@angular/material/tooltip";
   styleUrl: "./export-summary-button.component.scss",
 })
 export class ExportSummaryButtonComponent {
+  private service = inject(ExportService);
+
   summarizing: boolean = false;
   request = input.required<EventSearchRequest>();
-
-  constructor(private service: ExportService) {}
 
   exportSummary() {
     if (this.summarizing) return;

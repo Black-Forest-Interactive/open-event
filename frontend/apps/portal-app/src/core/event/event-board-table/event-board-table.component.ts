@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { EventBoardService } from "../event-board.service";
 import { DatePipe } from "@angular/common";
 import { MatCard } from "@angular/material/card";
@@ -34,6 +34,8 @@ import { RegistrationStatusComponent } from "@open-event/core";
   standalone: true,
 })
 export class EventBoardTableComponent {
+  service = inject(EventBoardService);
+
   // displayedColumns: string[] = ['account', 'period', 'location', 'description', 'status', 'category', 'publish']
   displayedColumns: string[] = [
     "account",
@@ -43,6 +45,4 @@ export class EventBoardTableComponent {
     "status",
     "label",
   ];
-
-  constructor(public service: EventBoardService) {}
 }

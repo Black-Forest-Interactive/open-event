@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { AddressChangeDialogComponent } from '../address-change-dialog/address-change-dialog.component'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
@@ -22,18 +22,16 @@ import { AddressService } from '@open-event/portal'
   standalone: true
 })
 export class AddressBoardComponent {
+  private service = inject(AddressService);
+  private appService = inject(AppService);
+  private dialog = inject(MatDialog);
+
   address: Address[] = []
   reloading: boolean = false
   pageSize: number = 20
   pageIndex: number = 0
   totalSize: number = 0
   displayedColumns: string[] = ['street', 'streetNumber', 'zip', 'city', 'country', 'cmd']
-
-  constructor(
-    private service: AddressService,
-    private appService: AppService,
-    private dialog: MatDialog
-  ) {}
 
   ngOnInit() {
     this.reload()

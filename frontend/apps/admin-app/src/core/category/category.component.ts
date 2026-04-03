@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, inject , OnInit} from "@angular/core";
 
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
@@ -42,7 +42,11 @@ import {
   templateUrl: "./category.component.html",
   styleUrl: "./category.component.scss",
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
+  private service = inject(CategoryService);
+  private toast = inject(HotToastService);
+  private dialog = inject(MatDialog);
+
   reloading: boolean = false;
   pageSize: number = 20;
   pageNumber: number = 0;
@@ -51,12 +55,6 @@ export class CategoryComponent {
 
   keyUp: EventEmitter<string> = new EventEmitter<string>();
   request = new CategorySearchRequest("");
-
-  constructor(
-    private service: CategoryService,
-    private toast: HotToastService,
-    private dialog: MatDialog,
-  ) {}
 
   ngOnInit() {
     this.search();

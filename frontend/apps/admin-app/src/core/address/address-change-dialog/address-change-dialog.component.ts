@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { AddressService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
@@ -17,7 +17,7 @@ import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "app-address-change-dialog",
+  selector: "admin-address-change-dialog",
   imports: [
     MatButton,
     MatDialogActions,
@@ -31,11 +31,10 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrl: "./address-change-dialog.component.scss",
 })
 export class AddressChangeDialogComponent {
-  constructor(
-    private service: AddressService,
-    public dialogRef: MatDialogRef<AddressChangeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Address | undefined,
-  ) {}
+  private service = inject(AddressService);
+  dialogRef = inject<MatDialogRef<AddressChangeDialogComponent>>(MatDialogRef);
+  data = inject<Address | undefined>(MAT_DIALOG_DATA);
+
 
   onCancelClick(): void {
     this.dialogRef.close(false);

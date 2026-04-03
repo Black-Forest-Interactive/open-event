@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, inject , OnInit} from "@angular/core";
 
 import { Setting } from "@open-event/core";
 import { MatDialog } from "@angular/material/dialog";
@@ -34,7 +34,10 @@ import {
   templateUrl: "./settings.component.html",
   styleUrl: "./settings.component.scss",
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
+  private service = inject(SettingsService);
+  private dialog = inject(MatDialog);
+
   reloading: boolean = false;
   pageNumber = 0;
   pageSize = 10;
@@ -45,11 +48,6 @@ export class SettingsComponent {
   displayedColumns: string[] = ["id", "value", "type", "cmd"];
 
   keyUp: EventEmitter<string> = new EventEmitter<string>();
-
-  constructor(
-    private service: SettingsService,
-    private dialog: MatDialog,
-  ) {}
 
   ngOnInit(): void {
     this.reload();

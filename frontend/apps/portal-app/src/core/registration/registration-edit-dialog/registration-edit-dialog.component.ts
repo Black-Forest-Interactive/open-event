@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -40,13 +40,16 @@ import { Participant, ParticipateRequest } from "@open-event/core";
   standalone: true,
 })
 export class RegistrationEditDialogComponent {
+  dialogRef = inject<MatDialogRef<RegistrationEditDialogComponent>>(MatDialogRef);
+  participant = inject<Participant | undefined>(MAT_DIALOG_DATA);
+  private fb = inject(FormBuilder);
+
   fg: FormGroup;
 
-  constructor(
-    public dialogRef: MatDialogRef<RegistrationEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public participant: Participant | undefined,
-    private fb: FormBuilder,
-  ) {
+  constructor() {
+    const participant = this.participant;
+    const fb = this.fb;
+
     this.fg = fb.group({
       size: [participant?.size ?? 0, Validators.required],
     });

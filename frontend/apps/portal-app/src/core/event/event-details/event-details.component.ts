@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { EventInfo } from '@open-event/core'
 import { MatDialog } from '@angular/material/dialog'
@@ -31,15 +31,13 @@ import { MatDivider } from '@angular/material/divider'
   standalone: true
 })
 export class EventDetailsComponent {
+  private route = inject(ActivatedRoute);
+  private service = inject(EventService);
+  dialog = inject(MatDialog);
+
   reloading: boolean = false
   info: EventInfo | undefined
   eventId: number | undefined
-
-  constructor(
-    private route: ActivatedRoute,
-    private service: EventService,
-    public dialog: MatDialog
-  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((p) => this.handleParams(p))

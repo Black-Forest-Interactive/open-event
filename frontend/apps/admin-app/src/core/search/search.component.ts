@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject , OnInit, OnDestroy} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton } from "@angular/material/button";
@@ -26,15 +26,13 @@ import { BoardComponent } from "../../shared/board/board.component";
   templateUrl: "./search.component.html",
   styleUrl: "./search.component.scss",
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit , OnDestroy {
+  private service = inject(SearchService);
+  private toast = inject(HotToastService);
+
   reloading: boolean = false;
   data: SearchOperatorInfo[] = [];
   private unsub = new Subject<void>();
-
-  constructor(
-    private service: SearchService,
-    private toast: HotToastService,
-  ) {}
 
   ngOnInit(): void {
     timer(0, 500)

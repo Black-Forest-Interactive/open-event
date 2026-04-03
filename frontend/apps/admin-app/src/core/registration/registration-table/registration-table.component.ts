@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, output, resource, signal } from '@angular/core'
+import { Component, computed, effect, input, output, resource, signal, inject } from '@angular/core'
 import { RegistrationService } from '@open-event/admin'
 import { Participant, ParticipantDetails, ParticipateResponse, RegistrationInfo } from '@open-event/core'
 import { toPromise } from '@open-event/shared'
@@ -14,12 +14,15 @@ import { RegistrationParticipantEditDialogComponent } from '../registration-part
 import { RegistrationParticipantRemoveDialogComponent } from '../registration-participant-remove-dialog/registration-participant-remove-dialog.component'
 
 @Component({
-  selector: 'app-registration-table',
+  selector: 'admin-registration-table',
   imports: [MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, TranslatePipe, DatePipe],
   templateUrl: './registration-table.component.html',
   styleUrl: './registration-table.component.scss'
 })
 export class RegistrationTableComponent {
+  private service = inject(RegistrationService);
+  private dialog = inject(MatDialog);
+
   data = input.required<RegistrationInfo>()
   changeResponse = output<ParticipateResponse>()
 
@@ -38,10 +41,7 @@ export class RegistrationTableComponent {
   displayedColumns: string[] = ['rank', 'size', 'status', 'waitinglist', 'name', 'email', 'phone', 'mobile', 'timestamp', 'action']
   dataSource = new MatTableDataSource<ParticipantDetails>([])
 
-  constructor(
-    private service: RegistrationService,
-    private dialog: MatDialog
-  ) {
+  constructor() {
     effect(() => {
       this.dataSource.data = this.registration()?.participants ?? []
     })

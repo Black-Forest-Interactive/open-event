@@ -1,4 +1,4 @@
-import { Component, OnInit, output, signal } from '@angular/core'
+import { Component, OnInit, output, signal, inject } from '@angular/core'
 import { ActivityService } from '@open-event/portal'
 import { interval, startWith, switchMap } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
@@ -14,10 +14,12 @@ import { RouterLink } from '@angular/router'
   styleUrl: './activity-indicator.component.scss'
 })
 export class ActivityIndicatorComponent implements OnInit {
+  private service = inject(ActivityService);
+
   unreadMessages = signal<number>(0)
   readonly clicked = output<MouseEvent>()
 
-  constructor(private service: ActivityService) {
+  constructor() {
     interval(10000)
       .pipe(
         startWith(0),

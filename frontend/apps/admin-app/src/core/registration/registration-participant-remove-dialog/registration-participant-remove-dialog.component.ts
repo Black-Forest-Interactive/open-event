@@ -18,7 +18,7 @@ import { MatButton } from "@angular/material/button";
 import { DatePipe } from "@angular/common";
 
 @Component({
-  selector: "app-registration-participant-remove-dialog",
+  selector: "admin-registration-participant-remove-dialog",
   imports: [
     MatDialogActions,
     MatDialogContent,
@@ -33,13 +33,11 @@ import { DatePipe } from "@angular/common";
   styleUrl: "./registration-participant-remove-dialog.component.scss",
 })
 export class RegistrationParticipantRemoveDialogComponent {
+  private service = inject(RegistrationService);
+  dialogRef = inject<MatDialogRef<RegistrationParticipantRemoveDialogComponent>>(MatDialogRef);
+
   data: { registration: Registration; participant: Participant } =
     inject(MAT_DIALOG_DATA);
-
-  constructor(
-    private service: RegistrationService,
-    public dialogRef: MatDialogRef<RegistrationParticipantRemoveDialogComponent>,
-  ) {}
 
   onCancelClick(): void {
     this.dialogRef.close(null);

@@ -1,37 +1,28 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, inject , OnInit} from '@angular/core'
 
-import {
-  defaultEventSearchRequest,
-  EventRangePickerComponent,
-  EventRangeSelection,
-  EventSearchEntry,
-  EventSearchResponse,
-} from "@open-event/core";
-import { EventService, ExportService } from "@open-event/admin";
-import { HotToastService } from "@ngxpert/hot-toast";
-import { MatDialog } from "@angular/material/dialog";
-import { debounceTime, distinctUntilChanged } from "rxjs";
-import { PageEvent } from "@angular/material/paginator";
-import { EventChangeDialogComponent } from "./event-change-dialog/event-change-dialog.component";
-import { EventDeleteDialogComponent } from "./event-delete-dialog/event-delete-dialog.component";
-import { MatCard } from "@angular/material/card";
-import { EventTableComponent } from "./event-table/event-table.component";
-import {
-  BoardComponent,
-  BoardToolbarActions,
-} from "../../shared/board/board.component";
-import { ReactiveFormsModule } from "@angular/forms";
-import { MatMiniFabButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { DateTime } from "luxon";
-import { ExportEventsButtonComponent } from "../export/export-events-button/export-events-button.component";
-import { ExportSummaryButtonComponent } from "../export/export-summary-button/export-summary-button.component";
-import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { MatTooltip } from "@angular/material/tooltip";
-import { Sort } from "@angular/material/sort";
+import { defaultEventSearchRequest, EventRangePickerComponent, EventRangeSelection, EventSearchEntry, EventSearchResponse } from '@open-event/core'
+import { EventService, ExportService } from '@open-event/admin'
+import { HotToastService } from '@ngxpert/hot-toast'
+import { MatDialog } from '@angular/material/dialog'
+import { debounceTime, distinctUntilChanged } from 'rxjs'
+import { PageEvent } from '@angular/material/paginator'
+import { EventChangeDialogComponent } from './event-change-dialog/event-change-dialog.component'
+import { EventDeleteDialogComponent } from './event-delete-dialog/event-delete-dialog.component'
+import { MatCard } from '@angular/material/card'
+import { EventTableComponent } from './event-table/event-table.component'
+import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.component'
+import { ReactiveFormsModule } from '@angular/forms'
+import { MatMiniFabButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
+import { DateTime } from 'luxon'
+import { ExportEventsButtonComponent } from '../export/export-events-button/export-events-button.component'
+import { ExportSummaryButtonComponent } from '../export/export-summary-button/export-summary-button.component'
+import { TranslatePipe, TranslateService } from '@ngx-translate/core'
+import { MatTooltip } from '@angular/material/tooltip'
+import { Sort } from '@angular/material/sort'
 
 @Component({
-  selector: "admin-event",
+  selector: 'admin-event',
   imports: [
     MatCard,
     EventTableComponent,
@@ -45,136 +36,126 @@ import { Sort } from "@angular/material/sort";
     ExportEventsButtonComponent,
     ExportSummaryButtonComponent,
     MatTooltip,
-    TranslatePipe,
+    TranslatePipe
   ],
-  templateUrl: "./event.component.html",
-  styleUrl: "./event.component.scss",
+  templateUrl: './event.component.html',
+  styleUrl: './event.component.scss'
 })
-export class EventComponent {
-  reloading: boolean = false;
-  pageSize: number = 20;
-  pageNumber: number = 0;
-  totalElements: number = 0;
-  showHistory: boolean = false;
-  sort: Sort | undefined = undefined;
-  data: EventSearchEntry[] = [];
+export class EventComponent implements OnInit {
+  private service = inject(EventService)
+  private exportService = inject(ExportService)
+  private translateService = inject(TranslateService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
 
-  keyUp: EventEmitter<string> = new EventEmitter<string>();
-  request = defaultEventSearchRequest();
+  reloading: boolean = false
+  pageSize: number = 20
+  pageNumber: number = 0
+  totalElements: number = 0
+  showHistory: boolean = false
+  sort: Sort | undefined = undefined
+  data: EventSearchEntry[] = []
 
-  constructor(
-    private service: EventService,
-    private exportService: ExportService,
-    private translateService: TranslateService,
-    private toast: HotToastService,
-    private dialog: MatDialog,
-  ) {}
+  keyUp: EventEmitter<string> = new EventEmitter<string>()
+  request = defaultEventSearchRequest()
 
   ngOnInit() {
-    this.resetFilter();
-    this.keyUp
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((query) => (this.fullTextSearch = query));
+    this.resetFilter()
+    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => (this.fullTextSearch = query))
   }
 
   set fullTextSearch(val: string) {
-    if (this.request.fullTextSearch === val) return;
-    this.request.fullTextSearch = val;
-    this.search();
+    if (this.request.fullTextSearch === val) return
+    this.request.fullTextSearch = val
+    this.search()
   }
 
   get fullTextSearch(): string {
-    return this.request.fullTextSearch;
+    return this.request.fullTextSearch
   }
 
   search() {
-    this.load(0, this.pageSize);
+    this.load(0, this.pageSize)
   }
 
   private load(page: number, size: number) {
-    if (this.reloading) return;
-    this.reloading = true;
+    if (this.reloading) return
+    this.reloading = true
     this.service.search(this.request, page, size, this.sort).subscribe({
       next: (value) => this.handleData(value),
-      error: (e) => this.handleError(e),
-    });
+      error: (e) => this.handleError(e)
+    })
   }
 
   private handleData(response: EventSearchResponse) {
-    let p = response.result;
-    this.data = p.content;
-    this.pageSize = p.pageable.size;
-    this.pageNumber = p.pageable.number;
-    this.totalElements = p.totalSize;
-    this.reloading = false;
+    let p = response.result
+    this.data = p.content
+    this.pageSize = p.pageable.size
+    this.pageNumber = p.pageable.number
+    this.totalElements = p.totalSize
+    this.reloading = false
   }
 
   private handleError(err: any) {
-    if (err) this.toast.error(err);
-    this.reloading = false;
+    if (err) this.toast.error(err)
+    this.reloading = false
   }
 
   handlePageChange(event: PageEvent) {
-    if (this.reloading) return;
-    this.pageSize = event.pageSize;
-    this.load(event.pageIndex, event.pageSize);
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
   }
 
   handleSortChange(event: Sort) {
-    if (this.reloading) return;
-    this.sort = event;
-    this.load(0, this.pageSize);
+    if (this.reloading) return
+    this.sort = event
+    this.load(0, this.pageSize)
   }
 
   edit(entry: EventSearchEntry) {
     const dialogRef = this.dialog.open(EventChangeDialogComponent, {
-      width: "650px",
-      data: entry,
-    });
-    dialogRef.afterClosed().subscribe((d) => this.search());
+      width: '650px',
+      data: entry
+    })
+    dialogRef.afterClosed().subscribe((d) => this.search())
   }
 
   delete(entry: EventSearchEntry) {
     const dialogRef = this.dialog.open(EventDeleteDialogComponent, {
-      width: "650px",
-      data: entry,
-    });
-    dialogRef.afterClosed().subscribe((d) => this.search());
+      width: '650px',
+      data: entry
+    })
+    dialogRef.afterClosed().subscribe((d) => this.search())
   }
 
   handleRangeChanged(event: EventRangeSelection) {
-    this.request.from = event.from.toISODate() ?? "";
-    this.request.to = event.to.toISODate() ?? "";
-    this.search();
+    this.request.from = event.from.toISODate() ?? ''
+    this.request.to = event.to.toISODate() ?? ''
+    this.search()
   }
 
   resetFilter() {
-    this.request = defaultEventSearchRequest();
-    this.showHistory = false;
-    this.request.from = DateTime.now().startOf("day").toISODate() ?? "";
-    this.search();
+    this.request = defaultEventSearchRequest()
+    this.showHistory = false
+    this.request.from = DateTime.now().startOf('day').toISODate() ?? ''
+    this.search()
   }
 
   toggleHistory() {
-    this.showHistory = !this.showHistory;
+    this.showHistory = !this.showHistory
     if (this.showHistory) {
-      this.request.from = "";
+      this.request.from = ''
     } else {
-      this.request.from = DateTime.now().startOf("day").toISODate() ?? "";
+      this.request.from = DateTime.now().startOf('day').toISODate() ?? ''
     }
-    this.search();
+    this.search()
   }
 
   exportMail() {
     this.exportService.exportEventsToEmail(this.request).subscribe({
-      next: (_) =>
-        this.translateService
-          .get("backoffice.export.action.mail.success")
-          .subscribe((text) => this.toast.success(text)),
-      error: (err) =>
-        this.translateService
-          .get("backoffice.export.action.mail.error")
-          .subscribe((text) => this.toast.error(text)),
-    });
+      next: (_) => this.translateService.get('backoffice.export.action.mail.success').subscribe((text) => this.toast.success(text)),
+      error: (err) => this.translateService.get('backoffice.export.action.mail.error').subscribe((text) => this.toast.error(text))
+    })
   }
 }

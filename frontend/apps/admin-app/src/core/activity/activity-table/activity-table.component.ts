@@ -9,7 +9,7 @@ import { Activity } from "@open-event/core";
 import { MatButtonModule } from "@angular/material/button";
 
 @Component({
-  selector: "app-activity-table",
+  selector: "admin-activity-table",
   imports: [
     DatePipe,
     MatTableModule,

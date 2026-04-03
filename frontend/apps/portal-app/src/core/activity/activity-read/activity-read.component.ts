@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core'
+import { Component, EventEmitter, input, Output, inject } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatProgressSpinner } from '@angular/material/progress-spinner'
@@ -14,11 +14,11 @@ import { ActivityService } from '@open-event/portal'
   standalone: true
 })
 export class ActivityReadComponent {
+  private service = inject(ActivityService);
+
   info = input.required<ActivityInfo>()
   reloading: boolean = false
   @Output() changed = new EventEmitter<ActivityInfo>()
-
-  constructor(private service: ActivityService) {}
 
   markRead() {
     if (this.reloading) return

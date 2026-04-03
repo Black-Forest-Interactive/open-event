@@ -1,4 +1,4 @@
-import { Component, viewChild } from '@angular/core'
+import { Component, viewChild, inject } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { MatMenuTrigger } from '@angular/material/menu'
 import { Router } from '@angular/router'
@@ -15,17 +15,15 @@ import { ActivityService } from '@open-event/portal'
   standalone: true
 })
 export class ActivityButtonComponent {
+  private service = inject(ActivityService);
+  private router = inject(Router);
+
   reloading: boolean = false
   data: ActivityInfo[] = []
   unreadInfos = 0
   menuTrigger = viewChild.required<MatMenuTrigger>('menuTrigger')
 
   private subscription: Subscription | undefined
-
-  constructor(
-    private service: ActivityService,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     // this.reload()

@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output, inject } from "@angular/core";
 import { Event } from "@open-event/core";
 import { HotToastService } from "@ngxpert/hot-toast";
 import { EventService } from "@open-event/admin";
@@ -7,21 +7,19 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatMiniFabButton } from "@angular/material/button";
 
 @Component({
-  selector: "app-event-publish-button",
+  selector: "admin-event-publish-button",
   imports: [MatIcon, MatProgressSpinner, MatMiniFabButton],
   templateUrl: "./event-publish-button.component.html",
   styleUrl: "./event-publish-button.component.scss",
 })
 export class EventPublishButtonComponent {
+  private service = inject(EventService);
+  private toastService = inject(HotToastService);
+
   data = input.required<Event>();
 
   publishing = false;
   changed = output<Event>();
-
-  constructor(
-    private service: EventService,
-    private toastService: HotToastService,
-  ) {}
 
   publish() {
     if (this.publishing) return;

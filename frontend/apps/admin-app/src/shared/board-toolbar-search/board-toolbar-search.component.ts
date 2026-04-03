@@ -7,7 +7,7 @@ import {MatIconButton} from "@angular/material/button";
 import {debounceTime, distinctUntilChanged, Subject} from "rxjs";
 
 @Component({
-  selector: 'app-board-toolbar-search',
+  selector: 'admin-board-toolbar-search',
   imports: [
     MatFormField,
     MatIcon,

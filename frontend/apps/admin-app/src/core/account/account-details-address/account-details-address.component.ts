@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, resource, signal } from '@angular/core'
+import { Component, computed, effect, input, resource, signal, inject } from '@angular/core'
 import { Account, Address } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
@@ -15,12 +15,16 @@ import { HotToastService } from '@ngxpert/hot-toast'
 import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/board-card/board-card.component'
 
 @Component({
-  selector: 'app-account-details-address',
+  selector: 'admin-account-details-address',
   imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, TranslatePipe, BoardCardComponent, BoardCardToolbarActions],
   templateUrl: './account-details-address.component.html',
   styleUrl: './account-details-address.component.scss'
 })
 export class AccountDetailsAddressComponent {
+  private service = inject(AccountService);
+  private toast = inject(HotToastService);
+  private dialog = inject(MatDialog);
+
   data = input.required<Account>()
 
   page = signal(0)
@@ -48,11 +52,7 @@ export class AccountDetailsAddressComponent {
 
   displayedColumns: string[] = ['street', 'streetNumber', 'zip', 'city', 'country', 'additionalInfo', 'cmd']
 
-  constructor(
-    private service: AccountService,
-    private toast: HotToastService,
-    private dialog: MatDialog
-  ) {
+  constructor() {
     effect(() => {
       this.handleError(this.error())
     })

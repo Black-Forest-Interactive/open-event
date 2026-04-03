@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output, inject } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
 import { Feedback } from "@open-event/core";
@@ -21,7 +21,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
-  selector: "app-feedback-table",
+  selector: "admin-feedback-table",
   imports: [
     DatePipe,
     MatCell,
@@ -43,6 +43,8 @@ import { MatIcon } from "@angular/material/icon";
   styleUrl: "./feedback-table.component.scss",
 })
 export class FeedbackTableComponent {
+  private dialog = inject(MatDialog);
+
   data = input.required<Feedback[]>();
   reloading = input.required<boolean>();
   pageNumber = input.required<number>();
@@ -59,8 +61,6 @@ export class FeedbackTableComponent {
     "timestamp",
     "cmd",
   ];
-
-  constructor(private dialog: MatDialog) {}
 
   showDetails(feedback: Feedback) {
     this.dialog.open(FeedbackDetailsDialogComponent, { data: feedback });

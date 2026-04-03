@@ -1,4 +1,4 @@
-<app-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="mail.title">
+<admin-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="mail.title">
   <mat-card>
     <table [dataSource]="data" mat-table>
       <ng-container matColumnDef="timestamp">
@@ -46,4 +46,4 @@
     >
     </mat-paginator>
   </mat-card>
-</app-board>
+</admin-board>

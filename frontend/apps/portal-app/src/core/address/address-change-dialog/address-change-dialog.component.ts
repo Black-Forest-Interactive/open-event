@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -35,10 +35,9 @@ import { MatButton } from "@angular/material/button";
   standalone: true,
 })
 export class AddressChangeDialogComponent {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Address | undefined,
-    public dialogRef: MatDialogRef<AddressChangeDialogComponent>,
-  ) {}
+  data = inject<Address | undefined>(MAT_DIALOG_DATA);
+  dialogRef = inject<MatDialogRef<AddressChangeDialogComponent>>(MatDialogRef);
+
 
   handleRequest(event: AddressChangeRequest) {
     this.dialogRef.close(event);

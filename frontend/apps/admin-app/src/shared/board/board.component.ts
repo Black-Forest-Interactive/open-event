@@ -8,7 +8,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { MatCard } from "@angular/material/card";
 
 @Component({
-  selector: "app-board",
+  selector: "admin-board",
   imports: [
     LoadingBarComponent,
     MatButtonModule,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 
 import { Profile, ProfileChangeRequest } from '@open-event/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
@@ -21,18 +21,18 @@ import { AccountService } from '@open-event/portal'
   styleUrl: './account-profile.component.scss'
 })
 export class AccountProfileComponent {
+  private fb = inject(FormBuilder);
+  private service = inject(AccountService);
+  private translate = inject(TranslateService);
+  private toast = inject(HotToastService);
+
   profile: Profile | undefined
   reloading: boolean = false
   editMode: boolean = false
 
   fg: FormGroup
 
-  constructor(
-    private fb: FormBuilder,
-    private service: AccountService,
-    private translate: TranslateService,
-    private toast: HotToastService
-  ) {
+  constructor() {
     this.fg = this.fb.group({
       email: this.fb.control('', Validators.email),
       phone: this.fb.control(''),

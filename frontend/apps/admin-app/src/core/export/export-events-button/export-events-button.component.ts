@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, inject } from "@angular/core";
 import { MatMiniFabButton } from "@angular/material/button";
 import { HttpResponse } from "@angular/common/http";
 import { ExportService } from "@open-event/admin";
@@ -10,7 +10,7 @@ import { MatTooltip } from "@angular/material/tooltip";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "app-export-events-button",
+  selector: "admin-export-events-button",
   imports: [
     MatMiniFabButton,
     MatIcon,
@@ -22,10 +22,10 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrl: "./export-events-button.component.scss",
 })
 export class ExportEventsButtonComponent {
+  private service = inject(ExportService);
+
   exporting: boolean = false;
   request = input.required<EventSearchRequest>();
-
-  constructor(private service: ExportService) {}
 
   export() {
     if (this.exporting) return;

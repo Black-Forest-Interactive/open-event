@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core'
+import { Component, effect, input, output, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
@@ -19,7 +19,9 @@ export class AccountChangeComponent {
 
   fg: FormGroup
 
-  constructor(fb: FormBuilder) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

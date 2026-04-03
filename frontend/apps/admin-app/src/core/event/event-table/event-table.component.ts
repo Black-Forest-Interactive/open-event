@@ -15,7 +15,7 @@ import { MatSortModule, Sort } from "@angular/material/sort";
 import { ExportEventButtonComponent } from "../../export/export-event-button/export-event-button.component";
 
 @Component({
-  selector: "app-event-table",
+  selector: "admin-event-table",
   imports: [
     MatIconModule,
     MatButtonModule,

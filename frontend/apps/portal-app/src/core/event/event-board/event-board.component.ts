@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 import {EventBoardService} from "../event-board.service";
 import {EventBoardListComponent} from "../event-board-list/event-board-list.component";
@@ -23,12 +23,12 @@ import {EventBoardHeaderComponent} from "../event-board-header/event-board-heade
   standalone: true
 })
 export class EventBoardComponent implements OnInit {
+  service = inject(EventBoardService);
+  private responsive = inject(BreakpointObserver);
+
 
   mobileView: boolean = false
   mode: string = 'list'
-
-  constructor(public service: EventBoardService, private responsive: BreakpointObserver) {
-  }
 
   ngOnInit() {
     this.responsive

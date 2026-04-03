@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { EventService } from "@open-event/admin";
 import {
   MAT_DIALOG_DATA,
@@ -14,7 +14,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { DatePipe } from "@angular/common";
 
 @Component({
-  selector: "app-event-delete-dialog",
+  selector: "admin-event-delete-dialog",
   imports: [
     MatButton,
     MatDialogActions,
@@ -29,11 +29,10 @@ import { DatePipe } from "@angular/common";
   styleUrl: "./event-delete-dialog.component.scss",
 })
 export class EventDeleteDialogComponent {
-  constructor(
-    private service: EventService,
-    public dialogRef: MatDialogRef<EventDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Event,
-  ) {}
+  private service = inject(EventService);
+  dialogRef = inject<MatDialogRef<EventDeleteDialogComponent>>(MatDialogRef);
+  data = inject<Event>(MAT_DIALOG_DATA);
+
 
   onNoClick(): void {
     this.dialogRef.close(false);

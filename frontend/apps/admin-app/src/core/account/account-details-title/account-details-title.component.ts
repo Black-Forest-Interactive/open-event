@@ -5,7 +5,7 @@ import { DatePipe } from "@angular/common";
 import { BoardCardComponent } from "../../../shared/board-card/board-card.component";
 
 @Component({
-  selector: "app-account-details-title",
+  selector: "admin-account-details-title",
   imports: [TranslatePipe, DatePipe, BoardCardComponent],
   templateUrl: "./account-details-title.component.html",
   styleUrl: "./account-details-title.component.scss",

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject , OnInit} from "@angular/core";
 
 import { MatButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
@@ -36,7 +36,11 @@ import { EventCreateDialogComponent } from "../event/event-create-dialog/event-c
   templateUrl: "./account.component.html",
   styleUrl: "./account.component.scss",
 })
-export class AccountComponent {
+export class AccountComponent implements OnInit {
+  private service = inject(AccountService);
+  private toast = inject(HotToastService);
+  private dialog = inject(MatDialog);
+
   reloading: boolean = false;
   pageSize: number = 20;
   pageNumber: number = 0;
@@ -44,12 +48,6 @@ export class AccountComponent {
   data: AccountSearchEntry[] = [];
 
   request = new AccountSearchRequest("");
-
-  constructor(
-    private service: AccountService,
-    private toast: HotToastService,
-    private dialog: MatDialog,
-  ) {}
 
   ngOnInit() {
     this.search();

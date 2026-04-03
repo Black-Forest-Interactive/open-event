@@ -1,4 +1,4 @@
-import { Component, model } from "@angular/core";
+import { Component, model, inject } from "@angular/core";
 import { Issue } from "@open-event/core";
 import { DatePipe } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -8,19 +8,17 @@ import { IssueService } from "@open-event/admin";
 import { HotToastService } from "@ngxpert/hot-toast";
 
 @Component({
-  selector: "app-issue-card",
+  selector: "admin-issue-card",
   imports: [DatePipe, MatButton, MatDivider, TranslatePipe],
   templateUrl: "./issue-card.component.html",
   styleUrl: "./issue-card.component.scss",
 })
 export class IssueCardComponent {
+  private service = inject(IssueService);
+  private toast = inject(HotToastService);
+
   issue = model.required<Issue>();
   loading = false;
-
-  constructor(
-    private service: IssueService,
-    private toast: HotToastService,
-  ) {}
 
   changeStatus(status: string) {
     if (this.loading) return;

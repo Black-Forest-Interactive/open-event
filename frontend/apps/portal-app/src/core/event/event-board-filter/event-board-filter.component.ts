@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatChipListbox, MatChipOption, MatChipSelectionChange} from "@angular/material/chips";
 import {EventBoardService} from "../event-board.service";
@@ -47,15 +47,13 @@ import {MatButton} from "@angular/material/button";
   standalone: true
 })
 export class EventBoardFilterComponent {
+  service = inject(EventBoardService);
+
 
 
   reloadingCategories: boolean = false
   categoryForm = new FormControl([])
   allCategories: ChipSelectEntry[] = []
-
-
-  constructor(public service: EventBoardService) {
-  }
 
   onDateRangePickerClosed() {
     if (!this.service.range.valid) return

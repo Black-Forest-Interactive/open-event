@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -28,7 +28,7 @@ import { MatButton } from "@angular/material/button";
 import { AccountService } from "@open-event/admin";
 
 @Component({
-  selector: "app-account-change-dialog",
+  selector: "admin-account-change-dialog",
   imports: [
     TranslatePipe,
     ReactiveFormsModule,
@@ -46,14 +46,16 @@ import { AccountService } from "@open-event/admin";
   styleUrl: "./account-change-dialog.component.scss",
 })
 export class AccountChangeDialogComponent {
+  dialogRef = inject<MatDialogRef<AccountChangeDialogComponent>>(MatDialogRef);
+  private service = inject(AccountService);
+  data = inject<AccountSearchEntry | undefined>(MAT_DIALOG_DATA);
+
   fg: FormGroup;
 
-  constructor(
-    public dialogRef: MatDialogRef<AccountChangeDialogComponent>,
-    private service: AccountService,
-    @Inject(MAT_DIALOG_DATA) public data: AccountSearchEntry | undefined,
-    fb: FormBuilder,
-  ) {
+  constructor() {
+    const data = this.data;
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group({
       firstName: [data?.firstName ?? "", Validators.required],
       lastName: [data?.lastName ?? "", Validators.required],

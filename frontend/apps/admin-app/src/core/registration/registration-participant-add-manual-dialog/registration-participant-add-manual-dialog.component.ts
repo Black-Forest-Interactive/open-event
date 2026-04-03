@@ -22,7 +22,7 @@ import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 
 @Component({
-  selector: "app-registration-participant-add-manual-dialog",
+  selector: "admin-registration-participant-add-manual-dialog",
   imports: [
     MatButton,
     MatDialogActions,
@@ -39,14 +39,15 @@ import { MatInput } from "@angular/material/input";
   styleUrl: "./registration-participant-add-manual-dialog.component.scss",
 })
 export class RegistrationParticipantAddManualDialogComponent {
+  private service = inject(RegistrationService);
+  dialogRef = inject<MatDialogRef<RegistrationParticipantAddManualDialogComponent>>(MatDialogRef);
+
   data: { registration: Registration } = inject(MAT_DIALOG_DATA);
   fg: FormGroup;
 
-  constructor(
-    fb: FormBuilder,
-    private service: RegistrationService,
-    public dialogRef: MatDialogRef<RegistrationParticipantAddManualDialogComponent>,
-  ) {
+  constructor() {
+    const fb = inject(FormBuilder);
+
     this.fg = fb.group(
       {
         firstName: ["", Validators.required],

@@ -1,4 +1,4 @@
-<app-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="history.title">
+<admin-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="history.title">
   <div class="flex flex-row gap-2 flex-auto">
     <mat-card class="flex-auto basis-48">
       <div class="flex flex-col">
@@ -26,10 +26,10 @@
     @if (selected) {
       <mat-card class="flex-auto">
         <div class="flex flex-col flex-auto">
-          <app-history-table [data]="selected.entries" [pageSize]="selected.entries.length" [pageNumber]="0" [totalElements]="selected.entries.length" [reloading]="reloading"></app-history-table>
+          <admin-history-table [data]="selected.entries" [pageSize]="selected.entries.length" [pageNumber]="0" [totalElements]="selected.entries.length" [reloading]="reloading"></admin-history-table>
           <div class="flex-auto"></div>
         </div>
       </mat-card>
     }
   </div>
-</app-board>
+</admin-board>

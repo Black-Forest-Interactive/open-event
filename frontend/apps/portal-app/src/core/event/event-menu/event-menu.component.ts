@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
@@ -15,6 +15,11 @@ import { EventService } from '@open-event/portal'
   standalone: true
 })
 export class EventMenuComponent {
+  private router = inject(Router);
+  dialog = inject(MatDialog);
+  private service = inject(EventService);
+  private toastService = inject(HotToastService);
+
   @Output() changed: EventEmitter<Event> = new EventEmitter()
   event: Event | undefined
   publishing: boolean = false
@@ -25,13 +30,6 @@ export class EventMenuComponent {
   adminMenuItem = new EventMenuItem('admin_panel_settings', 'event.action.admin', this.handleActionAdmin.bind(this), false)
   publishMenuItem = new EventMenuItem('publish', 'event.action.publish', this.handleActionPublish.bind(this), false)
   menuItems = [this.editMenuItem, this.copyMenuItem, this.deleteMenuItem, this.adminMenuItem]
-
-  constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    private service: EventService,
-    private toastService: HotToastService
-  ) {}
 
   @Input()
   set data(value: Event) {
