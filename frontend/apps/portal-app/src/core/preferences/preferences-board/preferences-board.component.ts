@@ -1,15 +1,11 @@
-import {Component} from '@angular/core';
-import {MatCard} from "@angular/material/card";
+import { Component } from '@angular/core'
+import { MatCard } from '@angular/material/card'
 
 @Component({
-  selector: 'app-preferences-board',
+  selector: 'portal-preferences-board',
   templateUrl: './preferences-board.component.html',
   styleUrl: './preferences-board.component.scss',
-  imports: [
-    MatCard
-  ],
+  imports: [MatCard],
   standalone: true
 })
-export class PreferencesBoardComponent {
-
-}
+export class PreferencesBoardComponent {}

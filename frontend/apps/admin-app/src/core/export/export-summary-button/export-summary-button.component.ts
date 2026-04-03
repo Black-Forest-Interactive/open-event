@@ -1,4 +1,4 @@
-import { Component, input, inject } from '@angular/core'
+import { Component, inject, input } from '@angular/core'
 import { download } from '@open-event/shared'
 import { HttpResponse } from '@angular/common/http'
 import { ExportService } from '@open-event/admin'

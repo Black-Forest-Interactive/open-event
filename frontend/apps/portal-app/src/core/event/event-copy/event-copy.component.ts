@@ -12,7 +12,7 @@ import { MatIcon } from '@angular/material/icon'
 import { MatMiniFabButton } from '@angular/material/button'
 
 @Component({
-  selector: 'app-event-copy',
+  selector: 'portal-event-copy',
   imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe],
   templateUrl: './event-copy.component.html',
   styleUrl: './event-copy.component.scss'
@@ -35,8 +35,8 @@ export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, Even
   }
 
   private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
-    let id = idParam !== null ? +idParam : null
+    const idParam = p.get('id')
+    const id = idParam !== null ? +idParam : null
     if (id == null) return
 
     this.reloading = true
@@ -85,7 +85,7 @@ export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, Even
           this.router.navigate(['/event/details/' + event.id]).then()
         })
       },
-      error: (err) => this.translationService.get('event.message.copy.failed').subscribe((msg) => this.toastService.error())
+      error: (err) => this.translationService.get('event.message.copy.failed').subscribe((msg) => this.toastService.error(msg))
     })
   }
 }

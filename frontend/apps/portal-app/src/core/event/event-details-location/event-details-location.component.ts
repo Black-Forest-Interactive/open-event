@@ -1,42 +1,35 @@
-import { Component, input } from "@angular/core";
-import { EventInfo, LocationMapComponent } from "@open-event/core";
-import { TranslatePipe } from "@ngx-translate/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { DateTime } from "luxon";
+import { Component, input } from '@angular/core'
+import { EventInfo, LocationMapComponent } from '@open-event/core'
+import { TranslatePipe } from '@ngx-translate/core'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
+import { DateTime } from 'luxon'
 
 @Component({
-  selector: "app-event-details-location",
-  templateUrl: "./event-details-location.component.html",
-  styleUrl: "./event-details-location.component.scss",
+  selector: 'portal-event-details-location',
+  templateUrl: './event-details-location.component.html',
+  styleUrl: './event-details-location.component.scss',
   imports: [LocationMapComponent, TranslatePipe, MatButtonModule, MatIcon],
-  standalone: true,
+  standalone: true
 })
 export class EventDetailsLocationComponent {
-  info = input.required<EventInfo>();
+  info = input.required<EventInfo>()
 
   openRoute() {
-    let location = this.info().location;
-    if (!location) return;
+    const location = this.info().location
+    if (!location) return
 
-    const destination = `${location.street} ${location.streetNumber}, ${location.zip} ${location.city}`;
-    window.open(
-      `https://www.google.com/maps/dir/?api=1&destination=${destination}`,
-      "_blank",
-    );
+    const destination = `${location.street} ${location.streetNumber}, ${location.zip} ${location.city}`
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank')
   }
 
   downloadICS() {
-    let info = this.info();
-    let location = this.info().location;
-    if (!location) return;
+    const info = this.info()
+    const location = this.info().location
+    if (!location) return
 
-    const start = DateTime.fromISO(info.event.start)
-      .toUTC()
-      .toFormat("yyyyMMdd'T'HHmmss'Z'");
-    const finish = DateTime.fromISO(info.event.finish)
-      .toUTC()
-      .toFormat("yyyyMMdd'T'HHmmss'Z'");
+    const start = DateTime.fromISO(info.event.start).toUTC().toFormat("yyyyMMdd'T'HHmmss'Z'")
+    const finish = DateTime.fromISO(info.event.finish).toUTC().toFormat("yyyyMMdd'T'HHmmss'Z'")
 
     const icsContent = `
 BEGIN:VCALENDAR
@@ -49,14 +42,14 @@ DTEND:${finish}
 DESCRIPTION:${info.event.longText}
 END:VEVENT
 END:VCALENDAR
-  `.trim();
+  `.trim()
 
-    const blob = new Blob([icsContent], { type: "text/calendar" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "veranstaltung.ics";
-    a.click();
-    URL.revokeObjectURL(url);
+    const blob = new Blob([icsContent], { type: 'text/calendar' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'veranstaltung.ics'
+    a.click()
+    URL.revokeObjectURL(url)
   }
 }

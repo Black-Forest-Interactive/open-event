@@ -47,7 +47,7 @@
               }
             </th>
             <td mat-cell *matCellDef="let info">
-              <app-activity-read [info]="info" (changed)="handleReadStatusChanged($event)"></app-activity-read>
+              <portal-activity-read [info]="info" (changed)="handleReadStatusChanged($event)"></portal-activity-read>
             </td>
           </ng-container>
 

@@ -1,6 +1,6 @@
 <div class="p-4">
   <div class="flex flex-row gap-2 items-center pb-2">
-    <app-account [account]="info().event.owner"></app-account>
+    <portal-account [account]="info().event.owner"></portal-account>
     <div class="flex-auto"></div>
     <div>{{ info().event.start | date:'fullDate' }}</div>
     <div>{{ info().event.start | date:'shortTime' }} - {{ info().event.finish | date:'shortTime' }}</div>

@@ -11,7 +11,7 @@
     }
 
     @if (accepted().length > 0) {
-      @for (part of accepted(); track part.id; let i = $index) {
+      @for (part of accepted(); track part.id) {
         <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
       }
     }
@@ -21,7 +21,7 @@
         <div>{{ 'registration.waitlist' | translate }}</div>
         <mat-divider class="flex-auto"></mat-divider>
       </div>
-      @for (part of waitList(); track part.id; let i = $index) {
+      @for (part of waitList(); track part.id) {
         <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
       }
     }
@@ -48,7 +48,7 @@
 
 <ng-template #participant let-part='part'>
   <div class="flex flex-row gap-2 items-center justify-between">
-    <app-account [account]="part.author" style="flex: 0 1 calc(25%);"></app-account>
+    <portal-account [account]="part.author" style="flex: 0 1 calc(25%);"></portal-account>
     <span>{{ part.size }} {{ 'registration.people' |translate }}</span>
   </div>
 </ng-template>

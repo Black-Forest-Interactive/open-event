@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core'
+import { Component, inject, input, OnInit } from '@angular/core'
 import { HttpResponse } from '@angular/common/http'
 import { AuthService, download } from '@open-event/shared'
 import { Event } from '@open-event/core'
@@ -9,35 +9,30 @@ import { Roles } from '../../../shared/roles'
 import { EventService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-event-action-export',
+  selector: 'portal-event-action-export',
   templateUrl: './event-action-export.component.html',
   styleUrls: ['./event-action-export.component.scss'],
   imports: [MatIcon, MatProgressSpinner, MatMiniFabButton],
   standalone: true
 })
-export class EventActionExportComponent {
-  private authService = inject(AuthService);
-  private service = inject(EventService);
+export class EventActionExportComponent implements OnInit {
+  private authService = inject(AuthService)
+  private service = inject(EventService)
 
-  data: Event | undefined
+  event = input<Event | undefined>()
   accessible: boolean = false
   exporting: boolean = false
-
-  @Input()
-  set event(value: Event | undefined) {
-    this.data = value
-  }
 
   ngOnInit() {
     this.accessible = this.authService.hasRole(Roles.PERMISSION_EXPORT)
   }
 
   export() {
-    if (!this.data) return
-
+    const data = this.event()
+    if (!data) return
     if (this.exporting) return
     this.exporting = true
-    this.service.exportEvent(this.data.id).subscribe((r) => this.handleExportResponse(r))
+    this.service.exportEvent(data.id).subscribe((r) => this.handleExportResponse(r))
   }
 
   private handleExportResponse(response: HttpResponse<Blob>) {

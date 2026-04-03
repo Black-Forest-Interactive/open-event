@@ -1,58 +1,47 @@
-import { Route } from "@angular/router";
-import {
-  canActivateAuthRole,
-  ForbiddenComponent,
-  PageNotFoundComponent,
-} from "@open-event/shared";
-import { Roles } from "../shared/roles";
+import { Route } from '@angular/router'
+import { canActivateAuthRole, ForbiddenComponent, PageNotFoundComponent } from '@open-event/shared'
+import { Roles } from '../shared/roles'
 
 export const appRoutes: Route[] = [
-  { path: "", pathMatch: "full", redirectTo: "event" },
+  { path: '', pathMatch: 'full', redirectTo: 'event' },
   {
-    path: "event",
-    loadChildren: () =>
-      import("../core/event/event.routes").then((m) => m.routes),
+    path: 'event',
+    loadChildren: () => import('../core/event/event.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole]
+  },
+  {
+    path: 'account',
+    loadChildren: () => import('../core/account/account.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.ACCOUNT_READ] }
   },
   {
-    path: "account",
-    loadChildren: () =>
-      import("../core/account/account.routes").then((m) => m.routes),
+    path: 'address',
+    loadChildren: () => import('../core/address/address.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],
-    data: { roles: [Roles.ACCOUNT_READ] },
+    data: { roles: [Roles.ADDRESS_READ] }
   },
   {
-    path: "address",
-    loadChildren: () =>
-      import("../core/address/address.routes").then((m) => m.routes),
+    path: 'activity',
+    loadChildren: () => import('../core/activity/activity.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],
-    data: { roles: [Roles.ADDRESS_READ] },
+    data: { roles: [Roles.ACTIVITY_READ] }
   },
   {
-    path: "activity",
-    loadChildren: () =>
-      import("../core/activity/activity.routes").then((m) => m.routes),
-    canActivate: [canActivateAuthRole],
-    data: { roles: [Roles.ACTIVITY_READ] },
+    path: 'share',
+    loadChildren: () => import('../core/share/share.routes').then((m) => m.routes),
+    data: { public: true }
   },
   {
-    path: "share",
-    loadChildren: () =>
-      import("../core/share/share.routes").then((m) => m.routes),
-    data: { public: true },
+    path: 'imprint',
+    loadChildren: () => import('../core/imprint/imprint.routes').then((m) => m.routes),
+    data: { public: true }
   },
   {
-    path: "imprint",
-    loadChildren: () =>
-      import("../core/imprint/imprint.routes").then((m) => m.routes),
-    data: { public: true },
+    path: 'feedback',
+    loadChildren: () => import('../core/feedback/feedback.routes').then((m) => m.routes),
+    data: { roles: [Roles.FEEDBACK_WRITE] }
   },
-  {
-    path: "feedback",
-    loadChildren: () =>
-      import("../core/feedback/feedback.routes").then((m) => m.routes),
-    data: { roles: [Roles.FEEDBACK_WRITE] },
-  },
-  { path: "forbidden", component: ForbiddenComponent },
-  { path: "**", component: PageNotFoundComponent },
-];
+  { path: 'forbidden', component: ForbiddenComponent },
+  { path: '**', component: PageNotFoundComponent }
+]

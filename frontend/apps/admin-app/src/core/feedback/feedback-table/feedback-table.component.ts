@@ -1,4 +1,4 @@
-import { Component, input, output, inject } from '@angular/core'
+import { Component, inject, input, output } from '@angular/core'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { MatDialog } from '@angular/material/dialog'
 import { Feedback } from '@open-event/core'

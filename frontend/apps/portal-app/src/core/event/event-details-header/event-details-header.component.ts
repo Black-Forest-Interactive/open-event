@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, Output, Signal, inject } from '@angular/core'
+import { Component, computed, effect, inject, input, OnInit, output, Signal } from '@angular/core'
 import { Location } from '@angular/common'
 import { EventMenuComponent } from '../event-menu/event-menu.component'
 import { Router } from '@angular/router'
@@ -16,40 +16,42 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
-  selector: 'app-event-details-header',
+  selector: 'portal-event-details-header',
   templateUrl: './event-details-header.component.html',
   styleUrls: ['./event-details-header.component.scss'],
   imports: [MatToolbar, MatMiniFabButton, MatProgressSpinner, MatMenuTrigger, MatMenu, MatIcon, TranslatePipe, MatMenuItem],
   standalone: true
 })
-export class EventDetailsHeaderComponent {
-  private location = inject(Location);
-  private breakpointObserver = inject(BreakpointObserver);
+export class EventDetailsHeaderComponent implements OnInit {
+  private location = inject(Location)
+  private breakpointObserver = inject(BreakpointObserver)
+
+  data = input<EventInfo | undefined>()
+  reloading = input<boolean>(false)
+  changed = output<Event>()
 
   info: EventInfo | undefined
-  @Input() reloading: boolean = false
   isOwner: boolean = false
-  @Output() changed: EventEmitter<Event> = new EventEmitter()
   menu: EventMenuComponent
 
   private mobileBreakpoint: Signal<BreakpointState | undefined>
-  isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
+  readonly isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
 
   constructor() {
-    const router = inject(Router);
-    const service = inject(EventService);
-    const toastService = inject(HotToastService);
-    const dialog = inject(MatDialog);
+    const router = inject(Router)
+    const service = inject(EventService)
+    const toastService = inject(HotToastService)
+    const dialog = inject(MatDialog)
 
     this.menu = new EventMenuComponent(router, dialog, service, toastService)
     this.mobileBreakpoint = toSignal(this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]))
-  }
 
-  @Input()
-  set data(value: EventInfo | undefined) {
-    this.info = value
-    if (this.info && this.info.canEdit) this.isOwner = true
-    if (value) this.menu.data = value.event
+    effect(() => {
+      const value = this.data()
+      this.info = value
+      if (this.info?.canEdit) this.isOwner = true
+      if (value) this.menu.data = value.event
+    })
   }
 
   ngOnInit() {

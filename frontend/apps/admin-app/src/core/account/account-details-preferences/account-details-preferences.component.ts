@@ -1,4 +1,4 @@
-import { Component, computed, input, resource, inject } from '@angular/core'
+import { Component, computed, inject, input, resource } from '@angular/core'
 import { Account } from '@open-event/core'
 import { toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/admin'

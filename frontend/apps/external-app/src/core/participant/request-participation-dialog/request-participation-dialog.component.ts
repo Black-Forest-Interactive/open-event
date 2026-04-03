@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'app-request-participation-dialog',
   imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './request-participation-dialog.component.html',
-  styleUrl: './request-participation-dialog.component.scss',
+  styleUrl: './request-participation-dialog.component.scss'
 })
 export class RequestParticipationDialogComponent {
   dialogRef = inject(MatDialogRef<RequestParticipationDialogComponent>)
@@ -23,7 +23,7 @@ export class RequestParticipationDialogComponent {
     email: ['', Validators.compose([Validators.required, Validators.email])],
     phone: [''],
     mobile: [''],
-    size: [1, Validators.compose([Validators.required, Validators.min(1)])],
+    size: [1, Validators.compose([Validators.required, Validators.min(1)])]
   })
 
   submit() {

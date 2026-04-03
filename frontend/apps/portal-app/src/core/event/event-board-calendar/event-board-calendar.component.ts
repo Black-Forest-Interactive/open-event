@@ -1,42 +1,33 @@
-import { AfterViewInit, Component, effect, ViewChild, inject } from "@angular/core";
-import {
-  CalendarApi,
-  CalendarOptions,
-  EventClickArg,
-} from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import {
-  FullCalendarComponent,
-  FullCalendarModule,
-} from "@fullcalendar/angular";
-import { EventNavigationService } from "../event-navigation.service";
-import { Router } from "@angular/router";
-import { EventBoardService } from "../event-board.service";
-import { MatCard } from "@angular/material/card";
-import { LoadingBarComponent } from "@open-event/shared";
+import { AfterViewInit, Component, effect, inject, ViewChild } from '@angular/core'
+import { CalendarApi, CalendarOptions, EventClickArg } from '@fullcalendar/core'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular'
+import { EventNavigationService } from '../event-navigation.service'
+import { Router } from '@angular/router'
+import { EventBoardService } from '../event-board.service'
+import { MatCard } from '@angular/material/card'
+import { LoadingBarComponent } from '@open-event/shared'
 
 @Component({
-  selector: "app-event-board-calendar",
-  templateUrl: "./event-board-calendar.component.html",
-  styleUrls: ["./event-board-calendar.component.scss"],
+  selector: 'portal-event-board-calendar',
+  templateUrl: './event-board-calendar.component.html',
+  styleUrls: ['./event-board-calendar.component.scss'],
   imports: [MatCard, FullCalendarModule, LoadingBarComponent],
-  standalone: true,
+  standalone: true
 })
 export class EventBoardCalendarComponent implements AfterViewInit {
-  service = inject(EventBoardService);
-  private router = inject(Router);
+  service = inject(EventBoardService)
+  private router = inject(Router)
 
-  @ViewChild(FullCalendarComponent) calendarComponent:
-    | FullCalendarComponent
-    | undefined;
+  @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent | undefined
   calendarOptions: CalendarOptions = {
     headerToolbar: {
-      left: "prev,next",
-      center: "title",
-      right: "",
+      left: 'prev,next',
+      center: 'title',
+      right: ''
       // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
-    initialView: "dayGridMonth",
+    initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     weekends: true,
     editable: true,
@@ -45,47 +36,47 @@ export class EventBoardCalendarComponent implements AfterViewInit {
     dayMaxEvents: true,
     eventTimeFormat: {
       // like '14:30:00'
-      hour: "2-digit",
-      minute: "2-digit",
+      hour: '2-digit',
+      minute: '2-digit',
       meridiem: false,
-      hour12: false,
+      hour12: false
     },
-    locale: "de",
+    locale: 'de',
     nowIndicator: true,
-    eventClick: this.handleEventClick.bind(this),
-  };
+    eventClick: this.handleEventClick.bind(this)
+  }
 
-  private calendarApi: CalendarApi | undefined;
+  private calendarApi: CalendarApi | undefined
 
   constructor() {
     effect(() => {
-      if (this.service.reloading()) this.updateCalendar();
-    });
+      if (this.service.reloading()) this.updateCalendar()
+    })
   }
 
   ngAfterViewInit() {
     if (this.calendarComponent) {
-      this.calendarApi = this.calendarComponent.getApi();
-      this.updateCalendar();
+      this.calendarApi = this.calendarComponent.getApi()
+      this.updateCalendar()
     }
   }
 
   handleEventClick(arg: EventClickArg) {
-    let id = arg.event.id;
-    if (id) EventNavigationService.navigateToEventDetails(this.router, +id);
+    const id = arg.event.id
+    if (id) EventNavigationService.navigateToEventDetails(this.router, +id)
   }
 
   private updateCalendar() {
-    if (!this.calendarApi) return;
+    if (!this.calendarApi) return
 
-    this.calendarApi.removeAllEvents();
+    this.calendarApi.removeAllEvents()
     this.service.entries.forEach((e) => {
       this.calendarApi?.addEvent({
-        id: e.id + "",
+        id: e.id + '',
         title: e.title,
         start: e.start,
-        end: e.finish,
-      });
-    });
+        end: e.finish
+      })
+    })
   }
 }

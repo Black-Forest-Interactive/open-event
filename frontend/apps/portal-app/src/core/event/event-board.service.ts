@@ -53,30 +53,30 @@ export class EventBoardService {
   }
 
   private selectToday() {
-    let now = DateTime.now()
+    const now = DateTime.now()
     this.updateRange(now, now)
   }
 
   private selectThisWeek() {
-    let now = DateTime.now()
-    let start = now.startOf('week')
-    let end = now.endOf('week')
+    const now = DateTime.now()
+    const start = now.startOf('week')
+    const end = now.endOf('week')
     this.updateRange(start, end)
   }
 
   private selectNextWeek() {
-    let now = DateTime.now()
+    const now = DateTime.now()
 
-    let start = now.plus({ weeks: 1 }).startOf('week')
+    const start = now.plus({ weeks: 1 }).startOf('week')
 
-    let end = now.plus({ weeks: 1 }).endOf('week')
+    const end = now.plus({ weeks: 1 }).endOf('week')
     this.updateRange(start, end)
   }
 
   private handleRangeChanged() {
-    let value = this.range.value
-    let start = value.start
-    let end = value.end
+    const value = this.range.value
+    const start = value.start
+    const end = value.end
     this.updateRange(start, end)
   }
 
@@ -98,8 +98,8 @@ export class EventBoardService {
       endDate = end.endOf('day')
     }
 
-    let from = startDate?.toISODate() ?? undefined
-    let to = endDate?.toISODate() ?? undefined
+    const from = startDate?.toISODate() ?? undefined
+    const to = endDate?.toISODate() ?? undefined
     if (this.request.from === from && this.request.to === to) return
     this.request.from = from
     this.request.to = to
@@ -188,7 +188,7 @@ export class EventBoardService {
   }
 
   private handleData(response: EventSearchResponse) {
-    let value = response.result
+    const value = response.result
     if (this.infiniteScrollMode && value.pageable.number > 0) {
       this.entries.push(...value.content)
     } else {

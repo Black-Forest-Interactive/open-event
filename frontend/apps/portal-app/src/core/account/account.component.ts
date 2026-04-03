@@ -4,7 +4,7 @@ import { AccountProfileComponent } from './account-profile/account-profile.compo
 import { AccountPreferencesComponent } from './account-preferences/account-preferences.component'
 
 @Component({
-  selector: 'app-account',
+  selector: 'portal-account',
   imports: [AccountProfileComponent, AccountPreferencesComponent],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'

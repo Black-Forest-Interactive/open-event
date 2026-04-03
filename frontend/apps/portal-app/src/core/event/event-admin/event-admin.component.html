@@ -8,7 +8,7 @@
 
 
     @if (!reloading) {
-      <app-event-action-export [event]="info?.event"></app-event-action-export>
+      <portal-event-action-export [event]="info?.event"></portal-event-action-export>
     }
 
   </div>
@@ -18,7 +18,7 @@
 @if (info) {
   <div class="flex flex-col gap-2 content-stretch p-4">
     @if (info.registration) {
-      <app-registration-moderation [data]="info.registration"></app-registration-moderation>
+      <portal-registration-moderation [data]="info.registration"></portal-registration-moderation>
     }
   </div>
 }

@@ -1,4 +1,4 @@
-import { Component, input, inject } from '@angular/core'
+import { Component, inject, input } from '@angular/core'
 import { MatIconButton, MatMiniFabButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { Event, EventSearchEntry } from '@open-event/core'

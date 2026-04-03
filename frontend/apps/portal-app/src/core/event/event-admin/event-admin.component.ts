@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { Location } from '@angular/common'
@@ -12,17 +12,17 @@ import { LoadingBarComponent } from '@open-event/shared'
 import { EventService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-event-admin',
+  selector: 'portal-event-admin',
   templateUrl: './event-admin.component.html',
   styleUrl: './event-admin.component.scss',
   imports: [MatToolbar, MatIcon, EventActionExportComponent, RegistrationModerationComponent, MatMiniFabButton, LoadingBarComponent],
   standalone: true
 })
-export class EventAdminComponent {
-  private route = inject(ActivatedRoute);
-  private location = inject(Location);
-  private service = inject(EventService);
-  dialog = inject(MatDialog);
+export class EventAdminComponent implements OnInit {
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
+  private service = inject(EventService)
+  dialog = inject(MatDialog)
 
   reloading: boolean = false
   info: EventInfo | undefined
@@ -40,7 +40,7 @@ export class EventAdminComponent {
   }
 
   private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
+    const idParam = p.get('id')
     this.eventId = idParam !== null ? +idParam : undefined
     this.reload()
   }

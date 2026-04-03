@@ -13,7 +13,7 @@ import { Router } from '@angular/router'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
 
 @Component({
-  selector: 'app-event-create',
+  selector: 'portal-event-create',
   imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, MatSlideToggle],
   templateUrl: './event-create.component.html',
   styleUrl: './event-create.component.scss'
@@ -63,7 +63,7 @@ export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, Ev
           this.router.navigate(['/event/details/' + event.id]).then()
         })
       },
-      error: () => this.translationService.get('event.message.create.failed').subscribe((msg) => this.toastService.error())
+      error: () => this.translationService.get('event.message.create.failed').subscribe((msg) => this.toastService.error(msg))
     })
   }
 }

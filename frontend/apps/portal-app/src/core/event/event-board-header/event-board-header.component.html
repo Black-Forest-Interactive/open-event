@@ -7,7 +7,7 @@
           <mat-icon>search</mat-icon>
           {{ 'event.search' | translate }}
         </mat-label>
-        <input #input (keyup)="keyUp.emit(input.value)" matInput placeholder="" value="">
+        <input #input (keyup)="onKeyUp(input.value)" matInput placeholder="" value="">
         @if (service.searching) {
           <mat-icon>
             <mat-spinner diameter="18"></mat-spinner>
@@ -32,13 +32,13 @@
 
       <div class="flex flex-row gap-2 basis-72 justify-end">
         <mat-button-toggle-group class="dense-1" [hideSingleSelectionIndicator]="true">
-          <mat-button-toggle value="list" [checked]="mode() == 'list'" (click)="modeChanged.emit('list')">
+          <mat-button-toggle value="list" [checked]="mode() === 'list'" (click)="modeChanged.emit('list')">
             <mat-icon>list</mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle value="map" [checked]="mode() == 'map'" (click)="modeChanged.emit('map')">
+          <mat-button-toggle value="map" [checked]="mode() === 'map'" (click)="modeChanged.emit('map')">
             <mat-icon>map</mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle value="calendar" [checked]="mode() == 'calendar'" (click)="modeChanged.emit('calendar')">
+          <mat-button-toggle value="calendar" [checked]="mode() === 'calendar'" (click)="modeChanged.emit('calendar')">
             <mat-icon>calendar_month</mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>

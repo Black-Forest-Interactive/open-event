@@ -1,11 +1,9 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
-    selector: 'app-address-change',
-    templateUrl: './address-change.component.html',
-    styleUrl: './address-change.component.scss',
-    standalone: true
+  selector: 'portal-address-change',
+  templateUrl: './address-change.component.html',
+  styleUrl: './address-change.component.scss',
+  standalone: true
 })
-export class AddressChangeComponent {
-
-}
+export class AddressChangeComponent {}

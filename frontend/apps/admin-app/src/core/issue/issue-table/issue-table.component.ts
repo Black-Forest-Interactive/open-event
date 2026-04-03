@@ -1,4 +1,4 @@
-import { Component, input, output, inject } from '@angular/core'
+import { Component, inject, input, output } from '@angular/core'
 import { Issue } from '@open-event/core'
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
 import { DatePipe } from '@angular/common'

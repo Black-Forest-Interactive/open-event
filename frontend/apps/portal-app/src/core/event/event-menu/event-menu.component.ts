@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core'
+import { Component, EventEmitter } from '@angular/core'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
@@ -9,18 +9,18 @@ import { EventNavigationService } from '../event-navigation.service'
 import { EventService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-event-menu',
+  selector: 'portal-event-menu',
   templateUrl: './event-menu.component.html',
   styleUrls: ['./event-menu.component.scss'],
   standalone: true
 })
 export class EventMenuComponent {
-  private router = inject(Router)
-  dialog = inject(MatDialog)
-  private service = inject(EventService)
-  private toastService = inject(HotToastService)
+  private router: Router
+  dialog: MatDialog
+  private service: EventService
+  private toastService: HotToastService
 
-  @Output() changed: EventEmitter<Event> = new EventEmitter()
+  changed = new EventEmitter<Event>()
   event: Event | undefined
   publishing: boolean = false
   exporting: boolean = false
@@ -31,7 +31,13 @@ export class EventMenuComponent {
   publishMenuItem = new EventMenuItem('publish', 'event.action.publish', this.handleActionPublish.bind(this), false)
   menuItems = [this.editMenuItem, this.copyMenuItem, this.deleteMenuItem, this.adminMenuItem]
 
-  @Input()
+  constructor(router: Router, dialog: MatDialog, service: EventService, toastService: HotToastService) {
+    this.router = router
+    this.dialog = dialog
+    this.service = service
+    this.toastService = toastService
+  }
+
   set data(value: Event) {
     this.event = value
     this.publishMenuItem.disabled = value.published
@@ -43,10 +49,6 @@ export class EventMenuComponent {
 
   private handleActionCopy() {
     if (this.event) EventNavigationService.navigateToEventCopy(this.router, this.event.id)
-  }
-
-  private handleActionShowDetails() {
-    if (this.event) EventNavigationService.navigateToEventDetails(this.router, this.event.id)
   }
 
   private handleActionAdmin() {
@@ -65,7 +67,6 @@ export class EventMenuComponent {
   }
 
   private handleActionPublish() {
-    if (!this.event) return
     if (!this.event) return
     if (this.publishing) return
     this.publishing = true

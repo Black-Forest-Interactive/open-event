@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 
 import { Profile, ProfileChangeRequest } from '@open-event/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
@@ -15,12 +15,12 @@ import { LoadingBarComponent } from '@open-event/shared'
 import { AccountService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-account-profile',
+  selector: 'portal-account-profile',
   imports: [TranslatePipe, MatIcon, MatCard, MatDivider, MatListItem, MatList, ReactiveFormsModule, MatInput, MatFormField, MatSelect, MatOption, MatButton, MatMiniFabButton, LoadingBarComponent],
   templateUrl: './account-profile.component.html',
   styleUrl: './account-profile.component.scss'
 })
-export class AccountProfileComponent {
+export class AccountProfileComponent implements OnInit {
   private fb = inject(FormBuilder)
   private service = inject(AccountService)
   private translate = inject(TranslateService)
@@ -53,7 +53,7 @@ export class AccountProfileComponent {
 
   save() {
     if (this.fg.dirty && this.profile) {
-      let request = this.fg.value as ProfileChangeRequest
+      const request = this.fg.value as ProfileChangeRequest
       this.reloading = true
       this.service.updateProfile(request).subscribe({
         next: (d) => this.handleData(d),

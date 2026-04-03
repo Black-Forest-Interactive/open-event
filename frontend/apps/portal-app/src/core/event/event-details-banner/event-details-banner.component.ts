@@ -10,7 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
-  selector: 'app-event-details-banner',
+  selector: 'portal-event-details-banner',
   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule],
   templateUrl: './event-details-banner.component.html',
   styleUrl: './event-details-banner.component.scss'
@@ -24,12 +24,13 @@ export class EventDetailsBannerComponent {
   private defaultBannerImage = '/img/banner.jpg'
   bannerImage = signal(this.defaultBannerImage)
 
-  canEdit = computed(() => this.data()?.canEdit ?? false)
+  readonly canEdit = computed(() => this.data()?.canEdit ?? false)
 
   constructor() {
     effect(() => {
-      if (this.data()) {
-        const url = this.service.getBannerImageUrl(this.data()!!.event.id)
+      const data = this.data()
+      if (data) {
+        const url = this.service.getBannerImageUrl(data.event.id)
         this.bannerImage.set(url)
       }
     })

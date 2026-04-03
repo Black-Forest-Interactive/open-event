@@ -1,5 +1,4 @@
-import {provideHotToastConfig} from "@ngxpert/hot-toast";
-
+import { provideHotToastConfig } from '@ngxpert/hot-toast'
 
 export const provideToastConfig = () =>
   provideHotToastConfig({

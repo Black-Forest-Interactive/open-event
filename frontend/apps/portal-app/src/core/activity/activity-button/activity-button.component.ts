@@ -1,6 +1,4 @@
-import { Component, viewChild, inject } from '@angular/core'
-import { Subscription } from 'rxjs'
-import { MatMenuTrigger } from '@angular/material/menu'
+import { Component, inject, viewChild } from '@angular/core'
 import { Router } from '@angular/router'
 import { Activity, ActivityInfo } from '@open-event/core'
 import { ActivityIndicatorComponent } from '../activity-indicator/activity-indicator.component'
@@ -8,31 +6,20 @@ import { ActivityMenuComponent } from '../activity-menu/activity-menu.component'
 import { ActivityService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-activity-button',
+  selector: 'portal-activity-button',
   templateUrl: './activity-button.component.html',
   styleUrl: './activity-button.component.scss',
   imports: [ActivityIndicatorComponent, ActivityMenuComponent],
   standalone: true
 })
 export class ActivityButtonComponent {
-  private service = inject(ActivityService);
-  private router = inject(Router);
+  private service = inject(ActivityService)
+  private router = inject(Router)
 
   reloading: boolean = false
   data: ActivityInfo[] = []
   unreadInfos = 0
-  menuTrigger = viewChild.required<MatMenuTrigger>('menuTrigger')
-
-  private subscription: Subscription | undefined
-
-  ngOnInit() {
-    // this.reload()
-    // this.subscription = interval(10000).subscribe(value => this.reload())
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe()
-  }
+  private menu = viewChild<ActivityMenuComponent>('menu')
 
   private reload() {
     if (this.reloading) return
@@ -76,13 +63,13 @@ export class ActivityButtonComponent {
     this.data = value
     this.unreadInfos = this.data.filter((d) => !d.read).length
     this.reloading = false
-    if (this.unreadInfos == 0) this.menuTrigger().closeMenu()
+    if (this.unreadInfos == 0) this.menu()?.menuTrigger.closeMenu()
   }
 
   private handleError(err: any) {
     this.data = []
     this.unreadInfos = 0
     this.reloading = false
-    this.menuTrigger().closeMenu()
+    this.menu()?.menuTrigger.closeMenu()
   }
 }

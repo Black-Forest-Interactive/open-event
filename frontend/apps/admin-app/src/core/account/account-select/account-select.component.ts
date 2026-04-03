@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, output, resource, signal, inject } from '@angular/core'
+import { Component, computed, EventEmitter, inject, output, resource, signal } from '@angular/core'
 import { AccountSearchEntry, AccountSearchRequest } from '@open-event/core'
 import { AccountService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'

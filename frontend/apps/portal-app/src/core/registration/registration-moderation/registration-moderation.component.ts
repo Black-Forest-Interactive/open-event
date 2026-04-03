@@ -1,4 +1,4 @@
-import { Component, inject, Input, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, effect, inject, input, OnInit, ViewChild } from '@angular/core'
 import { MatSort, MatSortHeader } from '@angular/material/sort'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { RegistrationEditDialogComponent } from '../registration-edit-dialog/registration-edit-dialog.component'
@@ -19,27 +19,30 @@ import { Roles } from '../../../shared/roles'
 import { RegistrationService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-registration-moderation',
+  selector: 'portal-registration-moderation',
   templateUrl: './registration-moderation.component.html',
   styleUrl: './registration-moderation.component.scss',
   imports: [MatIcon, TranslatePipe, MatCard, MatTableModule, DatePipe, MatCardHeader, MatDivider, MatCardContent, MatSort, MatSortHeader, MatButton, MatCardActions, LoadingBarComponent],
   standalone: true
 })
-export class RegistrationModerationComponent {
+export class RegistrationModerationComponent implements OnInit, AfterViewInit {
   private service = inject(RegistrationService)
   private dialog = inject(MatDialog)
   private hotToast = inject(HotToastService)
   private translation = inject(TranslateService)
   private authService = inject(AuthService)
 
-  @Input()
-  set data(value: RegistrationInfo) {
-    this.registration = value
-    this.handleRegistrationChanged()
-  }
+  data = input<RegistrationInfo | undefined>()
 
   registration: RegistrationInfo | undefined
   reloading: boolean = false
+
+  constructor() {
+    effect(() => {
+      this.registration = this.data()
+      this.handleRegistrationChanged()
+    })
+  }
   adminOrManager: boolean = false
   accepted: Participant[] = []
   waitList: Participant[] = []
@@ -106,7 +109,7 @@ export class RegistrationModerationComponent {
         this.translation.get('registration.message.declined').subscribe((msg) => this.hotToast.warning(msg))
         break
       case 'FAILED':
-        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error())
+        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error(msg))
         break
     }
     this.reloadDetails()
@@ -129,7 +132,7 @@ export class RegistrationModerationComponent {
   participateAccount() {
     if (!this.registration) return
     if (this.reloading) return
-    let dialogRef = this.dialog.open(RegistrationParticipateAccountDialogComponent)
+    const dialogRef = this.dialog.open(RegistrationParticipateAccountDialogComponent)
     dialogRef.afterClosed().subscribe((request) => {
       if (request) this.requestParticipateAccount(request)
     })
@@ -140,7 +143,7 @@ export class RegistrationModerationComponent {
   participateManual() {
     if (!this.registration) return
     if (this.reloading) return
-    let dialogRef = this.dialog.open(RegistrationParticipateManualDialogComponent)
+    const dialogRef = this.dialog.open(RegistrationParticipateManualDialogComponent)
     dialogRef.afterClosed().subscribe((request) => {
       if (request) this.requestParticipateManual(request)
     })

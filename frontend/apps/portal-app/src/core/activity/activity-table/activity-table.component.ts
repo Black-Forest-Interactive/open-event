@@ -14,7 +14,7 @@ import { ActivityReadComponent } from '../activity-read/activity-read.component'
 import { ActivityService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-activity-table',
+  selector: 'portal-activity-table',
   templateUrl: './activity-table.component.html',
   styleUrl: './activity-table.component.scss',
   imports: [
@@ -78,8 +78,8 @@ export class ActivityTableComponent implements OnInit {
   }
 
   handleReadStatusChanged(event: ActivityInfo) {
-    let data = this.datasource.data
-    let index = data.findIndex((d) => d.activity.id == event.activity.id)
+    const data = this.datasource.data
+    const index = data.findIndex((d) => d.activity.id == event.activity.id)
     if (index < 0) return
 
     data[index] = event
@@ -89,7 +89,7 @@ export class ActivityTableComponent implements OnInit {
   handleMarkAllReadClick() {
     this.reloading = true
     this.service.markReadAll().subscribe({
-      next: (value) => this.loadData(0, this.pageSize),
+      next: () => this.loadData(0, this.pageSize),
       error: (err) => this.handleError(err)
     })
   }

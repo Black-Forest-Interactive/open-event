@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core'
+import { inject, Injectable, signal } from '@angular/core'
 import { Title } from '@angular/platform-browser'
 import { SettingsService } from '@open-event/admin'
 

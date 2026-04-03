@@ -8,19 +8,11 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'app',
-          style: 'camelCase'
-        }
-      ],
       '@angular-eslint/component-selector': [
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: 'portal',
           style: 'kebab-case'
         }
       ]
@@ -28,8 +20,10 @@ module.exports = [
   },
   {
     files: ['**/*.html'],
-    // Override or add rules here
-    rules: {}
+    rules: {
+      '@angular-eslint/template/interactive-supports-focus': 'off',
+      '@angular-eslint/template/click-events-have-key-events': 'off'
+    }
   },
   {
     files: ['**/*.ts'],

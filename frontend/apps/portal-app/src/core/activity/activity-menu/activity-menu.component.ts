@@ -12,7 +12,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
 import { switchMap } from 'rxjs'
 
 @Component({
-  selector: 'app-activity-menu',
+  selector: 'portal-activity-menu',
   imports: [MatButton, MatIcon, MatMenu, TranslatePipe, ActivityListComponent, MatProgressBar],
   templateUrl: './activity-menu.component.html',
   styleUrl: './activity-menu.component.scss'

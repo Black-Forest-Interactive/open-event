@@ -11,7 +11,7 @@ import { Preferences, PreferencesChangeRequest } from '@open-event/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
-  selector: 'app-account-preferences',
+  selector: 'portal-account-preferences',
   imports: [TranslatePipe, MatCardModule, MatButtonModule, MatIconModule, MatDivider, LoadingBarComponent],
   templateUrl: './account-preferences.component.html',
   styleUrl: './account-preferences.component.scss'

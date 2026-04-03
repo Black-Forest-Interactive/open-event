@@ -5,9 +5,9 @@ export const environment = {
   keycloak: {
     url: 'http://localhost:8081/',
     realm: 'open-church',
-    clientId: 'open-church-frontend',
+    clientId: 'open-church-frontend'
   },
   features: {
     errorInterception: false
   }
-};
+}

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { EventInfo } from '@open-event/core'
 import { MatDialog } from '@angular/material/dialog'
@@ -14,7 +14,7 @@ import { MatCard } from '@angular/material/card'
 import { MatDivider } from '@angular/material/divider'
 
 @Component({
-  selector: 'app-event-details',
+  selector: 'portal-event-details',
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss'],
   imports: [
@@ -30,10 +30,10 @@ import { MatDivider } from '@angular/material/divider'
   ],
   standalone: true
 })
-export class EventDetailsComponent {
-  private route = inject(ActivatedRoute);
-  private service = inject(EventService);
-  dialog = inject(MatDialog);
+export class EventDetailsComponent implements OnInit {
+  private route = inject(ActivatedRoute)
+  private service = inject(EventService)
+  dialog = inject(MatDialog)
 
   reloading: boolean = false
   info: EventInfo | undefined
@@ -51,7 +51,7 @@ export class EventDetailsComponent {
   }
 
   private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
+    const idParam = p.get('id')
     this.eventId = idParam !== null ? +idParam : undefined
     this.reload()
   }

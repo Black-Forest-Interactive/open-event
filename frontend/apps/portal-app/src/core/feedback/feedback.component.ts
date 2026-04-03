@@ -9,7 +9,7 @@ import { LoadingBarComponent } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
-  selector: 'app-feedback',
+  selector: 'portal-feedback',
   imports: [MatCard, FeedbackFormComponent, TranslatePipe, MatDivider, LoadingBarComponent],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss'

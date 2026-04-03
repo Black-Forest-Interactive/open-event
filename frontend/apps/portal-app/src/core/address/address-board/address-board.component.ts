@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { AddressChangeDialogComponent } from '../address-change-dialog/address-change-dialog.component'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
@@ -15,16 +15,16 @@ import { MatIcon } from '@angular/material/icon'
 import { AddressService } from '@open-event/portal'
 
 @Component({
-  selector: 'app-address-board',
+  selector: 'portal-address-board',
   templateUrl: './address-board.component.html',
   styleUrl: './address-board.component.scss',
   imports: [MatCard, TranslatePipe, MatButton, MatDivider, MatTableModule, MatIconButton, MatIcon, MatPaginator, LoadingBarComponent],
   standalone: true
 })
-export class AddressBoardComponent {
-  private service = inject(AddressService);
-  private appService = inject(AppService);
-  private dialog = inject(MatDialog);
+export class AddressBoardComponent implements OnInit {
+  private service = inject(AddressService)
+  private appService = inject(AppService)
+  private dialog = inject(MatDialog)
 
   address: Address[] = []
   reloading: boolean = false
@@ -39,7 +39,7 @@ export class AddressBoardComponent {
 
   private reload() {
     if (this.reloading) return
-    let account = this.appService.account
+    const account = this.appService.account
     if (!account) return
     this.reloading = true
     this.service.getAddresses(this.pageIndex, this.pageSize).subscribe({
@@ -75,7 +75,7 @@ export class AddressBoardComponent {
     })
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.service.createAddress(result).subscribe((_) => this.reload())
+        this.service.createAddress(result).subscribe(() => this.reload())
       }
     })
   }
@@ -85,7 +85,7 @@ export class AddressBoardComponent {
       data: a
     })
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) this.service.updateAddress(a.id, result).subscribe((_) => this.reload())
+      if (result) this.service.updateAddress(a.id, result).subscribe(() => this.reload())
     })
   }
 
@@ -94,9 +94,13 @@ export class AddressBoardComponent {
       data: a
     })
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) this.service.deleteAddress(a.id).subscribe((_) => this.reload())
+      if (result) this.service.deleteAddress(a.id).subscribe(() => this.reload())
     })
   }
 
-  handlePageChange(event: PageEvent) {}
+  handlePageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex
+    this.pageSize = event.pageSize
+    this.reload()
+  }
 }

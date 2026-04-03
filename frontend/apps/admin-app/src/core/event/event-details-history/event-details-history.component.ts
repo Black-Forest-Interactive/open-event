@@ -1,4 +1,4 @@
-import { Component, computed, input, resource, signal, inject } from '@angular/core'
+import { Component, computed, inject, input, resource, signal } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { EventService } from '@open-event/admin'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'

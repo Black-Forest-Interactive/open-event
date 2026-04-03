@@ -11,14 +11,14 @@ import { ExternalParticipantConfirmRequest } from '@open-event/external'
   selector: 'app-confirm-participation-dialog',
   imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './confirm-participation-dialog.component.html',
-  styleUrl: './confirm-participation-dialog.component.scss',
+  styleUrl: './confirm-participation-dialog.component.scss'
 })
 export class ConfirmParticipationDialogComponent {
   dialogRef = inject(MatDialogRef<ConfirmParticipationDialogComponent>)
   private fb = inject(FormBuilder)
 
   fg: FormGroup = this.fb.group({
-    code: ['', Validators.required],
+    code: ['', Validators.required]
   })
 
   submit() {

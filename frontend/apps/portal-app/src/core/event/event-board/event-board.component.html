@@ -1,27 +1,27 @@
 <div class="flex flex-col gap-0">
-  <app-event-board-header (modeChanged)="this.mode = $event" [mobileView]="mobileView"
-                          [mode]="mode"></app-event-board-header>
+  <portal-event-board-header (modeChanged)="this.mode = $event" [mobileView]="mobileView"
+                          [mode]="mode"></portal-event-board-header>
   <div class="flex flex-row gap-4 p-4">
     <div class="flex-auto">
       @if (mobileView) {
-        <app-event-board-list></app-event-board-list>
+        <portal-event-board-list></portal-event-board-list>
       } @else {
         @switch (mode) {
           @case ('map') {
-            <app-event-board-map></app-event-board-map>
+            <portal-event-board-map></portal-event-board-map>
           }
           @case ('calendar') {
-            <app-event-board-calendar></app-event-board-calendar>
+            <portal-event-board-calendar></portal-event-board-calendar>
           }
           @default {
-            <app-event-board-table></app-event-board-table>
+            <portal-event-board-table></portal-event-board-table>
           }
         }
       }
     </div>
     @if (service.filterToolbarVisible) {
       <div class="basis-72">
-        <app-event-board-filter></app-event-board-filter>
+        <portal-event-board-filter></portal-event-board-filter>
       </div>
     }
   </div>

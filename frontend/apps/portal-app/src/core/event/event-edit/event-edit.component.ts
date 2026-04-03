@@ -12,7 +12,7 @@ import { Observable } from 'rxjs'
 import { LoadingBarComponent, Page } from '@open-event/shared'
 
 @Component({
-  selector: 'app-event-edit',
+  selector: 'portal-event-edit',
   imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, LoadingBarComponent],
   templateUrl: './event-edit.component.html',
   styleUrl: './event-edit.component.scss'
@@ -35,8 +35,8 @@ export class EventEditComponent implements AddressReadAPI, CategoryReadAPI, Even
   }
 
   private handleParams(p: ParamMap) {
-    let idParam = p.get('id')
-    let id = idParam !== null ? +idParam : null
+    const idParam = p.get('id')
+    const id = idParam !== null ? +idParam : null
     if (id == null) return
 
     this.reloading = true
@@ -85,7 +85,7 @@ export class EventEditComponent implements AddressReadAPI, CategoryReadAPI, Even
           this.router.navigate(['/event/details/' + event.id]).then()
         })
       },
-      error: (err) => this.translationService.get('event.message.update.failed').subscribe((msg) => this.toastService.error())
+      error: (err) => this.translationService.get('event.message.update.failed').subscribe((msg) => this.toastService.error(msg))
     })
   }
 }

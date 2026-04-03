@@ -1,4 +1,4 @@
-import { Component, OnInit, output, signal, inject } from '@angular/core'
+import { Component, inject, output, signal } from '@angular/core'
 import { ActivityService } from '@open-event/portal'
 import { interval, startWith, switchMap } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
@@ -8,13 +8,13 @@ import { MatIconAnchor, MatIconButton } from '@angular/material/button'
 import { RouterLink } from '@angular/router'
 
 @Component({
-  selector: 'app-activity-indicator',
+  selector: 'portal-activity-indicator',
   imports: [MatBadge, MatIcon, MatIconAnchor, MatIconButton, RouterLink],
   templateUrl: './activity-indicator.component.html',
   styleUrl: './activity-indicator.component.scss'
 })
-export class ActivityIndicatorComponent implements OnInit {
-  private service = inject(ActivityService);
+export class ActivityIndicatorComponent {
+  private service = inject(ActivityService)
 
   unreadMessages = signal<number>(0)
   readonly clicked = output<MouseEvent>()
@@ -28,6 +28,4 @@ export class ActivityIndicatorComponent implements OnInit {
       )
       .subscribe((value) => this.unreadMessages.set(value))
   }
-
-  ngOnInit() {}
 }

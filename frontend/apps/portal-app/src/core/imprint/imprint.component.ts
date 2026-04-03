@@ -8,7 +8,7 @@ import { TranslatePipe } from '@ngx-translate/core'
 import { MatDivider } from '@angular/material/divider'
 
 @Component({
-  selector: 'app-imprint',
+  selector: 'portal-imprint',
   imports: [MatCard, TranslatePipe, MatDivider],
   templateUrl: './imprint.component.html',
   styleUrl: './imprint.component.scss'
@@ -17,11 +17,9 @@ export class ImprintComponent {
   private service = inject(SettingsService)
   private sanitizer = inject(DomSanitizer)
 
-  termsResource = resource({
-    loader: (param) => {
-      return toPromise(this.service.getTerms())
-    }
+  private termsResource = resource({
+    loader: (param) => toPromise(this.service.getTerms(), param.abortSignal)
   })
 
-  terms = computed(() => this.sanitizer.bypassSecurityTrustHtml(this.termsResource.value()?.text ?? ''))
+  readonly terms = computed(() => this.sanitizer.bypassSecurityTrustHtml(this.termsResource.value()?.text ?? ''))
 }
