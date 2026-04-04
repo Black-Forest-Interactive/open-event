@@ -1,28 +1,46 @@
 <admin-board [reloading]="reloading" (fullTextSearch)="fullTextSearch = $event" (reload)="search()" title="event.title" searchPlaceholder="event.search">
-  <board-toolbar-actions class="flex flex-row gap-3 justify-center">
-    <lib-event-range-picker (rangeChanged)="handleRangeChanged($event)" [required]="false" #range/>
-    <button (click)="toggleHistory()" class="action-fab" mat-mini-fab matTooltip="{{'event.filter.history' | translate}}">
-      <mat-icon>history</mat-icon>
-    </button>
-    <button (click)="resetFilter(); range.clear()" class="action-fab" mat-mini-fab color="accent" matTooltip="{{'event.filter.reset' | translate}}">
-      <mat-icon>search_off</mat-icon>
-    </button>
-    <admin-export-events-button [request]="request"></admin-export-events-button>
+  <div class="flex gap-6 items-start">
+    <div class="flex-1 min-w-0">
+      <mat-card>
+        <admin-event-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"
+                           (pageEvent)="handlePageChange($event)"
+                           (sortEvent)="handleSortChange($event)"
+                           (editEvent)="edit($event)"
+                           (deleteEvent)="delete($event)"/>
+      </mat-card>
+    </div>
 
+    <div class="flex flex-col gap-2 w-56 shrink-0 p-3 rounded-xl border"
+         style="border-color: var(--mat-sys-outline-variant); background: var(--mat-sys-surface-container-low)">
 
-    <button (click)="exportMail()" mat-mini-fab class="action-fab" matTooltip="{{'backoffice.export.action.mail.title' | translate}}">
-      <mat-icon>attach_email</mat-icon>
-    </button>
+      <lib-event-range-picker (rangeChanged)="handleRangeChanged($event)" [required]="false" #range class="w-full"/>
 
-    <admin-export-summary-button [request]="request"></admin-export-summary-button>
+      <button matButton="outlined" class="w-full justify-start"
+              [style.--mdc-outlined-button-outline-color]="showHistory ? 'var(--mat-sys-primary)' : null"
+              [style.--mdc-outlined-button-label-text-color]="showHistory ? 'var(--mat-sys-primary)' : null"
+              (click)="toggleHistory()">
+        <mat-icon>history</mat-icon>
+        {{ 'event.filter.history' | translate }}
+      </button>
+      <button matButton="outlined" class="w-full justify-start" (click)="resetFilter(); range.clear()">
+        <mat-icon>search_off</mat-icon>
+        {{ 'event.filter.reset' | translate }}
+      </button>
 
-  </board-toolbar-actions>
-  <mat-card>
-    <admin-event-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"
-                     (pageEvent)="handlePageChange($event)"
-                     (sortEvent)="handleSortChange($event)"
-                     (editEvent)="edit($event)"
-                     (deleteEvent)="delete($event)"
-    ></admin-event-table>
-  </mat-card>
+      <mat-divider class="!my-1"/>
+
+      <button matButton="outlined" class="w-full justify-start" (click)="exportEvents()" [disabled]="exportingEvents">
+        @if (exportingEvents) { <mat-spinner diameter="18"/> } @else { <mat-icon>cloud_download</mat-icon> }
+        {{ 'backoffice.export.action.all' | translate }}
+      </button>
+      <button matButton="outlined" class="w-full justify-start" (click)="exportMail()">
+        <mat-icon>attach_email</mat-icon>
+        {{ 'backoffice.export.action.mail.title' | translate }}
+      </button>
+      <button matButton="outlined" class="w-full justify-start" (click)="exportSummary()" [disabled]="exportingSummary">
+        @if (exportingSummary) { <mat-spinner diameter="18"/> } @else { <mat-icon>summarize</mat-icon> }
+        {{ 'backoffice.export.action.summary' | translate }}
+      </button>
+    </div>
+  </div>
 </admin-board>

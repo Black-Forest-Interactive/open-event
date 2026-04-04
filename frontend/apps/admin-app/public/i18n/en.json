@@ -96,9 +96,11 @@
       "participating": "Show participating",
       "range": {
         "label": "Enter a date range",
-        "today": "Only tody",
+        "today": "Today",
         "week": "This week",
         "next": "Next week",
+        "month": "This month",
+        "custom": "Custom",
         "start": "Start date",
         "end": "End date"
       }

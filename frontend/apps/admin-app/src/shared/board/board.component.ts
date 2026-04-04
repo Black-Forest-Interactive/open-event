@@ -28,3 +28,8 @@ export class BoardComponent {
   selector: `board-toolbar-actions, [board-toolbar-actions], [boardToolbarActions]`
 })
 export class BoardToolbarActions {}
+
+@Directive({
+  selector: `board-filters, [board-filters], [boardFilters]`
+})
+export class BoardFilters {}
