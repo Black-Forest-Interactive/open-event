@@ -64,4 +64,35 @@ html, body {
 // The Tailwind directives MUST come AFTER Angular Material theming
 @import "tailwindcss";
 
-/* You can add custom global styles below this line */
+// Map Angular Material 3 system tokens to Tailwind color utilities
+@theme inline {
+  --color-primary: var(--mat-sys-primary);
+  --color-on-primary: var(--mat-sys-on-primary);
+  --color-surface: var(--mat-sys-surface);
+  --color-on-surface: var(--mat-sys-on-surface);
+  --color-on-surface-variant: var(--mat-sys-on-surface-variant);
+  --color-surface-container: var(--mat-sys-surface-container);
+  --color-surface-container-high: var(--mat-sys-surface-container-high);
+  --color-outline-variant: var(--mat-sys-outline-variant);
+  --color-error-container: var(--mat-sys-error-container);
+  --color-on-error-container: var(--mat-sys-on-error-container);
+}
+
+/* User dropdown menu panel */
+.user-menu-panel {
+  .mat-mdc-menu-item:not([disabled]):hover .mat-mdc-menu-item-text,
+  .mat-mdc-menu-item:not([disabled]):hover mat-icon {
+    color: var(--mat-sys-on-surface);
+  }
+
+  .mat-mdc-menu-item:not([disabled]):hover::before {
+    background: var(--mat-sys-surface-container-high);
+    opacity: 1;
+  }
+
+  button.active-route {
+    background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    .mat-mdc-menu-item-text, mat-icon { color: var(--mat-sys-primary); }
+    font-weight: 600;
+  }
+}

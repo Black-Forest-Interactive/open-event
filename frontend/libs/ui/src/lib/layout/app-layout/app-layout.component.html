@@ -1,6 +1,8 @@
 <div class="flex flex-col h-screen overflow-hidden">
   <lib-app-toolbar [title]="title()" [showMenuToggle]="isHandset()" (menuToggle)="sidenav?.toggle()">
-    <ng-content select="[toolbar-right]"></ng-content>
+    <ng-container toolbar-right>
+      <ng-content select="[toolbar-right]"></ng-content>
+    </ng-container>
   </lib-app-toolbar>
 
   <mat-sidenav-container class="flex-1 min-h-0" autosize>

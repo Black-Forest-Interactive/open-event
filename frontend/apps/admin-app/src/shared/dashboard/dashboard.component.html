@@ -1,33 +1,28 @@
-<lib-app-layout [navGroups]="navGroups" [title]="dashboardService.title()" (logoutClick)="appService.logout()">
+<lib-app-layout [navGroups]="navGroups()" [title]="title()" (logoutClick)="logout()">
   <ng-container toolbar-right>
-    @if (appService.info(); as info) {
+    @if (info(); as info) {
       <div class="flex items-center gap-2 cursor-pointer px-2" [matMenuTriggerFor]="userMenu">
-        <img [email]="info.email"
-             [alt]="info | accountDisplayName"
-             class="w-8 h-8 rounded-full"
-             ngxGravatar
-             [src]="info.iconUrl">
+        <div class="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-white text-xs font-semibold select-none">{{ info.firstName[0] }}{{ info.lastName[0] }}</div>
         <span class="text-sm font-medium hidden md:block">{{ info.firstName }} {{ info.lastName }}</span>
       </div>
     }
   </ng-container>
 </lib-app-layout>
-
-<mat-menu #userMenu="matMenu">
-  <button mat-menu-item routerLink="/account">
+<mat-menu #userMenu="matMenu" panelClass="user-menu-panel">
+  <button mat-menu-item routerLink="/account" routerLinkActive="active-route">
     <mat-icon>admin_panel_settings</mat-icon>
     <span>{{ 'profile.title' | translate }}</span>
   </button>
-  <button mat-menu-item routerLink="/address">
+  <button mat-menu-item routerLink="/address" routerLinkActive="active-route">
     <mat-icon>contact_mail</mat-icon>
     <span>{{ 'address.title' | translate }}</span>
   </button>
-  <button mat-menu-item routerLink="/activity">
+  <button mat-menu-item routerLink="/activity" routerLinkActive="active-route">
     <mat-icon>notifications</mat-icon>
     <span>{{ 'activity.title' | translate }}</span>
   </button>
   <mat-divider></mat-divider>
-  <button mat-menu-item (click)="appService.logout()">
+  <button mat-menu-item (click)="logout()">
     <mat-icon>logout</mat-icon>
     <span>{{ 'action.logout' | translate }}</span>
   </button>

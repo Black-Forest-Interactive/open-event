@@ -1,16 +1,16 @@
-import { effect, inject, Injectable } from '@angular/core'
+import { effect, inject, Injectable, signal } from '@angular/core'
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, ReadyArgs, typeEventArgs } from 'keycloak-angular'
 import { Principal } from './principal'
 import Keycloak from 'keycloak-js'
-import { ENVIRONMENT } from '@open-event/core' // @deprecated due to deprecated keycloak service
+import { ENVIRONMENT } from '../environment.token'
 
-// @deprecated due to deprecated keycloak service
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private principal: Principal | undefined
-  private authenticated = false
+  readonly principal = signal<Principal | undefined>(undefined)
+  readonly authenticated = signal(false)
+
   private environment = inject(ENVIRONMENT)
   private readonly keycloak = inject(Keycloak)
 
@@ -21,7 +21,7 @@ export class AuthService {
       const keycloakEvent = keycloakSignal()
 
       if (keycloakEvent.type === KeycloakEventType.Ready) {
-        this.authenticated = typeEventArgs<ReadyArgs>(keycloakEvent.args)
+        this.authenticated.set(typeEventArgs<ReadyArgs>(keycloakEvent.args))
         const token = this.keycloak.tokenParsed
         if (token) {
           this.setPrincipal(token)
@@ -31,7 +31,7 @@ export class AuthService {
       }
 
       if (keycloakEvent.type === KeycloakEventType.AuthLogout) {
-        this.authenticated = false
+        this.authenticated.set(false)
         this.clearPrincipal()
       }
     })
@@ -42,17 +42,18 @@ export class AuthService {
   }
 
   public getPrincipal(): Principal | undefined {
-    return this.principal
+    return this.principal()
   }
 
   hasRole(...roles: string[]): boolean {
-    if (!this.principal) return false
-    return this.principal.roles.find((r) => roles.find((p) => r === p)) != null
+    const principal = this.principal()
+    if (!principal) return false
+    return principal.roles.find((r) => roles.find((p) => r === p)) != null
   }
 
   private clearPrincipal() {
     console.log('Clear principal')
-    this.principal = undefined
+    this.principal.set(undefined)
   }
 
   private setPrincipal(token: any) {
@@ -64,12 +65,7 @@ export class AuthService {
     const family_name = token['family_name']
     const roles = token['realm_access']['roles']
 
-    this.principal = new Principal(id, email, username, given_name, family_name, roles)
+    this.principal.set(new Principal(id, email, username, given_name, family_name, roles))
     // console.log('Set principal to ' + JSON.stringify(this.principal));
-  }
-
-  getRoles(): string[] {
-    if (!this.principal) return []
-    return this.principal.roles.sort()
   }
 }

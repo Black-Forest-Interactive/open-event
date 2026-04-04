@@ -2,19 +2,19 @@
   @for (group of navGroups(); track group.title; let first = $first) {
     @if (group.items.length > 0) {
       @if (!first) {
-        <div class="h-px bg-outline-variant my-1"></div>
+        <hr class="border-t border-gray-200 my-1 mx-0">
       }
       <div class="flex flex-col gap-0.5 px-2">
         @if (group.title && !collapsed()) {
-          <div class="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant px-2 pt-2 pb-1">{{ group.title | translate }}</div>
+          <div class="text-[11px] font-semibold uppercase tracking-widest text-gray-400 px-2 pt-2 pb-1">{{ group.title | translate }}</div>
         }
         @for (item of group.items; track item.url) {
-          <a class="flex items-center h-10 rounded-lg text-on-surface-variant no-underline transition-colors duration-150 hover:bg-surface-container-high hover:text-on-surface border-l-[3px] border-transparent"
+          <a class="nav-item flex items-center h-10 rounded-lg text-gray-500 no-underline transition-colors duration-150 hover:bg-gray-100 hover:text-gray-800"
              [class.px-3]="!collapsed()"
              [class.justify-center]="collapsed()"
              [class.gap-3]="!collapsed()"
              [routerLink]="item.url"
-             routerLinkActive="!bg-primary/10 !text-primary !border-primary !font-semibold"
+             routerLinkActive="active"
              [matTooltip]="collapsed() ? (item.text | translate) : ''"
              matTooltipPosition="right">
             <mat-icon class="shrink-0 text-[20px]">{{ item.icon }}</mat-icon>
@@ -28,11 +28,11 @@
   }
 </div>
 
-<div class="shrink-0 border-t border-outline-variant">
+<div class="shrink-0 border-t border-gray-200">
   @if (showCollapse()) {
     <div class="px-2 pt-2">
       <button type="button"
-              class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-on-surface-variant cursor-pointer transition-colors duration-150 hover:bg-surface-container-high"
+              class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-gray-500 cursor-pointer transition-colors duration-150 hover:bg-gray-100 hover:text-gray-800"
               [class.px-3]="!collapsed()"
               [class.justify-center]="collapsed()"
               [class.gap-3]="!collapsed()"
@@ -48,7 +48,7 @@
   }
   <div class="px-2 py-2">
     <button type="button"
-            class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-on-surface-variant cursor-pointer transition-colors duration-150 hover:bg-error-container hover:text-on-error-container"
+            class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-gray-500 cursor-pointer transition-colors duration-150 hover:bg-red-50 hover:text-red-700"
             [class.px-3]="!collapsed()"
             [class.justify-center]="collapsed()"
             [class.gap-3]="!collapsed()"

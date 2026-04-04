@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 import { MatDialog } from '@angular/material/dialog'
 import { IssueCreateDialogComponent } from './issue-create/issue-create-dialog.component'
-import { ENVIRONMENT } from '../environment.token'
+import { ENVIRONMENT } from '@open-event/shared'
 
 export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const dialog = inject(MatDialog)

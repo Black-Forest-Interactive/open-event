@@ -1,13 +1,11 @@
 import { Component, inject } from '@angular/core'
 import { AppLayoutComponent, NavGroup } from '@open-event/ui'
 import { AuthService, MainNavItem } from '@open-event/shared'
-import { AccountDisplayNamePipe } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 import { MatIcon } from '@angular/material/icon'
 import { MatDivider } from '@angular/material/divider'
-import { RouterLink } from '@angular/router'
-import { GravatarModule } from 'ngx-gravatar'
+import { RouterLink, RouterLinkActive } from '@angular/router'
 import { ActivityButtonComponent } from '../../core/activity/activity-button/activity-button.component'
 import { AppService } from '../app.service'
 import { DashboardService } from './dashboard.service'
@@ -17,7 +15,7 @@ import { Roles } from '../roles'
   selector: 'portal-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
-  imports: [AppLayoutComponent, TranslatePipe, AccountDisplayNamePipe, GravatarModule, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, ActivityButtonComponent],
+  imports: [AppLayoutComponent, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, RouterLinkActive, ActivityButtonComponent],
   standalone: true
 })
 export class DashboardComponent {

@@ -14,7 +14,7 @@ import { provideToastConfig } from './hot-toast.config'
 import { provideQuill } from './quill.config'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
 import { provideTranslateConfig } from './translate.config'
-import { ENVIRONMENT } from '@open-event/core'
+import { ENVIRONMENT } from '@open-event/shared'
 import { environment } from '../environments/environment'
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra)

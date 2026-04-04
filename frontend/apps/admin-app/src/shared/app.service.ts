@@ -1,5 +1,4 @@
-import { computed, effect, inject, Injectable, Signal } from '@angular/core'
-import { resource } from '@angular/core'
+import { computed, effect, inject, Injectable, resource, Signal } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
@@ -17,10 +16,10 @@ export class AppService {
   private readonly dialog = inject(MatDialog)
   readonly authService = inject(AuthService)
 
-  readonly lang: Signal<string> = toSignal(this.translate.onLangChange.pipe(map((e) => e.lang)), { initialValue: this.translate.currentLang })
+  readonly lang: Signal<string> = toSignal(this.translate.onLangChange.pipe(map((e) => e.lang)), { initialValue: this.translate.getCurrentLang() })
 
   private readonly validationResource = resource<AccountValidationResult, string>({
-    params: () => this.translate.currentLang ?? 'de',
+    params: () => this.translate.getCurrentLang() ?? 'de',
     loader: ({ params: lang, abortSignal }) => toPromise(this.accountService.validate(lang), abortSignal)
   })
 
@@ -33,7 +32,7 @@ export class AppService {
     effect(() => {
       const result = this.validationResource.value()
       if (!result) return
-      this.translate.setDefaultLang('en')
+      this.translate.setFallbackLang('en')
       this.translate.use(result.profile.language)
     })
   }
