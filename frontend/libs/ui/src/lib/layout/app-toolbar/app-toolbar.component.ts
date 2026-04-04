@@ -1,8 +1,9 @@
-import { Component, input, output } from '@angular/core'
+import { Component, inject, input, output } from '@angular/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
+import { ThemeService } from '@open-event/shared'
 
 @Component({
   selector: 'lib-app-toolbar',
@@ -12,6 +13,8 @@ import { TranslatePipe } from '@ngx-translate/core'
   imports: [MatToolbar, MatIconButton, MatIcon, TranslatePipe]
 })
 export class AppToolbarComponent {
+  protected readonly themeService = inject(ThemeService)
+
   title = input<string>('')
   showMenuToggle = input<boolean>(true)
 

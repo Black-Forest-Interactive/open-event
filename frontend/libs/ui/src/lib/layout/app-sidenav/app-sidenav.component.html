@@ -9,12 +9,12 @@
           <div class="text-[11px] font-semibold uppercase tracking-widest text-gray-400 px-2 pt-2 pb-1">{{ group.title | translate }}</div>
         }
         @for (item of group.items; track item.url) {
-          <a class="nav-item flex items-center h-10 rounded-lg text-gray-500 no-underline transition-colors duration-150 hover:bg-gray-100 hover:text-gray-800"
+          <a class="nav-item flex items-center h-10 rounded-lg no-underline transition-colors duration-150"
              [class.px-3]="!collapsed()"
              [class.justify-center]="collapsed()"
              [class.gap-3]="!collapsed()"
              [routerLink]="item.url"
-             routerLinkActive="active"
+             routerLinkActive="nav-active"
              [matTooltip]="collapsed() ? (item.text | translate) : ''"
              matTooltipPosition="right">
             <mat-icon class="shrink-0 text-[20px]">{{ item.icon }}</mat-icon>
@@ -32,7 +32,7 @@
   @if (showCollapse()) {
     <div class="px-2 pt-2">
       <button type="button"
-              class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-gray-500 cursor-pointer transition-colors duration-150 hover:bg-gray-100 hover:text-gray-800"
+              class="collapse-btn flex items-center h-10 w-full rounded-lg border-none bg-transparent cursor-pointer transition-colors duration-150"
               [class.px-3]="!collapsed()"
               [class.justify-center]="collapsed()"
               [class.gap-3]="!collapsed()"
@@ -48,7 +48,7 @@
   }
   <div class="px-2 py-2">
     <button type="button"
-            class="flex items-center h-10 w-full rounded-lg border-none bg-transparent text-gray-500 cursor-pointer transition-colors duration-150 hover:bg-red-50 hover:text-red-700"
+            class="logout-btn flex items-center h-10 w-full rounded-lg border-none bg-transparent cursor-pointer transition-colors duration-150"
             [class.px-3]="!collapsed()"
             [class.justify-center]="collapsed()"
             [class.gap-3]="!collapsed()"

@@ -7,7 +7,8 @@
 
   <mat-sidenav-container class="flex-1 min-h-0" autosize>
     <mat-sidenav #sidenav
-                 class="!border-r-0 !p-0 transition-[width] duration-[250ms] ease-in-out"
+                 class="!border-r !p-0 transition-[width] duration-[250ms] ease-in-out"
+                 style="background-color: var(--mat-sys-surface-container-low); border-right-color: var(--mat-sys-outline-variant)"
                  [style.width]="sidenavCollapsed() ? '4rem' : '16rem'"
                  [mode]="sidenavMode()"
                  [opened]="sidenavOpened()">

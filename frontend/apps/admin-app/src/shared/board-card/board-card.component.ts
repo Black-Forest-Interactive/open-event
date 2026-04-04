@@ -1,11 +1,9 @@
 import { Component, Directive, input } from '@angular/core'
 import { LoadingBarComponent } from '@open-event/shared'
-import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatCard } from '@angular/material/card'
 
 @Component({
-  imports: [LoadingBarComponent, MatToolbar, TranslatePipe, MatCard],
+  imports: [LoadingBarComponent, TranslatePipe],
   selector: 'admin-board-card',
   styleUrl: './board-card.component.scss',
   templateUrl: './board-card.component.html'

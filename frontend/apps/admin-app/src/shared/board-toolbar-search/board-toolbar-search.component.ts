@@ -1,14 +1,11 @@
 import { Component, ElementRef, input, OnInit, output, viewChild } from '@angular/core'
-import { MatInput, MatLabel, MatSuffix } from '@angular/material/input'
-import { TranslatePipe } from '@ngx-translate/core'
-import { MatFormField } from '@angular/material/form-field'
 import { MatIcon } from '@angular/material/icon'
-import { MatIconButton } from '@angular/material/button'
+import { TranslatePipe } from '@ngx-translate/core'
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs'
 
 @Component({
   selector: 'admin-board-toolbar-search',
-  imports: [MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix, TranslatePipe],
+  imports: [MatIcon, TranslatePipe],
   templateUrl: './board-toolbar-search.component.html',
   styleUrl: './board-toolbar-search.component.scss'
 })
@@ -23,8 +20,8 @@ export class BoardToolbarSearchComponent implements OnInit {
     this.keyUpSubject.next(value)
   }
 
-  clear() {
-    this.input().nativeElement.value = ''
+  clear(input: HTMLInputElement) {
+    input.value = ''
     this.fullTextSearch.emit('')
   }
 

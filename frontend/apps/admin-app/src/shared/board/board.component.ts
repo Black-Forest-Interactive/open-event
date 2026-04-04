@@ -1,15 +1,13 @@
 import { Component, Directive, input, output } from '@angular/core'
 import { LoadingBarComponent } from '@open-event/shared'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
 import { BoardToolbarSearchComponent } from '../board-toolbar-search/board-toolbar-search.component'
-import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatCard } from '@angular/material/card'
 
 @Component({
   selector: 'admin-board',
-  imports: [LoadingBarComponent, MatButtonModule, MatIconModule, BoardToolbarSearchComponent, MatToolbar, TranslatePipe, MatCard],
+  imports: [LoadingBarComponent, MatIconButton, MatIcon, BoardToolbarSearchComponent, TranslatePipe],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })

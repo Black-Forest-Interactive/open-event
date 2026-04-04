@@ -1,4 +1,5 @@
 export * from './lib/base-service'
+export * from './lib/theme/theme.service'
 export * from './lib/environment.token'
 export * from './lib/mat-paginator-i18n.service'
 export * from './lib/page'

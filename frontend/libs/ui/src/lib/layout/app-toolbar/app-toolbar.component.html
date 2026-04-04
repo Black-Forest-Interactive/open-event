@@ -7,4 +7,7 @@
   <span class="ml-2 text-lg font-medium">{{ title() }}</span>
   <span class="flex-1"></span>
   <ng-content select="[toolbar-right]"></ng-content>
+  <button mat-icon-button type="button" [attr.aria-label]="'action.toggleTheme' | translate" (click)="themeService.toggle()">
+    <mat-icon>{{ themeService.darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
 </mat-toolbar>
