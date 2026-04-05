@@ -1,0 +1,12 @@
+mat-card.address {
+  border: 1px solid lightgray !important;
+  box-shadow: unset !important;
+  flex: 0 0 calc(20% - 0.5rem);
+
+  @media screen and (max-width: 992px) {
+    flex: 1 1 calc(25% - 0.5rem);
+  }
+  @media screen and (max-width: 768px) {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
