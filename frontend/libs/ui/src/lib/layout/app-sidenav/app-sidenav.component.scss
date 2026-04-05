@@ -7,8 +7,8 @@ a.nav-item {
   }
 
   &.nav-active {
-    background-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
-    color: var(--mat-sys-primary);
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
     font-weight: 600;
   }
 }

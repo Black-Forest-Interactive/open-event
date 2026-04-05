@@ -316,6 +316,7 @@
   "address": {
     "type": "Adressen",
     "title": "Adressen",
+    "empty": "Keine Adressen vorhanden",
     "dialog": {
       "create": {
         "title": "Neue Adresse erstellen"
@@ -374,6 +375,7 @@
   },
   "activity": {
     "title": "Benachrichtigungen",
+    "empty": "Keine Benachrichtigungen vorhanden",
     "type": {
       "EVENT_CREATED": "Veranstaltung erstellt",
       "EVENT_CHANGED": "Veranstaltung geändert",

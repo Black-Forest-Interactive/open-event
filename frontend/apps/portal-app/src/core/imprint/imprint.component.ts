@@ -4,12 +4,12 @@ import { toPromise } from '@open-event/shared'
 import { SettingsService } from '@open-event/portal'
 import { DomSanitizer } from '@angular/platform-browser'
 import { MatCard } from '@angular/material/card'
+import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatDivider } from '@angular/material/divider'
 
 @Component({
   selector: 'portal-imprint',
-  imports: [MatCard, TranslatePipe, MatDivider],
+  imports: [MatCard, MatIcon, TranslatePipe],
   templateUrl: './imprint.component.html',
   styleUrl: './imprint.component.scss'
 })

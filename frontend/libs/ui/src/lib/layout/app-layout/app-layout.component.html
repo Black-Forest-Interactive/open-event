@@ -1,5 +1,5 @@
 <div class="flex flex-col h-screen overflow-hidden">
-  <lib-app-toolbar [title]="title()" [showMenuToggle]="isHandset()" (menuToggle)="sidenav?.toggle()">
+  <lib-app-toolbar [title]="title()" [showMenuToggle]="isHandset()" (menuToggle)="toggleSidenav()">
     <ng-container toolbar-right>
       <ng-content select="[toolbar-right]"></ng-content>
     </ng-container>
@@ -11,7 +11,7 @@
                  style="background-color: var(--mat-sys-surface-container-low); border-right-color: var(--mat-sys-outline-variant)"
                  [style.width]="sidenavCollapsed() ? '4rem' : '16rem'"
                  [mode]="sidenavMode()"
-                 [opened]="sidenavOpened()">
+                 [opened]="sidenavOpen()">
       <lib-app-sidenav [navGroups]="navGroups()"
                        [collapsed]="sidenavCollapsed()"
                        [showCollapse]="!isHandset()"

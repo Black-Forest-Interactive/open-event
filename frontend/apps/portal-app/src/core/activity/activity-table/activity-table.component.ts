@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core'
 import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
-import { MatCard } from '@angular/material/card'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { MatButton } from '@angular/material/button'
@@ -18,7 +17,6 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-table.component.html',
   styleUrl: './activity-table.component.scss',
   imports: [
-    MatCard,
     MatTableModule,
     MatColumnDef,
     MatHeaderCell,

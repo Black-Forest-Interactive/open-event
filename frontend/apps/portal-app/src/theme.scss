@@ -1,13 +1,14 @@
 @use '@angular/material' as mat;
 
 $theme: mat.define-theme((
-  color: (theme-type: light, primary: mat.$violet-palette, tertiary: mat.$cyan-palette),
+  color: (theme-type: light, primary: mat.$azure-palette, tertiary: mat.$green-palette),
   typography: (use-system-variables: true),
   density: (scale: 0),
 ));
 
+
 $theme-dark: mat.define-theme((
-  color: (theme-type: dark, primary: mat.$violet-palette, tertiary: mat.$cyan-palette),
+  color: (theme-type: dark, primary: mat.$azure-palette, tertiary: mat.$green-palette),
   typography: (use-system-variables: true),
   density: (scale: 0),
 ));
@@ -15,24 +16,23 @@ $theme-dark: mat.define-theme((
 html {
   @include mat.all-component-themes($theme);
 
-  // Surfaces – slate-tinted light
-  --mat-sys-surface:                   #f8fafc;
+  // Surfaces – zinc-tinted light (harmonizes with #27272a toolbar)
+  --mat-sys-surface:                   #fafafa;
   --mat-sys-surface-container-lowest:  #ffffff;
-  --mat-sys-surface-container-low:     #f1f5f9;
-  --mat-sys-surface-container:         #e8edf5;
-  --mat-sys-surface-container-high:    #dde4ef;
-  --mat-sys-surface-container-highest: #d1d9e8;
-  --mat-sys-on-surface:                #0f172a;
-  --mat-sys-on-surface-variant:        #475569;
-  --mat-sys-outline:                   #94a3b8;
-  --mat-sys-outline-variant:           #e2e8f0;
+  --mat-sys-surface-container-low:     #f4f4f5;
+  --mat-sys-surface-container:         #e4e4e7;
+  --mat-sys-surface-container-high:    #d4d4d8;
+  --mat-sys-surface-container-highest: #c4c4c8;
+  --mat-sys-on-surface:                #18181b;
+  --mat-sys-on-surface-variant:        #71717a;
+  --mat-sys-outline:                   #a1a1aa;
+  --mat-sys-outline-variant:           #e4e4e7;
 
-  // Primary – indigo
-  --mat-sys-primary:           #4f46e5;
-  --mat-sys-on-primary:        #ffffff;
-  --mat-sys-primary-container: #ede9fe;
-  --mat-sys-on-primary-container: #1e1b4b;
-
+  // Primary – zinc
+  --mat-sys-primary:                        #27272a;
+  --mat-sys-on-primary:                     #ffffff;
+  --mat-sys-primary-container:              #e4e4e7;
+  --mat-sys-on-primary-container:           #27272a;
   // Secondary – green (portal is user-facing, green = go/positive actions)
   --mat-sys-secondary:           #059669;
   --mat-sys-on-secondary:        #ffffff;
@@ -44,6 +44,7 @@ html {
   --mat-sys-on-error:        #ffffff;
   --mat-sys-error-container: #fee2e2;
   --mat-sys-on-error-container: #7f1d1d;
+
 }
 
 html.dark {
@@ -61,11 +62,11 @@ html.dark {
   --mat-sys-outline:                   #475569;
   --mat-sys-outline-variant:           #1e293b;
 
-  // Primary – lighter indigo for dark surfaces
-  --mat-sys-primary:           #a5b4fc;
-  --mat-sys-on-primary:        #1e1b4b;
-  --mat-sys-primary-container: #312e81;
-  --mat-sys-on-primary-container: #e0e7ff;
+  // Primary – lighter zinc for dark surfaces
+  --mat-sys-primary:           #a1a1aa;
+  --mat-sys-on-primary:        #27272a;
+  --mat-sys-primary-container: #3f3f46;
+  --mat-sys-on-primary-container: #f4f4f5;
 
   // Secondary – lighter green
   --mat-sys-secondary:           #6ee7b7;
@@ -79,11 +80,6 @@ html.dark {
   --mat-sys-error-container: #7f1d1d;
   --mat-sys-on-error-container: #fee2e2;
 
-  // Toolbar uses primary as bg — in dark mode use a surface container instead
-  .bg-primary-default {
-    background-color: var(--mat-sys-surface-container-high) !important;
-    color: var(--mat-sys-on-surface) !important;
-  }
 }
 
 
@@ -97,9 +93,17 @@ html.dark {
   color: var(--mat-sys-on-secondary);
 }
 
+.bg-primary-toolbar {
+  @include mat.toolbar-overrides((container-background-color: #27272a, container-text-color: #ffffff));
+}
+
+html.dark .bg-primary-toolbar {
+  @include mat.toolbar-overrides((container-background-color: #2d3a50, container-text-color: #f1f5f9));
+}
+
 .bg-primary-default {
-  background-color: var(--mat-sys-primary) !important;
-  color: var(--mat-sys-on-primary) !important;
+  background-color: var(--mat-sys-primary-container) !important;
+  color: var(--mat-sys-on-primary-container) !important;
 }
 
 .bg-accent-default {
@@ -134,11 +138,6 @@ html.dark {
 .marker-cluster-large     { background-color: var(--mat-sys-error-container) !important; color: var(--mat-sys-on-error-container) !important; }
 .marker-cluster-large div { background-color: var(--mat-sys-error) !important; color: var(--mat-sys-on-error) !important; }
 
-.second-toolbar {
-  background-color: var(--mat-sys-secondary-container) !important;
-  color: var(--mat-sys-on-secondary-container) !important;
-}
-
 .menu-active {
   background-color: var(--mat-sys-secondary) !important;
   color: var(--mat-sys-on-secondary) !important;
@@ -147,4 +146,14 @@ html.dark {
 .menu-unselected {
   background-color: var(--mat-sys-secondary-container);
   color: var(--mat-sys-on-secondary-container);
+}
+
+.dense-1 {
+  @include mat.form-field-density(-1);
+}
+.dense-2 {
+  @include mat.form-field-density(-2);
+}
+.dense-3 {
+  @include mat.form-field-density(-3);
 }

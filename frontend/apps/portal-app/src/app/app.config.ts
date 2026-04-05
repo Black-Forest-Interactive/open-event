@@ -16,6 +16,7 @@ import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
 import { provideTranslateConfig } from './translate.config'
 import { ENVIRONMENT } from '@open-event/shared'
 import { environment } from '../environments/environment'
+import { provideServiceConfig } from './service.config'
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra)
 
@@ -35,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     provideTranslateConfig(),
     provideQuill(),
     provideRouter(appRoutes),
-    { provide: ENVIRONMENT, useValue: environment }
+    { provide: ENVIRONMENT, useValue: environment },
+    provideServiceConfig()
   ]
 }

@@ -1,28 +1,23 @@
-<mat-card class="flex-auto h-full">
-  <div class="flex flex-col gap-3">
-    <div class="flex flex-row gap-2 justify-between items-center flex-auto px-3 pt-3">
-      <div class="header min-h-12">
-        {{ 'preferences.title' | translate }}
-      </div>
-      <div class="flex-auto"></div>
-    </div>
-    <mat-divider></mat-divider>
-    <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+<mat-card class="h-full">
+  <div class="flex items-center gap-3 h-16 px-6 rounded-t bg-surface-container-high text-on-surface">
+    <mat-icon>tune</mat-icon>
+    <span class="text-xl font-semibold">{{ 'preferences.title' | translate }}</span>
+  </div>
+  <mat-divider></mat-divider>
+  <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
 
-    <div class="flex flex-col gap-3 px-4 pb-4">
-      <p class="text-wrap">{{ 'preferences.newsletter.description' | translate }}</p>
-      @if (preferences()?.emailNotificationsPreferences?.enabled) {
-        <button mat-flat-button color="primary" (click)="unsubscribe()">
-          <mat-icon>unsubscribe</mat-icon>
-          {{ 'preferences.newsletter.unsubscribe' | translate }}
-        </button>
-      } @else {
-        <button mat-flat-button color="accent" (click)="subscribe()">
-          <mat-icon>mail</mat-icon>
-          {{ 'preferences.newsletter.subscribe' | translate }}
-        </button>
-      }
-
-    </div>
+  <div class="flex flex-col gap-3 px-4 py-4">
+    <p class="text-sm text-on-surface-variant">{{ 'preferences.newsletter.description' | translate }}</p>
+    @if (preferences()?.emailNotificationsPreferences?.enabled) {
+      <button matButton="outlined" (click)="unsubscribe()">
+        <mat-icon>unsubscribe</mat-icon>
+        {{ 'preferences.newsletter.unsubscribe' | translate }}
+      </button>
+    } @else {
+      <button matButton="filled" (click)="subscribe()">
+        <mat-icon>mail</mat-icon>
+        {{ 'preferences.newsletter.subscribe' | translate }}
+      </button>
+    }
   </div>
 </mat-card>

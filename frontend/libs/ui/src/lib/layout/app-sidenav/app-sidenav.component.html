@@ -2,11 +2,11 @@
   @for (group of navGroups(); track group.title; let first = $first) {
     @if (group.items.length > 0) {
       @if (!first) {
-        <hr class="border-t border-gray-200 my-1 mx-0">
+        <hr class="border-t my-1 mx-0" style="border-color: var(--mat-sys-outline-variant)">
       }
       <div class="flex flex-col gap-0.5 px-2">
         @if (group.title && !collapsed()) {
-          <div class="text-[11px] font-semibold uppercase tracking-widest text-gray-400 px-2 pt-2 pb-1">{{ group.title | translate }}</div>
+          <div class="text-[11px] font-semibold uppercase tracking-widest px-2 pt-2 pb-1" style="color: var(--mat-sys-on-surface-variant)">{{ group.title | translate }}</div>
         }
         @for (item of group.items; track item.url) {
           <a class="nav-item flex items-center h-10 rounded-lg no-underline transition-colors duration-150"
@@ -28,7 +28,7 @@
   }
 </div>
 
-<div class="shrink-0 border-t border-gray-200">
+<div class="shrink-0 border-t" style="border-color: var(--mat-sys-outline-variant)">
   @if (showCollapse()) {
     <div class="px-2 pt-2">
       <button type="button"

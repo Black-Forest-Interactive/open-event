@@ -1,144 +1,71 @@
-<mat-card class="flex-auto h-full">
-  <div class="flex flex-col gap-3">
-    <div class="flex flex-row gap-2 justify-between items-center flex-auto px-3 pt-3">
-      <div class="header">
-        {{ 'profile.title' | translate }}
-      </div>
-      <div class="flex-auto"></div>
-      @if (!editMode) {
-        <button mat-mini-fab color="primary" (click)="editMode = true">
-          <mat-icon>edit</mat-icon>
-        </button>
-      }
-    </div>
-    <mat-divider></mat-divider>
-    <lib-loading-bar [reloading]="reloading"></lib-loading-bar>
-
-    @if (profile) {
-      <div class="flex flex-row gap-3">
-        <mat-list>
-          <mat-list-item>
-            <b>{{ 'profile.email' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.phone' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.mobile' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.firstName' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.lastName' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.dateOfBirth' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.gender' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.profilePicture' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.website' | translate }}</b>
-          </mat-list-item>
-          <mat-list-item>
-            <b>{{ 'profile.language' | translate }}</b>
-          </mat-list-item>
-        </mat-list>
-        @if (editMode) {
-          <mat-list class="grow-1">
-            <form [formGroup]="fg">
-              <!-- email-->
-              <mat-list-item>{{ profile.email }}</mat-list-item>
-              <!-- phone-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <input matInput formControlName="phone">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- mobile-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <input matInput formControlName="mobile">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- firstName-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic" required>
-                  <input matInput formControlName="firstName">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- lastName-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic" required>
-                  <input matInput formControlName="lastName">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- dateOfBirth-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <input matInput formControlName="dateOfBirth">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- gender-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <input matInput formControlName="gender">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- profilePicture-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <input matInput formControlName="profilePicture">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- website-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <input matInput formControlName="website">
-                </mat-form-field>
-              </mat-list-item>
-              <!-- language-->
-              <mat-list-item class="py-2">
-                <mat-form-field class="dense-1 w-full" subscriptSizing="dynamic">
-                  <mat-select formControlName="language">
-                    <mat-option value="en">{{ 'lang.en' | translate }}</mat-option>
-                    <mat-option value="de">{{ 'lang.de' | translate }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </mat-list-item>
-            </form>
-          </mat-list>
-        } @else {
-          <mat-list class="grow-1">
-            <mat-list-item>{{ profile.email }}</mat-list-item>
-            <mat-list-item>{{ profile.phone }}</mat-list-item>
-            <mat-list-item>{{ profile.mobile }}</mat-list-item>
-            <mat-list-item>{{ profile.firstName }}</mat-list-item>
-            <mat-list-item>{{ profile.lastName }}</mat-list-item>
-            <mat-list-item>{{ profile.dateOfBirth }}</mat-list-item>
-            <mat-list-item>{{ profile.gender }}</mat-list-item>
-            <mat-list-item>{{ profile.profilePicture }}</mat-list-item>
-            <mat-list-item>{{ profile.website }}</mat-list-item>
-            <mat-list-item>{{ 'lang.' + profile.language | translate }}</mat-list-item>
-          </mat-list>
-        }
-      </div>
-      @if (editMode) {
-        <div class="flex flex-row gap-3 px-2 pb-2">
-          <button mat-flat-button color="primary" (click)="save()">
-            <mat-icon>save</mat-icon>
-            {{ 'action.save' | translate }}
-          </button>
-          <button mat-flat-button color="primary" (click)="save()">
-            <mat-icon>cancel</mat-icon>
-            {{ 'action.cancel' | translate }}
-          </button>
-        </div>
-      }
+<mat-card>
+  <div class="flex items-center gap-3 h-16 px-6 rounded-t bg-surface-container-high text-on-surface">
+    <mat-icon>person</mat-icon>
+    <span class="text-xl font-semibold">{{ 'profile.title' | translate }}</span>
+    <span class="flex-1"></span>
+    @if (!editMode()) {
+      <button mat-icon-button (click)="editMode.set(true)"><mat-icon>edit</mat-icon></button>
     }
   </div>
+  <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
+
+  @if (profile()) {
+    @if (editMode()) {
+      <form [formGroup]="fg" class="grid gap-y-3 px-6 py-4" style="grid-template-columns: 9rem 1fr">
+        <span class="text-sm font-medium self-center text-on-surface-variant">{{ 'profile.email' | translate }}</span>
+        <span class="text-sm self-center">{{ profile()!.email }}</span>
+        @for (field of [
+          {key: 'phone', label: 'profile.phone'},
+          {key: 'mobile', label: 'profile.mobile'},
+          {key: 'firstName', label: 'profile.firstName'},
+          {key: 'lastName', label: 'profile.lastName'},
+          {key: 'dateOfBirth', label: 'profile.dateOfBirth'},
+          {key: 'gender', label: 'profile.gender'},
+          {key: 'profilePicture', label: 'profile.profilePicture'},
+          {key: 'website', label: 'profile.website'}
+        ]; track field.key) {
+          <span class="text-sm font-medium self-center text-on-surface-variant">{{ field.label | translate }}</span>
+          <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
+            <input matInput [formControlName]="field.key">
+          </mat-form-field>
+        }
+        <span class="text-sm font-medium self-center text-on-surface-variant">{{ 'profile.language' | translate }}</span>
+        <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
+          <mat-select formControlName="language">
+            <mat-option value="en">{{ 'lang.en' | translate }}</mat-option>
+            <mat-option value="de">{{ 'lang.de' | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <div class="flex gap-3 px-6 pb-4">
+        <button matButton="filled" (click)="save()"><mat-icon>save</mat-icon>{{ 'action.save' | translate }}</button>
+        <button matButton="outlined" (click)="cancel()"><mat-icon>cancel</mat-icon>{{ 'action.cancel' | translate }}</button>
+      </div>
+    }
+
+    @if (!editMode()) {
+      <div class="flex flex-col divide-y divide-outline-variant">
+        @for (row of [
+          {label: 'profile.email', value: profile()!.email},
+          {label: 'profile.phone', value: profile()!.phone},
+          {label: 'profile.mobile', value: profile()!.mobile},
+          {label: 'profile.firstName', value: profile()!.firstName},
+          {label: 'profile.lastName', value: profile()!.lastName},
+          {label: 'profile.dateOfBirth', value: profile()!.dateOfBirth},
+          {label: 'profile.gender', value: profile()!.gender},
+          {label: 'profile.profilePicture', value: profile()!.profilePicture},
+          {label: 'profile.website', value: profile()!.website}
+        ]; track row.label) {
+          <div class="flex gap-4 py-2 px-6">
+            <span class="w-36 text-sm font-medium shrink-0 text-on-surface-variant">{{ row.label | translate }}</span>
+            <span class="text-sm">{{ row.value }}</span>
+          </div>
+        }
+        <div class="flex gap-4 py-2 px-6">
+          <span class="w-36 text-sm font-medium shrink-0 text-on-surface-variant">{{ 'profile.language' | translate }}</span>
+          <span class="text-sm">{{ 'lang.' + profile()!.language | translate }}</span>
+        </div>
+      </div>
+    }
+  }
 </mat-card>

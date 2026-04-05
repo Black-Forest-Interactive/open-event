@@ -2,7 +2,7 @@
   "name": "portal-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "portal",
   "sourceRoot": "apps/portal-app/src",
   "tags": [],
   "targets": {

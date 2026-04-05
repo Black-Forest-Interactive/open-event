@@ -1,76 +1,44 @@
-import { Component, inject, OnInit, signal } from '@angular/core'
-
+import { Component, inject, resource } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatCardModule } from '@angular/material/card'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
+import { MatCard } from '@angular/material/card'
+import { MatButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
 import { MatDivider } from '@angular/material/divider'
-import { LoadingBarComponent } from '@open-event/shared'
+import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/portal'
-import { Preferences, PreferencesChangeRequest } from '@open-event/core'
+import { PreferencesChangeRequest } from '@open-event/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
   selector: 'portal-account-preferences',
-  imports: [TranslatePipe, MatCardModule, MatButtonModule, MatIconModule, MatDivider, LoadingBarComponent],
+  imports: [TranslatePipe, MatCard, MatButton, MatIcon, MatDivider, LoadingBarComponent],
   templateUrl: './account-preferences.component.html',
   styleUrl: './account-preferences.component.scss'
 })
-export class AccountPreferencesComponent implements OnInit {
+export class AccountPreferencesComponent {
   private service = inject(AccountService)
   private toast = inject(HotToastService)
 
-  preferences = signal<Preferences | undefined>(undefined)
-  reloading = signal(false)
+  private preferencesResource = resource({
+    loader: (p) => toPromise(this.service.getPreferences(), p.abortSignal)
+  })
 
-  ngOnInit() {
-    this.reload()
-  }
+  readonly preferences = this.preferencesResource.value
+  readonly loading = this.preferencesResource.isLoading
 
-  private reload() {
-    if (this.reloading()) return
-    this.reloading.set(true)
-    this.service.getPreferences().subscribe({
-      next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err),
-      complete: () => this.reloading.set(false)
-    })
-  }
-
-  private handleData(value: Preferences) {
-    this.preferences.set(value)
-    this.reloading.set(false)
-  }
-
-  private handleError(err: any) {
-    if (err) this.toast.error()
-    this.reloading.set(false)
-  }
-
-  subscribe() {
-    this.update(true)
-  }
-
-  unsubscribe() {
-    this.update(false)
-  }
+  subscribe() { this.update(true) }
+  unsubscribe() { this.update(false) }
 
   private update(enabled: boolean) {
-    if (this.reloading()) return
-    this.reloading.set(true)
+    const p = this.preferences()
     const request = new PreferencesChangeRequest(
-      { enabled: enabled },
-      {
-        enabled: this.preferences()?.communicationPreferences?.enabled ?? false
-      },
-      {
-        enabled: this.preferences()?.notificationPreferences?.enabled ?? false
-      }
+      { enabled },
+      { enabled: p?.communicationPreferences?.enabled ?? false },
+      { enabled: p?.notificationPreferences?.enabled ?? false }
     )
     this.service.updatePreferences(request).subscribe({
-      next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err),
-      complete: () => this.reloading.set(false)
+      next: (value) => this.preferencesResource.set(value),
+      error: () => this.toast.error()
     })
   }
 }

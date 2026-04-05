@@ -1,7 +1,9 @@
-<div class="flex flex-column gap-2 p-5 container items-center">
+<div class="container mx-auto p-4 max-w-2xl">
   <mat-card>
-    <div class="font-bold text-2xl p-4">{{ "imprint.privacy-policy" | translate }}</div>
-    <mat-divider></mat-divider>
-    <div [innerHtml]="terms()" class="p-4"></div>
+    <div class="flex items-center gap-3 py-4 px-6 rounded-t" style="background-color: var(--mat-sys-surface-container-high); color: var(--mat-sys-on-surface)">
+      <mat-icon>gavel</mat-icon>
+      <span class="text-xl font-semibold">{{ 'imprint.privacy-policy' | translate }}</span>
+    </div>
+    <div [innerHtml]="terms()" class="p-6 text-sm" style="color: var(--mat-sys-on-surface)"></div>
   </mat-card>
 </div>

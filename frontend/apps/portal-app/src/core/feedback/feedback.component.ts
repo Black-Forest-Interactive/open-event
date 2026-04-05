@@ -1,16 +1,16 @@
 import { Component, inject, signal } from '@angular/core'
 
 import { MatCard } from '@angular/material/card'
+import { MatIcon } from '@angular/material/icon'
 import { FeedbackChangeRequest, FeedbackFormComponent } from '@open-event/core'
 import { FeedbackService } from '@open-event/portal'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
-import { MatDivider } from '@angular/material/divider'
 import { LoadingBarComponent } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
   selector: 'portal-feedback',
-  imports: [MatCard, FeedbackFormComponent, TranslatePipe, MatDivider, LoadingBarComponent],
+  imports: [MatCard, MatIcon, FeedbackFormComponent, TranslatePipe, LoadingBarComponent],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss'
 })

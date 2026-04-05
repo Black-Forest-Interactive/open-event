@@ -1,13 +1,13 @@
-@if (data) {
-  <h2 mat-dialog-title>{{ data.title }}</h2>
+@if (data() && owner()) {
+  <h2 mat-dialog-title>{{ title() }}</h2>
   <mat-dialog-content>
     <div class="flex flex-row gap-2">
       <div class="flex flex-col gap-2">
-        <portal-account [account]="data.owner" [showUserName]="false"></portal-account>
+        <portal-account [account]="owner()!!" [showUserName]="false"></portal-account>
       </div>
       <div class="flex flex-col gap-2">
-        <div><p class="event-card-header-text">{{ data.owner | accountDisplayName }}</p></div>
-        <div><p class="event-card-header-text">{{ data.start | date:'medium' }}</p></div>
+        <div><p class="event-card-header-text">{{ owner()!! | accountDisplayName }}</p></div>
+        <div><p class="event-card-header-text">{{ start() | date:'medium' }}</p></div>
       </div>
     </div>
   </mat-dialog-content>

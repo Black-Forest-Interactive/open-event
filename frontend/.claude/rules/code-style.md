@@ -244,6 +244,38 @@ export class AccountComponent {
     error = this.addressResource.error
 }
 ```
+### Computed signals for template properties
+
+When a component holds an optional or complex signal (e.g. set from outside or loaded async), expose each property used in the template as a dedicated `readonly computed` signal with a safe default value. Never access `data()?.property` directly in templates.
+
+Default value rules:
+- `string` → `''`
+- `number` → `0`
+- `boolean` → `false`
+- objects / arrays → `null`
+
+```typescript
+// ✅ correct
+data = signal<EventSearchEntry | undefined>(undefined)
+
+readonly title = computed(() => this.data()?.title ?? '')
+readonly owner = computed(() => this.data()?.owner)
+readonly start = computed(() => this.data()?.start ?? '')
+```
+
+```html
+<!-- ✅ correct — use the computed signals -->
+<h2>{{ title() }}</h2>
+<portal-account [account]="owner()"></portal-account>
+<p>{{ start() | date:'medium' }}</p>
+
+<!-- ❌ wrong — accessing signal properties directly in template -->
+<h2>{{ data().title }}</h2>
+<p>{{ data()?.start | date:'medium' }}</p>
+```
+
+---
+
 ### SCSS/CSS Classes
 
 Use always the tailwind classes and use as little as possible. Keep it simple stupid.

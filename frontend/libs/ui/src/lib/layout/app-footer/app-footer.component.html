@@ -1,8 +1,16 @@
-<footer class="flex items-center justify-center gap-2 h-12 px-4 text-xs shrink-0 border-t border-outline-variant text-on-surface-variant">
-  <span class="font-medium">{{ version() | translate }}</span>
-  @if (info()) {
-    <span class="opacity-50">·</span>
-    <span class="opacity-75">{{ info() | translate }}</span>
-  }
-  <ng-content></ng-content>
+<footer class="flex items-center justify-center gap-2 h-8 px-4 text-xs shrink-0 border-t border-outline-variant text-on-surface-variant">
+    <div class="text-gray-600 dark:text-gray-400">
+        <a href="https://github.com/Black-Forest-Interactive/open-event"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="hover:text-gray-900 dark:hover:text-gray-200 hover:underline transition-colors">
+            Open Event {{ currentYear }}
+        </a>
+    </div>
+    <span class="font-medium">{{ version() | translate }}</span>
+    @if (info()) {
+        <span class="opacity-50">·</span>
+        <span class="opacity-75">{{ info() | translate }}</span>
+    }
+    <ng-content></ng-content>
 </footer>

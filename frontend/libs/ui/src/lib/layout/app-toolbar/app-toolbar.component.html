@@ -1,11 +1,14 @@
-<mat-toolbar class="!h-16 shrink-0 shadow-md z-10 bg-primary-default">
+<mat-toolbar class="!h-16 shrink-0 shadow-md z-10 bg-primary-toolbar">
   @if (showMenuToggle()) {
     <button mat-icon-button type="button" [attr.aria-label]="'action.collapse' | translate" (click)="menuToggle.emit()">
       <mat-icon>menu</mat-icon>
     </button>
   }
-  <span class="ml-2 text-lg font-medium">{{ title() }}</span>
-  <span class="flex-1"></span>
+  @if (!showMenuToggle()) {
+    <img src="/img/logo.png" alt="Logo" class="h-8 ml-2">
+  }
+  <span class="ml-2 font-medium truncate" [class.text-base]="showMenuToggle()" [class.text-lg]="!showMenuToggle()">{{ title() | translate }}</span>
+  <span class="flex-1 min-w-2"></span>
   <ng-content select="[toolbar-right]"></ng-content>
   <button mat-icon-button type="button" [attr.aria-label]="'action.toggleTheme' | translate" (click)="themeService.toggle()">
     <mat-icon>{{ themeService.darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>

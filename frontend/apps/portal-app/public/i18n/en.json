@@ -336,6 +336,7 @@
   "address": {
     "type": "Address",
     "title": "Address",
+    "empty": "No addresses found",
     "dialog": {
       "create": {
         "title": "Create address"
@@ -402,6 +403,7 @@
   },
   "activity": {
     "title": "Notifications",
+    "empty": "No notifications found",
     "type": {
       "EVENT_CREATED": "Event created",
       "EVENT_CHANGED": "Event changed",

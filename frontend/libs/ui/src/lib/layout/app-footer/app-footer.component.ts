@@ -11,4 +11,5 @@ import { TranslatePipe } from '@ngx-translate/core'
 export class AppFooterComponent {
   version = input<string>('')
   info = input<string>('')
+  currentYear = new Date().getFullYear()
 }

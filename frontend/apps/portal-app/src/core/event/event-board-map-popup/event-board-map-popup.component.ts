@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core'
+import { Component, computed, signal } from '@angular/core'
 import { MatDialogActions, MatDialogContent, MatDialogTitle } from '@angular/material/dialog'
 import { AccountComponent } from '../../account/account/account.component'
 import { AccountDisplayNamePipe, EventSearchEntry } from '@open-event/core'
@@ -18,6 +18,10 @@ import { Subject } from 'rxjs'
 export class EventBoardMapPopupComponent {
   data = signal<EventSearchEntry | undefined>(undefined)
   close = new Subject<boolean>()
+
+  readonly title = computed(() => this.data()?.title ?? '')
+  readonly owner = computed(() => this.data()?.owner)
+  readonly start = computed(() => this.data()?.start ?? '')
 
   onDetailsClick() {
     this.close.next(true)
