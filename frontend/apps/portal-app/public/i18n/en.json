@@ -19,7 +19,8 @@
     "edit": "Edit",
     "save": "Save",
     "delete": "Delete",
-    "reset": "Reset"
+    "reset": "Reset",
+    "loadMore": "Load more"
   },
   "event": {
     "type": "Event",
@@ -97,8 +98,11 @@
         "week": "This week",
         "next": "Next week",
         "start": "Start date",
-        "end": "End date"
-      }
+        "end": "End date",
+        "errorStart": "Invalid start date",
+        "errorEnd": "Invalid end date"
+      },
+      "title": "Filter"
     },
     "table": {
       "account": "Account",

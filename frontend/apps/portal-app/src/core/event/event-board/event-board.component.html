@@ -1,12 +1,11 @@
 <div class="flex flex-col gap-0">
-  <portal-event-board-header (modeChanged)="this.mode = $event" [mobileView]="mobileView"
-                          [mode]="mode"></portal-event-board-header>
+  <portal-event-board-header (modeChanged)="setMode($event)" [mobileView]="mobileView()" [mode]="mode()"></portal-event-board-header>
   <div class="flex flex-row gap-4 p-4">
     <div class="flex-auto">
-      @if (mobileView) {
+      @if (mobileView()) {
         <portal-event-board-list></portal-event-board-list>
       } @else {
-        @switch (mode) {
+        @switch (mode()) {
           @case ('map') {
             <portal-event-board-map></portal-event-board-map>
           }
@@ -19,7 +18,7 @@
         }
       }
     </div>
-    @if (service.filterToolbarVisible) {
+    @if (filterVisible()) {
       <div class="basis-72">
         <portal-event-board-filter></portal-event-board-filter>
       </div>

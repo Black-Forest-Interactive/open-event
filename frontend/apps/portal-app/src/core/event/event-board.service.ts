@@ -1,26 +1,32 @@
-import { inject, Injectable, signal } from '@angular/core'
+import { computed, effect, inject, Injectable, resource, signal } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DateTime } from 'luxon'
-import { EventSearchEntry, EventSearchRequest, EventSearchResponse } from '@open-event/core'
+import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
 import { EventService } from '@open-event/portal'
+import { toPromise } from '@open-event/shared'
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class EventBoardService {
   private service = inject(EventService)
 
-  reloading = signal(false)
-  searching: boolean = false
-  pageSize: number = 200
-  pageIndex: number = 0
-  totalSize: number = 0
-  hasMoreElements: boolean = false
-  entries: EventSearchEntry[] = []
-  request: EventSearchRequest = new EventSearchRequest('', undefined, undefined, false, false, false)
-  infiniteScrollMode: boolean = false
-  filterToolbarVisible: boolean = true
+  private query = signal('')
+  private fromDate = signal<string | undefined>(undefined)
+  private toDate = signal<string | undefined>(undefined)
+  private ownOnly = signal(false)
+  private availableOnly = signal(false)
+  private participatingOnly = signal(false)
+  private includeHistory = signal(false)
+  private page = signal(0)
+  private size = signal(200)
+
+  readonly showOwnOnly = computed(() => this.ownOnly())
+  readonly showAvailableOnly = computed(() => this.availableOnly())
+  readonly showParticipatingOnly = computed(() => this.participatingOnly())
+  readonly showHistory = computed(() => this.includeHistory())
+
+  infiniteScrollMode = false
+  filterToolbarVisible = true
   preselection: string | undefined
 
   range = new FormGroup({
@@ -28,8 +34,67 @@ export class EventBoardService {
     end: new FormControl<DateTime | null>(null)
   })
 
+  private criteria = computed(() => ({
+    request: new EventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.ownOnly(), this.participatingOnly(), this.availableOnly()),
+    page: this.page(),
+    size: this.size()
+  }))
+
+  private searchResource = resource({
+    params: this.criteria,
+    loader: (p) => toPromise(this.service.search(p.params.request, p.params.page, p.params.size), p.abortSignal)
+  })
+
+  private loaded = signal<EventSearchEntry[]>([])
+  readonly entries = computed(() => this.loaded())
+  readonly reloading = this.searchResource.isLoading
+  readonly totalSize = computed(() => this.searchResource.value()?.result.totalSize ?? 0)
+  readonly pageIndex = computed(() => this.searchResource.value()?.result.pageable.number ?? 0)
+  readonly pageSize = computed(() => this.searchResource.value()?.result.pageable.size ?? 200)
+  readonly hasMoreElements = computed(() => {
+    const result = this.searchResource.value()?.result
+    if (!result) return false
+    return result.content.length !== 0 && result.pageable.number !== result.totalPages - 1
+  })
+
   constructor() {
     this.updateRange(null, null)
+    effect(() => {
+      const result = this.searchResource.value()
+      if (!result) return
+      const page = result.result.pageable.number
+      if (this.infiniteScrollMode && page > 0) {
+        this.loaded.update(prev => [...prev, ...result.result.content])
+      } else {
+        this.loaded.set(result.result.content)
+      }
+    })
+  }
+
+  setQuery(val: string) {
+    if (this.query() === val) return
+    this.query.set(val)
+    this.page.set(0)
+  }
+
+  toggleOwnEvents() {
+    this.ownOnly.update(v => !v)
+    this.page.set(0)
+  }
+
+  toggleAvailableEvents() {
+    this.availableOnly.update(v => !v)
+    this.page.set(0)
+  }
+
+  toggleParticipatingEvents() {
+    this.participatingOnly.update(v => !v)
+    this.page.set(0)
+  }
+
+  toggleShowHistory() {
+    this.includeHistory.update(v => !v)
+    this.handleRangeChanged()
   }
 
   handleDatePickerChanged() {
@@ -37,178 +102,60 @@ export class EventBoardService {
     this.handleRangeChanged()
   }
 
-  handlePreselectionChanged(selected: boolean, value: any) {
+  handlePreselectionChanged(selected: boolean, value: string) {
     if (this.preselection === value) return
     this.preselection = value
 
     if (!selected) {
       this.updateRange(null, null)
     } else if (value === 'today') {
-      this.selectToday()
+      this.updateRange(DateTime.now(), DateTime.now())
     } else if (value === 'this_week') {
-      this.selectThisWeek()
+      const now = DateTime.now()
+      this.updateRange(now.startOf('week'), now.endOf('week'))
     } else if (value === 'next_week') {
-      this.selectNextWeek()
+      const next = DateTime.now().plus({ weeks: 1 })
+      this.updateRange(next.startOf('week'), next.endOf('week'))
     }
   }
 
-  private selectToday() {
-    const now = DateTime.now()
-    this.updateRange(now, now)
-  }
-
-  private selectThisWeek() {
-    const now = DateTime.now()
-    const start = now.startOf('week')
-    const end = now.endOf('week')
-    this.updateRange(start, end)
-  }
-
-  private selectNextWeek() {
-    const now = DateTime.now()
-
-    const start = now.plus({ weeks: 1 }).startOf('week')
-
-    const end = now.plus({ weeks: 1 }).endOf('week')
-    this.updateRange(start, end)
-  }
-
   private handleRangeChanged() {
-    const value = this.range.value
-    const start = value.start
-    const end = value.end
+    const { start, end } = this.range.value
     this.updateRange(start, end)
   }
 
   private updateRange(start: DateTime | null | undefined, end: DateTime | null | undefined) {
-    this.range.setValue({
-      start: start ?? null,
-      end: end ?? null
-    })
-    console.log(`[${new Date().toISOString()}] update range ${JSON.stringify(this.range.value)}`)
-    let startDate = null
+    this.range.setValue({ start: start ?? null, end: end ?? null })
+
+    let startDate: DateTime | null = null
     if (start) {
       startDate = start.startOf('day')
-    } else if (!this._showHistory) {
+    } else if (!this.includeHistory()) {
       startDate = DateTime.now().startOf('day')
     }
 
-    let endDate = null
-    if (end) {
-      endDate = end.endOf('day')
-    }
-
-    const from = startDate?.toISODate() ?? undefined
-    const to = endDate?.toISODate() ?? undefined
-    if (this.request.from === from && this.request.to === to) return
-    this.request.from = from
-    this.request.to = to
-    this.search()
-  }
-
-  set fullTextSearch(val: string) {
-    if (this.request.fullTextSearch === val) return
-    this.request.fullTextSearch = val
-    this.search()
-  }
-
-  get fullTextSearch(): string {
-    return this.request.fullTextSearch
-  }
-
-  private _showHistory: boolean = false
-  set showHistory(val: boolean) {
-    if (this._showHistory == val) return
-    this._showHistory = val
-    this.handleRangeChanged()
-  }
-
-  get showHistory(): boolean {
-    return this._showHistory
-  }
-
-  set ownEvents(val: boolean) {
-    if (this.request.ownEvents == val) return
-    this.request.ownEvents = val
-    this.search()
-  }
-
-  get ownEvents(): boolean {
-    return this.request.ownEvents
-  }
-
-  set availableEvents(val: boolean) {
-    if (this.request.onlyAvailableEvents == val) return
-    this.request.onlyAvailableEvents = val
-    this.search()
-  }
-
-  get availableEvents(): boolean {
-    return this.request.onlyAvailableEvents
-  }
-
-  set participatingEvents(val: boolean) {
-    if (this.request.participatingEvents == val) return
-    this.request.participatingEvents = val
-    this.search()
-  }
-
-  get participatingEvents(): boolean {
-    return this.request.participatingEvents
+    this.fromDate.set(startDate?.toISODate() ?? undefined)
+    this.toDate.set(end ? end.endOf('day').toISODate() ?? undefined : undefined)
+    this.page.set(0)
   }
 
   resetFilter() {
-    this.request = new EventSearchRequest('', undefined, undefined, false, false, false)
-    this._showHistory = false
+    this.query.set('')
+    this.ownOnly.set(false)
+    this.availableOnly.set(false)
+    this.participatingOnly.set(false)
+    this.includeHistory.set(false)
     this.preselection = undefined
     this.updateRange(null, null)
   }
 
   onScroll() {
-    if (this.reloading()) return
-    if (!this.hasMoreElements) return
-    this.reload(this.pageIndex + 1, this.pageSize)
+    if (this.reloading() || !this.hasMoreElements()) return
+    this.page.set(this.pageIndex() + 1)
   }
 
   handlePageChange(event: PageEvent) {
-    this.reload(event.pageIndex, event.pageSize)
+    this.page.set(event.pageIndex)
+    this.size.set(event.pageSize)
   }
-
-  search() {
-    this.reload(0, this.pageSize)
-  }
-
-  private reload(page: number, size: number) {
-    if (this.reloading()) return console.log('Ignore reload ' + page + ':' + size + ' cause reloading ongoing')
-    this.reloading.set(true)
-    this.service.search(this.request, page, size).subscribe({
-      next: (value) => this.handleData(value),
-      error: (e) => this.handleError(e)
-    })
-  }
-
-  private handleData(response: EventSearchResponse) {
-    const value = response.result
-    if (this.infiniteScrollMode && value.pageable.number > 0) {
-      this.entries.push(...value.content)
-    } else {
-      this.entries = value.content
-    }
-    this.pageSize = value.pageable.size
-    this.pageIndex = value.pageable.number
-    this.totalSize = value.totalSize
-    this.hasMoreElements = value.content.length != 0 && this.pageIndex != value.totalPages - 1
-    this.reloading.set(false)
-    this.searching = false
-  }
-
-  private handleError(err: any) {
-    console.error(err)
-    this.reloading.set(false)
-  }
-}
-
-export interface RangeFilter {
-  start: Date | null | undefined
-  end: Date | null | undefined
 }

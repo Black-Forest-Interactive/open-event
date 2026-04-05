@@ -7,15 +7,14 @@
           <mat-icon>search</mat-icon>
           {{ 'event.search' | translate }}
         </mat-label>
-        <input #input (keyup)="onKeyUp(input.value)" matInput placeholder="" value="">
-        @if (service.searching) {
+        <input #searchInput (keyup)="onKeyUp(searchInput.value)" matInput placeholder="" value="">
+        @if (reloading()) {
           <mat-icon>
             <mat-spinner diameter="18"></mat-spinner>
           </mat-icon>
         }
-        @if (input.value.length > 0) {
-          <button (click)="input.value = ''; service.fullTextSearch = ''" mat-icon-button
-                  matSuffix>
+        @if (searchInput.value.length > 0) {
+          <button (click)="clearSearch(searchInput)" mat-icon-button matSuffix>
             <mat-icon>clear</mat-icon>
           </button>
         }
@@ -24,11 +23,10 @@
 
     @if (!mobileView()) {
       <div class="flex-auto"></div>
-      <button color="accent" mat-flat-button routerLink="./create" class="basis-72 min-h-10">
+      <button matButton="filled" color="accent" routerLink="./create" class="basis-72 min-h-10">
         <mat-icon>event</mat-icon>
         {{ 'event.create' | translate }}
       </button>
-
 
       <div class="flex flex-row gap-2 basis-72 justify-end">
         <mat-button-toggle-group class="dense-1" [hideSingleSelectionIndicator]="true">
@@ -51,7 +49,6 @@
     }
   </div>
 </mat-toolbar>
-
 
 <mat-menu #contextMenu="matMenu">
   <button mat-menu-item routerLink="./create">

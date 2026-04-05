@@ -19,7 +19,8 @@
     "edit": "Bearbeiten",
     "save": "Speichern",
     "delete": "Löschen",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "loadMore": "Mehr laden"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -94,8 +95,11 @@
         "week": "Diese Woche anzeigen",
         "next": "Nächste Woche anzeigen",
         "start": "Startdatum ",
-        "end": "Enddatum"
-      }
+        "end": "Enddatum",
+        "errorStart": "Ungültiges Startdatum",
+        "errorEnd": "Ungültiges Enddatum"
+      },
+      "title": "Filter"
     },
     "table": {
       "account": "Veranstalter",

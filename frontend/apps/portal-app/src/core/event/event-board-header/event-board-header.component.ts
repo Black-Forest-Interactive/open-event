@@ -15,32 +15,21 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 @Component({
   selector: 'portal-event-board-header',
   templateUrl: './event-board-header.component.html',
-  styleUrls: ['./event-board-header.component.scss'],
+  styleUrl: './event-board-header.component.scss',
   imports: [
-    MatToolbar,
-    MatFormField,
-    MatIcon,
-    TranslatePipe,
-    MatInput,
-    MatIconButton,
-    MatProgressSpinner,
-    MatButton,
-    RouterLink,
-    MatButtonToggleGroup,
-    MatButtonToggle,
-    MatMenuTrigger,
-    MatMenuItem,
-    MatMenu,
-    MatLabel
+    MatToolbar, MatFormField, MatIcon, TranslatePipe, MatInput, MatIconButton, MatProgressSpinner,
+    MatButton, RouterLink, MatButtonToggleGroup, MatButtonToggle, MatMenuTrigger, MatMenuItem, MatMenu, MatLabel
   ],
   standalone: true
 })
 export class EventBoardHeaderComponent implements OnInit {
-  service = inject(EventBoardService)
+  private service = inject(EventBoardService)
 
   mobileView = input<boolean>(false)
   mode = input<string>('')
   modeChanged = output<string>()
+
+  readonly reloading = this.service.reloading
 
   private keyUp = new Subject<string>()
 
@@ -48,7 +37,12 @@ export class EventBoardHeaderComponent implements OnInit {
     this.keyUp.next(value)
   }
 
+  clearSearch(input: HTMLInputElement) {
+    input.value = ''
+    this.service.setQuery('')
+  }
+
   ngOnInit() {
-    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => (this.service.fullTextSearch = query))
+    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe(query => this.service.setQuery(query))
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { EventBoardService } from '../event-board.service'
 import { EventBoardFilterComponent } from '../event-board-filter/event-board-filter.component'
 import { EventBoardListEntryComponent } from '../event-board-list-entry/event-board-list-entry.component'
@@ -10,18 +10,16 @@ import { MatIcon } from '@angular/material/icon'
 @Component({
   selector: 'portal-event-board-list',
   templateUrl: './event-board-list.component.html',
-  styleUrls: ['./event-board-list.component.scss'],
+  styleUrl: './event-board-list.component.scss',
   imports: [EventBoardFilterComponent, EventBoardListEntryComponent, MatButton, TranslatePipe, MatMiniFabButton, ScrollNearEndDirective, MatIcon, LoadingBarComponent],
   standalone: true
 })
 export class EventBoardListComponent {
-  service = inject(EventBoardService)
+  readonly service = inject(EventBoardService)
 
-  filterOverlayOpen: boolean = false
+  readonly filterOpen = signal(false)
 
-  constructor() {
-    const service = this.service
-
-    this.filterOverlayOpen = service.filterToolbarVisible
+  toggleFilter() {
+    this.filterOpen.update(v => !v)
   }
 }

@@ -28,41 +28,38 @@ Marker.prototype.options.icon = iconDefault
 @Component({
   selector: 'portal-event-board-map',
   templateUrl: './event-board-map.component.html',
-  styleUrls: ['./event-board-map.component.scss'],
+  styleUrl: './event-board-map.component.scss',
   imports: [MatCard, LoadingBarComponent],
   standalone: true
 })
 export class EventBoardMapComponent implements AfterViewInit {
-  service = inject(EventBoardService)
+  private service = inject(EventBoardService)
   private resolver = inject(ComponentFactoryResolver)
   private injector = inject(Injector)
   private router = inject(Router)
+
+  readonly reloading = this.service.reloading
 
   private map: Map | undefined
   private markerLayer = layerGroup()
 
   constructor() {
     effect(() => {
-      if (this.service.reloading()) this.updateMarker()
+      const entries = this.service.entries()
+      if (this.map) this.updateMarker(entries)
     })
   }
 
   ngAfterViewInit(): void {
-    this.map = L.map('map', {
-      center: [48.88436, 8.69892],
-      zoom: 11
-    })
-
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    this.map = L.map('map', { center: [48.88436, 8.69892], zoom: 11 })
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    })
-
-    tiles.addTo(this.map)
-    this.updateMarker()
+    }).addTo(this.map)
+    this.updateMarker(this.service.entries())
   }
 
-  private updateMarker() {
+  private updateMarker(entries: EventSearchEntry[]) {
     if (!this.map) return
 
     if (this.map.hasLayer(this.markerLayer)) {
@@ -70,60 +67,29 @@ export class EventBoardMapComponent implements AfterViewInit {
       this.map.removeLayer(this.markerLayer)
     }
 
-    const entries = this.service.entries.filter((e) => this.isValid(e))
-
     const group = L.markerClusterGroup()
-    entries.forEach((e) => this.addGroupEventMarker(group, e))
+    entries.filter(e => this.isValid(e)).forEach(e => this.addGroupEventMarker(group, e))
     this.map.addLayer(group)
   }
 
   private isValid(e: EventSearchEntry): boolean {
-    if (!e.hasLocation) return false
-
-    const lat = e.lat
-    const lon = e.lon
-    return lat != 0 && lon != 0
+    return e.hasLocation && e.lat !== 0 && e.lon !== 0
   }
 
   private addGroupEventMarker(g: MarkerClusterGroup, e: EventSearchEntry) {
     const marker = this.createEventMarker(e)
-
     const component = this.resolver.resolveComponentFactory(EventBoardMapPopupComponent).create(this.injector)
     component.instance.data.set(e)
     component.changeDetectorRef.detectChanges()
-
     marker.bindPopup(component.location.nativeElement)
-
-    component.instance.close.asObservable().subscribe((res) => {
+    component.instance.close.asObservable().subscribe(res => {
       marker.closePopup()
-
-      if (res) {
-        EventNavigationService.navigateToEventDetails(this.router, +e.id)
-      }
+      if (res) EventNavigationService.navigateToEventDetails(this.router, +e.id)
     })
-
     g.addLayer(marker)
-    // g.addLayer(marker).bindPopup(component.location.nativeElement)
-  }
-
-  private addEventMarker(i: EventSearchEntry) {
-    const marker = this.createEventMarker(i)
-    const component = this.resolver.resolveComponentFactory(EventBoardMapPopupComponent).create(this.injector)
-    component.instance.data.set(i)
-    component.instance.close.asObservable().subscribe((res) => {
-      marker.closePopup()
-      if (res) {
-        EventNavigationService.navigateToEventDetails(this.router, +i.id)
-      }
-    })
-    component.changeDetectorRef.detectChanges()
-    marker.addTo(this.markerLayer).bindPopup(component.location.nativeElement)
   }
 
   private createEventMarker(i: EventSearchEntry): Marker {
-    const lat = i.lat
-    const lon = i.lon
-
-    return L.marker([lat, lon])
+    return L.marker([i.lat, i.lon])
   }
 }

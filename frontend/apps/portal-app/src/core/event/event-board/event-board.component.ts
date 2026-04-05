@@ -1,5 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
+import { Component, computed, effect, inject, signal } from '@angular/core'
+import { BreakpointObserver } from '@angular/cdk/layout'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { map } from 'rxjs'
 import { EventBoardService } from '../event-board.service'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardCalendarComponent } from '../event-board-calendar/event-board-calendar.component'
@@ -11,23 +13,27 @@ import { EventBoardHeaderComponent } from '../event-board-header/event-board-hea
 @Component({
   selector: 'portal-event-board',
   templateUrl: './event-board.component.html',
-  styleUrls: ['./event-board.component.scss'],
+  styleUrl: './event-board.component.scss',
   imports: [EventBoardListComponent, EventBoardCalendarComponent, EventBoardTableComponent, EventBoardFilterComponent, EventBoardMapComponent, EventBoardHeaderComponent],
   standalone: true
 })
-export class EventBoardComponent implements OnInit {
-  service = inject(EventBoardService)
+export class EventBoardComponent {
+  private service = inject(EventBoardService)
   private responsive = inject(BreakpointObserver)
 
-  mobileView: boolean = false
-  mode: string = 'list'
+  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 1000px)']).pipe(map(state => !state.matches)), { initialValue: false })
+  readonly mode = signal('list')
+  readonly filterVisible = computed(() => !this.mobileView())
 
-  ngOnInit() {
-    this.responsive.observe(['(min-width: 1000px)']).subscribe((state: BreakpointState) => {
-      this.mobileView = !state.matches
+  constructor() {
+    effect(() => {
+      const mobile = this.mobileView()
+      this.service.filterToolbarVisible = !mobile
+      this.service.infiniteScrollMode = mobile
     })
-    this.service.filterToolbarVisible = !this.mobileView
-    this.service.infiniteScrollMode = this.mobileView
-    this.service.search()
+  }
+
+  setMode(mode: string) {
+    this.mode.set(mode)
   }
 }

@@ -11,22 +11,20 @@ import { LoadingBarComponent } from '@open-event/shared'
 @Component({
   selector: 'portal-event-board-calendar',
   templateUrl: './event-board-calendar.component.html',
-  styleUrls: ['./event-board-calendar.component.scss'],
+  styleUrl: './event-board-calendar.component.scss',
   imports: [MatCard, FullCalendarModule, LoadingBarComponent],
   standalone: true
 })
 export class EventBoardCalendarComponent implements AfterViewInit {
-  service = inject(EventBoardService)
+  private service = inject(EventBoardService)
   private router = inject(Router)
 
   @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent | undefined
+
+  readonly reloading = this.service.reloading
+
   calendarOptions: CalendarOptions = {
-    headerToolbar: {
-      left: 'prev,next',
-      center: 'title',
-      right: ''
-      // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    },
+    headerToolbar: { left: 'prev,next', center: 'title', right: '' },
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     weekends: true,
@@ -34,13 +32,7 @@ export class EventBoardCalendarComponent implements AfterViewInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    eventTimeFormat: {
-      // like '14:30:00'
-      hour: '2-digit',
-      minute: '2-digit',
-      meridiem: false,
-      hour12: false
-    },
+    eventTimeFormat: { hour: '2-digit', minute: '2-digit', meridiem: false, hour12: false },
     locale: 'de',
     nowIndicator: true,
     eventClick: this.handleEventClick.bind(this)
@@ -50,7 +42,10 @@ export class EventBoardCalendarComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      if (this.service.reloading()) this.updateCalendar()
+      const entries = this.service.entries()
+      if (!this.calendarApi) return
+      this.calendarApi.removeAllEvents()
+      entries.forEach(e => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
     })
   }
 
@@ -68,15 +63,7 @@ export class EventBoardCalendarComponent implements AfterViewInit {
 
   private updateCalendar() {
     if (!this.calendarApi) return
-
     this.calendarApi.removeAllEvents()
-    this.service.entries.forEach((e) => {
-      this.calendarApi?.addEvent({
-        id: e.id + '',
-        title: e.title,
-        start: e.start,
-        end: e.finish
-      })
-    })
+    this.service.entries().forEach(e => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
   }
 }

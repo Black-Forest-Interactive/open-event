@@ -1,25 +1,24 @@
-@if (filterOverlayOpen) {
+@if (filterOpen()) {
   <portal-event-board-filter></portal-event-board-filter>
   <div class="pb-2"></div>
 }
 
 <lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
 
-<div class="flex flex-col gap-2" libScrollNearEnd (nearEnd)="this.service.onScroll()">
-
-  @for (info of service.entries; track info) {
+<div class="flex flex-col gap-2" libScrollNearEnd (nearEnd)="service.onScroll()">
+  @for (info of service.entries(); track info) {
     <portal-event-board-list-entry [info]="info"></portal-event-board-list-entry>
   }
 
-  @if (this.service.hasMoreElements && !(this.service.reloading())) {
-    <button mat-flat-button color="accent" (click)="this.service.onScroll()"
-            class="flex-auto">{{ 'ACTION.LoadMore' | translate }}
+  @if (service.hasMoreElements() && !service.reloading()) {
+    <button matButton="filled" color="accent" (click)="service.onScroll()" class="flex-auto">
+      {{ 'action.loadMore' | translate }}
     </button>
   }
 </div>
 
 <div class="flex self-end fixed right-3 bottom-20 z-5">
-  <button mat-mini-fab (click)="filterOverlayOpen = !filterOverlayOpen">
+  <button mat-mini-fab (click)="toggleFilter()">
     <mat-icon>filter_alt</mat-icon>
   </button>
 </div>

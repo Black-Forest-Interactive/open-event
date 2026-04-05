@@ -11,7 +11,7 @@ import { Subject } from 'rxjs'
 @Component({
   selector: 'portal-event-board-map-popup',
   templateUrl: './event-board-map-popup.component.html',
-  styleUrls: ['./event-board-map-popup.component.scss'],
+  styleUrl: './event-board-map-popup.component.scss',
   imports: [MatDialogContent, AccountComponent, MatDialogTitle, AccountDisplayNamePipe, DatePipe, MatDialogActions, MatIcon, TranslatePipe, MatButton],
   standalone: true
 })
