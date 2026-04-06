@@ -10,7 +10,9 @@
   </div>
   <div class="flex items-center py-3">
     @if (showSearch()) {
-      <admin-board-toolbar-search [placeholder]="searchPlaceholder()" (fullTextSearch)="fullTextSearch.emit($event)"/>
+      <div class="w-80">
+        <lib-board-search [placeholder]="searchPlaceholder()" (search)="fullTextSearch.emit($event)"/>
+      </div>
     }
   </div>
   <div class="flex items-center justify-end gap-1">

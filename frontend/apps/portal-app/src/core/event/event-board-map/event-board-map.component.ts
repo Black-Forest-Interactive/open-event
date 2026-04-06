@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, effect, inject, Injector } from '@angular/core'
+import { AfterViewInit, Component, createComponent, effect, ElementRef, EnvironmentInjector, inject, ViewChild } from '@angular/core'
 import * as L from 'leaflet'
-import { icon, layerGroup, Map, Marker, MarkerClusterGroup } from 'leaflet'
+import { icon, Map, Marker, MarkerClusterGroup } from 'leaflet'
 import { EventBoardMapPopupComponent } from '../event-board-map-popup/event-board-map-popup.component'
 import { EventNavigationService } from '../event-navigation.service'
 import { Router } from '@angular/router'
@@ -10,13 +10,10 @@ import { MatCard } from '@angular/material/card'
 import 'leaflet.markercluster'
 import { LoadingBarComponent } from '@open-event/shared'
 
-const iconRetinaUrl = 'marker/marker-icon-2x.png'
-const iconUrl = 'marker/marker-icon.png'
-const shadowUrl = 'marker/marker-shadow.png'
 const iconDefault = icon({
-  iconRetinaUrl,
-  iconUrl,
-  shadowUrl,
+  iconRetinaUrl: 'marker/marker-icon-2x.png',
+  iconUrl: 'marker/marker-icon.png',
+  shadowUrl: 'marker/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -34,62 +31,53 @@ Marker.prototype.options.icon = iconDefault
 })
 export class EventBoardMapComponent implements AfterViewInit {
   private service = inject(EventBoardService)
-  private resolver = inject(ComponentFactoryResolver)
-  private injector = inject(Injector)
+  private environmentInjector = inject(EnvironmentInjector)
   private router = inject(Router)
 
-  readonly reloading = this.service.reloading
+  @ViewChild('map') mapContainerRef!: ElementRef<HTMLDivElement>
 
+  readonly reloading = this.service.reloading
   private map: Map | undefined
-  private markerLayer = layerGroup()
 
   constructor() {
     effect(() => {
       const entries = this.service.entries()
-      if (this.map) this.updateMarker(entries)
+      if (this.map) this.updateMarkers(entries)
     })
   }
 
   ngAfterViewInit(): void {
-    this.map = L.map('map', { center: [48.88436, 8.69892], zoom: 11 })
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    this.map = L.map(this.mapContainerRef.nativeElement, { center: [51.1657, 10.4515], zoom: 6, zoomControl: false })
+    L.control.zoom({ position: 'bottomright' }).addTo(this.map)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
     }).addTo(this.map)
-    this.updateMarker(this.service.entries())
+    this.updateMarkers(this.service.entries())
   }
 
-  private updateMarker(entries: EventSearchEntry[]) {
+  private updateMarkers(entries: EventSearchEntry[]) {
     if (!this.map) return
+    this.map.eachLayer((layer) => {
+      if (layer instanceof L.MarkerClusterGroup) this.map!.removeLayer(layer)
+    })
 
-    if (this.map.hasLayer(this.markerLayer)) {
-      this.markerLayer.clearLayers()
-      this.map.removeLayer(this.markerLayer)
-    }
-
-    const group = L.markerClusterGroup()
-    entries.filter(e => this.isValid(e)).forEach(e => this.addGroupEventMarker(group, e))
+    const group = L.markerClusterGroup({ showCoverageOnHover: false })
+    entries.filter((e) => e.hasLocation && e.lat !== 0 && e.lon !== 0).forEach((e) => this.addMarker(group, e))
     this.map.addLayer(group)
   }
 
-  private isValid(e: EventSearchEntry): boolean {
-    return e.hasLocation && e.lat !== 0 && e.lon !== 0
-  }
-
-  private addGroupEventMarker(g: MarkerClusterGroup, e: EventSearchEntry) {
-    const marker = this.createEventMarker(e)
-    const component = this.resolver.resolveComponentFactory(EventBoardMapPopupComponent).create(this.injector)
-    component.instance.data.set(e)
-    component.changeDetectorRef.detectChanges()
-    marker.bindPopup(component.location.nativeElement)
-    component.instance.close.asObservable().subscribe(res => {
+  private addMarker(group: MarkerClusterGroup, e: EventSearchEntry) {
+    const marker = L.marker([e.lat, e.lon])
+    const ref = createComponent(EventBoardMapPopupComponent, { environmentInjector: this.environmentInjector })
+    ref.instance.data.set(e)
+    ref.changeDetectorRef.detectChanges()
+    marker.bindPopup(ref.location.nativeElement, { maxWidth: 320, minWidth: 220 })
+    ref.instance.close.subscribe((navigate) => {
       marker.closePopup()
-      if (res) EventNavigationService.navigateToEventDetails(this.router, +e.id)
+      if (navigate) EventNavigationService.navigateToEventDetails(this.router, +e.id)
     })
-    g.addLayer(marker)
-  }
-
-  private createEventMarker(i: EventSearchEntry): Marker {
-    return L.marker([i.lat, i.lon])
+    group.addLayer(marker)
   }
 }

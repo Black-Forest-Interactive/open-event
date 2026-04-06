@@ -1,6 +1,4 @@
 import { Component, computed, signal } from '@angular/core'
-import { MatDialogActions, MatDialogContent, MatDialogTitle } from '@angular/material/dialog'
-import { AccountComponent } from '../../account/account/account.component'
 import { AccountDisplayNamePipe, EventSearchEntry } from '@open-event/core'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -12,7 +10,7 @@ import { Subject } from 'rxjs'
   selector: 'portal-event-board-map-popup',
   templateUrl: './event-board-map-popup.component.html',
   styleUrl: './event-board-map-popup.component.scss',
-  imports: [MatDialogContent, AccountComponent, MatDialogTitle, AccountDisplayNamePipe, DatePipe, MatDialogActions, MatIcon, TranslatePipe, MatButton],
+  imports: [AccountDisplayNamePipe, DatePipe, MatIcon, TranslatePipe, MatButton],
   standalone: true
 })
 export class EventBoardMapPopupComponent {
@@ -22,12 +20,10 @@ export class EventBoardMapPopupComponent {
   readonly title = computed(() => this.data()?.title ?? '')
   readonly owner = computed(() => this.data()?.owner)
   readonly start = computed(() => this.data()?.start ?? '')
-
-  onDetailsClick() {
-    this.close.next(true)
-  }
-
-  onCloseClick() {
-    this.close.next(false)
-  }
+  readonly finish = computed(() => this.data()?.finish ?? '')
+  readonly hasLocation = computed(() => this.data()?.hasLocation ?? false)
+  readonly street = computed(() => this.data()?.street ?? '')
+  readonly streetNumber = computed(() => this.data()?.streetNumber ?? '')
+  readonly zip = computed(() => this.data()?.zip ?? '')
+  readonly city = computed(() => this.data()?.city ?? '')
 }

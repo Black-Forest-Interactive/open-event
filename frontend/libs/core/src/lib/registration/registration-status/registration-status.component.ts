@@ -1,8 +1,10 @@
 import { Component, input, Input } from '@angular/core'
-import { EventSearchEntry, Participant, RegistrationInfo } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { NgClass } from '@angular/common'
 import { PublicEvent } from '@open-event/external'
+import { RegistrationInfo } from '../registration.api'
+import { Participant } from '../../participant'
+import { EventSearchEntry } from '../../search'
 
 @Component({
   selector: 'lib-registration-status',
@@ -12,6 +14,7 @@ import { PublicEvent } from '@open-event/external'
 })
 export class RegistrationStatusComponent {
   maxIndicatorSize = input(10)
+  vertical = input(false)
 
   spaceAvailable: boolean = false
   space = {
@@ -24,7 +27,7 @@ export class RegistrationStatusComponent {
   @Input()
   set data(info: RegistrationInfo | undefined) {
     if (info) {
-      let totalAmount = info.participants.filter((p) => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
+      const totalAmount = info.participants.filter((p) => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
       this.space.available = info.registration.maxGuestAmount
       this.space.remaining = this.space.available - totalAmount
       this.spaceAvailable = this.space.remaining > 0
@@ -46,6 +49,13 @@ export class RegistrationStatusComponent {
     this.space.remaining = entry.remainingSpace
     this.space.available = entry.maxGuestAmount
     this.updateIndicator()
+  }
+
+  get takenPct(): number {
+    return this.space.available > 0 ? ((this.space.available - this.space.remaining) / this.space.available) * 100 : 0
+  }
+  get remainingPct(): number {
+    return this.space.available > 0 ? (this.space.remaining / this.space.available) * 100 : 0
   }
 
   private updateIndicator() {

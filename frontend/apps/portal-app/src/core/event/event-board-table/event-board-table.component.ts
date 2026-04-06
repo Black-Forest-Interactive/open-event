@@ -3,7 +3,6 @@ import { EventBoardService } from '../event-board.service'
 import { DatePipe } from '@angular/common'
 import { MatCard } from '@angular/material/card'
 import { MatTableModule } from '@angular/material/table'
-import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
 import { AccountComponent } from '../../account/account/account.component'
 import { MatDivider } from '@angular/material/divider'
@@ -16,10 +15,10 @@ import { RegistrationStatusComponent } from '@open-event/core'
   selector: 'portal-event-board-table',
   templateUrl: './event-board-table.component.html',
   styleUrl: './event-board-table.component.scss',
-  imports: [MatCard, MatIcon, TranslatePipe, AccountComponent, DatePipe, RegistrationStatusComponent, MatDivider, RouterLink, MatPaginator, MatTableModule, LoadingBarComponent],
+  imports: [MatCard, TranslatePipe, AccountComponent, DatePipe, MatDivider, RouterLink, MatPaginator, MatTableModule, LoadingBarComponent, RegistrationStatusComponent],
   standalone: true
 })
 export class EventBoardTableComponent {
   readonly service = inject(EventBoardService)
-  readonly displayedColumns = ['account', 'period', 'location', 'description', 'status', 'label']
+  readonly displayedColumns = ['title', 'period', 'location', 'account', 'status']
 }

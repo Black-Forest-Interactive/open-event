@@ -2,12 +2,12 @@ import { Component, Directive, input, output } from '@angular/core'
 import { LoadingBarComponent } from '@open-event/shared'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
-import { BoardToolbarSearchComponent } from '../board-toolbar-search/board-toolbar-search.component'
+import { BoardSearchComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'admin-board',
-  imports: [LoadingBarComponent, MatIconButton, MatIcon, BoardToolbarSearchComponent, TranslatePipe],
+  imports: [LoadingBarComponent, MatIconButton, MatIcon, BoardSearchComponent, TranslatePipe],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
@@ -19,17 +19,13 @@ export class BoardComponent {
   showReload = input(true)
   showSearch = input(true)
 
-  fullTextSearch = output<string>()
+  search = output<string>()
   reload = output<boolean>()
   back = output<boolean>()
 }
 
-@Directive({
-  selector: `board-toolbar-actions, [board-toolbar-actions], [boardToolbarActions]`
-})
+@Directive({ selector: 'board-toolbar-actions, [board-toolbar-actions]' })
 export class BoardToolbarActions {}
 
-@Directive({
-  selector: `board-filters, [board-filters], [boardFilters]`
-})
+@Directive({ selector: 'board-filters, [board-filters]' })
 export class BoardFilters {}

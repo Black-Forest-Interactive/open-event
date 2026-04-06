@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatChipListbox, MatChipOption, MatChipSelectionChange } from '@angular/material/chips'
 import { EventBoardService } from '../event-board.service'
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card'
+import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
 import { MatDivider } from '@angular/material/divider'
 import { MatError, MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field'
@@ -15,7 +15,7 @@ import { MatButton } from '@angular/material/button'
   templateUrl: './event-board-filter.component.html',
   styleUrl: './event-board-filter.component.scss',
   imports: [
-    MatCard, MatCardHeader, MatCardTitle, MatIcon, MatDivider, MatCardContent,
+    MatCard, MatIcon, MatDivider,
     MatFormField, MatLabel, MatError, MatFormFieldModule, MatDatepickerModule,
     MatDateRangeInput, MatDatepickerToggle, MatDateRangePicker, ReactiveFormsModule,
     MatChipListbox, MatChipOption, MatButton, TranslatePipe

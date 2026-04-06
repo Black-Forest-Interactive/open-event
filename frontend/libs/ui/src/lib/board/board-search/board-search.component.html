@@ -1,4 +1,4 @@
-<div class="search-pill flex items-center gap-2 px-3 w-80">
+<div class="search-pill flex items-center gap-2 px-3 w-full">
   <mat-icon class="shrink-0 text-[18px]">search</mat-icon>
   <input #input class="search-input flex-1 bg-transparent outline-none text-sm min-w-0" (keyup)="onKeyUp(input.value)" [placeholder]="placeholder() | translate">
   @if (input.value.length > 0) {

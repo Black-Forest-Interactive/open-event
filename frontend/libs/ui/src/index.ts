@@ -1,4 +1,5 @@
 export { NavItem, NavGroup } from './lib/layout/nav.api'
+export { BoardSearchComponent } from './lib/board/board-search/board-search.component'
 export { AppFooterComponent } from './lib/layout/app-footer/app-footer.component'
 export { AppToolbarComponent } from './lib/layout/app-toolbar/app-toolbar.component'
 export { AppSidenavComponent } from './lib/layout/app-sidenav/app-sidenav.component'

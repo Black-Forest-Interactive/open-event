@@ -1,26 +1,32 @@
-@if (data() && owner()) {
-  <h2 mat-dialog-title>{{ title() }}</h2>
-  <mat-dialog-content>
-    <div class="flex flex-row gap-2">
-      <div class="flex flex-col gap-2">
-        <portal-account [account]="owner()!!" [showUserName]="false"></portal-account>
+@if (data()) {
+  <div class="popup">
+    <div class="popup-title">{{ title() }}</div>
+    <div class="popup-body">
+      <div class="popup-row">
+        <mat-icon>schedule</mat-icon>
+        <span>{{ start() | date:'EEE, d MMM' }} &nbsp; {{ start() | date:'shortTime' }} – {{ finish() | date:'shortTime' }}</span>
       </div>
-      <div class="flex flex-col gap-2">
-        <div><p class="event-card-header-text">{{ owner()!! | accountDisplayName }}</p></div>
-        <div><p class="event-card-header-text">{{ start() | date:'medium' }}</p></div>
-      </div>
+      @if (owner()) {
+        <div class="popup-row">
+          <mat-icon>person</mat-icon>
+          <span>{{ owner()!! | accountDisplayName }}</span>
+        </div>
+      }
+      @if (hasLocation()) {
+        <div class="popup-row">
+          <mat-icon>pin_drop</mat-icon>
+          <span>{{ street() }} {{ streetNumber() }}, {{ zip() }} {{ city() }}</span>
+        </div>
+      }
     </div>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <div class="flex flex-row gap-2">
-      <button (click)="onDetailsClick()" color="primary" matButton="filled">
+    <div class="popup-actions">
+      <button matButton="filled" color="primary" (click)="close.next(true)">
         <mat-icon>read_more</mat-icon>
-        {{ "action.details" | translate }}
+        {{ 'action.details' | translate }}
       </button>
-      <button (click)="onCloseClick()" color="primary" matButton="filled">
+      <button matButton="outlined" (click)="close.next(false)">
         <mat-icon>close</mat-icon>
-        {{ 'action.close' | translate }}
       </button>
     </div>
-  </mat-dialog-actions>
+  </div>
 }

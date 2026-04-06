@@ -1,117 +1,66 @@
 <lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
 
-<div class="flex flex-col gap-2">
-  <mat-card>
-    <table [dataSource]="service.entries()" mat-table>
+<mat-card>
+  <table [dataSource]="service.entries()" mat-table class="w-full">
 
-      <!-- Account Column -->
-      <ng-container matColumnDef="account">
-        <th mat-header-cell *matHeaderCellDef>
-          <div class="flex flex-row gap-3 items-center">
-            <mat-icon>account_box</mat-icon>
-            <span>{{ 'event.table.account' | translate }}</span>
-          </div>
-        </th>
-        <td *matCellDef="let info" mat-cell>
-          <portal-account [account]="info.owner"></portal-account>
-        </td>
-      </ng-container>
+    <!-- Title + Categories Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>{{ 'event.table.description' | translate }}</th>
+      <td *matCellDef="let info" mat-cell>
+        <div class="font-medium">{{ info.title }}</div>
+        @if (info.categories.length > 0) {
+          <div class="text-xs text-gray-400 mt-0.5">{{ info.categories.join(', ') }}</div>
+        }
+      </td>
+    </ng-container>
 
-      <!-- Period Column -->
-      <ng-container matColumnDef="period">
-        <th mat-header-cell *matHeaderCellDef>
-          <div class="flex flex-row gap-3 items-center">
-            <mat-icon>schedule</mat-icon>
-            <span>{{ 'event.table.period' | translate }}</span>
-          </div>
-        </th>
-        <td *matCellDef="let info" mat-cell>
-          <div class="flex flex-col gap-1">
-            <div>{{ info.start | date:'fullDate' }}</div>
-            <div class="text-gray-500">{{ info.start | date:'shortTime' }} - {{ info.finish | date:'shortTime' }}</div>
-          </div>
-        </td>
-      </ng-container>
+    <!-- Period Column -->
+    <ng-container matColumnDef="period">
+      <th mat-header-cell *matHeaderCellDef style="width: 160px">{{ 'event.table.period' | translate }}</th>
+      <td *matCellDef="let info" mat-cell style="width: 160px">
+        <div class="text-sm">{{ info.start | date:'mediumDate' }}</div>
+        <div class="text-xs text-gray-400">{{ info.start | date:'shortTime' }} – {{ info.finish | date:'shortTime' }}</div>
+      </td>
+    </ng-container>
 
-      <!-- Location Column -->
-      <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef>
-          <div class="flex flex-row gap-3 items-center">
-            <mat-icon>pin_drop</mat-icon>
-            <span>{{ 'event.table.location' | translate }}</span>
-          </div>
-        </th>
-        <td *matCellDef="let info" mat-cell>
-          @if (info.hasLocation) {
-            <div class="flex flex-col gap-1">
-              <div>{{ info.street }} {{ info.streetNumber }}</div>
-              <div class="text-gray-500">{{ info.zip }} {{ info.city }}</div>
-            </div>
-          }
-        </td>
-      </ng-container>
+    <!-- Location Column -->
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef style="width: 160px">{{ 'event.table.location' | translate }}</th>
+      <td *matCellDef="let info" mat-cell style="width: 160px">
+        @if (info.hasLocation) {
+          <div class="text-sm">{{ info.street }} {{ info.streetNumber }}</div>
+          <div class="text-xs text-gray-400">{{ info.zip }} {{ info.city }}</div>
+        }
+      </td>
+    </ng-container>
 
-      <!-- Description Column -->
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>
-          <div class="flex flex-row gap-3 items-center">
-            <mat-icon>description</mat-icon>
-            <span>{{ 'event.table.description' | translate }}</span>
-          </div>
-        </th>
-        <td *matCellDef="let info" mat-cell>
-          <div>{{ info.title }}</div>
-        </td>
-      </ng-container>
+    <!-- Account Column -->
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef style="width: 140px">{{ 'event.table.account' | translate }}</th>
+      <td *matCellDef="let info" mat-cell style="width: 140px">
+        <portal-account [account]="info.owner"></portal-account>
+      </td>
+    </ng-container>
 
-      <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>
-          <div class="flex flex-row gap-3 items-center">
-            <mat-icon>groups</mat-icon>
-            <span>{{ 'event.table.status' | translate }}</span>
-          </div>
-        </th>
-        <td *matCellDef="let info" mat-cell>
-          <lib-registration-status [entry]="info"></lib-registration-status>
-        </td>
-      </ng-container>
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef style="width: 120px">{{ 'event.table.status' | translate }}</th>
+      <td *matCellDef="let info" mat-cell style="width: 120px">
+        @if (info.maxGuestAmount > 0) {
+          <lib-registration-status [entry]="info" [vertical]="true"></lib-registration-status>
+        }
+      </td>
+    </ng-container>
 
-      <!-- Label Column -->
-      <ng-container matColumnDef="label">
-        <th mat-header-cell *matHeaderCellDef>
-          <div class="flex flex-row gap-3 items-center">
-            <mat-icon>label</mat-icon>
-            <span>{{ 'event.table.label' | translate }}</span>
-          </div>
-        </th>
-        <td *matCellDef="let info" mat-cell>
-          <div class="flex flex-col gap-0">
-            <div class="flex flex-row flex-wrap gap-2 items-center">
-              @for (category of info.categories; track category) {
-                <b>{{ category }}</b>
-              }
-            </div>
-            <div class="flex flex-row flex-wrap gap-2 items-center">
-              @for (tag of info.tags; track tag) {
-                #{{ tag }}
-              }
-            </div>
-          </div>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
-      <tr *matRowDef="let row; columns: displayedColumns;" class="row" mat-row routerLink="./details/{{ row.id }}"></tr>
-    </table>
-    <mat-divider></mat-divider>
-    <mat-paginator (page)="service.handlePageChange($event)"
-                   [length]="service.totalSize()"
-                   [pageIndex]="service.pageIndex()"
-                   [pageSizeOptions]="[5, 10, 25, 100]"
-                   [pageSize]="service.pageSize()"
-                   class="mb-2 pe-5"
-                   showFirstLastButtons="true">
-    </mat-paginator>
-  </mat-card>
-</div>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row class="cursor-pointer" routerLink="./details/{{ row.id }}"></tr>
+  </table>
+  <mat-divider></mat-divider>
+  <mat-paginator (page)="service.handlePageChange($event)"
+                 [length]="service.totalSize()"
+                 [pageIndex]="service.pageIndex()"
+                 [pageSizeOptions]="[10, 25, 50, 100]"
+                 [pageSize]="service.pageSize()"
+                 showFirstLastButtons="true">
+  </mat-paginator>
+</mat-card>
