@@ -3,13 +3,14 @@ import { EventInfo, LocationMapComponent } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
+import { MatDivider } from '@angular/material/divider'
 import { DateTime } from 'luxon'
 
 @Component({
   selector: 'portal-event-details-location',
   templateUrl: './event-details-location.component.html',
   styleUrl: './event-details-location.component.scss',
-  imports: [LocationMapComponent, TranslatePipe, MatButtonModule, MatIcon],
+  imports: [LocationMapComponent, TranslatePipe, MatButtonModule, MatIcon, MatDivider],
   standalone: true
 })
 export class EventDetailsLocationComponent {

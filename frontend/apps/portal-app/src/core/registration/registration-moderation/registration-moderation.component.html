@@ -1,86 +1,57 @@
 <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
 <mat-card>
-  <mat-card-header class="!p-2">
-    <div class="header flex-auto">{{ 'event.admin.registration' | translate }}</div>
-  </mat-card-header>
+  <div class="flex flex-row items-center gap-2 p-3">
+    <span class="font-medium flex-auto">{{ 'event.admin.registration' | translate }}</span>
+  </div>
   <mat-divider></mat-divider>
-  <mat-card-content class="p-0">
-    <table mat-table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="rank">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.rank' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.rank }}</td>
-      </ng-container>
+  @if (participants().length === 0 && !loading()) {
+    <div class="p-3 text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'registration.empty' | translate }}</div>
+  }
 
-      <ng-container matColumnDef="size">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.size' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.size }}</td>
-      </ng-container>
+  @for (participant of participants(); track participant.id; let last = $last) {
+    <div class="flex flex-col gap-2 p-3">
+      <div class="flex flex-row flex-wrap items-center gap-2">
+        <span class="font-medium">{{ participant.author.name }}</span>
+        <span class="text-xs font-medium px-2 py-0.5 rounded-full" [ngStyle]="statusStyle(participant.status)">
+          {{ ('registration.table.enum.' + participant.status) | translate }}
+        </span>
+        <span class="text-xs flex-auto text-right" style="color: var(--mat-sys-on-surface-variant)">{{ participant.timestamp | date:'mediumDate' }}</span>
+      </div>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.status' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ ('registration.table.enum.' + participant.status) | translate }}</td>
-      </ng-container>
+      <div class="flex flex-row items-center gap-2 text-sm">
+        <mat-icon class="!text-base" style="color: var(--mat-sys-on-surface-variant)">group</mat-icon>
+        <span>{{ participant.size }} {{ 'registration.people' | translate }}</span>
+        @if (participant.waitingList) {
+          <mat-icon class="!text-base" style="color: var(--mat-sys-on-surface-variant)" [matTooltip]="'registration.waitlist' | translate">schedule</mat-icon>
+        }
+      </div>
 
-      <ng-container matColumnDef="waitinglist">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.waitlist' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">
-          @if (participant.waitingList) { <mat-icon>check_circle</mat-icon> }
-        </td>
-      </ng-container>
+      <div class="flex flex-row flex-wrap gap-x-4 gap-y-1 text-sm" style="color: var(--mat-sys-on-surface-variant)">
+        <span class="flex items-center gap-1"><mat-icon class="!text-base">email</mat-icon>{{ participant.author.email }}</span>
+        @if (participant.author.phone) { <span class="flex items-center gap-1"><mat-icon class="!text-base">phone</mat-icon>{{ participant.author.phone }}</span> }
+        @if (participant.author.mobile) { <span class="flex items-center gap-1"><mat-icon class="!text-base">smartphone</mat-icon>{{ participant.author.mobile }}</span> }
+      </div>
 
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.name' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.author.name }}</td>
-      </ng-container>
+      <div class="flex flex-row gap-1 justify-end">
+        <button matIconButton (click)="editParticipant(participant)" [matTooltip]="'registration.action.editParticipant' | translate">
+          <mat-icon>manage_accounts</mat-icon>
+        </button>
+        <button matIconButton (click)="removeParticipant(participant)" [matTooltip]="'registration.action.removeParticipant' | translate">
+          <mat-icon>person_remove</mat-icon>
+        </button>
+      </div>
+    </div>
+    @if (!last) { <mat-divider></mat-divider> }
+  }
 
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.email' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.author.email }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.phone' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.author.phone }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="mobile">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.mobile' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.author.mobile }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="timestamp">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'registration.table.timestamp' | translate }}</th>
-        <td mat-cell *matCellDef="let participant">{{ participant.timestamp | date:'medium' }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let participant">
-          <div class="flex flex-row gap-2">
-            <button matButton="filled" (click)="editParticipant(participant)">
-              <mat-icon>manage_accounts</mat-icon>
-              {{ 'registration.action.editParticipant' | translate }}
-            </button>
-            <button matButton="filled" (click)="removeParticipant(participant)">
-              <mat-icon>person_remove</mat-icon>
-              {{ 'registration.action.removeParticipant' | translate }}
-            </button>
-          </div>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card-content>
-  <mat-divider></mat-divider>
   @if (adminOrManager()) {
-    <mat-card-actions>
+    <mat-divider></mat-divider>
+    <div class="p-3">
       <button matButton="filled" (click)="participateManual()">
         <mat-icon>person_add</mat-icon>
         {{ 'registration.action.participateManual' | translate }}
       </button>
-    </mat-card-actions>
+    </div>
   }
 </mat-card>

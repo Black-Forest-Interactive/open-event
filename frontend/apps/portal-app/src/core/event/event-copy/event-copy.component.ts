@@ -10,12 +10,13 @@ import { Location } from '@angular/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { MatIcon } from '@angular/material/icon'
-import { MatMiniFabButton } from '@angular/material/button'
+import { MatIconButton } from '@angular/material/button'
+import { MatTooltip } from '@angular/material/tooltip'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'portal-event-copy',
-  imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe],
+  imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe],
   templateUrl: './event-copy.component.html',
   styleUrl: './event-copy.component.scss'
 })

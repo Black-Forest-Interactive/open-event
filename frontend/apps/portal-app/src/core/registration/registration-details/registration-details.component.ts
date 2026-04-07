@@ -18,7 +18,7 @@ import { RegistrationService } from '@open-event/portal'
   selector: 'portal-registration-details',
   templateUrl: './registration-details.component.html',
   styleUrl: './registration-details.component.scss',
-  imports: [MatIcon, TranslatePipe, RegistrationStatusComponent, MatDivider, NgTemplateOutlet, MatButton, AccountComponent, LoadingBarComponent, RegistrationStatusComponent],
+  imports: [MatIcon, TranslatePipe, RegistrationStatusComponent, MatDivider, NgTemplateOutlet, MatButton, AccountComponent, LoadingBarComponent],
   standalone: true
 })
 export class RegistrationDetailsComponent {

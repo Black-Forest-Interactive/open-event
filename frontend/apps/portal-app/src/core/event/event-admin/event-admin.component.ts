@@ -5,17 +5,19 @@ import { MatToolbar } from '@angular/material/toolbar'
 import { MatIcon } from '@angular/material/icon'
 import { EventActionExportComponent } from '../event-action-export/event-action-export.component'
 import { RegistrationModerationComponent } from '../../registration/registration-moderation/registration-moderation.component'
-import { MatMiniFabButton } from '@angular/material/button'
+import { MatIconButton } from '@angular/material/button'
+import { MatTooltip } from '@angular/material/tooltip'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { EventService } from '@open-event/portal'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs/operators'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'portal-event-admin',
   templateUrl: './event-admin.component.html',
   styleUrl: './event-admin.component.scss',
-  imports: [MatToolbar, MatIcon, EventActionExportComponent, RegistrationModerationComponent, MatMiniFabButton, LoadingBarComponent],
+  imports: [MatToolbar, MatIcon, EventActionExportComponent, RegistrationModerationComponent, MatIconButton, MatTooltip, LoadingBarComponent, TranslatePipe],
   standalone: true
 })
 export class EventAdminComponent {

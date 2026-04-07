@@ -4,12 +4,13 @@ import { EventInfo } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { ShareButtons } from 'ngx-sharebuttons/buttons'
 import { MatButtonModule } from '@angular/material/button'
+import { MatDivider } from '@angular/material/divider'
 
 @Component({
   selector: 'portal-share-details',
   templateUrl: './share-details.component.html',
   styleUrl: './share-details.component.scss',
-  imports: [TranslatePipe, ShareButtons, LoadingBarComponent, MatButtonModule],
+  imports: [TranslatePipe, ShareButtons, LoadingBarComponent, MatButtonModule, MatDivider],
   standalone: true
 })
 export class ShareDetailsComponent {

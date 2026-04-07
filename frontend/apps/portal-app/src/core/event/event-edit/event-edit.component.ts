@@ -3,7 +3,8 @@ import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeC
 import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
-import { MatMiniFabButton } from '@angular/material/button'
+import { MatIconButton } from '@angular/material/button'
+import { MatTooltip } from '@angular/material/tooltip'
 import { AddressService, CategoryService, EventService } from '@open-event/portal'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -15,7 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'portal-event-edit',
-  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, LoadingBarComponent],
+  imports: [EventChangeComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, LoadingBarComponent],
   templateUrl: './event-edit.component.html',
   styleUrl: './event-edit.component.scss'
 })

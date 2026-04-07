@@ -5,7 +5,8 @@ import { HotToastService } from '@ngxpert/hot-toast'
 import { MatDialog } from '@angular/material/dialog'
 import { Event, EventInfo } from '@open-event/core'
 import { MatToolbar } from '@angular/material/toolbar'
-import { MatMiniFabButton } from '@angular/material/button'
+import { MatIconButton } from '@angular/material/button'
+import { MatTooltip } from '@angular/material/tooltip'
 import { MatProgressSpinner } from '@angular/material/progress-spinner'
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 import { MatIcon } from '@angular/material/icon'
@@ -21,7 +22,7 @@ import { EventNavigationService } from '../event-navigation.service'
   selector: 'portal-event-details-header',
   templateUrl: './event-details-header.component.html',
   styleUrls: ['./event-details-header.component.scss'],
-  imports: [MatToolbar, MatMiniFabButton, MatProgressSpinner, MatMenuTrigger, MatMenu, MatIcon, TranslatePipe, MatMenuItem],
+  imports: [MatToolbar, MatIconButton, MatProgressSpinner, MatMenuTrigger, MatMenu, MatIcon, TranslatePipe, MatMenuItem, MatTooltip],
   standalone: true
 })
 export class EventDetailsHeaderComponent {

@@ -1,54 +1,53 @@
-<div class="flex flex-col gap-2 p-2">
-  <div class="flex flex-row gap-2 items-center px-3 pt-3">
-    <div class="header flex-auto">{{ 'registration.title' | translate }}</div>
-    <lib-registration-status [data]="data()"></lib-registration-status>
-  </div>
-  <mat-divider class="p-0"></mat-divider>
-  <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
-  <div class="flex flex-col justify-center px-3 pb-3 gap-4">
+<div class="flex flex-row items-center gap-2 p-3">
+    <span class="font-medium">{{ 'registration.title' | translate }}</span>
+    <div class="flex-auto"></div>
+    <lib-registration-status [data]="data()" [vertical]="true"></lib-registration-status>
+</div>
+<mat-divider></mat-divider>
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+<div class="flex flex-col gap-3 p-3">
     @if (accepted().length <= 0) {
-      <div>{{ 'registration.empty' | translate }}</div>
+        <div class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'registration.empty' | translate }}
+        </div>
     }
-
-    @if (accepted().length > 0) {
-      @for (part of accepted(); track part.id) {
+    @for (part of accepted(); track part.id) {
         <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
-      }
     }
     @if (waitList().length > 0) {
-      <div class="flex flex-row flex-auto gap-2 items-center">
-        <mat-divider class="flex-auto"></mat-divider>
-        <div>{{ 'registration.waitlist' | translate }}</div>
-        <mat-divider class="flex-auto"></mat-divider>
-      </div>
-      @for (part of waitList(); track part.id) {
-        <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
-      }
+        <div class="flex flex-row flex-auto gap-2 items-center">
+            <mat-divider class="flex-auto"></mat-divider>
+            <span class="text-sm px-2" style="color: var(--mat-sys-on-surface-variant)">
+                {{ 'registration.waitlist' | translate }}
+            </span>
+            <mat-divider class="flex-auto"></mat-divider>
+        </div>
+        @for (part of waitList(); track part.id) {
+            <ng-container [ngTemplateOutletContext]="{part:part}" [ngTemplateOutlet]="participant"></ng-container>
+        }
     }
-  </div>
-  <mat-divider class="p-0"></mat-divider>
-  <div class="flex flex-row flex-wrap gap-4 px-3 pb-3">
+</div>
+<mat-divider></mat-divider>
+<div class="flex flex-col sm:flex-row gap-2 p-3">
     @if (userParticipant()) {
-      <button matButton="filled" (click)="editSelf()">
-        <mat-icon>manage_accounts</mat-icon>
-        {{ 'registration.action.edit' | translate }}
-      </button>
-      <button matButton="filled" (click)="cancelSelf()">
-        <mat-icon>person_remove</mat-icon>
-        {{ 'registration.action.cancel' | translate }}
-      </button>
+        <button matButton="filled" (click)="editSelf()">
+            <mat-icon>manage_accounts</mat-icon>
+            {{ 'registration.action.edit' | translate }}
+        </button>
+        <button matButton="filled" (click)="cancelSelf()">
+            <mat-icon>person_remove</mat-icon>
+            {{ 'registration.action.cancel' | translate }}
+        </button>
     } @else {
-      <button matButton="filled" (click)="participateSelf()">
-        <mat-icon>person_add</mat-icon>
-        {{ 'registration.action.participate' | translate }}
-      </button>
+        <button matButton="filled" (click)="participateSelf()">
+            <mat-icon>person_add</mat-icon>
+            {{ 'registration.action.participate' | translate }}
+        </button>
     }
-  </div>
 </div>
 
 <ng-template #participant let-part='part'>
-  <div class="flex flex-row gap-2 items-center justify-between">
-    <portal-account [account]="part.author" style="flex: 0 1 calc(25%);"></portal-account>
-    <span>{{ part.size }} {{ 'registration.people' |translate }}</span>
-  </div>
+    <div class="flex flex-row gap-2 items-center justify-between">
+        <portal-account [account]="part.author" class="min-w-0 shrink"></portal-account>
+        <span class="text-sm">{{ part.size }} {{ 'registration.people' | translate }}</span>
+    </div>
 </ng-template>
