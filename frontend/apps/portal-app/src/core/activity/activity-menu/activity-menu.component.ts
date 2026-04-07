@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, signal, ViewChild } from '@angular/core'
+import { Component, effect, inject, signal, viewChild } from '@angular/core'
 
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
@@ -17,18 +17,21 @@ import { switchMap } from 'rxjs'
   templateUrl: './activity-menu.component.html',
   styleUrl: './activity-menu.component.scss'
 })
-export class ActivityMenuComponent implements AfterViewInit {
+export class ActivityMenuComponent {
   private service = inject(ActivityService)
   private toast = inject(HotToastService)
+  private menuRef = viewChild<MatMenu>('menu')
 
-  @ViewChild('menu') menu!: MatMenu
   menuTrigger = new MatMenuTrigger()
 
-  data = signal<ActivityInfo[]>([])
-  reloading = signal(false)
+  readonly data = signal<ActivityInfo[]>([])
+  readonly reloading = signal(false)
 
-  ngAfterViewInit() {
-    this.menuTrigger.menu = this.menu
+  constructor() {
+    effect(() => {
+      const menu = this.menuRef()
+      if (menu) this.menuTrigger.menu = menu
+    })
   }
 
   trigger() {
@@ -44,7 +47,7 @@ export class ActivityMenuComponent implements AfterViewInit {
       .pipe(switchMap(() => this.service.unreadInfo()))
       .subscribe({
         next: (value) => this.handleData(value),
-        error: (err) => this.handleError(err)
+        error: () => this.handleError()
       })
   }
 
@@ -56,14 +59,14 @@ export class ActivityMenuComponent implements AfterViewInit {
       .pipe(switchMap(() => this.service.unreadInfo()))
       .subscribe({
         next: (value) => this.handleData(value),
-        error: (err) => this.handleError(err)
+        error: () => this.handleError()
       })
   }
 
   private loadData() {
     this.service.unreadInfo().subscribe({
       next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err)
+      error: () => this.handleError()
     })
   }
 
@@ -72,9 +75,9 @@ export class ActivityMenuComponent implements AfterViewInit {
     this.reloading.set(false)
   }
 
-  private handleError(err: any) {
+  private handleError() {
     this.data.set([])
     this.reloading.set(false)
-    if (err) this.toast.error()
+    this.toast.error()
   }
 }

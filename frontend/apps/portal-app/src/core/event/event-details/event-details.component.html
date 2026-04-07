@@ -1,25 +1,24 @@
 <mat-card class="container mx-auto !my-4 overflow-hidden h-[calc(100vh-100px)]">
-  <portal-event-details-banner [data]="info"></portal-event-details-banner>
-  <portal-event-details-header (changed)="reload()" [data]="info" [reloading]="reloading"></portal-event-details-header>
-  <lib-loading-bar [reloading]="reloading"></lib-loading-bar>
-  @if (info) {
+  <portal-event-details-banner [data]="info()"></portal-event-details-banner>
+  <portal-event-details-header (changed)="reload()" [data]="info()" [reloading]="reloading()"></portal-event-details-header>
+  <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+  @if (info()) {
     <div class="flex flex-col lg:flex-row gap-6 lg:justify-stretch overflow-y-auto px-6 py-4">
       <div class="flex flex-col flex-auto">
-        <portal-event-details-info [info]="info"></portal-event-details-info>
-        @if (info.registration) {
-          <portal-registration-details [data]="info.registration"></portal-registration-details>
+        <portal-event-details-info [info]="info()!"></portal-event-details-info>
+        @if (registration()) {
+          <portal-registration-details [data]="registration()!"></portal-registration-details>
         }
-        @if (info.canEdit && info.share) {
-          <portal-share-details [info]="info" [reloading]="reloading" (changed)="setSharingEnabled($event)"></portal-share-details>
+        @if (canEdit() && share()) {
+          <portal-share-details [info]="info()!" [reloading]="reloading()" (changed)="setSharingEnabled($event)"></portal-share-details>
         }
       </div>
       <mat-divider vertical></mat-divider>
       <div class="flex flex-col gap-4 lg:basis-lg lg:flex-shrink-0">
-        @if (info.location) {
-          <portal-event-details-location [info]="info" class="px-2"></portal-event-details-location>
+        @if (location()) {
+          <portal-event-details-location [info]="info()!" class="px-2"></portal-event-details-location>
         }
       </div>
     </div>
   }
 </mat-card>
-

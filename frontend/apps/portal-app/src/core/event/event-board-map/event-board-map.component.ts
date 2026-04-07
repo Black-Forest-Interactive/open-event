@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, createComponent, effect, ElementRef, EnvironmentInjector, inject, ViewChild } from '@angular/core'
+import { Component, createComponent, effect, ElementRef, EnvironmentInjector, inject, viewChild } from '@angular/core'
 import * as L from 'leaflet'
 import { icon, Map, Marker, MarkerClusterGroup } from 'leaflet'
 import { EventBoardMapPopupComponent } from '../event-board-map-popup/event-board-map-popup.component'
@@ -29,43 +29,46 @@ Marker.prototype.options.icon = iconDefault
   imports: [MatCard, LoadingBarComponent],
   standalone: true
 })
-export class EventBoardMapComponent implements AfterViewInit {
+export class EventBoardMapComponent {
   private service = inject(EventBoardService)
   private environmentInjector = inject(EnvironmentInjector)
   private router = inject(Router)
-
-  @ViewChild('map') mapContainerRef!: ElementRef<HTMLDivElement>
+  private mapContainerRef = viewChild<ElementRef<HTMLDivElement>>('map')
 
   readonly reloading = this.service.reloading
   private map: Map | undefined
 
   constructor() {
     effect(() => {
+      const container = this.mapContainerRef()
+      if (container && !this.map) {
+        this.map = L.map(container.nativeElement, { center: [51.1657, 10.4515], zoom: 6, zoomControl: false })
+        L.control.zoom({ position: 'bottomright' }).addTo(this.map)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; OpenStreetMap &copy; CARTO',
+          subdomains: 'abcd',
+          maxZoom: 19
+        }).addTo(this.map)
+        this.updateMarkers(this.service.entries())
+      }
+    })
+
+    effect(() => {
       const entries = this.service.entries()
       if (this.map) this.updateMarkers(entries)
     })
   }
 
-  ngAfterViewInit(): void {
-    this.map = L.map(this.mapContainerRef.nativeElement, { center: [51.1657, 10.4515], zoom: 6, zoomControl: false })
-    L.control.zoom({ position: 'bottomright' }).addTo(this.map)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 19
-    }).addTo(this.map)
-    this.updateMarkers(this.service.entries())
-  }
-
   private updateMarkers(entries: EventSearchEntry[]) {
-    if (!this.map) return
-    this.map.eachLayer((layer) => {
-      if (layer instanceof L.MarkerClusterGroup) this.map!.removeLayer(layer)
+    const map = this.map
+    if (!map) return
+    map.eachLayer((layer) => {
+      if (layer instanceof L.MarkerClusterGroup) map.removeLayer(layer)
     })
 
     const group = L.markerClusterGroup({ showCoverageOnHover: false })
     entries.filter((e) => e.hasLocation && e.lat !== 0 && e.lon !== 0).forEach((e) => this.addMarker(group, e))
-    this.map.addLayer(group)
+    map.addLayer(group)
   }
 
   private addMarker(group: MarkerClusterGroup, e: EventSearchEntry) {

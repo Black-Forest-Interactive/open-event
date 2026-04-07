@@ -3,22 +3,20 @@
     <button (click)="back()" mat-mini-fab>
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span class="title ps-2">{{ info?.event?.title }}</span>
+    <span class="title ps-2">{{ event()?.title }}</span>
     <div class="flex-auto"></div>
 
-
-    @if (!reloading) {
-      <portal-event-action-export [event]="info?.event"></portal-event-action-export>
+    @if (!reloading()) {
+      <portal-event-action-export [event]="event()"></portal-event-action-export>
     }
-
   </div>
 </mat-toolbar>
 
-<lib-loading-bar [reloading]="reloading"></lib-loading-bar>
-@if (info) {
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+@if (info()) {
   <div class="flex flex-col gap-2 content-stretch p-4">
-    @if (info.registration) {
-      <portal-registration-moderation [data]="info.registration"></portal-registration-moderation>
+    @if (registration()) {
+      <portal-registration-moderation [data]="registration()!"></portal-registration-moderation>
     }
   </div>
 }

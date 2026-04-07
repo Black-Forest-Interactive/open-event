@@ -4,8 +4,8 @@
       <mat-icon>arrow_back</mat-icon>
     </button>
     <span class="title ps-2">
-      @if (event) {
-        {{ "event.change.copy" | translate:{event: event.title} }}
+      @if (event()) {
+        {{ "event.change.copy" | translate:{event: event()!.title} }}
       } @else {
         {{ "event.change.copy" | translate }}
       }
@@ -13,15 +13,15 @@
     <div class="flex-auto"></div>
   </div>
 </mat-toolbar>
-<lib-loading-bar [reloading]="reloading"></lib-loading-bar>
-@if (event) {
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+@if (event()) {
   <lib-event-change title=""
                     [addressReadAPI]="this"
                     [categoryReadAPI]="this"
                     [eventReadAPI]="this"
                     (request)="handleRequest($event)"
                     (cancel)="cancel()"
-                    [event]="event"
+                    [event]="event()!"
   >
   </lib-event-change>
 }

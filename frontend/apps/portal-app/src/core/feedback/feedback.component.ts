@@ -19,15 +19,14 @@ export class FeedbackComponent {
   private toast = inject(HotToastService)
   private translate = inject(TranslateService)
 
-  loading = signal(false)
+  readonly loading = signal(false)
 
   submit(request: FeedbackChangeRequest) {
     if (this.loading()) return
     this.loading.set(true)
     this.service.createFeedback(request).subscribe({
-      next: () => this.toast.success(this.translate.instant('feedback.confirmation')),
-      error: () => this.toast.error(),
-      complete: () => this.loading.set(false)
+      next: () => { this.translate.get('feedback.confirmation').subscribe((msg) => this.toast.success(msg)); this.loading.set(false) },
+      error: () => { this.toast.error(); this.loading.set(false) }
     })
   }
 }

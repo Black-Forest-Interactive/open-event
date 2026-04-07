@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core'
+import { Component, inject, TemplateRef, viewChild } from '@angular/core'
 import { EventBoardService } from '../event-board.service'
 import { EventBoardFilterComponent } from '../event-board-filter/event-board-filter.component'
 import { EventBoardListEntryComponent } from '../event-board-list-entry/event-board-list-entry.component'
@@ -16,10 +16,12 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet'
   standalone: true
 })
 export class EventBoardListComponent {
-  readonly service = inject(EventBoardService)
+  protected service = inject(EventBoardService)
   private bottomSheet = inject(MatBottomSheet)
+  private filterSheet = viewChild<TemplateRef<any>>('filterSheet')
 
-  @ViewChild('filterSheet') filterSheet!: TemplateRef<any>
-
-  openFilter() { this.bottomSheet.open(this.filterSheet) }
+  openFilter() {
+    const sheet = this.filterSheet()
+    if (sheet) this.bottomSheet.open(sheet)
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, model } from '@angular/core'
+import { Component, computed, inject, model, signal } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { RegistrationParticipateDialogComponent } from '../registration-participate-dialog/registration-participate-dialog.component'
@@ -17,7 +17,7 @@ import { RegistrationService } from '@open-event/portal'
 @Component({
   selector: 'portal-registration-details',
   templateUrl: './registration-details.component.html',
-  styleUrls: ['./registration-details.component.scss'],
+  styleUrl: './registration-details.component.scss',
   imports: [MatIcon, TranslatePipe, RegistrationStatusComponent, MatDivider, NgTemplateOutlet, MatButton, AccountComponent, LoadingBarComponent, RegistrationStatusComponent],
   standalone: true
 })
@@ -33,11 +33,11 @@ export class RegistrationDetailsComponent {
 
   readonly accepted = computed(() => this.participants().filter((p) => !p.waitingList))
   readonly waitList = computed(() => this.participants().filter((p) => p.waitingList))
-  reloading: boolean = false
+  reloading = signal(false)
   readonly userParticipant = computed(() => this.participants().find((p) => p.author.email === this.authService.getPrincipal()?.email))
 
   participateSelf() {
-    if (this.reloading) return
+    if (this.reloading()) return
     const dialogRef = this.dialog.open(RegistrationParticipateDialogComponent)
     dialogRef.afterClosed().subscribe((request) => {
       if (request) this.requestParticipateSelf(request)
@@ -45,7 +45,7 @@ export class RegistrationDetailsComponent {
   }
 
   editSelf() {
-    if (this.reloading) return
+    if (this.reloading()) return
 
     const dialogRef = this.dialog.open(RegistrationEditDialogComponent, {
       data: this.userParticipant
@@ -56,7 +56,7 @@ export class RegistrationDetailsComponent {
   }
 
   cancelSelf() {
-    if (this.reloading) return
+    if (this.reloading()) return
 
     const dialogRef = this.dialog.open(RegistrationCancelDialogComponent)
     dialogRef.afterClosed().subscribe((request) => {
@@ -65,20 +65,20 @@ export class RegistrationDetailsComponent {
   }
 
   private requestParticipateSelf(request: ParticipateRequest) {
-    if (this.reloading) return
-    this.reloading = true
+    if (this.reloading()) return
+    this.reloading.set(true)
     this.service.addParticipant(this.data().registration.id, request).subscribe((r) => this.handleParticipateResponse(r))
   }
 
   private requestEditSelf(request: ParticipateRequest) {
-    if (this.reloading) return
-    this.reloading = true
+    if (this.reloading()) return
+    this.reloading.set(true)
     this.service.changeParticipant(this.data().registration.id, request).subscribe((r) => this.handleParticipateResponse(r))
   }
 
   private requestCancelSelf() {
-    if (this.reloading) return
-    this.reloading = true
+    if (this.reloading()) return
+    this.reloading.set(true)
     this.service.removeParticipant(this.data().registration.id).subscribe((r) => this.handleParticipateResponse(r))
   }
 
@@ -99,6 +99,6 @@ export class RegistrationDetailsComponent {
         this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error(msg))
         break
     }
-    this.reloading = false
+    this.reloading.set(false)
   }
 }

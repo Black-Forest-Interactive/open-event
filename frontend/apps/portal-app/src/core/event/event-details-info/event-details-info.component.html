@@ -9,7 +9,7 @@
     <mat-divider></mat-divider>
   }
   @if (info().event.imageUrl && info().event.imageUrl.length > 0) {
-    <img alt="" mat-card-image src="{{info().event.imageUrl.length}}">
+    <img alt="" mat-card-image [src]="info().event.imageUrl">
   }
   @if (info().event.longText.length > 0) {
     <mat-card-content>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core'
+import { Component, inject, output, signal } from '@angular/core'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
@@ -15,70 +15,58 @@ import { EventService } from '@open-event/portal'
   standalone: true
 })
 export class EventMenuComponent {
-  private router: Router
-  dialog: MatDialog
-  private service: EventService
-  private toastService: HotToastService
+  private router = inject(Router)
+  private dialog = inject(MatDialog)
+  private service = inject(EventService)
+  private toastService = inject(HotToastService)
 
-  changed = new EventEmitter<Event>()
-  event: Event | undefined
-  publishing: boolean = false
-  exporting: boolean = false
-  editMenuItem = new EventMenuItem('edit', 'event.action.edit', this.handleActionEdit.bind(this), false)
-  copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', this.handleActionCopy.bind(this), false)
-  deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', this.handleActionDelete.bind(this), false)
-  adminMenuItem = new EventMenuItem('admin_panel_settings', 'event.action.admin', this.handleActionAdmin.bind(this), false)
-  publishMenuItem = new EventMenuItem('publish', 'event.action.publish', this.handleActionPublish.bind(this), false)
-  menuItems = [this.editMenuItem, this.copyMenuItem, this.deleteMenuItem, this.adminMenuItem]
+  changed = output<Event>()
 
-  constructor(router: Router, dialog: MatDialog, service: EventService, toastService: HotToastService) {
-    this.router = router
-    this.dialog = dialog
-    this.service = service
-    this.toastService = toastService
-  }
+  private event = signal<Event | undefined>(undefined)
+  readonly publishing = signal(false)
+
+  readonly editMenuItem = new EventMenuItem('edit', 'event.action.edit', () => this.handleActionEdit(), false)
+  readonly copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', () => this.handleActionCopy(), false)
+  readonly deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', () => this.handleActionDelete(), false)
+  readonly adminMenuItem = new EventMenuItem('admin_panel_settings', 'event.action.admin', () => this.handleActionAdmin(), false)
+  readonly publishMenuItem = new EventMenuItem('publish', 'event.action.publish', () => this.handleActionPublish(), false)
+  readonly menuItems = [this.editMenuItem, this.copyMenuItem, this.deleteMenuItem, this.adminMenuItem]
 
   set data(value: Event) {
-    this.event = value
+    this.event.set(value)
     this.publishMenuItem.disabled = value.published
   }
 
   private handleActionEdit() {
-    if (this.event) EventNavigationService.navigateToEventEdit(this.router, this.event.id)
+    const e = this.event()
+    if (e) EventNavigationService.navigateToEventEdit(this.router, e.id)
   }
 
   private handleActionCopy() {
-    if (this.event) EventNavigationService.navigateToEventCopy(this.router, this.event.id)
+    const e = this.event()
+    if (e) EventNavigationService.navigateToEventCopy(this.router, e.id)
   }
 
   private handleActionAdmin() {
-    if (this.event) EventNavigationService.navigateToEventAdministration(this.router, this.event.id)
+    const e = this.event()
+    if (e) EventNavigationService.navigateToEventAdministration(this.router, e.id)
   }
 
   private handleActionDelete() {
-    if (!this.event) return
-    const dialogRef = this.dialog.open(EventDeleteDialogComponent, {
-      width: '350px',
-      data: this.event
-    })
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result && this.event) this.service.deleteEvent(this.event.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
+    const e = this.event()
+    if (!e) return
+    this.dialog.open(EventDeleteDialogComponent, { width: '350px', data: e }).afterClosed().subscribe((result) => {
+      if (result) this.service.deleteEvent(e.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
     })
   }
 
   private handleActionPublish() {
-    if (!this.event) return
-    if (this.publishing) return
-    this.publishing = true
-    this.service.publish(this.event.id).subscribe({
-      next: (d) => {
-        this.changed.emit(d)
-        this.publishing = false
-      },
-      error: () => {
-        this.toastService.error()
-        this.publishing = false
-      }
+    const e = this.event()
+    if (!e || this.publishing()) return
+    this.publishing.set(true)
+    this.service.publish(e.id).subscribe({
+      next: (d) => { this.changed.emit(d); this.publishing.set(false) },
+      error: () => { this.toastService.error(); this.publishing.set(false) }
     })
   }
 }

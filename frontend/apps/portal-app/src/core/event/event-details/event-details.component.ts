@@ -1,17 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { ActivatedRoute, ParamMap } from '@angular/router'
-import { EventInfo } from '@open-event/core'
-import { MatDialog } from '@angular/material/dialog'
+import { Component, computed, inject, resource } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import { EventDetailsHeaderComponent } from '../event-details-header/event-details-header.component'
 import { EventDetailsInfoComponent } from '../event-details-info/event-details-info.component'
 import { EventDetailsLocationComponent } from '../event-details-location/event-details-location.component'
 import { RegistrationDetailsComponent } from '../../registration/registration-details/registration-details.component'
 import { ShareDetailsComponent } from '../../share/share-details/share-details.component'
 import { EventService } from '@open-event/portal'
-import { LoadingBarComponent } from '@open-event/shared'
+import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { EventDetailsBannerComponent } from '../event-details-banner/event-details-banner.component'
 import { MatCard } from '@angular/material/card'
 import { MatDivider } from '@angular/material/divider'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'portal-event-details',
@@ -30,41 +30,38 @@ import { MatDivider } from '@angular/material/divider'
   ],
   standalone: true
 })
-export class EventDetailsComponent implements OnInit {
+export class EventDetailsComponent {
   private route = inject(ActivatedRoute)
   private service = inject(EventService)
-  dialog = inject(MatDialog)
 
-  reloading: boolean = false
-  info: EventInfo | undefined
-  eventId: number | undefined
+  private eventId = toSignal(
+    this.route.paramMap.pipe(
+      map((p) => {
+        const id = p.get('id')
+        return id ? +id : undefined
+      })
+    )
+  )
 
-  ngOnInit() {
-    this.route.paramMap.subscribe((p) => this.handleParams(p))
-  }
+  private infoResource = resource({
+    params: this.eventId,
+    loader: (p) => (p.params ? toPromise(this.service.getEventInfo(p.params), p.abortSignal) : Promise.resolve(undefined))
+  })
+
+  readonly info = computed(() => this.infoResource.value())
+  readonly reloading = this.infoResource.isLoading
+  readonly registration = computed(() => this.info()?.registration)
+  readonly canEdit = computed(() => this.info()?.canEdit ?? false)
+  readonly share = computed(() => this.info()?.share)
+  readonly location = computed(() => this.info()?.location)
 
   reload() {
-    if (!this.eventId) return
-    if (this.reloading) return
-    this.reloading = true
-    this.service.getEventInfo(this.eventId).subscribe((d) => this.handleData(d))
-  }
-
-  private handleParams(p: ParamMap) {
-    const idParam = p.get('id')
-    this.eventId = idParam !== null ? +idParam : undefined
-    this.reload()
-  }
-
-  private handleData(d: EventInfo) {
-    this.info = d
-    this.reloading = false
+    this.infoResource.reload()
   }
 
   setSharingEnabled(enabled: boolean) {
-    const eventId = this.eventId
-    if (!eventId || this.reloading) return
-    this.reloading = true
-    this.service.setShared(eventId, enabled).subscribe((d) => this.handleData(d))
+    const id = this.eventId()
+    if (!id) return
+    this.service.setShared(id, enabled).subscribe((d) => this.infoResource.set(d))
   }
 }

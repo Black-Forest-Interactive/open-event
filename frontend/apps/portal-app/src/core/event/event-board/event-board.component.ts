@@ -31,7 +31,7 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
   standalone: true
 })
 export class EventBoardComponent {
-  protected service = inject(EventBoardService)
+  private service = inject(EventBoardService)
   private responsive = inject(BreakpointObserver)
 
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map(s => !s.matches)), { initialValue: false })
@@ -41,8 +41,8 @@ export class EventBoardComponent {
   constructor() {
     effect(() => {
       const mobile = this.mobileView()
-      this.service.filterToolbarVisible = !mobile
-      this.service.infiniteScrollMode = mobile
+      this.service.setFilterToolbarVisible(!mobile)
+      this.service.setInfiniteScrollMode(mobile)
     })
   }
 

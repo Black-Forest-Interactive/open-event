@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router'
 export class ActivityIndicatorComponent {
   private service = inject(ActivityService)
 
-  unreadMessages = signal<number>(0)
+  readonly unreadMessages = signal<number>(0)
   readonly clicked = output<MouseEvent>()
 
   constructor() {

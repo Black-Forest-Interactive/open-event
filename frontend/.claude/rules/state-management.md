@@ -14,17 +14,24 @@ There is no NgRx or any other global state library. All state is managed locally
 
 - Use `signal()` for mutable state
 - Use `computed()` for derived state — never derive in a method called from a template
-- Keep signals `private` inside components; expose only `readonly` computed signals for the template
+- If a signal is only written internally and never read by the template, make it `private`
+- If a signal is read by the template, declare it `readonly` (not `private`) — `readonly` prevents reference reassignment while still allowing `.set()` internally; do not duplicate it as a separate `computed()`
 - Do not pass signals as `@Input()` — use signal inputs (`input()`) instead
 - Do not subscribe to signals manually — use `computed()` or `resource()` to react to changes
 
 ```typescript
-// ✅ correct — private signal, readonly computed exposed
-private page = signal(0)
-readonly currentPage = computed(() => this.page())
+// ✅ correct — template-readable signal declared readonly
+readonly loading = signal(false)
 
-// ❌ wrong — public mutable signal
-page = signal(0)
+// ✅ correct — signal only used internally, stays private
+private page = signal(0)
+
+// ❌ wrong — public mutable signal exposed without readonly
+loading = signal(false)
+
+// ❌ wrong — unnecessary duplication; just use readonly signal directly
+private loadingSignal = signal(false)
+readonly loading = computed(() => this.loadingSignal())
 ```
 
 ## Triggering re-fetches
@@ -40,4 +47,4 @@ private resource = resource({
 })
 ```
 
-Do not manually call `load()` or imperatively trigger re-fetches — update a signal instead and let the resource react.
+Do not manually call `load()` or imperatively trigger re-fetches by updating state signals — update a signal instead and let the resource react. Exception: `resource.reload()` is acceptable for one-off re-fetches after user actions (e.g. after a mutation when the response doesn't contain the updated value). `resource.set(value)` is preferred when the mutation response already contains the new value.

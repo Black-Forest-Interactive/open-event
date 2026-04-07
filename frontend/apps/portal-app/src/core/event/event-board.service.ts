@@ -25,9 +25,10 @@ export class EventBoardService {
   readonly showParticipatingOnly = computed(() => this.participatingOnly())
   readonly showHistory = computed(() => this.includeHistory())
 
-  infiniteScrollMode = false
-  filterToolbarVisible = true
-  preselection: string | undefined
+  private infiniteScrollMode = signal(false)
+  private filterToolbarVisible = signal(true)
+  private preselectionSignal = signal<string | undefined>(undefined)
+  readonly preselection = this.preselectionSignal.asReadonly()
 
   range = new FormGroup({
     start: new FormControl<DateTime | null>(null),
@@ -63,7 +64,7 @@ export class EventBoardService {
       const result = this.searchResource.value()
       if (!result) return
       const page = result.result.pageable.number
-      if (this.infiniteScrollMode && page > 0) {
+      if (this.infiniteScrollMode() && page > 0) {
         this.loaded.update(prev => [...prev, ...result.result.content])
       } else {
         this.loaded.set(result.result.content)
@@ -98,13 +99,13 @@ export class EventBoardService {
   }
 
   handleDatePickerChanged() {
-    this.preselection = undefined
+    this.preselectionSignal.set(undefined)
     this.handleRangeChanged()
   }
 
   handlePreselectionChanged(selected: boolean, value: string) {
-    if (this.preselection === value) return
-    this.preselection = value
+    if (this.preselectionSignal() === value) return
+    this.preselectionSignal.set(value)
 
     if (!selected) {
       this.updateRange(null, null)
@@ -145,7 +146,7 @@ export class EventBoardService {
     this.availableOnly.set(false)
     this.participatingOnly.set(false)
     this.includeHistory.set(false)
-    this.preselection = undefined
+    this.preselectionSignal.set(undefined)
     this.updateRange(null, null)
   }
 
@@ -158,4 +159,7 @@ export class EventBoardService {
     this.page.set(event.pageIndex)
     this.size.set(event.pageSize)
   }
+
+  setInfiniteScrollMode(value: boolean) { this.infiniteScrollMode.set(value) }
+  setFilterToolbarVisible(value: boolean) { this.filterToolbarVisible.set(value) }
 }

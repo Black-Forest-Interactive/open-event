@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, inject, ViewChild } from '@angular/core'
+import { Component, effect, inject, viewChild } from '@angular/core'
 import { CalendarApi, CalendarOptions, EventClickArg } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular'
@@ -15,15 +15,15 @@ import { LoadingBarComponent } from '@open-event/shared'
   imports: [MatCard, FullCalendarModule, LoadingBarComponent],
   standalone: true
 })
-export class EventBoardCalendarComponent implements AfterViewInit {
+export class EventBoardCalendarComponent {
   private service = inject(EventBoardService)
   private router = inject(Router)
-
-  @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent | undefined
+  private calendarRef = viewChild(FullCalendarComponent)
 
   readonly reloading = this.service.reloading
+  private calendarApi: CalendarApi | undefined
 
-  calendarOptions: CalendarOptions = {
+  readonly calendarOptions: CalendarOptions = {
     headerToolbar: { left: 'prev,next', center: 'title', right: '' },
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
@@ -38,22 +38,21 @@ export class EventBoardCalendarComponent implements AfterViewInit {
     eventClick: this.handleEventClick.bind(this)
   }
 
-  private calendarApi: CalendarApi | undefined
-
   constructor() {
+    effect(() => {
+      const cal = this.calendarRef()
+      if (cal && !this.calendarApi) {
+        this.calendarApi = cal.getApi()
+        this.updateCalendar()
+      }
+    })
+
     effect(() => {
       const entries = this.service.entries()
       if (!this.calendarApi) return
       this.calendarApi.removeAllEvents()
       entries.forEach(e => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
     })
-  }
-
-  ngAfterViewInit() {
-    if (this.calendarComponent) {
-      this.calendarApi = this.calendarComponent.getApi()
-      this.updateCalendar()
-    }
   }
 
   handleEventClick(arg: EventClickArg) {

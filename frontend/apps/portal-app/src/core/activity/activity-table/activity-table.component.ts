@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table'
+import { Component, computed, effect, inject, resource, signal } from '@angular/core'
+import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableModule } from '@angular/material/table'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -8,7 +8,7 @@ import { MatButton } from '@angular/material/button'
 import { DatePipe, NgClass } from '@angular/common'
 import { MatDivider } from '@angular/material/divider'
 import { ActivityInfo } from '@open-event/core'
-import { LoadingBarComponent, Page } from '@open-event/shared'
+import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { ActivityReadComponent } from '../activity-read/activity-read.component'
 import { ActivityService } from '@open-event/portal'
 
@@ -17,85 +17,62 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-table.component.html',
   styleUrl: './activity-table.component.scss',
   imports: [
-    MatTableModule,
-    MatColumnDef,
-    MatHeaderCell,
-    MatCell,
-    TranslatePipe,
-    MatIcon,
-    MatButton,
-    NgClass,
-    MatDivider,
-    MatPaginator,
-    ActivityReadComponent,
-    DatePipe,
-    MatRow,
-    MatHeaderRow,
-    LoadingBarComponent
+    MatTableModule, MatColumnDef, MatHeaderCell, MatCell,
+    TranslatePipe, MatIcon, MatButton, NgClass, MatDivider,
+    MatPaginator, ActivityReadComponent, DatePipe, MatRow, MatHeaderRow, LoadingBarComponent
   ],
   standalone: true
 })
-export class ActivityTableComponent implements OnInit {
+export class ActivityTableComponent {
   private service = inject(ActivityService)
   private toast = inject(HotToastService)
 
-  reloading: boolean = false
-  pageSize: number = 25
-  pageIndex: number = 0
-  totalSize: number = 0
-  unread: number = 0
-  displayedColumns: string[] = ['type', 'title', 'actor', 'timestamp', 'read']
-  datasource = new MatTableDataSource<ActivityInfo>()
+  private page = signal(0)
+  private size = signal(25)
+  private criteria = computed(() => ({ page: this.page(), size: this.size() }))
 
-  ngOnInit() {
-    this.reload(this.pageIndex, this.pageSize)
-  }
+  private activityResource = resource({
+    params: this.criteria,
+    loader: (p) => toPromise(this.service.getRecentActivityInfos(p.params.page, p.params.size), p.abortSignal)
+  })
 
-  private reload(page: number, size: number) {
-    if (this.reloading) return
-    this.reloading = true
-    this.loadData(page, size)
-  }
+  // writable so handleReadStatusChanged can patch individual rows without a full reload
+  readonly items = signal<ActivityInfo[]>([])
 
-  private handleData(page: Page<ActivityInfo>) {
-    this.datasource.data = page.content
-    this.unread = page.content.filter((c) => !c.read).length
-    this.pageSize = page.pageable.size
-    this.pageIndex = page.pageable.number
-    this.totalSize = page.totalSize
-    this.reloading = false
-  }
+  readonly reloading = this.activityResource.isLoading
+  readonly totalSize = computed(() => this.activityResource.value()?.totalSize ?? 0)
+  readonly pageIndex = computed(() => this.activityResource.value()?.pageable.number ?? 0)
+  readonly pageSize = computed(() => this.activityResource.value()?.pageable.size ?? 25)
+  readonly unread = computed(() => this.items().filter((c) => !c.read).length)
 
-  private handleError(err: any) {
-    this.toast.error()
-    this.reloading = false
-  }
+  readonly displayedColumns = ['type', 'title', 'actor', 'timestamp', 'read']
 
-  handlePageChange(event: PageEvent) {
-    this.reload(event.pageIndex, event.pageSize)
-  }
-
-  handleReadStatusChanged(event: ActivityInfo) {
-    const data = this.datasource.data
-    const index = data.findIndex((d) => d.activity.id == event.activity.id)
-    if (index < 0) return
-
-    data[index] = event
-    this.datasource.data = data
-  }
-
-  handleMarkAllReadClick() {
-    this.reloading = true
-    this.service.markReadAll().subscribe({
-      next: () => this.loadData(0, this.pageSize),
-      error: (err) => this.handleError(err)
+  constructor() {
+    effect(() => {
+      const value = this.activityResource.value()
+      if (value) this.items.set(value.content)
     })
   }
 
-  private loadData(page: number, size: number) {
-    this.service.getRecentActivityInfos(page, size).subscribe({
-      next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err)
+  handlePageChange(event: PageEvent) {
+    this.page.set(event.pageIndex)
+    this.size.set(event.pageSize)
+  }
+
+  handleReadStatusChanged(event: ActivityInfo) {
+    this.items.update((data) => {
+      const index = data.findIndex((d) => d.activity.id === event.activity.id)
+      if (index < 0) return data
+      const updated = [...data]
+      updated[index] = event
+      return updated
+    })
+  }
+
+  handleMarkAllReadClick() {
+    this.service.markReadAll().subscribe({
+      next: () => this.activityResource.reload(),
+      error: () => this.toast.error()
     })
   }
 }

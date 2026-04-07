@@ -23,7 +23,7 @@ import { MatButton } from '@angular/material/button'
   standalone: true
 })
 export class EventBoardFilterComponent {
-  service = inject(EventBoardService)
+  protected service = inject(EventBoardService)
 
   onDateRangePickerClosed() {
     if (!this.service.range.valid) return

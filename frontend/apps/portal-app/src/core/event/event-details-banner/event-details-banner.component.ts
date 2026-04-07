@@ -8,31 +8,33 @@ import { ImageUploadService } from '@open-event/portal'
 import { MatButtonModule } from '@angular/material/button'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { HotToastService } from '@ngxpert/hot-toast'
+import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'portal-event-details-banner',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule, TranslatePipe],
   templateUrl: './event-details-banner.component.html',
   styleUrl: './event-details-banner.component.scss'
 })
 export class EventDetailsBannerComponent {
-  protected service = inject(ImageUploadService)
+  private service = inject(ImageUploadService)
   private toast = inject(HotToastService)
+  private translate = inject(TranslateService)
 
   data = input<EventInfo>()
 
   private defaultBannerImage = '/img/banner.jpg'
-  bannerImage = signal(this.defaultBannerImage)
+  private bannerImage = signal(this.defaultBannerImage)
 
   readonly canEdit = computed(() => this.data()?.canEdit ?? false)
+  readonly bannerUrl = computed(() => this.bannerImage())
+  readonly isUploading = computed(() => this.service.isUploading())
+  readonly uploadPercentage = computed(() => this.service.uploadPercentage())
 
   constructor() {
     effect(() => {
       const data = this.data()
-      if (data) {
-        const url = this.service.getBannerImageUrl(data.event.id)
-        this.bannerImage.set(url)
-      }
+      if (data) this.bannerImage.set(this.service.getBannerImageUrl(data.event.id))
     })
   }
 
@@ -49,26 +51,22 @@ export class EventDetailsBannerComponent {
     }
 
     const reader = new FileReader()
-    reader.onload = (e) => {
-      this.bannerImage.set(e.target?.result as string)
-    }
+    reader.onload = (e) => this.bannerImage.set(e.target?.result as string)
     reader.readAsDataURL(file)
 
     this.service.uploadBannerImage(eventId, file).subscribe({
       next: (response) => {
         if (response.success && response.imageUrl) {
           this.bannerImage.set(response.imageUrl)
-          this.toast.info('Banner updated successfully!')
+          this.translate.get('event.message.bannerUpdated').subscribe((t) => this.toast.success(t))
         }
       },
-      error: (error) => {
-        console.error(error)
+      error: () => {
         this.toast.error()
         this.bannerImage.set(this.defaultBannerImage)
       }
     })
 
-    // Clear the input
     target.value = ''
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core'
+import { Component, inject, input, output, signal } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatProgressSpinner } from '@angular/material/progress-spinner'
@@ -17,26 +17,23 @@ export class ActivityReadComponent {
   private service = inject(ActivityService)
 
   info = input.required<ActivityInfo>()
-  reloading: boolean = false
   changed = output<ActivityInfo>()
 
+  readonly reloading = signal(false)
+
   markRead() {
-    if (this.reloading) return
-    this.reloading = true
+    if (this.reloading()) return
+    this.reloading.set(true)
     this.service.markReadSingle(this.info().activity.id).subscribe({
       next: (value) => this.handleData(value),
-      error: (err) => this.handleError(err)
+      error: () => this.reloading.set(false)
     })
   }
 
   private handleData(value: Activity) {
     this.info().activity = value
     this.info().read = true
-    this.reloading = false
+    this.reloading.set(false)
     this.changed.emit(this.info())
-  }
-
-  private handleError(err: any) {
-    this.reloading = false
   }
 }

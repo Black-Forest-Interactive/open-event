@@ -1,6 +1,6 @@
 @if (info().read) {
 
-} @else if (!reloading) {
+} @else if (!reloading()) {
   <button mat-flat-button (click)="markRead()"  color="accent">
     <mat-icon>task</mat-icon>
     {{ 'activity.action.read' | translate }}

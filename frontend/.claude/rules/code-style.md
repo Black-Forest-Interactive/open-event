@@ -244,6 +244,61 @@ export class AccountComponent {
     error = this.addressResource.error
 }
 ```
+### Loading data from route params
+
+When a component loads data based on a route param, use `toSignal()` on `route.paramMap` to derive the id as a signal, then drive a `resource()` from it. This replaces the `OnInit` + `paramMap.subscribe()` pattern entirely.
+
+```typescript
+// ✅ correct — reactive, no OnInit, no manual loading state
+private eventId = toSignal(this.route.paramMap.pipe(map(p => { const id = p.get('id'); return id ? +id : undefined })))
+
+private eventResource = resource({
+    params: this.eventId,
+    loader: (p) => p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined)
+})
+
+private event = computed(() => this.eventResource.value())
+readonly reloading = this.eventResource.isLoading
+```
+
+When the component also needs a manual re-fetch trigger (e.g. after a mutation), call `resource.reload()`:
+
+```typescript
+// ✅ correct
+reload() { this.infoResource.reload() }
+```
+
+When a mutation returns the updated resource value directly, set it on the resource instead of re-fetching:
+
+```typescript
+// ✅ correct — avoids a round-trip when the response contains the updated value
+setSharingEnabled(enabled: boolean) {
+    const id = this.eventId()
+    if (!id) return
+    this.service.setShared(id, enabled).subscribe((d) => this.infoResource.set(d))
+}
+```
+
+```typescript
+// ❌ wrong — manual subscribe/signal pattern
+constructor() {
+    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((p) => {
+        const idParam = p.get('id')
+        this.eventId.set(idParam !== null ? +idParam : undefined)
+        this.reload()
+    })
+}
+
+reload() {
+    const id = this.eventId()
+    if (!id || this.reloading()) return
+    this.reloading.set(true)
+    this.service.getEventInfo(id).subscribe((d) => { this.info.set(d); this.reloading.set(false) })
+}
+```
+
+---
+
 ### Computed signals for template properties
 
 When a component holds an optional or complex signal (e.g. set from outside or loaded async), expose each property used in the template as a dedicated `readonly computed` signal with a safe default value. Never access `data()?.property` directly in templates.
@@ -252,7 +307,7 @@ Default value rules:
 - `string` → `''`
 - `number` → `0`
 - `boolean` → `false`
-- objects / arrays → `null`
+- objects / arrays → no `?? null` needed — optional chaining (`?.`) already returns `undefined`, which is falsy in templates; only add a default when the type contract requires it
 
 ```typescript
 // ✅ correct
