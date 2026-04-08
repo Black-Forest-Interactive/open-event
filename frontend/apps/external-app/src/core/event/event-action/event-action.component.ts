@@ -15,8 +15,7 @@ export class EventActionComponent {
   processing = input(false)
   status = input.required<string>()
 
-  participationPossible = computed(() => this.status() !== 'UNCONFIRMED' && !this.processing())
-  visible = computed(() => this.participationPossible())
+  readonly participationPossible = computed(() => this.status() !== 'UNCONFIRMED' && !this.processing())
 
   participateEvent = output()
 }

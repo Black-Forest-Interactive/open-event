@@ -14,7 +14,7 @@ export class EventService extends BaseService {
   }
 
   search(request: EventSearchRequest, page: number, size: number): Observable<EventSearchResponse> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.post('search', request, params)
   }
 

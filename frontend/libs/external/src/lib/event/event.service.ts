@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
-import { BaseService } from '@open-event/shared'
+import { BaseService, Page } from '@open-event/shared'
 import { Observable } from 'rxjs'
-import { EventParticipationSettings, PublicEvent } from './event.api'
+import { EventParticipationSettings, PublicEvent, PublicEventSearchRequest } from './event.api'
 import {
   ExternalParticipantAddRequest,
   ExternalParticipantChangeRequest,
@@ -9,6 +9,7 @@ import {
   ExternalParticipantConfirmRequest,
   ExternalParticipantConfirmResponse
 } from '../participant/participant.api'
+import { HttpParams } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,11 @@ export class EventService extends BaseService {
 
   getEvent(id: string): Observable<PublicEvent> {
     return this.get(id)
+  }
+
+  search(request: PublicEventSearchRequest, page: number, size: number): Observable<Page<PublicEvent>> {
+    const params = new HttpParams().set('page', page).set('size', size)
+    return this.post('search', request, params)
   }
 
   getSettings(): Observable<EventParticipationSettings> {

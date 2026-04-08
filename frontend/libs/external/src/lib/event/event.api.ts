@@ -33,3 +33,12 @@ export interface PublicEvent {
 export interface EventParticipationSettings {
   requireValidateCode: boolean
 }
+
+export class PublicEventSearchRequest {
+  public constructor(
+    public fullTextSearch: string,
+    public from: string | undefined,
+    public to: string | undefined,
+    public onlyAvailableEvents: boolean
+  ) {}
+}

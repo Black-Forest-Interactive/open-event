@@ -8,5 +8,9 @@ export const routes: Routes = [
   {
     path: ':id/confirm',
     loadComponent: () => import('./event-confirm/event-confirm.component').then((m) => m.EventConfirmComponent)
+  },
+  {
+    path: ':id/search',
+    loadComponent: () => import('./event-board/event-board.component').then((m) => m.EventBoardComponent)
   }
 ]

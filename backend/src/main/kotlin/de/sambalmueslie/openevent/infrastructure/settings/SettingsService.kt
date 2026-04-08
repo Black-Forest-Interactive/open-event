@@ -84,6 +84,10 @@ class SettingsService(
         return findByKey(SettingsAPI.SETTINGS_URL_SHARE)?.value as? String ?: ""
     }
 
+    fun getPublicEventListKey(): String {
+        return findByKey(SettingsAPI.SETTINGS_KEY_PUBLIC_EVENT_LIST)?.value as? String ?: ""
+    }
+
     fun getValidateRegistrationCode(): Boolean {
         return findByKey(SettingsAPI.SETTINGS_REGISTRATION_VALIDATE_CODE)?.value as? Boolean ?: true
     }

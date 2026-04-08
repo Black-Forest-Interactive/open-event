@@ -1,6 +1,8 @@
 package de.sambalmueslie.openevent.gateway.external.event
 
 import de.sambalmueslie.openevent.core.participant.api.*
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -12,6 +14,12 @@ import io.swagger.v3.oas.annotations.tags.Tag
 class EventController(
     private val service: ExternalEventService
 ) {
+
+
+    @Get("search")
+    fun search(@Body request: PublicEventSearchRequest, @QueryValue key: String, pageable: Pageable): Page<PublicEvent> {
+        return service.search(request, key, pageable)
+    }
 
     @Get("{id}")
     fun get(id: String): PublicEvent? {

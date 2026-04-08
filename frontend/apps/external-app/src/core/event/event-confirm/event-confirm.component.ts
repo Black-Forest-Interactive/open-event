@@ -3,12 +3,13 @@ import { EventInfoComponent } from '../event-info/event-info.component'
 import { ConfirmationCodeComponent, LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
 import { MatToolbar } from '@angular/material/toolbar'
-import { ActivatedRoute, ParamMap, Params, RouterLink } from '@angular/router'
-import { EventParticipationSettings, EventService, ExternalParticipantConfirmRequest, ExternalParticipantConfirmResponse } from '@open-event/external'
+import { ActivatedRoute, RouterLink } from '@angular/router'
+import { EventService, ExternalParticipantConfirmRequest, ExternalParticipantConfirmResponse } from '@open-event/external'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { map } from 'rxjs'
 import { ConfirmParticipationResponseDialogComponent } from '../../participant/confirm-participation-response-dialog/confirm-participation-response-dialog.component'
 
 @Component({
@@ -24,35 +25,45 @@ export class EventConfirmComponent {
   private dialog = inject(MatDialog)
   private hotToast = inject(HotToastService)
 
-  eventId = signal<string | undefined>(undefined)
-  processing = signal(false)
-  status = signal('')
-  participantId = signal<string | undefined>(undefined)
+  private eventId = toSignal(this.route.paramMap.pipe(map(p => p.get('id') ?? undefined)))
+  private lang = toSignal(this.route.queryParams.pipe(map(p => p['lang'] as string | undefined)))
+  private participantId = toSignal(this.route.queryParams.pipe(map(p => p['pid'] as string | undefined)))
+
+  private processing = signal(false)
+  private status = signal('')
 
   private eventResource = resource({
     params: this.eventId,
-    loader: (param) => toPromise(this.service.getEvent(param.params), param.abortSignal)
+    loader: (p) => p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined)
   })
 
   private settingsResource = resource({
-    params: this.eventId,
-    loader: (param) => toPromise(this.service.getSettings(), param.abortSignal)
+    loader: (p) => toPromise(this.service.getSettings(), p.abortSignal)
   })
 
-  readonly event = computed(this.eventResource.value ?? undefined)
-  readonly settings = computed(this.settingsResource.value)
+  readonly event = computed(() => this.eventResource.value())
+  readonly settings = computed(() => this.settingsResource.value())
   readonly loading = computed(() => this.eventResource.isLoading() || this.settingsResource.isLoading())
   readonly error = computed(() => this.eventResource.error() || this.settingsResource.error())
-  readonly confirmationPossible = computed(() => this.isConfirmationPossible(this.participantId(), this.status()))
+  readonly confirmationPossible = computed(() => {
+    if (!this.participantId()) return false
+    const s = this.status()
+    return s === 'UNCONFIRMED' || s === '' || s === 'FAILED'
+  })
   readonly requireValidateCode = computed(() => this.settings()?.requireValidateCode ?? true)
 
   constructor() {
-    effect(() => {
-      this.handleError(this.error())
-    })
     this.translate.setDefaultLang('en')
-    this.route.queryParams.pipe(takeUntilDestroyed()).subscribe((p) => this.handleQueryParams(p))
-    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((p) => this.handleParams(p))
+
+    effect(() => {
+      const lang = this.lang()
+      if (lang) this.translate.use(lang)
+    })
+
+    effect(() => {
+      if (!this.error()) return
+      this.translate.get('event.message.error').subscribe(t => this.hotToast.error(t))
+    })
 
     effect(() => {
       const eventId = this.eventId()
@@ -63,36 +74,11 @@ export class EventConfirmComponent {
     })
 
     effect(() => {
-      const event = this.event()
       const settings = this.settings()
       const participantId = this.participantId()
-      const confirmationPossible = this.confirmationPossible()
-      if (event && settings && participantId) this.updateAutoCompletion(settings, participantId, confirmationPossible)
+      if (!this.event() || !settings || !participantId) return
+      if (!settings.requireValidateCode && this.confirmationPossible()) this.confirm('000000', participantId)
     })
-  }
-
-  private isConfirmationPossible(participantId: string | undefined, status: string): boolean {
-    if (!participantId) return false
-    return status === 'UNCONFIRMED' || status === '' || status === 'FAILED'
-  }
-
-  private handleParams(p: ParamMap) {
-    const idParam = p.get('id')
-    if (!idParam) return
-    this.eventId.set(idParam)
-  }
-
-  private handleQueryParams(p: Params) {
-    const lang = p['lang']
-    if (lang) this.translate.use(lang)
-
-    const participantId = p['pid']
-    this.participantId.set(participantId)
-  }
-
-  private handleError(err: any) {
-    if (!err) return
-    this.hotToast.error()
   }
 
   onCodeComplete(code: string) {
@@ -109,18 +95,16 @@ export class EventConfirmComponent {
     this.processing.set(true)
     this.service.confirmParticipation(id, participantId, request).subscribe({
       next: (value) => this.handleConfirmationResponse(value),
-      error: (err) => this.handleError(err)
+      error: () => this.translate.get('event.message.error').subscribe(t => this.hotToast.error(t))
     })
   }
 
   private handleConfirmationResponse(response: ExternalParticipantConfirmResponse) {
     const participant = response.participant
     if (response.status == 'FAILED' || !participant) {
-      this.translate.get('registration.dialog.response.error').subscribe((v) => this.handleError(v))
+      this.translate.get('registration.message.error').subscribe(t => this.hotToast.error(t))
     } else {
-      this.dialog.open(ConfirmParticipationResponseDialogComponent, {
-        data: participant
-      })
+      this.dialog.open(ConfirmParticipationResponseDialogComponent, { data: participant, width: 'min(480px, 96vw)', maxWidth: '96vw' })
       this.processing.set(false)
       this.status.set(response.status)
       const eventId = this.eventId()
@@ -129,9 +113,4 @@ export class EventConfirmComponent {
     this.eventResource.reload()
   }
 
-  private updateAutoCompletion(settings: EventParticipationSettings, participantId: string, confirmationPossible: boolean) {
-    if (settings.requireValidateCode) return
-    if (!confirmationPossible) return
-    this.confirm('000000', participantId)
-  }
 }

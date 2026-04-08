@@ -1,28 +1,34 @@
-import { computed, effect, inject, Injectable, resource, signal } from '@angular/core'
-import { PageEvent } from '@angular/material/paginator'
+import { Component, computed, effect, inject, resource, signal } from '@angular/core'
+import { EventService, PublicEvent, PublicEventSearchRequest } from '@open-event/external'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DateTime } from 'luxon'
-import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
-import { EventService } from '@open-event/portal'
 import { toPromise } from '@open-event/shared'
+import { PageEvent } from '@angular/material/paginator'
+import { BreakpointObserver } from '@angular/cdk/layout'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { map } from 'rxjs'
 
-@Injectable({ providedIn: 'root' })
-export class EventBoardService {
+@Component({
+  selector: 'app-event-board',
+  imports: [],
+  templateUrl: './event-board.component.html',
+  styleUrl: './event-board.component.scss'
+})
+export class EventBoardComponent {
   private service = inject(EventService)
+  private responsive = inject(BreakpointObserver)
+
+  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
+  readonly mode = signal('list')
 
   private query = signal('')
   private fromDate = signal<string | undefined>(undefined)
   private toDate = signal<string | undefined>(undefined)
-  private ownOnly = signal(false)
   private availableOnly = signal(false)
-  private participatingOnly = signal(false)
   private includeHistory = signal(false)
   private page = signal(0)
   private size = signal(200)
-
-  readonly showOwnOnly = computed(() => this.ownOnly())
   readonly showAvailableOnly = computed(() => this.availableOnly())
-  readonly showParticipatingOnly = computed(() => this.participatingOnly())
   readonly showHistory = computed(() => this.includeHistory())
 
   private infiniteScrollMode = signal(false)
@@ -36,7 +42,7 @@ export class EventBoardService {
   })
 
   private criteria = computed(() => ({
-    request: new EventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.ownOnly(), this.participatingOnly(), this.availableOnly()),
+    request: new PublicEventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.availableOnly()),
     page: this.page(),
     size: this.size()
   }))
@@ -46,14 +52,13 @@ export class EventBoardService {
     loader: (p) => toPromise(this.service.search(p.params.request, p.params.page, p.params.size), p.abortSignal)
   })
 
-  private loaded = signal<EventSearchEntry[]>([])
-  readonly entries = computed(() => this.loaded())
+  readonly entries = signal<PublicEvent[]>([])
   readonly reloading = this.searchResource.isLoading
-  readonly totalSize = computed(() => this.searchResource.value()?.result.totalSize ?? 0)
-  readonly pageIndex = computed(() => this.searchResource.value()?.result.pageable.number ?? 0)
-  readonly pageSize = computed(() => this.searchResource.value()?.result.pageable.size ?? 200)
+  readonly totalSize = computed(() => this.searchResource.value()?.totalSize ?? 0)
+  readonly pageIndex = computed(() => this.searchResource.value()?.pageable.number ?? 0)
+  readonly pageSize = computed(() => this.searchResource.value()?.pageable.size ?? 200)
   readonly hasMoreElements = computed(() => {
-    const result = this.searchResource.value()?.result
+    const result = this.searchResource.value()
     if (!result) return false
     return result.content.length !== 0 && result.pageable.number !== result.totalPages - 1
   })
@@ -63,12 +68,18 @@ export class EventBoardService {
     effect(() => {
       const result = this.searchResource.value()
       if (!result) return
-      const page = result.result.pageable.number
+      const page = result.pageable.number
       if (this.infiniteScrollMode() && page > 0) {
-        this.loaded.update((prev) => [...prev, ...result.result.content])
+        this.entries.update((prev) => [...prev, ...result.content])
       } else {
-        this.loaded.set(result.result.content)
+        this.entries.set(result.content)
       }
+    })
+
+    effect(() => {
+      const mobile = this.mobileView()
+      this.setFilterToolbarVisible(!mobile)
+      this.setInfiniteScrollMode(mobile)
     })
   }
 
@@ -78,18 +89,8 @@ export class EventBoardService {
     this.page.set(0)
   }
 
-  toggleOwnEvents() {
-    this.ownOnly.update((v) => !v)
-    this.page.set(0)
-  }
-
   toggleAvailableEvents() {
     this.availableOnly.update((v) => !v)
-    this.page.set(0)
-  }
-
-  toggleParticipatingEvents() {
-    this.participatingOnly.update((v) => !v)
     this.page.set(0)
   }
 
@@ -142,9 +143,7 @@ export class EventBoardService {
 
   resetFilter() {
     this.query.set('')
-    this.ownOnly.set(false)
     this.availableOnly.set(false)
-    this.participatingOnly.set(false)
     this.includeHistory.set(false)
     this.preselectionSignal.set(undefined)
     this.updateRange(null, null)
