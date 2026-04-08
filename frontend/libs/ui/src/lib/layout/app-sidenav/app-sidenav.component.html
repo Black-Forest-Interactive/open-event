@@ -1,64 +1,66 @@
 <div class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col py-1">
-  @for (group of navGroups(); track group.title; let first = $first) {
-    @if (group.items.length > 0) {
-      @if (!first) {
-        <hr class="border-t my-1 mx-0" style="border-color: var(--mat-sys-outline-variant)">
-      }
-      <div class="flex flex-col gap-0.5 px-2">
-        @if (group.title && !collapsed()) {
-          <div class="text-[11px] font-semibold uppercase tracking-widest px-2 pt-2 pb-1" style="color: var(--mat-sys-on-surface-variant)">{{ group.title | translate }}</div>
-        }
-        @for (item of group.items; track item.url) {
-          <a class="nav-item flex items-center h-10 rounded-lg no-underline transition-colors duration-150"
-             [class.px-3]="!collapsed()"
-             [class.justify-center]="collapsed()"
-             [class.gap-3]="!collapsed()"
-             [routerLink]="item.url"
-             routerLinkActive="nav-active"
-             [matTooltip]="collapsed() ? (item.text | translate) : ''"
-             matTooltipPosition="right">
-            <mat-icon class="shrink-0 text-[20px]">{{ item.icon }}</mat-icon>
-            @if (!collapsed()) {
-              <span class="text-sm overflow-hidden text-ellipsis whitespace-nowrap">{{ item.text | translate }}</span>
+    @for (group of navGroups(); track group.title; let first = $first) {
+        @if (group.items.length > 0) {
+            @if (!first) {
+                <hr class="border-t my-1 mx-0" style="border-color: var(--mat-sys-outline-variant)">
             }
-          </a>
+            <div class="flex flex-col gap-0.5 px-2">
+                @if (group.title && !collapsed()) {
+                    <div class="text-[11px] font-semibold uppercase tracking-widest px-2 pt-2 pb-1"
+                         style="color: var(--mat-sys-on-surface-variant)">{{ group.title | translate }}
+                    </div>
+                }
+                @for (item of group.items; track item.url) {
+                    <a [class.gap-3]="!collapsed()"
+                       [class.justify-center]="collapsed()"
+                       [class.px-3]="!collapsed()"
+                       [matTooltip]="collapsed() ? (item.text | translate) : ''"
+                       [routerLink]="item.url"
+                       class="nav-item flex items-center h-10 rounded-lg no-underline transition-colors duration-150"
+                       matTooltipPosition="right"
+                       routerLinkActive="nav-active">
+                        <mat-icon class="shrink-0 text-[20px]">{{ item.icon }}</mat-icon>
+                        @if (!collapsed()) {
+                            <span class="text-sm overflow-hidden text-ellipsis whitespace-nowrap">{{ item.text | translate }}</span>
+                        }
+                    </a>
+                }
+            </div>
         }
-      </div>
     }
-  }
 </div>
 
 <div class="shrink-0 border-t" style="border-color: var(--mat-sys-outline-variant)">
-  @if (showCollapse()) {
-    <div class="px-2 pt-2">
-      <button type="button"
-              class="collapse-btn flex items-center h-10 w-full rounded-lg border-none bg-transparent cursor-pointer transition-colors duration-150"
-              [class.px-3]="!collapsed()"
-              [class.justify-center]="collapsed()"
-              [class.gap-3]="!collapsed()"
-              [matTooltip]="collapsed() ? ('action.collapse' | translate) : ''"
-              matTooltipPosition="right"
-              (click)="collapseClick.emit()">
-        <mat-icon class="shrink-0 text-[20px]">{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
-        @if (!collapsed()) {
-          <span class="text-sm">{{ 'action.collapse' | translate }}</span>
-        }
-      </button>
+    @if (showCollapse()) {
+        <div class="px-2 pt-2">
+            <button (click)="collapseClick.emit()"
+                    [class.gap-3]="!collapsed()"
+                    [class.justify-center]="collapsed()"
+                    [class.px-3]="!collapsed()"
+                    [matTooltip]="collapsed() ? ('action.collapse' | translate) : ''"
+                    class="collapse-btn flex items-center h-10 w-full rounded-lg border-none bg-transparent cursor-pointer transition-colors duration-150"
+                    matTooltipPosition="right"
+                    type="button">
+                <mat-icon class="shrink-0 text-[20px]">{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+                @if (!collapsed()) {
+                    <span class="text-sm">{{ 'action.collapse' | translate }}</span>
+                }
+            </button>
+        </div>
+    }
+    <div class="px-2 py-2">
+        <button (click)="logoutClick.emit()"
+                [class.gap-3]="!collapsed()"
+                [class.justify-center]="collapsed()"
+                [class.px-3]="!collapsed()"
+                [matTooltip]="collapsed() ? ('action.logout' | translate) : ''"
+                class="logout-btn flex items-center h-10 w-full rounded-lg border-none bg-transparent cursor-pointer transition-colors duration-150"
+                matTooltipPosition="right"
+                type="button">
+            <mat-icon class="shrink-0 text-[20px]">logout</mat-icon>
+            @if (!collapsed()) {
+                <span class="text-sm">{{ 'action.logout' | translate }}</span>
+            }
+        </button>
     </div>
-  }
-  <div class="px-2 py-2">
-    <button type="button"
-            class="logout-btn flex items-center h-10 w-full rounded-lg border-none bg-transparent cursor-pointer transition-colors duration-150"
-            [class.px-3]="!collapsed()"
-            [class.justify-center]="collapsed()"
-            [class.gap-3]="!collapsed()"
-            [matTooltip]="collapsed() ? ('action.logout' | translate) : ''"
-            matTooltipPosition="right"
-            (click)="logoutClick.emit()">
-      <mat-icon class="shrink-0 text-[20px]">logout</mat-icon>
-      @if (!collapsed()) {
-        <span class="text-sm">{{ 'action.logout' | translate }}</span>
-      }
-    </button>
-  </div>
 </div>

@@ -1,1 +1,1 @@
-export * from './metrics.api';
+export * from './metrics.api'

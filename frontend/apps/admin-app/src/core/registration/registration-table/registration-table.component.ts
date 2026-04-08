@@ -20,24 +20,20 @@ import { RegistrationParticipantRemoveDialogComponent } from '../registration-pa
   styleUrl: './registration-table.component.scss'
 })
 export class RegistrationTableComponent {
-  private service = inject(RegistrationService)
-  private dialog = inject(MatDialog)
-
   data = input.required<RegistrationInfo>()
   changeResponse = output<ParticipateResponse>()
-
+  updating = signal(false)
+  displayedColumns: string[] = ['rank', 'size', 'status', 'waitinglist', 'name', 'email', 'phone', 'mobile', 'timestamp', 'action']
+  dataSource = new MatTableDataSource<ParticipantDetails>([])
+  private service = inject(RegistrationService)
+  private dialog = inject(MatDialog)
   private registrationResource = resource({
     params: this.data,
     loader: (param) => toPromise(this.service.getRegistrationDetails(param.params.registration.id), param.abortSignal)
   })
   readonly registration = computed(this.registrationResource.value ?? undefined)
-
-  updating = signal(false)
   readonly loading = computed(() => this.registrationResource.isLoading() || this.updating())
   readonly error = this.registrationResource.error
-
-  displayedColumns: string[] = ['rank', 'size', 'status', 'waitinglist', 'name', 'email', 'phone', 'mobile', 'timestamp', 'action']
-  dataSource = new MatTableDataSource<ParticipantDetails>([])
 
   constructor() {
     effect(() => {

@@ -8,33 +8,28 @@ import { toPromise } from '@open-event/shared'
 
 @Injectable({ providedIn: 'root' })
 export class EventBoardService {
-  private service = inject(EventService)
-
-  private query = signal('')
-  private fromDate = signal<string | undefined>(undefined)
-  private toDate = signal<string | undefined>(undefined)
-  private ownOnly = signal(false)
-  private availableOnly = signal(false)
-  private participatingOnly = signal(false)
-  private includeHistory = signal(false)
-  private page = signal(0)
-  private size = signal(200)
-
-  readonly showOwnOnly = computed(() => this.ownOnly())
-  readonly showAvailableOnly = computed(() => this.availableOnly())
-  readonly showParticipatingOnly = computed(() => this.participatingOnly())
-  readonly showHistory = computed(() => this.includeHistory())
-
-  private infiniteScrollMode = signal(false)
-  private filterToolbarVisible = signal(true)
-  private preselectionSignal = signal<string | undefined>(undefined)
-  readonly preselection = this.preselectionSignal.asReadonly()
-
   range = new FormGroup({
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null)
   })
-
+  private service = inject(EventService)
+  private query = signal('')
+  private fromDate = signal<string | undefined>(undefined)
+  private toDate = signal<string | undefined>(undefined)
+  private ownOnly = signal(false)
+  readonly showOwnOnly = computed(() => this.ownOnly())
+  private availableOnly = signal(false)
+  readonly showAvailableOnly = computed(() => this.availableOnly())
+  private participatingOnly = signal(false)
+  readonly showParticipatingOnly = computed(() => this.participatingOnly())
+  private includeHistory = signal(false)
+  readonly showHistory = computed(() => this.includeHistory())
+  private page = signal(0)
+  private size = signal(200)
+  private infiniteScrollMode = signal(false)
+  private filterToolbarVisible = signal(true)
+  private preselectionSignal = signal<string | undefined>(undefined)
+  readonly preselection = this.preselectionSignal.asReadonly()
   private criteria = computed(() => ({
     request: new EventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.ownOnly(), this.participatingOnly(), this.availableOnly()),
     page: this.page(),
@@ -45,9 +40,6 @@ export class EventBoardService {
     params: this.criteria,
     loader: (p) => toPromise(this.service.search(p.params.request, p.params.page, p.params.size), p.abortSignal)
   })
-
-  private loaded = signal<EventSearchEntry[]>([])
-  readonly entries = computed(() => this.loaded())
   readonly reloading = this.searchResource.isLoading
   readonly totalSize = computed(() => this.searchResource.value()?.result.totalSize ?? 0)
   readonly pageIndex = computed(() => this.searchResource.value()?.result.pageable.number ?? 0)
@@ -57,6 +49,8 @@ export class EventBoardService {
     if (!result) return false
     return result.content.length !== 0 && result.pageable.number !== result.totalPages - 1
   })
+  private loaded = signal<EventSearchEntry[]>([])
+  readonly entries = computed(() => this.loaded())
 
   constructor() {
     this.updateRange(null, null)
@@ -120,26 +114,6 @@ export class EventBoardService {
     }
   }
 
-  private handleRangeChanged() {
-    const { start, end } = this.range.value
-    this.updateRange(start, end)
-  }
-
-  private updateRange(start: DateTime | null | undefined, end: DateTime | null | undefined) {
-    this.range.setValue({ start: start ?? null, end: end ?? null })
-
-    let startDate: DateTime | null = null
-    if (start) {
-      startDate = start.startOf('day')
-    } else if (!this.includeHistory()) {
-      startDate = DateTime.now().startOf('day')
-    }
-
-    this.fromDate.set(startDate?.toISODate() ?? undefined)
-    this.toDate.set(end ? (end.endOf('day').toISODate() ?? undefined) : undefined)
-    this.page.set(0)
-  }
-
   resetFilter() {
     this.query.set('')
     this.ownOnly.set(false)
@@ -163,7 +137,28 @@ export class EventBoardService {
   setInfiniteScrollMode(value: boolean) {
     this.infiniteScrollMode.set(value)
   }
+
   setFilterToolbarVisible(value: boolean) {
     this.filterToolbarVisible.set(value)
+  }
+
+  private handleRangeChanged() {
+    const { start, end } = this.range.value
+    this.updateRange(start, end)
+  }
+
+  private updateRange(start: DateTime | null | undefined, end: DateTime | null | undefined) {
+    this.range.setValue({ start: start ?? null, end: end ?? null })
+
+    let startDate: DateTime | null = null
+    if (start) {
+      startDate = start.startOf('day')
+    } else if (!this.includeHistory()) {
+      startDate = DateTime.now().startOf('day')
+    }
+
+    this.fromDate.set(startDate?.toISODate() ?? undefined)
+    this.toDate.set(end ? (end.endOf('day').toISODate() ?? undefined) : undefined)
+    this.page.set(0)
   }
 }

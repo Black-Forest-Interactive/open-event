@@ -1,38 +1,38 @@
 <div class="flex flex-col gap-2 p-4 content-stretch ">
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.subject' | translate }}</div>
-    <div class="flex-auto">{{ feedback().subject }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.description' | translate }}</div>
-    <div class="flex-auto">{{ feedback().description }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs shrink-0">{{ 'feedback.property.topic' | translate }}</div>
-    <div class="flex-auto text-wrap">{{ feedback().topic }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.tags' | translate }}</div>
-    <div class="flex-auto">{{ feedback().tags }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.rating' | translate }}</div>
-    <div class="flex-auto">{{ feedback().rating }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.account' | translate }}</div>
-    <div class="flex-auto">{{ feedback().account.name }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.client_ip' | translate }}</div>
-    <div class="flex-auto">{{ feedback().clientIp }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.user_agent' | translate }}</div>
-    <div class="flex-auto">{{ feedback().userAgent }}</div>
-  </div>
-  <div class="flex flex-row gap-6">
-    <div class="font-bold basis-3xs">{{ 'feedback.property.timestamp' | translate }}</div>
-    <div class="flex-auto">{{ feedback().timestamp | date:'medium' }}</div>
-  </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.subject' | translate }}</div>
+        <div class="flex-auto">{{ feedback().subject }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.description' | translate }}</div>
+        <div class="flex-auto">{{ feedback().description }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs shrink-0">{{ 'feedback.property.topic' | translate }}</div>
+        <div class="flex-auto text-wrap">{{ feedback().topic }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.tags' | translate }}</div>
+        <div class="flex-auto">{{ feedback().tags }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.rating' | translate }}</div>
+        <div class="flex-auto">{{ feedback().rating }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.account' | translate }}</div>
+        <div class="flex-auto">{{ feedback().account.name }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.client_ip' | translate }}</div>
+        <div class="flex-auto">{{ feedback().clientIp }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.user_agent' | translate }}</div>
+        <div class="flex-auto">{{ feedback().userAgent }}</div>
+    </div>
+    <div class="flex flex-row gap-6">
+        <div class="font-bold basis-3xs">{{ 'feedback.property.timestamp' | translate }}</div>
+        <div class="flex-auto">{{ feedback().timestamp | date:'medium' }}</div>
+    </div>
 </div>

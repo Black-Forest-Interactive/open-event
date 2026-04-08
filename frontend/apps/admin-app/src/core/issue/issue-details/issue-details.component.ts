@@ -13,12 +13,10 @@ import { IssueCardComponent } from '../issue-card/issue-card.component'
   styleUrl: './issue-details.component.scss'
 })
 export class IssueDetailsComponent {
+  id = signal(-1)
   private service = inject(IssueService)
   private route = inject(ActivatedRoute)
   private location = inject(Location)
-
-  id = signal(-1)
-
   private issueResource = resource({
     params: this.id,
     loader: (param) => toPromise(this.service.getIssue(param.params), param.abortSignal)

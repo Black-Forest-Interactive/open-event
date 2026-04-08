@@ -1,4 +1,4 @@
-<admin-board [reloading]="reloading()" [showSearch]="false" (reload)="reload()" title="cache.type">
+<admin-board (reload)="reload()" [reloading]="reloading()" [showSearch]="false" title="cache.type">
     <lib-loading-bar [reloading]="reloading()"/>
 
     <div class="flex flex-col lg:flex-row gap-4 p-4 md:p-6 h-full">
@@ -18,7 +18,8 @@
                 @if (entries().length > 0) {
                     <mat-list class="!p-0">
                         @for (entry of entries(); track entry; let last = $last) {
-                            <mat-list-item class="!h-auto !py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            <mat-list-item
+                                    class="!h-auto !py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                                 <div class="flex justify-between items-center w-full gap-3">
                                     <div class="flex-1 min-w-0">
                                         <div class="font-medium text-gray-900 dark:text-gray-100 truncate">
@@ -30,13 +31,13 @@
                                     </div>
 
                                     <button
-                                            mat-icon-button
                                             (click)="reset(entry)"
                                             [disabled]="reloading()"
+                                            class="!flex-shrink-0"
                                             color="primary"
+                                            mat-icon-button
                                             matTooltip="Clear cache"
-                                            matTooltipPosition="left"
-                                            class="!flex-shrink-0">
+                                            matTooltipPosition="left">
                                         <mat-icon>layers_clear</mat-icon>
                                     </button>
                                 </div>
@@ -76,8 +77,8 @@
                     <div
                             [merge]="values()"
                             [options]="chart"
-                            echarts
-                            class="w-full h-full min-h-[300px]">
+                            class="w-full h-full min-h-[300px]"
+                            echarts>
                     </div>
                 } @else {
                     <div class="flex flex-col items-center justify-center h-full text-center">

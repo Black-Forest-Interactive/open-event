@@ -16,15 +16,13 @@ import { IssueTableComponent } from './issue-table/issue-table.component'
   styleUrl: './issue.component.scss'
 })
 export class IssueComponent implements OnInit {
-  private service = inject(IssueService)
-  private toast = inject(HotToastService)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
   totalElements = 0
-
   data: Issue[] = []
+  private service = inject(IssueService)
+  private toast = inject(HotToastService)
 
   ngOnInit(): void {
     this.reload()
@@ -32,6 +30,12 @@ export class IssueComponent implements OnInit {
 
   reload() {
     this.load(0, this.pageSize)
+  }
+
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
   }
 
   private load(page: number, size: number) {
@@ -53,11 +57,5 @@ export class IssueComponent implements OnInit {
   private handleError(err: any) {
     if (err) this.toast.error()
     this.reloading = false
-  }
-
-  handlePageChange(event: PageEvent) {
-    if (this.reloading) return
-    this.pageSize = event.pageSize
-    this.load(event.pageIndex, event.pageSize)
   }
 }

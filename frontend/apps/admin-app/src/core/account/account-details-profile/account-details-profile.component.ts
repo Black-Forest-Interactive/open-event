@@ -12,10 +12,8 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   styleUrl: './account-details-profile.component.scss'
 })
 export class AccountDetailsProfileComponent {
-  private service = inject(AccountService)
-
   data = input.required<Account>()
-
+  private service = inject(AccountService)
   private profileResource = resource({
     params: this.data,
     loader: (param) => toPromise(this.service.getProfile(param.params.id), param.abortSignal)

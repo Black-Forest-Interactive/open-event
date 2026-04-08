@@ -16,8 +16,8 @@
                 }
                 @if (canEdit() && share()) {
                     <mat-card appearance="outlined">
-                        <portal-share-details [info]="info()!" [reloading]="reloading()"
-                                              (changed)="setSharingEnabled($event)"/>
+                        <portal-share-details (changed)="setSharingEnabled($event)" [info]="info()!"
+                                              [reloading]="reloading()"/>
                     </mat-card>
                 }
             </div>

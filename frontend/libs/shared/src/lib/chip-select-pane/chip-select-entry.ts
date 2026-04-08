@@ -1,4 +1,4 @@
 export interface ChipSelectEntry {
-  id: number,
+  id: number
   name: string
 }

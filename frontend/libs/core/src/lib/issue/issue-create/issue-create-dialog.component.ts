@@ -19,13 +19,12 @@ import { BaseIssueService, IssueChangeRequest } from '../issue.api'
 export class IssueCreateDialogComponent {
   data: HttpErrorResponse = inject(MAT_DIALOG_DATA)
   private fb = inject(FormBuilder)
-  private dialogRef = inject(MatDialogRef<IssueCreateDialogComponent>)
-  private service: BaseIssueService = inject(BaseIssueService)
-
   fg: FormGroup = this.fb.group({
     subject: this.fb.control(''),
     description: this.fb.control('')
   })
+  private dialogRef = inject(MatDialogRef<IssueCreateDialogComponent>)
+  private service: BaseIssueService = inject(BaseIssueService)
 
   report() {
     if (!this.fg.valid) return

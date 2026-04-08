@@ -14,12 +14,10 @@ import { ActivityService } from '@open-event/portal'
   standalone: true
 })
 export class ActivityReadComponent {
-  private service = inject(ActivityService)
-
   info = input.required<ActivityInfo>()
   changed = output<ActivityInfo>()
-
   readonly reloading = signal(false)
+  private service = inject(ActivityService)
 
   markRead() {
     if (this.reloading()) return

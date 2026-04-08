@@ -16,16 +16,14 @@ import { IssueDetailsDialogComponent } from '../issue-details-dialog/issue-detai
   styleUrl: './issue-table.component.scss'
 })
 export class IssueTableComponent {
-  private dialog = inject(MatDialog)
-
   data = input.required<Issue[]>()
   reloading = input.required<boolean>()
   pageNumber = input.required<number>()
   pageSize = input.required<number>()
   totalElements = input.required<number>()
-
   pageEvent = output<PageEvent>()
   displayedColumns: string[] = ['error', 'actor', 'status', 'timestamp', 'cmd']
+  private dialog = inject(MatDialog)
 
   showDetails(issue: Issue) {
     this.dialog.open(IssueDetailsDialogComponent, { data: issue })

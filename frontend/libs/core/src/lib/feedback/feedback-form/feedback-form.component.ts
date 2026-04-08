@@ -15,15 +15,13 @@ import { FeedbackChangeRequest } from '../feedback.api'
   styleUrl: './feedback-form.component.scss'
 })
 export class FeedbackFormComponent {
+  request = output<FeedbackChangeRequest>()
   private fb = inject(FormBuilder)
-
   feedbackForm: FormGroup = this.fb.group({
     description: ['', [Validators.required, Validators.minLength(10)]],
     topic: ['', Validators.required],
     rating: [3, [Validators.min(1), Validators.max(5)]]
   })
-
-  request = output<FeedbackChangeRequest>()
 
   onSubmit(): void {
     if (this.feedbackForm.valid) {

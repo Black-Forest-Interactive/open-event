@@ -20,11 +20,9 @@ import { AddressDeleteDialogComponent } from './address-delete-dialog/address-de
   styleUrl: './address.component.scss'
 })
 export class AddressComponent {
+  readonly displayedColumns = ['street', 'streetNumber', 'zip', 'city', 'country', 'cmd']
   private service = inject(AddressService)
   private dialog = inject(MatDialog)
-
-  readonly displayedColumns = ['street', 'streetNumber', 'zip', 'city', 'country', 'cmd']
-
   private page = signal(0)
   private size = signal(20)
 

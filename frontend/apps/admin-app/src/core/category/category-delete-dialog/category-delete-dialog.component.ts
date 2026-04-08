@@ -17,9 +17,9 @@ import { ReactiveFormsModule } from '@angular/forms'
   styleUrl: './category-delete-dialog.component.scss'
 })
 export class CategoryDeleteDialogComponent {
-  private service = inject(CategoryService)
   dialogRef = inject<MatDialogRef<CategoryDeleteDialogComponent>>(MatDialogRef)
   data = inject<Category>(MAT_DIALOG_DATA)
+  private service = inject(CategoryService)
 
   onNoClick(): void {
     this.dialogRef.close(false)

@@ -1,47 +1,47 @@
 @use '@angular/material' as mat;
 
 $theme: mat.define-theme((
-  color: (theme-type: light, primary: mat.$violet-palette, tertiary: mat.$cyan-palette),
-  typography: (use-system-variables: true),
-  density: (scale: 0),
+        color: (theme-type: light, primary: mat.$violet-palette, tertiary: mat.$cyan-palette),
+        typography: (use-system-variables: true),
+        density: (scale: 0),
 ));
 
 $theme-dark: mat.define-theme((
-  color: (theme-type: dark, primary: mat.$violet-palette, tertiary: mat.$cyan-palette),
-  typography: (use-system-variables: true),
-  density: (scale: 0),
+        color: (theme-type: dark, primary: mat.$violet-palette, tertiary: mat.$cyan-palette),
+        typography: (use-system-variables: true),
+        density: (scale: 0),
 ));
 
 html {
   @include mat.all-component-themes($theme);
 
   // Surfaces – slate-tinted light
-  --mat-sys-surface:                   #f8fafc;
-  --mat-sys-surface-container-lowest:  #ffffff;
-  --mat-sys-surface-container-low:     #f1f5f9;
-  --mat-sys-surface-container:         #e8edf5;
-  --mat-sys-surface-container-high:    #dde4ef;
+  --mat-sys-surface: #f8fafc;
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-low: #f1f5f9;
+  --mat-sys-surface-container: #e8edf5;
+  --mat-sys-surface-container-high: #dde4ef;
   --mat-sys-surface-container-highest: #d1d9e8;
-  --mat-sys-on-surface:                #0f172a;
-  --mat-sys-on-surface-variant:        #475569;
-  --mat-sys-outline:                   #94a3b8;
-  --mat-sys-outline-variant:           #e2e8f0;
+  --mat-sys-on-surface: #0f172a;
+  --mat-sys-on-surface-variant: #475569;
+  --mat-sys-outline: #94a3b8;
+  --mat-sys-outline-variant: #e2e8f0;
 
   // Primary – indigo
-  --mat-sys-primary:           #4f46e5;
-  --mat-sys-on-primary:        #ffffff;
+  --mat-sys-primary: #4f46e5;
+  --mat-sys-on-primary: #ffffff;
   --mat-sys-primary-container: #ede9fe;
   --mat-sys-on-primary-container: #1e1b4b;
 
   // Secondary – cyan
-  --mat-sys-secondary:           #0891b2;
-  --mat-sys-on-secondary:        #ffffff;
+  --mat-sys-secondary: #0891b2;
+  --mat-sys-on-secondary: #ffffff;
   --mat-sys-secondary-container: #cffafe;
   --mat-sys-on-secondary-container: #164e63;
 
   // Error
-  --mat-sys-error:           #dc2626;
-  --mat-sys-on-error:        #ffffff;
+  --mat-sys-error: #dc2626;
+  --mat-sys-on-error: #ffffff;
   --mat-sys-error-container: #fee2e2;
   --mat-sys-on-error-container: #7f1d1d;
 }
@@ -50,32 +50,32 @@ html.dark {
   @include mat.all-component-themes($theme-dark);
 
   // Surfaces – slate-900 based dark
-  --mat-sys-surface:                   #0f172a;
-  --mat-sys-surface-container-lowest:  #020617;
-  --mat-sys-surface-container-low:     #1e293b;
-  --mat-sys-surface-container:         #243044;
-  --mat-sys-surface-container-high:    #2d3a50;
+  --mat-sys-surface: #0f172a;
+  --mat-sys-surface-container-lowest: #020617;
+  --mat-sys-surface-container-low: #1e293b;
+  --mat-sys-surface-container: #243044;
+  --mat-sys-surface-container-high: #2d3a50;
   --mat-sys-surface-container-highest: #37435a;
-  --mat-sys-on-surface:                #f1f5f9;
-  --mat-sys-on-surface-variant:        #94a3b8;
-  --mat-sys-outline:                   #475569;
-  --mat-sys-outline-variant:           #1e293b;
+  --mat-sys-on-surface: #f1f5f9;
+  --mat-sys-on-surface-variant: #94a3b8;
+  --mat-sys-outline: #475569;
+  --mat-sys-outline-variant: #1e293b;
 
   // Primary – lighter indigo for dark surfaces
-  --mat-sys-primary:           #a5b4fc;
-  --mat-sys-on-primary:        #1e1b4b;
+  --mat-sys-primary: #a5b4fc;
+  --mat-sys-on-primary: #1e1b4b;
   --mat-sys-primary-container: #312e81;
   --mat-sys-on-primary-container: #e0e7ff;
 
   // Secondary – lighter cyan
-  --mat-sys-secondary:           #67e8f9;
-  --mat-sys-on-secondary:        #164e63;
+  --mat-sys-secondary: #67e8f9;
+  --mat-sys-on-secondary: #164e63;
   --mat-sys-secondary-container: #0e7490;
   --mat-sys-on-secondary-container: #cffafe;
 
   // Error
-  --mat-sys-error:           #f87171;
-  --mat-sys-on-error:        #450a0a;
+  --mat-sys-error: #f87171;
+  --mat-sys-on-error: #450a0a;
   --mat-sys-error-container: #7f1d1d;
   --mat-sys-on-error-container: #fee2e2;
 
@@ -89,8 +89,13 @@ html.dark {
 
 // ── Utility classes ───────────────────────────────────────────────────────────
 
-.available { color: var(--mat-sys-secondary); }
-.full      { color: var(--mat-sys-error); }
+.available {
+  color: var(--mat-sys-secondary);
+}
+
+.full {
+  color: var(--mat-sys-error);
+}
 
 .mat-button-toggle-checked button {
   background-color: var(--mat-sys-secondary);
@@ -122,14 +127,35 @@ html.dark {
   color: var(--mat-sys-on-secondary) !important;
 }
 
-.marker-cluster-small     { background-color: var(--mat-sys-primary-container) !important; color: var(--mat-sys-on-primary-container) !important; }
-.marker-cluster-small div { background-color: var(--mat-sys-primary) !important; color: var(--mat-sys-on-primary) !important; }
+.marker-cluster-small {
+  background-color: var(--mat-sys-primary-container) !important;
+  color: var(--mat-sys-on-primary-container) !important;
+}
 
-.marker-cluster-medium     { background-color: var(--mat-sys-secondary-container) !important; color: var(--mat-sys-on-secondary-container) !important; }
-.marker-cluster-medium div { background-color: var(--mat-sys-secondary) !important; color: var(--mat-sys-on-secondary) !important; }
+.marker-cluster-small div {
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
+}
 
-.marker-cluster-large     { background-color: var(--mat-sys-error-container) !important; color: var(--mat-sys-on-error-container) !important; }
-.marker-cluster-large div { background-color: var(--mat-sys-error) !important; color: var(--mat-sys-on-error) !important; }
+.marker-cluster-medium {
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
+}
+
+.marker-cluster-medium div {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.marker-cluster-large {
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
+}
+
+.marker-cluster-large div {
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
+}
 
 .second-toolbar {
   background-color: var(--mat-sys-secondary-container) !important;

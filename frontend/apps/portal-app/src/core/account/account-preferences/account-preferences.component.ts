@@ -26,16 +26,16 @@ export class AccountPreferencesComponent {
   readonly preferences = this.preferencesResource.value
   readonly loading = this.preferencesResource.isLoading
 
-  subscribe() { this.update(true) }
-  unsubscribe() { this.update(false) }
+  subscribe() {
+    this.update(true)
+  }
+  unsubscribe() {
+    this.update(false)
+  }
 
   private update(enabled: boolean) {
     const p = this.preferences()
-    const request = new PreferencesChangeRequest(
-      { enabled },
-      { enabled: p?.communicationPreferences?.enabled ?? false },
-      { enabled: p?.notificationPreferences?.enabled ?? false }
-    )
+    const request = new PreferencesChangeRequest({ enabled }, { enabled: p?.communicationPreferences?.enabled ?? false }, { enabled: p?.notificationPreferences?.enabled ?? false })
     this.service.updatePreferences(request).subscribe({
       next: (value) => this.preferencesResource.set(value),
       error: () => this.toast.error()

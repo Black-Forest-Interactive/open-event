@@ -40,23 +40,18 @@ import { MailService } from '@open-event/admin'
   styleUrl: './mail-history.component.scss'
 })
 export class MailHistoryComponent implements OnInit {
-  private service = inject(MailService)
-  private toastService = inject(HotToastService)
-  private route = inject(ActivatedRoute)
-  private location = inject(Location)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
   totalElements = 0
-
   data: MailJobHistoryEntry[] = []
-
   displayedColumns: string[] = ['timestamp', 'message']
-
   keyUp: EventEmitter<string> = new EventEmitter<string>()
-
   jobId: number | undefined
+  private service = inject(MailService)
+  private toastService = inject(HotToastService)
+  private route = inject(ActivatedRoute)
+  private location = inject(Location)
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')

@@ -18,10 +18,9 @@ import { AccountService } from '@open-event/admin'
 })
 export class AccountChangeDialogComponent {
   dialogRef = inject<MatDialogRef<AccountChangeDialogComponent>>(MatDialogRef)
-  private service = inject(AccountService)
   data = inject<AccountSearchEntry | undefined>(MAT_DIALOG_DATA)
-
   fg: FormGroup
+  private service = inject(AccountService)
 
   constructor() {
     const data = this.data

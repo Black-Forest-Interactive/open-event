@@ -17,12 +17,11 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './event-details-registration.component.scss'
 })
 export class EventDetailsRegistrationComponent {
+  event = input.required<EventInfo>()
+  changeResponse = output<ParticipateResponse>()
   private dialog = inject(MatDialog)
   private hotToast = inject(HotToastService)
   private translation = inject(TranslateService)
-
-  event = input.required<EventInfo>()
-  changeResponse = output<ParticipateResponse>()
 
   addParticipantAccount() {
     const event = this.event()

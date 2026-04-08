@@ -5,6 +5,6 @@ export const environment = {
   keycloak: {
     url: 'http://localhost:8081/',
     realm: 'open-church',
-    clientId: 'open-church-backoffice',
-  },
-};
+    clientId: 'open-church-backoffice'
+  }
+}

@@ -3,15 +3,15 @@ import { DOCUMENT } from '@angular/common'
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly doc = inject(DOCUMENT)
   readonly darkMode = signal(this.loadPreference())
+  private readonly doc = inject(DOCUMENT)
 
   constructor() {
     effect(() => this.doc.documentElement.classList.toggle('dark', this.darkMode()))
   }
 
   toggle() {
-    this.darkMode.update(v => !v)
+    this.darkMode.update((v) => !v)
     localStorage.setItem('darkMode', String(this.darkMode()))
   }
 

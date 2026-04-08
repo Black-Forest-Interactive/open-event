@@ -21,19 +21,15 @@ import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.co
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
-  private service = inject(SettingsService)
-  private dialog = inject(MatDialog)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 10
   totalElements = 0
-
   data: Setting[] = []
-
   displayedColumns: string[] = ['id', 'value', 'type', 'cmd']
-
   keyUp: EventEmitter<string> = new EventEmitter<string>()
+  private service = inject(SettingsService)
+  private dialog = inject(MatDialog)
 
   ngOnInit(): void {
     this.reload()
@@ -43,6 +39,22 @@ export class SettingsComponent implements OnInit {
     if (this.reloading) return
     this.pageSize = event.pageSize
     this.loadPage(event.pageIndex)
+  }
+
+  create() {
+    const dialogRef = this.dialog.open(SettingsChangeDialogComponent, {
+      width: '350px',
+      data: null
+    })
+    dialogRef.afterClosed().subscribe(() => this.reload())
+  }
+
+  edit(entry: Setting) {
+    const dialogRef = this.dialog.open(SettingsChangeDialogComponent, {
+      width: '350px',
+      data: entry
+    })
+    dialogRef.afterClosed().subscribe(() => this.reload())
   }
 
   private reload() {
@@ -63,21 +75,5 @@ export class SettingsComponent implements OnInit {
     this.pageNumber = p.pageable.number
     this.pageSize = p.pageable.size
     this.reloading = false
-  }
-
-  create() {
-    const dialogRef = this.dialog.open(SettingsChangeDialogComponent, {
-      width: '350px',
-      data: null
-    })
-    dialogRef.afterClosed().subscribe(() => this.reload())
-  }
-
-  edit(entry: Setting) {
-    const dialogRef = this.dialog.open(SettingsChangeDialogComponent, {
-      width: '350px',
-      data: entry
-    })
-    dialogRef.afterClosed().subscribe(() => this.reload())
   }
 }

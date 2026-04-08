@@ -22,21 +22,32 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
   templateUrl: './event-board.component.html',
   styleUrl: './event-board.component.scss',
   imports: [
-    EventBoardListComponent, EventBoardCalendarComponent, EventBoardTableComponent,
-    EventBoardFilterComponent, EventBoardMapComponent,
-    BoardSearchComponent, LoadingBarComponent,
-    MatButton, MatIconButton, MatIcon, MatButtonToggleGroup, MatButtonToggle,
-    RouterLink, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger
+    EventBoardListComponent,
+    EventBoardCalendarComponent,
+    EventBoardTableComponent,
+    EventBoardFilterComponent,
+    EventBoardMapComponent,
+    BoardSearchComponent,
+    LoadingBarComponent,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    RouterLink,
+    TranslatePipe,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger
   ],
   standalone: true
 })
 export class EventBoardComponent {
-  private service = inject(EventBoardService)
-  private responsive = inject(BreakpointObserver)
-
-  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map(s => !s.matches)), { initialValue: false })
   readonly mode = signal('list')
+  private service = inject(EventBoardService)
   readonly reloading = this.service.reloading
+  private responsive = inject(BreakpointObserver)
+  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
   constructor() {
     effect(() => {
@@ -46,6 +57,10 @@ export class EventBoardComponent {
     })
   }
 
-  setMode(mode: string) { this.mode.set(mode) }
-  setQuery(query: string) { this.service.setQuery(query) }
+  setMode(mode: string) {
+    this.mode.set(mode)
+  }
+  setQuery(query: string) {
+    this.service.setQuery(query)
+  }
 }

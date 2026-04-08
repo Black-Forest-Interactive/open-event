@@ -1,15 +1,15 @@
 <div class="p-2">
-  <admin-board-card title="event.details.registration">
-    <board-card-toolbar-actions class="flex flex-row gap-2">
-      <button mat-flat-button color="primary" (click)="addParticipantAccount()">
-        <mat-icon>admin_panel_settings</mat-icon>
-        {{ 'registration.action.participateAccount' | translate }}
-      </button>
-      <button mat-flat-button color="primary" (click)="addParticipantManual()">
-        <mat-icon>admin_panel_settings</mat-icon>
-        {{ 'registration.action.participateManual' | translate }}
-      </button>
-    </board-card-toolbar-actions>
-    <admin-registration-table [data]="event().registration!!" (changeResponse)="handleParticipateResponse($event)"/>
-  </admin-board-card>
+    <admin-board-card title="event.details.registration">
+        <board-card-toolbar-actions class="flex flex-row gap-2">
+            <button (click)="addParticipantAccount()" color="primary" mat-flat-button>
+                <mat-icon>admin_panel_settings</mat-icon>
+                {{ 'registration.action.participateAccount' | translate }}
+            </button>
+            <button (click)="addParticipantManual()" color="primary" mat-flat-button>
+                <mat-icon>admin_panel_settings</mat-icon>
+                {{ 'registration.action.participateManual' | translate }}
+            </button>
+        </board-card-toolbar-actions>
+        <admin-registration-table (changeResponse)="handleParticipateResponse($event)" [data]="event().registration!!"/>
+    </admin-board-card>
 </div>

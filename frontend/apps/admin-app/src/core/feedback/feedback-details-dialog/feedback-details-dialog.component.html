@@ -1,6 +1,6 @@
 <div class="bg-primary-default flex flex-row justify-between items-center p-4 gap-2">
-  <div class="text-2xl font-bold">{{ "feedback.dialog.details.title" | translate }}</div>
+    <div class="text-2xl font-bold">{{ "feedback.dialog.details.title" | translate }}</div>
 </div>
-<div mat-dialog-content class="!p-0">
-  <admin-feedback-card [feedback]="feedback"></admin-feedback-card>
+<div class="!p-0" mat-dialog-content>
+    <admin-feedback-card [feedback]="feedback"></admin-feedback-card>
 </div>

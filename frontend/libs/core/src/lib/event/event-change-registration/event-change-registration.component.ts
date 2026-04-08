@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, resource, inject } from '@angular/core'
+import { Component, computed, effect, inject, input, resource } from '@angular/core'
 import { EventInfo } from '../event.api'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -51,7 +51,7 @@ export class EventChangeRegistrationComponent {
   error = this.categoryResource.error
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({
       maxGuestAmount: [4, Validators.required],
@@ -73,24 +73,6 @@ export class EventChangeRegistrationComponent {
     })
   }
 
-  private handleDataChanged(info: EventInfo) {
-    let registration = info.registration
-    if (registration) {
-      this.fg.setValue({
-        ticketsEnabled: registration.registration.ticketsEnabled,
-        maxGuestAmount: registration.registration.maxGuestAmount,
-        interestedAllowed: registration.registration.interestedAllowed,
-        shared: info.share?.share.enabled ?? false,
-        categories: info.categories.map((c) => c.id) ?? [],
-        tags: info.event.tags ?? []
-      })
-    }
-  }
-
-  isVisible(ctrl: string): boolean {
-    return this.hiddenFields().find((x) => x == ctrl) == null
-  }
-
   get ticketsEnabled(): FormControl<any> {
     // @ts-ignore
     return this.form!!.get('ticketsEnabled')
@@ -98,6 +80,14 @@ export class EventChangeRegistrationComponent {
 
   get categories(): FormControl {
     return this.fg.get('categories') as FormControl
+  }
+
+  get tags(): FormControl {
+    return this.fg.get('tags') as FormControl
+  }
+
+  isVisible(ctrl: string): boolean {
+    return this.hiddenFields().find((x) => x == ctrl) == null
   }
 
   addTag(event: MatChipInputEvent) {
@@ -112,10 +102,6 @@ export class EventChangeRegistrationComponent {
     event.chipInput!.clear()
   }
 
-  get tags(): FormControl {
-    return this.fg.get('tags') as FormControl
-  }
-
   removeTag(tag: string) {
     let t = this.tags
     if (!t) return
@@ -123,6 +109,20 @@ export class EventChangeRegistrationComponent {
     let index = (t.value as string[]).indexOf(tag)
     if (index >= 0) {
       ;(t.value as string[]).splice(index, 1)
+    }
+  }
+
+  private handleDataChanged(info: EventInfo) {
+    let registration = info.registration
+    if (registration) {
+      this.fg.setValue({
+        ticketsEnabled: registration.registration.ticketsEnabled,
+        maxGuestAmount: registration.registration.maxGuestAmount,
+        interestedAllowed: registration.registration.interestedAllowed,
+        shared: info.share?.share.enabled ?? false,
+        categories: info.categories.map((c) => c.id) ?? [],
+        tags: info.event.tags ?? []
+      })
     }
   }
 }

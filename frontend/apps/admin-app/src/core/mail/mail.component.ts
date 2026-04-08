@@ -22,18 +22,14 @@ import { BoardComponent } from '../../shared/board/board.component'
   styleUrl: './mail.component.scss'
 })
 export class MailComponent implements OnInit, OnDestroy {
-  private service = inject(MailService)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
   totalElements = 0
-
   data: MailJob[] = []
-
   displayedColumns: string[] = ['timestamp', 'status', 'title', 'cmd']
-
   keyUp: EventEmitter<string> = new EventEmitter<string>()
+  private service = inject(MailService)
   private unsub = new Subject<void>()
 
   ngOnInit(): void {
@@ -61,6 +57,10 @@ export class MailComponent implements OnInit, OnDestroy {
     this.loadPage(event.pageIndex)
   }
 
+  retryFailedJob(job: MailJob) {
+    this.service.retryFailedJob(job.id).subscribe(() => this.reload())
+  }
+
   private loadPage(number: number) {
     if (this.reloading) return
     this.reloading = true
@@ -81,9 +81,5 @@ export class MailComponent implements OnInit, OnDestroy {
       this.totalElements = page.totalSize
     }
     this.reloading = false
-  }
-
-  retryFailedJob(job: MailJob) {
-    this.service.retryFailedJob(job.id).subscribe(() => this.reload())
   }
 }

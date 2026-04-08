@@ -1,4 +1,4 @@
-import { Component, effect, input, output, signal, inject } from '@angular/core'
+import { Component, effect, inject, input, output, signal } from '@angular/core'
 
 import { MatCardModule } from '@angular/material/card'
 import { MatStepperModule } from '@angular/material/stepper'
@@ -52,7 +52,7 @@ export class EventChangeComponent {
   fg: FormGroup
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({})
 
@@ -60,10 +60,6 @@ export class EventChangeComponent {
       let event = this.event()
       if (event) this.loadEventInfo(event)
     })
-  }
-
-  private isEndHidden() {
-    return this.hiddenFields.find((f) => f === 'endDate') != null
   }
 
   submit() {
@@ -74,6 +70,10 @@ export class EventChangeComponent {
     if (!request) return
     this.loading = true
     this.request.emit(request)
+  }
+
+  private isEndHidden() {
+    return this.hiddenFields.find((f) => f === 'endDate') != null
   }
 
   private createRequest(value: any, endHidden: boolean): EventChangeRequest | undefined {

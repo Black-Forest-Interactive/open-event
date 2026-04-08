@@ -1,5 +1,4 @@
-import { computed, effect, inject, Injectable, Signal } from '@angular/core'
-import { resource } from '@angular/core'
+import { computed, effect, inject, Injectable, resource, Signal } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { map } from 'rxjs'
 import { MatDialog } from '@angular/material/dialog'
@@ -12,13 +11,11 @@ import { AccountService } from '@open-event/portal'
   providedIn: 'root'
 })
 export class AppService {
+  readonly authService = inject(AuthService)
   private readonly accountService = inject(AccountService)
   private readonly translate = inject(TranslateService)
-  private readonly dialog = inject(MatDialog)
-  readonly authService = inject(AuthService)
-
   readonly lang: Signal<string> = toSignal(this.translate.onLangChange.pipe(map((e: LangChangeEvent) => e.lang)), { initialValue: this.translate.getCurrentLang() })
-
+  private readonly dialog = inject(MatDialog)
   private readonly validationResource = resource<AccountValidationResult, string>({
     params: () => this.translate.getCurrentLang() ?? 'de',
     loader: ({ params: lang, abortSignal }) => toPromise(this.accountService.validate(lang), abortSignal)

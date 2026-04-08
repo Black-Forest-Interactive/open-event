@@ -1,11 +1,12 @@
-<admin-board [reloading]="loading()" (reload)="reload()" [showSearch]="false" title="activity.title" [showBack]="true" (back)="back()">
-  <div class="flex flex-col gap-4 p-4 content-stretch ">
-    @if (activity()) {
-      <div class="flex flex-row gap-6">
+<admin-board (back)="back()" (reload)="reload()" [reloading]="loading()" [showBack]="true" [showSearch]="false"
+             title="activity.title">
+    <div class="flex flex-col gap-4 p-4 content-stretch ">
+        @if (activity()) {
+            <div class="flex flex-row gap-6">
 
-      </div>
-    }
-  </div>
+            </div>
+        }
+    </div>
 </admin-board>
 
 

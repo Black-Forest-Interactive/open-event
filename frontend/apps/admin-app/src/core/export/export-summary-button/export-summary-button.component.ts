@@ -16,10 +16,9 @@ import { MatTooltip } from '@angular/material/tooltip'
   styleUrl: './export-summary-button.component.scss'
 })
 export class ExportSummaryButtonComponent {
-  private service = inject(ExportService)
-
   summarizing: boolean = false
   request = input.required<EventSearchRequest>()
+  private service = inject(ExportService)
 
   exportSummary() {
     if (this.summarizing) return

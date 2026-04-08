@@ -17,19 +17,16 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core'
   styleUrl: './event-details-banner.component.scss'
 })
 export class EventDetailsBannerComponent {
-  private service = inject(ImageUploadService)
-  private toast = inject(HotToastService)
-  private translate = inject(TranslateService)
-
   data = input<EventInfo>()
-
-  private defaultBannerImage = '/img/banner.jpg'
-  private bannerImage = signal(this.defaultBannerImage)
-
   readonly canEdit = computed(() => this.data()?.canEdit ?? false)
-  readonly bannerUrl = computed(() => this.bannerImage())
+  private service = inject(ImageUploadService)
   readonly isUploading = computed(() => this.service.isUploading())
   readonly uploadPercentage = computed(() => this.service.uploadPercentage())
+  private toast = inject(HotToastService)
+  private translate = inject(TranslateService)
+  private defaultBannerImage = '/img/banner.jpg'
+  private bannerImage = signal(this.defaultBannerImage)
+  readonly bannerUrl = computed(() => this.bannerImage())
 
   constructor() {
     effect(() => {

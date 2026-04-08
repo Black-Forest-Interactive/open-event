@@ -15,10 +15,22 @@ import { MatButton } from '@angular/material/button'
   templateUrl: './event-board-filter.component.html',
   styleUrl: './event-board-filter.component.scss',
   imports: [
-    MatCard, MatIcon, MatDivider,
-    MatFormField, MatLabel, MatError, MatFormFieldModule, MatDatepickerModule,
-    MatDateRangeInput, MatDatepickerToggle, MatDateRangePicker, ReactiveFormsModule,
-    MatChipListbox, MatChipOption, MatButton, TranslatePipe
+    MatCard,
+    MatIcon,
+    MatDivider,
+    MatFormField,
+    MatLabel,
+    MatError,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatDateRangeInput,
+    MatDatepickerToggle,
+    MatDateRangePicker,
+    ReactiveFormsModule,
+    MatChipListbox,
+    MatChipOption,
+    MatButton,
+    TranslatePipe
   ],
   standalone: true
 })

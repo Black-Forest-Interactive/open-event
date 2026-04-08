@@ -1,4 +1,4 @@
 export interface ConfirmDialogConfig {
-  title: string,
-  text: string,
+  title: string
+  text: string
 }

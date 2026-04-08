@@ -11,7 +11,7 @@ import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overl
 import { provideShareButtonsOptions } from 'ngx-sharebuttons'
 import { shareIcons } from 'ngx-sharebuttons/icons'
 import { MatPaginatorIntl } from '@angular/material/paginator'
-import { MatPaginatorI18nService } from '@open-event/shared'
+import { ENVIRONMENT, MatPaginatorI18nService } from '@open-event/shared'
 import { registerLocaleData } from '@angular/common'
 import localeDe from '@angular/common/locales/de'
 import localeDeExtra from '@angular/common/locales/extra/de'
@@ -21,7 +21,6 @@ import { provideQuill } from './quill.config'
 import { provideEchartsConfig } from './echarts.config'
 import { provideServiceConfig } from './service.config'
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
-import { ENVIRONMENT } from '@open-event/shared'
 import { environment } from '../environments/environment'
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra)

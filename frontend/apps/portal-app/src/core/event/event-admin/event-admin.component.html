@@ -1,22 +1,22 @@
 <mat-toolbar>
-  <div class="flex flex-row gap-2 flex-auto items-center">
-    <button matIconButton (click)="back()" [matTooltip]="'action.back' | translate">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <span class="text-base font-medium truncate ps-1">{{ event()?.title }}</span>
-    <div class="flex-auto"></div>
+    <div class="flex flex-row gap-2 flex-auto items-center">
+        <button (click)="back()" [matTooltip]="'action.back' | translate" matIconButton>
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span class="text-base font-medium truncate ps-1">{{ event()?.title }}</span>
+        <div class="flex-auto"></div>
 
-    @if (!reloading()) {
-      <portal-event-action-export [event]="event()"></portal-event-action-export>
-    }
-  </div>
+        @if (!reloading()) {
+            <portal-event-action-export [event]="event()"></portal-event-action-export>
+        }
+    </div>
 </mat-toolbar>
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 @if (info()) {
-  <div class="p-3">
-    @if (registration()) {
-      <portal-registration-moderation [data]="registration()!"></portal-registration-moderation>
-    }
-  </div>
+    <div class="p-3">
+        @if (registration()) {
+            <portal-registration-moderation [data]="registration()!"></portal-registration-moderation>
+        }
+    </div>
 }

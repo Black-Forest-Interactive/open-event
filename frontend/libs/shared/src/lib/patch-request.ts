@@ -1,9 +1,3 @@
-
 export class PatchRequest<T> {
-  constructor(
-    public value: T
-  ) {
-
-  }
-
+  constructor(public value: T) {}
 }

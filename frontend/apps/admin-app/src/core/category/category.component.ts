@@ -25,22 +25,19 @@ import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.co
   styleUrl: './category.component.scss'
 })
 export class CategoryComponent implements OnInit {
-  private service = inject(CategoryService)
-  private toast = inject(HotToastService)
-  private dialog = inject(MatDialog)
-
   reloading: boolean = false
   pageSize: number = 20
   pageNumber: number = 0
   totalElements: number = 0
   data: Category[] = []
-
   keyUp: EventEmitter<string> = new EventEmitter<string>()
   request = new CategorySearchRequest('')
+  private service = inject(CategoryService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
 
-  ngOnInit() {
-    this.search()
-    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => (this.fullTextSearch = query))
+  get fullTextSearch(): string {
+    return this.request.fullTextSearch
   }
 
   set fullTextSearch(val: string) {
@@ -49,8 +46,9 @@ export class CategoryComponent implements OnInit {
     this.search()
   }
 
-  get fullTextSearch(): string {
-    return this.request.fullTextSearch
+  ngOnInit() {
+    this.search()
+    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => (this.fullTextSearch = query))
   }
 
   search() {
@@ -59,29 +57,6 @@ export class CategoryComponent implements OnInit {
 
   reload() {
     this.load(0, this.pageSize)
-  }
-
-  private load(page: number, size: number) {
-    if (this.reloading) return
-    this.reloading = true
-    this.service.search(this.request, page, size).subscribe({
-      next: (value) => this.handleData(value),
-      error: (e) => this.handleError(e)
-    })
-  }
-
-  private handleData(response: CategorySearchResponse) {
-    const p = response.result
-    this.data = p.content
-    this.pageSize = p.pageable.size
-    this.pageNumber = p.pageable.number
-    this.totalElements = p.totalSize
-    this.reloading = false
-  }
-
-  private handleError(err: any) {
-    if (err) this.toast.error()
-    this.reloading = false
   }
 
   handlePageChange(event: PageEvent) {
@@ -112,5 +87,28 @@ export class CategoryComponent implements OnInit {
       data: entry
     })
     dialogRef.afterClosed().subscribe(() => this.search())
+  }
+
+  private load(page: number, size: number) {
+    if (this.reloading) return
+    this.reloading = true
+    this.service.search(this.request, page, size).subscribe({
+      next: (value) => this.handleData(value),
+      error: (e) => this.handleError(e)
+    })
+  }
+
+  private handleData(response: CategorySearchResponse) {
+    const p = response.result
+    this.data = p.content
+    this.pageSize = p.pageable.size
+    this.pageNumber = p.pageable.number
+    this.totalElements = p.totalSize
+    this.reloading = false
+  }
+
+  private handleError(err: any) {
+    if (err) this.toast.error()
+    this.reloading = false
   }
 }

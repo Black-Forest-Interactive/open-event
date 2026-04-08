@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core'
-import { MatFabButton, MatButton } from '@angular/material/button'
+import { MatButton, MatFabButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
 import { LoadingBarComponent, ScrollNearEndDirective } from '@open-event/shared'

@@ -17,9 +17,8 @@ import { MatLabel } from '@angular/material/form-field'
 })
 export class RegistrationParticipateManualDialogComponent {
   dialogRef = inject<MatDialogRef<RegistrationParticipateManualDialogComponent>>(MatDialogRef)
-  private fb = inject(FormBuilder)
-
   fg: FormGroup
+  private fb = inject(FormBuilder)
 
   constructor() {
     this.fg = this.fb.group(

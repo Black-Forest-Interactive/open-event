@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, OnInit, resource, inject } from '@angular/core'
+import { Component, computed, effect, inject, input, OnInit, resource } from '@angular/core'
 import { EventInfo } from '../event.api'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -34,7 +34,7 @@ export class EventChangeLocationComponent implements OnInit {
   error = this.addressResource.error
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({
       city: ['', Validators.required],
@@ -72,6 +72,10 @@ export class EventChangeLocationComponent implements OnInit {
     this.setAddress(address)
   }
 
+  isVisible(ctrl: string): boolean {
+    return this.hiddenFields().find((x) => x == ctrl) == null
+  }
+
   private setAddress(address: Address) {
     if (!this.fg) return
     this.fg.setValue({
@@ -96,9 +100,5 @@ export class EventChangeLocationComponent implements OnInit {
         additionalInfo: location.additionalInfo ?? ''
       })
     }
-  }
-
-  isVisible(ctrl: string): boolean {
-    return this.hiddenFields().find((x) => x == ctrl) == null
   }
 }

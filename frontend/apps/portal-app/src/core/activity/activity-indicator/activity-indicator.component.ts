@@ -14,10 +14,9 @@ import { RouterLink } from '@angular/router'
   styleUrl: './activity-indicator.component.scss'
 })
 export class ActivityIndicatorComponent {
-  private service = inject(ActivityService)
-
   readonly unreadMessages = signal<number>(0)
   readonly clicked = output<MouseEvent>()
+  private service = inject(ActivityService)
 
   constructor() {
     interval(10000)

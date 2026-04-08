@@ -16,13 +16,6 @@ import { LoadingBarComponent } from '@open-event/shared'
   standalone: true
 })
 export class EventBoardCalendarComponent {
-  private service = inject(EventBoardService)
-  private router = inject(Router)
-  private calendarRef = viewChild(FullCalendarComponent)
-
-  readonly reloading = this.service.reloading
-  private calendarApi: CalendarApi | undefined
-
   readonly calendarOptions: CalendarOptions = {
     headerToolbar: { left: 'prev,next', center: 'title', right: '' },
     initialView: 'dayGridMonth',
@@ -37,6 +30,11 @@ export class EventBoardCalendarComponent {
     nowIndicator: true,
     eventClick: this.handleEventClick.bind(this)
   }
+  private service = inject(EventBoardService)
+  readonly reloading = this.service.reloading
+  private router = inject(Router)
+  private calendarRef = viewChild(FullCalendarComponent)
+  private calendarApi: CalendarApi | undefined
 
   constructor() {
     effect(() => {
@@ -51,7 +49,7 @@ export class EventBoardCalendarComponent {
       const entries = this.service.entries()
       if (!this.calendarApi) return
       this.calendarApi.removeAllEvents()
-      entries.forEach(e => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
+      entries.forEach((e) => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
     })
   }
 
@@ -63,6 +61,6 @@ export class EventBoardCalendarComponent {
   private updateCalendar() {
     if (!this.calendarApi) return
     this.calendarApi.removeAllEvents()
-    this.service.entries().forEach(e => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
+    this.service.entries().forEach((e) => this.calendarApi?.addEvent({ id: e.id + '', title: e.title, start: e.start, end: e.finish }))
   }
 }

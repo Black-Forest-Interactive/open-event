@@ -1,1 +1,1 @@
-export * from './cache.api';
+export * from './cache.api'

@@ -1,17 +1,17 @@
 export interface Profile {
-  id: number,
+  id: number
 
-  email: string | undefined,
-  phone: string | undefined,
-  mobile: string | undefined,
+  email: string | undefined
+  phone: string | undefined
+  mobile: string | undefined
 
-  firstName: string,
-  lastName: string,
+  firstName: string
+  lastName: string
 
-  dateOfBirth: string | undefined,
-  gender: string | undefined,
-  profilePicture: string | undefined,
-  website: string | undefined,
+  dateOfBirth: string | undefined
+  gender: string | undefined
+  profilePicture: string | undefined
+  website: string | undefined
 
   language: string
 }
@@ -28,6 +28,5 @@ export class ProfileChangeRequest {
     public profilePicture: string | undefined,
     public website: string | undefined,
     public language: string
-  ) {
-  }
+  ) {}
 }

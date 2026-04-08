@@ -18,25 +18,22 @@ import { EventChangeDialogComponent } from '../event-change-dialog/event-change-
   exportAs: 'matMenu'
 })
 export class EventMenuComponent implements AfterViewInit {
-  private service = inject(EventService)
-  private dialog = inject(MatDialog)
-  private router = inject(Router)
-
   event = input<EventInfo>()
   menu = viewChild.required<MatMenu>('menu')
   reload = output()
-  private menuTrigger = new MatMenuTrigger()
-
   editMenuItem = new EventMenuItem('edit', 'event.action.edit', this.handleActionEdit.bind(this), false)
   // copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', this.handleActionCopy.bind(this), false)
   deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', this.handleActionDelete.bind(this), false)
-
   menuItems = [
     this.editMenuItem,
     // this.copyMenuItem,
     this.deleteMenuItem
     // this.adminMenuItem
   ]
+  private service = inject(EventService)
+  private dialog = inject(MatDialog)
+  private router = inject(Router)
+  private menuTrigger = new MatMenuTrigger()
 
   ngAfterViewInit() {
     this.menuTrigger.menu = this.menu()

@@ -13,13 +13,12 @@ import { Page } from '@open-event/shared'
   styleUrl: './event-create-dialog.component.scss'
 })
 export class EventCreateDialogComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
+  dialogRef = inject<MatDialogRef<EventCreateDialogComponent>>(MatDialogRef)
+  data: Account | AccountSearchEntry = inject(MAT_DIALOG_DATA)
   private service = inject(AccountService)
   private eventService = inject(EventService)
   private addressService = inject(AddressService)
   private categoryService = inject(CategoryService)
-  dialogRef = inject<MatDialogRef<EventCreateDialogComponent>>(MatDialogRef)
-
-  data: Account | AccountSearchEntry = inject(MAT_DIALOG_DATA)
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.service.getAddress(this.data.id, page, size)

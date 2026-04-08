@@ -31,11 +31,10 @@ Marker.prototype.options.icon = iconDefault
 })
 export class EventBoardMapComponent {
   private service = inject(EventBoardService)
+  readonly reloading = this.service.reloading
   private environmentInjector = inject(EnvironmentInjector)
   private router = inject(Router)
   private mapContainerRef = viewChild<ElementRef<HTMLDivElement>>('map')
-
-  readonly reloading = this.service.reloading
   private map: Map | undefined
 
   constructor() {

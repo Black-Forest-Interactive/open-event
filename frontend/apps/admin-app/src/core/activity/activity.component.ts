@@ -21,16 +21,14 @@ import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.co
   styleUrl: './activity.component.scss'
 })
 export class ActivityComponent implements OnInit {
-  private service = inject(ActivityService)
-  private toast = inject(HotToastService)
-  private dialog = inject(MatDialog)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
   totalElements = 0
-
   data: Activity[] = []
+  private service = inject(ActivityService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
 
   ngOnInit(): void {
     this.reload()
@@ -38,6 +36,19 @@ export class ActivityComponent implements OnInit {
 
   reload() {
     this.load(0, this.pageSize)
+  }
+
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
+  }
+
+  cleanup() {
+    const ref = this.dialog.open(ActivityCleanupDialogComponent)
+    ref.afterClosed().subscribe((value) => {
+      if (value) this.runCleanupJob(value)
+    })
   }
 
   private load(page: number, size: number) {
@@ -59,19 +70,6 @@ export class ActivityComponent implements OnInit {
   private handleError(err: any) {
     if (err) this.toast.error()
     this.reloading = false
-  }
-
-  handlePageChange(event: PageEvent) {
-    if (this.reloading) return
-    this.pageSize = event.pageSize
-    this.load(event.pageIndex, event.pageSize)
-  }
-
-  cleanup() {
-    const ref = this.dialog.open(ActivityCleanupDialogComponent)
-    ref.afterClosed().subscribe((value) => {
-      if (value) this.runCleanupJob(value)
-    })
   }
 
   private runCleanupJob(request: ActivityCleanupRequest) {

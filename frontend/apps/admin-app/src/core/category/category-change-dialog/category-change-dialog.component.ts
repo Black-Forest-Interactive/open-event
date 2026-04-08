@@ -17,9 +17,9 @@ import { MatIconModule } from '@angular/material/icon'
   styleUrl: './category-change-dialog.component.scss'
 })
 export class CategoryChangeDialogComponent {
-  private service = inject(CategoryService)
   dialogRef = inject<MatDialogRef<CategoryChangeDialogComponent>>(MatDialogRef)
   data = inject<Category | undefined>(MAT_DIALOG_DATA)
+  private service = inject(CategoryService)
 
   onCancelClick(): void {
     this.dialogRef.close(false)

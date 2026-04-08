@@ -13,9 +13,9 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './address-change-dialog.component.scss'
 })
 export class AddressChangeDialogComponent {
-  private service = inject(AddressService)
   dialogRef = inject<MatDialogRef<AddressChangeDialogComponent>>(MatDialogRef)
   data = inject<Address | undefined>(MAT_DIALOG_DATA)
+  private service = inject(AddressService)
 
   onCancelClick(): void {
     this.dialogRef.close(false)

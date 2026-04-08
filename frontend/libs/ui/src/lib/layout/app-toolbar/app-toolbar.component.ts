@@ -13,10 +13,8 @@ import { ThemeService } from '@open-event/shared'
   imports: [MatToolbar, MatIconButton, MatIcon, TranslatePipe]
 })
 export class AppToolbarComponent {
-  protected readonly themeService = inject(ThemeService)
-
   title = input<string>('')
   showMenuToggle = input<boolean>(true)
-
   menuToggle = output<void>()
+  protected readonly themeService = inject(ThemeService)
 }

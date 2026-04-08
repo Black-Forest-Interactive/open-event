@@ -13,12 +13,12 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './event-change-dialog.component.scss'
 })
 export class EventChangeDialogComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
+  dialogRef = inject<MatDialogRef<EventChangeDialogComponent>>(MatDialogRef)
+  data = inject<Event>(MAT_DIALOG_DATA)
   private service = inject(EventService)
   private accountService = inject(AccountService)
   private addressService = inject(AddressService)
   private categoryService = inject(CategoryService)
-  dialogRef = inject<MatDialogRef<EventChangeDialogComponent>>(MatDialogRef)
-  data = inject<Event>(MAT_DIALOG_DATA)
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.accountService.getAddress(this.data.owner.id, page, size)

@@ -1,6 +1,5 @@
 import { Component, computed, effect, inject, resource, signal } from '@angular/core'
-import { MatToolbar } from '@angular/material/toolbar'
-import { ActivatedRoute, RouterLink } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
@@ -16,26 +15,23 @@ import { MatCard } from '@angular/material/card'
 
 @Component({
   selector: 'app-event',
-  imports: [MatToolbar, RouterLink, LoadingBarComponent, EventInfoComponent, EventActionComponent, MatCard],
+  imports: [LoadingBarComponent, EventInfoComponent, EventActionComponent, MatCard],
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss'
 })
 export class EventComponent {
+  readonly processing = signal(false)
+  readonly status = signal('')
   private service = inject(EventService)
   private translate = inject(TranslateService)
   private route = inject(ActivatedRoute)
   private dialog = inject(MatDialog)
   private hotToast = inject(HotToastService)
-
-  private eventId = toSignal(this.route.paramMap.pipe(map(p => p.get('id') ?? undefined)))
-  private lang = toSignal(this.route.queryParams.pipe(map(p => p['lang'])))
-
-  readonly processing = signal(false)
-  readonly status = signal('')
-
+  private eventId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? undefined)))
+  private lang = toSignal(this.route.queryParams.pipe(map((p) => p['lang'])))
   private eventResource = resource({
     params: this.eventId,
-    loader: (p) => p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined)
+    loader: (p) => (p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined))
   })
 
   readonly event = computed(() => this.eventResource.value())
@@ -52,7 +48,7 @@ export class EventComponent {
 
     effect(() => {
       if (!this.error()) return
-      this.translate.get('event.message.error').subscribe(t => this.hotToast.error(t))
+      this.translate.get('event.message.error').subscribe((t) => this.hotToast.error(t))
     })
 
     effect(() => {
@@ -79,7 +75,7 @@ export class EventComponent {
     this.processing.set(true)
     this.service.requestParticipation(id, request).subscribe({
       next: (value) => this.handleParticipateResponse(value),
-      error: () => this.translate.get('event.message.error').subscribe(t => this.hotToast.error(t))
+      error: () => this.translate.get('event.message.error').subscribe((t) => this.hotToast.error(t))
     })
   }
 
@@ -90,7 +86,7 @@ export class EventComponent {
 
   private handleParticipateResponse(response: ExternalParticipantChangeResponse) {
     if (response.status == 'FAILED') {
-      this.translate.get('registration.message.error').subscribe(t => this.hotToast.error(t))
+      this.translate.get('registration.message.error').subscribe((t) => this.hotToast.error(t))
     } else {
       this.dialog.open(RequestParticipationResponseDialogComponent, { width: 'min(480px, 96vw)', maxWidth: '96vw' })
       this.processing.set(false)

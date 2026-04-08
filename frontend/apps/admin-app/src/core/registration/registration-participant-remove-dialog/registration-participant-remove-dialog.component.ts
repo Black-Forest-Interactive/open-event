@@ -14,10 +14,9 @@ import { DatePipe } from '@angular/common'
   styleUrl: './registration-participant-remove-dialog.component.scss'
 })
 export class RegistrationParticipantRemoveDialogComponent {
-  private service = inject(RegistrationService)
   dialogRef = inject<MatDialogRef<RegistrationParticipantRemoveDialogComponent>>(MatDialogRef)
-
   data: { registration: Registration; participant: Participant } = inject(MAT_DIALOG_DATA)
+  private service = inject(RegistrationService)
 
   onCancelClick(): void {
     this.dialogRef.close(null)

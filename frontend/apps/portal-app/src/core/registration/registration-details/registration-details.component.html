@@ -29,16 +29,16 @@
 <mat-divider></mat-divider>
 <div class="flex flex-col sm:flex-row gap-2 p-3">
     @if (userParticipant()) {
-        <button matButton="filled" (click)="editSelf()">
+        <button (click)="editSelf()" matButton="filled">
             <mat-icon>manage_accounts</mat-icon>
             {{ 'registration.action.edit' | translate }}
         </button>
-        <button matButton="filled" (click)="cancelSelf()">
+        <button (click)="cancelSelf()" matButton="filled">
             <mat-icon>person_remove</mat-icon>
             {{ 'registration.action.cancel' | translate }}
         </button>
     } @else {
-        <button matButton="filled" (click)="participateSelf()">
+        <button (click)="participateSelf()" matButton="filled">
             <mat-icon>person_add</mat-icon>
             {{ 'registration.action.participate' | translate }}
         </button>

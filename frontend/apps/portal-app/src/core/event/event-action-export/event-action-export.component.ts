@@ -18,13 +18,11 @@ import { TranslatePipe } from '@ngx-translate/core'
   standalone: true
 })
 export class EventActionExportComponent {
-  private authService = inject(AuthService)
-  private service = inject(EventService)
-
   event = input<Event | undefined>()
-
   readonly exporting = signal(false)
+  private authService = inject(AuthService)
   readonly accessible = computed(() => this.authService.hasRole(Roles.PERMISSION_EXPORT))
+  private service = inject(EventService)
 
   export() {
     const data = this.event()

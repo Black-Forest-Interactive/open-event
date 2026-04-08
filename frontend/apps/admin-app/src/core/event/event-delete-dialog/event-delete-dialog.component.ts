@@ -14,9 +14,9 @@ import { DatePipe } from '@angular/common'
   styleUrl: './event-delete-dialog.component.scss'
 })
 export class EventDeleteDialogComponent {
-  private service = inject(EventService)
   dialogRef = inject<MatDialogRef<EventDeleteDialogComponent>>(MatDialogRef)
   data = inject<Event>(MAT_DIALOG_DATA)
+  private service = inject(EventService)
 
   onNoClick(): void {
     this.dialogRef.close(false)

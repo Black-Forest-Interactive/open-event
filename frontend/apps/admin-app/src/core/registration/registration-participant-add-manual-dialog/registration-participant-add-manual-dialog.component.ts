@@ -17,11 +17,10 @@ import { MatInput } from '@angular/material/input'
   styleUrl: './registration-participant-add-manual-dialog.component.scss'
 })
 export class RegistrationParticipantAddManualDialogComponent {
-  private service = inject(RegistrationService)
   dialogRef = inject<MatDialogRef<RegistrationParticipantAddManualDialogComponent>>(MatDialogRef)
-
   data: { registration: Registration } = inject(MAT_DIALOG_DATA)
   fg: FormGroup
+  private service = inject(RegistrationService)
 
   constructor() {
     const fb = inject(FormBuilder)

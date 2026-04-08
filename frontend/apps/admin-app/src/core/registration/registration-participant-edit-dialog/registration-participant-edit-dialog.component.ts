@@ -16,11 +16,10 @@ import { MatLabel } from '@angular/material/form-field'
   styleUrl: './registration-participant-edit-dialog.component.scss'
 })
 export class RegistrationParticipantEditDialogComponent {
-  private service = inject(RegistrationService)
   dialogRef = inject<MatDialogRef<RegistrationParticipantEditDialogComponent>>(MatDialogRef)
-
   data: { registration: Registration; participant: Participant } = inject(MAT_DIALOG_DATA)
   fg: FormGroup
+  private service = inject(RegistrationService)
 
   constructor() {
     const fb = inject(FormBuilder)

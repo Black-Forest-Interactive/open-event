@@ -1,13 +1,13 @@
-<admin-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="feedback.title">
-  <board-toolbar-actions>
+<admin-board (reload)="reload()" [reloading]="reloading" [showSearch]="false" title="feedback.title">
+    <board-toolbar-actions>
 
-  </board-toolbar-actions>
-  <mat-card>
-    <admin-feedback-table [data]="data"
-                     [reloading]="reloading"
-                     [pageSize]="pageSize"
-                     [pageNumber]="pageNumber"
-                     [totalElements]="totalElements"
-                     (pageEvent)="handlePageChange($event)"/>
-  </mat-card>
+    </board-toolbar-actions>
+    <mat-card>
+        <admin-feedback-table (pageEvent)="handlePageChange($event)"
+                              [data]="data"
+                              [pageNumber]="pageNumber"
+                              [pageSize]="pageSize"
+                              [reloading]="reloading"
+                              [totalElements]="totalElements"/>
+    </mat-card>
 </admin-board>

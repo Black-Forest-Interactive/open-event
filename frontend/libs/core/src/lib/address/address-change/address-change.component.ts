@@ -1,4 +1,4 @@
-import { Component, effect, input, output, inject } from '@angular/core'
+import { Component, effect, inject, input, output } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Address, AddressChangeRequest } from '../address.api'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
@@ -18,7 +18,7 @@ export class AddressChangeComponent {
   fg: FormGroup
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({
       street: ['', Validators.required],
@@ -37,6 +37,13 @@ export class AddressChangeComponent {
     })
   }
 
+  submit() {
+    if (!this.fg.valid) return
+    let value = this.fg.value
+    let request = value as AddressChangeRequest
+    this.request.emit(request)
+  }
+
   private handleDataChanged(address: Address) {
     this.fg.get('street')?.setValue(address.street)
     this.fg.get('streetNumber')?.setValue(address.streetNumber)
@@ -46,12 +53,5 @@ export class AddressChangeComponent {
     this.fg.get('additionalInfo')?.setValue(address.additionalInfo)
     this.fg.get('lat')?.setValue(address.lat)
     this.fg.get('lon')?.setValue(address.lon)
-  }
-
-  submit() {
-    if (!this.fg.valid) return
-    let value = this.fg.value
-    let request = value as AddressChangeRequest
-    this.request.emit(request)
   }
 }

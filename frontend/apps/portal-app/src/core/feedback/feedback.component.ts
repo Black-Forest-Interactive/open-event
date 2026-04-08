@@ -15,18 +15,23 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {
+  readonly loading = signal(false)
   private service = inject(FeedbackService)
   private toast = inject(HotToastService)
   private translate = inject(TranslateService)
-
-  readonly loading = signal(false)
 
   submit(request: FeedbackChangeRequest) {
     if (this.loading()) return
     this.loading.set(true)
     this.service.createFeedback(request).subscribe({
-      next: () => { this.translate.get('feedback.confirmation').subscribe((msg) => this.toast.success(msg)); this.loading.set(false) },
-      error: () => { this.toast.error(); this.loading.set(false) }
+      next: () => {
+        this.translate.get('feedback.confirmation').subscribe((msg) => this.toast.success(msg))
+        this.loading.set(false)
+      },
+      error: () => {
+        this.toast.error()
+        this.loading.set(false)
+      }
     })
   }
 }

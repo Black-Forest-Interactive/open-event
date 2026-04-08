@@ -18,24 +18,19 @@ import { HistoryTableComponent } from './history-table/history-table.component'
   styleUrl: './history.component.scss'
 })
 export class HistoryComponent implements OnInit {
-  private service = inject(HistoryService)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
   totalElements = 0
-
   displayedColumns: string[] = ['timestamp', 'actor', 'type', 'message', 'source', 'info']
-
   keyUp: EventEmitter<string> = new EventEmitter<string>()
-
   data: HistoryEventInfo[] = []
   selected: HistoryEventInfo | undefined
-
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null)
   })
+  private service = inject(HistoryService)
 
   ngOnInit() {
     this.reload()

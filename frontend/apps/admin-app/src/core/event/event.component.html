@@ -1,46 +1,59 @@
-<admin-board [reloading]="reloading" (fullTextSearch)="fullTextSearch = $event" (reload)="search()" title="event.title" searchPlaceholder="event.search">
-  <div class="flex gap-6 items-start">
-    <div class="flex-1 min-w-0">
-      <mat-card>
-        <admin-event-table [data]="data" [reloading]="reloading" [pageSize]="pageSize" [pageNumber]="pageNumber" [totalElements]="totalElements"
-                           (pageEvent)="handlePageChange($event)"
-                           (sortEvent)="handleSortChange($event)"
-                           (editEvent)="edit($event)"
-                           (deleteEvent)="delete($event)"/>
-      </mat-card>
+<admin-board (fullTextSearch)="fullTextSearch = $event" (reload)="search()" [reloading]="reloading" searchPlaceholder="event.search"
+             title="event.title">
+    <div class="flex gap-6 items-start">
+        <div class="flex-1 min-w-0">
+            <mat-card>
+                <admin-event-table (deleteEvent)="delete($event)" (editEvent)="edit($event)" (pageEvent)="handlePageChange($event)" (sortEvent)="handleSortChange($event)"
+                                   [data]="data"
+                                   [pageNumber]="pageNumber"
+                                   [pageSize]="pageSize"
+                                   [reloading]="reloading"
+                                   [totalElements]="totalElements"/>
+            </mat-card>
+        </div>
+
+        <div class="flex flex-col gap-2 w-56 shrink-0 p-3 rounded-xl border"
+             style="border-color: var(--mat-sys-outline-variant); background: var(--mat-sys-surface-container-low)">
+
+            <lib-event-range-picker #range (rangeChanged)="handleRangeChanged($event)" [required]="false"
+                                    class="w-full"/>
+
+            <button (click)="toggleHistory()" [style.--mdc-outlined-button-label-text-color]="showHistory ? 'var(--mat-sys-primary)' : null"
+                    [style.--mdc-outlined-button-outline-color]="showHistory ? 'var(--mat-sys-primary)' : null"
+                    class="w-full justify-start"
+                    matButton="outlined">
+                <mat-icon>history</mat-icon>
+                {{ 'event.filter.history' | translate }}
+            </button>
+            <button (click)="resetFilter(); range.clear()" class="w-full justify-start" matButton="outlined">
+                <mat-icon>search_off</mat-icon>
+                {{ 'event.filter.reset' | translate }}
+            </button>
+
+            <mat-divider class="!my-1"/>
+
+            <button (click)="exportEvents()" [disabled]="exportingEvents" class="w-full justify-start"
+                    matButton="outlined">
+                @if (exportingEvents) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>cloud_download</mat-icon>
+                }
+                {{ 'backoffice.export.action.all' | translate }}
+            </button>
+            <button (click)="exportMail()" class="w-full justify-start" matButton="outlined">
+                <mat-icon>attach_email</mat-icon>
+                {{ 'backoffice.export.action.mail.title' | translate }}
+            </button>
+            <button (click)="exportSummary()" [disabled]="exportingSummary" class="w-full justify-start"
+                    matButton="outlined">
+                @if (exportingSummary) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>summarize</mat-icon>
+                }
+                {{ 'backoffice.export.action.summary' | translate }}
+            </button>
+        </div>
     </div>
-
-    <div class="flex flex-col gap-2 w-56 shrink-0 p-3 rounded-xl border"
-         style="border-color: var(--mat-sys-outline-variant); background: var(--mat-sys-surface-container-low)">
-
-      <lib-event-range-picker (rangeChanged)="handleRangeChanged($event)" [required]="false" #range class="w-full"/>
-
-      <button matButton="outlined" class="w-full justify-start"
-              [style.--mdc-outlined-button-outline-color]="showHistory ? 'var(--mat-sys-primary)' : null"
-              [style.--mdc-outlined-button-label-text-color]="showHistory ? 'var(--mat-sys-primary)' : null"
-              (click)="toggleHistory()">
-        <mat-icon>history</mat-icon>
-        {{ 'event.filter.history' | translate }}
-      </button>
-      <button matButton="outlined" class="w-full justify-start" (click)="resetFilter(); range.clear()">
-        <mat-icon>search_off</mat-icon>
-        {{ 'event.filter.reset' | translate }}
-      </button>
-
-      <mat-divider class="!my-1"/>
-
-      <button matButton="outlined" class="w-full justify-start" (click)="exportEvents()" [disabled]="exportingEvents">
-        @if (exportingEvents) { <mat-spinner diameter="18"/> } @else { <mat-icon>cloud_download</mat-icon> }
-        {{ 'backoffice.export.action.all' | translate }}
-      </button>
-      <button matButton="outlined" class="w-full justify-start" (click)="exportMail()">
-        <mat-icon>attach_email</mat-icon>
-        {{ 'backoffice.export.action.mail.title' | translate }}
-      </button>
-      <button matButton="outlined" class="w-full justify-start" (click)="exportSummary()" [disabled]="exportingSummary">
-        @if (exportingSummary) { <mat-spinner diameter="18"/> } @else { <mat-icon>summarize</mat-icon> }
-        {{ 'backoffice.export.action.summary' | translate }}
-      </button>
-    </div>
-  </div>
 </admin-board>

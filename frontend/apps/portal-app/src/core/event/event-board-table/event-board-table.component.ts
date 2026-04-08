@@ -19,6 +19,6 @@ import { RegistrationStatusComponent } from '@open-event/core'
   standalone: true
 })
 export class EventBoardTableComponent {
-  protected service = inject(EventBoardService)
   readonly displayedColumns = ['title', 'period', 'location', 'account', 'status']
+  protected service = inject(EventBoardService)
 }

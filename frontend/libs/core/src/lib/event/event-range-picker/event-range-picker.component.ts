@@ -1,4 +1,4 @@
-import { Component, effect, input, output, inject } from '@angular/core'
+import { Component, effect, inject, input, output } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -12,11 +12,10 @@ import { EventRangeSelection } from './event-range-selection'
   styleUrl: './event-range-picker.component.scss'
 })
 export class EventRangePickerComponent {
-  private fb = inject(FormBuilder);
-
   fg: FormGroup
   required = input(true)
   rangeChanged = output<EventRangeSelection>()
+  private fb = inject(FormBuilder)
 
   constructor() {
     this.fg = this.fb.group({

@@ -24,17 +24,14 @@ import { RegistrationService } from '@open-event/portal'
   standalone: true
 })
 export class RegistrationModerationComponent {
+  data = input<RegistrationInfo | undefined>()
   private service = inject(RegistrationService)
   private dialog = inject(MatDialog)
   private hotToast = inject(HotToastService)
   private translation = inject(TranslateService)
   private authService = inject(AuthService)
-
-  data = input<RegistrationInfo | undefined>()
-
-  private reloading = signal(false)
   readonly adminOrManager = computed(() => this.authService.hasRole(Roles.REGISTRATION_MANAGE, Roles.REGISTRATION_ADMIN))
-
+  private reloading = signal(false)
   private detailsResource = resource({
     params: this.data,
     loader: (p) => (p.params ? toPromise(this.service.getDetails(p.params.registration.id), p.abortSignal) : Promise.resolve(undefined))

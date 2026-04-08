@@ -17,37 +17,31 @@ import { TranslatePipe } from '@ngx-translate/core'
   imports: [BoardSearchComponent, EventBoardDateFilterComponent, EventCardListComponent, EventCardComponent, MatButton, MatIcon, TranslatePipe]
 })
 export class EventBoardComponent {
-  private service = inject(EventService)
-  private responsive = inject(BreakpointObserver)
-  private route = inject(ActivatedRoute)
-
-  private routeKey = toSignal(this.route.paramMap.pipe(map(p => p.get('id') ?? '')), { initialValue: '' })
-
-  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
   readonly filterVisible = signal(false)
   readonly showAvailableOnly = signal(false)
   readonly showHistory = signal(false)
-
+  readonly entries = signal<PublicEvent[]>([])
+  private service = inject(EventService)
+  private responsive = inject(BreakpointObserver)
+  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
+  private route = inject(ActivatedRoute)
+  private routeKey = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), { initialValue: '' })
   private query = signal('')
   private fromDate = signal<string | undefined>(undefined)
   private toDate = signal<string | undefined>(undefined)
   private page = signal(0)
   private size = signal(200)
   private infiniteScrollMode = signal(false)
-
   private criteria = computed(() => ({
     key: this.routeKey(),
     request: new PublicEventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.showAvailableOnly()),
     page: this.page(),
     size: this.size()
   }))
-
   private searchResource = resource({
     params: this.criteria,
     loader: (p) => toPromise(this.service.search(p.params.key, p.params.request, p.params.page, p.params.size), p.abortSignal)
   })
-
-  readonly entries = signal<PublicEvent[]>([])
   readonly reloading = this.searchResource.isLoading
   readonly hasMoreElements = computed(() => {
     const result = this.searchResource.value()

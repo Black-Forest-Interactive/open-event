@@ -32,16 +32,14 @@ import { MatIcon } from '@angular/material/icon'
   styleUrl: './feedback-table.component.scss'
 })
 export class FeedbackTableComponent {
-  private dialog = inject(MatDialog)
-
   data = input.required<Feedback[]>()
   reloading = input.required<boolean>()
   pageNumber = input.required<number>()
   pageSize = input.required<number>()
   totalElements = input.required<number>()
-
   pageEvent = output<PageEvent>()
   displayedColumns: string[] = ['id', 'subject', 'topic', 'account', 'rating', 'timestamp', 'cmd']
+  private dialog = inject(MatDialog)
 
   showDetails(feedback: Feedback) {
     this.dialog.open(FeedbackDetailsDialogComponent, { data: feedback })

@@ -1,4 +1,4 @@
-import { Component, effect, input, OnInit, inject } from '@angular/core'
+import { Component, effect, inject, input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { EventInfo } from '../event.api'
 import { DateTime } from 'luxon'
@@ -21,7 +21,7 @@ export class EventChangeGeneralComponent implements OnInit {
   fg: FormGroup
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({
       startTime: fb.control('', Validators.required),
@@ -46,31 +46,6 @@ export class EventChangeGeneralComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-    let endDate = this.fg.get('endDate')
-    if (endDate) endDate.validator = this.isEndHidden() ? null : Validators.required
-  }
-
-  private handleDataChanged(info: EventInfo) {
-    let start = DateTime.fromISO(info.event.start)
-    let startTime = start.toFormat('HH:mm')
-    let finish = DateTime.fromISO(info.event.finish)
-    let finishTime = finish.toFormat('HH:mm')
-
-    this.fg.setValue({
-      startTime: startTime,
-      startDate: start,
-      endTime: finishTime,
-      endDate: finish,
-
-      imageUrl: info.event.imageUrl ?? '',
-      iconUrl: info.event.iconUrl ?? '',
-      longText: info.event.longText ?? '',
-      shortText: info.event.shortText ?? '',
-      title: info.event.title ?? ''
-    })
-  }
-
   get imageUrl() {
     return this.fg.get('imageUrl')
   }
@@ -91,8 +66,33 @@ export class EventChangeGeneralComponent implements OnInit {
     return this.fg.get('title')
   }
 
+  ngOnInit() {
+    let endDate = this.fg.get('endDate')
+    if (endDate) endDate.validator = this.isEndHidden() ? null : Validators.required
+  }
+
   isVisible(ctrl: string): boolean {
     return this.hiddenFields().find((x) => x == ctrl) == null
+  }
+
+  private handleDataChanged(info: EventInfo) {
+    let start = DateTime.fromISO(info.event.start)
+    let startTime = start.toFormat('HH:mm')
+    let finish = DateTime.fromISO(info.event.finish)
+    let finishTime = finish.toFormat('HH:mm')
+
+    this.fg.setValue({
+      startTime: startTime,
+      startDate: start,
+      endTime: finishTime,
+      endDate: finish,
+
+      imageUrl: info.event.imageUrl ?? '',
+      iconUrl: info.event.iconUrl ?? '',
+      longText: info.event.longText ?? '',
+      shortText: info.event.shortText ?? '',
+      title: info.event.title ?? ''
+    })
   }
 
   private isEndHidden() {

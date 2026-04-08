@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, input, output, viewChildren, inject } from '@angular/core'
+import { AfterViewInit, Component, computed, ElementRef, inject, input, output, viewChildren } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 @Component({
@@ -8,17 +8,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './confirmation-code.component.scss'
 })
 export class ConfirmationCodeComponent implements AfterViewInit {
-  private fb = inject(FormBuilder);
-
   codeComplete = output<string>()
   codeChange = output<string>()
   digitsLength = input(5)
-
   digitIndices = computed(() => Array.from({ length: this.digitsLength() }, (_, i) => i))
-
   codeForm: FormGroup
-
   codeInputs = viewChildren<ElementRef>('codeInput')
+  private fb = inject(FormBuilder)
 
   constructor() {
     const formControls: { [key: string]: any } = {}
@@ -28,6 +24,10 @@ export class ConfirmationCodeComponent implements AfterViewInit {
     }
 
     this.codeForm = this.fb.group(formControls)
+  }
+
+  get isComplete(): boolean {
+    return this.codeForm.valid && this.getCode().length === this.digitsLength()
   }
 
   ngAfterViewInit() {
@@ -114,16 +114,6 @@ export class ConfirmationCodeComponent implements AfterViewInit {
     }
   }
 
-  private emitCode() {
-    const code = Array.from({ length: this.digitsLength() }, (_, i) => this.codeForm.get(`digit${i}`)?.value || '').join('')
-
-    this.codeChange.emit(code)
-
-    if (code.length === this.digitsLength() && this.codeForm.valid) {
-      this.codeComplete.emit(code)
-    }
-  }
-
   getCode(): string {
     return Array.from({ length: this.digitsLength() }, (_, i) => this.codeForm.get(`digit${i}`)?.value || '').join('')
   }
@@ -133,12 +123,18 @@ export class ConfirmationCodeComponent implements AfterViewInit {
     this.codeInputs()[0].nativeElement.focus()
   }
 
-  get isComplete(): boolean {
-    return this.codeForm.valid && this.getCode().length === this.digitsLength()
-  }
-
   isFieldInvalid(index: number): boolean {
     const field = this.codeForm.get(`digit${index}`)
     return !!(field && field.invalid && field.touched)
+  }
+
+  private emitCode() {
+    const code = Array.from({ length: this.digitsLength() }, (_, i) => this.codeForm.get(`digit${i}`)?.value || '').join('')
+
+    this.codeChange.emit(code)
+
+    if (code.length === this.digitsLength() && this.codeForm.valid) {
+      this.codeComplete.emit(code)
+    }
   }
 }

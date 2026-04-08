@@ -17,25 +17,20 @@ import { AppFooterComponent } from '../app-footer/app-footer.component'
   imports: [RouterOutlet, MatSidenavContainer, MatSidenav, MatSidenavContent, AppToolbarComponent, AppSidenavComponent, AppFooterComponent]
 })
 export class AppLayoutComponent {
-  private readonly breakpointObserver = inject(BreakpointObserver)
-  private readonly router = inject(Router)
-
   navGroups = input<NavGroup[]>([])
   title = input<string>('')
   version = input<string>('')
   footerInfo = input<string>('')
-
   logoutClick = output<void>()
-
   @ViewChild('sidenav') sidenav: MatSidenav | undefined
-
-  private readonly breakpointResult = toSignal(this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.TabletPortrait]))
-  private readonly navigationEnd = toSignal(this.router.events.pipe(filter((e) => e instanceof NavigationEnd)))
-
-  readonly isHandset = computed(() => this.breakpointResult()?.matches ?? false)
   readonly sidenavCollapsed = signal(false)
   readonly sidenavOpen = signal(true)
   readonly sidenavMode = computed<'over' | 'side'>(() => (this.isHandset() ? 'over' : 'side'))
+  private readonly breakpointObserver = inject(BreakpointObserver)
+  private readonly router = inject(Router)
+  private readonly breakpointResult = toSignal(this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.TabletPortrait]))
+  readonly isHandset = computed(() => this.breakpointResult()?.matches ?? false)
+  private readonly navigationEnd = toSignal(this.router.events.pipe(filter((e) => e instanceof NavigationEnd)))
 
   constructor() {
     effect(() => {

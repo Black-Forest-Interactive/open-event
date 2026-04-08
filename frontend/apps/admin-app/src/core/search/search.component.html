@@ -1,4 +1,4 @@
-<admin-board [showSearch]="false" [showReload]="false" title="search.title">
+<admin-board [showReload]="false" [showSearch]="false" title="search.title">
     <div class="p-4" content>
 
         <!--  <div class="flex-1 overflow-auto bg-gray-50 " content>-->
@@ -17,7 +17,7 @@
 
                             <!-- Status Chip -->
                             <div class="flex-shrink-0">
-                                <mat-chip [highlighted]="info.status === 'READY'" [class]="getStatusClass(info.status)">
+                                <mat-chip [class]="getStatusClass(info.status)" [highlighted]="info.status === 'READY'">
                                     <mat-icon matChipAvatar>{{ getStatusIcon(info.status) }}</mat-icon>
                                     {{ 'search.status.' + info.status | translate }}
                                 </mat-chip>
@@ -26,10 +26,10 @@
                             <!-- Progress Section -->
                             <div class="flex-1 min-w-0 space-y-2">
                                 <mat-progress-bar
-                                        mode="determinate"
-                                        [value]="calculateProgress(info.statistics)"
                                         [color]="getProgressColor(info.status)"
-                                        class="rounded-full h-2"/>
+                                        [value]="calculateProgress(info.statistics)"
+                                        class="rounded-full h-2"
+                                        mode="determinate"/>
 
                                 <div class="flex items-center justify-between gap-4 text-sm">
                                     <div class="flex items-center gap-1.5 text-gray-700 ">
@@ -60,9 +60,9 @@
 
                             <!-- Action Button -->
                             <div class="flex-shrink-0">
-                                <button mat-flat-button
+                                <button (click)="setup(info)"
                                         color="primary"
-                                        (click)="setup(info)">
+                                        mat-flat-button>
                                     <mat-icon>play_arrow</mat-icon>
                                     {{ 'search.action.setup' | translate }}
                                 </button>

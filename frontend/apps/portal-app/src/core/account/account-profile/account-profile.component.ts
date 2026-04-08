@@ -18,20 +18,11 @@ import { AccountService } from '@open-event/portal'
   styleUrl: './account-profile.component.scss'
 })
 export class AccountProfileComponent {
+  readonly editMode = signal(false)
   private service = inject(AccountService)
   private translate = inject(TranslateService)
   private toast = inject(HotToastService)
   private fb = inject(FormBuilder)
-
-  readonly editMode = signal(false)
-
-  private profileResource = resource({
-    loader: (p) => toPromise(this.service.getProfile(), p.abortSignal)
-  })
-
-  readonly profile = this.profileResource.value
-  readonly loading = this.profileResource.isLoading
-
   readonly fg: FormGroup = this.fb.group({
     email: this.fb.control('', Validators.email),
     phone: this.fb.control(''),
@@ -44,6 +35,11 @@ export class AccountProfileComponent {
     website: this.fb.control(''),
     language: this.fb.control('')
   })
+  private profileResource = resource({
+    loader: (p) => toPromise(this.service.getProfile(), p.abortSignal)
+  })
+  readonly profile = this.profileResource.value
+  readonly loading = this.profileResource.isLoading
 
   constructor() {
     effect(() => {

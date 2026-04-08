@@ -20,10 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
   styleUrl: './cache.component.scss'
 })
 export class CacheComponent {
-  private service = inject(CacheService)
-
   displayedColumns: string[] = ['name', 'hit', 'load', 'evict', 'cmd']
-
   chart: EChartsCoreOption = {
     animation: true,
     animationDuration: 400,
@@ -133,17 +130,15 @@ export class CacheComponent {
       '#F44336' // Red
     ]
   }
-
+  values = computed(() => this.updateChart(this.entries()))
+  private service = inject(CacheService)
   private cacheResource = resource({
     loader: (param) => {
       return toPromise(this.service.getAllCaches(), param.abortSignal)
     }
   })
-
   entries = computed(() => this.cacheResource.value() ?? [])
   reloading = this.cacheResource.isLoading
-
-  values = computed(() => this.updateChart(this.entries()))
 
   updateChart(entries: CacheInfo[]): EChartsCoreOption {
     return {

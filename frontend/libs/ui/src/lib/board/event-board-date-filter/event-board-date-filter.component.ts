@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
 import { MatDivider } from '@angular/material/divider'
-import { MatFormField, MatFormFieldModule, MatLabel, MatError } from '@angular/material/form-field'
+import { MatError, MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field'
 import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker } from '@angular/material/datepicker'
 import { MatChipListbox, MatChipOption, MatChipSelectionChange } from '@angular/material/chips'
 import { MatButton } from '@angular/material/button'
@@ -15,11 +15,22 @@ import { EventBoardDateRange } from './event-board-date-filter.model'
   selector: 'lib-event-board-date-filter',
   templateUrl: './event-board-date-filter.component.html',
   imports: [
-    MatCard, MatIcon, MatDivider,
-    MatFormField, MatLabel, MatError, MatFormFieldModule, MatDatepickerModule,
-    MatDateRangeInput, MatDatepickerToggle, MatDateRangePicker,
-    MatChipListbox, MatChipOption, MatButton,
-    ReactiveFormsModule, TranslatePipe
+    MatCard,
+    MatIcon,
+    MatDivider,
+    MatFormField,
+    MatLabel,
+    MatError,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatDateRangeInput,
+    MatDatepickerToggle,
+    MatDateRangePicker,
+    MatChipListbox,
+    MatChipOption,
+    MatButton,
+    ReactiveFormsModule,
+    TranslatePipe
   ]
 })
 export class EventBoardDateFilterComponent {

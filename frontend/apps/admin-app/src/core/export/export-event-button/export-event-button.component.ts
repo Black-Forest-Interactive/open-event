@@ -16,11 +16,10 @@ import { MatTooltip } from '@angular/material/tooltip'
   styleUrl: './export-event-button.component.scss'
 })
 export class ExportEventButtonComponent {
-  private service = inject(ExportService)
-
   exporting: boolean = false
   event = input.required<Event | EventSearchEntry>()
   type = input('button')
+  private service = inject(ExportService)
 
   export() {
     if (this.exporting) return

@@ -17,9 +17,8 @@ import { ParticipateRequest } from '@open-event/core'
 })
 export class RegistrationParticipateDialogComponent {
   dialogRef = inject<MatDialogRef<RegistrationParticipateDialogComponent>>(MatDialogRef)
-  private fb = inject(FormBuilder)
-
   fg: FormGroup
+  private fb = inject(FormBuilder)
 
   constructor() {
     const fb = this.fb

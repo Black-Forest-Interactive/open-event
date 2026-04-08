@@ -12,12 +12,15 @@
 ## Data Modeling
 
 ### File structure
+
 For each business object there is a separate folder that contains the code.
 Like `libs/portal/src/lib/account` for the account related data.
-If the core api is used the directory contains only a service with the name of the business object (same like the directory)
+If the core api is used the directory contains only a service with the name of the business object (same like the
+directory)
 So if the business object is an account the directory is called account and the service is called `account.service.ts`
-If some specific api for the app is necessary, cause there is some limitation of data for security or privacy reasons, 
-there will be also an file for the api (interfaces and classes) with `*.api.ts`.  In that example its called `account.api.ts`
+If some specific api for the app is necessary, cause there is some limitation of data for security or privacy reasons,
+there will be also an file for the api (interfaces and classes) with `*.api.ts`. In that example its called
+`account.api.ts`
 
 ### Interfaces — for data coming FROM the backend (responses, DTOs)
 
@@ -56,7 +59,8 @@ class UserResponse {
 
 ### Classes — for data going TO the backend (request bodies, commands)
 
-Use `class` when you are constructing a payload to send. These may have a constructor and helper methods for building/transforming the payload.
+Use `class` when you are constructing a payload to send. These may have a constructor and helper methods for
+building/transforming the payload.
 
 ```typescript
 // ✅ correct
@@ -70,8 +74,8 @@ export class AccountChangeRequest {
 
 // ❌ wrong — interface used for outgoing request
 interface CreateUserRequest {
-  email: string
-  password: string
+    email: string
+    password: string
 }
 ```
 
@@ -79,9 +83,11 @@ interface CreateUserRequest {
 
 ## Backend Services — thin access layer, no logic
 
-Backend services are HTTP adapters only. They map Angular `HttpClient` calls to typed responses. **No business logic, no data transformation, no state.**
+Backend services are HTTP adapters only. They map Angular `HttpClient` calls to typed responses. **No business logic, no
+data transformation, no state.**
 
 Rules:
+
 - One method per endpoint
 - Return the `Observable` directly — no `.pipe()` unless it's a single `map` to cast the type
 - No `if` statements, no data manipulation, no side effects
@@ -133,26 +139,27 @@ export class AccountService extends BaseService {
 
 
 // ❌ wrong — logic inside the API service
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class UserApiService {
-  private readonly http = inject(HttpClient)
-  private readonly store = inject(UserStore) // ❌ no store injection
+    private readonly http = inject(HttpClient)
+    private readonly store = inject(UserStore) // ❌ no store injection
 
-  getById(id: string): Observable<UserResponse> {
-    return this.http.get<UserResponse>(`/api/users/${id}`).pipe(
-      tap(user => this.store.setUser(user)), // ❌ no side effects
-      map(user => ({ ...user, displayName: user.email.split('@')[0] })) // ❌ no transformation
-    )
-  }
+    getById(id: string): Observable<UserResponse> {
+        return this.http.get<UserResponse>(`/api/users/${id}`).pipe(
+            tap(user => this.store.setUser(user)), // ❌ no side effects
+            map(user => ({...user, displayName: user.email.split('@')[0]})) // ❌ no transformation
+        )
+    }
 
-  create(request: CreateUserRequest): Observable<UserResponse> {
-    if (!request.email) throw new Error('Email required') // ❌ no validation/logic
-    return this.http.post<UserResponse>('/api/users', request)
-  }
+    create(request: CreateUserRequest): Observable<UserResponse> {
+        if (!request.email) throw new Error('Email required') // ❌ no validation/logic
+        return this.http.post<UserResponse>('/api/users', request)
+    }
 }
 ```
 
-Business logic, caching, error handling, and state updates belong in a dedicated feature service or store — not in the API service.
+Business logic, caching, error handling, and state updates belong in a dedicated feature service or store — not in the
+API service.
 
 ---
 
@@ -173,10 +180,10 @@ For a component use the following structure
 For the usage of the resources api use the following pattern
 
 - The resource itself should be always private
-- Use computed signals for providing the data 
+- Use computed signals for providing the data
 - If there is more then one signal triggering the resource use a signal called *Criteria
 - Try to write the code as compact as possible
-- Always add the abortSignal- 
+- Always add the abortSignal-
 
 ```typescript
 export class AccountComponent {
@@ -244,9 +251,11 @@ export class AccountComponent {
     error = this.addressResource.error
 }
 ```
+
 ### Loading data from route params
 
-When a component loads data based on a route param, use `toSignal()` on `route.paramMap` to derive the id as a signal, then drive a `resource()` from it. This replaces the `OnInit` + `paramMap.subscribe()` pattern entirely.
+When a component loads data based on a route param, use `toSignal()` on `route.paramMap` to derive the id as a signal,
+then drive a `resource()` from it. This replaces the `OnInit` + `paramMap.subscribe()` pattern entirely.
 
 ```typescript
 // ✅ correct — reactive, no OnInit, no manual loading state
@@ -272,7 +281,11 @@ When a mutation returns the updated resource value directly, set it on the resou
 
 ```typescript
 // ✅ correct — avoids a round-trip when the response contains the updated value
-setSharingEnabled(enabled: boolean) {
+setSharingEnabled(enabled
+:
+boolean
+)
+{
     const id = this.eventId()
     if (!id) return
     this.service.setShared(id, enabled).subscribe((d) => this.infoResource.set(d))
@@ -281,7 +294,8 @@ setSharingEnabled(enabled: boolean) {
 
 ```typescript
 // ❌ wrong — manual subscribe/signal pattern
-constructor() {
+constructor()
+{
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((p) => {
         const idParam = p.get('id')
         this.eventId.set(idParam !== null ? +idParam : undefined)
@@ -289,11 +303,15 @@ constructor() {
     })
 }
 
-reload() {
+reload()
+{
     const id = this.eventId()
     if (!id || this.reloading()) return
     this.reloading.set(true)
-    this.service.getEventInfo(id).subscribe((d) => { this.info.set(d); this.reloading.set(false) })
+    this.service.getEventInfo(id).subscribe((d) => {
+        this.info.set(d);
+        this.reloading.set(false)
+    })
 }
 ```
 
@@ -301,13 +319,17 @@ reload() {
 
 ### Computed signals for template properties
 
-When a component holds an optional or complex signal (e.g. set from outside or loaded async), expose each property used in the template as a dedicated `readonly computed` signal with a safe default value. Never access `data()?.property` directly in templates.
+When a component holds an optional or complex signal (e.g. set from outside or loaded async), expose each property used
+in the template as a dedicated `readonly computed` signal with a safe default value. Never access `data()?.property`
+directly in templates.
 
 Default value rules:
+
 - `string` → `''`
 - `number` → `0`
 - `boolean` → `false`
-- objects / arrays → no `?? null` needed — optional chaining (`?.`) already returns `undefined`, which is falsy in templates; only add a default when the type contract requires it
+- objects / arrays → no `?? null` needed — optional chaining (`?.`) already returns `undefined`, which is falsy in
+  templates; only add a default when the type contract requires it
 
 ```typescript
 // ✅ correct
@@ -343,38 +365,43 @@ Always use `@ngx-translate/core` for user-visible strings. Never hardcode displa
 
 - Import `TranslatePipe` in the component's `imports` array
 - Use the pipe in templates: `{{ 'some.key' | translate }}`
-- Pass translation keys as string inputs where the component itself renders the label — the pipe is applied inside the component template, not by the caller
-appp
+- Pass translation keys as string inputs where the component itself renders the label — the pipe is applied inside the
+  component template, not by the caller
+  appp
+
 ### Key structure
 
-Top-level keys are lowercase feature names (`event`, `account`, `address`, …). Each feature follows a consistent set of standard sub-namespaces:
+Top-level keys are lowercase feature names (`event`, `account`, `address`, …). Each feature follows a consistent set of
+standard sub-namespaces:
 
-| Sub-key | Purpose | Example |
-|---------|---------|---------|
-| `type` | Singular noun for the feature (nav labels, chips) | `event.type` → "Event" |
-| `title` | Page / section heading | `event.title` → "Event" |
-| `search` | Search field placeholder | `event.search` → "Search for event" |
-| `create` | Top-level create button label | `event.create` → "Create new event" |
-| `action.*` | User-triggered actions (buttons, links) | `event.action.publish` |
-| `form.*` | Form field labels | `event.form.title` |
-| `form.hint.*` | Field hints / helper text | `event.form.hint.startDate` |
-| `form.error.*` | Validation error messages | `event.form.error.title` |
-| `table.*` | Table column headers | `event.table.status` |
-| `property.*` | Read-only property labels (detail views) | `event.property.published` |
-| `dialog.<type>.title` | Dialog heading — type is `create`, `edit`, `change`, `delete` | `event.dialog.delete.title` |
-| `dialog.<type>.question` | Confirmation question inside a dialog | `event.dialog.delete.question` |
-| `message.*` | Success / error feedback (snackbar, inline) | `registration.message.accepted` |
-| `status.*` | Status enum display values | `registration.status.full` |
-| `filter.*` | Filter panel labels | `event.filter.reset` |
-| `details.*` | Tab / section labels in detail views | `account.details.profile` |
-| `step.*` | Stepper step labels | `event.step.location` |
+| Sub-key                  | Purpose                                                       | Example                             |
+|--------------------------|---------------------------------------------------------------|-------------------------------------|
+| `type`                   | Singular noun for the feature (nav labels, chips)             | `event.type` → "Event"              |
+| `title`                  | Page / section heading                                        | `event.title` → "Event"             |
+| `search`                 | Search field placeholder                                      | `event.search` → "Search for event" |
+| `create`                 | Top-level create button label                                 | `event.create` → "Create new event" |
+| `action.*`               | User-triggered actions (buttons, links)                       | `event.action.publish`              |
+| `form.*`                 | Form field labels                                             | `event.form.title`                  |
+| `form.hint.*`            | Field hints / helper text                                     | `event.form.hint.startDate`         |
+| `form.error.*`           | Validation error messages                                     | `event.form.error.title`            |
+| `table.*`                | Table column headers                                          | `event.table.status`                |
+| `property.*`             | Read-only property labels (detail views)                      | `event.property.published`          |
+| `dialog.<type>.title`    | Dialog heading — type is `create`, `edit`, `change`, `delete` | `event.dialog.delete.title`         |
+| `dialog.<type>.question` | Confirmation question inside a dialog                         | `event.dialog.delete.question`      |
+| `message.*`              | Success / error feedback (snackbar, inline)                   | `registration.message.accepted`     |
+| `status.*`               | Status enum display values                                    | `registration.status.full`          |
+| `filter.*`               | Filter panel labels                                           | `event.filter.reset`                |
+| `details.*`              | Tab / section labels in detail views                          | `account.details.profile`           |
+| `step.*`                 | Stepper step labels                                           | `event.step.location`               |
 
 **Global (not feature-scoped):**
+
 - `action.*` — shared actions reused across features: `action.save`, `action.cancel`, `action.logout`, …
 - `paginator.*` — shared paginator labels
 - `lang.*` — language names
 
 **Naming conventions inside keys:**
+
 - Sub-keys are camelCase: `startDate`, `maxGuests`, `firstName`
 - Enum value keys are SCREAMING_SNAKE_CASE matching the backend enum: `status.ACCEPTED`, `status.IN_PROGRESS`
 - Dynamic interpolation uses double curly braces: `"Update event: {{ event }}"`

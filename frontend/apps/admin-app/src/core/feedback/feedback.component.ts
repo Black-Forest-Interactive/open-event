@@ -16,15 +16,13 @@ import { FeedbackTableComponent } from './feedback-table/feedback-table.componen
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent implements OnInit {
-  private service = inject(FeedbackService)
-  private toast = inject(HotToastService)
-
   reloading: boolean = false
   pageNumber = 0
   pageSize = 25
   totalElements = 0
-
   data: Feedback[] = []
+  private service = inject(FeedbackService)
+  private toast = inject(HotToastService)
 
   ngOnInit(): void {
     this.reload()
@@ -32,6 +30,12 @@ export class FeedbackComponent implements OnInit {
 
   reload() {
     this.load(0, this.pageSize)
+  }
+
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
   }
 
   private load(page: number, size: number) {
@@ -53,11 +57,5 @@ export class FeedbackComponent implements OnInit {
   private handleError(err: any) {
     if (err) this.toast.error()
     this.reloading = false
-  }
-
-  handlePageChange(event: PageEvent) {
-    if (this.reloading) return
-    this.pageSize = event.pageSize
-    this.load(event.pageIndex, event.pageSize)
   }
 }

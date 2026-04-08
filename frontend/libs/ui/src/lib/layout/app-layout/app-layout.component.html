@@ -1,28 +1,28 @@
 <div class="flex flex-col h-screen overflow-hidden">
-  <lib-app-toolbar [title]="title()" [showMenuToggle]="isHandset()" (menuToggle)="toggleSidenav()">
-    <ng-container toolbar-right>
-      <ng-content select="[toolbar-right]"></ng-content>
-    </ng-container>
-  </lib-app-toolbar>
+    <lib-app-toolbar (menuToggle)="toggleSidenav()" [showMenuToggle]="isHandset()" [title]="title()">
+        <ng-container toolbar-right>
+            <ng-content select="[toolbar-right]"></ng-content>
+        </ng-container>
+    </lib-app-toolbar>
 
-  <mat-sidenav-container class="flex-1 min-h-0" autosize>
-    <mat-sidenav #sidenav
-                 class="!border-r !p-0 transition-[width] duration-[250ms] ease-in-out"
-                 style="background-color: var(--mat-sys-surface-container-low); border-right-color: var(--mat-sys-outline-variant)"
-                 [style.width]="sidenavCollapsed() ? '4rem' : '16rem'"
-                 [mode]="sidenavMode()"
-                 [opened]="sidenavOpen()">
-      <lib-app-sidenav [navGroups]="navGroups()"
-                       [collapsed]="sidenavCollapsed()"
-                       [showCollapse]="!isHandset()"
-                       (collapseClick)="toggleCollapse()"
-                       (logoutClick)="logoutClick.emit()"/>
-    </mat-sidenav>
+    <mat-sidenav-container autosize class="flex-1 min-h-0">
+        <mat-sidenav #sidenav
+                     [mode]="sidenavMode()"
+                     [opened]="sidenavOpen()"
+                     [style.width]="sidenavCollapsed() ? '4rem' : '16rem'"
+                     class="!border-r !p-0 transition-[width] duration-[250ms] ease-in-out"
+                     style="background-color: var(--mat-sys-surface-container-low); border-right-color: var(--mat-sys-outline-variant)">
+            <lib-app-sidenav (collapseClick)="toggleCollapse()"
+                             (logoutClick)="logoutClick.emit()"
+                             [collapsed]="sidenavCollapsed()"
+                             [navGroups]="navGroups()"
+                             [showCollapse]="!isHandset()"/>
+        </mat-sidenav>
 
-    <mat-sidenav-content class="overflow-y-auto overflow-x-hidden">
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+        <mat-sidenav-content class="overflow-y-auto overflow-x-hidden">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 
-  <lib-app-footer [version]="version()" [info]="footerInfo()"></lib-app-footer>
+    <lib-app-footer [info]="footerInfo()" [version]="version()"></lib-app-footer>
 </div>

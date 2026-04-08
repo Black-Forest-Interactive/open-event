@@ -14,11 +14,10 @@ import { HotToastService } from '@ngxpert/hot-toast'
   styleUrl: './issue-card.component.scss'
 })
 export class IssueCardComponent {
-  private service = inject(IssueService)
-  private toast = inject(HotToastService)
-
   issue = model.required<Issue>()
   loading = false
+  private service = inject(IssueService)
+  private toast = inject(HotToastService)
 
   changeStatus(status: string) {
     if (this.loading) return

@@ -13,13 +13,11 @@ import { MatMiniFabButton } from '@angular/material/button'
   styleUrl: './event-publish-button.component.scss'
 })
 export class EventPublishButtonComponent {
-  private service = inject(EventService)
-  private toastService = inject(HotToastService)
-
   data = input.required<Event>()
-
   publishing = false
   changed = output<Event>()
+  private service = inject(EventService)
+  private toastService = inject(HotToastService)
 
   publish() {
     if (this.publishing) return

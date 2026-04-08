@@ -18,13 +18,12 @@ import packageJson from '../../../../../package.json'
   standalone: true
 })
 export class DashboardComponent {
-  private appService = inject(AppService)
-  private dashboardService = inject(DashboardService)
-
-  title = this.dashboardService.title
-  info = this.appService.info
-  navGroups = this.dashboardService.accessibleNavGroups
   version = 'V ' + packageJson.version
+  private appService = inject(AppService)
+  info = this.appService.info
+  private dashboardService = inject(DashboardService)
+  title = this.dashboardService.title
+  navGroups = this.dashboardService.accessibleNavGroups
 
   logout() {
     this.appService.logout()

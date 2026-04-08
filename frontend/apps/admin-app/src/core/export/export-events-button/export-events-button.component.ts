@@ -16,10 +16,9 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './export-events-button.component.scss'
 })
 export class ExportEventsButtonComponent {
-  private service = inject(ExportService)
-
   exporting: boolean = false
   request = input.required<EventSearchRequest>()
+  private service = inject(ExportService)
 
   export() {
     if (this.exporting) return

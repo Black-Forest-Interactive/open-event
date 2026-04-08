@@ -1,31 +1,34 @@
-<admin-board [reloading]="loading()" (reload)="reload()" [showSearch]="false" title="account.title" [showBack]="true" (back)="back()">
-  <div class="flex flex-col gap-4 p-4 content-stretch ">
-    @if (account()) {
-      <div class="flex flex-row gap-6">
-        <div class="flex flex-col gap-4 content-stretch">
-          <admin-account-details-title [data]="account()!!" class="flex-auto"></admin-account-details-title>
-          <admin-account-details-profile [data]="account()!!" class="flex-auto"></admin-account-details-profile>
-          <admin-account-details-preferences [data]="account()!!" class="flex-auto"></admin-account-details-preferences>
-        </div>
-        <div class="rounded-lg border-gray-500 border flex-auto">
-          <mat-tab-group>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon>event_note</mat-icon>
-                {{ 'account.details.events' | translate }}
-              </ng-template>
-              <admin-account-details-events [data]="account()!!"></admin-account-details-events>
-            </mat-tab>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon>home_pin</mat-icon>
-                {{ 'account.details.address' | translate }}
-              </ng-template>
-              <admin-account-details-address [data]="account()!!"></admin-account-details-address>
-            </mat-tab>
-          </mat-tab-group>
-        </div>
-      </div>
-    }
-  </div>
+<admin-board (back)="back()" (reload)="reload()" [reloading]="loading()" [showBack]="true" [showSearch]="false"
+             title="account.title">
+    <div class="flex flex-col gap-4 p-4 content-stretch ">
+        @if (account()) {
+            <div class="flex flex-row gap-6">
+                <div class="flex flex-col gap-4 content-stretch">
+                    <admin-account-details-title [data]="account()!!" class="flex-auto"></admin-account-details-title>
+                    <admin-account-details-profile [data]="account()!!"
+                                                   class="flex-auto"></admin-account-details-profile>
+                    <admin-account-details-preferences [data]="account()!!"
+                                                       class="flex-auto"></admin-account-details-preferences>
+                </div>
+                <div class="rounded-lg border-gray-500 border flex-auto">
+                    <mat-tab-group>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon>event_note</mat-icon>
+                                {{ 'account.details.events' | translate }}
+                            </ng-template>
+                            <admin-account-details-events [data]="account()!!"></admin-account-details-events>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon>home_pin</mat-icon>
+                                {{ 'account.details.address' | translate }}
+                            </ng-template>
+                            <admin-account-details-address [data]="account()!!"></admin-account-details-address>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        }
+    </div>
 </admin-board>

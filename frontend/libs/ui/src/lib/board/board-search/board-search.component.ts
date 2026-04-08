@@ -26,6 +26,6 @@ export class BoardSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe(query => this.search.emit(query))
+    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => this.search.emit(query))
   }
 }

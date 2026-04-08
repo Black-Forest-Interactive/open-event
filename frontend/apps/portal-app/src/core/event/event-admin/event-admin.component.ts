@@ -21,10 +21,11 @@ import { TranslatePipe } from '@ngx-translate/core'
   standalone: true
 })
 export class EventAdminComponent {
+  readonly event = computed(() => this.info()?.event)
+  readonly registration = computed(() => this.info()?.registration)
   private route = inject(ActivatedRoute)
   private location = inject(Location)
   private service = inject(EventService)
-
   private eventId = toSignal(
     this.route.paramMap.pipe(
       map((p) => {
@@ -33,16 +34,12 @@ export class EventAdminComponent {
       })
     )
   )
-
   private infoResource = resource({
     params: this.eventId,
     loader: (p) => (p.params ? toPromise(this.service.getEventInfo(p.params), p.abortSignal) : Promise.resolve(undefined))
   })
-
   readonly info = computed(() => this.infoResource.value())
   readonly reloading = this.infoResource.isLoading
-  readonly event = computed(() => this.info()?.event)
-  readonly registration = computed(() => this.info()?.registration)
 
   back() {
     this.location.back()

@@ -28,6 +28,14 @@ export class ActivityButtonComponent {
     })
   }
 
+  handleMarkAllReadClick() {
+    this.reloading.set(true)
+    this.service.markReadAll().subscribe({
+      next: (value) => this.handleData(value),
+      error: () => this.handleError()
+    })
+  }
+
   private navigateToSource(activity: Activity) {
     if (activity.source === 'EVENT' || activity.source === 'REGISTRATION') {
       this.router.navigate(['event', 'details', activity.sourceId]).then()
@@ -39,14 +47,6 @@ export class ActivityButtonComponent {
     if (this.reloading()) return
     this.reloading.set(true)
     this.service.unreadInfo().subscribe({
-      next: (value) => this.handleData(value),
-      error: () => this.handleError()
-    })
-  }
-
-  handleMarkAllReadClick() {
-    this.reloading.set(true)
-    this.service.markReadAll().subscribe({
       next: (value) => this.handleData(value),
       error: () => this.handleError()
     })

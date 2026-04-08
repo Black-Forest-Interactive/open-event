@@ -8,10 +8,10 @@
 </div>
 @if (info().event.longText.length > 0) {
     <mat-divider></mat-divider>
-    <div class="p-3" [innerHTML]="info().event.longText"></div>
+    <div [innerHTML]="info().event.longText" class="p-3"></div>
 }
 @if (info().event.imageUrl && info().event.imageUrl.length > 0) {
-    <img alt="" class="w-full" [src]="info().event.imageUrl">
+    <img [src]="info().event.imageUrl" alt="" class="w-full">
 }
 @if (info().categories.length > 0 || info().event.tags.length > 0) {
     <mat-divider></mat-divider>

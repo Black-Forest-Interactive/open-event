@@ -13,9 +13,9 @@ import { Address } from '@open-event/core'
   styleUrl: './address-delete-dialog.component.scss'
 })
 export class AddressDeleteDialogComponent {
-  private service = inject(AddressService)
   dialogRef = inject<MatDialogRef<AddressDeleteDialogComponent>>(MatDialogRef)
   data = inject<Address>(MAT_DIALOG_DATA)
+  private service = inject(AddressService)
 
   onNoClick(): void {
     this.dialogRef.close(false)

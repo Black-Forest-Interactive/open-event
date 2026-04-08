@@ -12,12 +12,10 @@ import { BoardComponent } from '../../../shared/board/board.component'
   styleUrl: './activity-details.component.scss'
 })
 export class ActivityDetailsComponent {
+  id = signal(-1)
   private service = inject(ActivityService)
   private route = inject(ActivatedRoute)
   private location = inject(Location)
-
-  id = signal(-1)
-
   private activityResource = resource({
     params: this.id,
     loader: (param) => toPromise(this.service.getActivity(param.params), param.abortSignal)

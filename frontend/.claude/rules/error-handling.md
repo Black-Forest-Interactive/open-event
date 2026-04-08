@@ -2,7 +2,8 @@
 
 ## User-facing errors — HotToastService
 
-All user-visible error and success messages go through `HotToastService` from `@ngxpert/hot-toast`. Never use `MatSnackBar` directly for feedback.
+All user-visible error and success messages go through `HotToastService` from `@ngxpert/hot-toast`. Never use
+`MatSnackBar` directly for feedback.
 
 ```typescript
 private toast = inject(HotToastService)

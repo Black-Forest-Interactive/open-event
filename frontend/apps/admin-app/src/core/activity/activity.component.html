@@ -1,15 +1,15 @@
-<admin-board [reloading]="reloading" [showSearch]="false" (reload)="reload()" title="activity.title">
-  <board-toolbar-actions>
-    <button (click)="cleanup()" mat-flat-button color="accent">
-      <mat-icon class="!m-0">auto_delete</mat-icon>
-    </button>
-  </board-toolbar-actions>
-  <mat-card>
-    <admin-activity-table [data]="data"
-                        [reloading]="reloading"
-                        [pageSize]="pageSize"
-                        [pageNumber]="pageNumber"
-                        [totalElements]="totalElements"
-                        (pageEvent)="handlePageChange($event)"/>
-  </mat-card>
+<admin-board (reload)="reload()" [reloading]="reloading" [showSearch]="false" title="activity.title">
+    <board-toolbar-actions>
+        <button (click)="cleanup()" color="accent" mat-flat-button>
+            <mat-icon class="!m-0">auto_delete</mat-icon>
+        </button>
+    </board-toolbar-actions>
+    <mat-card>
+        <admin-activity-table (pageEvent)="handlePageChange($event)"
+                              [data]="data"
+                              [pageNumber]="pageNumber"
+                              [pageSize]="pageSize"
+                              [reloading]="reloading"
+                              [totalElements]="totalElements"/>
+    </mat-card>
 </admin-board>

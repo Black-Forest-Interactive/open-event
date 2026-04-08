@@ -1,4 +1,4 @@
-import { Component, effect, input, output, inject } from '@angular/core'
+import { Component, effect, inject, input, output } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
@@ -20,7 +20,7 @@ export class AccountChangeComponent {
   fg: FormGroup
 
   constructor() {
-    const fb = inject(FormBuilder);
+    const fb = inject(FormBuilder)
 
     this.fg = fb.group({
       firstName: ['', Validators.required],
@@ -36,14 +36,6 @@ export class AccountChangeComponent {
     })
   }
 
-  private handleDataChanged(account: AccountSearchEntry | AccountDetails) {
-    this.fg.get('firstName')?.setValue(account.firstName)
-    this.fg.get('lastName')?.setValue(account.lastName)
-    this.fg.get('email')?.setValue(account.email)
-    this.fg.get('phone')?.setValue(account.phone)
-    this.fg.get('mobile')?.setValue(account.mobile)
-  }
-
   submit() {
     if (!this.fg.valid) return
     let value = this.fg.value
@@ -53,5 +45,13 @@ export class AccountChangeComponent {
       new ProfileChangeRequest(value.email, value.phone, value.mobile, value.firstName, value.lastName, undefined, undefined, undefined, undefined, '')
     )
     this.request.emit(request)
+  }
+
+  private handleDataChanged(account: AccountSearchEntry | AccountDetails) {
+    this.fg.get('firstName')?.setValue(account.firstName)
+    this.fg.get('lastName')?.setValue(account.lastName)
+    this.fg.get('email')?.setValue(account.email)
+    this.fg.get('phone')?.setValue(account.phone)
+    this.fg.get('mobile')?.setValue(account.mobile)
   }
 }

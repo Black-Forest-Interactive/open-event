@@ -18,14 +18,12 @@ import { switchMap } from 'rxjs'
   styleUrl: './activity-menu.component.scss'
 })
 export class ActivityMenuComponent {
+  menuTrigger = new MatMenuTrigger()
+  readonly data = signal<ActivityInfo[]>([])
+  readonly reloading = signal(false)
   private service = inject(ActivityService)
   private toast = inject(HotToastService)
   private menuRef = viewChild<MatMenu>('menu')
-
-  menuTrigger = new MatMenuTrigger()
-
-  readonly data = signal<ActivityInfo[]>([])
-  readonly reloading = signal(false)
 
   constructor() {
     effect(() => {

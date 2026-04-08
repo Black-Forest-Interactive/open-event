@@ -11,13 +11,11 @@ import { AccountService } from '@open-event/admin'
   providedIn: 'root'
 })
 export class AppService {
+  readonly authService = inject(AuthService)
   private readonly accountService = inject(AccountService)
   private readonly translate = inject(TranslateService)
-  private readonly dialog = inject(MatDialog)
-  readonly authService = inject(AuthService)
-
   readonly lang: Signal<string> = toSignal(this.translate.onLangChange.pipe(map((e) => e.lang)), { initialValue: this.translate.getCurrentLang() })
-
+  private readonly dialog = inject(MatDialog)
   private readonly validationResource = resource<AccountValidationResult, string>({
     params: () => this.translate.getCurrentLang() ?? 'de',
     loader: ({ params: lang, abortSignal }) => toPromise(this.accountService.validate(lang), abortSignal)

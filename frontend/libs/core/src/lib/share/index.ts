@@ -1,1 +1,1 @@
-export * from './share.api';
+export * from './share.api'

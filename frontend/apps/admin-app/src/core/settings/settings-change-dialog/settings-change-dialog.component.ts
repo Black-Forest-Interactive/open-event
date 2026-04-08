@@ -17,12 +17,11 @@ import { MatIconModule } from '@angular/material/icon'
   standalone: true
 })
 export class SettingsChangeDialogComponent {
-  private fb = inject(FormBuilder)
-  private service = inject(SettingsService)
   dialogRef = inject<MatDialogRef<SettingsChangeDialogComponent>>(MatDialogRef)
   data = inject<Setting | null>(MAT_DIALOG_DATA)
-
   fg: FormGroup
+  private fb = inject(FormBuilder)
+  private service = inject(SettingsService)
 
   constructor() {
     const data = this.data

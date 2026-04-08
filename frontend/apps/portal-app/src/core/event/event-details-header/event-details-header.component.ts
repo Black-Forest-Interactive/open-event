@@ -26,29 +26,26 @@ import { EventNavigationService } from '../event-navigation.service'
   standalone: true
 })
 export class EventDetailsHeaderComponent {
-  private location = inject(Location)
-  private router = inject(Router)
-  private service = inject(EventService)
-  private toastService = inject(HotToastService)
-  private dialog = inject(MatDialog)
-  private breakpointObserver = inject(BreakpointObserver)
-
   data = input<EventInfo | undefined>()
   reloading = input<boolean>(false)
   changed = output<Event>()
-
   readonly isOwner = signal(false)
-  private event = signal<Event | undefined>(undefined)
-  private mobileBreakpoint = toSignal(this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]))
-  readonly isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
   readonly publishing = signal(false)
-
   readonly editMenuItem = new EventMenuItem('edit', 'event.action.edit', () => this.handleActionEdit(), false)
   readonly copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', () => this.handleActionCopy(), false)
   readonly deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', () => this.handleActionDelete(), false)
   readonly adminMenuItem = new EventMenuItem('admin_panel_settings', 'event.action.admin', () => this.handleActionAdmin(), false)
   readonly publishMenuItem = new EventMenuItem('publish', 'event.action.publish', () => this.handleActionPublish(), false)
   readonly menuItems = [this.editMenuItem, this.copyMenuItem, this.deleteMenuItem, this.adminMenuItem]
+  private location = inject(Location)
+  private router = inject(Router)
+  private service = inject(EventService)
+  private toastService = inject(HotToastService)
+  private dialog = inject(MatDialog)
+  private breakpointObserver = inject(BreakpointObserver)
+  private event = signal<Event | undefined>(undefined)
+  private mobileBreakpoint = toSignal(this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]))
+  readonly isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
 
   constructor() {
     effect(() => {
@@ -61,7 +58,9 @@ export class EventDetailsHeaderComponent {
     })
   }
 
-  back() { this.location.back() }
+  back() {
+    this.location.back()
+  }
 
   private handleActionEdit() {
     const e = this.event()
@@ -81,9 +80,12 @@ export class EventDetailsHeaderComponent {
   private handleActionDelete() {
     const e = this.event()
     if (!e) return
-    this.dialog.open(EventDeleteDialogComponent, { width: '350px', data: e }).afterClosed().subscribe((result) => {
-      if (result) this.service.deleteEvent(e.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
-    })
+    this.dialog
+      .open(EventDeleteDialogComponent, { width: '350px', data: e })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) this.service.deleteEvent(e.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
+      })
   }
 
   private handleActionPublish() {
@@ -91,8 +93,14 @@ export class EventDetailsHeaderComponent {
     if (!e || this.publishing()) return
     this.publishing.set(true)
     this.service.publish(e.id).subscribe({
-      next: (d) => { this.changed.emit(d); this.publishing.set(false) },
-      error: () => { this.toastService.error(); this.publishing.set(false) }
+      next: (d) => {
+        this.changed.emit(d)
+        this.publishing.set(false)
+      },
+      error: () => {
+        this.toastService.error()
+        this.publishing.set(false)
+      }
     })
   }
 }

@@ -17,10 +17,9 @@ import { DashboardService } from './dashboard.service'
 })
 export class DashboardComponent {
   private appService = inject(AppService)
-  private dashboardService = inject(DashboardService)
-
-  title = this.dashboardService.title
   info = this.appService.info
+  private dashboardService = inject(DashboardService)
+  title = this.dashboardService.title
   navGroups = this.dashboardService.accessibleNavGroups
 
   logout() {

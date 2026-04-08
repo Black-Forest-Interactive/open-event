@@ -1,4 +1,4 @@
-import { Component, input, output, inject } from '@angular/core'
+import { Component, inject, input, output } from '@angular/core'
 import { map, Observable } from 'rxjs'
 import { MatStepperModule, StepperOrientation } from '@angular/material/stepper'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
@@ -49,7 +49,7 @@ export class EventChangeStepperComponent {
   stepperOrientation: Observable<StepperOrientation>
 
   constructor() {
-    const breakpointObserver = inject(BreakpointObserver);
+    const breakpointObserver = inject(BreakpointObserver)
 
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)').pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')))
   }

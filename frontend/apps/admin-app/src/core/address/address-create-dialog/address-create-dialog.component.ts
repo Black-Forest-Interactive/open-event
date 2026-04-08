@@ -13,9 +13,9 @@ import { AccountService } from '@open-event/admin'
   styleUrl: './address-create-dialog.component.scss'
 })
 export class AddressCreateDialogComponent {
-  private service = inject(AccountService)
   dialogRef = inject<MatDialogRef<AddressCreateDialogComponent>>(MatDialogRef)
   data = inject<Account>(MAT_DIALOG_DATA)
+  private service = inject(AccountService)
 
   onCancelClick(): void {
     this.dialogRef.close(false)

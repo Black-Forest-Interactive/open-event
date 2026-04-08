@@ -9,7 +9,6 @@ import { EventService } from '@open-event/portal'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { EventDetailsBannerComponent } from '../event-details-banner/event-details-banner.component'
 import { MatCard } from '@angular/material/card'
-import { MatDivider } from '@angular/material/divider'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs/operators'
 
@@ -25,15 +24,17 @@ import { map } from 'rxjs/operators'
     ShareDetailsComponent,
     LoadingBarComponent,
     EventDetailsBannerComponent,
-    MatCard,
-    MatDivider
+    MatCard
   ],
   standalone: true
 })
 export class EventDetailsComponent {
+  readonly registration = computed(() => this.info()?.registration)
+  readonly canEdit = computed(() => this.info()?.canEdit ?? false)
+  readonly share = computed(() => this.info()?.share)
+  readonly location = computed(() => this.info()?.location)
   private route = inject(ActivatedRoute)
   private service = inject(EventService)
-
   private eventId = toSignal(
     this.route.paramMap.pipe(
       map((p) => {
@@ -42,18 +43,12 @@ export class EventDetailsComponent {
       })
     )
   )
-
   private infoResource = resource({
     params: this.eventId,
     loader: (p) => (p.params ? toPromise(this.service.getEventInfo(p.params), p.abortSignal) : Promise.resolve(undefined))
   })
-
   readonly info = computed(() => this.infoResource.value())
   readonly reloading = this.infoResource.isLoading
-  readonly registration = computed(() => this.info()?.registration)
-  readonly canEdit = computed(() => this.info()?.canEdit ?? false)
-  readonly share = computed(() => this.info()?.share)
-  readonly location = computed(() => this.info()?.location)
 
   reload() {
     this.infoResource.reload()

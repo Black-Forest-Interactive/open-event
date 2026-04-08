@@ -1,4 +1,4 @@
-import { Component, effect, input, output, inject } from '@angular/core'
+import { Component, effect, inject, input, output } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
@@ -12,12 +12,10 @@ import { Category, CategoryChangeRequest } from '../category.api'
   styleUrl: './category-change.component.scss'
 })
 export class CategoryChangeComponent {
-  private fb = inject(FormBuilder);
-
   data = input<Category>()
   request = output<CategoryChangeRequest>()
-
   fg: FormGroup
+  private fb = inject(FormBuilder)
 
   constructor() {
     this.fg = this.fb.group({
@@ -31,15 +29,15 @@ export class CategoryChangeComponent {
     })
   }
 
-  private handleDataChanged(category: Category) {
-    this.fg.get('name')?.setValue(category.name)
-    this.fg.get('iconUrl')?.setValue(category.iconUrl)
-  }
-
   submit() {
     if (!this.fg.valid) return
     let value = this.fg.value
     let request = new CategoryChangeRequest(value.name, value.iconUrl)
     this.request.emit(request)
+  }
+
+  private handleDataChanged(category: Category) {
+    this.fg.get('name')?.setValue(category.name)
+    this.fg.get('iconUrl')?.setValue(category.iconUrl)
   }
 }

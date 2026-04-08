@@ -30,24 +30,45 @@ export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, Even
   private route = inject(ActivatedRoute)
   private location = inject(Location)
 
-  private eventId = toSignal(this.route.paramMap.pipe(map(p => { const id = p.get('id'); return id ? +id : undefined })))
+  private eventId = toSignal(
+    this.route.paramMap.pipe(
+      map((p) => {
+        const id = p.get('id')
+        return id ? +id : undefined
+      })
+    )
+  )
 
   private eventResource = resource({
     params: this.eventId,
-    loader: (p) => p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined)
+    loader: (p) => (p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined))
   })
 
   readonly event = computed(() => this.eventResource.value())
   readonly reloading = this.eventResource.isLoading
 
-  getAllAddresses(page: number, size: number): Observable<Page<Address>> { return this.addressService.getAddresses(page, size) }
-  getAddress(id: number): Observable<Address> { return this.addressService.getAddress(id) }
-  getAllCategories(page: number, size: number): Observable<Page<Category>> { return this.categoryService.getCategories(page, size) }
-  getCategory(id: number): Observable<Category> { return this.categoryService.getCategory(id) }
-  getEvent(id: number): Observable<Event> { return this.service.getEvent(id) }
-  getEventInfo(id: number): Observable<EventInfo> { return this.service.getEventInfo(id) }
+  getAllAddresses(page: number, size: number): Observable<Page<Address>> {
+    return this.addressService.getAddresses(page, size)
+  }
+  getAddress(id: number): Observable<Address> {
+    return this.addressService.getAddress(id)
+  }
+  getAllCategories(page: number, size: number): Observable<Page<Category>> {
+    return this.categoryService.getCategories(page, size)
+  }
+  getCategory(id: number): Observable<Category> {
+    return this.categoryService.getCategory(id)
+  }
+  getEvent(id: number): Observable<Event> {
+    return this.service.getEvent(id)
+  }
+  getEventInfo(id: number): Observable<EventInfo> {
+    return this.service.getEventInfo(id)
+  }
 
-  cancel() { this.location.back() }
+  cancel() {
+    this.location.back()
+  }
 
   handleRequest(request: EventChangeRequest) {
     if (!this.event()) return

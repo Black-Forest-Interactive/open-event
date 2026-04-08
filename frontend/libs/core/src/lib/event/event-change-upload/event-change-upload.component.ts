@@ -11,13 +11,12 @@ import { MatSnackBar } from '@angular/material/snack-bar'
   styleUrl: './event-change-upload.component.scss'
 })
 export class EventChangeUploadComponent {
-  private snackBar = inject(MatSnackBar);
-
   selectedFile: File | null = null
   imagePreview: string | null = null
   isDragOver = false
   uploadProgress = 0
   componentId = Math.random().toString(36).substr(2, 9)
+  private snackBar = inject(MatSnackBar)
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement

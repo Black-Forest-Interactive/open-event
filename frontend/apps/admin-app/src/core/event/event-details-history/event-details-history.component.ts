@@ -13,26 +13,22 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   styleUrl: './event-details-history.component.scss'
 })
 export class EventDetailsHistoryComponent {
-  private service = inject(EventService)
-
   event = input.required<EventInfo>()
   page = signal(0)
   size = signal(20)
-
   readonly historyCriteria = computed(() => ({
     data: this.event(),
     page: this.page(),
     size: this.size()
   }))
-
+  readonly history = computed(() => this.result()?.content ?? [])
+  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+  private service = inject(EventService)
   private historyResource = resource({
     params: this.historyCriteria,
     loader: (param) => toPromise(this.service.getEventHistory(param.params.data.event.id, param.params.page, param.params.size), param.abortSignal)
   })
-
   readonly result = computed(this.historyResource.value ?? undefined)
-  readonly history = computed(() => this.result()?.content ?? [])
-  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
   readonly loading = this.historyResource.isLoading
   readonly error = this.historyResource.error
 

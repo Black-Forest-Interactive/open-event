@@ -18,9 +18,8 @@ import { Participant, ParticipateRequest } from '@open-event/core'
 export class RegistrationEditDialogComponent {
   dialogRef = inject<MatDialogRef<RegistrationEditDialogComponent>>(MatDialogRef)
   participant = inject<Participant | undefined>(MAT_DIALOG_DATA)
-  private fb = inject(FormBuilder)
-
   fg: FormGroup
+  private fb = inject(FormBuilder)
 
   constructor() {
     const participant = this.participant

@@ -36,12 +36,10 @@ import { TranslatePipe } from '@ngx-translate/core'
   styleUrl: './account-details.component.scss'
 })
 export class AccountDetailsComponent {
+  id = signal(-1)
   private service = inject(AccountService)
   private route = inject(ActivatedRoute)
   private location = inject(Location)
-
-  id = signal(-1)
-
   private accountResource = resource({
     params: this.id,
     loader: (param) => toPromise(this.service.getAccount(param.params), param.abortSignal)

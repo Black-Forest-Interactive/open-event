@@ -1,7 +1,7 @@
 export interface Preferences {
-  id: number,
-  emailNotificationsPreferences: EmailNotificationsPreferences,
-  communicationPreferences: CommunicationPreferences,
+  id: number
+  emailNotificationsPreferences: EmailNotificationsPreferences
+  communicationPreferences: CommunicationPreferences
   notificationPreferences: NotificationPreferences
 }
 
@@ -22,6 +22,5 @@ export class PreferencesChangeRequest {
     public emailNotificationsPreferences: EmailNotificationsPreferences,
     public communicationPreferences: CommunicationPreferences,
     public notificationPreferences: NotificationPreferences
-  ) {
-  }
+  ) {}
 }

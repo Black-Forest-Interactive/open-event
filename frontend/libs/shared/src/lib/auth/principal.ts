@@ -6,6 +6,5 @@ export class Principal {
     public given_name: string,
     public family_name: string,
     public roles: string[]
-  ) {
-  }
+  ) {}
 }

@@ -2,25 +2,32 @@
 <mat-divider></mat-divider>
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 <div class="flex flex-col gap-3 p-3">
-  @if (active()) {
-    <share-buttons theme="modern-dark"
-                   [include]="['copy', 'facebook', 'email', 'whatsapp']"
-                   [showIcon]="true"
-                   [showText]="true"
-                   [url]="share()!.url"
-                   description="{{title()}}">
-    </share-buttons>
-    <div class="flex flex-col sm:flex-row gap-2">
-      <a matButton="outlined" class="max-w-xs truncate" [href]="url()" target="_blank">{{ 'share.action.show' | translate }}</a>
-      <button matButton="outlined" class="max-w-xs truncate" (click)="disableSharing()" [disabled]="reloading()">{{ 'share.action.disable' | translate }}</button>
-    </div>
-  } @else {
-    <div class="text-sm text-justify hyphens-auto">{{ 'share.info.description.content' | translate }}</div>
-    <button matButton="filled" (click)="enableSharing()" [disabled]="reloading()">{{ 'share.action.activate' | translate }}</button>
-  }
+    @if (active()) {
+        <share-buttons [include]="['copy', 'facebook', 'email', 'whatsapp']"
+                       [showIcon]="true"
+                       [showText]="true"
+                       [url]="share()!.url"
+                       description="{{title()}}"
+                       theme="modern-dark">
+        </share-buttons>
+        <div class="flex flex-col sm:flex-row gap-2">
+            <a [href]="url()" class="max-w-xs truncate" matButton="outlined"
+               target="_blank">{{ 'share.action.show' | translate }}</a>
+            <button (click)="disableSharing()" [disabled]="reloading()" class="max-w-xs truncate"
+                    matButton="outlined">{{ 'share.action.disable' | translate }}
+            </button>
+        </div>
+    } @else {
+        <div class="text-sm text-justify hyphens-auto">{{ 'share.info.description.content' | translate }}</div>
+        <button (click)="enableSharing()" [disabled]="reloading()"
+                matButton="filled">{{ 'share.action.activate' | translate }}
+        </button>
+    }
 </div>
 <mat-divider></mat-divider>
 <div class="flex flex-col gap-2 p-3">
-  <div class="font-medium text-sm">{{ 'share.info.disclaimer.title' | translate }}</div>
-  <div class="text-sm text-justify hyphens-auto" style="color: var(--mat-sys-on-surface-variant)">{{ 'share.info.disclaimer.content' | translate }}</div>
+    <div class="font-medium text-sm">{{ 'share.info.disclaimer.title' | translate }}</div>
+    <div class="text-sm text-justify hyphens-auto"
+         style="color: var(--mat-sys-on-surface-variant)">{{ 'share.info.disclaimer.content' | translate }}
+    </div>
 </div>

@@ -21,34 +21,27 @@ import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/boa
   styleUrl: './account-details-address.component.scss'
 })
 export class AccountDetailsAddressComponent {
-  private service = inject(AccountService)
-  private toast = inject(HotToastService)
-  private dialog = inject(MatDialog)
-
   data = input.required<Account>()
-
   page = signal(0)
   size = signal(20)
-
   readonly addressCriteria = computed(() => ({
     data: this.data(),
     page: this.page(),
     size: this.size()
   }))
-
+  readonly address = computed(() => this.result()?.content ?? [])
+  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
+  displayedColumns: string[] = ['street', 'streetNumber', 'zip', 'city', 'country', 'additionalInfo', 'cmd']
+  private service = inject(AccountService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
   private addressResource = resource({
     params: this.addressCriteria,
     loader: (param) => toPromise(this.service.getAddress(param.params.data.id, param.params.page, param.params.size), param.abortSignal)
   })
-
   readonly result = computed(this.addressResource.value ?? undefined)
-
-  readonly address = computed(() => this.result()?.content ?? [])
-  readonly totalSize = computed(() => this.result()?.totalSize ?? 0)
   readonly loading = this.addressResource.isLoading
   readonly error = this.addressResource.error
-
-  displayedColumns: string[] = ['street', 'streetNumber', 'zip', 'city', 'country', 'additionalInfo', 'cmd']
 
   constructor() {
     effect(() => {

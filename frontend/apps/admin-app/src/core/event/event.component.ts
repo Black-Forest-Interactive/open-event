@@ -27,12 +27,6 @@ import { Sort } from '@angular/material/sort'
   styleUrl: './event.component.scss'
 })
 export class EventComponent implements OnInit {
-  private service = inject(EventService)
-  private exportService = inject(ExportService)
-  private translateService = inject(TranslateService)
-  private toast = inject(HotToastService)
-  private dialog = inject(MatDialog)
-
   reloading = false
   exportingEvents = false
   exportingSummary = false
@@ -42,13 +36,16 @@ export class EventComponent implements OnInit {
   showHistory = false
   sort: Sort | undefined = undefined
   data: EventSearchEntry[] = []
-
   keyUp = new EventEmitter<string>()
   request = defaultEventSearchRequest()
+  private service = inject(EventService)
+  private exportService = inject(ExportService)
+  private translateService = inject(TranslateService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
 
-  ngOnInit() {
-    this.resetFilter()
-    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => (this.fullTextSearch = query))
+  get fullTextSearch(): string {
+    return this.request.fullTextSearch
   }
 
   set fullTextSearch(val: string) {
@@ -57,8 +54,9 @@ export class EventComponent implements OnInit {
     this.search()
   }
 
-  get fullTextSearch(): string {
-    return this.request.fullTextSearch
+  ngOnInit() {
+    this.resetFilter()
+    this.keyUp.pipe(debounceTime(500), distinctUntilChanged()).subscribe((query) => (this.fullTextSearch = query))
   }
 
   search() {

@@ -5,6 +5,6 @@ export const environment = {
   keycloak: {
     url: 'https://auth.psm.church/auth',
     realm: 'open-church',
-    clientId: 'open-church-backoffice',
-  },
-};
+    clientId: 'open-church-backoffice'
+  }
+}

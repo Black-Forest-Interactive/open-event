@@ -1,1 +1,1 @@
-export * from './history.api';
+export * from './history.api'

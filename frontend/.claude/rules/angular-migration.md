@@ -1,4 +1,5 @@
 ## Migration Rules
+
 - DO NOT restructure folder layout — keep existing feature boundaries
 - Migrate services to `inject()` function, not constructor DI
 - Replace `@Input()` / `@Output()` with signal inputs where applicable

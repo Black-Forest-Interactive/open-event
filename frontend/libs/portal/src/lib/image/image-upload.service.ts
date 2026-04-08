@@ -8,19 +8,18 @@ import { UploadProgress, UploadResponse } from '@open-event/core'
   providedIn: 'root'
 })
 export class ImageUploadService extends BaseService {
-  constructor() {
-    super('app/image')
-    this.retryCount = 1
-  }
-
   private uploadProgressSignal = signal<UploadProgress>({
     progress: 0,
     uploading: false
   })
-
   uploadProgress = this.uploadProgressSignal.asReadonly()
   isUploading = computed(() => this.uploadProgressSignal().uploading)
   uploadPercentage = computed(() => this.uploadProgressSignal().progress)
+
+  constructor() {
+    super('app/image')
+    this.retryCount = 1
+  }
 
   getBannerImageUrl(eventId: number): string {
     return this.createUrl('event/' + eventId + '/banner')

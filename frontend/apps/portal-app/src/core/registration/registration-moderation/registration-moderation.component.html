@@ -1,57 +1,74 @@
 <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
 <mat-card>
-  <div class="flex flex-row items-center gap-2 p-3">
-    <span class="font-medium flex-auto">{{ 'event.admin.registration' | translate }}</span>
-  </div>
-  <mat-divider></mat-divider>
+    <div class="flex flex-row items-center gap-2 p-3">
+        <span class="font-medium flex-auto">{{ 'event.admin.registration' | translate }}</span>
+    </div>
+    <mat-divider></mat-divider>
 
-  @if (participants().length === 0 && !loading()) {
-    <div class="p-3 text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'registration.empty' | translate }}</div>
-  }
+    @if (participants().length === 0 && !loading()) {
+        <div class="p-3 text-sm"
+             style="color: var(--mat-sys-on-surface-variant)">{{ 'registration.empty' | translate }}
+        </div>
+    }
 
-  @for (participant of participants(); track participant.id; let last = $last) {
-    <div class="flex flex-col gap-2 p-3">
-      <div class="flex flex-row flex-wrap items-center gap-2">
-        <span class="font-medium">{{ participant.author.name }}</span>
-        <span class="text-xs font-medium px-2 py-0.5 rounded-full" [ngStyle]="statusStyle(participant.status)">
+    @for (participant of participants(); track participant.id; let last = $last) {
+        <div class="flex flex-col gap-2 p-3">
+            <div class="flex flex-row flex-wrap items-center gap-2">
+                <span class="font-medium">{{ participant.author.name }}</span>
+                <span [ngStyle]="statusStyle(participant.status)" class="text-xs font-medium px-2 py-0.5 rounded-full">
           {{ ('registration.table.enum.' + participant.status) | translate }}
         </span>
-        <span class="text-xs flex-auto text-right" style="color: var(--mat-sys-on-surface-variant)">{{ participant.timestamp | date:'mediumDate' }}</span>
-      </div>
+                <span class="text-xs flex-auto text-right"
+                      style="color: var(--mat-sys-on-surface-variant)">{{ participant.timestamp | date:'mediumDate' }}</span>
+            </div>
 
-      <div class="flex flex-row items-center gap-2 text-sm">
-        <mat-icon class="!text-base" style="color: var(--mat-sys-on-surface-variant)">group</mat-icon>
-        <span>{{ participant.size }} {{ 'registration.people' | translate }}</span>
-        @if (participant.waitingList) {
-          <mat-icon class="!text-base" style="color: var(--mat-sys-on-surface-variant)" [matTooltip]="'registration.waitlist' | translate">schedule</mat-icon>
+            <div class="flex flex-row items-center gap-2 text-sm">
+                <mat-icon class="!text-base" style="color: var(--mat-sys-on-surface-variant)">group</mat-icon>
+                <span>{{ participant.size }} {{ 'registration.people' | translate }}</span>
+                @if (participant.waitingList) {
+                    <mat-icon [matTooltip]="'registration.waitlist' | translate" class="!text-base"
+                              style="color: var(--mat-sys-on-surface-variant)">schedule
+                    </mat-icon>
+                }
+            </div>
+
+            <div class="flex flex-row flex-wrap gap-x-4 gap-y-1 text-sm"
+                 style="color: var(--mat-sys-on-surface-variant)">
+                <span class="flex items-center gap-1"><mat-icon class="!text-base">email</mat-icon>
+                    {{ participant.author.email }}</span>
+                @if (participant.author.phone) {
+                    <span class="flex items-center gap-1"><mat-icon class="!text-base">phone</mat-icon>
+                        {{ participant.author.phone }}</span>
+                }
+                @if (participant.author.mobile) {
+                    <span class="flex items-center gap-1"><mat-icon class="!text-base">smartphone</mat-icon>
+                        {{ participant.author.mobile }}</span>
+                }
+            </div>
+
+            <div class="flex flex-row gap-1 justify-end">
+                <button (click)="editParticipant(participant)" [matTooltip]="'registration.action.editParticipant' | translate"
+                        matIconButton>
+                    <mat-icon>manage_accounts</mat-icon>
+                </button>
+                <button (click)="removeParticipant(participant)" [matTooltip]="'registration.action.removeParticipant' | translate"
+                        matIconButton>
+                    <mat-icon>person_remove</mat-icon>
+                </button>
+            </div>
+        </div>
+        @if (!last) {
+            <mat-divider></mat-divider>
         }
-      </div>
+    }
 
-      <div class="flex flex-row flex-wrap gap-x-4 gap-y-1 text-sm" style="color: var(--mat-sys-on-surface-variant)">
-        <span class="flex items-center gap-1"><mat-icon class="!text-base">email</mat-icon>{{ participant.author.email }}</span>
-        @if (participant.author.phone) { <span class="flex items-center gap-1"><mat-icon class="!text-base">phone</mat-icon>{{ participant.author.phone }}</span> }
-        @if (participant.author.mobile) { <span class="flex items-center gap-1"><mat-icon class="!text-base">smartphone</mat-icon>{{ participant.author.mobile }}</span> }
-      </div>
-
-      <div class="flex flex-row gap-1 justify-end">
-        <button matIconButton (click)="editParticipant(participant)" [matTooltip]="'registration.action.editParticipant' | translate">
-          <mat-icon>manage_accounts</mat-icon>
-        </button>
-        <button matIconButton (click)="removeParticipant(participant)" [matTooltip]="'registration.action.removeParticipant' | translate">
-          <mat-icon>person_remove</mat-icon>
-        </button>
-      </div>
-    </div>
-    @if (!last) { <mat-divider></mat-divider> }
-  }
-
-  @if (adminOrManager()) {
-    <mat-divider></mat-divider>
-    <div class="p-3">
-      <button matButton="filled" (click)="participateManual()">
-        <mat-icon>person_add</mat-icon>
-        {{ 'registration.action.participateManual' | translate }}
-      </button>
-    </div>
-  }
+    @if (adminOrManager()) {
+        <mat-divider></mat-divider>
+        <div class="p-3">
+            <button (click)="participateManual()" matButton="filled">
+                <mat-icon>person_add</mat-icon>
+                {{ 'registration.action.participateManual' | translate }}
+            </button>
+        </div>
+    }
 </mat-card>
