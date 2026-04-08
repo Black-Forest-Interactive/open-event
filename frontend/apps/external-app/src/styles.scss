@@ -64,4 +64,21 @@ html, body {
 // The Tailwind directives MUST come AFTER Angular Material theming
 @import "tailwindcss";
 
+// Map Angular Material 3 system tokens to Tailwind color utilities
+@theme inline {
+  --color-primary:                  var(--mat-sys-primary);
+  --color-on-primary:               var(--mat-sys-on-primary);
+  --color-surface:                  var(--mat-sys-surface);
+  --color-on-surface:               var(--mat-sys-on-surface);
+  --color-on-surface-variant:       var(--mat-sys-on-surface-variant);
+  --color-surface-container-lowest: var(--mat-sys-surface-container-lowest);
+  --color-surface-container-low:    var(--mat-sys-surface-container-low);
+  --color-surface-container:        var(--mat-sys-surface-container);
+  --color-surface-container-high:   var(--mat-sys-surface-container-high);
+  --color-outline:                  var(--mat-sys-outline);
+  --color-outline-variant:          var(--mat-sys-outline-variant);
+  --color-error-container:          var(--mat-sys-error-container);
+  --color-on-error-container:       var(--mat-sys-on-error-container);
+}
+
 /* You can add custom global styles below this line */

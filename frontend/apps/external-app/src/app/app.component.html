@@ -1,1 +1,29 @@
-<router-outlet></router-outlet>
+<div class="flex flex-col h-screen overflow-hidden">
+  <lib-app-toolbar [title]="title()" [showMenuToggle]="false">
+    <ng-container toolbar-right>
+      @if (portalUrl()) {
+        <a [href]="portalUrl()" mat-icon-button>
+          <mat-icon>login</mat-icon>
+        </a>
+      }
+      <button mat-icon-button [matMenuTriggerFor]="langMenu">
+        <mat-icon>language</mat-icon>
+      </button>
+    </ng-container>
+  </lib-app-toolbar>
+
+  <div class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+    <router-outlet></router-outlet>
+  </div>
+
+  <lib-app-footer></lib-app-footer>
+</div>
+
+<mat-menu #langMenu="matMenu">
+  <button mat-menu-item (click)="setLang('de')" [disabled]="currentLang() === 'de'">
+    <span>🇩🇪</span> {{ 'lang.de' | translate }}
+  </button>
+  <button mat-menu-item (click)="setLang('en')" [disabled]="currentLang() === 'en'">
+    <span>🇬🇧</span> {{ 'lang.en' | translate }}
+  </button>
+</mat-menu>

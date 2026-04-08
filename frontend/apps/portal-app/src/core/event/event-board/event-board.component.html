@@ -1,14 +1,12 @@
 @if (mobileView()) {
-  <div class="sticky top-0 z-10 flex items-center gap-2 h-16 px-3 border-b"
-       style="background: var(--mat-sys-surface-container-lowest); border-color: var(--mat-sys-outline-variant)">
+  <div class="sticky top-0 z-10 flex items-center gap-2 h-16 px-3 border-b bg-surface-container-lowest border-outline-variant">
     <lib-board-search placeholder="event.search" (search)="setQuery($event)" class="flex-auto"></lib-board-search>
     <button mat-icon-button [matMenuTriggerFor]="mobileMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
 } @else {
-  <div class="sticky top-0 z-10 flex items-center h-16 px-4 gap-4 shrink-0 border-b"
-       style="background: var(--mat-sys-surface-container-lowest); border-color: var(--mat-sys-outline-variant)">
+  <div class="sticky top-0 z-10 flex items-center h-16 px-4 gap-4 shrink-0 border-b bg-surface-container-lowest border-outline-variant">
     <div class="flex-auto py-2 max-w-lg">
       <lib-board-search placeholder="event.search" (search)="setQuery($event)"></lib-board-search>
     </div>

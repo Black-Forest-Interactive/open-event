@@ -16,7 +16,7 @@ class EventController(
 ) {
 
 
-    @Get("search")
+    @Post("search")
     fun search(@Body request: PublicEventSearchRequest, @QueryValue key: String, pageable: Pageable): Page<PublicEvent> {
         return service.search(request, key, pageable)
     }

@@ -1,10 +1,15 @@
 import { Component, input, Input } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { NgClass } from '@angular/common'
-import { PublicEvent } from '@open-event/external'
 import { RegistrationInfo } from '../registration.api'
 import { Participant } from '../../participant'
 import { EventSearchEntry } from '../../search'
+
+interface SpaceEntry {
+  hasSpaceLeft: boolean
+  remainingSpace: number
+  maxGuestAmount: number
+}
 
 @Component({
   selector: 'lib-registration-status',
@@ -44,7 +49,7 @@ export class RegistrationStatusComponent {
   }
 
   @Input()
-  set public(entry: PublicEvent) {
+  set public(entry: SpaceEntry) {
     this.spaceAvailable = entry.hasSpaceLeft
     this.space.remaining = entry.remainingSpace
     this.space.available = entry.maxGuestAmount

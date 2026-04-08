@@ -1,5 +1,13 @@
 {
+  "app": {
+    "title": "Open Event"
+  },
+  "lang": {
+    "de": "Deutsch",
+    "en": "English"
+  },
   "action": {
+    "loadMore": "Mehr laden",
     "next": "Weiter",
     "back": "Zurück",
     "submit": "Speichern",
@@ -17,6 +25,24 @@
     "delete": "Löschen"
   },
   "event": {
+    "search": "Veranstaltung suchen",
+    "empty": "Keine Veranstaltungen gefunden. Bitte andere Filter versuchen.",
+    "filter": {
+      "title": "Filter",
+      "availableOnly": "Nur verfügbare",
+      "includeHistory": "Vergangene anzeigen",
+      "reset": "Filter zurücksetzen",
+      "range": {
+        "label": "Zeitraum",
+        "start": "Von",
+        "end": "Bis",
+        "today": "Heute",
+        "week": "Diese Woche",
+        "next": "Nächste Woche",
+        "errorStart": "Ungültiges Startdatum",
+        "errorEnd": "Ungültiges Enddatum"
+      }
+    },
     "property": {
       "owner": "Veranstalter",
       "date": "Datum",

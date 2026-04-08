@@ -21,12 +21,20 @@
 $open-event-theme: mat.define-theme((
         color: (
                 theme-type: light,
-                primary: mat.$green-palette, // overridden via tokens below
+                primary: mat.$green-palette,
                 tertiary: mat.$green-palette,
         ),
-        typography: (
-                use-system-variables: true,
+        typography: (use-system-variables: true),
+        density: (scale: 0),
+));
+
+$open-event-theme-dark: mat.define-theme((
+        color: (
+                theme-type: dark,
+                primary: mat.$green-palette,
+                tertiary: mat.$green-palette,
         ),
+        typography: (use-system-variables: true),
         density: (scale: 0),
 ));
 
@@ -35,6 +43,17 @@ html {
   @include mat.all-component-themes($open-event-theme);
 
   // ── Override M3 system tokens with brand colours ───────────────────────────
+
+  // Surfaces – zinc-tinted light
+  --mat-sys-surface:                   #fafafa;
+  --mat-sys-surface-container-lowest:  #ffffff;
+  --mat-sys-surface-container-low:     #f4f4f5;
+  --mat-sys-surface-container:         #e4e4e7;
+  --mat-sys-surface-container-high:    #d4d4d8;
+  --mat-sys-on-surface:                #18181b;
+  --mat-sys-on-surface-variant:        #71717a;
+  --mat-sys-outline:                   #a1a1aa;
+  --mat-sys-outline-variant:           #e4e4e7;
 
   // Primary – dark neutral  (#27272a)
   --mat-sys-primary: #27272a;
@@ -61,6 +80,39 @@ html {
 //  Replaces all M2 map.get($palette, default/lighter/…) calls
 //  with the corresponding M3 system tokens.
 // ============================================================
+
+html.dark {
+  @include mat.all-component-themes($open-event-theme-dark);
+
+  // Surfaces – slate-900 based dark
+  --mat-sys-surface:                   #0f172a;
+  --mat-sys-surface-container-lowest:  #020617;
+  --mat-sys-surface-container-low:     #1e293b;
+  --mat-sys-surface-container:         #243044;
+  --mat-sys-surface-container-high:    #2d3a50;
+  --mat-sys-on-surface:                #f1f5f9;
+  --mat-sys-on-surface-variant:        #94a3b8;
+  --mat-sys-outline:                   #475569;
+  --mat-sys-outline-variant:           #1e293b;
+
+  // Primary – lighter zinc for dark surfaces
+  --mat-sys-primary:           #a1a1aa;
+  --mat-sys-on-primary:        #27272a;
+  --mat-sys-primary-container: #3f3f46;
+  --mat-sys-on-primary-container: #f4f4f5;
+
+  // Secondary – lighter green
+  --mat-sys-secondary:           #6ee7b7;
+  --mat-sys-on-secondary:        #064e3b;
+  --mat-sys-secondary-container: #065f46;
+  --mat-sys-on-secondary-container: #d1fae5;
+
+  // Error
+  --mat-sys-error:           #f87171;
+  --mat-sys-on-error:        #450a0a;
+  --mat-sys-error-container: #7f1d1d;
+  --mat-sys-on-error-container: #fee2e2;
+}
 
 // ── Availability indicators ───────────────────────────────────────────────────
 .available {

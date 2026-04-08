@@ -1,5 +1,13 @@
 {
+  "app": {
+    "title": "Open Event"
+  },
+  "lang": {
+    "de": "Deutsch",
+    "en": "English"
+  },
   "action": {
+    "loadMore": "Load more",
     "next": "Next",
     "back": "Back",
     "submit": "Submit",
@@ -17,6 +25,24 @@
     "delete": "Delete"
   },
   "event": {
+    "search": "Search for event",
+    "empty": "No events found. Please try different filters.",
+    "filter": {
+      "title": "Filter",
+      "availableOnly": "Available only",
+      "includeHistory": "Include past events",
+      "reset": "Reset filter",
+      "range": {
+        "label": "Date range",
+        "start": "From",
+        "end": "To",
+        "today": "Today",
+        "week": "This week",
+        "next": "Next week",
+        "errorStart": "Invalid start date",
+        "errorEnd": "Invalid end date"
+      }
+    },
     "property": {
       "owner": "Owner",
       "date": "Date",

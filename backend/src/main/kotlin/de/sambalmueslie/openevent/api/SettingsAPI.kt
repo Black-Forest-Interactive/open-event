@@ -24,7 +24,9 @@ interface SettingsAPI : CrudAPI<Long, Setting, SettingChangeRequest> {
         const val SETTINGS_DEFAULT_LANGUAGE = "default.language"
         const val SETTINGS_REGISTRATION_VALIDATE_CODE = "registration.validate-code"
         const val SETTINGS_KEY_PUBLIC_EVENT_LIST = "key.public-event-list"
+        const val SETTINGS_URL_PORTAL = "url.portal"
     }
+
 
     fun setValue(auth: Authentication, id: Long, value: PatchRequest<Any>): Setting?
     fun findByKey(auth: Authentication, key: String): Setting?

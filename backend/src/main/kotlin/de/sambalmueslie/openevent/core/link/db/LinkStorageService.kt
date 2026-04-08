@@ -7,9 +7,11 @@ import de.sambalmueslie.openevent.core.link.api.LinkChangeRequest
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
+import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@Singleton
 class LinkStorageService(
     private val repository: LinkRepository,
     private val converter: LinkConverter,

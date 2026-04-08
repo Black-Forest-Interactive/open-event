@@ -1,0 +1,17 @@
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+<div class="flex flex-col gap-2 pb-20" libScrollNearEnd (nearEnd)="loadMore.emit()">
+  <ng-content></ng-content>
+
+  @if (hasMore() && !reloading()) {
+    <button matButton="filled" color="accent" (click)="loadMore.emit()" class="w-full">
+      {{ 'action.loadMore' | translate }}
+    </button>
+  }
+</div>
+
+<div class="fixed right-4 bottom-6 z-10 md:hidden">
+  <button matFab color="primary" (click)="filterClicked.emit()">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</div>

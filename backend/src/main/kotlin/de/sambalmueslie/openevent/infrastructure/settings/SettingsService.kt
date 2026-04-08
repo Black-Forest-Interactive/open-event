@@ -96,4 +96,8 @@ class SettingsService(
         return repository.findByIdIn(ids).map { it.convert() }
     }
 
+    fun getPortalUrl(): String {
+        return findByKey(SettingsAPI.SETTINGS_URL_PORTAL)?.value as? String ?: ""
+    }
+
 }
