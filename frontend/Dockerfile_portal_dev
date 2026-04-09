@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular app
-FROM node:20.19.3-slim AS build
+FROM node:24.14.1-slim AS build
 
 # Set the working directory
 WORKDIR /app
@@ -24,7 +24,7 @@ RUN npx nx build portal-app --configuration=development
 RUN npx nx build external-app --configuration=development --base-href /external/
 
 # Stage 2: Serve the Angular app with a lightweight web server
-FROM nginx:1.27-alpine
+FROM nginx:1.28-alpine
 
 # Remove the default Nginx static content
 RUN rm -rf /usr/share/nginx/html/*

@@ -11,7 +11,7 @@
     <div class="flex items-center py-3">
         @if (showSearch()) {
             <div class="w-80">
-                <lib-board-search (search)="fullTextSearch.emit($event)" [placeholder]="searchPlaceholder()"/>
+                <lib-board-search (search)="search.emit($event)" [placeholder]="searchPlaceholder()"/>
             </div>
         }
     </div>
