@@ -1,0 +1,130 @@
+@use '@angular/material' as mat;
+
+// ── Toolbar ───────────────────────────────────────────────────────────────────
+
+.bg-primary-toolbar {
+  @include mat.toolbar-overrides((container-background-color: #27272a, container-text-color: #ffffff));
+}
+
+html.dark .bg-primary-toolbar {
+  @include mat.toolbar-overrides((container-background-color: #2d3a50, container-text-color: #f1f5f9));
+}
+
+// ── Availability indicators ───────────────────────────────────────────────────
+
+.available {
+  color: var(--mat-sys-secondary);
+}
+
+.full {
+  color: var(--mat-sys-error);
+}
+
+// ── Button toggle ─────────────────────────────────────────────────────────────
+
+.mat-button-toggle-checked button {
+  background-color: var(--mat-sys-secondary);
+  color: var(--mat-sys-on-secondary);
+}
+
+// ── Background helpers ────────────────────────────────────────────────────────
+
+.bg-primary-default {
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
+}
+
+.bg-accent-default {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.bg-warn-default {
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
+}
+
+// ── Border helpers ────────────────────────────────────────────────────────────
+
+.border-accent-default {
+  border-color: var(--mat-sys-secondary) !important;
+}
+
+.border-primary-default {
+  border-color: var(--mat-sys-primary) !important;
+}
+
+// ── Toolbar FAB ───────────────────────────────────────────────────────────────
+
+.toolbar-action-fab {
+  background-color: unset !important;
+  border: var(--mat-sys-primary) 1px solid !important;
+}
+
+.toolbar-action-fab:hover {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+// ── Navigation state ──────────────────────────────────────────────────────────
+
+.menu-active {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.menu-unselected {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.second-toolbar {
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
+}
+
+// ── Leaflet marker clusters ───────────────────────────────────────────────────
+
+.marker-cluster-small {
+  background-color: var(--mat-sys-primary-container) !important;
+  color: var(--mat-sys-on-primary-container) !important;
+}
+
+.marker-cluster-small div {
+  background-color: var(--mat-sys-primary) !important;
+  color: var(--mat-sys-on-primary) !important;
+}
+
+.marker-cluster-medium {
+  background-color: var(--mat-sys-secondary-container) !important;
+  color: var(--mat-sys-on-secondary-container) !important;
+}
+
+.marker-cluster-medium div {
+  background-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.marker-cluster-large {
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
+}
+
+.marker-cluster-large div {
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
+}
+
+// ── Form-field density helpers ────────────────────────────────────────────────
+
+.dense-1 {
+  @include mat.form-field-density(-1);
+}
+
+.dense-2 {
+  @include mat.form-field-density(-2);
+}
+
+.dense-3 {
+  @include mat.form-field-density(-3);
+}

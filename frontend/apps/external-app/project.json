@@ -25,8 +25,9 @@
         "styles": [
           "node_modules/leaflet/dist/leaflet.css",
           "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
-          "apps/external-app/src/theme.scss",
-          "apps/external-app/src/styles.scss",
+          "libs/ui/src/lib/theme/theme.scss",
+          "libs/ui/src/lib/theme/utilities.scss",
+          "libs/ui/src/lib/theme/base.scss",
           "node_modules/@ngxpert/hot-toast/src/styles/styles.css"
         ],
         "scripts": []

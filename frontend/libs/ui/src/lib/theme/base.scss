@@ -1,5 +1,3 @@
-@use 'theme';
-
 /* ROBOTO */
 @font-face {
   font-family: 'Roboto';
@@ -33,11 +31,8 @@
   src: url('/fonts/MaterialIcons-Regular.woff2') format('woff2');
 }
 
-
-// Set the base font and body styles.
 html, body {
   height: 100%;
-  // Apply Angular Material's system-level CSS variables for background/text color
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
@@ -81,4 +76,25 @@ html, body {
   --color-on-error-container: var(--mat-sys-on-error-container);
 }
 
-/* You can add custom global styles below this line */
+/* User dropdown menu panel */
+.user-menu-panel {
+  .mat-mdc-menu-item:not([disabled]):hover .mat-mdc-menu-item-text,
+  .mat-mdc-menu-item:not([disabled]):hover mat-icon {
+    color: var(--mat-sys-on-surface);
+  }
+
+  .mat-mdc-menu-item:not([disabled]):hover::before {
+    background: var(--mat-sys-surface-container-high);
+    opacity: 1;
+  }
+
+  button.active-route {
+    background: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+
+    .mat-mdc-menu-item-text, mat-icon {
+      color: var(--mat-sys-primary);
+    }
+
+    font-weight: 600;
+  }
+}
