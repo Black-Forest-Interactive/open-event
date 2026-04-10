@@ -38,7 +38,7 @@ abstract class BasePdfExporter(
 ) : EventExporter {
 
     companion object {
-        private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm")
         private const val HEADER_PDF_FILE_SUFIX = ".pdf"
         private const val HEADER_PDF_FILE_PREFIX = "events"
     }
@@ -59,12 +59,20 @@ abstract class BasePdfExporter(
         return renderPdfFile(listOf(info))
     }
 
-    private fun createQrCode(info: EventInfo): String {
-        val bitMatrix = barcodeWriter.encode(getUrl(info), BarcodeFormat.QR_CODE, 250, 250)
-        val qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
-        return ByteArrayOutputStream().use { qrCodeByteArray ->
-            ImageIO.write(qrCodeImage, "png", qrCodeByteArray)
-            Base64.getEncoder().encodeToString(qrCodeByteArray.toByteArray())
+    private fun createQrCode(info: EventInfo): String = createQrCodeFromUrl(getUrl(info))
+
+    protected fun createQrCodeFromUrl(url: String): String {
+        if (url.isBlank()) return ""
+        return try {
+            val bitMatrix = barcodeWriter.encode(url, BarcodeFormat.QR_CODE, 250, 250)
+            val qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
+            ByteArrayOutputStream().use { qrCodeByteArray ->
+                ImageIO.write(qrCodeImage, "png", qrCodeByteArray)
+                Base64.getEncoder().encodeToString(qrCodeByteArray.toByteArray())
+            }
+        } catch (e: Exception) {
+            logger.warn("Could not generate QR code for url $url: ${e.message}")
+            ""
         }
     }
 
@@ -96,18 +104,20 @@ abstract class BasePdfExporter(
         return EventPdfContent(event, location, registration, categories, qrCode, availableSpace)
     }
 
-    private fun renderPdfFile(infos: List<EventInfo>): SystemFile? {
+    protected fun renderPdfFile(infos: List<EventInfo>, additionalProperties: Map<String, Any>? = null): SystemFile? {
         logger.info("Start pdf rendering for ${infos.size} events")
         val content = logger.logTimeMillisWithValue("Determine content") { infos.mapNotNull { getContent(it) } }
         val escapeTool = EscapeTool()
-        val properties = mapOf(
+
+        val properties = mutableMapOf(
             Pair("esc", escapeTool),
-//            Pair("html", HtmlConverter(escapeTool)),
             Pair("content", content),
             Pair("logo", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_LOGO_URL)?.value as? String ?: "")),
             Pair("image", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_IMAGE_URL)?.value as? String ?: "")),
-            Pair("date", formatter.format(LocalDateTime.now(ZoneId.of("Europe/Berlin"))))
+            Pair("date", formatter.format(LocalDateTime.now(ZoneId.of("Europe/Berlin")))),
         )
+
+        additionalProperties?.forEach { (key, value) -> properties[key] = value }
 
         val context = VelocityContext(properties)
         val writer = StringWriter()
