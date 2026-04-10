@@ -116,13 +116,9 @@ dependencies {
     implementation("org.apache.velocity:velocity-engine-core:2.4.1")
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
-    // FOP
-    implementation("org.apache.xmlgraphics:fop:2.11")
-    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.11")
-
-    // OpenPDF
-    implementation("com.github.librepdf:openpdf:3.0.3")
-    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.1.0")
+    // OpenHTMLtoPDF
+    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
+    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.10")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
