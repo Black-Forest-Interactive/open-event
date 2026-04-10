@@ -314,6 +314,7 @@
       "title": "Export",
       "action": {
         "all": "Export per Download",
+        "notice": "Aushang exportieren",
         "mail": {
           "title": "Export per Mail",
           "success": "Export gestartet",

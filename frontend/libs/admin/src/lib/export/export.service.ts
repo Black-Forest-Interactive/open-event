@@ -28,4 +28,7 @@ export class ExportService extends BaseService {
   exportSummary(request: EventSearchRequest): Observable<HttpResponse<Blob>> {
     return this.postBlob('event/summary', request)
   }
+  exportNotice(request: EventSearchRequest): Observable<HttpResponse<Blob>> {
+    return this.postBlob('event/notice', request)
+  }
 }

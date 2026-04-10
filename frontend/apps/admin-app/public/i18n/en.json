@@ -322,6 +322,7 @@
       "title": "Export",
       "action": {
         "all": "Export as pdf",
+        "notice": "Export Notice",
         "mail": {
           "title": "Export as email",
           "success": "Export successfully started",

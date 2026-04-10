@@ -28,6 +28,7 @@ open class ExportService(
     private val profileService: ProfileCrudService,
     private val excelExporter: EventExcelExporter,
     private val pdfExporter: EventOpenPdfExporter,
+    private val noticeExporter: EventNoticePdfExporter,
     private val mailSender: MailSender,
     private val timeProvider: TimeProvider,
 ) {
@@ -65,6 +66,10 @@ open class ExportService(
             logger.error("Exception while exporting pdf", e)
         }
         exporting.set(false)
+    }
+
+    fun exportNoticePdf(account: Account, request: EventSearchRequest): SystemFile? {
+        return exportEvents(account, request, noticeExporter)
     }
 
     fun exportEventSummaryExcel(account: Account, request: EventSearchRequest): SystemFile? {

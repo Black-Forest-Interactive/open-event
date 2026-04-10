@@ -29,6 +29,7 @@ import { Sort } from '@angular/material/sort'
 export class EventComponent implements OnInit {
   reloading = false
   exportingEvents = false
+  exportingNotice = false
   exportingSummary = false
   pageSize = 20
   pageNumber = 0
@@ -118,6 +119,20 @@ export class EventComponent implements OnInit {
       },
       error: () => {
         this.exportingEvents = false
+      }
+    })
+  }
+
+  exportNotice() {
+    if (this.exportingNotice) return
+    this.exportingNotice = true
+    this.exportService.exportNotice(this.request).subscribe({
+      next: (r) => {
+        download(r)
+        this.exportingNotice = false
+      },
+      error: () => {
+        this.exportingNotice = false
       }
     })
   }

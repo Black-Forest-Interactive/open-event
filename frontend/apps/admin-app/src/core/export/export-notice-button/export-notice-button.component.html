@@ -1,0 +1,7 @@
+<button (click)="export()" mat-mini-fab matTooltip="{{'backoffice.export.action.notice' | translate}}">
+    @if (exporting) {
+        <mat-spinner diameter="22"></mat-spinner>
+    } @else {
+        <mat-icon>article</mat-icon>
+    }
+</button>
