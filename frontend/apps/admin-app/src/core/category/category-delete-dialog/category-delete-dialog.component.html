@@ -1,0 +1,20 @@
+<h1 class="bg-primary-default" mat-dialog-title>{{ "category.dialog.delete.title" | translate }}
+    @if (data) {
+        {{ data.name }}
+    }
+</h1>
+<div mat-dialog-content>
+    <p>{{ "category.dialog.delete.question" | translate }}</p>
+</div>
+<mat-dialog-actions align="end">
+    <div class="flex flex-row gap-2">
+        <button (click)="onYesClick()" cdkFocusInitial color="primary" mat-stroked-button>
+            <mat-icon>check</mat-icon>
+            {{ "action.yes" | translate }}
+        </button>
+        <button (click)="onNoClick()" color="warn" mat-stroked-button>
+            <mat-icon>cancel</mat-icon>
+            {{ "action.no" | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

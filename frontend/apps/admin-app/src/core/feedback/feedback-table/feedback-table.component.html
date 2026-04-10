@@ -1,0 +1,61 @@
+<table [dataSource]="data()" mat-table>
+    <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>{{ 'feedback.property.id' | translate }}</th>
+        <td *matCellDef="let feedback" mat-cell>{{ feedback.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+        <th *matHeaderCellDef mat-header-cell>{{ 'feedback.property.subject' | translate }}</th>
+        <td *matCellDef="let feedback" mat-cell>{{ feedback.subject }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="topic">
+        <th *matHeaderCellDef mat-header-cell>{{ 'feedback.property.topic' | translate }}</th>
+        <td *matCellDef="let feedback" mat-cell>{{ feedback.topic }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="account">
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'feedback.property.account' | translate }}</th>
+        <td *matCellDef="let feedback" mat-cell>
+            <div class="flex flex-col gap-1 ">
+                <div>{{ feedback.account.name }}</div>
+                <div class="text-xs">{{ feedback.account.email }}</div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rating">
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'feedback.property.rating' | translate }}</th>
+        <td *matCellDef="let feedback" mat-cell>{{ feedback.rating }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+        <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'feedback.property.timestamp' | translate }}</th>
+        <td *matCellDef="let feedback" mat-cell>{{ feedback.timestamp | date:'medium' }}</td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="cmd">
+        <th *matHeaderCellDef class="col-1" mat-header-cell></th>
+        <td *matCellDef="let feedback" mat-cell>
+            <button (click)="showDetails(feedback); $event.stopPropagation()" color="accent" mat-icon-button>
+                <mat-icon>arrow_circle_right</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
+    <tr (click)="showDetails(feedback); $event.stopPropagation()" *matRowDef="let feedback; columns: displayedColumns;" class="table-content-row cursor-pointer"
+        mat-row></tr>
+</table>
+
+
+<mat-paginator
+        (page)="pageEvent.emit($event)"
+        [disabled]="reloading()"
+        [length]="totalElements()"
+        [pageIndex]="pageNumber()"
+        [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+        showFirstLastButtons
+>
+</mat-paginator>

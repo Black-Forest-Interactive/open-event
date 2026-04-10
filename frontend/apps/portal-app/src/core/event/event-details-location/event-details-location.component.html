@@ -1,0 +1,22 @@
+<div class="p-3 font-medium">{{ 'location.title' | translate }}</div>
+<mat-divider></mat-divider>
+<div class="flex flex-col gap-1 p-3 text-sm">
+    <div>{{ info().location?.street }} {{ info().location?.streetNumber }}</div>
+    @if (info().location?.additionalInfo?.length) {
+        <div>{{ info().location?.additionalInfo }}</div>
+    }
+    <div>{{ info().location?.zip }} {{ info().location?.city }}</div>
+    <div>{{ info().location?.country }}</div>
+</div>
+<lib-location-map [location]="info().location!" [scrollWheelZoom]="false"></lib-location-map>
+<mat-divider></mat-divider>
+<div class="flex flex-col gap-2 p-3">
+    <button (click)="openRoute()" matButton="filled">
+        <mat-icon>map_search</mat-icon>
+        {{ 'location.action.routing' | translate }}
+    </button>
+    <button (click)="downloadICS()" matButton="filled">
+        <mat-icon>edit_calendar</mat-icon>
+        {{ 'location.action.calendar' | translate }}
+    </button>
+</div>

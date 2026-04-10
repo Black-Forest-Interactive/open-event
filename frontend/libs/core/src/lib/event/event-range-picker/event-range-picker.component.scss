@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+  width: 100%;
+  @include mat.form-field-density(-3);
+  @include mat.datepicker-density(-3);
+
+  mat-form-field {
+    width: 100%;
+  }
+}

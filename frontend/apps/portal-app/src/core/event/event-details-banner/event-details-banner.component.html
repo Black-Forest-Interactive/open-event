@@ -1,0 +1,28 @@
+<div class="relative w-full h-[160px] sm:h-[220px] lg:h-[250px] overflow-hidden group">
+    <img (error)="onImageError()" [src]="bannerUrl()" alt="Banner"
+         class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
+
+    @if (canEdit()) {
+        <div class="absolute top-3 right-3">
+            <button (click)="fileInput.click()" [disabled]="isUploading()"
+                    [matTooltip]="'event.action.editBanner' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm"
+                    matIconButton matTooltipPosition="left">
+                @if (!isUploading()) {
+                    <mat-icon class="text-white">edit</mat-icon>
+                } @else {
+                    <mat-spinner class="text-white" diameter="20"></mat-spinner>
+                }
+            </button>
+            <input #fileInput (change)="onImageSelected($event)" accept="image/*" class="hidden" type="file"/>
+        </div>
+
+        @if (isUploading()) {
+            <div class="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm p-2">
+                <mat-progress-bar [value]="uploadPercentage()" mode="determinate"></mat-progress-bar>
+                <div class="text-xs text-white mt-1 text-center">{{ 'event.message.uploading' | translate }} {{ uploadPercentage() }}
+                    %
+                </div>
+            </div>
+        }
+    }
+</div>

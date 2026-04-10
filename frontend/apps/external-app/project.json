@@ -1,0 +1,129 @@
+{
+  "name": "external-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/external-app/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/external-app",
+        "index": "apps/external-app/src/index.html",
+        "browser": "apps/external-app/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/external-app/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/external-app/public"
+          },
+          {
+            "glob": "*.json",
+            "input": "apps/external-app/public/i18n",
+            "output": "external/i18n"
+          }
+        ],
+        "styles": [
+          "node_modules/leaflet/dist/leaflet.css",
+          "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
+          "libs/ui/src/lib/theme/theme.scss",
+          "libs/ui/src/lib/theme/utilities.scss",
+          "libs/ui/src/lib/theme/base.scss",
+          "node_modules/@ngxpert/hot-toast/src/styles/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/admin-app/src/environments/environment.ts",
+              "with": "apps/admin-app/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "local": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/admin-app/src/environments/environment.ts",
+              "with": "apps/admin-app/src/environments/environment.local.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "external-app:build:production"
+        },
+        "development": {
+          "buildTarget": "external-app:build:development"
+        },
+        "local": {
+          "buildTarget": "external-app:build:local"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "proxy.conf.json",
+        "port": 4202
+      },
+      "continuous": true
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "external-app:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/external-app/jest.config.ts",
+        "tsConfig": "apps/external-app/tsconfig.spec.json"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "external-app:build",
+        "staticFilePath": "dist/apps/external-app/browser",
+        "spa": true
+      }
+    }
+  }
+}

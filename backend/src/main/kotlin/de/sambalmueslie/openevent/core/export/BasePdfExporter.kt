@@ -18,6 +18,8 @@ import io.micronaut.http.server.types.files.SystemFile
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.generic.EscapeTool
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import org.slf4j.Logger
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -38,9 +40,10 @@ abstract class BasePdfExporter(
 ) : EventExporter {
 
     companion object {
-        private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm")
         private const val HEADER_PDF_FILE_SUFIX = ".pdf"
         private const val HEADER_PDF_FILE_PREFIX = "events"
+        private const val TRANSPARENT_PIXEL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
     }
 
     private val ve = VelocityEngine().apply {
@@ -59,12 +62,20 @@ abstract class BasePdfExporter(
         return renderPdfFile(listOf(info))
     }
 
-    private fun createQrCode(info: EventInfo): String {
-        val bitMatrix = barcodeWriter.encode(getUrl(info), BarcodeFormat.QR_CODE, 250, 250)
-        val qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
-        return ByteArrayOutputStream().use { qrCodeByteArray ->
-            ImageIO.write(qrCodeImage, "png", qrCodeByteArray)
-            Base64.getEncoder().encodeToString(qrCodeByteArray.toByteArray())
+    private fun createQrCode(info: EventInfo): String = createQrCodeFromUrl(getUrl(info))
+
+    protected fun createQrCodeFromUrl(url: String): String {
+        if (url.isBlank()) return ""
+        return try {
+            val bitMatrix = barcodeWriter.encode(url, BarcodeFormat.QR_CODE, 250, 250)
+            val qrCodeImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
+            ByteArrayOutputStream().use { qrCodeByteArray ->
+                ImageIO.write(qrCodeImage, "png", qrCodeByteArray)
+                Base64.getEncoder().encodeToString(qrCodeByteArray.toByteArray())
+            }
+        } catch (e: Exception) {
+            logger.warn("Could not generate QR code for url $url: ${e.message}")
+            ""
         }
     }
 
@@ -96,18 +107,20 @@ abstract class BasePdfExporter(
         return EventPdfContent(event, location, registration, categories, qrCode, availableSpace)
     }
 
-    private fun renderPdfFile(infos: List<EventInfo>): SystemFile? {
+    protected fun renderPdfFile(infos: List<EventInfo>, additionalProperties: Map<String, Any>? = null): SystemFile? {
         logger.info("Start pdf rendering for ${infos.size} events")
         val content = logger.logTimeMillisWithValue("Determine content") { infos.mapNotNull { getContent(it) } }
         val escapeTool = EscapeTool()
-        val properties = mapOf(
+
+        val properties = mutableMapOf(
             Pair("esc", escapeTool),
-//            Pair("html", HtmlConverter(escapeTool)),
             Pair("content", content),
             Pair("logo", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_LOGO_URL)?.value as? String ?: "")),
             Pair("image", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_IMAGE_URL)?.value as? String ?: "")),
-            Pair("date", formatter.format(LocalDateTime.now(ZoneId.of("Europe/Berlin"))))
+            Pair("date", formatter.format(LocalDateTime.now(ZoneId.of("Europe/Berlin")))),
         )
+
+        additionalProperties?.forEach { (key, value) -> properties[key] = value }
 
         val context = VelocityContext(properties)
         val writer = StringWriter()
@@ -134,12 +147,21 @@ abstract class BasePdfExporter(
         }
     }
 
-    abstract fun renderPdfContent(events: List<EventPdfContent>, content: String): ByteArrayOutputStream
+    protected fun renderPdfContent(events: List<EventPdfContent>, content: String): ByteArrayOutputStream {
+        val out = ByteArrayOutputStream()
+        PdfRendererBuilder()
+            .useSVGDrawer(BatikSVGDrawer())
+            .withHtmlContent(content, "about:blank")
+            .toStream(out)
+            .run()
+        return out
+    }
 
     private fun convertImageToBase64(imagePath: String): String {
+        if (imagePath.isBlank()) return TRANSPARENT_PIXEL
         return try {
-            val imageBytes = Files.readAllBytes(Paths.get(imagePath))
-            val extension = imagePath.substringAfterLast('.').lowercase()
+            val imageBytes = fetchImageBytes(imagePath)
+            val extension = imagePath.substringAfterLast('.').substringBefore('?').lowercase()
             val mimeType = when (extension) {
                 "jpg", "jpeg" -> "image/jpeg"
                 "png" -> "image/png"
@@ -147,11 +169,23 @@ abstract class BasePdfExporter(
                 "webp" -> "image/webp"
                 else -> "image/jpeg"
             }
-            "data:$mimeType;base64," + java.util.Base64.getEncoder().encodeToString(imageBytes)
+            val encoded = "data:$mimeType;base64," + Base64.getEncoder().encodeToString(imageBytes)
+            logger.info("Loaded image $imagePath — ${imageBytes.size} bytes, base64 length ${encoded.length}")
+            encoded
         } catch (e: Exception) {
-            println("Warning: Could not load image $imagePath - ${e.message}")
-            // Return a transparent 1x1 pixel as fallback
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+            logger.warn("Could not load image $imagePath — ${e.message}")
+            TRANSPARENT_PIXEL
+        }
+    }
+
+    private fun fetchImageBytes(imagePath: String): ByteArray {
+        return if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+            val connection = java.net.URI(imagePath).toURL().openConnection() as java.net.HttpURLConnection
+            connection.connectTimeout = 5_000
+            connection.readTimeout = 15_000
+            connection.inputStream.use { it.readBytes() }
+        } else {
+            Files.readAllBytes(Paths.get(imagePath))
         }
     }
 }

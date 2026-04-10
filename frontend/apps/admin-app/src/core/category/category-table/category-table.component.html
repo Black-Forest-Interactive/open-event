@@ -1,0 +1,45 @@
+<table [dataSource]="data()" mat-table>
+
+    <!-- name column -->
+    <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>
+            <div class="flex flex-row gap-3 items-center">
+                <mat-icon>badge</mat-icon>
+                <span>{{ 'category.table.name' | translate }}</span>
+            </div>
+        </th>
+        <td *matCellDef="let entry" mat-cell>
+            {{ entry.name }}
+        </td>
+    </ng-container>
+
+    <!-- name cmd -->
+    <ng-container matColumnDef="cmd">
+        <th *matHeaderCellDef mat-header-cell>
+        </th>
+        <td *matCellDef="let entry" mat-cell>
+            <div class="flex flex-row gap-2 justify-end">
+                <a (click)="editEvent.emit(entry)" color="primary" mat-icon-button>
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <button (click)="deleteEvent.emit(entry)" color="warn" mat-icon-button>
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" class="table-content-row" mat-row></tr>
+</table>
+
+
+<mat-paginator
+        (page)="pageEvent.emit($event)"
+        [disabled]="reloading()"
+        [length]="totalElements()"
+        [pageIndex]="pageNumber()"
+        [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+        showFirstLastButtons
+>
+</mat-paginator>

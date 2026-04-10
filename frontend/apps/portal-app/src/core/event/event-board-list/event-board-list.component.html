@@ -1,0 +1,26 @@
+<lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
+
+<div (nearEnd)="service.onScroll()" class="flex flex-col gap-2 pb-20" libScrollNearEnd>
+    @for (info of service.entries(); track info) {
+        <portal-event-board-list-entry [info]="info"></portal-event-board-list-entry>
+    }
+
+    @if (service.hasMoreElements() && !service.reloading()) {
+        <button (click)="service.onScroll()" class="flex-auto" color="accent" matButton="filled">
+            {{ 'action.loadMore' | translate }}
+        </button>
+    }
+</div>
+
+<div class="fixed right-4 bottom-6 z-10">
+    <button (click)="openFilter()" mat-icon-button
+            style="background: var(--mat-sys-primary); color: var(--mat-sys-on-primary); width: 56px; height: 56px; border-radius: 16px; box-shadow: var(--mat-sys-level3)">
+        <mat-icon>filter_list</mat-icon>
+    </button>
+</div>
+
+<ng-template #filterSheet>
+    <div class="px-4 pt-4 pb-6">
+        <portal-event-board-filter></portal-event-board-filter>
+    </div>
+</ng-template>

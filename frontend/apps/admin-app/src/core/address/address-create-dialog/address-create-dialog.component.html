@@ -1,0 +1,19 @@
+<div class="bg-primary-default flex flex-row justify-between items-center p-4">
+    <div class="text-2xl font-bold">{{ "address.dialog.create.title" | translate }}</div>
+    <div class="bg-accent-default rounded-sm px-4 py-1">{{ data.name }}</div>
+</div>
+<div mat-dialog-content>
+    <lib-address-change #change (request)="handleRequest($event)"></lib-address-change>
+</div>
+<mat-dialog-actions align="end">
+    <div class="flex flex-row gap-2">
+        <button (click)="change.submit()" cdkFocusInitial color="primary" mat-stroked-button>
+            <mat-icon>save</mat-icon>
+            {{ "action.submit" | translate }}
+        </button>
+        <button (click)="onCancelClick()" color="warn" mat-stroked-button>
+            <mat-icon>cancel</mat-icon>
+            {{ "action.cancel" | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

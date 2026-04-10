@@ -1,0 +1,63 @@
+@if (mobileView()) {
+    <div class="sticky top-0 z-10 flex items-center gap-2 h-16 px-3 border-b bg-surface-container-lowest border-outline-variant">
+        <lib-board-search (search)="setQuery($event)" class="flex-auto" placeholder="event.search"></lib-board-search>
+        <button [matMenuTriggerFor]="mobileMenu" mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+        </button>
+    </div>
+} @else {
+    <div class="sticky top-0 z-10 flex items-center h-16 px-4 gap-4 shrink-0 border-b bg-surface-container-lowest border-outline-variant">
+        <div class="flex-auto py-2 max-w-lg">
+            <lib-board-search (search)="setQuery($event)" placeholder="event.search"></lib-board-search>
+        </div>
+        <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="ml-auto shrink-0">
+            <mat-button-toggle (click)="setMode('list')" [checked]="mode() === 'list'" value="list">
+                <mat-icon>list</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle (click)="setMode('map')" [checked]="mode() === 'map'" value="map">
+                <mat-icon>map</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle (click)="setMode('calendar')" [checked]="mode() === 'calendar'" value="calendar">
+                <mat-icon>calendar_month</mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+}
+
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+<div class="flex flex-row gap-4 p-4">
+    <div class="flex-auto min-w-0">
+        @if (mobileView()) {
+            <portal-event-board-list></portal-event-board-list>
+        } @else {
+            @switch (mode()) {
+                @case ('map') {
+                    <portal-event-board-map></portal-event-board-map>
+                }
+                @case ('calendar') {
+                    <portal-event-board-calendar></portal-event-board-calendar>
+                }
+                @default {
+                    <portal-event-board-table></portal-event-board-table>
+                }
+            }
+        }
+    </div>
+    @if (!mobileView()) {
+        <div class="basis-72 shrink-0 flex flex-col gap-3">
+            <button class="w-full" color="accent" matButton="filled" routerLink="./create">
+                <mat-icon>add</mat-icon>
+                {{ 'event.create' | translate }}
+            </button>
+            <portal-event-board-filter></portal-event-board-filter>
+        </div>
+    }
+</div>
+
+<mat-menu #mobileMenu="matMenu">
+    <button mat-menu-item routerLink="./create">
+        <mat-icon>event</mat-icon>
+        {{ 'event.create' | translate }}
+    </button>
+</mat-menu>

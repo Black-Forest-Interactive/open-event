@@ -1,0 +1,22 @@
+<h1 class="bg-primary-default" mat-dialog-title>
+    @if (data) {
+        {{ "address.dialog.change.title" | translate }}
+    } @else {
+        {{ "address.dialog.create.title" | translate }}
+    }
+</h1>
+<div mat-dialog-content>
+    <lib-address-change #change (request)="handleRequest($event)" [data]="this.data"></lib-address-change>
+</div>
+<mat-dialog-actions align="end">
+    <div class="flex flex-row gap-2">
+        <button (click)="change.submit()" cdkFocusInitial color="primary" mat-stroked-button>
+            <mat-icon>save</mat-icon>
+            {{ "action.submit" | translate }}
+        </button>
+        <button (click)="onCancelClick()" color="warn" mat-stroked-button>
+            <mat-icon>cancel</mat-icon>
+            {{ "action.cancel" | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

@@ -1,0 +1,60 @@
+<mat-card>
+    <div class="flex items-center gap-3 h-14 px-4 rounded-t bg-surface-container-high text-on-surface">
+        <mat-icon>filter_list</mat-icon>
+        <span class="text-xl font-semibold">{{ 'event.filter.title' | translate }}</span>
+    </div>
+    <mat-divider></mat-divider>
+
+    <div class="flex flex-col gap-3 px-4 py-4">
+        <mat-form-field class="dense-1" subscriptSizing="dynamic">
+            <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input formControlName="start" matStartDate placeholder="{{ 'event.filter.range.start' | translate }}">
+                <input formControlName="end" matEndDate placeholder="{{ 'event.filter.range.end' | translate }}">
+            </mat-date-range-input>
+            <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+            <mat-date-range-picker #picker (closed)="onDateRangePickerClosed()"></mat-date-range-picker>
+            @if (range.controls.start.hasError('matStartDateInvalid')) {
+                <mat-error>{{ 'event.filter.range.errorStart' | translate }}</mat-error>
+            }
+            @if (range.controls.end.hasError('matEndDateInvalid')) {
+                <mat-error>{{ 'event.filter.range.errorEnd' | translate }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-chip-listbox class="mat-mdc-chip-set-stacked">
+            <mat-chip-option (selectionChange)="handlePreselectionChange($event)" [selected]="preselection() === 'today'" color="accent"
+                             value="today">
+                <div class="flex flex-row gap-2 items-center">
+                    <mat-icon>today</mat-icon>
+                    {{ 'event.filter.range.today' | translate }}
+                </div>
+            </mat-chip-option>
+            <mat-chip-option (selectionChange)="handlePreselectionChange($event)" [selected]="preselection() === 'this_week'" color="accent"
+                             value="this_week">
+                <div class="flex flex-row gap-2 items-center">
+                    <mat-icon>date_range</mat-icon>
+                    {{ 'event.filter.range.week' | translate }}
+                </div>
+            </mat-chip-option>
+            <mat-chip-option (selectionChange)="handlePreselectionChange($event)" [selected]="preselection() === 'next_week'" color="accent"
+                             value="next_week">
+                <div class="flex flex-row gap-2 items-center">
+                    <mat-icon>next_week</mat-icon>
+                    {{ 'event.filter.range.next' | translate }}
+                </div>
+            </mat-chip-option>
+        </mat-chip-listbox>
+    </div>
+
+    <!-- app-specific extra filters projected here (e.g. portal-specific toggle buttons) -->
+    <ng-content></ng-content>
+
+    <mat-divider></mat-divider>
+    <div class="flex flex-col gap-2 px-4 py-4">
+        <button (click)="onReset()" color="warn" matButton="outlined">
+            <mat-icon>cancel</mat-icon>
+            {{ 'event.filter.reset' | translate }}
+        </button>
+    </div>
+</mat-card>

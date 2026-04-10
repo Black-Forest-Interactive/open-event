@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.gateway.backoffice.settings
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.infrastructure.settings.SettingsService
 import de.sambalmueslie.openevent.infrastructure.settings.api.SettingChangeRequest
+import de.sambalmueslie.openevent.infrastructure.settings.api.TextResponse
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
@@ -43,5 +44,10 @@ class SettingsController(private val service: SettingsService) {
     @Delete("/{id}")
     fun delete(auth: Authentication, @PathVariable id: Long) = auth.checkPermission(PERMISSION_ADMIN) {
         service.delete(id)
+    }
+
+    @Get("title")
+    fun getTitle(auth: Authentication)= auth.checkPermission(PERMISSION_ADMIN) {
+        TextResponse(service.getTitle())
     }
 }

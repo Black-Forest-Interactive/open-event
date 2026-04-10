@@ -1,0 +1,9 @@
+<admin-board (back)="back()" (reload)="reload()" [reloading]="loading()" [showBack]="true" [showSearch]="false"
+             title="issue.title">
+    @if (issue()) {
+        <admin-issue-card [issue]="issue()!!"></admin-issue-card>
+    }
+</admin-board>
+
+
+

@@ -1,0 +1,23 @@
+<h1 class="bg-primary-default" mat-dialog-title>{{ "registration.dialog.cancel.title" | translate }}</h1>
+<div mat-dialog-content>
+    <div class="flex flex-col gap-3 pt-4">
+        <p>{{ "registration.dialog.cancel.question" | translate }}</p>
+        <div class="flex flex-col gap-2 ps-4">
+            <div>{{ data.participant.author | accountDisplayName }}</div>
+            <div>{{ data.participant.size }}</div>
+            <div>{{ data.participant.timestamp | date:'medium' }}</div>
+        </div>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+    <div class="flex flex-row gap-2">
+        <button (click)="onSaveClick()" cdkFocusInitial color="primary" mat-stroked-button>
+            <mat-icon>save</mat-icon>
+            {{ "action.submit" | translate }}
+        </button>
+        <button (click)="onCancelClick()" color="warn" mat-stroked-button>
+            <mat-icon>cancel</mat-icon>
+            {{ "action.cancel" | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

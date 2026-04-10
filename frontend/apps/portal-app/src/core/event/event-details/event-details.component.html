@@ -1,0 +1,33 @@
+<mat-card class="m-0 sm:!m-3 !pb-3 overflow-hidden lg:h-[calc(100vh-100px)]">
+    <portal-event-details-banner [data]="info()"></portal-event-details-banner>
+    <portal-event-details-header (changed)="reload()" [data]="info()"
+                                 [reloading]="reloading()"></portal-event-details-header>
+    <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+    @if (info()) {
+        <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch lg:overflow-y-auto p-3">
+            <div class="flex flex-col gap-3 flex-auto min-w-0">
+                <mat-card appearance="outlined">
+                    <portal-event-details-info [info]="info()!"/>
+                </mat-card>
+                @if (registration()) {
+                    <mat-card appearance="outlined">
+                        <portal-registration-details [data]="registration()!"/>
+                    </mat-card>
+                }
+                @if (canEdit() && share()) {
+                    <mat-card appearance="outlined">
+                        <portal-share-details (changed)="setSharingEnabled($event)" [info]="info()!"
+                                              [reloading]="reloading()"/>
+                    </mat-card>
+                }
+            </div>
+            <div class="flex flex-col gap-3 lg:w-80 lg:shrink-0">
+                @if (location()) {
+                    <mat-card appearance="outlined">
+                        <portal-event-details-location [info]="info()!"/>
+                    </mat-card>
+                }
+            </div>
+        </div>
+    }
+</mat-card>

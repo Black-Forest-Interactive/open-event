@@ -1,0 +1,128 @@
+{
+  "name": "portal-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "portal",
+  "sourceRoot": "apps/portal-app/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/portal-app",
+        "index": "apps/portal-app/src/index.html",
+        "browser": "apps/portal-app/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/portal-app/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/portal-app/public"
+          }
+        ],
+        "styles": [
+          "node_modules/leaflet/dist/leaflet.css",
+          "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
+          "node_modules/ngx-sharebuttons/themes/circles.scss",
+          "node_modules/ngx-sharebuttons/themes/modern.scss",
+          "libs/ui/src/lib/theme/theme.scss",
+          "libs/ui/src/lib/theme/utilities.scss",
+          "libs/ui/src/lib/theme/base.scss",
+          "node_modules/quill/dist/quill.core.css",
+          "node_modules/quill/dist/quill.bubble.css",
+          "node_modules/quill/dist/quill.snow.css",
+          "node_modules/@ngxpert/hot-toast/src/styles/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/portal-app/src/environments/environment.ts",
+              "with": "apps/portal-app/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "local": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/portal-app/src/environments/environment.ts",
+              "with": "apps/portal-app/src/environments/environment.local.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "portal-app:build:production"
+        },
+        "development": {
+          "buildTarget": "portal-app:build:development"
+        },
+        "local": {
+          "buildTarget": "portal-app:build:local"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "proxy.conf.json"
+      },
+      "continuous": true
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "portal-app:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/portal-app/jest.config.ts",
+        "tsConfig": "apps/portal-app/tsconfig.spec.json"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "portal-app:build",
+        "staticFilePath": "dist/apps/portal-app/browser",
+        "spa": true
+      }
+    }
+  }
+}

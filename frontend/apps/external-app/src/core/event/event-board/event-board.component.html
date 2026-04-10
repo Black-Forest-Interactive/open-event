@@ -1,0 +1,88 @@
+<div class="sticky top-0 z-10 flex items-center h-16 px-4 gap-4 shrink-0 border-b bg-surface-container-lowest border-outline-variant">
+    <div class="flex-auto py-2 max-w-lg">
+        <lib-board-search (search)="setQuery($event)" placeholder="event.search"></lib-board-search>
+    </div>
+</div>
+
+<div class="flex flex-row gap-4 p-4">
+    <div class="flex-auto min-w-0">
+        <lib-event-card-list (filterClicked)="filterVisible.set(!filterVisible())" (loadMore)="onScroll()" [hasMore]="hasMoreElements()"
+                             [reloading]="reloading()">
+            @for (event of entries(); track event.key) {
+                <lib-event-card [data]="toCardData(event)"></lib-event-card>
+            } @empty {
+                @if (!reloading()) {
+                    <div class="flex flex-col items-center gap-2 py-16 text-on-surface-variant">
+                        <mat-icon class="text-5xl! w-12! h-12!">search_off</mat-icon>
+                        <p class="text-sm">{{ 'event.empty' | translate }}</p>
+                    </div>
+                }
+            }
+        </lib-event-card-list>
+    </div>
+
+    @if (!mobileView()) {
+        <div class="basis-72 shrink-0">
+            <lib-event-board-date-filter (filterReset)="handleReset()" (rangeChanged)="handleRangeChanged($event)">
+                <div class="flex flex-col gap-2 px-4 py-2">
+                    @if (showAvailableOnly()) {
+                        <button (click)="toggleAvailableEvents()" color="accent" matButton="filled">
+                            <mat-icon>event_available</mat-icon>
+                            {{ 'event.filter.availableOnly' | translate }}
+                        </button>
+                    } @else {
+                        <button (click)="toggleAvailableEvents()" color="accent" matButton="outlined">
+                            <mat-icon>event_available</mat-icon>
+                            {{ 'event.filter.availableOnly' | translate }}
+                        </button>
+                    }
+                    @if (showHistory()) {
+                        <button (click)="toggleShowHistory()" color="accent" matButton="filled">
+                            <mat-icon>history</mat-icon>
+                            {{ 'event.filter.includeHistory' | translate }}
+                        </button>
+                    } @else {
+                        <button (click)="toggleShowHistory()" color="accent" matButton="outlined">
+                            <mat-icon>history</mat-icon>
+                            {{ 'event.filter.includeHistory' | translate }}
+                        </button>
+                    }
+                </div>
+            </lib-event-board-date-filter>
+        </div>
+    }
+</div>
+
+@if (mobileView() && filterVisible()) {
+    <button (click)="filterVisible.set(false)" aria-label="Close filter"
+            class="fixed inset-0 z-30 bg-black/40 w-full border-0 cursor-default"></button>
+    <div class="fixed right-0 top-0 h-full w-80 z-30 overflow-y-auto shadow-xl bg-white">
+        <lib-event-board-date-filter (filterReset)="handleReset()" (rangeChanged)="handleRangeChanged($event)">
+            <div class="flex flex-col gap-2 px-4 py-2">
+                @if (showAvailableOnly()) {
+                    <button (click)="toggleAvailableEvents()" color="accent" matButton="filled">
+                        <mat-icon>event_available</mat-icon>
+                        {{ 'event.filter.availableOnly' | translate }}
+                    </button>
+                } @else {
+                    <button (click)="toggleAvailableEvents()" color="accent" matButton="outlined">
+                        <mat-icon>event_available</mat-icon>
+                        {{ 'event.filter.availableOnly' | translate }}
+                    </button>
+                }
+                @if (showHistory()) {
+                    <button (click)="toggleShowHistory()" color="accent" matButton="filled">
+                        <mat-icon>history</mat-icon>
+                        {{ 'event.filter.includeHistory' | translate }}
+                    </button>
+                } @else {
+                    <button (click)="toggleShowHistory()" color="accent" matButton="outlined">
+                        <mat-icon>history</mat-icon>
+                        {{ 'event.filter.includeHistory' | translate }}
+                    </button>
+                }
+            </div>
+        </lib-event-board-date-filter>
+    </div>
+}
+

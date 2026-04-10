@@ -1,0 +1,24 @@
+<h1 class="bg-primary-default" mat-dialog-title>{{ "event.dialog.delete.title" | translate }}
+</h1>
+<div class="!pt-4" mat-dialog-content>
+    <div class="flex flex-col gap-3">
+        <p>{{ "event.dialog.delete.question" | translate }}</p>
+        <div class="flex flex-col gap-2 ps-4">
+            <div>{{ data.title }}</div>
+            <div>{{ data.owner | accountDisplayName }}</div>
+            <div>{{ data.start | date:'medium' }}</div>
+        </div>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+    <div class="flex flex-row gap-2">
+        <button (click)="onYesClick()" cdkFocusInitial color="primary" mat-stroked-button>
+            <mat-icon>check</mat-icon>
+            {{ "action.yes" | translate }}
+        </button>
+        <button (click)="onNoClick()" color="warn" mat-stroked-button>
+            <mat-icon>cancel</mat-icon>
+            {{ "action.no" | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

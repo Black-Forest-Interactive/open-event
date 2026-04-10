@@ -1,0 +1,15 @@
+<admin-board (reload)="reload()" [reloading]="reloading" [showSearch]="false" title="activity.title">
+    <board-toolbar-actions>
+        <button (click)="cleanup()" color="accent" mat-flat-button>
+            <mat-icon class="!m-0">auto_delete</mat-icon>
+        </button>
+    </board-toolbar-actions>
+    <mat-card>
+        <admin-activity-table (pageEvent)="handlePageChange($event)"
+                              [data]="data"
+                              [pageNumber]="pageNumber"
+                              [pageSize]="pageSize"
+                              [reloading]="reloading"
+                              [totalElements]="totalElements"/>
+    </mat-card>
+</admin-board>

@@ -1,0 +1,15 @@
+<mat-menu #menu="matMenu">
+    @if (reloading()) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    } @else {
+        <portal-activity-list (clicked)="handleMarkReadSingle($event)" [data]="data()"></portal-activity-list>
+        <div class="flex flex-col gap-2 px-3 py-2 items-center">
+            <button (click)="handleMarkReadAll()" mat-flat-button>
+                <mat-icon>mark_chat_read</mat-icon>
+                {{ 'activity.action.readAll' | translate }}
+            </button>
+        </div>
+    }
+
+</mat-menu>
+

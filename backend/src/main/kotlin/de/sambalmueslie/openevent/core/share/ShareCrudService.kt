@@ -62,6 +62,10 @@ class ShareCrudService(
         return storage.findByEventIds(eventIds)
     }
 
+    fun findByEventId(eventId: Long): Share? {
+        return storage.findByEventId(eventId)
+    }
+
     fun findInfosByEventIds(eventIds: Set<Long>, account: Account?): List<ShareInfo> {
         val info = account?.let { accountService.getInfo(it) }
         val shares = storage.findByEventIds(eventIds)

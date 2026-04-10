@@ -1,0 +1,28 @@
+@if (vertical()) {
+    <div class="flex flex-col gap-0.5">
+        <div class="w-full h-1.5 rounded-full overflow-hidden flex flex-row">
+            <div [style.width.%]="takenPct" class="h-full bg-orange-300 transition-all"></div>
+            <div [style.width.%]="remainingPct" class="h-full bg-green-500 transition-all"></div>
+        </div>
+        @if (spaceAvailable) {
+            <div class="available text-xs">{{ space.remaining }} {{ 'registration.status.available' | translate }}</div>
+        } @else {
+            <div class="full text-xs">{{ 'registration.status.full' | translate }}</div>
+        }
+    </div>
+} @else {
+    <div class="flex flex-row gap-2">
+        @if (indicator.length) {
+            <div class="flex flex-row gap-0.5">
+                @for (i of indicator; track i.key) {
+                    <div [ngClass]="i.value" class="rounded min-w-2 !max-h-[20px]"></div>
+                }
+            </div>
+        }
+        @if (spaceAvailable) {
+            <div class="available">{{ space.remaining }} {{ 'registration.status.available' | translate }}</div>
+        } @else {
+            <div class="full">{{ 'registration.status.full' | translate }}</div>
+        }
+    </div>
+}

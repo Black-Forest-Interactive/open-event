@@ -1,0 +1,33 @@
+@if (data()) {
+    <div class="popup">
+        <div class="popup-title">{{ title() }}</div>
+        <div class="popup-body">
+            <div class="popup-row">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ start() | date:'EEE, d MMM' }} &nbsp; {{ start() | date:'shortTime' }}
+                    – {{ finish() | date:'shortTime' }}</span>
+            </div>
+            @if (owner()) {
+                <div class="popup-row">
+                    <mat-icon>person</mat-icon>
+                    <span>{{ owner()!! | accountDisplayName }}</span>
+                </div>
+            }
+            @if (hasLocation()) {
+                <div class="popup-row">
+                    <mat-icon>pin_drop</mat-icon>
+                    <span>{{ street() }} {{ streetNumber() }}, {{ zip() }} {{ city() }}</span>
+                </div>
+            }
+        </div>
+        <div class="popup-actions">
+            <button (click)="close.next(true)" color="primary" matButton="filled">
+                <mat-icon>read_more</mat-icon>
+                {{ 'action.details' | translate }}
+            </button>
+            <button (click)="close.next(false)" matButton="outlined">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+}

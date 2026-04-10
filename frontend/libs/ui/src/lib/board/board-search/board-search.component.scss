@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.search-pill {
+  height: 36px;
+  border-radius: 18px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-variant);
+  transition: border-color 150ms, background 150ms;
+
+  &:focus-within {
+    border-color: var(--mat-sys-primary);
+    background: var(--mat-sys-surface-container-lowest);
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.search-input {
+  color: var(--mat-sys-on-surface);
+
+  &::placeholder {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

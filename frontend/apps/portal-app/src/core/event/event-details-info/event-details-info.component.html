@@ -1,0 +1,36 @@
+<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 p-3">
+    <portal-account [account]="info().event.owner"></portal-account>
+    <div class="flex-auto"></div>
+    <div class="flex flex-col items-start sm:items-end text-sm" style="color: var(--mat-sys-on-surface-variant)">
+        <div>{{ info().event.start | date:'fullDate' }}</div>
+        <div>{{ info().event.start | date:'shortTime' }} - {{ info().event.finish | date:'shortTime' }}</div>
+    </div>
+</div>
+@if (info().event.longText.length > 0) {
+    <mat-divider></mat-divider>
+    <div [innerHTML]="info().event.longText" class="p-3"></div>
+}
+@if (info().event.imageUrl && info().event.imageUrl.length > 0) {
+    <img [src]="info().event.imageUrl" alt="" class="w-full">
+}
+@if (info().categories.length > 0 || info().event.tags.length > 0) {
+    <mat-divider></mat-divider>
+    <div class="flex flex-row flex-wrap gap-2 p-3">
+        <mat-chip-set>
+            @for (category of info().categories; track category.id) {
+                <mat-chip>
+                    <mat-icon matChipAvatar>label</mat-icon>
+                    {{ category.name }}
+                </mat-chip>
+            }
+        </mat-chip-set>
+        <mat-chip-set>
+            @for (tag of info().event.tags; track tag) {
+                <mat-chip>
+                    <mat-icon matChipAvatar>tag</mat-icon>
+                    {{ tag }}
+                </mat-chip>
+            }
+        </mat-chip-set>
+    </div>
+}

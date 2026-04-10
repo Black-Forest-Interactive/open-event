@@ -1,0 +1,4 @@
+/* mat-sidenav-container needs explicit height to fill flex parent */
+mat-sidenav-container {
+  height: 100%;
+}

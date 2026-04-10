@@ -1,0 +1,43 @@
+<mat-toolbar>
+    <div class="flex flex-row gap-2 flex-auto items-center">
+        <button (click)="back()" [matTooltip]="'action.back' | translate" matIconButton>
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span class="text-base font-medium truncate ps-1">{{ data()?.event?.title }}</span>
+        <div class="flex-auto"></div>
+
+        @if (!reloading() && !publishMenuItem.disabled && isOwner() && !data()?.event?.published) {
+            <button (click)="publishMenuItem.handleClick()" [matTooltip]="'event.action.publish' | translate"
+                    matIconButton>
+                @if (publishing()) {
+                    <mat-icon>
+                        <mat-spinner diameter="18"></mat-spinner>
+                    </mat-icon>
+                } @else {
+                    <mat-icon>publish</mat-icon>
+                }
+            </button>
+        }
+        @if (isOwner() && !isMobile()) {
+            @for (item of menuItems; track item) {
+                <button (click)="item.handleClick()" [matTooltip]="item.text | translate" matIconButton>
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                </button>
+            }
+        }
+        @if (isOwner()) {
+            <button [matMenuTriggerFor]="contextMenu" [matTooltip]="'action.more' | translate" matIconButton>
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        }
+    </div>
+</mat-toolbar>
+
+<mat-menu #contextMenu="matMenu">
+    @for (item of menuItems; track item) {
+        <button (click)="item.handleClick()" [disabled]="item.disabled" mat-menu-item>
+            <mat-icon>{{ item.icon }}</mat-icon>
+            {{ item.text | translate }}
+        </button>
+    }
+</mat-menu>

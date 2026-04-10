@@ -1,0 +1,16 @@
+<mat-form-field subscriptSizing="dynamic">
+    <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
+    <mat-date-range-input [formGroup]="fg" [rangePicker]="picker">
+        <input formControlName="from" matStartDate placeholder="{{ 'event.filter.range.start' | translate }}">
+        <input formControlName="to" matEndDate placeholder="{{ 'event.filter.range.end' | translate }}">
+    </mat-date-range-input>
+    <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+    <mat-date-range-picker #picker (closed)="onDateRangePickerClosed()"></mat-date-range-picker>
+
+    @if (fg.controls['from'].hasError('matStartDateInvalid')) {
+        <mat-error>Invalid from date</mat-error>
+    }
+    @if (fg.controls['to'].hasError('matEndDateInvalid')) {
+        <mat-error>Invalid to date</mat-error>
+    }
+</mat-form-field>

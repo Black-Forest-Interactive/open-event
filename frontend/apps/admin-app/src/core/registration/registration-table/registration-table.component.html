@@ -1,0 +1,103 @@
+<table [dataSource]="dataSource" mat-table matSort>
+
+    <!-- Rank Column -->
+    <ng-container matColumnDef="rank">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by rank">
+            {{ 'registration.table.rank'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.rank }}</td>
+    </ng-container>
+
+    <!-- Size Column -->
+    <ng-container matColumnDef="size">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by size">
+            {{ 'registration.table.size'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.size }}</td>
+    </ng-container>
+
+    <!-- status Column -->
+    <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by status">
+            {{ 'registration.table.status'| translate }}
+        </th>
+        <td *matCellDef="let participant"
+            mat-cell> {{ ('registration.table.enum.' + participant.status) | translate }}
+        </td>
+    </ng-container>
+
+    <!-- waitinglist Column -->
+    <ng-container matColumnDef="waitinglist">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by waitinglist">
+            {{ 'registration.table.waitlist' | translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell>
+            @if (participant.waitingList) {
+                <mat-icon>check_circle</mat-icon>
+            }
+        </td>
+    </ng-container>
+
+
+    <!-- name Column -->
+    <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by name">
+            {{ 'registration.table.name'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.author.name }}</td>
+    </ng-container>
+
+
+    <!-- email Column -->
+    <ng-container matColumnDef="email">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by email">
+            {{ 'registration.table.email'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.author.email }}</td>
+    </ng-container>
+
+
+    <!-- phone Column -->
+    <ng-container matColumnDef="phone">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by phone">
+            {{ 'registration.table.phone'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.author.phone }}</td>
+    </ng-container>
+
+    <!-- mobile Column -->
+    <ng-container matColumnDef="mobile">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by mobile">
+            {{ 'registration.table.mobile'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.author.mobile }}</td>
+    </ng-container>
+
+    <!-- timestamp Column -->
+    <ng-container matColumnDef="timestamp">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by timestamp">
+            {{ 'registration.table.timestamp'| translate }}
+        </th>
+        <td *matCellDef="let participant" mat-cell> {{ participant.timestamp | date:"medium" }}</td>
+    </ng-container>
+
+    <!-- action Column -->
+    <ng-container matColumnDef="action">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let participant" mat-cell>
+            <div class="flex flex-row gap-2 justify-content-end">
+                <button (click)="editParticipant(participant)" color="primary" mat-flat-button>
+                    <mat-icon>manage_accounts</mat-icon>
+                    {{ 'registration.action.editParticipant' | translate }}
+                </button>
+                <button (click)="removeParticipant(participant)" color="primary" mat-flat-button>
+                    <mat-icon>person_remove</mat-icon>
+                    {{ 'registration.action.removeParticipant' | translate }}
+                </button>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
