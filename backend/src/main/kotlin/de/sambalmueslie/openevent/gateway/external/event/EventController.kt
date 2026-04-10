@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.gateway.external.event
 import de.sambalmueslie.openevent.core.participant.api.*
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -46,4 +47,8 @@ class EventController(
         service.confirmParticipation(id, participantId, request)
 
 
+    @Get("{id}/og-preview")
+    fun getPreview(id: String): HttpResponse<String> {
+        return service.getPublicEventPreview(id)
+    }
 }

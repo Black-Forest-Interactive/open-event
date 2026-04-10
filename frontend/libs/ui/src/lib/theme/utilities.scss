@@ -4,10 +4,12 @@
 
 .bg-primary-toolbar {
   @include mat.toolbar-overrides((container-background-color: #27272a, container-text-color: #ffffff));
+  @include mat.icon-button-overrides((icon-color: #ffffff, state-layer-color: #ffffff));
 }
 
 html.dark .bg-primary-toolbar {
   @include mat.toolbar-overrides((container-background-color: #2d3a50, container-text-color: #f1f5f9));
+  @include mat.icon-button-overrides((icon-color: #f1f5f9, state-layer-color: #f1f5f9));
 }
 
 // ── Availability indicators ───────────────────────────────────────────────────

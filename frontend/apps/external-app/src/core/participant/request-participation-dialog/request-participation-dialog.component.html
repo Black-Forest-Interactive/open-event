@@ -1,37 +1,37 @@
 <h2 mat-dialog-title>{{ "registration.dialog.manual.title" | translate }}</h2>
 <mat-dialog-content>
-    <form [formGroup]="fg">
+    <form [formGroup]="fg" autocomplete="on">
         <div class="flex flex-col gap-2">
             <p>{{ "registration.dialog.manual.question" | translate }}</p>
 
             <mat-form-field class="dense-1 w-full">
                 <mat-label>{{ 'account.form.firstName' | translate }}</mat-label>
-                <input formControlName="firstName" matInput>
+                <input formControlName="firstName" matInput name="given-name" autocomplete="given-name">
             </mat-form-field>
 
             <mat-form-field class="dense-1 w-full">
                 <mat-label>{{ 'account.form.lastName' | translate }}</mat-label>
-                <input formControlName="lastName" matInput>
+                <input formControlName="lastName" matInput name="family-name" autocomplete="family-name">
             </mat-form-field>
 
             <mat-form-field class="dense-1 w-full">
                 <mat-label>{{ 'account.form.email' | translate }}</mat-label>
-                <input formControlName="email" matInput required>
+                <input formControlName="email" matInput required name="email" autocomplete="email" type="email">
             </mat-form-field>
 
             <mat-form-field class="dense-1 w-full">
                 <mat-label>{{ 'account.form.phone' | translate }}</mat-label>
-                <input formControlName="phone" matInput>
+                <input formControlName="phone" matInput name="tel-local" autocomplete="tel-local" type="tel">
             </mat-form-field>
 
             <mat-form-field class="dense-1 w-full">
                 <mat-label>{{ 'account.form.mobile' | translate }}</mat-label>
-                <input formControlName="mobile" matInput>
+                <input formControlName="mobile" matInput name="tel" autocomplete="tel" type="tel">
             </mat-form-field>
 
             <mat-form-field class="dense-1 w-full">
                 <mat-label>{{ "registration.peopleAmount" | translate }}</mat-label>
-                <input formControlName="size" matInput min="1" required type="number">
+                <input formControlName="size" matInput min="1" required type="number" autocomplete="off">
             </mat-form-field>
         </div>
     </form>

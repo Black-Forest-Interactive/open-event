@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, resource, signal } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Meta, Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
 import { MatDialog } from '@angular/material/dialog'
 import { HotToastService } from '@ngxpert/hot-toast'
@@ -27,6 +28,8 @@ export class EventComponent {
   private route = inject(ActivatedRoute)
   private dialog = inject(MatDialog)
   private hotToast = inject(HotToastService)
+  private meta = inject(Meta)
+  private title = inject(Title)
   private eventId = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? undefined)))
   private lang = toSignal(this.route.queryParams.pipe(map((p) => p['lang'])))
   private eventResource = resource({
@@ -39,7 +42,7 @@ export class EventComponent {
   readonly error = this.eventResource.error
 
   constructor() {
-    this.translate.setDefaultLang('en')
+    this.translate.setDefaultLang('de')
 
     effect(() => {
       const lang = this.lang()
@@ -49,6 +52,15 @@ export class EventComponent {
     effect(() => {
       if (!this.error()) return
       this.translate.get('event.message.error').subscribe((t) => this.hotToast.error(t))
+    })
+
+    effect(() => {
+      const event = this.event()
+      if (!event) return
+      this.title.setTitle(event.title)
+      this.meta.updateTag({ property: 'og:title', content: event.title })
+      this.meta.updateTag({ property: 'og:description', content: event.shortText ?? '' })
+      this.meta.updateTag({ property: 'og:url', content: window.location.href })
     })
 
     effect(() => {

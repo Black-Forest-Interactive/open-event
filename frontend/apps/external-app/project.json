@@ -20,6 +20,11 @@
           {
             "glob": "**/*",
             "input": "apps/external-app/public"
+          },
+          {
+            "glob": "*.json",
+            "input": "apps/external-app/public/i18n",
+            "output": "external/i18n"
           }
         ],
         "styles": [
