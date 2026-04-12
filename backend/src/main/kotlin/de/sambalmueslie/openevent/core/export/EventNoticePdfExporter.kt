@@ -25,7 +25,7 @@ class EventNoticePdfExporter(
 
         val publicEventListLink = linkService.findByKey(settingsService.getPublicEventListKey()) ?: return null
         val externalBaseUrl = settingsService.getShareUrl()
-        val publicEventListUrl = "$externalBaseUrl/${publicEventListLink.id}/search"
+        val publicEventListUrl = "$externalBaseUrl/event/${publicEventListLink.id}/search"
         val properties = mapOf(
             Pair("portalQrCode", createQrCodeFromUrl(publicEventListUrl)),
             Pair("portalUrl", publicEventListUrl)
