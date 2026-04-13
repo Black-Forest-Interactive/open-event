@@ -1,8 +1,9 @@
 import { RegistrationChangeRequest, RegistrationInfo } from '../registration'
 import { Category } from '../category'
 import { LocationChangeRequest } from '../location'
-import { AccountInfo, Location, ShareInfo } from '@open-event/core'
 import { Observable } from 'rxjs'
+import { ShareInfo } from '../share'
+import { AccountInfo } from '../account'
 
 export interface Event {
   id: number
@@ -67,4 +68,6 @@ export interface EventReadAPI {
   getEvent(id: number): Observable<Event>
 
   getEventInfo(id: number): Observable<EventInfo>
+
+  create(request: EventChangeRequest): Observable<Event>
 }
