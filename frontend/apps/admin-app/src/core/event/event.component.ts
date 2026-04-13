@@ -1,5 +1,6 @@
 import { Component, EventEmitter, inject, OnInit } from '@angular/core'
-import { defaultEventSearchRequest, EventRangePickerComponent, EventRangeSelection, EventSearchEntry, EventSearchResponse } from '@open-event/core'
+import { defaultEventSearchRequest, EventSearchEntry, EventSearchResponse } from '@open-event/core'
+import { EventRangePickerComponent, EventRangeSelection } from '@open-event/ui'
 import { EventService, ExportService } from '@open-event/admin'
 import { download } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'

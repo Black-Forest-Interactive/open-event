@@ -1,9 +1,7 @@
 import { Component, input, Input } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { NgClass } from '@angular/common'
-import { RegistrationInfo } from '../registration.api'
-import { Participant } from '../../participant'
-import { EventSearchEntry } from '../../search'
+import { RegistrationInfo, Participant, EventSearchEntry } from '@open-event/core'
 
 interface SpaceEntry {
   hasSpaceLeft: boolean

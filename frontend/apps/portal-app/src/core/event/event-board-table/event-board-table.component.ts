@@ -9,7 +9,7 @@ import { MatDivider } from '@angular/material/divider'
 import { RouterLink } from '@angular/router'
 import { MatPaginator } from '@angular/material/paginator'
 import { LoadingBarComponent } from '@open-event/shared'
-import { RegistrationStatusComponent } from '@open-event/core'
+import { RegistrationStatusComponent } from '@open-event/ui'
 
 @Component({
   selector: 'portal-event-board-table',

@@ -1,5 +1,6 @@
 import { Component, computed, inject, resource } from '@angular/core'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeComponent, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { EventChangeComponent } from '@open-event/ui'
 import { LoadingBarComponent, Page, toPromise } from '@open-event/shared'
 import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
@@ -64,6 +65,10 @@ export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, Even
   }
   getEventInfo(id: number): Observable<EventInfo> {
     return this.service.getEventInfo(id)
+  }
+
+  create(request: EventChangeRequest): Observable<Event> {
+    return this.service.create(request)
   }
 
   cancel() {

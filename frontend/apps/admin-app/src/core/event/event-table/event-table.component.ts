@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core'
-import { AccountDisplayNamePipe, EventPublishedIconComponent, EventSearchEntry } from '@open-event/core'
+import { AccountDisplayNamePipe, EventSearchEntry } from '@open-event/core'
+import { EventPublishedIconComponent } from '@open-event/ui'
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'

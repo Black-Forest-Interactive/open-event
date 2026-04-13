@@ -1,6 +1,6 @@
 import { Component, effect, inject, input, output } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
-import { Address, AddressChangeRequest } from '../address.api'
+import { Address, AddressChangeRequest } from '@open-event/core'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
 import { TranslatePipe } from '@ngx-translate/core'

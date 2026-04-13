@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, OnInit, resource } from '@angular/core'
-import { EventInfo } from '../event.api'
+import { Address, AddressReadAPI, EventInfo } from '@open-event/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatSelectChange, MatSelectModule } from '@angular/material/select'
-import { Address, AddressReadAPI } from '../../address'
 import { toPromise } from '@open-event/shared'
 
 @Component({
@@ -46,19 +45,19 @@ export class EventChangeLocationComponent implements OnInit {
     })
 
     effect(() => {
-      let event = this.data()
+      const event = this.data()
       if (event) this.handleDataChanged(event)
     })
 
     effect(() => {
-      let addresses = this.addresses()
+      const addresses = this.addresses()
       if (addresses.length > 0 && !this.fg?.dirty && !this.fg?.valid) {
         this.setAddress(addresses[0])
       }
     })
 
     effect(() => {
-      let parent = this.parent()
+      const parent = this.parent()
       parent.addControl('location', this.fg)
     })
   }
@@ -68,7 +67,7 @@ export class EventChangeLocationComponent implements OnInit {
   }
 
   handleAddressSelected(event: MatSelectChange) {
-    let address = event.value as Address
+    const address = event.value as Address
     this.setAddress(address)
   }
 
@@ -89,7 +88,7 @@ export class EventChangeLocationComponent implements OnInit {
   }
 
   private handleDataChanged(info: EventInfo) {
-    let location = info.location
+    const location = info.location
     if (location) {
       this.fg.setValue({
         city: location.city ?? '',

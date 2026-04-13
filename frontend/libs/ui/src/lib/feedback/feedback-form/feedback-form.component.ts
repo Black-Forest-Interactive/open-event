@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInput } from '@angular/material/input'
 import { TranslatePipe } from '@ngx-translate/core'
-import { FeedbackChangeRequest } from '../feedback.api'
+import { FeedbackChangeRequest } from '@open-event/core'
 
 @Component({
   selector: 'lib-feedback-form',

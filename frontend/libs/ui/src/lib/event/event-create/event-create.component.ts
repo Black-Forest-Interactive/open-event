@@ -6,9 +6,10 @@ import { MatMiniFabButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
 import { Observable } from 'rxjs'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeComponent, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { Page } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'
+import { EventChangeComponent } from '../event-change/event-change.component'
 
 @Component({
   selector: 'lib-event-create',

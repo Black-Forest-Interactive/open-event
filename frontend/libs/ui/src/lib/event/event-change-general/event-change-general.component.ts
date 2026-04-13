@@ -1,6 +1,6 @@
 import { Component, effect, inject, input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
-import { EventInfo } from '../event.api'
+import { EventInfo } from '@open-event/core'
 import { DateTime } from 'luxon'
 
 import { MatFormFieldModule } from '@angular/material/form-field'

@@ -43,12 +43,16 @@ export class EventService extends BaseService implements EventReadAPI {
   }
 
   getEventHistory(id: number, page: number, size: number): Observable<Page<HistoryEntry>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get('' + id + '/history', params)
   }
 
   getEventStats(id: number): Observable<EventStats> {
     return this.get('stats')
+  }
+
+  create(request: EventChangeRequest): Observable<Event> {
+    return this.post('', request)
   }
 
   updateEvent(id: number, request: EventChangeRequest): Observable<Event> {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
 import { TranslatePipe } from '@ngx-translate/core'
-import { Category, CategoryChangeRequest } from '../category.api'
+import { Category, CategoryChangeRequest } from '@open-event/core'
 
 @Component({
   selector: 'lib-category-change',

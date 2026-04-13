@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core'
-import { Account, AddressChangeComponent, AddressChangeRequest } from '@open-event/core'
+import { Account, AddressChangeRequest } from '@open-event/core'
+import { AddressChangeComponent } from '@open-event/ui'
 import { MatButton } from '@angular/material/button'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog'
 import { MatIcon } from '@angular/material/icon'

@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core'
 import { AccountService, AddressService, CategoryService, EventService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeComponent, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { EventChangeComponent } from '@open-event/ui'
 import { Observable } from 'rxjs'
 import { Page } from '@open-event/shared'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -42,6 +43,9 @@ export class EventChangeDialogComponent implements AddressReadAPI, CategoryReadA
 
   getEventInfo(id: number): Observable<EventInfo> {
     return this.service.getEventInfo(id)
+  }
+  create(request: EventChangeRequest): Observable<Event> {
+    return this.service.create(request)
   }
 
   onCancelClick(): void {

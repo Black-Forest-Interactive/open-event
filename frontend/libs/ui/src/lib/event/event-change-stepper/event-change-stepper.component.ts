@@ -12,9 +12,7 @@ import { TranslateModule } from '@ngx-translate/core'
 import { EventChangeLocationComponent } from '../event-change-location/event-change-location.component'
 import { EventChangeRegistrationComponent } from '../event-change-registration/event-change-registration.component'
 import { EventChangeGeneralComponent } from '../event-change-general/event-change-general.component'
-import { AddressReadAPI } from '../../address'
-import { CategoryReadAPI } from '../../category'
-import { EventInfo } from '../event.api'
+import { AddressReadAPI, CategoryReadAPI, EventInfo } from '@open-event/core'
 
 @Component({
   selector: 'lib-event-change-stepper',

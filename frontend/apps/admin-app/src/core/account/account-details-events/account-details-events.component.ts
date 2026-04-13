@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, resource, signal } from '@angular/core'
-import { Account, AccountDisplayNamePipe, Event, EventPublishedIconComponent } from '@open-event/core'
+import { Account, AccountDisplayNamePipe, Event } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/admin'
@@ -15,6 +15,7 @@ import { EventDeleteDialogComponent } from '../../event/event-delete-dialog/even
 import { EventPublishDialogComponent } from '../../event/event-publish-dialog/event-publish-dialog.component'
 import { RouterLink } from '@angular/router'
 import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/board-card/board-card.component'
+import { EventPublishedIconComponent } from '@open-event/ui'
 
 @Component({
   selector: 'admin-account-details-events',

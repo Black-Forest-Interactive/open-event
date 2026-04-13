@@ -8,7 +8,7 @@ import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { MatInput } from '@angular/material/input'
-import { BaseIssueService, IssueChangeRequest } from '../issue.api'
+import { BaseIssueService, IssueChangeRequest } from '@open-event/core'
 
 @Component({
   selector: 'lib-issue-create-dialog',

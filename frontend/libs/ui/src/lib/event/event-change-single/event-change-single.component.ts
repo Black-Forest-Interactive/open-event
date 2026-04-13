@@ -1,9 +1,12 @@
 import { Component, input, output } from '@angular/core'
-import { AddressReadAPI, CategoryReadAPI, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent, EventInfo } from '@open-event/core'
+import { AddressReadAPI, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { FormGroup } from '@angular/forms'
+import { EventChangeGeneralComponent } from '../event-change-general/event-change-general.component'
+import { EventChangeLocationComponent } from '../event-change-location/event-change-location.component'
+import { EventChangeRegistrationComponent } from '../event-change-registration/event-change-registration.component'
 
 @Component({
   selector: 'lib-event-change-single',

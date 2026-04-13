@@ -1,6 +1,6 @@
 import { RegistrationChangeRequest, RegistrationInfo } from '../registration'
 import { Category } from '../category'
-import { LocationChangeRequest } from '../location'
+import { Location, LocationChangeRequest } from '../location'
 import { Observable } from 'rxjs'
 import { ShareInfo } from '../share'
 import { AccountInfo } from '../account'
