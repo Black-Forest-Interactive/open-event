@@ -12,6 +12,7 @@ export { AppLayoutComponent } from './lib/layout/app-layout/app-layout.component
 
 // account
 export { AccountChangeComponent } from './lib/account/account-change/account-change.component'
+export { AccountDisplayNamePipe } from './lib/account/account-display-name.pipe'
 
 // address
 export { AddressChangeComponent } from './lib/address/address-change/address-change.component'
@@ -38,6 +39,7 @@ export { FeedbackFormComponent } from './lib/feedback/feedback-form/feedback-for
 
 // issue
 export { IssueCreateDialogComponent } from './lib/issue/issue-create/issue-create-dialog.component'
+export { errorInterceptor } from './lib/issue/error.interceptor'
 
 // location
 export { LocationMapComponent } from './lib/location/location-map/location-map.component'
