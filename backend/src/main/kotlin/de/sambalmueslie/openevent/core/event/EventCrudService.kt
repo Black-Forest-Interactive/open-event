@@ -35,7 +35,7 @@ class EventCrudService(
     private val registrationCrudService: RegistrationCrudService,
     private val categoryCrudService: CategoryCrudService,
     private val shareCrudService: ShareCrudService,
-) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
+    ) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(EventCrudService::class.java)

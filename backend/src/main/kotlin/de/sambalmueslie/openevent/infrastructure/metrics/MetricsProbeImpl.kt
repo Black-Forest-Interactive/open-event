@@ -17,6 +17,7 @@ internal class MetricsProbeImpl(
 ) : MetricsProbe {
 
 
+
     override fun <T> traceAccess(auth: Authentication, resource: Long, function: () -> T): T {
         val result = function.invoke()
         service.addMetricsEntry(source, "access", auth.getExternalId(), resource, timeProvider.now())

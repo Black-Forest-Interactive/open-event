@@ -21,7 +21,7 @@ import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.seconds
 
 
-abstract class BaseOpenSearchOperator<T, R : SearchRequest, S : SearchResponse<T>>(
+abstract class BaseOpenSearchOperator<T : Any, R : SearchRequest, S : SearchResponse<T>>(
     openSearch: SearchClientFactory,
     private val name: String,
     config: OpenSearchConfig,

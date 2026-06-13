@@ -1,6 +1,5 @@
 package de.sambalmueslie.openevent.core.notification.handler
 
-import de.sambalmueslie.openevent.config.AppConfig
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.api.EventInfo
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory
 @Singleton
 class ExternalParticipantNotificationHandler(
     private val service: NotificationService,
-    private val config: AppConfig
 ) : NotificationHandler {
 
 
@@ -46,10 +44,7 @@ class ExternalParticipantNotificationHandler(
         )
     }
 
-    private fun getRecipients(
-        actor: Account,
-        obj: ExternalParticipantData
-    ): Collection<AccountInfo> {
+    private fun getRecipients(actor: Account, obj: ExternalParticipantData): Collection<AccountInfo> {
         return listOf(obj.toAccountInfo())
     }
 }

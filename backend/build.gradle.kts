@@ -1,19 +1,19 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.3.10"
-    kotlin("plugin.allopen") version "2.3.10"
-    kotlin("plugin.jpa") version "2.3.10"
-    kotlin("plugin.serialization") version "2.3.10"
+    kotlin("jvm") version "2.3.21"
+    kotlin("plugin.allopen") version "2.3.21"
+    kotlin("plugin.jpa") version "2.3.21"
+    kotlin("plugin.serialization") version "2.3.21"
 
-    id("com.google.devtools.ksp") version "2.3.6"
-    id("org.sonarqube") version "7.2.3.7755"
+    id("com.google.devtools.ksp") version "2.3.7"
+    id("org.sonarqube") version "7.3.1.8318"
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.3"
 
-    id("io.micronaut.application") version "4.6.2"
-    id("io.micronaut.test-resources") version "4.6.2"
-    id("io.micronaut.aot") version "4.6.2"
+    id("io.micronaut.application") version "5.0.0"
+    id("io.micronaut.test-resources") version "5.0.0"
+    id("io.micronaut.aot") version "5.0.0"
 
     id("maven-publish")
     id("jacoco")
@@ -54,12 +54,12 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.5.32")
+    implementation("ch.qos.logback:logback-classic:1.5.34")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.3")
-    testImplementation("io.mockk:mockk:1.14.9")
+    testImplementation("io.mockk:mockk:1.14.11")
 
     // jackson
     ksp("io.micronaut.serde:micronaut-serde-processor")
@@ -85,22 +85,22 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:4.17.1")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:5.0.0")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.3.10")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.3.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.21")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.2.4")
 
     // coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.11.0")
     // reactor
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
@@ -135,8 +135,8 @@ dependencies {
     implementation("org.simplejavamail:authenticated-socks-module:8.12.6")
 
     // test
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.opensearch:opensearch-testcontainers:4.1.0")
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
@@ -148,10 +148,10 @@ dependencies {
     // tracing
     implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
     // opensearch
-    implementation("com.jillesvangurp:search-client:2.6.7")
+    implementation("com.jillesvangurp:search-client:2.8.7")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.21.2")
+    implementation("org.jsoup:jsoup:1.22.2")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
@@ -200,7 +200,7 @@ tasks.jacocoTestReport {
     }
 }
 jacoco {
-    toolVersion = "0.8.13"
+    toolVersion = "0.8.15"
 }
 
 tasks.named("internalStartTestResourcesService") {

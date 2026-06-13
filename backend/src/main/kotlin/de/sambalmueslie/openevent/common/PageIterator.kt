@@ -6,7 +6,7 @@ import io.micronaut.data.model.Pageable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class PageIterator<T>(private val pageSize: Int = 500, private val provider: (pageable: Pageable) -> Page<T>) :
+class PageIterator<T: Any>(pageSize: Int = 500, private val provider: (pageable: Pageable) -> Page<T>) :
     Iterator<Page<T>> {
 
     companion object {
