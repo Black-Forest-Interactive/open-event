@@ -1,0 +1,8 @@
+<span [class.catchip--sm]="size() === 'sm'" [class.catchip--md]="size() === 'md'" [style.--h]="style().hue" class="catchip">
+    @if (iconUrl()) {
+        <img [src]="iconUrl()" alt="" class="w-4 h-4 rounded-full object-cover"/>
+    } @else {
+        <mat-icon>{{ style().icon }}</mat-icon>
+    }
+    <span>{{ name() }}</span>
+</span>

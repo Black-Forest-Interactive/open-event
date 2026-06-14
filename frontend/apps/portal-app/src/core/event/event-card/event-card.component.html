@@ -1,0 +1,35 @@
+<mat-card class="ecard flex flex-col overflow-hidden h-full" routerLink="./details/{{ id() }}">
+    <div [style.--h]="mediaStyle().hue" class="ecard__media flex items-center justify-center h-32">
+        <mat-icon class="!w-12 !h-12 !text-5xl">{{ mediaStyle().icon }}</mat-icon>
+    </div>
+    <div class="flex flex-col gap-2 p-4 flex-auto">
+        @if (categories().length > 0) {
+            <div class="flex flex-wrap gap-1.5">
+                @for (cat of categories(); track cat) {
+                    <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                }
+            </div>
+        }
+        <h3 class="text-base font-semibold leading-snug line-clamp-2">{{ title() }}</h3>
+        @if (shortText()) {
+            <p class="text-sm text-on-surface-variant line-clamp-2">{{ shortText() }}</p>
+        }
+        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+            <div class="flex items-center gap-2">
+                <mat-icon class="!w-4 !h-4 !text-base">event</mat-icon>
+                <span>{{ start() | date: 'mediumDate' }} · {{ start() | date: 'shortTime' }} - {{ finish() | date: 'shortTime' }}</span>
+            </div>
+            @if (hasLocation()) {
+                <div class="flex items-center gap-2">
+                    <mat-icon class="!w-4 !h-4 !text-base">place</mat-icon>
+                    <span>{{ street() }} {{ streetNumber() }}, {{ city() }}</span>
+                </div>
+            }
+        </div>
+        <div class="flex-auto"></div>
+        <lib-registration-status [entry]="entry()" class="pt-1"></lib-registration-status>
+        <button class="mt-1" color="accent" matButton="outlined" routerLink="./details/{{ id() }}">
+            {{ 'event.board.details' | translate }}
+        </button>
+    </div>
+</mat-card>

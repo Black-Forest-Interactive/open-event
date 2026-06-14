@@ -8,6 +8,7 @@ export * from './lib/patch-request'
 export * from './lib/scroll-near-end.directive'
 export * from './lib/to-promise'
 export * from './lib/download'
+export * from './lib/ics'
 
 export * from './lib/auth/auth.service'
 export * from './lib/auth/auth.guard'

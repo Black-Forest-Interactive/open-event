@@ -49,6 +49,9 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             if (request.onlyAvailableEvents) {
                 filter(term(EventSearchEntryData::hasSpaceLeft, "true"))
             }
+            if (request.categories.isNotEmpty()) {
+                filter(terms(EventSearchEntryData::categories, request.categories))
+            }
             agg(
                 EventSearchEntryData::date.name,
                 DateHistogramAgg(EventSearchEntryData::date) {

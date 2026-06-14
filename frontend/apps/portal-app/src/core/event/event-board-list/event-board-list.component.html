@@ -1,26 +1,34 @@
 <lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
 
-<div (nearEnd)="service.onScroll()" class="flex flex-col gap-2 pb-20" libScrollNearEnd>
-    @for (info of service.entries(); track info) {
-        <portal-event-board-list-entry [info]="info"></portal-event-board-list-entry>
-    }
-
-    @if (service.hasMoreElements() && !service.reloading()) {
-        <button (click)="service.onScroll()" class="flex-auto" color="accent" matButton="filled">
-            {{ 'action.loadMore' | translate }}
-        </button>
-    }
-</div>
-
-<div class="fixed right-4 bottom-6 z-10">
-    <button (click)="openFilter()" mat-icon-button
-            style="background: var(--mat-sys-primary); color: var(--mat-sys-on-primary); width: 56px; height: 56px; border-radius: 16px; box-shadow: var(--mat-sys-level3)">
-        <mat-icon>filter_list</mat-icon>
-    </button>
-</div>
-
-<ng-template #filterSheet>
-    <div class="px-4 pt-4 pb-6">
-        <portal-event-board-filter></portal-event-board-filter>
+@if (service.entries().length === 0 && !service.reloading()) {
+    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant">
+        <mat-icon class="!w-12 !h-12 !text-5xl">search_off</mat-icon>
+        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
+        <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
     </div>
-</ng-template>
+} @else {
+    <div (nearEnd)="service.onScroll()" libScrollNearEnd>
+        @switch (service.layout()) {
+            @case ('rows') {
+                <div class="flex flex-col gap-2 pb-4">
+                    @for (entry of service.entries(); track entry.id) {
+                        <portal-event-row [entry]="entry"></portal-event-row>
+                    }
+                </div>
+            }
+            @default {
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+                    @for (entry of service.entries(); track entry.id) {
+                        <portal-event-card [entry]="entry"></portal-event-card>
+                    }
+                </div>
+            }
+        }
+
+        @if (service.hasMoreElements() && !service.reloading()) {
+            <button (click)="service.onScroll()" class="w-full" color="accent" matButton="filled">
+                {{ 'action.loadMore' | translate }}
+            </button>
+        }
+    </div>
+}

@@ -20,7 +20,8 @@
     "save": "Save",
     "delete": "Delete",
     "reset": "Reset",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "more": "More"
   },
   "event": {
     "type": "Event",
@@ -31,7 +32,30 @@
       "copy": "Copy Event",
       "delete": "Delete Event",
       "publish": "Publish Event",
-      "admin": "Event Administration"
+      "admin": "Event Administration",
+      "export": "Export",
+      "editBanner": "Change banner"
+    },
+    "message": {
+      "uploading": "Uploading"
+    },
+    "board": {
+      "cards": "Cards",
+      "rows": "List",
+      "calendar": "Calendar",
+      "map": "Map",
+      "results": "Results",
+      "details": "View details"
+    },
+    "empty": {
+      "title": "No events found",
+      "subtitle": "Adjust your filters or reset them."
+    },
+    "detail": {
+      "when": "When",
+      "minutes": "min",
+      "about": "About this event",
+      "host": "Host"
     },
     "step": {
       "event": "Event",
@@ -92,6 +116,16 @@
       "own": "Show own",
       "available": "Show available",
       "participating": "Show participating",
+      "whenLabel": "Period",
+      "when": {
+        "any": "Anytime",
+        "today": "Today",
+        "weekend": "Weekend",
+        "nextWeek": "Next week"
+      },
+      "category": "Category",
+      "onlyAvailable": "Only available",
+      "advanced": "Advanced",
       "range": {
         "label": "Enter a date range",
         "today": "Only tody",
@@ -118,6 +152,14 @@
     "title": "Participants",
     "space": "Seats",
     "waitlist": "Waiting List",
+    "organizer": "Organizer",
+    "count": "registrations",
+    "free": "Free",
+    "availability": {
+      "spotsFree": "spots free",
+      "spotFree": "spot free",
+      "soldOut": "Sold out"
+    },
     "action": {
       "participate": "Participate",
       "participateAccount": "Add Account",
@@ -130,6 +172,26 @@
     "people": "people",
     "peopleAmount": "Amount of people",
     "empty": "There are currently no participants – sign up now and be the first.",
+    "guestlist": {
+      "title": "Guest list",
+      "since": "since",
+      "you": "You",
+      "empty": "No registrations yet.",
+      "emailAll": "Email everyone",
+      "export": "Export",
+      "orgOnly": "Only visible to you as organizer"
+    },
+    "bookbar": {
+      "registered": "Registered"
+    },
+    "sheet": {
+      "subtitle": "Secure your spot – it only takes a few seconds.",
+      "confirm": "Confirm registration",
+      "success": {
+        "title": "Registration confirmed!",
+        "subtitle": "Your participation has been saved."
+      }
+    },
     "dialog": {
       "accept": {
         "title": "Participate on event",

@@ -1,6 +1,20 @@
 <div class="relative w-full h-[160px] sm:h-[220px] lg:h-[250px] overflow-hidden group">
-    <img (error)="onImageError()" [src]="bannerUrl()" alt="Banner"
-         class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
+    @if (hasImage()) {
+        <img (error)="onImageError()" [src]="bannerUrl()" alt="Banner"
+             class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
+    } @else {
+        <div [style.--h]="mediaStyle().hue" class="hero-placeholder w-full h-full flex items-center justify-center">
+            <mat-icon class="!w-16 !h-16 !text-6xl">{{ mediaStyle().icon }}</mat-icon>
+        </div>
+    }
+
+    @if (categories().length > 0) {
+        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+            @for (cat of categories(); track cat.id) {
+                <lib-category-chip [iconUrl]="cat.iconUrl" [name]="cat.name"></lib-category-chip>
+            }
+        </div>
+    }
 
     @if (canEdit()) {
         <div class="absolute top-3 right-3">

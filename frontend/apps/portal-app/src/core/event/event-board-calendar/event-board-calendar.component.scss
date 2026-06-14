@@ -1,0 +1,18 @@
+:host {
+  --fc-page-bg-color: transparent;
+  --fc-border-color: var(--mat-sys-outline-variant);
+  --fc-neutral-bg-color: var(--mat-sys-surface-container-high);
+  --fc-button-text-color: var(--mat-sys-on-surface);
+  --fc-button-bg-color: var(--mat-sys-surface-container-high);
+  --fc-button-border-color: var(--mat-sys-outline-variant);
+  --fc-button-hover-bg-color: var(--mat-sys-surface-container-highest);
+  --fc-button-hover-border-color: var(--mat-sys-outline);
+  --fc-button-active-bg-color: var(--mat-sys-secondary-container);
+  --fc-button-active-border-color: var(--mat-sys-secondary);
+  --fc-today-bg-color: var(--mat-sys-surface-container-highest);
+  --fc-event-bg-color: var(--mat-sys-secondary);
+  --fc-event-border-color: var(--mat-sys-secondary);
+  --fc-event-text-color: var(--mat-sys-on-secondary);
+  --fc-now-indicator-color: var(--ev-danger);
+  --fc-highlight-color: var(--mat-sys-secondary-container);
+}

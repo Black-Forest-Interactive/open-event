@@ -1,0 +1,34 @@
+<section class="p-4 border-t border-outline-variant">
+    <div class="flex items-center justify-between gap-2 mb-3">
+        <h2 class="text-lg font-medium">{{ 'registration.title' | translate }}</h2>
+        <span class="text-sm text-on-surface-variant">{{ totalPersons() }}/{{ capacity() }}</span>
+    </div>
+    <div class="flex flex-col gap-3.5">
+        @if (userParticipant()) {
+            <div class="flex items-center gap-3 bg-secondary-container rounded-xl p-3">
+                <lib-avatar [name]="userParticipant()!.author | accountDisplayName" size="md"></lib-avatar>
+                <div class="flex-1 min-w-0">
+                    <b class="text-sm font-semibold block truncate">{{ userParticipant()!.author | accountDisplayName }}</b>
+                    <i class="text-xs text-on-surface-variant not-italic">{{ userParticipant()!.size }} {{ 'registration.people' | translate }}</i>
+                </div>
+                <span class="inline-flex items-center gap-1 text-xs font-semibold bg-primary text-on-primary rounded-lg px-2.5 py-1 shrink-0">
+                    <mat-icon class="!w-3.5 !h-3.5 !text-sm">check</mat-icon>{{ 'registration.bookbar.registered' | translate }}
+                </span>
+            </div>
+        }
+        @if (totalPersons() === 0) {
+            <p class="text-sm text-on-surface-variant">{{ 'registration.empty' | translate }}</p>
+        } @else {
+            <div class="flex items-center">
+                @for (hue of stackHues(); track $index) {
+                    <span [style.--h]="hue" class="avstack-item">
+                        <mat-icon>person</mat-icon>
+                    </span>
+                }
+                @if (overflow() > 0) {
+                    <span class="ml-2.5 text-sm font-semibold text-on-surface-variant">+{{ overflow() }}</span>
+                }
+            </div>
+        }
+    </div>
+</section>

@@ -4,16 +4,17 @@
                                  [reloading]="reloading()"></portal-event-details-header>
     <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
     @if (info()) {
-        <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch lg:overflow-y-auto p-3">
+        <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch lg:overflow-y-auto px-3 pt-3 pb-20 lg:pb-3">
             <div class="flex flex-col gap-3 flex-auto min-w-0">
                 <mat-card appearance="outlined">
                     <portal-event-details-info [info]="info()!"/>
+                    <portal-event-host-block [info]="info()!"/>
+                    @if (canEdit()) {
+                        <portal-event-guest-list [info]="info()!"/>
+                    } @else if (registration()) {
+                        <portal-event-participants-stack [info]="info()!" [userParticipant]="userParticipant()"/>
+                    }
                 </mat-card>
-                @if (registration()) {
-                    <mat-card appearance="outlined">
-                        <portal-registration-details [data]="registration()!"/>
-                    </mat-card>
-                }
                 @if (canEdit() && share()) {
                     <mat-card appearance="outlined">
                         <portal-share-details (changed)="setSharingEnabled($event)" [info]="info()!"
@@ -21,7 +22,14 @@
                     </mat-card>
                 }
             </div>
-            <div class="flex flex-col gap-3 lg:w-80 lg:shrink-0">
+            <div class="flex flex-col gap-3 lg:w-80 lg:shrink-0 lg:sticky lg:top-3 lg:self-start">
+                @if (registration()) {
+                    <mat-card appearance="outlined">
+                        <portal-registration-details (cancelParticipation)="cancelSelf()" (edit)="editSelf()" (participate)="participateSelf()"
+                                                      [info]="info()!" [reloading]="registrationReloading()"
+                                                      [userParticipant]="userParticipant()"/>
+                    </mat-card>
+                }
                 @if (location()) {
                     <mat-card appearance="outlined">
                         <portal-event-details-location [info]="info()!"/>
@@ -31,3 +39,7 @@
         </div>
     }
 </mat-card>
+@if (info() && registration()) {
+    <portal-event-bookbar (cancelParticipation)="cancelSelf()" (participate)="participateSelf()" [info]="info()!"
+                          [reloading]="registrationReloading()" [userParticipant]="userParticipant()"/>
+}

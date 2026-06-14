@@ -1,0 +1,25 @@
+@if (registration()) {
+    <div class="lg:hidden fixed bottom-0 inset-x-0 z-30 flex items-center gap-3 bg-surface-container border-t border-outline-variant p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        @if (canEdit()) {
+            <div class="flex flex-col leading-tight shrink-0">
+                <b class="text-lg font-medium">{{ taken() }}/{{ capacity() }}</b>
+                <span class="text-xs text-on-surface-variant">{{ 'registration.count' | translate }}</span>
+            </div>
+            <div class="flex-auto"></div>
+            <button [routerLink]="'/event/edit/' + event().id" matButton="filled">
+                <mat-icon>edit</mat-icon>{{ 'event.action.edit' | translate }}
+            </button>
+        } @else {
+            <lib-registration-status [compact]="true" [data]="registration()" class="flex-1 min-w-0"></lib-registration-status>
+            @if (userParticipant()) {
+                <button (click)="cancelParticipation.emit()" [disabled]="reloading()" matButton="outlined">
+                    {{ 'registration.action.cancel' | translate }}
+                </button>
+            } @else {
+                <button (click)="participate.emit()" [disabled]="reloading() || isFull()" matButton="filled">
+                    <mat-icon>confirmation_number</mat-icon>{{ (isFull() ? 'registration.availability.soldOut' : 'registration.action.participate') | translate }}
+                </button>
+            }
+        }
+    </div>
+}

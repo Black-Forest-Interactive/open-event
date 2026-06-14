@@ -1,0 +1,32 @@
+.catchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  border-radius: 8px;
+  background: oklch(0.95 0.05 var(--h));
+  color: oklch(0.38 0.1 var(--h));
+  box-shadow: inset 0 0 0 1px oklch(0.86 0.06 var(--h));
+
+  :host-context(.dark) & {
+    background: oklch(0.32 0.06 var(--h));
+    color: oklch(0.88 0.08 var(--h));
+    box-shadow: inset 0 0 0 1px oklch(0.42 0.07 var(--h));
+  }
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.catchip--sm {
+  padding: 4px 9px;
+  font-size: 11.5px;
+}
+
+.catchip--md {
+  padding: 6px 12px;
+  font-size: 13px;
+}

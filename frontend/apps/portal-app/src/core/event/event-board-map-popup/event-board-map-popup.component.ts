@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core'
 import { EventSearchEntry } from '@open-event/core'
-import { AccountDisplayNamePipe } from '@open-event/ui'
+import { AccountDisplayNamePipe, CategoryChipComponent, RegistrationStatusComponent } from '@open-event/ui'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -11,7 +11,7 @@ import { Subject } from 'rxjs'
   selector: 'portal-event-board-map-popup',
   templateUrl: './event-board-map-popup.component.html',
   styleUrl: './event-board-map-popup.component.scss',
-  imports: [AccountDisplayNamePipe, DatePipe, MatIcon, TranslatePipe, MatButton],
+  imports: [AccountDisplayNamePipe, DatePipe, MatIcon, TranslatePipe, MatButton, CategoryChipComponent, RegistrationStatusComponent],
   standalone: true
 })
 export class EventBoardMapPopupComponent {
@@ -27,4 +27,5 @@ export class EventBoardMapPopupComponent {
   readonly streetNumber = computed(() => this.data()?.streetNumber ?? '')
   readonly zip = computed(() => this.data()?.zip ?? '')
   readonly city = computed(() => this.data()?.city ?? '')
+  readonly categories = computed(() => this.data()?.categories ?? [])
 }

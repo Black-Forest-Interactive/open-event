@@ -9,5 +9,6 @@ data class EventSearchRequest(
     val to: LocalDate?,
     val ownEvents: Boolean,
     val participatingEvents: Boolean,
-    val onlyAvailableEvents: Boolean
+    val onlyAvailableEvents: Boolean,
+    val categories: Set<String> = emptySet()
 ) : SearchRequest

@@ -1,21 +1,21 @@
-import { Component, effect, inject, signal } from '@angular/core'
+import { Component, computed, effect, inject, TemplateRef, viewChild } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
 import { EventBoardService } from '../event-board.service'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardCalendarComponent } from '../event-board-calendar/event-board-calendar.component'
-import { EventBoardTableComponent } from '../event-board-table/event-board-table.component'
 import { EventBoardFilterComponent } from '../event-board-filter/event-board-filter.component'
 import { EventBoardMapComponent } from '../event-board-map/event-board-map.component'
 import { BoardSearchComponent } from '@open-event/ui'
 import { LoadingBarComponent } from '@open-event/shared'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
+import { MatBadge } from '@angular/material/badge'
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle'
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { RouterLink } from '@angular/router'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 
 @Component({
   selector: 'portal-event-board',
@@ -24,7 +24,6 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
   imports: [
     EventBoardListComponent,
     EventBoardCalendarComponent,
-    EventBoardTableComponent,
     EventBoardFilterComponent,
     EventBoardMapComponent,
     BoardSearchComponent,
@@ -32,22 +31,42 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
     MatButton,
     MatIconButton,
     MatIcon,
+    MatBadge,
     MatButtonToggleGroup,
     MatButtonToggle,
     RouterLink,
-    TranslatePipe,
-    MatMenu,
-    MatMenuItem,
-    MatMenuTrigger
+    TranslatePipe
   ],
   standalone: true
 })
 export class EventBoardComponent {
-  readonly mode = signal('list')
-  private service = inject(EventBoardService)
+  protected service = inject(EventBoardService)
   readonly reloading = this.service.reloading
   private responsive = inject(BreakpointObserver)
+  private bottomSheet = inject(MatBottomSheet)
+  private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
+
+  readonly whenLabelKey = computed(() => {
+    switch (this.service.preselection()) {
+      case 'today':
+        return 'event.filter.when.today'
+      case 'weekend':
+        return 'event.filter.when.weekend'
+      case 'next_week':
+        return 'event.filter.when.nextWeek'
+      default:
+        return ''
+    }
+  })
+
+  readonly activeFilterCount = computed(() => {
+    const preselection = this.service.preselection()
+    let count = this.service.categoryFilter().size
+    if (preselection !== undefined && preselection !== 'any') count++
+    if (this.service.showAvailableOnly()) count++
+    return count
+  })
 
   constructor() {
     effect(() => {
@@ -57,10 +76,24 @@ export class EventBoardComponent {
     })
   }
 
-  setMode(mode: string) {
-    this.mode.set(mode)
-  }
   setQuery(query: string) {
     this.service.setQuery(query)
+  }
+
+  openFilter() {
+    const sheet = this.filterSheet()
+    if (sheet) this.bottomSheet.open(sheet)
+  }
+
+  removeWhenFilter() {
+    this.service.handlePreselectionChanged(true, 'any')
+  }
+
+  removeCategoryFilter(name: string) {
+    this.service.toggleCategory(name)
+  }
+
+  removeAvailableFilter() {
+    this.service.toggleAvailableEvents()
   }
 }

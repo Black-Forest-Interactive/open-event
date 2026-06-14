@@ -9,12 +9,13 @@ export class EventSearchRequest {
     public to: string | undefined,
     public ownEvents: boolean,
     public participatingEvents: boolean,
-    public onlyAvailableEvents: boolean
+    public onlyAvailableEvents: boolean,
+    public categories: string[] = []
   ) {}
 }
 
 export function defaultEventSearchRequest() {
-  return new EventSearchRequest('', undefined, undefined, false, false, false)
+  return new EventSearchRequest('', undefined, undefined, false, false, false, [])
 }
 
 export interface EventSearchResponse {

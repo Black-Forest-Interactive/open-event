@@ -20,7 +20,8 @@
     "save": "Speichern",
     "delete": "Löschen",
     "reset": "Zurücksetzen",
-    "loadMore": "Mehr laden"
+    "loadMore": "Mehr laden",
+    "more": "Mehr"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -31,7 +32,30 @@
       "copy": "Veranstaltung Kopieren",
       "delete": "Veranstaltung Löschen",
       "publish": "Veranstaltung Veröffentlichen",
-      "admin": "Teilnehmer anzeigen"
+      "admin": "Teilnehmer anzeigen",
+      "export": "Exportieren",
+      "editBanner": "Banner ändern"
+    },
+    "message": {
+      "uploading": "Wird hochgeladen"
+    },
+    "board": {
+      "cards": "Karten",
+      "rows": "Liste",
+      "calendar": "Kalender",
+      "map": "Karte",
+      "results": "Ergebnisse",
+      "details": "Details ansehen"
+    },
+    "empty": {
+      "title": "Keine Veranstaltungen gefunden",
+      "subtitle": "Passe deine Filter an oder setze sie zurück."
+    },
+    "detail": {
+      "when": "Wann",
+      "minutes": "Min.",
+      "about": "Über die Veranstaltung",
+      "host": "Veranstalter"
     },
     "step": {
       "event": "Veranstaltung",
@@ -89,6 +113,16 @@
       "own": "Meine Angebote anzeigen",
       "available": "Verfügbare anzeigen",
       "participating": "Meine Teilnahme anzeigen",
+      "whenLabel": "Zeitraum",
+      "when": {
+        "any": "Jederzeit",
+        "today": "Heute",
+        "weekend": "Wochenende",
+        "nextWeek": "Nächste Woche"
+      },
+      "category": "Kategorie",
+      "onlyAvailable": "Nur freie Plätze",
+      "advanced": "Erweitert",
       "range": {
         "label": "Zeitraum wählen",
         "today": "Nur heute anzeigen",
@@ -118,6 +152,14 @@
     "title": "Teilnehmer",
     "space": "Plätze",
     "waitlist": "Warteliste",
+    "organizer": "Veranstalter",
+    "count": "Anmeldungen",
+    "free": "Kostenlos",
+    "availability": {
+      "spotsFree": "Plätze frei",
+      "spotFree": "Platz frei",
+      "soldOut": "Ausgebucht"
+    },
     "action": {
       "participate": "Teilnehmen",
       "participateAccount": "Account hinzufügen",
@@ -128,6 +170,26 @@
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",
     "empty": "Momentan gibt es noch keine Teilnehmer – mach den Anfang und melde dich jetzt an.",
+    "guestlist": {
+      "title": "Teilnehmerliste",
+      "since": "seit",
+      "you": "Du",
+      "empty": "Noch keine Anmeldungen.",
+      "emailAll": "Alle anschreiben",
+      "export": "Exportieren",
+      "orgOnly": "Nur für dich als Veranstalter sichtbar"
+    },
+    "bookbar": {
+      "registered": "Angemeldet"
+    },
+    "sheet": {
+      "subtitle": "Sichere dir deinen Platz – in wenigen Sekunden.",
+      "confirm": "Anmeldung bestätigen",
+      "success": {
+        "title": "Anmeldung bestätigt!",
+        "subtitle": "Deine Teilnahme wurde gespeichert."
+      }
+    },
     "dialog": {
       "accept": {
         "title": "An Veranstaltung teilnehmen",

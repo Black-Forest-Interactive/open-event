@@ -10,6 +10,9 @@ export { AppToolbarComponent } from './lib/layout/app-toolbar/app-toolbar.compon
 export { AppSidenavComponent } from './lib/layout/app-sidenav/app-sidenav.component'
 export { AppLayoutComponent } from './lib/layout/app-layout/app-layout.component'
 
+// avatar
+export { AvatarComponent } from './lib/avatar/avatar.component'
+
 // account
 export { AccountChangeComponent } from './lib/account/account-change/account-change.component'
 export { AccountDisplayNamePipe } from './lib/account/account-display-name.pipe'
@@ -19,6 +22,8 @@ export { AddressChangeComponent } from './lib/address/address-change/address-cha
 
 // category
 export { CategoryChangeComponent } from './lib/category/category-change/category-change.component'
+export { CategoryChipComponent } from './lib/category/category-chip/category-chip.component'
+export { CategoryStyle, getCategoryStyle } from './lib/category/category-style'
 
 // event
 export { EventCreateComponent } from './lib/event/event-create/event-create.component'

@@ -30,8 +30,15 @@ export class EventBoardService {
   private filterToolbarVisible = signal(true)
   private preselectionSignal = signal<string | undefined>(undefined)
   readonly preselection = this.preselectionSignal.asReadonly()
+  private layoutSignal = signal<'cards' | 'rows' | 'calendar' | 'map'>('cards')
+  readonly layout = this.layoutSignal.asReadonly()
+  private categoryFilterSignal = signal<Set<string>>(new Set())
+  readonly categoryFilter = this.categoryFilterSignal.asReadonly()
   private criteria = computed(() => ({
-    request: new EventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.ownOnly(), this.participatingOnly(), this.availableOnly()),
+    request: new EventSearchRequest(
+      this.query(), this.fromDate(), this.toDate(), this.ownOnly(), this.participatingOnly(), this.availableOnly(),
+      Array.from(this.categoryFilterSignal())
+    ),
     page: this.page(),
     size: this.size()
   }))
@@ -101,17 +108,31 @@ export class EventBoardService {
     if (this.preselectionSignal() === value) return
     this.preselectionSignal.set(value)
 
-    if (!selected) {
+    if (!selected || value === 'any') {
       this.updateRange(null, null)
     } else if (value === 'today') {
       this.updateRange(DateTime.now(), DateTime.now())
-    } else if (value === 'this_week') {
+    } else if (value === 'weekend') {
       const now = DateTime.now()
-      this.updateRange(now.startOf('week'), now.endOf('week'))
+      this.updateRange(now.startOf('week').plus({ days: 5 }), now.endOf('week'))
     } else if (value === 'next_week') {
       const next = DateTime.now().plus({ weeks: 1 })
       this.updateRange(next.startOf('week'), next.endOf('week'))
     }
+  }
+
+  setLayout(layout: 'cards' | 'rows' | 'calendar' | 'map') {
+    this.layoutSignal.set(layout)
+  }
+
+  toggleCategory(name: string) {
+    this.categoryFilterSignal.update((prev) => {
+      const next = new Set(prev)
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
+      return next
+    })
+    this.page.set(0)
   }
 
   resetFilter() {
@@ -120,6 +141,7 @@ export class EventBoardService {
     this.availableOnly.set(false)
     this.participatingOnly.set(false)
     this.includeHistory.set(false)
+    this.categoryFilterSignal.set(new Set())
     this.preselectionSignal.set(undefined)
     this.updateRange(null, null)
   }

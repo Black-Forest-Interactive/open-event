@@ -1,28 +1,20 @@
-@if (vertical()) {
-    <div class="flex flex-col gap-0.5">
-        <div class="w-full h-1.5 rounded-full overflow-hidden flex flex-row">
-            <div [style.width.%]="takenPct" class="h-full bg-orange-300 transition-all"></div>
-            <div [style.width.%]="remainingPct" class="h-full bg-green-500 transition-all"></div>
-        </div>
-        @if (spaceAvailable) {
-            <div class="available text-xs">{{ space.remaining }} {{ 'registration.status.available' | translate }}</div>
-        } @else {
-            <div class="full text-xs">{{ 'registration.status.full' | translate }}</div>
+<div [class.status--mid]="level() === 'mid'" [class.status--low]="level() === 'low'" [class.status--full]="level() === 'full'" class="status">
+    <div class="status__row">
+        <span class="status__label">
+            @if (level() === 'low') {
+                <span class="status__pulse"></span>
+            }
+            @if (level() === 'full') {
+                {{ 'registration.availability.soldOut' | translate }}
+            } @else {
+                {{ remaining() }} {{ (remaining() === 1 ? 'registration.availability.spotFree' : 'registration.availability.spotsFree') | translate }}
+            }
+        </span>
+        @if (!compact()) {
+            <span class="status__count">{{ taken() }}/{{ available() }}</span>
         }
     </div>
-} @else {
-    <div class="flex flex-row gap-2">
-        @if (indicator.length) {
-            <div class="flex flex-row gap-0.5">
-                @for (i of indicator; track i.key) {
-                    <div [ngClass]="i.value" class="rounded min-w-2 !max-h-[20px]"></div>
-                }
-            </div>
-        }
-        @if (spaceAvailable) {
-            <div class="available">{{ space.remaining }} {{ 'registration.status.available' | translate }}</div>
-        } @else {
-            <div class="full">{{ 'registration.status.full' | translate }}</div>
-        }
+    <div class="status__track">
+        <div [style.width.%]="fillPct()" class="status__fill"></div>
     </div>
-}
+</div>

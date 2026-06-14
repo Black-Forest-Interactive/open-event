@@ -58,11 +58,16 @@ html, body {
 
 // The Tailwind directives MUST come AFTER Angular Material theming
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 // Map Angular Material 3 system tokens to Tailwind color utilities
 @theme inline {
   --color-primary: var(--mat-sys-primary);
   --color-on-primary: var(--mat-sys-on-primary);
+  --color-secondary: var(--mat-sys-secondary);
+  --color-on-secondary: var(--mat-sys-on-secondary);
+  --color-secondary-container: var(--mat-sys-secondary-container);
+  --color-on-secondary-container: var(--mat-sys-on-secondary-container);
   --color-surface: var(--mat-sys-surface);
   --color-on-surface: var(--mat-sys-on-surface);
   --color-on-surface-variant: var(--mat-sys-on-surface-variant);
