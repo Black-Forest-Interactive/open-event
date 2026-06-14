@@ -24,15 +24,15 @@ export class CategoryChangeComponent {
     })
 
     effect(() => {
-      let category = this.data()
+      const category = this.data()
       if (category) this.handleDataChanged(category)
     })
   }
 
   submit() {
     if (!this.fg.valid) return
-    let value = this.fg.value
-    let request = new CategoryChangeRequest(value.name, value.iconUrl)
+    const value = this.fg.value
+    const request = new CategoryChangeRequest(value.name, value.iconUrl)
     this.request.emit(request)
   }
 

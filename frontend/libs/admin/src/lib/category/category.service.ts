@@ -34,7 +34,7 @@ export class CategoryService extends BaseService implements CategoryReadAPI {
   }
 
   search(request: CategorySearchRequest, page: number, size: number): Observable<CategorySearchResponse> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.post('search', request, params)
   }
 }

@@ -53,15 +53,15 @@ export class EventChangeComponent {
     this.fg = fb.group({})
 
     effect(() => {
-      let event = this.event()
+      const event = this.event()
       if (event) this.loadEventInfo(event)
     })
   }
 
   submit() {
     if (!this.fg.valid) return
-    let value = this.fg.value
-    let request = this.createRequest(value, this.isEndHidden())
+    const value = this.fg.value
+    const request = this.createRequest(value, this.isEndHidden())
 
     if (!request) return
     this.loading = true
@@ -73,11 +73,11 @@ export class EventChangeComponent {
   }
 
   private createRequest(value: any, endHidden: boolean): EventChangeRequest | undefined {
-    let start = this.createDateTime(value.general.startTime, value.general.startDate)
-    let end = endHidden ? this.createDateTime(value.general.endTime, value.general.startDate) : this.createDateTime(value.general.endTime, value.general.endDate)
+    const start = this.createDateTime(value.general.startTime, value.general.startDate)
+    const end = endHidden ? this.createDateTime(value.general.endTime, value.general.startDate) : this.createDateTime(value.general.endTime, value.general.endDate)
     if (!start || !end) return undefined
 
-    let location = new LocationChangeRequest(
+    const location = new LocationChangeRequest(
       value.location.street,
       value.location.streetNumber,
       value.location.zip,
@@ -88,7 +88,7 @@ export class EventChangeComponent {
       0.0,
       -1
     )
-    let registration = new RegistrationChangeRequest(value.registration.maxGuestAmount, value.registration.interestedAllowed, value.registration.ticketsEnabled)
+    const registration = new RegistrationChangeRequest(value.registration.maxGuestAmount, value.registration.interestedAllowed, value.registration.ticketsEnabled)
 
     return new EventChangeRequest(
       start.toFormat("yyyy-MM-dd'T'HH:mm:ss"),
@@ -108,7 +108,7 @@ export class EventChangeComponent {
   }
 
   private createDateTime(timeStr: string, date: DateTime): DateTime | undefined {
-    let time = timeStr.split(':')
+    const time = timeStr.split(':')
     if (time.length == 2 && date.isValid) {
       date = date.set({ hour: parseInt(time[0]), minute: parseInt(time[1]) })
       return date

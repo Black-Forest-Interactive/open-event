@@ -2,7 +2,8 @@ import { Component, input, output } from '@angular/core'
 import { MatTableModule } from '@angular/material/table'
 import { TranslatePipe } from '@ngx-translate/core'
 import { DatePipe } from '@angular/common'
-import { AccountDisplayNamePipe, HistoryEntry } from '@open-event/core'
+import { HistoryEntry } from '@open-event/core'
+import { AccountDisplayNamePipe } from '@open-event/ui'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 
 @Component({

@@ -62,19 +62,19 @@ export class EventChangeRegistrationComponent {
     })
 
     effect(() => {
-      let event = this.data()
+      const event = this.data()
       if (event) this.handleDataChanged(event)
     })
 
     effect(() => {
-      let parent = this.parent()
+      const parent = this.parent()
       parent.addControl('registration', this.fg)
     })
   }
 
   get ticketsEnabled(): FormControl<any> {
     // @ts-ignore
-    return this.form!!.get('ticketsEnabled')
+    return this.form!.get('ticketsEnabled')
   }
 
   get categories(): FormControl {
@@ -94,25 +94,25 @@ export class EventChangeRegistrationComponent {
     if (value.length <= 0) return
     const t = this.tags
     if (value && t) {
-      let data = t.value as string[]
-      let index = data.indexOf(value)
+      const data = t.value as string[]
+      const index = data.indexOf(value)
       if (index < 0) data.push(value)
     }
     event.chipInput!.clear()
   }
 
   removeTag(tag: string) {
-    let t = this.tags
+    const t = this.tags
     if (!t) return
 
-    let index = (t.value as string[]).indexOf(tag)
+    const index = (t.value as string[]).indexOf(tag)
     if (index >= 0) {
       ;(t.value as string[]).splice(index, 1)
     }
   }
 
   private handleDataChanged(info: EventInfo) {
-    let registration = info.registration
+    const registration = info.registration
     if (registration) {
       this.fg.setValue({
         ticketsEnabled: registration.registration.ticketsEnabled,

@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core'
-import { AccountDisplayNamePipe, EventSearchEntry } from '@open-event/core'
+import { EventSearchEntry } from '@open-event/core'
+import { AccountDisplayNamePipe } from '@open-event/ui'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'

@@ -32,15 +32,15 @@ export class AddressChangeComponent {
     })
 
     effect(() => {
-      let address = this.data()
+      const address = this.data()
       if (address) this.handleDataChanged(address)
     })
   }
 
   submit() {
     if (!this.fg.valid) return
-    let value = this.fg.value
-    let request = value as AddressChangeRequest
+    const value = this.fg.value
+    const request = value as AddressChangeRequest
     this.request.emit(request)
   }
 

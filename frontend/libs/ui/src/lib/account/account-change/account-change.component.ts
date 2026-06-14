@@ -29,16 +29,16 @@ export class AccountChangeComponent {
     })
 
     effect(() => {
-      let account = this.data()
+      const account = this.data()
       if (account) this.handleDataChanged(account)
     })
   }
 
   submit() {
     if (!this.fg.valid) return
-    let value = this.fg.value
-    let name = value.firstName + ' ' + value.lastName
-    let request = new AccountSetupRequest(
+    const value = this.fg.value
+    const name = value.firstName + ' ' + value.lastName
+    const request = new AccountSetupRequest(
       new AccountChangeRequest(name, '', undefined),
       new ProfileChangeRequest(value.email, value.phone, value.mobile, value.firstName, value.lastName, undefined, undefined, undefined, undefined, '')
     )

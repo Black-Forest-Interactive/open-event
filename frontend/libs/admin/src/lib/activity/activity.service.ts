@@ -26,7 +26,7 @@ export class ActivityService extends BaseService {
   }
 
   getRecentForAccount(accountId: number, page: number, size: number): Observable<Page<Activity>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get(accountId + '/recent', params)
   }
 }

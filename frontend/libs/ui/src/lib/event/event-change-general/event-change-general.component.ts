@@ -37,11 +37,11 @@ export class EventChangeGeneralComponent implements OnInit {
     })
 
     effect(() => {
-      let event = this.data()
+      const event = this.data()
       if (event) this.handleDataChanged(event)
     })
     effect(() => {
-      let parent = this.parent()
+      const parent = this.parent()
       parent.addControl('general', this.fg)
     })
   }
@@ -67,7 +67,7 @@ export class EventChangeGeneralComponent implements OnInit {
   }
 
   ngOnInit() {
-    let endDate = this.fg.get('endDate')
+    const endDate = this.fg.get('endDate')
     if (endDate) endDate.validator = this.isEndHidden() ? null : Validators.required
   }
 
@@ -76,10 +76,10 @@ export class EventChangeGeneralComponent implements OnInit {
   }
 
   private handleDataChanged(info: EventInfo) {
-    let start = DateTime.fromISO(info.event.start)
-    let startTime = start.toFormat('HH:mm')
-    let finish = DateTime.fromISO(info.event.finish)
-    let finishTime = finish.toFormat('HH:mm')
+    const start = DateTime.fromISO(info.event.start)
+    const startTime = start.toFormat('HH:mm')
+    const finish = DateTime.fromISO(info.event.finish)
+    const finishTime = finish.toFormat('HH:mm')
 
     this.fg.setValue({
       startTime: startTime,

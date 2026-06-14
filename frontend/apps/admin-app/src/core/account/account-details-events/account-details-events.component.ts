@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, resource, signal } from '@angular/core'
-import { Account, AccountDisplayNamePipe, Event } from '@open-event/core'
+import { Account, Event } from '@open-event/core'
+import { AccountDisplayNamePipe } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/admin'

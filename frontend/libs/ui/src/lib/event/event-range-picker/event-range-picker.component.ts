@@ -24,7 +24,7 @@ export class EventRangePickerComponent {
     })
 
     effect(() => {
-      let required = this.required()
+      const required = this.required()
       if (required) {
         this.fg.controls['from'].setValidators(Validators.required)
         this.fg.controls['to'].setValidators(Validators.required)
@@ -37,7 +37,7 @@ export class EventRangePickerComponent {
 
   onDateRangePickerClosed() {
     if (!this.fg.valid) return
-    let value = this.fg.value as EventRangeSelection
+    const value = this.fg.value as EventRangeSelection
     this.rangeChanged.emit(value)
   }
 

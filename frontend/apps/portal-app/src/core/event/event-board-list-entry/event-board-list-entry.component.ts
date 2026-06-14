@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core'
-import { AccountDisplayNamePipe, EventSearchEntry } from '@open-event/core'
-import { RegistrationStatusComponent } from '@open-event/ui'
+import { EventSearchEntry } from '@open-event/core'
+import { AccountDisplayNamePipe, RegistrationStatusComponent } from '@open-event/ui'
 import { MatCard } from '@angular/material/card'
 import { RouterLink } from '@angular/router'
 import { MatIcon } from '@angular/material/icon'

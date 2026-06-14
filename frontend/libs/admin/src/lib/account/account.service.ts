@@ -28,7 +28,7 @@ export class AccountService extends BaseService {
   }
 
   validate(lang: string): Observable<AccountValidationResult> {
-    let params = new HttpParams().set('lang', lang)
+    const params = new HttpParams().set('lang', lang)
     return this.get('validate', params)
   }
 
@@ -45,7 +45,7 @@ export class AccountService extends BaseService {
   }
 
   getAddress(id: number, page: number, size: number): Observable<Page<Address>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get(id + '/address', params)
   }
 
@@ -58,7 +58,7 @@ export class AccountService extends BaseService {
   }
 
   getEvents(id: number, page: number, size: number): Observable<Page<Event>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get(id + '/event', params)
   }
 
@@ -67,7 +67,7 @@ export class AccountService extends BaseService {
   }
 
   search(request: AccountSearchRequest, page: number, size: number): Observable<AccountSearchResponse> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.post('search', request, params)
   }
 

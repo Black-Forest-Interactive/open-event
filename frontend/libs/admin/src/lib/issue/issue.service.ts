@@ -22,17 +22,17 @@ export class IssueService extends BaseService {
   }
 
   getAllIssuesByAccount(accountId: number, page: number, size: number): Observable<Page<Issue>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get('account/' + accountId, params)
   }
 
   getUnresolvedIssuesByAccount(accountId: number, page: number, size: number): Observable<Page<Issue>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get('account/' + accountId + '/unresolved', params)
   }
 
   getUnresolvedIssues(page: number, size: number): Observable<Page<Issue>> {
-    let params = new HttpParams().set('page', page).set('size', size)
+    const params = new HttpParams().set('page', page).set('size', size)
     return this.get('unresolved', params)
   }
 
