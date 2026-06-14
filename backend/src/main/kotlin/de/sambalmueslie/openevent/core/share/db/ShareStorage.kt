@@ -12,4 +12,5 @@ interface ShareStorage : Storage<String, Share, ShareChangeRequest> {
     fun setEnabled(id: String, value: PatchRequest<Boolean>): Share?
     fun findByEvent(event: Event): Share?
     fun findByEventIds(eventIds: Set<Long>): List<Share>
+    fun findByEventId(eventId: Long): Share?
 }

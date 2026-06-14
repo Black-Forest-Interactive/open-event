@@ -7,7 +7,9 @@ import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import io.micronaut.data.model.Pageable
+import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
+import io.micronaut.http.server.types.files.SystemFile
 import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
 
@@ -57,4 +59,9 @@ class EventController(private val service: EventGuardService) {
         return service.setShared(auth, id, value)
     }
 
+    @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
+    @Get("/event/{eventId}/pdf")
+    fun export(auth: Authentication, eventId: Long): SystemFile? {
+        return service.export(auth, eventId)
+    }
 }

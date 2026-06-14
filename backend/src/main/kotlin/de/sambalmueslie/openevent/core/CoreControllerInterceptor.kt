@@ -16,7 +16,7 @@ class CoreControllerInterceptor : MethodInterceptor<Any, Any> {
         private val logger = LoggerFactory.getLogger(CoreAPI::class.java)
     }
 
-    override fun intercept(context: MethodInvocationContext<Any, Any>): Any {
+    override fun intercept(context: MethodInvocationContext<Any, Any>): Any? {
         val method = context.methodName
         val isAuthenticated = context.parameters.any { it.value.type == Authentication::class.java }
         if (isAuthenticated) logger.warn("Calling $method of deprecated core API")

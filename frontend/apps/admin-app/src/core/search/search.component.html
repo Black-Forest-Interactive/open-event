@@ -1,0 +1,92 @@
+<admin-board [showReload]="false" [showSearch]="false" title="search.title">
+    <div class="p-4" content>
+
+        <!--  <div class="flex-1 overflow-auto bg-gray-50 " content>-->
+        <!--    <div class="container mx-auto p-4 md:p-6 lg:p-8">-->
+        <div class="grid gap-4 md:gap-6">
+            @for (info of entries(); track info.key) {
+                <mat-card appearance="outlined" class="overflow-hidden transition-all hover:shadow-md">
+                    <mat-card-content class="p-4 md:p-6">
+                        <div class="hidden md:flex md:items-center md:gap-6">
+                            <!-- Title Section -->
+                            <div class="min-w-48 flex-shrink-0">
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    {{ 'search.key.' + info.name | translate }}
+                                </h3>
+                            </div>
+
+                            <!-- Status Chip -->
+                            <div class="flex-shrink-0">
+                                <mat-chip [class]="getStatusClass(info.status)" [highlighted]="info.status === 'READY'">
+                                    <mat-icon matChipAvatar>{{ getStatusIcon(info.status) }}</mat-icon>
+                                    {{ 'search.status.' + info.status | translate }}
+                                </mat-chip>
+                            </div>
+
+                            <!-- Progress Section -->
+                            <div class="flex-1 min-w-0 space-y-2">
+                                <mat-progress-bar
+                                        [color]="getProgressColor(info.status)"
+                                        [value]="calculateProgress(info.statistics)"
+                                        class="rounded-full h-2"
+                                        mode="determinate"/>
+
+                                <div class="flex items-center justify-between gap-4 text-sm">
+                                    <div class="flex items-center gap-1.5 text-gray-700 ">
+                                        <mat-icon inline>data_usage</mat-icon>
+                                        <span class="font-medium">{{ info.statistics.total }}</span>
+                                        <span class="text-gray-500 ">
+                      {{ 'search.statistics.total' | translate }}
+                    </span>
+                                    </div>
+
+                                    <div class="flex items-center gap-1.5 text-green-700">
+                                        <mat-icon inline>check_circle</mat-icon>
+                                        <span class="font-medium">{{ info.statistics.successful }}</span>
+                                        <span class="text-gray-500 ">
+                      {{ 'search.statistics.successfully' | translate }}
+                    </span>
+                                    </div>
+
+                                    <div class="flex items-center gap-1.5 text-red-700 ">
+                                        <mat-icon inline>error</mat-icon>
+                                        <span class="font-medium">{{ info.statistics.failed }}</span>
+                                        <span class="text-gray-500 ">
+                      {{ 'search.statistics.failed' | translate }}
+                    </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <div class="flex-shrink-0">
+                                <button (click)="setup(info)"
+                                        color="primary"
+                                        mat-flat-button>
+                                    <mat-icon>play_arrow</mat-icon>
+                                    {{ 'search.action.setup' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            }
+        </div>
+
+        <!-- Empty State -->
+        @if (entries().length === 0) {
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+                <mat-icon class="!w-16 !h-16 !text-6xl text-gray-400 mb-4">
+                    search_off
+                </mat-icon>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">
+                    No search entries found
+                </h3>
+                <p class="text-gray-500 ">
+                    Search entries will appear here when available
+                </p>
+            </div>
+        }
+        <!--    </div>-->
+    </div>
+</admin-board>

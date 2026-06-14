@@ -10,6 +10,8 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
 import jakarta.inject.Singleton
 import org.simplejavamail.MailException
+import org.simplejavamail.api.email.Email
+import org.simplejavamail.api.mailer.Mailer
 import org.simplejavamail.email.EmailBuilder
 import org.simplejavamail.mailer.MailerBuilder
 import org.slf4j.Logger
@@ -27,9 +29,12 @@ class SimpleJavaMailClient(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(SimpleJavaMailClient::class.java)
+        private const val RECONNECTION_DELAY = 10000L
     }
 
-    private val mailer = MailerBuilder
+    private var mailer = createMailer()
+
+    private fun createMailer(): Mailer = MailerBuilder
         .withSMTPServer(config.server, config.port, config.username, config.password)
         .withTransportStrategy(config.transportStrategy)
         .withDebugLogging(false)
@@ -41,7 +46,7 @@ class SimpleJavaMailClient(
         to: List<MailParticipant>,
         bcc: List<MailParticipant>
     ): Boolean {
-        if (logger.isDebugEnabled) logger.debug("Send mail '${mail.subject}' to ${to.joinToString { it.address }}")
+        logger.debug("Send mail '${mail.subject}' to ${to.joinToString { it.address }}")
         val builder = EmailBuilder.startingBlank()
         to.forEach { builder.to(it.name, it.address) }
         bcc.forEach { builder.bcc(it.name, it.address) }
@@ -54,13 +59,7 @@ class SimpleJavaMailClient(
         mail.attachments.forEach { builder.withAttachment(it.name, it.data, it.mimeType) }
 
         val email = builder.buildEmail()
-        try {
-            mailer.sendMail(email)
-        } catch (e: MailException) {
-            logger.error("Failed to send mail '${mail.subject}'", e)
-            return false
-        }
-        return true
+        return sendMail(email)
     }
 
     private fun getReplyToAddress(): String {
@@ -70,5 +69,18 @@ class SimpleJavaMailClient(
         if (value.isNullOrBlank()) return config.replyToAddress
 
         return value
+    }
+
+    private fun sendMail(email: Email): Boolean {
+        return try {
+            mailer.sendMail(email)
+            true
+        } catch (e: MailException) {
+            logger.error("Failed to send mail '${email.subject}' to ${email.recipients}", e)
+            mailer.shutdownConnectionPool()
+            mailer = createMailer()
+            Thread.sleep(RECONNECTION_DELAY)
+            false
+        }
     }
 }

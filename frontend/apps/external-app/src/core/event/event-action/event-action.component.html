@@ -1,0 +1,15 @@
+@if (participationPossible()) {
+    <mat-divider class="!p-0"></mat-divider>
+    <div class="p-4">
+        <button (click)="participateEvent.emit()" class="w-full" matButton="filled">
+            @if (processing()) {
+                <mat-icon>
+                    <mat-spinner color="primary" diameter="18" mode="indeterminate"></mat-spinner>
+                </mat-icon>
+            } @else {
+                <mat-icon>person_add</mat-icon>
+            }
+            {{ 'registration.action.participate' | translate }}
+        </button>
+    </div>
+}

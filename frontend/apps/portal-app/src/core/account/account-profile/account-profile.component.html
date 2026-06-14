@@ -1,0 +1,79 @@
+<mat-card>
+    <div class="flex items-center gap-3 h-16 px-6 rounded-t bg-surface-container-high text-on-surface">
+        <mat-icon>person</mat-icon>
+        <span class="text-xl font-semibold">{{ 'profile.title' | translate }}</span>
+        <span class="flex-1"></span>
+        @if (!editMode()) {
+            <button (click)="editMode.set(true)" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+            </button>
+        }
+    </div>
+    <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
+
+    @if (profile()) {
+        @if (editMode()) {
+            <form [formGroup]="fg" class="grid gap-y-3 px-6 py-4" style="grid-template-columns: 9rem 1fr">
+                <span class="text-sm font-medium self-center text-on-surface-variant">{{ 'profile.email' | translate }}</span>
+                <span class="text-sm self-center">{{ profile()!.email }}</span>
+                @for (field of [
+                    {key: 'phone', label: 'profile.phone'},
+                    {key: 'mobile', label: 'profile.mobile'},
+                    {key: 'firstName', label: 'profile.firstName'},
+                    {key: 'lastName', label: 'profile.lastName'},
+                    {key: 'dateOfBirth', label: 'profile.dateOfBirth'},
+                    {key: 'gender', label: 'profile.gender'},
+                    {key: 'profilePicture', label: 'profile.profilePicture'},
+                    {key: 'website', label: 'profile.website'}
+                ]; track field.key) {
+                    <span class="text-sm font-medium self-center text-on-surface-variant">{{ field.label | translate }}</span>
+                    <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
+                        <input [formControlName]="field.key" matInput>
+                    </mat-form-field>
+                }
+                <span class="text-sm font-medium self-center text-on-surface-variant">{{ 'profile.language' | translate }}</span>
+                <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
+                    <mat-select formControlName="language">
+                        <mat-option value="en">{{ 'lang.en' | translate }}</mat-option>
+                        <mat-option value="de">{{ 'lang.de' | translate }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <div class="flex gap-3 px-6 pb-4">
+                <button (click)="save()" matButton="filled">
+                    <mat-icon>save</mat-icon>
+                    {{ 'action.save' | translate }}
+                </button>
+                <button (click)="cancel()" matButton="outlined">
+                    <mat-icon>cancel</mat-icon>
+                    {{ 'action.cancel' | translate }}
+                </button>
+            </div>
+        }
+
+        @if (!editMode()) {
+            <div class="flex flex-col divide-y divide-outline-variant">
+                @for (row of [
+                    {label: 'profile.email', value: profile()!.email},
+                    {label: 'profile.phone', value: profile()!.phone},
+                    {label: 'profile.mobile', value: profile()!.mobile},
+                    {label: 'profile.firstName', value: profile()!.firstName},
+                    {label: 'profile.lastName', value: profile()!.lastName},
+                    {label: 'profile.dateOfBirth', value: profile()!.dateOfBirth},
+                    {label: 'profile.gender', value: profile()!.gender},
+                    {label: 'profile.profilePicture', value: profile()!.profilePicture},
+                    {label: 'profile.website', value: profile()!.website}
+                ]; track row.label) {
+                    <div class="flex gap-4 py-2 px-6">
+                        <span class="w-36 text-sm font-medium shrink-0 text-on-surface-variant">{{ row.label | translate }}</span>
+                        <span class="text-sm">{{ row.value }}</span>
+                    </div>
+                }
+                <div class="flex gap-4 py-2 px-6">
+                    <span class="w-36 text-sm font-medium shrink-0 text-on-surface-variant">{{ 'profile.language' | translate }}</span>
+                    <span class="text-sm">{{ 'lang.' + profile()!.language | translate }}</span>
+                </div>
+            </div>
+        }
+    }
+</mat-card>

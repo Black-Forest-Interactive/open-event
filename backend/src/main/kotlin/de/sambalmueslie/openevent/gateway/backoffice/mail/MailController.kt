@@ -2,9 +2,11 @@ package de.sambalmueslie.openevent.gateway.backoffice.mail
 
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.infrastructure.mail.MailService
+import de.sambalmueslie.openevent.infrastructure.mail.api.MailJob
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Put
 import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
 
@@ -29,4 +31,7 @@ class MailController(private val service: MailService) {
     fun getJobHistory(auth: Authentication, jobId: Long, pageable: Pageable) =
         auth.checkPermission(PERMISSION_ADMIN) { service.getJobHistory(jobId, pageable) }
 
+    @Put("{jobId}/retry")
+    fun retryJob(auth: Authentication, jobId: Long): MailJob? =
+        auth.checkPermission(PERMISSION_ADMIN) { service.retryJob(jobId) }
 }

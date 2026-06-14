@@ -1,0 +1,51 @@
+<mat-card class="list-entry !p-0" routerLink="./details/{{ id() }}">
+    <div class="flex flex-col gap-2 content-stretch flex-auto">
+
+        <div class="flex flex-row gap-3 items-center flex-auto px-4 py-2 bg-gray-200">
+            <mat-icon>description</mat-icon>
+            <div>{{ title() }}</div>
+        </div>
+
+        <div class="flex flex-row gap-3 items-center flex-auto px-4">
+            <mat-icon>account_box</mat-icon>
+            <div>{{ owner() | accountDisplayName }}</div>
+        </div>
+
+        <div class="flex flex-row gap-3 items-center flex-auto px-4">
+            <mat-icon>schedule</mat-icon>
+            <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
+                <div>{{ start() | date:'fullDate' }}</div>
+                <div class="text-gray-500">{{ start() | date:'shortTime' }} - {{ finish() | date:'shortTime' }}</div>
+            </div>
+        </div>
+
+        @if (hasLocation()) {
+            <div class="flex flex-row gap-2 items-center flex-auto px-4">
+                <mat-icon>pin_drop</mat-icon>
+                <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
+                    <div>{{ street() }} {{ streetNumber() }}</div>
+                    <div class="text-gray-500">{{ zip() }} {{ city() }}</div>
+                </div>
+            </div>
+        }
+
+        @if (categories().length > 0 || tags().length > 0) {
+            <div class="flex flex-row gap-3 items-center flex-auto px-4">
+                <mat-icon>label</mat-icon>
+                <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
+                    <div>@for (category of categories(); track category) {
+                        {{ category }}
+                    }</div>
+                    <div class="text-gray-500">@for (tag of tags(); track tag) {
+                        #{{ tag }}
+                    }</div>
+                </div>
+            </div>
+        }
+
+        <div class="flex flex-row flex-wrap flex-auto justify-end gap-2 px-4 py-2">
+            <lib-registration-status [entry]="info()"></lib-registration-status>
+        </div>
+
+    </div>
+</mat-card>

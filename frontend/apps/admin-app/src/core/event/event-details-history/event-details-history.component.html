@@ -1,0 +1,8 @@
+<div class="p-2">
+    <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
+    <admin-board-card title="event.details.history">
+        <admin-history-table (pageEvent)="handlePageChange($event)" [data]="history()" [pageNumber]="page()"
+                             [pageSize]="size()" [reloading]="loading()"
+                             [totalElements]="totalSize()"></admin-history-table>
+    </admin-board-card>
+</div>

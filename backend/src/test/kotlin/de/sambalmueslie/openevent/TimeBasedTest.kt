@@ -11,7 +11,7 @@ import io.micronaut.test.annotation.MockBean
 import io.mockk.every
 import io.mockk.mockk
 import jakarta.inject.Singleton
-import org.opensearch.testcontainers.OpensearchContainer
+import org.opensearch.testcontainers.OpenSearchContainer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.testcontainers.junit.jupiter.Container
@@ -25,7 +25,7 @@ abstract class TimeBasedTest {
         private val logger: Logger = LoggerFactory.getLogger(TimeBasedTest::class.java)
 
         @Container
-        var opensearch: OpensearchContainer<*> = OpensearchContainer(
+        var opensearch: OpenSearchContainer<*> = OpenSearchContainer(
             DockerImageName.parse("opensearchproject/opensearch:2.13.0")
         )
 

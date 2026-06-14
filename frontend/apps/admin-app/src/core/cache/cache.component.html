@@ -1,0 +1,100 @@
+<admin-board (reload)="reload()" [reloading]="reloading()" [showSearch]="false" title="cache.type">
+    <lib-loading-bar [reloading]="reloading()"/>
+
+    <div class="flex flex-col lg:flex-row gap-4 p-4 md:p-6 h-full">
+        <!-- Cache Entries List -->
+        <mat-card appearance="outlined" class="w-full lg:w-80 lg:flex-shrink-0">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-2 mb-1">
+                    <mat-icon class="text-primary">storage</mat-icon>
+                    <span class="text-lg font-semibold text-gray-900 dark:text-gray-100">Cache Entries</span>
+                </div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    {{ entries().length }} active {{ entries().length === 1 ? 'cache' : 'caches' }}
+                </div>
+            </div>
+
+            <div class="p-0">
+                @if (entries().length > 0) {
+                    <mat-list class="!p-0">
+                        @for (entry of entries(); track entry; let last = $last) {
+                            <mat-list-item
+                                    class="!h-auto !py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                <div class="flex justify-between items-center w-full gap-3">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="font-medium text-gray-900 dark:text-gray-100 truncate">
+                                            {{ entry.name }}
+                                        </div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                            {{ formatCacheInfo(entry) }}
+                                        </div>
+                                    </div>
+
+                                    <button
+                                            (click)="reset(entry)"
+                                            [disabled]="reloading()"
+                                            class="!flex-shrink-0"
+                                            color="primary"
+                                            mat-icon-button
+                                            matTooltip="Clear cache"
+                                            matTooltipPosition="left">
+                                        <mat-icon>layers_clear</mat-icon>
+                                    </button>
+                                </div>
+                            </mat-list-item>
+                            @if (!last) {
+                                <mat-divider/>
+                            }
+                        }
+                    </mat-list>
+                } @else {
+                    <div class="flex flex-col items-center justify-center py-12 px-4 text-center">
+                        <mat-icon class="!w-12 !h-12 !text-5xl text-gray-400 mb-3">
+                            inbox
+                        </mat-icon>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            No cache entries available
+                        </p>
+                    </div>
+                }
+            </div>
+        </mat-card>
+
+        <!-- Chart Section -->
+        <mat-card appearance="outlined" class="flex-1 min-h-[400px] lg:min-h-0">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-2 mb-1">
+                    <mat-icon class="text-primary">bar_chart</mat-icon>
+                    <span class="text-lg font-semibold text-gray-900 dark:text-gray-100">Cache Statistics</span>
+                </div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Real-time cache performance metrics
+                </div>
+            </div>
+
+            <div class="p-4 h-[calc(100%-80px)]">
+                @if (entries().length > 0) {
+                    <div
+                            [merge]="values()"
+                            [options]="chart"
+                            class="w-full h-full min-h-[300px]"
+                            echarts>
+                    </div>
+                } @else {
+                    <div class="flex flex-col items-center justify-center h-full text-center">
+                        <mat-icon class="!w-16 !h-16 !text-6xl text-gray-400 mb-4">
+                            show_chart
+                        </mat-icon>
+                        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            No Data Available
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm">
+                            Cache statistics will appear here when entries are available
+                        </p>
+                    </div>
+                }
+            </div>
+        </mat-card>
+    </div>
+
+</admin-board>

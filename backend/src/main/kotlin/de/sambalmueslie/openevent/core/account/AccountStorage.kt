@@ -13,6 +13,7 @@ interface AccountStorage : Storage<Long, Account, AccountChangeRequest> {
     fun findByName(name: String, pageable: Pageable): Page<Account>
     fun findByEmail(email: String): Account?
     fun createServiceAccount(request: AccountChangeRequest): Account
+    fun updateLastLoginDate(account: Account): Account?
 
     fun getInfos(pageable: Pageable): Page<AccountInfo>
     fun getInfo(account: Account): AccountInfo

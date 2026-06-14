@@ -15,6 +15,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.*
 import kotlin.io.path.name
+import kotlin.io.path.notExists
 
 
 @Singleton
@@ -60,6 +61,7 @@ class ImageCrudService(
 
     fun getBanner(eventId: Long): ByteArray? {
         val filePath = Paths.get(config.uploadPath, "$eventId")
+        if (filePath.notExists()) return null
         val banner = Files.list(filePath).filter { it.fileName.name.contains("banner", true) }.findFirst().orElse(null) ?: return null
         return Files.readAllBytes(banner)
     }

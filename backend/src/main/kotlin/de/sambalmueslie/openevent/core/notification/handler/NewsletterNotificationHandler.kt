@@ -21,6 +21,7 @@ import io.micronaut.scheduling.annotation.Scheduled
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.Duration
 import java.time.LocalDate
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.system.measureTimeMillis
@@ -35,12 +36,12 @@ class NewsletterNotificationHandler(
     private val timeProvider: TimeProvider
 ) : NotificationHandler {
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(EventNotificationHandler::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(NewsletterNotificationHandler::class.java)
         const val KEY_EVENT_NEWSLETTER = "newsletter.event"
         const val MAX_RESULT = 1000
     }
 
-    override fun getName(): String = EventNotificationHandler::class.java.simpleName
+    override fun getName(): String = NewsletterNotificationHandler::class.java.simpleName
 
     override fun getTypes(): Set<NotificationTypeChangeRequest> {
         return setOf(
@@ -59,14 +60,19 @@ class NewsletterNotificationHandler(
             logger.info("Starting daily newsletter notification")
             val timestamp = timeProvider.now().toLocalDate().minusDays(1)
             val duration = measureTimeMillis {
-                val request = EventCreatedSearchRequest(timestamp.atStartOfDay(), timestamp.plusDays(1).atStartOfDay(), true, true)
+                val request = EventCreatedSearchRequest(
+                    timestamp.atStartOfDay(), timestamp.plusDays(1).atStartOfDay(), true, true
+                )
                 val result = searchService.searchEvents(actor, request, Pageable.from(0, MAX_RESULT))
                 if (result.result.isEmpty) {
                     logger.info("No events found for request $request, skipping creation")
                     return@measureTimeMillis
                 }
 
-                val accountSequence = PageSequence { accountService.getAll(it) }
+                logger.debug("Found {} events for request {}", result.result.size, request)
+                logger.debug("Events: ${result.result.content.joinToString { "[${it.id}] - ${it.title}" }}")
+
+                val accountSequence = PageSequence(1000) { accountService.getAll(it) }
                 accountSequence.forEach { page ->
                     createAccountsDailyNewsletterNotification(actor, timestamp, result, page)
                 }
@@ -87,8 +93,13 @@ class NewsletterNotificationHandler(
             val preferences = preferencesService.getByIds(validAccounts.keys).associateBy { it.id }
             val profiles = profilesService.getByIds(validAccounts.keys).associateBy { it.id }
 
-            val recipients = validAccounts.mapNotNull { (accountId, account) -> getRecipient(actor, result, account, preferences[accountId], profiles[accountId]) }
+            val recipients = validAccounts.mapNotNull { (accountId, account) ->
+                getRecipient(
+                    account, preferences[accountId], profiles[accountId]
+                )
+            }
             logger.debug("[${page.pageable.number}] Found ${recipients.size} recipients")
+            logger.debug("Recipients: ${recipients.joinToString { it.email }}")
             if (recipients.isEmpty()) return@measureTimeMillis
 
             service.process(NotificationEvent(KEY_EVENT_NEWSLETTER, actor, result.result.content), recipients.toSet())
@@ -102,7 +113,7 @@ class NewsletterNotificationHandler(
         return lastLoginDate.toLocalDate().isAfter(timestamp.minusYears(1))
     }
 
-    private fun getRecipient(actor: Account, result: EventSearchResponse, account: Account, preferences: Preferences?, profile: Profile?): AccountInfo? {
+    private fun getRecipient(account: Account, preferences: Preferences?, profile: Profile?): AccountInfo? {
         if (preferences == null) {
             logger.error("Cannot find preferences for account ${account.id}")
             return null

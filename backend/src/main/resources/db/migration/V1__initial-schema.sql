@@ -2,9 +2,9 @@
 CREATE SEQUENCE category_seq;
 CREATE TABLE category
 (
-    id       BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('category_seq'::regclass),
-    name     VARCHAR(255)                NOT NULL,
-    icon_url VARCHAR(255)                NOT NULL,
+    id       BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('category_seq'::regclass),
+    name     VARCHAR(255) NOT NULL,
+    icon_url VARCHAR(255) NOT NULL,
 
     created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated  TIMESTAMP WITHOUT TIME ZONE
@@ -14,13 +14,13 @@ CREATE TABLE category
 CREATE SEQUENCE account_seq;
 CREATE TABLE account
 (
-    id              BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('account_seq'::regclass),
+    id              BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('account_seq'::regclass),
     external_id     VARCHAR(255) UNIQUE,
-    name            VARCHAR(255)                NOT NULL,
-    icon_url        VARCHAR(255)                NOT NULL,
+    name            VARCHAR(255) NOT NULL,
+    icon_url        VARCHAR(255) NOT NULL,
     last_login_date TIMESTAMP WITHOUT TIME ZONE,
-    service_account BOOLEAN                     NOT NULL,
-    idp_linked      BOOLEAN                     NOT NULL,
+    service_account BOOLEAN      NOT NULL,
+    idp_linked      BOOLEAN      NOT NULL,
 
     last_sync       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
@@ -31,14 +31,14 @@ CREATE TABLE account
 -- profile
 CREATE TABLE profile
 (
-    id              BIGINT                      NOT NULL PRIMARY KEY REFERENCES account (id),
+    id              BIGINT       NOT NULL PRIMARY KEY REFERENCES account (id),
 
     email           VARCHAR(255) UNIQUE,
     phone           VARCHAR(255),
     mobile          VARCHAR(255),
 
-    first_name      VARCHAR(255)                NOT NULL,
-    last_name       VARCHAR(255)                NOT NULL,
+    first_name      VARCHAR(255) NOT NULL,
+    last_name       VARCHAR(255) NOT NULL,
 
     date_of_birth   VARCHAR(255),
     gender          VARCHAR(255),
@@ -54,10 +54,10 @@ CREATE TABLE profile
 -- profile
 CREATE TABLE preferences
 (
-    id            BIGINT                      NOT NULL PRIMARY KEY REFERENCES account (id),
-    email         TEXT                        NOT NULL,
-    communication TEXT                        NOT NULL,
-    notification  TEXT                        NOT NULL,
+    id            BIGINT NOT NULL PRIMARY KEY REFERENCES account (id),
+    email         TEXT   NOT NULL,
+    communication TEXT   NOT NULL,
+    notification  TEXT   NOT NULL,
 
     created       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated       TIMESTAMP WITHOUT TIME ZONE
@@ -67,18 +67,18 @@ CREATE TABLE preferences
 CREATE SEQUENCE address_seq;
 CREATE TABLE address
 (
-    id              BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('address_seq'::regclass),
-    street          VARCHAR(255)                NOT NULL,
-    street_number   VARCHAR(255)                NOT NULL,
-    zip             VARCHAR(255)                NOT NULL,
-    city            VARCHAR(255)                NOT NULL,
-    country         VARCHAR(255)                NOT NULL,
-    additional_info VARCHAR(255)                NOT NULL,
+    id              BIGINT           NOT NULL PRIMARY KEY DEFAULT nextval('address_seq'::regclass),
+    street          VARCHAR(255)     NOT NULL,
+    street_number   VARCHAR(255)     NOT NULL,
+    zip             VARCHAR(255)     NOT NULL,
+    city            VARCHAR(255)     NOT NULL,
+    country         VARCHAR(255)     NOT NULL,
+    additional_info VARCHAR(255)     NOT NULL,
 
-    lat             DOUBLE PRECISION            NOT NULL,
-    lon             DOUBLE PRECISION            NOT NULL,
+    lat             DOUBLE PRECISION NOT NULL,
+    lon             DOUBLE PRECISION NOT NULL,
 
-    account_id      BIGINT                      NOT NULL REFERENCES account (id),
+    account_id      BIGINT           NOT NULL REFERENCES account (id),
 
     created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated         TIMESTAMP WITHOUT TIME ZONE
@@ -89,10 +89,10 @@ CREATE TABLE address
 CREATE SEQUENCE announcement_seq;
 CREATE TABLE announcement
 (
-    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('announcement_seq'::regclass),
-    subject   VARCHAR(255)                NOT NULL,
-    content   TEXT                        NOT NULL,
-    author_id BIGINT                      NOT NULL REFERENCES account (id),
+    id        BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('announcement_seq'::regclass),
+    subject   VARCHAR(255) NOT NULL,
+    content   TEXT         NOT NULL,
+    author_id BIGINT       NOT NULL REFERENCES account (id),
 
     created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated   TIMESTAMP WITHOUT TIME ZONE
@@ -102,23 +102,23 @@ CREATE TABLE announcement
 CREATE SEQUENCE event_seq;
 CREATE TABLE event
 (
-    id               BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('event_seq'::regclass),
-    owner_id         BIGINT                      NOT NULL REFERENCES account (id),
+    id               BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('event_seq'::regclass),
+    owner_id         BIGINT       NOT NULL REFERENCES account (id),
 
     start            TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     finish           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
-    title            VARCHAR(255)                NOT NULL,
-    short_text       VARCHAR(255)                NOT NULL,
-    long_text        TEXT                        NOT NULL,
-    image_url        VARCHAR(255)                NOT NULL,
-    icon_url         VARCHAR(255)                NOT NULL,
+    title            VARCHAR(255) NOT NULL,
+    short_text       VARCHAR(255) NOT NULL,
+    long_text        TEXT         NOT NULL,
+    image_url        VARCHAR(255) NOT NULL,
+    icon_url         VARCHAR(255) NOT NULL,
 
-    has_location     BOOLEAN                     NOT NULL,
-    has_registration BOOLEAN                     NOT NULL,
-    published        BOOLEAN                     NOT NULL,
+    has_location     BOOLEAN      NOT NULL,
+    has_registration BOOLEAN      NOT NULL,
+    published        BOOLEAN      NOT NULL,
 
-    tags             TEXT                        NOT NULL,
+    tags             TEXT         NOT NULL,
 
     created          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated          TIMESTAMP WITHOUT TIME ZONE
@@ -143,21 +143,21 @@ CREATE TABLE event_announcement
 CREATE SEQUENCE location_seq;
 CREATE TABLE location
 (
-    id              BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('location_seq'::regclass),
+    id              BIGINT           NOT NULL PRIMARY KEY DEFAULT nextval('location_seq'::regclass),
 
-    event_id        BIGINT                      NOT NULL REFERENCES event (id),
+    event_id        BIGINT           NOT NULL REFERENCES event (id),
 
-    street          VARCHAR(255)                NOT NULL,
-    street_number   VARCHAR(255)                NOT NULL,
-    zip             VARCHAR(255)                NOT NULL,
-    city            VARCHAR(255)                NOT NULL,
-    country         VARCHAR(255)                NOT NULL,
-    additional_info VARCHAR(255)                NOT NULL,
+    street          VARCHAR(255)     NOT NULL,
+    street_number   VARCHAR(255)     NOT NULL,
+    zip             VARCHAR(255)     NOT NULL,
+    city            VARCHAR(255)     NOT NULL,
+    country         VARCHAR(255)     NOT NULL,
+    additional_info VARCHAR(255)     NOT NULL,
 
-    lat             DOUBLE PRECISION            NOT NULL,
-    lon             DOUBLE PRECISION            NOT NULL,
+    lat             DOUBLE PRECISION NOT NULL,
+    lon             DOUBLE PRECISION NOT NULL,
 
-    size            INT                         NOT NULL,
+    size            INT              NOT NULL,
 
     created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated         TIMESTAMP WITHOUT TIME ZONE
@@ -167,12 +167,12 @@ CREATE TABLE location
 CREATE SEQUENCE registration_seq;
 CREATE TABLE registration
 (
-    id                 BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('registration_seq'::regclass),
-    event_id           BIGINT                      NOT NULL REFERENCES event (id),
+    id                 BIGINT  NOT NULL PRIMARY KEY DEFAULT nextval('registration_seq'::regclass),
+    event_id           BIGINT  NOT NULL REFERENCES event (id),
 
-    max_guest_amount   INT                         NOT NULL,
-    interested_allowed BOOLEAN                     NOT NULL,
-    tickets_enabled    BOOLEAN                     NOT NULL,
+    max_guest_amount   INT     NOT NULL,
+    interested_allowed BOOLEAN NOT NULL,
+    tickets_enabled    BOOLEAN NOT NULL,
 
     created            TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated            TIMESTAMP WITHOUT TIME ZONE
@@ -182,14 +182,14 @@ CREATE TABLE registration
 CREATE SEQUENCE participant_seq;
 CREATE TABLE participant
 (
-    id              BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('participant_seq'::regclass),
-    registration_id BIGINT                      NOT NULL REFERENCES registration (id),
-    account_id      BIGINT                      NOT NULL REFERENCES account (id),
+    id              BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('participant_seq'::regclass),
+    registration_id BIGINT       NOT NULL REFERENCES registration (id),
+    account_id      BIGINT       NOT NULL REFERENCES account (id),
 
-    size            BIGINT                      NOT NULL,
-    status          VARCHAR(255)                NOT NULL,
-    rank            INT                         NOT NULL,
-    waiting_list    BOOLEAN                     NOT NULL,
+    size            BIGINT       NOT NULL,
+    status          VARCHAR(255) NOT NULL,
+    rank            INT          NOT NULL,
+    waiting_list    BOOLEAN      NOT NULL,
 
     created         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated         TIMESTAMP WITHOUT TIME ZONE
@@ -199,9 +199,9 @@ CREATE TABLE participant
 CREATE SEQUENCE mail_job_seq;
 CREATE TABLE mail_job
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('mail_job_seq'::regclass),
-    status  VARCHAR(255)                NOT NULL,
-    title   TEXT                        NOT NULL,
+    id      BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('mail_job_seq'::regclass),
+    status  VARCHAR(255) NOT NULL,
+    title   TEXT         NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated TIMESTAMP WITHOUT TIME ZONE
@@ -225,11 +225,11 @@ CREATE TABLE mail_job_content
 CREATE SEQUENCE mail_job_history_seq;
 CREATE TABLE mail_job_history
 (
-    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('mail_job_history_seq'::regclass),
-    message   TEXT                        NOT NULL,
+    id        BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('mail_job_history_seq'::regclass),
+    message   TEXT   NOT NULL,
     timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
-    job_id    BIGINT                      NOT NULL REFERENCES mail_job (id)
+    job_id    BIGINT NOT NULL REFERENCES mail_job (id)
 );
 
 
@@ -237,10 +237,10 @@ CREATE TABLE mail_job_history
 CREATE SEQUENCE setting_seq;
 CREATE TABLE setting
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('setting_seq'::regclass),
-    key     VARCHAR(255)                NOT NULL UNIQUE,
-    value   TEXT                        NOT NULL,
-    type    VARCHAR(255)                NOT NULL,
+    id      BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('setting_seq'::regclass),
+    key     VARCHAR(255) NOT NULL UNIQUE,
+    value   TEXT         NOT NULL,
+    type    VARCHAR(255) NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated TIMESTAMP WITHOUT TIME ZONE
@@ -275,9 +275,9 @@ VALUES ('default.language', 'en', 'STRING', now());
 CREATE SEQUENCE notification_setting_seq;
 CREATE TABLE notification_setting
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_setting_seq'::regclass),
-    name    VARCHAR(255)                NOT NULL,
-    enabled BOOLEAN                     NOT NULL,
+    id      BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('notification_setting_seq'::regclass),
+    name    VARCHAR(255) NOT NULL,
+    enabled BOOLEAN      NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated TIMESTAMP WITHOUT TIME ZONE
@@ -286,9 +286,9 @@ CREATE TABLE notification_setting
 CREATE SEQUENCE notification_scheme_seq;
 CREATE TABLE notification_scheme
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_scheme_seq'::regclass),
-    name    VARCHAR(255)                NOT NULL,
-    enabled BOOLEAN                     NOT NULL,
+    id      BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('notification_scheme_seq'::regclass),
+    name    VARCHAR(255) NOT NULL,
+    enabled BOOLEAN      NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated TIMESTAMP WITHOUT TIME ZONE
@@ -305,11 +305,11 @@ CREATE TABLE notification_scheme_subscriber_relation
 CREATE SEQUENCE notification_type_seq;
 CREATE TABLE notification_type
 (
-    id          BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_type_seq'::regclass),
+    id          BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('notification_type_seq'::regclass),
 
-    key         VARCHAR(255)                NOT NULL UNIQUE,
-    name        VARCHAR(255)                NOT NULL,
-    description TEXT                        NOT NULL,
+    key         VARCHAR(255) NOT NULL UNIQUE,
+    name        VARCHAR(255) NOT NULL,
+    description TEXT         NOT NULL,
 
     created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated     TIMESTAMP WITHOUT TIME ZONE
@@ -327,13 +327,13 @@ CREATE TABLE notification_type_scheme_relation
 CREATE SEQUENCE notification_template_seq;
 CREATE TABLE notification_template
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
-    type_id BIGINT                      NOT NULL references notification_type (id),
+    id      BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('notification_template_seq'::regclass),
+    type_id BIGINT       NOT NULL references notification_type (id),
 
-    subject VARCHAR(255)                NOT NULL,
-    lang    VARCHAR(255)                NOT NULL,
-    content TEXT                        NOT NULL,
-    plain   BOOLEAN                     NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    lang    VARCHAR(255) NOT NULL,
+    content TEXT         NOT NULL,
+    plain   BOOLEAN      NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated TIMESTAMP WITHOUT TIME ZONE
@@ -344,39 +344,39 @@ CREATE TABLE notification_template
 CREATE SEQUENCE audit_log_entry_seq;
 CREATE TABLE audit_log_entry
 (
-    id           BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('audit_log_entry_seq'::regclass),
+    id           BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('audit_log_entry_seq'::regclass),
     timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    actor        VARCHAR(255)                NOT NULL,
-    level        VARCHAR(255)                NOT NULL,
-    message      TEXT                        NOT NULL,
-    request      TEXT                        NOT NULL,
-    reference_id VARCHAR(255)                NOT NULL,
-    reference    TEXT                        NOT NULL,
-    source       VARCHAR(255)                NOT NULL
+    actor        VARCHAR(255) NOT NULL,
+    level        VARCHAR(255) NOT NULL,
+    message      TEXT         NOT NULL,
+    request      TEXT         NOT NULL,
+    reference_id VARCHAR(255) NOT NULL,
+    reference    TEXT         NOT NULL,
+    source       VARCHAR(255) NOT NULL
 );
 
 -- history
 CREATE SEQUENCE history_entry_seq;
 CREATE TABLE history_entry
 (
-    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('history_entry_seq'::regclass),
+    id        BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('history_entry_seq'::regclass),
 
-    event_id  BIGINT                      NOT NULL references event (id),
-    actor_id  BIGINT                      NOT NULL references account (id),
+    event_id  BIGINT       NOT NULL references event (id),
+    actor_id  BIGINT       NOT NULL references account (id),
 
     timestamp TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    type      VARCHAR(255)                NOT NULL,
-    message   VARCHAR(255)                NOT NULL,
-    source    VARCHAR(255)                NOT NULL,
-    info      VARCHAR(255)                NOT NULL
+    type      VARCHAR(255) NOT NULL,
+    message   VARCHAR(255) NOT NULL,
+    source    VARCHAR(255) NOT NULL,
+    info      VARCHAR(255) NOT NULL
 );
 
 -- share
 CREATE TABLE share
 (
     id       VARCHAR(40) PRIMARY KEY,
-    event_id BIGINT                      NOT NULL references event (id),
-    enabled  BOOLEAN                     NOT NULL,
+    event_id BIGINT  NOT NULL references event (id),
+    enabled  BOOLEAN NOT NULL,
 
     created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated  TIMESTAMP WITHOUT TIME ZONE
@@ -387,8 +387,8 @@ CREATE TABLE share
 CREATE SEQUENCE activity_source_seq;
 CREATE TABLE activity_source
 (
-    id      BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('activity_source_seq'::regclass),
-    key     VARCHAR(255)                NOT NULL,
+    id      BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('activity_source_seq'::regclass),
+    key     VARCHAR(255) NOT NULL,
 
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated TIMESTAMP WITHOUT TIME ZONE
@@ -399,9 +399,9 @@ CREATE TABLE activity_source
 CREATE SEQUENCE activity_type_seq;
 CREATE TABLE activity_type
 (
-    id        BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('activity_type_seq'::regclass),
-    key       VARCHAR(255)                NOT NULL,
-    source_id BIGINT                      NOT NULL references activity_source (id),
+    id        BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('activity_type_seq'::regclass),
+    key       VARCHAR(255) NOT NULL,
+    source_id BIGINT       NOT NULL references activity_source (id),
 
     created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated   TIMESTAMP WITHOUT TIME ZONE
@@ -411,14 +411,14 @@ CREATE TABLE activity_type
 CREATE SEQUENCE activity_seq;
 CREATE TABLE activity
 (
-    id           BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('activity_seq'::regclass),
-    title        VARCHAR(255)                NOT NULL,
-    actor_id     BIGINT                      NOT NULL references account (id),
+    id           BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('activity_seq'::regclass),
+    title        VARCHAR(255) NOT NULL,
+    actor_id     BIGINT       NOT NULL references account (id),
 
-    source_id    BIGINT                      NOT NULL references activity_source (id),
-    type_id      BIGINT                      NOT NULL references activity_type (id),
+    source_id    BIGINT       NOT NULL references activity_source (id),
+    type_id      BIGINT       NOT NULL references activity_type (id),
 
-    reference_id BIGINT                      NOT NULL,
+    reference_id BIGINT       NOT NULL,
 
     created      TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated      TIMESTAMP WITHOUT TIME ZONE
@@ -426,9 +426,9 @@ CREATE TABLE activity
 
 CREATE TABLE activity_subscriber
 (
-    activity_id BIGINT                      NOT NULL references activity (id),
-    account_id  BIGINT                      NOT NULL references account (id),
-    read        BOOLEAN                     NOT NULL,
+    activity_id BIGINT  NOT NULL references activity (id),
+    account_id  BIGINT  NOT NULL references account (id),
+    read        BOOLEAN NOT NULL,
     timestamp   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
     PRIMARY KEY (activity_id, account_id)
@@ -453,41 +453,89 @@ CREATE TABLE activity_type_subscriber
 CREATE SEQUENCE issue_seq;
 CREATE TABLE issue
 (
-    id          BIGINT                      NOT NULL PRIMARY KEY DEFAULT nextval('issue_seq'::regclass),
-    subject     TEXT                        NOT NULL,
-    description TEXT                        NOT NULL,
-    error       TEXT                        NOT NULL,
-    url         TEXT                        NOT NULL,
+    id          BIGINT      NOT NULL PRIMARY KEY DEFAULT nextval('issue_seq'::regclass),
+    subject     TEXT        NOT NULL,
+    description TEXT        NOT NULL,
+    error       TEXT        NOT NULL,
+    url         TEXT        NOT NULL,
 
-    status      VARCHAR(30)                 NOT NULL,
+    status      VARCHAR(30) NOT NULL,
 
-    client_ip   VARCHAR(30)                 NOT NULL,
-    user_agent  TEXT                        NOT NULL,
+    client_ip   VARCHAR(30) NOT NULL,
+    user_agent  TEXT        NOT NULL,
 
-    account_id  BIGINT                      NOT NULL references account (id),
+    account_id  BIGINT      NOT NULL references account (id),
 
     created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated     TIMESTAMP WITHOUT TIME ZONE
 );
 
+-- participant external
+
 CREATE TABLE participant_external
 (
     id                          VARCHAR(40) PRIMARY KEY,
 
-    event_id                    BIGINT                      NOT NULL references event (id),
+    event_id                    BIGINT       NOT NULL references event (id),
 
-    first_name                  VARCHAR(255)                NOT NULL,
-    last_name                   VARCHAR(255)                NOT NULL,
-    email                       VARCHAR(255)                NOT NULL,
+    first_name                  VARCHAR(255) NOT NULL,
+    last_name                   VARCHAR(255) NOT NULL,
+    email                       VARCHAR(255) NOT NULL,
     phone                       VARCHAR(255),
     mobile                      VARCHAR(255),
     language                    VARCHAR(50),
-    size                        BIGINT                      NOT NULL,
+    size                        BIGINT       NOT NULL,
 
     expires                     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    code                        VARCHAR(10)                 NOT NULL,
-    invalid_confirmation_trials INT                         NOT NULL,
+    code                        VARCHAR(10)  NOT NULL,
+    invalid_confirmation_trials INT          NOT NULL,
 
     created                     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated                     TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- feedback
+
+CREATE SEQUENCE feedback_seq;
+CREATE TABLE feedback
+(
+    id          BIGINT      NOT NULL PRIMARY KEY DEFAULT nextval('feedback_seq'::regclass),
+    subject     TEXT        NOT NULL,
+    description TEXT        NOT NULL,
+    topic       TEXT        NOT NULL,
+    tags        TEXT        NOT NULL,
+    rating      INT         NOT NULL,
+
+    client_ip   VARCHAR(30) NOT NULL,
+    user_agent  TEXT        NOT NULL,
+
+    account_id  BIGINT      NOT NULL references account (id),
+
+    created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated     TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- metrics
+CREATE TABLE metrics
+(
+    id           VARCHAR(255) PRIMARY KEY,
+
+    source       TEXT NOT NULL,
+    resource     TEXT NOT NULL,
+    action       TEXT NOT NULL,
+    timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    total_count  INT  NOT NULL,
+    unique_count INT  NOT NULL
+);
+
+-- link
+CREATE TABLE link
+(
+    id      VARCHAR(40) PRIMARY KEY,
+    key     VARCHAR(255) NOT NULL UNIQUE,
+    enabled BOOLEAN      NOT NULL,
+    params  JSONB,
+
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated TIMESTAMP WITHOUT TIME ZONE
 );

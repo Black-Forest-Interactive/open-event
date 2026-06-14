@@ -1,0 +1,68 @@
+<admin-board (search)="fullTextSearch = $event" (reload)="search()" [reloading]="reloading"
+             searchPlaceholder="event.search"
+             title="event.title">
+    <div class="flex gap-6 items-start">
+        <div class="flex-1 min-w-0">
+            <mat-card>
+                <admin-event-table (deleteEvent)="delete($event)" (editEvent)="edit($event)"
+                                   (pageEvent)="handlePageChange($event)" (sortEvent)="handleSortChange($event)"
+                                   [data]="data"
+                                   [pageNumber]="pageNumber"
+                                   [pageSize]="pageSize"
+                                   [reloading]="reloading"
+                                   [totalElements]="totalElements"/>
+            </mat-card>
+        </div>
+
+        <div class="flex flex-col gap-2 w-64 shrink-0 p-3 rounded-xl border"
+             style="border-color: var(--mat-sys-outline-variant); background: var(--mat-sys-surface-container-low)">
+
+            <lib-event-range-picker #range (rangeChanged)="handleRangeChanged($event)" [required]="false"
+                                    class="w-full"/>
+
+            <button (click)="toggleHistory()" [matButton]="showHistory ? 'filled' : 'outlined'"
+                    class="w-full justify-start">
+                <mat-icon>history</mat-icon>
+                <span class="truncate">{{ 'event.filter.history' | translate }}</span>
+            </button>
+            <button (click)="resetFilter(); range.clear()" matButton="outlined" class="w-full justify-start">
+                <mat-icon>search_off</mat-icon>
+                <span class="truncate">{{ 'event.filter.reset' | translate }}</span>
+            </button>
+
+            <mat-divider class="!my-1"/>
+
+            <button (click)="exportEvents()" [disabled]="exportingEvents" matButton="outlined"
+                    class="w-full justify-start">
+                @if (exportingEvents) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>cloud_download</mat-icon>
+                }
+                <span class="truncate">{{ 'backoffice.export.action.all' | translate }}</span>
+            </button>
+            <button (click)="exportNotice()" [disabled]="exportingNotice" matButton="outlined"
+                    class="w-full justify-start">
+                @if (exportingNotice) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>article</mat-icon>
+                }
+                <span class="truncate">{{ 'backoffice.export.action.notice' | translate }}</span>
+            </button>
+            <button (click)="exportMail()" matButton="outlined" class="w-full justify-start">
+                <mat-icon>attach_email</mat-icon>
+                <span class="truncate">{{ 'backoffice.export.action.mail.title' | translate }}</span>
+            </button>
+            <button (click)="exportSummary()" [disabled]="exportingSummary" matButton="outlined"
+                    class="w-full justify-start">
+                @if (exportingSummary) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>summarize</mat-icon>
+                }
+                <span class="truncate">{{ 'backoffice.export.action.summary' | translate }}</span>
+            </button>
+        </div>
+    </div>
+</admin-board>

@@ -1,0 +1,79 @@
+<div class="p-2">
+    <admin-board-card title="account.details.address">
+        <board-card-toolbar-actions class="flex flex-row gap-2">
+            @if (address().length === 0 && !loading()) {
+                <button (click)="importAddress()" color="primary" mat-flat-button>
+                    <mat-icon>import_contacts</mat-icon>
+                    {{ 'address.action.import' | translate }}
+                </button>
+            }
+            <button (click)="createAddress()" color="primary" mat-flat-button>
+                <mat-icon>add_circle</mat-icon>
+                {{ 'address.action.create' | translate }}
+            </button>
+        </board-card-toolbar-actions>
+
+        <table [dataSource]="address()" mat-table>
+
+            <ng-container matColumnDef="street">
+                <th *matHeaderCellDef mat-header-cell>{{ 'address.property.street' | translate }}</th>
+                <td *matCellDef="let address" mat-cell>{{ address.street }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="streetNumber">
+                <th *matHeaderCellDef mat-header-cell>{{ 'address.property.streetNumber' | translate }}</th>
+                <td *matCellDef="let address" mat-cell>{{ address.streetNumber }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="zip">
+                <th *matHeaderCellDef mat-header-cell>{{ 'address.property.zip' | translate }}</th>
+                <td *matCellDef="let address" mat-cell>{{ address.zip }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <th *matHeaderCellDef mat-header-cell>{{ 'address.property.city' | translate }}</th>
+                <td *matCellDef="let address" mat-cell>{{ address.city }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="country">
+                <th *matHeaderCellDef mat-header-cell>{{ 'address.property.country' | translate }}</th>
+                <td *matCellDef="let address" mat-cell>{{ address.country }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="additionalInfo">
+                <th *matHeaderCellDef mat-header-cell>{{ 'address.property.additionalInfo' | translate }}</th>
+                <td *matCellDef="let address" mat-cell>{{ address.additionalInfo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="cmd">
+                <th *matHeaderCellDef class="col-1" mat-header-cell></th>
+                <td *matCellDef="let address" mat-cell>
+                    <div class="flex flex-row gap-2 justify-end">
+                        <button (click)="editAddress(address)" color="primary" mat-icon-button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button (click)="deleteAddress(address)" color="warn" mat-icon-button>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumns;" class="table-content-row cursor-pointer" mat-row></tr>
+
+        </table>
+        @if (totalSize() > size()) {
+            <mat-paginator
+                    (page)="handlePageChange($event)"
+                    [disabled]="loading()"
+                    [length]="totalSize()"
+                    [pageIndex]="page()"
+                    [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="size()"
+                    showFirstLastButtons
+            >
+            </mat-paginator>
+        }
+
+    </admin-board-card>
+</div>

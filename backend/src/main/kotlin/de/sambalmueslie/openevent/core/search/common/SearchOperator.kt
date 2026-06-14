@@ -5,7 +5,7 @@ import de.sambalmueslie.openevent.core.search.api.SearchRequest
 import de.sambalmueslie.openevent.core.search.api.SearchResponse
 import io.micronaut.data.model.Pageable
 
-interface SearchOperator<T, R : SearchRequest, S : SearchResponse<T>> {
+interface SearchOperator<T: Any, R : SearchRequest, S : SearchResponse<T>> {
     fun key(): String
     fun info(): SearchOperatorInfo
     fun setup()

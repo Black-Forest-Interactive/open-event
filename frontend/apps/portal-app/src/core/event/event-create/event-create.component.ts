@@ -1,0 +1,37 @@
+import { Component, inject } from '@angular/core'
+import { Router } from '@angular/router'
+import { EventCreateComponent as UiEventCreateComponent } from '@open-event/ui'
+import { AddressService, CategoryService, EventService } from '@open-event/portal'
+
+@Component({
+  selector: 'portal-event-create',
+  imports: [UiEventCreateComponent],
+  templateUrl: './event-create.component.html',
+  styleUrl: './event-create.component.scss'
+})
+export class EventCreateComponent {
+  private service = inject(EventService)
+  private addressService = inject(AddressService)
+  private categoryService = inject(CategoryService)
+  private router = inject(Router)
+
+  addressReadAPI = {
+    getAllAddresses: (page: number, size: number) => this.addressService.getAddresses(page, size),
+    getAddress: (id: number) => this.addressService.getAddress(id)
+  }
+
+  categoryReadAPI = {
+    getAllCategories: (page: number, size: number) => this.categoryService.getCategories(page, size),
+    getCategory: (id: number) => this.categoryService.getCategory(id)
+  }
+
+  eventReadAPI = {
+    getEvent: (id: number) => this.service.getEvent(id),
+    getEventInfo: (id: number) => this.service.getEventInfo(id),
+    create: (request: any) => this.service.create(request)
+  }
+
+  navigateToEvent(eventId: number) {
+    this.router.navigate(['/event/details/' + eventId]).then()
+  }
+}

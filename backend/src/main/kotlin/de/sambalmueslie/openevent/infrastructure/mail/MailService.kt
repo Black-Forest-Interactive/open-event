@@ -13,6 +13,7 @@ import io.micronaut.scheduling.annotation.Scheduled
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.math.log
 import kotlin.system.measureTimeMillis
 
 @Singleton
@@ -157,6 +158,43 @@ class MailService(
 
     fun getJobHistory(jobId: Long, pageable: Pageable): Page<MailJobHistoryEntry> {
         return jobHistoryRepository.findByJobIdOrderByTimestampDesc(jobId, pageable).map { it.convert() }
+    }
+
+    fun retryJob(jobId: Long): MailJob? {
+        var data = jobRepository.findByIdOrNull(jobId)
+        if (data == null) {
+            logger.error("Cannot find job $jobId")
+            return null
+        }
+        if (data.status != MailJobStatus.FAILED) {
+            logger.warn("Job $jobId failed to retry - cause state ${data.status} is not FAILED")
+            return null
+        }
+
+        val content = jobContentRepository.findByJobId(jobId)?.convert()
+        if (content == null) {
+            logger.error("Cannot find job content for $jobId")
+            return null
+        }
+
+        val activeJob = newJobs.find { it.jobId == jobId }
+        if (activeJob != null) {
+            logger.warn("Job $jobId has been active")
+            return data.convert()
+        }
+
+        val failedJob = failedJobs.find { it.jobId == jobId }
+        if (failedJob != null) {
+            logger.warn("Job $jobId has been already enqueued in the failed queue")
+            return data.convert()
+        }
+
+        data = jobRepository.update(data.updateStatus(MailJobStatus.RETRY, timeProvider.now()))
+        val job = MailSendJob(data.id, content, jobHistoryRepository, timeProvider)
+        logger.info("Retrying job ${job.jobId}")
+        failedJobs.add(job)
+
+        return data.convert()
     }
 
 

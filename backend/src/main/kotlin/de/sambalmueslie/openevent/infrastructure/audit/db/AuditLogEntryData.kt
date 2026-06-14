@@ -1,14 +1,13 @@
 package de.sambalmueslie.openevent.infrastructure.audit.db
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogLevel
 import jakarta.persistence.*
+import tools.jackson.databind.ObjectMapper
 import java.time.LocalDateTime
 
-@Suppress("JpaObjectClassSignatureInspection")
 @Entity(name = "AuditLogEntry")
 @Table(name = "audit_log_entry")
 data class AuditLogEntryData(

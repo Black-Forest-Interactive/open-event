@@ -6,7 +6,7 @@ import io.micronaut.data.model.Pageable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class PageableIterator<T>(private val pageSize: Int = 500, private val provider: (pageable: Pageable) -> Page<T>) :
+class PageableIterator<T: Any>( pageSize: Int = 500, private val provider: (pageable: Pageable) -> Page<T>) :
     Iterator<T> {
 
     companion object {
@@ -35,7 +35,7 @@ class PageableIterator<T>(private val pageSize: Int = 500, private val provider:
 
     private fun loadNextPage() {
         currentPageable = currentPageable.next()
-        logger.debug("Load next page $currentPageable")
+        logger.debug("Load next page {}", currentPageable)
         currentPage = provider.invoke(currentPageable)
         currentPageIterator = currentPage.iterator()
     }

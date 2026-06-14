@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.infrastructure.audit
 
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import de.sambalmueslie.openevent.common.BaseStorageService
 import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry

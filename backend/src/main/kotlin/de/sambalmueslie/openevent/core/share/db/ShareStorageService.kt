@@ -45,6 +45,10 @@ class ShareStorageService(
         return repository.findByEventIdIn(eventIds).let { converter.convert(it) }
     }
 
+    override fun findByEventId(eventId: Long): Share? {
+        return repository.findByEventId(eventId)?.let { converter.convert(it) }
+    }
+
     override fun setEnabled(id: String, value: PatchRequest<Boolean>): Share? {
         return patchData(id) { it.setPublished(value.value, timeProvider.now()) }
     }

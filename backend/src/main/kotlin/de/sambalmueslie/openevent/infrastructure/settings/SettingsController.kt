@@ -59,4 +59,5 @@ class SettingsController(private val service: SettingsService) : SettingsAPI {
 
     @Get("terms")
     fun getTerms() = TextResponse(service.getTerms())
+
 }

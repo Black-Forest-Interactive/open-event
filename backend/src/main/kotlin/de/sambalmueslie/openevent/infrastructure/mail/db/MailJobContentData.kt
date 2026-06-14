@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.infrastructure.mail.db
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.infrastructure.mail.api.Mail
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailJobContent
@@ -22,7 +23,7 @@ data class MailJobContentData(
 
 
     companion object {
-        private val mapper = ObjectMapper()
+        private val mapper = ObjectMapper().registerKotlinModule()
 
         fun create(
             mail: Mail,

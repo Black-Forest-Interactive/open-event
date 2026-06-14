@@ -1,0 +1,118 @@
+import { Component, inject, OnInit } from '@angular/core'
+
+import { MatButton } from '@angular/material/button'
+import { MatCard } from '@angular/material/card'
+import { MatIcon } from '@angular/material/icon'
+import { TranslatePipe } from '@ngx-translate/core'
+import { AccountSearchEntry, AccountSearchRequest, AccountSearchResponse } from '@open-event/core'
+import { AccountService } from '@open-event/admin'
+import { HotToastService } from '@ngxpert/hot-toast'
+import { MatDialog } from '@angular/material/dialog'
+import { PageEvent } from '@angular/material/paginator'
+import { AccountChangeDialogComponent } from './account-change-dialog/account-change-dialog.component'
+import { AccountDeleteDialogComponent } from './account-delete-dialog/account-delete-dialog.component'
+import { AccountTableComponent } from './account-table/account-table.component'
+import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.component'
+import { EventCreateDialogComponent } from '../event/event-create-dialog/event-create-dialog.component'
+
+@Component({
+  selector: 'admin-account',
+  imports: [MatButton, MatCard, MatIcon, TranslatePipe, AccountTableComponent, BoardComponent, BoardToolbarActions],
+  templateUrl: './account.component.html',
+  styleUrl: './account.component.scss'
+})
+export class AccountComponent implements OnInit {
+  reloading: boolean = false
+  pageSize: number = 20
+  pageNumber: number = 0
+  totalElements: number = 0
+  data: AccountSearchEntry[] = []
+  request = new AccountSearchRequest('')
+  private service = inject(AccountService)
+  private toast = inject(HotToastService)
+  private dialog = inject(MatDialog)
+
+  get fullTextSearch(): string {
+    return this.request.fullTextSearch
+  }
+
+  set fullTextSearch(val: string) {
+    if (this.request.fullTextSearch === val) return
+    this.request.fullTextSearch = val
+    this.search()
+  }
+
+  ngOnInit() {
+    this.search()
+  }
+
+  search() {
+    this.load(0, this.pageSize)
+  }
+
+  reload() {
+    this.load(0, this.pageSize)
+  }
+
+  handlePageChange(event: PageEvent) {
+    if (this.reloading) return
+    this.pageSize = event.pageSize
+    this.load(event.pageIndex, event.pageSize)
+  }
+
+  create() {
+    const dialogRef = this.dialog.open(AccountChangeDialogComponent, {
+      width: '350px',
+      data: null
+    })
+    dialogRef.afterClosed().subscribe(() => this.search())
+  }
+
+  edit(entry: AccountSearchEntry) {
+    const dialogRef = this.dialog.open(AccountChangeDialogComponent, {
+      width: '350px',
+      data: entry
+    })
+    dialogRef.afterClosed().subscribe(() => this.search())
+  }
+
+  delete(entry: AccountSearchEntry) {
+    const dialogRef = this.dialog.open(AccountDeleteDialogComponent, {
+      width: '350px',
+      data: entry
+    })
+    dialogRef.afterClosed().subscribe(() => this.search())
+  }
+
+  createEvent(entry: AccountSearchEntry) {
+    this.dialog
+      .open(EventCreateDialogComponent, { data: entry })
+      .afterClosed()
+      .subscribe((value) => {
+        if (value) this.search()
+      })
+  }
+
+  private load(page: number, size: number) {
+    if (this.reloading) return
+    this.reloading = true
+    this.service.search(this.request, page, size).subscribe({
+      next: (value) => this.handleData(value),
+      error: (e) => this.handleError(e)
+    })
+  }
+
+  private handleData(response: AccountSearchResponse) {
+    const p = response.result
+    this.data = p.content
+    this.pageSize = p.pageable.size
+    this.pageNumber = p.pageable.number
+    this.totalElements = p.totalSize
+    this.reloading = false
+  }
+
+  private handleError(err: any) {
+    if (err) this.toast.error()
+    this.reloading = false
+  }
+}

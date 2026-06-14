@@ -1,10 +1,6 @@
 package de.sambalmueslie.openevent.gateway.external.event
 
-import de.sambalmueslie.openevent.core.event.api.EventInfo
-import de.sambalmueslie.openevent.core.search.event.EventSearchEntryData
-import de.sambalmueslie.openevent.core.share.api.Share
 import de.sambalmueslie.openevent.gateway.external.account.PublicAccount
-import de.sambalmueslie.openevent.gateway.external.account.toPublicAccount
 import io.micronaut.serde.annotation.Serdeable
 import java.time.LocalDateTime
 
@@ -38,30 +34,3 @@ data class PublicEvent(
     val categories: Set<String>,
     val tags: Set<String>,
 )
-
-fun EventInfo.toPublicEvent(share: Share): PublicEvent {
-    val entry = EventSearchEntryData.create(this)
-    return PublicEvent(
-        share.id,
-        event.start,
-        event.finish,
-        event.title,
-        event.shortText,
-        event.longText,
-        event.owner.toPublicAccount(),
-
-        event.hasLocation,
-        entry.zip ?: "",
-        entry.city ?: "",
-        entry.country ?: "",
-
-        entry.hasSpaceLeft,
-        entry.maxGuestAmount,
-        entry.amountAccepted,
-        entry.amountOnWaitingList,
-        entry.remainingSpace,
-
-        entry.categories,
-        entry.tags
-    )
-}
