@@ -127,7 +127,7 @@ dependencies {
     // POI
     implementation("org.apache.poi:poi:5.5.1")
     implementation("org.apache.poi:poi-ooxml:5.5.1")
-    implementation("builders.dsl:spreadsheet-builder-poi:3.1.1.1")
+    implementation("builders.dsl:spreadsheet-builder-poi:4.0.1")
 
     // mail
     implementation("org.simplejavamail:simple-java-mail:8.12.6")
