@@ -46,7 +46,8 @@
       "calendar": "Kalender",
       "map": "Karte",
       "results": "Ergebnisse",
-      "details": "Details ansehen"
+      "details": "Details ansehen",
+      "venues": "Veranstaltungsorte"
     },
     "empty": {
       "title": "Keine Veranstaltungen gefunden",

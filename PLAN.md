@@ -414,6 +414,35 @@ page and the toolbar notification-bell dropdown.
 
 ---
 
+### 22. Phase 4 — Event-board map: venue-grouped sidebar (deferred from task 6)
+
+`apps/portal-app/src/core/event/event-board-map/event-board-map.component.{ts,html}` — added the `.mapview`
+venue-grouped sidebar deferred from task 6, no backend changes (all data already present on `EventSearchEntry`).
+
+- **`.ts`** — new local `VenueGroup` interface (`key`, `street`, `streetNumber`, `zip`, `city`, `lat`, `lon`,
+  `entries: EventSearchEntry[]`). New `readonly venues = computed(...)` groups `service.entries()` by
+  `street streetNumber|zip city` (skipping entries with `!hasLocation` or `lat===0 && lon===0`, same filter as the map
+  markers), mirroring the `groups()` pattern in `event-board-calendar.component.ts`. New `flyToVenue(venue)` —
+  `this.map?.flyTo([venue.lat, venue.lon], 15)`; new `openEvent(entry)` — reuses
+  `EventNavigationService.navigateToEventDetails`. Added `MatIcon`/`DatePipe`/`TranslatePipe` to `imports`. Renamed the
+  Leaflet `Map` import to `Map as LeafletMap` (and the `private map` field type) — it was shadowing the global
+  `Map<K,V>` used by the new grouping logic.
+- **`.html`** — wrapped the existing map `mat-card` and a new `<mat-card appearance="outlined" class="basis-80
+  shrink-0 overflow-hidden">` sidebar in `flex flex-col lg:flex-row gap-2` (stacked on mobile, side-by-side from `lg:`
+  up). Sidebar only rendered when `venues().length > 0`; header `event.board.venues`, then a `divide-y` list of venue
+  groups (`lg:max-h-[750px] lg:overflow-y-auto` to match `.map-container`'s 750px height). Each venue group: a
+  clickable header row (`<mat-icon inline>place</mat-icon>` + street/zip-city + event-count pill) calling
+  `flyToVenue(venue)`, and below it a `divide-y` list of its events (title + `start | date:'shortDate'`, `pl-10`
+  indent) calling `openEvent(entry)` on click.
+- **i18n** — new `event.board.venues` key (de: "Veranstaltungsorte", en: "Venues") in both `de.json`/`en.json`.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only —
+  after renaming the shadowed Leaflet `Map` import, which initially caused `TS2571`/`TS2558`/`TS2339`/`TS2550` errors
+  on the `Map<string, VenueGroup>` grouping code).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
@@ -431,5 +460,5 @@ main column, and the Phase 2 create/edit event form) is still recommended before
 ## Phase 3-4 (future sessions, not detailed here)
 
 - **Phase 3** — Addresses page + Profile screen restyle. Done, see task 20.
-- **Phase 4** — Notifications restyle done, see task 21. Remaining: default-address backend stub (if needed),
-  dark-mode QA pass, `event-board-map` `.mapview` venue-grouped sidebar (deferred from task 6).
+- **Phase 4** — Notifications restyle done (task 21); `event-board-map` `.mapview` venue-grouped sidebar done (task
+  22). Remaining: default-address backend stub (if needed, out of scope per "backend untouched"), dark-mode QA pass.

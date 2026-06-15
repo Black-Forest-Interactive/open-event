@@ -46,7 +46,8 @@
       "calendar": "Calendar",
       "map": "Map",
       "results": "Results",
-      "details": "View details"
+      "details": "View details",
+      "venues": "Venues"
     },
     "empty": {
       "title": "No events found",
