@@ -1,12 +1,10 @@
-<mat-card class="h-full">
-    <div class="flex items-center gap-3 h-16 px-6 rounded-t bg-surface-container-high text-on-surface">
-        <mat-icon>tune</mat-icon>
-        <span class="text-xl font-semibold">{{ 'preferences.title' | translate }}</span>
+<mat-card appearance="outlined" class="h-full">
+    <div class="p-4">
+        <h1 class="text-xl font-semibold text-on-surface">{{ 'preferences.title' | translate }}</h1>
     </div>
-    <mat-divider></mat-divider>
     <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
 
-    <div class="flex flex-col gap-3 px-4 py-4">
+    <div class="flex flex-col gap-3 border-t border-outline-variant p-4">
         <p class="text-sm text-on-surface-variant">{{ 'preferences.newsletter.description' | translate }}</p>
         @if (preferences()?.emailNotificationsPreferences?.enabled) {
             <button (click)="unsubscribe()" matButton="outlined">

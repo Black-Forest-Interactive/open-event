@@ -395,6 +395,7 @@
   },
   "profile": {
     "title": "Userprofile",
+    "subtitle": "Manage your personal information",
     "email": "E-Mail",
     "phone": "Phone",
     "mobile": "Mobile",
@@ -409,7 +410,11 @@
   "address": {
     "type": "Address",
     "title": "Address",
-    "empty": "No addresses found",
+    "subtitle": "Manage your saved addresses",
+    "empty": {
+      "title": "No addresses found",
+      "subtitle": "Add a new address or import an existing one."
+    },
     "dialog": {
       "create": {
         "title": "Create address"

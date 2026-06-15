@@ -2,8 +2,6 @@ import { Component, computed, inject, resource, signal } from '@angular/core'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatCard } from '@angular/material/card'
-import { MatTableModule } from '@angular/material/table'
-import { MatDivider } from '@angular/material/divider'
 import { MatIcon } from '@angular/material/icon'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -15,12 +13,11 @@ import { AddressDeleteDialogComponent } from './address-delete-dialog/address-de
 
 @Component({
   selector: 'portal-address',
-  imports: [LoadingBarComponent, MatButton, MatCard, MatTableModule, MatDivider, MatIcon, MatIconButton, MatPaginator, TranslatePipe],
+  imports: [LoadingBarComponent, MatButton, MatCard, MatIcon, MatIconButton, MatPaginator, TranslatePipe],
   templateUrl: './address.component.html',
   styleUrl: './address.component.scss'
 })
 export class AddressComponent {
-  readonly displayedColumns = ['street', 'streetNumber', 'zip', 'city', 'country', 'cmd']
   private service = inject(AddressService)
   private dialog = inject(MatDialog)
   private page = signal(0)

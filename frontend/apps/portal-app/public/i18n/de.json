@@ -375,6 +375,7 @@
   },
   "profile": {
     "title": "Benutzerprofil",
+    "subtitle": "Verwalte deine persönlichen Daten",
     "email": "E-Mail",
     "phone": "Telefon",
     "mobile": "Mobil",
@@ -389,7 +390,11 @@
   "address": {
     "type": "Adressen",
     "title": "Adressen",
-    "empty": "Keine Adressen vorhanden",
+    "subtitle": "Verwalte deine gespeicherten Adressen",
+    "empty": {
+      "title": "Keine Adressen vorhanden",
+      "subtitle": "Lege eine neue Adresse an oder importiere bestehende."
+    },
     "dialog": {
       "create": {
         "title": "Neue Adresse erstellen"

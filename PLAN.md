@@ -308,6 +308,67 @@ same visual styling, no behavior change, `MatButton`/`MatIconButton` were alread
 
 ---
 
+### 19. Events board polish round 7 — event-details page card appearance consistency
+
+- **`event-details.component.html`** — top-level page-wrapper `<mat-card>` now has `appearance="outlined"`, matching
+  the `event-edit`/`event-copy` page-wrapper cards (`mat-card appearance="outlined" class="m-0 sm:!m-3
+  overflow-hidden"`, the "Phase 1 pattern" referenced in task 12). Previously the only full-page wrapper card without
+  `appearance="outlined"` (default elevated/shadow style instead of flat/bordered) — now all three full-page wrapper
+  cards (`event-details`, `event-edit`, `event-copy`) render consistently.
+- Verified via `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation
+  warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
+### 20. Phase 3 — Addresses + Profile restyle
+
+- **`address.component.{html,ts,scss}`** — replaced the `<mat-table>` + colored-header-bar layout with the "Phase 1
+  pattern" page-wrapper (`<mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">`), a title/subtitle
+  header (`address.title`/`address.subtitle`) with Import/Add buttons, an `event-board-list`-style empty state
+  (`address.empty.title`/`.subtitle`), and a responsive `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` card grid — each
+  `Address` rendered as an outlined card with a location icon badge, street/streetNumber/zip/city/additionalInfo, and
+  a `border-t border-outline-variant` edit/delete `matIconButton` action row. `<mat-paginator>` kept below the grid.
+  Removed unused `MatTableModule`/`MatDivider`/`displayedColumns` and emptied the dead `mat-card.address` SCSS rule.
+  No "default address" feature — the `Address` model has no such field; flagged as possible future backend work.
+- **`address-change-dialog.component.html`** / **`address-delete-dialog.component.html`** — `mat-flat-button` /
+  `mat-button mat-stroked-button` → `matButton="filled"`/`matButton="outlined"`, same pairing as the round-6
+  `event-delete-dialog` transform.
+- **`libs/ui/src/lib/address/address-change/address-change.component.html`** — replaced
+  `flex flex-row gap-3` + inline `style="flex: 0 1 100px"`/`style="flex: 0 1 200px"` with Tailwind grids
+  (`grid grid-cols-[1fr_6rem] gap-3` for street/streetNumber, `grid grid-cols-[6.5rem_1fr] gap-3` for zip/city),
+  removed the invalid Bootstrap class `align-items-stretch` and collapsed the nested wrapper divs. No field/logic
+  changes.
+- **`account-profile.component.html`** — `<mat-card>` → `<mat-card appearance="outlined" class="h-full">`; replaced
+  the colored icon header bar with a plain title/subtitle header (`profile.title`/`profile.subtitle`, new
+  `profile.subtitle` key) and a `border-t border-outline-variant p-4` avatar hero (`<lib-avatar [name]="firstName +
+  ' ' + lastName" size="lg">` + name/email, mirroring `event-host-block.component.html`), added `AvatarComponent`
+  import. Edit mode now uses `<mat-label>` inside `<mat-form-field appearance="outline" class="dense-1"
+  subscriptSizing="dynamic">` for the remaining 8 fields + language select, in a `grid grid-cols-1 sm:grid-cols-2
+  gap-3`; view mode renders the remaining 6 properties + language in a `grid grid-cols-1 sm:grid-cols-2 gap-x-6
+  gap-y-2`. Dropped the redundant hardcoded email/firstName/lastName rows (now covered by the hero). No `.ts` logic
+  changes.
+- **`account-preferences.component.html`** — `<mat-card class="h-full">` → `<mat-card appearance="outlined"
+  class="h-full">`; replaced the colored icon header bar + `<mat-divider>` with a plain `profile.title`-style header
+  and a `border-t border-outline-variant p-4` content section; removed the now-unused `MatDivider` import.
+- **Dead-code cleanup** — deleted `apps/portal-app/src/core/account/account-address/` (broken import to a
+  non-existent `AddressBoardComponent`, zero references) and `apps/portal-app/src/core/address/address-change/`
+  (unreferenced placeholder stub `<p>address-change works!</p>` — the real form is `libs/ui/src/lib/address/address-
+  change/`, only tidied per above). `account-activity/` remains orphaned but out of scope.
+- **i18n** — added `address.subtitle`, restructured `address.empty` into `address.empty.title`/`.subtitle`, and added
+  `profile.subtitle` in both `de.json`/`en.json`.
+- **Bugfix (reported during this phase)** — `event-row.component.html` (used by both the board's "rows" layout and
+  the agenda calendar view) had `<mat-card appearance="outlined" class="erow flex items-center gap-3 p-3">`. Angular
+  Material's `.mat-mdc-card` ships an unlayered `flex-direction: column` rule that overrides Tailwind's layered
+  `flex`/`items-center` utilities, collapsing the row onto a column on desktop. Fixed by adding `!flex-row`
+  (`class="erow flex !flex-row items-center gap-3 p-3"`) — the `!important` flag is required for a Tailwind utility
+  to win against Angular Material's unlayered component styles.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
@@ -324,6 +385,6 @@ main column, and the Phase 2 create/edit event form) is still recommended before
 
 ## Phase 3-4 (future sessions, not detailed here)
 
-- **Phase 3** — Addresses page + Profile screen restyle.
+- **Phase 3** — Addresses page + Profile screen restyle. Done, see task 20.
 - **Phase 4** — Default-address backend stub (if needed), notifications restyle, dark-mode QA pass, `event-board-map`
   `.mapview` venue-grouped sidebar (deferred from task 6).

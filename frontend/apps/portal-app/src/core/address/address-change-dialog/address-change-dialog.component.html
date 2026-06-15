@@ -9,11 +9,11 @@
     <lib-address-change #change (request)="handleRequest($event)" [data]="data"></lib-address-change>
 </div>
 <mat-dialog-actions align="end">
-    <button (click)="change.submit()" [disabled]="!change.fg.valid" color="primary" mat-flat-button>
+    <button (click)="change.submit()" [disabled]="!change.fg.valid" color="primary" matButton="filled">
         <mat-icon>check</mat-icon>
         {{ "action.submit" | translate }}
     </button>
-    <button color="warn" mat-dialog-close mat-flat-button>
+    <button color="warn" mat-dialog-close matButton="outlined">
         <mat-icon>cancel</mat-icon>
         {{ "action.cancel" | translate }}
     </button>
