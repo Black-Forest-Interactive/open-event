@@ -1,12 +1,12 @@
 @if (info().read) {
 
 } @else if (!reloading()) {
-    <button (click)="markRead()" color="accent" mat-flat-button>
+    <button (click)="markRead()" color="accent" matButton="filled">
         <mat-icon>task</mat-icon>
         {{ 'activity.action.read' | translate }}
     </button>
 } @else {
-    <button color="accent" disabled mat-flat-button>
+    <button color="accent" disabled matButton="filled">
         <mat-icon>
             <mat-spinner diameter="18" mode="indeterminate"></mat-spinner>
         </mat-icon>

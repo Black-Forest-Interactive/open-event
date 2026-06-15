@@ -485,20 +485,17 @@
   },
   "activity": {
     "title": "Notifications",
-    "empty": "No notifications found",
+    "subtitle": "Updates about your registrations and events",
+    "empty": {
+      "title": "No notifications yet",
+      "subtitle": "New updates about your registrations and events will show up here."
+    },
     "type": {
       "EVENT_CREATED": "Event created",
       "EVENT_CHANGED": "Event changed",
       "PARTICIPANT_ACCEPTED": "Participant added",
       "PARTICIPANT_DECLINED": "Participant declined",
       "PARTICIPANT_CHANGED": "Participant changed"
-    },
-    "table": {
-      "type": "Type",
-      "title": "Title",
-      "actor": "Actor",
-      "timestamp": "Timestamp",
-      "read": "Read"
     },
     "action": {
       "read": "Read",

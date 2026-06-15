@@ -1,10 +1,10 @@
 <div class="flex flex-col content-center px-5">
     @if (unreadMessages() <= 0) {
-        <a mat-icon-button routerLink="/activity">
+        <a matIconButton routerLink="/activity">
             <mat-icon>notifications</mat-icon>
         </a>
     } @else {
-        <button (click)="clicked.emit($event)" mat-icon-button>
+        <button (click)="clicked.emit($event)" matIconButton>
             <mat-icon matBadge="{{unreadMessages()}}" matBadgeColor="accent" matBadgeSize="small">notifications
             </mat-icon>
         </button>

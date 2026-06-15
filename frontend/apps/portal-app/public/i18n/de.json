@@ -457,20 +457,17 @@
   },
   "activity": {
     "title": "Benachrichtigungen",
-    "empty": "Keine Benachrichtigungen vorhanden",
+    "subtitle": "Hinweise zu deinen Anmeldungen und Veranstaltungen",
+    "empty": {
+      "title": "Keine Benachrichtigungen vorhanden",
+      "subtitle": "Neue Hinweise zu deinen Anmeldungen und Veranstaltungen erscheinen hier."
+    },
     "type": {
       "EVENT_CREATED": "Veranstaltung erstellt",
       "EVENT_CHANGED": "Veranstaltung geändert",
       "PARTICIPANT_ACCEPTED": "Neuer Teilnehmer",
       "PARTICIPANT_DECLINED": "Teilnahme abgesagt",
       "PARTICIPANT_CHANGED": "Teilnehmer geändert"
-    },
-    "table": {
-      "type": "Typ",
-      "title": "Titel",
-      "actor": "Benutzer",
-      "timestamp": "Datum",
-      "read": "Gelesen"
     },
     "action": {
       "read": "Gelesen",

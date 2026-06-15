@@ -1,15 +1,22 @@
 <mat-menu #menu="matMenu">
-    @if (reloading()) {
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    } @else {
-        <portal-activity-list (clicked)="handleMarkReadSingle($event)" [data]="data()"></portal-activity-list>
-        <div class="flex flex-col gap-2 px-3 py-2 items-center">
-            <button (click)="handleMarkReadAll()" mat-flat-button>
-                <mat-icon>mark_chat_read</mat-icon>
-                {{ 'activity.action.readAll' | translate }}
-            </button>
-        </div>
-    }
-
+    <div class="flex flex-col min-w-72 max-w-sm">
+        @if (reloading()) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        } @else if (data().length === 0) {
+            <div class="flex flex-col items-center justify-center gap-1 py-8 px-4 text-center text-on-surface-variant">
+                <mat-icon inline class="text-3xl">notifications_none</mat-icon>
+                <span class="text-sm">{{ 'activity.empty.title' | translate }}</span>
+            </div>
+        } @else {
+            <div class="flex flex-col divide-y divide-outline-variant">
+                <portal-activity-list (clicked)="handleMarkReadSingle($event)" [data]="data()"></portal-activity-list>
+            </div>
+            <div class="flex justify-end border-t border-outline-variant p-2">
+                <button (click)="handleMarkReadAll()" matButton="text">
+                    <mat-icon>mark_chat_read</mat-icon>
+                    {{ 'activity.action.readAll' | translate }}
+                </button>
+            </div>
+        }
+    </div>
 </mat-menu>
-

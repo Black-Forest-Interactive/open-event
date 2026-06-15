@@ -10,6 +10,9 @@ export { AppToolbarComponent } from './lib/layout/app-toolbar/app-toolbar.compon
 export { AppSidenavComponent } from './lib/layout/app-sidenav/app-sidenav.component'
 export { AppLayoutComponent } from './lib/layout/app-layout/app-layout.component'
 
+// activity
+export { getActivityIcon } from './lib/activity/activity-style'
+
 // avatar
 export { AvatarComponent } from './lib/avatar/avatar.component'
 

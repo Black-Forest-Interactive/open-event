@@ -1,17 +1,14 @@
-@for (a of data(); track a; let last = $last) {
-    <div (click)="$event.stopPropagation(); clicked.emit(a)"
-         class="flex flex-row gap-2 px-3 py-2 items-center hover:bg-gray-100">
-        <div class="flex flex-col items-center">
-            <mat-icon [color]="a.read ? 'primary' : 'accent'">event_note</mat-icon>
+@for (a of data(); track a.activity.id) {
+    <div (click)="clicked.emit(a)" class="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-surface-container">
+        <div class="flex items-center justify-center w-9 h-9 rounded-[10px] bg-primary-container text-on-primary-container shrink-0 text-lg">
+            <mat-icon inline>{{ getActivityIcon(a.activity.type) }}</mat-icon>
         </div>
-        <div class="flex flex-col gap-2">
-            <div class="text-sm font-bold">{{ 'activity.type.' + a.activity.type | translate }}</div>
-            <div class="text-sm">{{ a.activity.title }}</div>
-            <div class="flex flex-row justify-between gap-1">
-                <div class="text-xs">{{ a.activity.actor.firstName }} {{ a.activity.actor.lastName }}</div>
-                <div class="text-xs">{{ a.activity.timestamp | date:'medium' }}</div>
-            </div>
+        <div class="flex flex-col gap-0.5 min-w-0">
+            <span [class.font-semibold]="!a.read" class="text-sm truncate">{{ a.activity.title }}</span>
+            <span class="flex items-center gap-2 text-xs text-on-surface-variant">
+                <span class="truncate">{{ a.activity.actor.firstName }} {{ a.activity.actor.lastName }}</span>
+                <span class="whitespace-nowrap">{{ a.activity.timestamp | date: 'short' }}</span>
+            </span>
         </div>
     </div>
-    <mat-divider></mat-divider>
 }

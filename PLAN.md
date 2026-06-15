@@ -369,6 +369,51 @@ same visual styling, no behavior change, `MatButton`/`MatIconButton` were alread
 
 ---
 
+### 21. Phase 4 — Notifications restyle
+
+"Notifications" = `apps/portal-app/src/core/activity/` (route `/activity`, i18n key `activity.title`) — the `/activity`
+page and the toolbar notification-bell dropdown.
+
+- **NEW `libs/ui/src/lib/activity/activity-style.ts`** — `getActivityIcon(type)`, a fixed lookup table mapping
+  `Activity.type` (`EVENT_CREATED`/`EVENT_CHANGED`/`PARTICIPANT_ACCEPTED`/`PARTICIPANT_DECLINED`/
+  `PARTICIPANT_CHANGED`) to a Material icon (`event`/`edit_calendar`/`person_add`/`person_remove`/`manage_accounts`,
+  default `notifications`). Mirrors `category/category-style.ts`'s `getCategoryStyle`. Exported from
+  `libs/ui/src/index.ts`.
+- **NEW `apps/portal-app/src/core/activity/activity-row/`** — `portal-activity-row`, renders one `ActivityInfo` as a
+  row: 40px icon badge (`bg-primary-container`/`text-on-primary-container`, icon from `getActivityIcon`), title (bold
+  when unread) + type/actor/timestamp meta line, and the existing `portal-activity-read` action on the right. No
+  `mat-card`/`routerLink` — rows live inside the page's outlined card, separated by `divide-y`.
+- **`activity-table.component.{html,ts,scss}`** — replaced the `<mat-table>` with a `divide-y` list of
+  `portal-activity-row`. The former table-header "mark all read" button moved into a `border-t border-outline-variant`
+  action bar shown only when `unread() > 0`. Empty state follows the title/subtitle pattern
+  (`activity.empty.title`/`.subtitle`, `<mat-icon inline>notifications_none</mat-icon>`). `<mat-paginator>` kept,
+  wrapped in `border-t border-outline-variant`. Removed `MatTableModule`/`MatColumnDef`/`Mat*Cell`/`Mat*Row`/
+  `NgClass`/`MatDivider`/`displayedColumns`; emptied the dead `.mat-column-read` SCSS rule. No pagination/data logic
+  changes.
+- **`activity.component.{html,ts}`** — "Phase 1 pattern" page wrapper (`<mat-card appearance="outlined" class="m-0
+  sm:!m-3 overflow-hidden">`), plain title/subtitle header (`activity.title`/new `activity.subtitle`), removed the
+  colored icon header bar and now-unused `MatIcon` import.
+- **`activity-list.component.{html,ts}`** (notification-bell dropdown rows) — icon badge via `getActivityIcon`
+  (replacing the fixed `event_note` icon), fixed the dark-mode-unsafe hardcoded `hover:bg-gray-100` →
+  `hover:bg-surface-container`, made the bold title conditional on `!a.read` (was always `font-bold`), dropped the
+  per-row `<mat-divider>` (now `divide-y` on the wrapper in `activity-menu`), and removed the now-unused
+  `TranslatePipe`/`MatDivider` imports.
+- **`activity-menu.component.html`** — `mat-flat-button` → `matButton="text"` for "mark all read"; added an
+  icon-led empty state (`activity.empty.title`) when `data().length === 0`; wrapped content in `flex flex-col
+  min-w-72 max-w-sm` and `divide-y divide-outline-variant` for `portal-activity-list`. No `.ts` changes.
+- **`activity-read.component.html`** — both `mat-flat-button` → `matButton="filled"` (active + loading states).
+- **`activity-indicator.component.html`/`.ts`** — both `mat-icon-button` → `matIconButton` (on the `<a
+  routerLink="/activity">` and the `<button>`); removed the now-redundant `MatIconAnchor` import (`matIconButton`'s
+  selector already covers both `a` and `button` — `MatIconAnchor` is just an alias for the same class).
+- **i18n** — added `activity.subtitle`; restructured the flat `activity.empty` string into
+  `activity.empty.title`/`.subtitle`; removed the now-orphaned `activity.table.*` keys (the table is gone) — in both
+  `de.json`/`en.json`. `activity.type.*` and `activity.action.*` reused unchanged.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
@@ -386,5 +431,5 @@ main column, and the Phase 2 create/edit event form) is still recommended before
 ## Phase 3-4 (future sessions, not detailed here)
 
 - **Phase 3** — Addresses page + Profile screen restyle. Done, see task 20.
-- **Phase 4** — Default-address backend stub (if needed), notifications restyle, dark-mode QA pass, `event-board-map`
-  `.mapview` venue-grouped sidebar (deferred from task 6).
+- **Phase 4** — Notifications restyle done, see task 21. Remaining: default-address backend stub (if needed),
+  dark-mode QA pass, `event-board-map` `.mapview` venue-grouped sidebar (deferred from task 6).
