@@ -15,7 +15,7 @@
             <mat-icon>schedule</mat-icon>
             <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
                 <div>{{ start() | date:'fullDate' }}</div>
-                <div class="text-gray-500">{{ start() | date:'shortTime' }} - {{ finish() | date:'shortTime' }}</div>
+                <div class="text-on-surface-variant">{{ start() | date:'shortTime' }} - {{ finish() | date:'shortTime' }}</div>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
                     @if (street()) {
                         <div>{{ street() }} {{ streetNumber() }}</div>
                     }
-                    <div class="text-gray-500">{{ zip() }} {{ city() }}</div>
+                    <div class="text-on-surface-variant">{{ zip() }} {{ city() }}</div>
                 </div>
             </div>
         }
@@ -38,7 +38,7 @@
                     <div>@for (c of categories(); track c) {
                         {{ c }}
                     }</div>
-                    <div class="text-gray-500">@for (t of tags(); track t) {
+                    <div class="text-on-surface-variant">@for (t of tags(); track t) {
                         #{{ t }}
                     }</div>
                 </div>

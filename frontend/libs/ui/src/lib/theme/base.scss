@@ -60,10 +60,15 @@ html, body {
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+// Make the `dark:` variant track the app's html.dark theme toggle instead of prefers-color-scheme
+@custom-variant dark (&:where(.dark, .dark *));
+
 // Map Angular Material 3 system tokens to Tailwind color utilities
 @theme inline {
   --color-primary: var(--mat-sys-primary);
   --color-on-primary: var(--mat-sys-on-primary);
+  --color-primary-container: var(--mat-sys-primary-container);
+  --color-on-primary-container: var(--mat-sys-on-primary-container);
   --color-secondary: var(--mat-sys-secondary);
   --color-on-secondary: var(--mat-sys-on-secondary);
   --color-secondary-container: var(--mat-sys-secondary-container);
@@ -77,6 +82,8 @@ html, body {
   --color-surface-container-high: var(--mat-sys-surface-container-high);
   --color-outline: var(--mat-sys-outline);
   --color-outline-variant: var(--mat-sys-outline-variant);
+  --color-error: var(--mat-sys-error);
+  --color-on-error: var(--mat-sys-on-error);
   --color-error-container: var(--mat-sys-error-container);
   --color-on-error-container: var(--mat-sys-on-error-container);
 }

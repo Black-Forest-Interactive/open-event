@@ -443,6 +443,41 @@ venue-grouped sidebar deferred from task 6, no backend changes (all data already
 
 ---
 
+### 23. Phase 4 — Dark-mode QA pass
+
+Systematic review of `libs/ui`/`libs/shared` for non-token colors and missing MD3 token mappings that break in one or
+both themes. Backend untouched, no logic changes — token mappings and class swaps only.
+
+- **`libs/ui/src/lib/theme/base.scss`** — the `@theme inline` block was missing `--color-primary-container` /
+  `--color-on-primary-container` and `--color-error` / `--color-on-error` mappings, so `bg-primary-container
+  text-on-primary-container` (used for the icon badges in `address.component.html`,
+  `activity-row.component.html`, `activity-list.component.html` from phases 3-4) compiled to classes with **no
+  generated CSS rules at all** — these badges rendered with no background tint and default text color in both light
+  and dark mode. Added both pairs to the `@theme inline` mapping; confirmed via the built `styles.css` that
+  `.bg-primary-container` / `.text-on-primary-container` / `.text-error` / `.border-error` now generate
+  `var(--mat-sys-*)`-based rules. Also added `@custom-variant dark (&:where(.dark, .dark *));` so Tailwind's `dark:`
+  variant tracks the app's `html.dark` toggle (set by `ThemeService`) instead of `prefers-color-scheme` — previously
+  there was no `@custom-variant dark` anywhere in the project, so any `dark:`-prefixed class was disconnected from the
+  actual theme switch.
+- **`libs/ui/src/lib/layout/app-footer/app-footer.component.html`** — removed `text-gray-600 dark:text-gray-400` and
+  `hover:text-gray-900 dark:hover:text-gray-200` (non-token colors, previously only reacting to OS
+  `prefers-color-scheme`, not the app's theme toggle). The link now inherits `text-on-surface-variant` from the
+  `<footer>` and uses `hover:text-on-surface`.
+- **`libs/ui/src/lib/board/event-card/event-card.component.html`** — replaced all three `text-gray-500` usages
+  (time range, zip/city, tags row) with `text-on-surface-variant`.
+- **`libs/shared/src/lib/confirmation-code/confirmation-code.component.html`** — replaced the hardcoded
+  blue/red/green/gray palette with MD3 tokens: `border-gray-300 focus:border-blue-500 focus:ring-2
+  focus:ring-blue-200 hover:border-gray-400` → `border-outline focus:border-primary focus:ring-2
+  focus:ring-primary/30 hover:border-on-surface-variant`; `[class.border-green-500]` (valid digit) →
+  `[class.border-secondary]`; `[class.border-red-500]` + `[class.focus:ring-red-200]` (invalid digit) simplified to a
+  single `[class.border-error]`; the error-indicator `text-red-500` → `text-error`; progress-dot bindings
+  `[class.bg-blue-500]`/`[class.bg-gray-300]` → `[class.bg-primary]`/`[class.bg-surface-container-high]`.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
@@ -461,4 +496,5 @@ main column, and the Phase 2 create/edit event form) is still recommended before
 
 - **Phase 3** — Addresses page + Profile screen restyle. Done, see task 20.
 - **Phase 4** — Notifications restyle done (task 21); `event-board-map` `.mapview` venue-grouped sidebar done (task
-  22). Remaining: default-address backend stub (if needed, out of scope per "backend untouched"), dark-mode QA pass.
+  22); dark-mode QA pass done (task 23). Remaining: default-address backend stub (if needed, out of scope per "backend
+  untouched").
