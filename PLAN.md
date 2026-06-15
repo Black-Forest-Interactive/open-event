@@ -202,6 +202,35 @@ Follow-up after the user reviewed the live board (dev server + full stack runnin
 
 ---
 
+### 15. Events board polish round 3 — "Vergangenheit anzeigen" joins "Zeitraum", real root cause of "die card ist kompletter Blödsinn"
+
+- **`event-card.component.ts`/`event-row.component.ts`** — **root cause found**: both templates use
+  `<mat-card appearance="outlined" ...>`, but `MatCard` was never added to the standalone component's `imports`
+  array (unlike `event-board-filter.component.ts`, which imports it correctly). Angular therefore rendered
+  `<mat-card>` as an unrecognized element — none of Angular Material's `mat-mdc-card`/`mat-mdc-card-outlined` host
+  classes were applied, so the card got no `border-radius`, no border/background/elevation in its resting state.
+  Only the hand-written `.ecard:hover`/`.erow:hover` rules (`border-color` + `box-shadow`) ever made the card
+  visible — exactly "die ecken sind nicht rund und die card ist nur als hover sichtbar". Fixed by importing
+  `MatCard` in both components; the existing `.mat-mdc-card-outlined` styles (already bundled, since the filter
+  panel uses `MatCard` on the same page) now apply normally. The previous round's `hasRegistration` fix was correct
+  but addressed a separate, secondary issue.
+- **`event-board-filter.component.html`** — "Vergangenheit anzeigen" moved from the unlabeled own/participating row
+  into the "Zeitraum" pill row, alongside the when-presets (any/today/weekend/next week), as its own toggle pill
+  (`service.toggleShowHistory()`).
+- **`event-board.service.ts`** — `handlePreselectionChanged`: selecting "Jederzeit" (`value === 'any'`) now also
+  calls `includeHistory.set(false)`, turning "Vergangenheit anzeigen" off.
+- **`event-board-filter.component.ts`** — `isWhenActive('any')` now additionally requires `!service.showHistory()`,
+  so the "Jederzeit" pill is shown as inactive while "Vergangenheit anzeigen" is active. Together with the service
+  change, "Jederzeit" and "Vergangenheit anzeigen" are mutually exclusive in both directions, as requested ("wenn
+  vergangenheit anzeigen, dann nicht 'jederzeit'").
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only);
+  confirmed `.mat-mdc-card-outlined` rules are present in the bundled output (`chunk-Z5SOKIBA.js`).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as round 2 (no working headless
+  browser, no Keycloak credentials).
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and

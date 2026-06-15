@@ -8,6 +8,10 @@
                     {{ opt.labelKey | translate }}
                 </button>
             }
+            <button (click)="service.toggleShowHistory()" [matButton]="service.showHistory() ? 'filled' : 'outlined'" color="accent" type="button">
+                <mat-icon>history</mat-icon>
+                {{ 'event.filter.history' | translate }}
+            </button>
         </div>
         <mat-form-field class="dense-1" subscriptSizing="dynamic">
             <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
@@ -48,10 +52,6 @@
     <mat-divider></mat-divider>
 
     <div class="flex flex-wrap gap-2">
-        <button (click)="service.toggleShowHistory()" [matButton]="service.showHistory() ? 'filled' : 'outlined'" color="accent" type="button">
-            <mat-icon>history</mat-icon>
-            {{ 'event.filter.history' | translate }}
-        </button>
         <button (click)="service.toggleOwnEvents()" [matButton]="service.showOwnOnly() ? 'filled' : 'outlined'" color="accent" type="button">
             <mat-icon>copyright</mat-icon>
             {{ 'event.filter.own' | translate }}

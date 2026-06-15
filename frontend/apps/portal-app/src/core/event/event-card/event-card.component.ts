@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
 import { MatButton } from '@angular/material/button'
+import { MatCard } from '@angular/material/card'
 import { TranslatePipe } from '@ngx-translate/core'
 import { CategoryChipComponent, getCategoryStyle, RegistrationStatusComponent } from '@open-event/ui'
 
@@ -11,7 +12,7 @@ import { CategoryChipComponent, getCategoryStyle, RegistrationStatusComponent } 
   selector: 'portal-event-card',
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.scss',
-  imports: [RouterLink, DatePipe, MatIcon, MatButton, TranslatePipe, CategoryChipComponent, RegistrationStatusComponent],
+  imports: [RouterLink, DatePipe, MatIcon, MatButton, MatCard, TranslatePipe, CategoryChipComponent, RegistrationStatusComponent],
   standalone: true
 })
 export class EventCardComponent {

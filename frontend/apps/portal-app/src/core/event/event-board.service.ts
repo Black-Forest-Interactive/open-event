@@ -109,6 +109,7 @@ export class EventBoardService {
     this.preselectionSignal.set(value)
 
     if (!selected || value === 'any') {
+      if (value === 'any') this.includeHistory.set(false)
       this.updateRange(null, null)
     } else if (value === 'today') {
       this.updateRange(DateTime.now(), DateTime.now())

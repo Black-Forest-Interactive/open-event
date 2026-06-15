@@ -3,13 +3,14 @@ import { EventSearchEntry } from '@open-event/core'
 import { RouterLink } from '@angular/router'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
+import { MatCard } from '@angular/material/card'
 import { CategoryChipComponent, getCategoryStyle, RegistrationStatusComponent } from '@open-event/ui'
 
 @Component({
   selector: 'portal-event-row',
   templateUrl: './event-row.component.html',
   styleUrl: './event-row.component.scss',
-  imports: [RouterLink, DatePipe, MatIcon, CategoryChipComponent, RegistrationStatusComponent],
+  imports: [RouterLink, DatePipe, MatIcon, MatCard, CategoryChipComponent, RegistrationStatusComponent],
   standalone: true
 })
 export class EventRowComponent {

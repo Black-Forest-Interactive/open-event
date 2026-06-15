@@ -55,7 +55,7 @@ export class EventBoardFilterComponent {
 
   isWhenActive(value: string) {
     const preselection = this.service.preselection()
-    if (value === 'any') return preselection === undefined || preselection === 'any'
+    if (value === 'any') return (preselection === undefined || preselection === 'any') && !this.service.showHistory()
     return preselection === value
   }
 
