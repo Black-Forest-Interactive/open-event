@@ -3,8 +3,8 @@
         <img (error)="onImageError()" [src]="bannerUrl()" alt="Banner"
              class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
     } @else {
-        <div [style.--h]="mediaStyle().hue" class="hero-placeholder w-full h-full flex items-center justify-center">
-            <mat-icon class="!w-16 !h-16 !text-6xl">{{ mediaStyle().icon }}</mat-icon>
+        <div [style.--h]="mediaStyle().hue" class="hero-placeholder w-full h-full flex items-center justify-center text-6xl">
+            <mat-icon inline>{{ mediaStyle().icon }}</mat-icon>
         </div>
     }
 

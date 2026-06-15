@@ -10,18 +10,18 @@
         <div class="text-sm font-semibold leading-snug">{{ title() }}</div>
         <div class="flex flex-col gap-1 text-xs text-on-surface-variant">
             <div class="flex items-center gap-1.5">
-                <mat-icon class="!w-4 !h-4 !text-base">schedule</mat-icon>
+                <mat-icon inline>schedule</mat-icon>
                 <span>{{ start() | date:'EEE, d MMM' }} · {{ start() | date:'shortTime' }} – {{ finish() | date:'shortTime' }}</span>
             </div>
             @if (owner()) {
                 <div class="flex items-center gap-1.5">
-                    <mat-icon class="!w-4 !h-4 !text-base">person</mat-icon>
+                    <mat-icon inline>person</mat-icon>
                     <span>{{ owner()!! | accountDisplayName }}</span>
                 </div>
             }
             @if (hasLocation()) {
                 <div class="flex items-center gap-1.5">
-                    <mat-icon class="!w-4 !h-4 !text-base">pin_drop</mat-icon>
+                    <mat-icon inline>pin_drop</mat-icon>
                     <span>{{ street() }} {{ streetNumber() }}, {{ zip() }} {{ city() }}</span>
                 </div>
             }

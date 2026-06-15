@@ -253,6 +253,41 @@ Follow-up after the user reviewed the live board (dev server + full stack runnin
 
 ---
 
+### 17. Events board polish round 5 — self-review: remaining icon-size overrides, mat-card import audit
+
+Self-driven review pass (no new user feedback) across `event-board*`/`event-details*`/`registration/*`, continuing
+rounds 3-4's `<mat-icon inline>` and `MatCard` import fixes consistently.
+
+- **`mat-card` import audit** — checked every component rendering `<mat-card>` in the event/registration areas
+  (`event-details`, `event-copy`, `event-edit`, `event-board-filter`, `event-board-map`, `event-card`, `event-row`,
+  `registration-moderation`); all already import `MatCard` correctly (the two missing cases were fixed in round 3).
+  No forbidden `mat-card-header`/`-content`/`-actions`/`-title`/`-subtitle`/`-footer` sub-parts found anywhere.
+- **Remaining `!w-X !h-X !text-Y` icon overrides converted to `<mat-icon inline>`** (ancestor already carries the
+  matching `text-*` size, same pattern as rounds 3-4):
+  - `event-board-list.component.html` / `event-board-calendar.component.html` — empty-state `search_off` icon;
+    added `text-5xl` to the wrapping `flex flex-col` container (sibling spans keep their own `text-lg`/`text-sm`).
+  - `event-board.component.html` — the 3 active-filter-chip `close` icons (when/category/availability), each inside
+    a `text-xs` button.
+  - `event-board-map-popup.component.html` — `schedule`/`person`/`pin_drop` meta-row icons, inside a `text-xs`
+    ancestor.
+  - `event-details-banner.component.html` — hero-placeholder category icon; added `text-6xl` to the `.hero-placeholder`
+    flex container.
+  - `event-guest-list.component.html` — the "nur für Veranstalter sichtbar" `shield` badge (identical pattern to the
+    one already fixed in `registration-details` round 4) and the `mail`/`phone` contact-link icons.
+  - `event-participants-stack.component.html` — the "Angemeldet" `check` badge (same pattern as
+    `registration-details`/`event-participants-stack`'s sibling badge fixed in round 4).
+- **Deliberately left untouched**: `registration-participate-sheet.component.html`'s success-circle `check` icon
+  (`!text-4xl !w-9 !h-9` inside a `w-16 h-16` circle, `grid place-items-center`) — a fixed-icon-inside-larger-circle
+  pattern that doesn't map cleanly onto `inline`'s inherit-from-ancestor model without risking a size regression;
+  and `registration-moderation.component.html` (admin-only registration table) — already flagged out of scope in
+  task 10, uses a different inline-CSS-variable styling approach that needs its own pass, not just icon sizing.
+  Also confirmed no hardcoded hex colors remain anywhere in `event/`/`registration/`.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and

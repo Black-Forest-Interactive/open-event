@@ -47,7 +47,7 @@
                         class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
                         type="button">
                     {{ whenLabelKey() | translate }}
-                    <mat-icon class="!w-4 !h-4 !text-base">close</mat-icon>
+                    <mat-icon inline>close</mat-icon>
                 </button>
             }
             @for (cat of service.categoryFilter(); track cat) {
@@ -55,7 +55,7 @@
                         class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
                         type="button">
                     {{ cat }}
-                    <mat-icon class="!w-4 !h-4 !text-base">close</mat-icon>
+                    <mat-icon inline>close</mat-icon>
                 </button>
             }
             @if (service.showAvailableOnly()) {
@@ -63,7 +63,7 @@
                         class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
                         type="button">
                     {{ 'event.filter.onlyAvailable' | translate }}
-                    <mat-icon class="!w-4 !h-4 !text-base">close</mat-icon>
+                    <mat-icon inline>close</mat-icon>
                 </button>
             }
             <button (click)="service.resetFilter()"

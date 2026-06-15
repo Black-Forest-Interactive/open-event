@@ -1,8 +1,8 @@
 <lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
 
 @if (service.entries().length === 0 && !service.reloading()) {
-    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant">
-        <mat-icon class="!w-12 !h-12 !text-5xl">search_off</mat-icon>
+    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+        <mat-icon inline>search_off</mat-icon>
         <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
         <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
     </div>

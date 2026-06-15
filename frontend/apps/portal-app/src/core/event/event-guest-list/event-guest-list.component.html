@@ -4,7 +4,7 @@
         <span class="text-sm text-on-surface-variant">{{ totalRegistrations() }} · {{ totalPersons() }} {{ 'registration.people' | translate }}</span>
     </div>
     <div class="inline-flex items-center gap-2 text-xs font-semibold text-on-secondary-container bg-secondary-container rounded-lg px-2.5 py-1 mb-3">
-        <mat-icon class="!w-4 !h-4 !text-base">shield</mat-icon>{{ 'registration.guestlist.orgOnly' | translate }}
+        <mat-icon inline>shield</mat-icon>{{ 'registration.guestlist.orgOnly' | translate }}
     </div>
 
     @if (totalRegistrations() === 0 && waitList().length === 0) {
@@ -55,13 +55,13 @@
                 @if (guest.author.email) {
                     <a [href]="'mailto:' + guest.author.email"
                        class="inline-flex items-center gap-1.5 text-xs text-on-surface-variant hover:text-primary hover:underline">
-                        <mat-icon class="!w-3.5 !h-3.5 !text-sm">mail</mat-icon>{{ guest.author.email }}
+                        <mat-icon inline>mail</mat-icon>{{ guest.author.email }}
                     </a>
                 }
                 @if (guest.author.phone || guest.author.mobile) {
                     <a [href]="'tel:' + (guest.author.phone || guest.author.mobile)"
                        class="inline-flex items-center gap-1.5 text-xs text-on-surface-variant hover:text-primary hover:underline">
-                        <mat-icon class="!w-3.5 !h-3.5 !text-sm">phone</mat-icon>{{ guest.author.phone || guest.author.mobile }}
+                        <mat-icon inline>phone</mat-icon>{{ guest.author.phone || guest.author.mobile }}
                     </a>
                 }
             </div>
