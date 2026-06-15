@@ -1,0 +1,16 @@
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--mat-sys-surface-container-highest);
+  width: fit-content;
+}
+
+.stepper__value {
+  min-width: 2.5em;
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+}
