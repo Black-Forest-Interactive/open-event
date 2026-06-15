@@ -5,21 +5,17 @@
     <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
     @if (info()) {
         <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch lg:overflow-y-auto px-3 pt-3 pb-20 lg:pb-3">
-            <div class="flex flex-col gap-3 flex-auto min-w-0">
-                <mat-card appearance="outlined">
-                    <portal-event-details-info [info]="info()!"/>
-                    <portal-event-host-block [info]="info()!"/>
-                    @if (canEdit()) {
-                        <portal-event-guest-list [info]="info()!"/>
-                    } @else if (registration()) {
-                        <portal-event-participants-stack [info]="info()!" [userParticipant]="userParticipant()"/>
-                    }
-                </mat-card>
+            <div class="flex flex-col flex-auto min-w-0">
+                <portal-event-details-info [info]="info()!"/>
+                <portal-event-host-block [info]="info()!"/>
+                @if (canEdit()) {
+                    <portal-event-guest-list [info]="info()!"/>
+                } @else if (registration()) {
+                    <portal-event-participants-stack [info]="info()!" [userParticipant]="userParticipant()"/>
+                }
                 @if (canEdit() && share()) {
-                    <mat-card appearance="outlined">
-                        <portal-share-details (changed)="setSharingEnabled($event)" [info]="info()!"
-                                              [reloading]="reloading()"/>
-                    </mat-card>
+                    <portal-share-details (changed)="setSharingEnabled($event)" [info]="info()!"
+                                          [reloading]="reloading()"/>
                 }
             </div>
             <div class="flex flex-col gap-3 lg:w-80 lg:shrink-0 lg:sticky lg:top-3 lg:self-start">

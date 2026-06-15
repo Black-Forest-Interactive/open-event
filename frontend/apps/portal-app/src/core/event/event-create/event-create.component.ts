@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { EventCreateComponent as UiEventCreateComponent } from '@open-event/ui'
 import { AddressService, CategoryService, EventService } from '@open-event/portal'
+import { AddressChangeRequest } from '@open-event/core'
 
 @Component({
   selector: 'portal-event-create',
@@ -17,7 +18,8 @@ export class EventCreateComponent {
 
   addressReadAPI = {
     getAllAddresses: (page: number, size: number) => this.addressService.getAddresses(page, size),
-    getAddress: (id: number) => this.addressService.getAddress(id)
+    getAddress: (id: number) => this.addressService.getAddress(id),
+    createAddress: (request: AddressChangeRequest) => this.addressService.createAddress(request)
   }
 
   categoryReadAPI = {

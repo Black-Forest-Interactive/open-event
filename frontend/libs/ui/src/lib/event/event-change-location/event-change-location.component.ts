@@ -1,18 +1,18 @@
-import { Component, computed, effect, inject, input, OnInit, resource } from '@angular/core'
+import { Component, computed, effect, inject, input, OnInit, resource, signal } from '@angular/core'
 import { Address, AddressReadAPI, EventInfo } from '@open-event/core'
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatInputModule } from '@angular/material/input'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatDividerModule } from '@angular/material/divider'
-import { MatSelectChange, MatSelectModule } from '@angular/material/select'
+import { MatButtonToggleModule } from '@angular/material/button-toggle'
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio'
+import { MatCheckboxModule } from '@angular/material/checkbox'
 import { toPromise } from '@open-event/shared'
 
 @Component({
   selector: 'lib-event-change-location',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatDatepickerModule, MatInputModule, MatDividerModule, MatSelectModule, TranslatePipe],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslatePipe, MatButtonToggleModule, MatRadioModule, MatCheckboxModule],
   templateUrl: './event-change-location.component.html',
   styleUrl: './event-change-location.component.scss'
 })
@@ -32,6 +32,8 @@ export class EventChangeLocationComponent implements OnInit {
   loading = this.addressResource.isLoading
   error = this.addressResource.error
 
+  selectedAddress = signal<Address | undefined>(undefined)
+
   constructor() {
     const fb = inject(FormBuilder)
 
@@ -41,7 +43,9 @@ export class EventChangeLocationComponent implements OnInit {
       street: ['', Validators.required],
       streetNumber: ['', Validators.required],
       zip: ['', Validators.required],
-      additionalInfo: ['']
+      additionalInfo: [''],
+      addressMode: ['new'],
+      saveAddress: [true]
     })
 
     effect(() => {
@@ -51,8 +55,9 @@ export class EventChangeLocationComponent implements OnInit {
 
     effect(() => {
       const addresses = this.addresses()
-      if (addresses.length > 0 && !this.fg?.dirty && !this.fg?.valid) {
-        this.setAddress(addresses[0])
+      if (!this.data() && addresses.length > 0 && !this.addressMode.dirty) {
+        this.addressMode.setValue('saved')
+        this.selectAddress(addresses[0])
       }
     })
 
@@ -62,22 +67,25 @@ export class EventChangeLocationComponent implements OnInit {
     })
   }
 
+  get addressMode(): FormControl {
+    return this.fg.get('addressMode') as FormControl
+  }
+
   ngOnInit() {
     this.addressResource.reload()
   }
 
-  handleAddressSelected(event: MatSelectChange) {
-    const address = event.value as Address
-    this.setAddress(address)
+  handleAddressSelected(event: MatRadioChange) {
+    this.selectAddress(event.value as Address)
   }
 
   isVisible(ctrl: string): boolean {
     return this.hiddenFields().find((x) => x == ctrl) == null
   }
 
-  private setAddress(address: Address) {
-    if (!this.fg) return
-    this.fg.setValue({
+  private selectAddress(address: Address) {
+    this.selectedAddress.set(address)
+    this.fg.patchValue({
       street: address.street,
       streetNumber: address.streetNumber,
       zip: address.zip,
@@ -90,13 +98,15 @@ export class EventChangeLocationComponent implements OnInit {
   private handleDataChanged(info: EventInfo) {
     const location = info.location
     if (location) {
-      this.fg.setValue({
+      this.fg.patchValue({
         city: location.city ?? '',
         country: location.country ?? '',
         street: location.street ?? '',
         streetNumber: location.streetNumber ?? '',
         zip: location.zip ?? '',
-        additionalInfo: location.additionalInfo ?? ''
+        additionalInfo: location.additionalInfo ?? '',
+        addressMode: 'new',
+        saveAddress: false
       })
     }
   }

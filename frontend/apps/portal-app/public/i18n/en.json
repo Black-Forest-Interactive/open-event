@@ -34,7 +34,8 @@
       "publish": "Publish Event",
       "admin": "Event Administration",
       "export": "Export",
-      "editBanner": "Change banner"
+      "editBanner": "Change banner",
+      "saveChanges": "Save changes"
     },
     "message": {
       "uploading": "Uploading"
@@ -75,7 +76,12 @@
       "startDate": "Date",
       "startTime": "Start Time",
       "endTime": "End Time",
-      "address": "Select predefined address",
+      "address": {
+        "saved": "Saved address",
+        "new": "New address",
+        "save": "Save address",
+        "saveHint": "The new address will be added to your saved addresses."
+      },
       "street": "Street",
       "nr": "Nr",
       "info": "Additonal Info",
@@ -92,7 +98,8 @@
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
         "maxGuest": "How many guests coult attend to the event",
-        "tags": "Add some custom hashtags"
+        "tags": "Add some custom hashtags",
+        "shortText": "Short description – anything else attendees should know."
       },
       "error": {
         "title": "Please input some title",
@@ -101,7 +108,8 @@
       },
       "admin": {
         "registration": "Event Participants"
-      }
+      },
+      "shortText": "Short description"
     },
     "dialog": {
       "delete": {
@@ -426,6 +434,10 @@
     "action": {
       "add": "Create address",
       "import": "Import addresses"
+    },
+    "message": {
+      "saved": "Address has been saved",
+      "error": "Address could not be saved"
     }
   },
   "share": {

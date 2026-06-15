@@ -1,11 +1,12 @@
 import { Component, computed, inject, resource } from '@angular/core'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressChangeRequest, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
 import { MatTooltip } from '@angular/material/tooltip'
+import { MatCard } from '@angular/material/card'
 import { AddressService, CategoryService, EventService } from '@open-event/portal'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -17,7 +18,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'portal-event-edit',
-  imports: [EventChangeComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, LoadingBarComponent],
+  imports: [EventChangeComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, LoadingBarComponent, MatCard],
   templateUrl: './event-edit.component.html',
   styleUrl: './event-edit.component.scss'
 })
@@ -53,6 +54,9 @@ export class EventEditComponent implements AddressReadAPI, CategoryReadAPI, Even
   }
   getAddress(id: number): Observable<Address> {
     return this.addressService.getAddress(id)
+  }
+  createAddress(request: AddressChangeRequest): Observable<Address> {
+    return this.addressService.createAddress(request)
   }
   getAllCategories(page: number, size: number): Observable<Page<Category>> {
     return this.categoryService.getCategories(page, size)

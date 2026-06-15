@@ -22,6 +22,7 @@ export class EventChangeSingleComponent {
   loading = input.required<boolean>()
   fg = input.required<FormGroup>()
   info = input<EventInfo>()
+  submitLabel = input<string>('action.submit')
 
   submit = output<boolean>()
   cancel = output<boolean>()

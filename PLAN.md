@@ -82,9 +82,72 @@ Source design files: `/tmp/design-fetch/open-house/project/` (`Open Event.html`,
 
 ---
 
+### 11. Phase 1 follow-up: card review ("Karten um die Events")
+- **`event-details.component.html`** — removed the nested `mat-card appearance="outlined"` wrappers around the main-column content (`event-details-info` + `event-host-block` + guest-list/participants-stack, and `share-details`). These sections were already designed with their own `border-t border-outline-variant` dividers (one-card-with-sections pattern), so wrapping them in additional outlined cards inside the page-level `mat-card` produced a "card-in-card" double-border/background look. They now sit directly on the page-level card's surface, separated by their existing dividers. The aside column (booking card + location card) keeps its `appearance="outlined"` cards — those are genuinely standalone sidebar panels.
+- **`share-details.component.html`** — added `border-t border-outline-variant` to its title row (was previously the top of its own `mat-card`, now flows directly after `event-guest-list`/`event-participants-stack` in the flattened main column).
+- **`event-card`/`event-row`** (board `.ecard`/`.erow`) — changed from default `mat-card` appearance (always-on shadow) to `appearance="outlined"` (flat by default), and added `cursor: pointer` + hover state (`border-color: var(--mat-sys-primary)` + elevation shadow) in their `.scss`, since these cards are fully clickable (`routerLink`) but previously had no hover/clickable affordance.
+- Verified via `npx nx build portal-app --configuration=development` (success) and `npx nx lint portal-app` (same 3 pre-existing issues as before, no new ones).
+- **Not done / blocked**: full visual/browser QA of these changes — design source files (`/tmp/design-fetch/...`) were no longer available (ephemeral `/tmp`), and the full stack (Postgres + Keycloak) isn't running in this environment, so changes are code-reviewed but not pixel-verified.
+
+---
+
+### 12. Phase 2: Create/Edit event form
+
+Full approved spec: `/home/oli.e/.claude/plans/fetch-this-design-file-linear-clover.md` (Phase 2). Reworked
+`/event/create`, `/event/edit/:id`, `/event/copy/:id` (all share `lib-event-change`) into a single sectioned form
+matching the design's `CreateEventSheet`/`EditEventSheet`. **Backend untouched.**
+
+- **`libs/core/src/lib/address/address.api.ts`** — added optional `createAddress?(request: AddressChangeRequest):
+  Observable<Address>` to `AddressReadAPI`, implemented by the portal-app pages (`event-create`/`event-edit`/`event-copy`)
+  via their already-injected `AddressService.createAddress`.
+- NEW `category/category-picker/` (`lib-category-picker`) — `.catopt` pill-grid, multi-select, `getCategoryStyle()`
+  hue/icon, OKLCH selected state with dark-mode override.
+- NEW `stepper-input/` (`lib-stepper-input`) — `.stepper` pill with `−`/value/`+` `matIconButton`s, `step`/`min` inputs.
+- **Dropped stepper mode**: `EventChangeComponent`'s `mode` input removed, always renders `EventChangeSingleComponent`.
+  Deleted unused `event-change-stepper/` and `event-change-upload/` (+ barrel exports) — cover-image editing already
+  lives on the event-details hero from Phase 1.
+- **`event-change.component.ts`** — un-hid `shortText` (removed from `hiddenFields`); added `submitLabel` input
+  (default `action.submit`); on submit, if the location form is in "new address" mode with `saveAddress` checked, fires
+  `addressReadAPI().createAddress?.(...)` and toasts via `address.message.saved`/`address.message.error`.
+- **`event-change-single.component.ts/.html`** — restyled into 3 `<section>`s (`event.step.event/location/registration`
+  headers, `.cesec__h`-style `border-b`), `submitLabel` input passed through; footer `matButton="text"` Cancel /
+  `matButton="filled" color="accent"` Submit.
+- **`event-change-general.component.html`** — start/end date and start/end time rows reflowed into
+  `grid grid-cols-2 gap-3` (`.cefields2`). `shortText` field now visible (label/hint i18n keys added).
+- **`event-change-location.component.ts/.html`** — added `addressMode` (`'saved'|'new'`) and `saveAddress` (bool)
+  controls to `fg`. When saved addresses exist: `mat-button-toggle-group` (`event.form.address.saved/new`) +
+  `mat-radio-group` of address cards (selecting one calls existing field-fill logic). "New" mode shows the manual
+  street/nr/zip/city/country/additionalInfo fields (2-col grid pairs) plus a `.cecheck`-style `saveAddress` checkbox
+  (`event.form.address.save/saveHint`). All form-bound elements stay in the DOM (`[class.hidden]`, never `@if`) to avoid
+  Angular's `FormControlName`-removal-on-destroy. For edit/copy, `addressMode` defaults to `'new'` and `saveAddress` to
+  `false` (don't silently add the event's existing location to the address book on every save).
+- **`event-change-registration.component.ts/.html`** — removed dead `get ticketsEnabled()` getter (referenced
+  non-existent `this.form`); `maxGuestAmount` numeric field replaced by `lib-stepper-input` in a `.cecheck`-style row,
+  `min` = `max(1, sum of non-waitlisted info()?.registration?.participants[].size)` (`1` when no registration data, e.g.
+  create); `lib-chip-select-pane` categories replaced by `lib-category-picker` (`allCategories` now exposes `Category[]`
+  directly, `toggleCategory(id)` mutates the `categories` FormControl); `shared` checkbox box restyled to
+  `bg-surface-container rounded-xl p-4`.
+- **Portal pages** (`event-create`/`event-edit`/`event-copy`) — each now implements/exposes `createAddress`; output
+  wrapped in `mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden"` (toolbar stays outside, per Phase 1
+  pattern). `event-create` drops the `mat-slide-toggle` stepper/single mode switch, passes
+  `submitLabel="event.action.publish"`. `event-edit` passes `submitLabel="event.action.saveChanges"` (new key).
+  `event-copy` keeps the default `submitLabel`.
+- **i18n** — added `event.action.saveChanges`, `event.form.shortText`, `event.form.hint.shortText`,
+  `event.form.address.{saved,new,save,saveHint}` (converting `event.form.address` from a leaf string — only used by the
+  now-removed `mat-select` dropdown — into an object), `address.message.{saved,error}` (DE+EN).
+- Verified via `npx nx lint ui` / `npx nx lint portal-app` (same pre-existing issues only, none new — confirmed by diffing
+  against `b5c179f`) and `npx nx build portal-app --configuration=development` (success, same pre-existing Sass
+  deprecation warning only). No `libs/ui` → `libs/portal` import introduced.
+- **Not done / blocked**: browser QA of the new sectioned form, saved/new address toggle, category pill-grid and
+  capacity stepper — no running stack (Postgres + Keycloak) in this environment.
+
+---
+
 ## Pending
 
-None — Phase 1 (tasks 1-10) complete. Browser-based QA per the plan's "Verification" checklist is still recommended before merging.
+Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling,
+event-detail page with the flattened main column, and the new Phase 2 create/edit event form) is still recommended
+before merging.
 
 ---
 
@@ -94,8 +157,7 @@ None — Phase 1 (tasks 1-10) complete. Browser-based QA per the plan's "Verific
 
 ---
 
-## Phase 2-4 (future sessions, not detailed here)
+## Phase 3-4 (future sessions, not detailed here)
 
-- **Phase 2** — Create/Edit event sheets (sectioned bottom sheets, category picker, cover upload, hashtag input).
 - **Phase 3** — Addresses page + Profile screen restyle.
 - **Phase 4** — Default-address backend stub (if needed), notifications restyle, full `.agenda` calendar rebuild, dark-mode QA pass, `event-board-map` `.mapview` venue-grouped sidebar (deferred from task 6).

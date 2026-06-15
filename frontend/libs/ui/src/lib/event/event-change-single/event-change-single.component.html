@@ -1,40 +1,29 @@
-<div class="flex justify-center">
-    <div class="flex flex-col gap-4 justify-center items-stretch p-4 container">
-        <div class="border border-gray-200 rounded-lg">
-            <div class="text-xl font-bold bg-gray-200 px-4 py-2 rounded-t-lg">{{ 'event.step.event' | translate }}</div>
-            <div class="px-4 py-2">
-                <lib-event-change-general [data]="info()" [hiddenFields]="hiddenFields()"
-                                          [parent]="fg()"></lib-event-change-general>
-            </div>
+<div class="flex flex-col gap-6 max-w-2xl mx-auto p-4">
+    <section>
+        <h3 class="text-sm font-semibold pb-2 mb-2 border-b border-outline-variant">{{ 'event.step.event' | translate }}</h3>
+        <div class="flex flex-col gap-4">
+            <lib-event-change-general [data]="info()" [hiddenFields]="hiddenFields()" [parent]="fg()"></lib-event-change-general>
         </div>
-        <div class="border border-gray-200 rounded-lg">
-            <div class="text-xl font-bold bg-gray-200 px-4 py-2 rounded-t-lg">{{ 'event.step.location' | translate }}</div>
-            <div class="px-4 py-2">
-                <lib-event-change-location [addressReadAPI]="addressReadAPI()" [data]="info()"
-                                           [hiddenFields]="hiddenFields()"
-                                           [parent]="fg()"></lib-event-change-location>
-            </div>
+    </section>
+    <section>
+        <h3 class="text-sm font-semibold pb-2 mb-2 border-b border-outline-variant">{{ 'event.step.location' | translate }}</h3>
+        <div class="flex flex-col gap-4">
+            <lib-event-change-location [addressReadAPI]="addressReadAPI()" [data]="info()" [hiddenFields]="hiddenFields()" [parent]="fg()"></lib-event-change-location>
         </div>
-        <div class="border border-gray-200 rounded-lg">
-            <div class="text-xl font-bold bg-gray-200 px-4 py-2 rounded-t-lg">{{ 'event.step.registration' | translate }}</div>
-            <div class="px-4 py-2">
-                <lib-event-change-registration [categoryReadAPI]="categoryReadAPI()" [data]="info()"
-                                               [hiddenFields]="hiddenFields()"
-                                               [parent]="fg()"></lib-event-change-registration>
-            </div>
+    </section>
+    <section>
+        <h3 class="text-sm font-semibold pb-2 mb-2 border-b border-outline-variant">{{ 'event.step.registration' | translate }}</h3>
+        <div class="flex flex-col gap-4">
+            <lib-event-change-registration [categoryReadAPI]="categoryReadAPI()" [data]="info()" [hiddenFields]="hiddenFields()" [parent]="fg()"></lib-event-change-registration>
         </div>
-        <div class="flex gap-4 px-4">
-            <button (click)="submit.emit(true)" [disabled]="!fg().valid && !loading()" color="accent" mat-flat-button
-                    type="submit">
-                <mat-icon>save</mat-icon>
-                {{ 'action.submit' | translate }}
-            </button>
-            <button (click)="cancel.emit(true)" color="warn" mat-flat-button>
-                <mat-icon>close</mat-icon>
-                {{ 'action.cancel' | translate }}
-            </button>
-        </div>
-
+    </section>
+    <div class="flex gap-3 justify-end">
+        <button (click)="cancel.emit(true)" matButton="text" type="button">
+            {{ 'action.cancel' | translate }}
+        </button>
+        <button (click)="submit.emit(true)" [disabled]="!fg().valid && !loading()" color="accent" matButton="filled" type="submit">
+            <mat-icon>save</mat-icon>
+            {{ submitLabel() | translate }}
+        </button>
     </div>
 </div>
-

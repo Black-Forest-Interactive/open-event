@@ -34,7 +34,8 @@
       "publish": "Veranstaltung Veröffentlichen",
       "admin": "Teilnehmer anzeigen",
       "export": "Exportieren",
-      "editBanner": "Banner ändern"
+      "editBanner": "Banner ändern",
+      "saveChanges": "Änderungen speichern"
     },
     "message": {
       "uploading": "Wird hochgeladen"
@@ -75,7 +76,12 @@
       "startDate": "Datum",
       "startTime": "Begin",
       "endTime": "Ende",
-      "address": "Gespeicherte Adresse auswählen",
+      "address": {
+        "saved": "Gespeicherte Adresse",
+        "new": "Neue Adresse",
+        "save": "Adresse speichern",
+        "saveHint": "Die neue Adresse wird zu deinen gespeicherten Adressen hinzugefügt."
+      },
       "street": "Straße",
       "nr": "Nr",
       "info": "Addresszusatz",
@@ -92,13 +98,15 @@
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
-        "tags": "Eigene Hashtags hinzufügen"
+        "tags": "Eigene Hashtags hinzufügen",
+        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst wichtig?"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
         "shortText": "Bitte einen Kurztext angeben",
         "longText": "Bitte eine Beschreibung angeben"
-      }
+      },
+      "shortText": "Kurzbeschreibung"
     },
     "dialog": {
       "delete": {
@@ -406,6 +414,10 @@
     "action": {
       "add": "Neue Adresse anlegen",
       "import": "Bestehende Adressen importieren"
+    },
+    "message": {
+      "saved": "Adresse wurde gespeichert",
+      "error": "Adresse konnte nicht gespeichert werden"
     }
   },
   "share": {

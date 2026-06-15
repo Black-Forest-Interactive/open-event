@@ -1,3 +1,13 @@
+.erow {
+  cursor: pointer;
+  transition: box-shadow 150ms ease, border-color 150ms ease;
+
+  &:hover {
+    border-color: var(--mat-sys-primary);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+
 .erow__media {
   background: oklch(0.93 0.04 var(--h));
   color: oklch(0.42 0.1 var(--h));

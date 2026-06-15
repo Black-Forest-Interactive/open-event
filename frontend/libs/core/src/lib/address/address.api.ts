@@ -32,4 +32,6 @@ export interface AddressReadAPI {
   getAllAddresses(page: number, size: number): Observable<Page<Address>>
 
   getAddress(id: number): Observable<Address>
+
+  createAddress?(request: AddressChangeRequest): Observable<Address>
 }

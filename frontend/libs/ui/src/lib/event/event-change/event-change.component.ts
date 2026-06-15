@@ -1,43 +1,31 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core'
 
 import { MatCardModule } from '@angular/material/card'
-import { MatStepperModule } from '@angular/material/stepper'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { TranslateModule } from '@ngx-translate/core'
-import { Event, EventChangeRequest, EventInfo, EventReadAPI, AddressReadAPI, CategoryReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
+import { TranslateModule, TranslateService } from '@ngx-translate/core'
+import { AddressChangeRequest, AddressReadAPI, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { DateTime } from 'luxon'
 import { LoadingBarComponent } from '@open-event/shared'
-import { EventChangeStepperComponent } from '../event-change-stepper/event-change-stepper.component'
+import { HotToastService } from '@ngxpert/hot-toast'
 import { EventChangeSingleComponent } from '../event-change-single/event-change-single.component'
 
 @Component({
   selector: 'lib-event-change',
-  imports: [
-    MatCardModule,
-    MatStepperModule,
-    MatIconModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    LoadingBarComponent,
-    EventChangeStepperComponent,
-    EventChangeSingleComponent
-  ],
+  imports: [MatCardModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, TranslateModule, LoadingBarComponent, EventChangeSingleComponent],
   templateUrl: './event-change.component.html',
   styleUrl: './event-change.component.scss'
 })
 export class EventChangeComponent {
   event = input<Event>()
   info = signal<EventInfo | undefined>(undefined)
-  mode = input<string>('single')
+  submitLabel = input<string>('action.submit')
   request = output<EventChangeRequest>()
   cancel = output<boolean>()
 
-  hiddenFields: string[] = ['shortText', 'iconUrl', 'imageUrl', 'endDate', 'interestedAllowed', 'ticketsEnabled']
+  hiddenFields: string[] = ['iconUrl', 'imageUrl', 'endDate', 'interestedAllowed', 'ticketsEnabled']
 
   loading: boolean = false
 
@@ -46,6 +34,9 @@ export class EventChangeComponent {
   eventReadAPI = input.required<EventReadAPI>()
 
   fg: FormGroup
+
+  private translateService = inject(TranslateService)
+  private toast = inject(HotToastService)
 
   constructor() {
     const fb = inject(FormBuilder)
@@ -65,7 +56,20 @@ export class EventChangeComponent {
 
     if (!request) return
     this.loading = true
+    this.saveNewAddress(value.location)
     this.request.emit(request)
+  }
+
+  private saveNewAddress(location: any) {
+    if (location.addressMode !== 'new' || !location.saveAddress) return
+    const createAddress = this.addressReadAPI().createAddress
+    if (!createAddress) return
+
+    const request = new AddressChangeRequest(location.street, location.streetNumber, location.zip, location.city, location.country, location.additionalInfo, 0, 0)
+    createAddress(request).subscribe({
+      next: () => this.translateService.get('address.message.saved').subscribe((t) => this.toast.success(t)),
+      error: () => this.translateService.get('address.message.error').subscribe((t) => this.toast.error(t))
+    })
   }
 
   private isEndHidden() {
