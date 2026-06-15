@@ -231,6 +231,28 @@ Follow-up after the user reviewed the live board (dev server + full stack runnin
 
 ---
 
+### 16. Events board polish round 4 — icon sizing on cards, organizer-as-participant buttons
+
+- **`event-card.component.html`/`event-row.component.html`** — replaced the `!w-X !h-X !text-Y` icon-size overrides
+  with `<mat-icon inline>`, following the established pattern from `search.component.html` (icon scales via
+  inherited `font-size` instead of fixed pixel width/height). The media icon's size now comes from `text-5xl` on
+  the surrounding `.ecard__media` container; the date/place icons inherit the row's `text-sm`/`text-xs`.
+- **`registration-details.component.html`** — root cause for "Teilnahme ändern/Absagen-Button fehlt immer noch":
+  the template used `@if (canEdit()) {...} @else {...}`, so an organizer who is *also* registered as a participant
+  in their own event only ever saw the organizer view (badge, capacity, edit-event/export) — the
+  `userParticipant()`-gated "Angemeldet" badge + "Teilnahme ändern"/"Absagen" buttons were in the `@else` branch and
+  never rendered for them. Restructured so the organizer block and the participant block are independent
+  conditions — an organizer who is also a participant now sees both. Also converted its two `!w-...!h-...!text-...`
+  icons (`shield`, `check`) to `<mat-icon inline>`.
+- **`event-bookbar.component.ts`/`.html`** (mobile bottom bar) — added a missing `edit` output and "Teilnahme
+  ändern" button next to "Absagen" for registered participants, mirroring the desktop sidebar. Wired
+  `(edit)="editSelf()"` in `event-details.component.html`.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
