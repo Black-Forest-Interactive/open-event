@@ -22,8 +22,10 @@
             }
         </div>
     </div>
-    <div class="hidden sm:block w-40 shrink-0">
-        <lib-registration-status [compact]="true" [entry]="entry()"></lib-registration-status>
-    </div>
+    @if (hasRegistration()) {
+        <div class="hidden sm:block w-40 shrink-0">
+            <lib-registration-status [compact]="true" [entry]="entry()"></lib-registration-status>
+        </div>
+    }
     <mat-icon class="text-on-surface-variant">chevron_right</mat-icon>
 </mat-card>

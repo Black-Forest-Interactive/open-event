@@ -172,6 +172,36 @@ Follow-up after Phase 2 review of the live board. **Backend untouched.**
 
 ---
 
+### 14. Events board polish round 2 — flat filter, "empty" registration pill, attendee buttons
+
+Follow-up after the user reviewed the live board (dev server + full stack running). **Backend untouched.**
+
+- **`event-board-filter.component.html`** — removed the "Erweitert" grouping entirely (point: "warum erweitert ..
+  es gibt einfach Filter und gut"). The "when" preset pills (any/today/weekend/next week) and the date-range picker
+  — previously split between the top of the card and the now-removed "Erweitert" section — are now ONE group under
+  the existing `event.filter.whenLabel` ("Zeitraum"/"Period") heading, which already fit both concepts. The
+  history/own/participating toggle buttons now render as a plain unlabeled row (no special "advanced" tier) right
+  before the reset button — one flat, harmonious filter list. Removed the now-unused `event.filter.advanced` key
+  from `de.json`/`en.json`.
+- **`event-card`/`event-row`** — added `hasRegistration = computed(() => entry().maxGuestAmount > 0)` and wrapped
+  `<lib-registration-status>` in `@if (hasRegistration())`. Root cause of "die card ist kompletter Blödsinn": the
+  backend defaults `maxGuestAmount`/`remainingSpace` to `0` for events with no `Registration` configured
+  (`EventSearchEntryData.kt:61-65`), so every such event showed a misleading "0/0 · 0 Plätze frei" status pill —
+  i.e. nearly every card on the board looked identical/broken regardless of the actual event. Now cards for
+  events without a registration/capacity system simply omit the status pill.
+- **`event-details.component.ts`** — `userParticipant` email match against the Keycloak principal is now
+  case-insensitive. `registration-details`/`event-bookbar` already implement the "Teilnahme ändern"/"Absagen"
+  buttons for attendees (gated on `userParticipant()`); an exact-case email mismatch was the most likely reason a
+  registered attendee never matched and only ever saw the "Teilnehmen" button.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — headless Firefox crashes in this sandbox (XPIProvider abort,
+  no working profile found), no chromium/playwright installed, and a portal-app session needs a Keycloak login this
+  session has no credentials for. The registration-status fix and the email-match fix are both best-effort
+  diagnoses pending user confirmation against the live app (dev server on :4200, backend on :8080 are running).
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and

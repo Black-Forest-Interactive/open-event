@@ -71,9 +71,10 @@ export class EventDetailsComponent {
   })
   readonly info = computed(() => this.infoResource.value())
   readonly reloading = this.infoResource.isLoading
-  readonly userParticipant = computed(() =>
-    this.registration()?.participants.find((p) => p.author.email === this.authService.getPrincipal()?.email)
-  )
+  readonly userParticipant = computed(() => {
+    const email = this.authService.getPrincipal()?.email.toLowerCase()
+    return this.registration()?.participants.find((p) => p.author.email.toLowerCase() === email)
+  })
 
   reload() {
     this.infoResource.reload()

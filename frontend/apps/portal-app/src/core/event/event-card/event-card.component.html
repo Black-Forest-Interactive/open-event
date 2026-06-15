@@ -27,7 +27,9 @@
             }
         </div>
         <div class="flex-auto"></div>
-        <lib-registration-status [entry]="entry()" class="pt-1"></lib-registration-status>
+        @if (hasRegistration()) {
+            <lib-registration-status [entry]="entry()" class="pt-1"></lib-registration-status>
+        }
         <button class="mt-1" color="accent" matButton="outlined" routerLink="./details/{{ id() }}">
             {{ 'event.board.details' | translate }}
         </button>

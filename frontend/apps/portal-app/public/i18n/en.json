@@ -133,7 +133,6 @@
       },
       "category": "Category",
       "onlyAvailable": "Only available",
-      "advanced": "Advanced",
       "range": {
         "label": "Enter a date range",
         "today": "Only tody",

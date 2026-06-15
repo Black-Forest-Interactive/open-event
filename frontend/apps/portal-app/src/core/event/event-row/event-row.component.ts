@@ -23,4 +23,5 @@ export class EventRowComponent {
   readonly city = computed(() => this.entry().city)
   readonly categories = computed(() => this.entry().categories)
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0] ?? ''))
+  readonly hasRegistration = computed(() => this.entry().maxGuestAmount > 0)
 }

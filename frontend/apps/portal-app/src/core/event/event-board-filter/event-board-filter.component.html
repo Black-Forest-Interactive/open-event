@@ -9,6 +9,21 @@
                 </button>
             }
         </div>
+        <mat-form-field class="dense-1" subscriptSizing="dynamic">
+            <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
+            <mat-date-range-input [formGroup]="service.range" [rangePicker]="picker">
+                <input formControlName="start" matStartDate placeholder="{{ 'event.filter.range.start' | translate }}">
+                <input formControlName="end" matEndDate placeholder="{{ 'event.filter.range.end' | translate }}">
+            </mat-date-range-input>
+            <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+            <mat-date-range-picker #picker (closed)="onDateRangePickerClosed()"></mat-date-range-picker>
+            @if (service.range.controls.start.hasError('matStartDateInvalid')) {
+                <mat-error>{{ 'event.filter.range.errorStart' | translate }}</mat-error>
+            }
+            @if (service.range.controls.end.hasError('matEndDateInvalid')) {
+                <mat-error>{{ 'event.filter.range.errorEnd' | translate }}</mat-error>
+            }
+        </mat-form-field>
     </div>
 
     <div class="flex flex-col gap-2">
@@ -32,41 +47,19 @@
 
     <mat-divider></mat-divider>
 
-    <mat-divider></mat-divider>
-
-    <div class="flex flex-col gap-2">
-        <span class="text-sm font-semibold text-on-surface-variant">{{ 'event.filter.advanced' | translate }}</span>
-
-        <mat-form-field class="dense-1" subscriptSizing="dynamic">
-            <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
-            <mat-date-range-input [formGroup]="service.range" [rangePicker]="picker">
-                <input formControlName="start" matStartDate placeholder="{{ 'event.filter.range.start' | translate }}">
-                <input formControlName="end" matEndDate placeholder="{{ 'event.filter.range.end' | translate }}">
-            </mat-date-range-input>
-            <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-            <mat-date-range-picker #picker (closed)="onDateRangePickerClosed()"></mat-date-range-picker>
-            @if (service.range.controls.start.hasError('matStartDateInvalid')) {
-                <mat-error>{{ 'event.filter.range.errorStart' | translate }}</mat-error>
-            }
-            @if (service.range.controls.end.hasError('matEndDateInvalid')) {
-                <mat-error>{{ 'event.filter.range.errorEnd' | translate }}</mat-error>
-            }
-        </mat-form-field>
-
-        <div class="flex flex-wrap gap-2">
-            <button (click)="service.toggleShowHistory()" [matButton]="service.showHistory() ? 'filled' : 'outlined'" color="accent" type="button">
-                <mat-icon>history</mat-icon>
-                {{ 'event.filter.history' | translate }}
-            </button>
-            <button (click)="service.toggleOwnEvents()" [matButton]="service.showOwnOnly() ? 'filled' : 'outlined'" color="accent" type="button">
-                <mat-icon>copyright</mat-icon>
-                {{ 'event.filter.own' | translate }}
-            </button>
-            <button (click)="service.toggleParticipatingEvents()" [matButton]="service.showParticipatingOnly() ? 'filled' : 'outlined'" color="accent" type="button">
-                <mat-icon>3p</mat-icon>
-                {{ 'event.filter.participating' | translate }}
-            </button>
-        </div>
+    <div class="flex flex-wrap gap-2">
+        <button (click)="service.toggleShowHistory()" [matButton]="service.showHistory() ? 'filled' : 'outlined'" color="accent" type="button">
+            <mat-icon>history</mat-icon>
+            {{ 'event.filter.history' | translate }}
+        </button>
+        <button (click)="service.toggleOwnEvents()" [matButton]="service.showOwnOnly() ? 'filled' : 'outlined'" color="accent" type="button">
+            <mat-icon>copyright</mat-icon>
+            {{ 'event.filter.own' | translate }}
+        </button>
+        <button (click)="service.toggleParticipatingEvents()" [matButton]="service.showParticipatingOnly() ? 'filled' : 'outlined'" color="accent" type="button">
+            <mat-icon>3p</mat-icon>
+            {{ 'event.filter.participating' | translate }}
+        </button>
     </div>
 
     <button (click)="service.resetFilter()" color="warn" matButton="outlined">
