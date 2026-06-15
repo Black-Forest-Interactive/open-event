@@ -1,38 +1,37 @@
-@if (canEdit()) {
-    <div class="flex flex-col gap-3 p-4">
+<div class="flex flex-col gap-3 p-4">
+    @if (canEdit()) {
         <span class="inline-flex items-center gap-1.5 self-start text-xs font-semibold text-on-secondary-container bg-secondary-container rounded-lg px-2.5 py-1">
-            <mat-icon class="!w-4 !h-4 !text-base">shield</mat-icon>{{ 'registration.organizer' | translate }}
+            <mat-icon inline>shield</mat-icon>{{ 'registration.organizer' | translate }}
         </span>
         <div class="text-2xl font-medium leading-none">
             {{ taken() }}<span class="text-sm font-normal text-on-surface-variant ml-1">/{{ capacity() }} {{ 'registration.count' | translate }}</span>
         </div>
-        <lib-registration-status [data]="registration()"></lib-registration-status>
+    } @else {
+        <div class="text-lg font-medium">{{ 'registration.free' | translate }}</div>
+    }
+    <lib-registration-status [data]="registration()"></lib-registration-status>
+    @if (canEdit()) {
         <div class="flex items-center gap-2">
             <button [routerLink]="'/event/edit/' + event().id" class="flex-1" matButton="filled">
                 <mat-icon>edit</mat-icon>{{ 'event.action.edit' | translate }}
             </button>
             <portal-event-action-export [event]="event()"></portal-event-action-export>
         </div>
-    </div>
-} @else {
-    <div class="flex flex-col gap-3 p-4">
-        <div class="text-lg font-medium">{{ 'registration.free' | translate }}</div>
-        <lib-registration-status [data]="registration()"></lib-registration-status>
-        @if (userParticipant()) {
-            <div class="flex items-center justify-center gap-2 rounded-full bg-secondary-container text-on-secondary-container py-3 text-sm font-semibold">
-                <mat-icon class="!w-[18px] !h-[18px] !text-[18px]">check</mat-icon>{{ 'registration.bookbar.registered' | translate }}
-            </div>
-            <button (click)="edit.emit()" [disabled]="reloading()" matButton="outlined">
-                <mat-icon>manage_accounts</mat-icon>{{ 'registration.action.edit' | translate }}
-            </button>
-            <button (click)="cancelParticipation.emit()" [disabled]="reloading()" matButton="outlined">
-                <mat-icon>person_remove</mat-icon>{{ 'registration.action.cancel' | translate }}
-            </button>
-        } @else {
-            <button (click)="participate.emit()" [disabled]="reloading() || isFull()" matButton="filled">
-                <mat-icon>confirmation_number</mat-icon>
-                {{ (isFull() ? 'registration.availability.soldOut' : 'registration.action.participate') | translate }}
-            </button>
-        }
-    </div>
-}
+    }
+    @if (userParticipant()) {
+        <div class="flex items-center justify-center gap-2 rounded-full bg-secondary-container text-on-secondary-container py-3 text-sm font-semibold">
+            <mat-icon inline>check</mat-icon>{{ 'registration.bookbar.registered' | translate }}
+        </div>
+        <button (click)="edit.emit()" [disabled]="reloading()" matButton="outlined">
+            <mat-icon>manage_accounts</mat-icon>{{ 'registration.action.edit' | translate }}
+        </button>
+        <button (click)="cancelParticipation.emit()" [disabled]="reloading()" matButton="outlined">
+            <mat-icon>person_remove</mat-icon>{{ 'registration.action.cancel' | translate }}
+        </button>
+    } @else if (!canEdit()) {
+        <button (click)="participate.emit()" [disabled]="reloading() || isFull()" matButton="filled">
+            <mat-icon>confirmation_number</mat-icon>
+            {{ (isFull() ? 'registration.availability.soldOut' : 'registration.action.participate') | translate }}
+        </button>
+    }
+</div>

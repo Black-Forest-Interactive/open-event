@@ -11,12 +11,12 @@
         </div>
         <div class="flex items-center gap-3 text-xs text-on-surface-variant flex-wrap">
             <span class="flex items-center gap-1">
-                <mat-icon class="!w-3.5 !h-3.5 !text-sm">event</mat-icon>
+                <mat-icon inline>event</mat-icon>
                 {{ start() | date: 'mediumDate' }} · {{ start() | date: 'shortTime' }} - {{ finish() | date: 'shortTime' }}
             </span>
             @if (hasLocation()) {
                 <span class="flex items-center gap-1">
-                    <mat-icon class="!w-3.5 !h-3.5 !text-sm">place</mat-icon>
+                    <mat-icon inline>place</mat-icon>
                     {{ city() }}
                 </span>
             }

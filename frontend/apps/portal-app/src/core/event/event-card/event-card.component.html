@@ -1,6 +1,6 @@
 <mat-card appearance="outlined" class="ecard flex flex-col overflow-hidden h-full" routerLink="./details/{{ id() }}">
-    <div [style.--h]="mediaStyle().hue" class="ecard__media flex items-center justify-center h-32">
-        <mat-icon class="!w-12 !h-12 !text-5xl">{{ mediaStyle().icon }}</mat-icon>
+    <div [style.--h]="mediaStyle().hue" class="ecard__media flex items-center justify-center h-32 text-5xl">
+        <mat-icon inline>{{ mediaStyle().icon }}</mat-icon>
     </div>
     <div class="flex flex-col gap-2 p-4 flex-auto">
         @if (categories().length > 0) {
@@ -16,12 +16,12 @@
         }
         <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
             <div class="flex items-center gap-2">
-                <mat-icon class="!w-4 !h-4 !text-base">event</mat-icon>
+                <mat-icon inline>event</mat-icon>
                 <span>{{ start() | date: 'mediumDate' }} · {{ start() | date: 'shortTime' }} - {{ finish() | date: 'shortTime' }}</span>
             </div>
             @if (hasLocation()) {
                 <div class="flex items-center gap-2">
-                    <mat-icon class="!w-4 !h-4 !text-base">place</mat-icon>
+                    <mat-icon inline>place</mat-icon>
                     <span>{{ street() }} {{ streetNumber() }}, {{ city() }}</span>
                 </div>
             }

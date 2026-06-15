@@ -36,6 +36,6 @@
     }
 </mat-card>
 @if (info() && registration()) {
-    <portal-event-bookbar (cancelParticipation)="cancelSelf()" (participate)="participateSelf()" [info]="info()!"
+    <portal-event-bookbar (cancelParticipation)="cancelSelf()" (edit)="editSelf()" (participate)="participateSelf()" [info]="info()!"
                           [reloading]="registrationReloading()" [userParticipant]="userParticipant()"/>
 }

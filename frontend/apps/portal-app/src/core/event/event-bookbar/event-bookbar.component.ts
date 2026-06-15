@@ -19,6 +19,7 @@ export class EventBookbarComponent {
   reloading = input(false)
 
   participate = output<void>()
+  edit = output<void>()
   cancelParticipation = output<void>()
 
   readonly event = computed(() => this.info().event)
