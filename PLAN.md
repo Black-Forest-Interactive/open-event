@@ -288,6 +288,26 @@ rounds 3-4's `<mat-icon inline>` and `MatCard` import fixes consistently.
 
 ---
 
+### 18. Events board polish round 6 — self-review: legacy Material button syntax
+
+Continuation of round 5's self-review, this time covering the third item ("Buttons") of the original review request.
+Pure syntax migration to Angular Material 21's directive form (`matButton="filled"/"outlined"`, `matIconButton`) —
+same visual styling, no behavior change, `MatButton`/`MatIconButton` were already imported everywhere.
+
+- **`event-board.component.html`** — mobile filter-icon button: `mat-icon-button` → `matIconButton`.
+- **`event-delete-dialog.component.html`** — both confirm-dialog buttons: `mat-button mat-stroked-button` →
+  `matButton="outlined"`.
+- **`registration-cancel-dialog.component.html`**, **`registration-edit-dialog.component.html`**,
+  **`registration-participate-manual-dialog.component.html`** — submit/cancel buttons: `mat-flat-button` →
+  `matButton="filled"`.
+- These 4 dialogs are the only remaining `MatDialog`-based components in the event/registration area (kept as-is per
+  task 9); only their button directive syntax was touched, not their structure/styling.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: live browser confirmation — same sandbox limitation as previous rounds.
+
+---
+
 ## Pending
 
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and

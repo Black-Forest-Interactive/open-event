@@ -14,7 +14,7 @@
 
         <div class="flex flex-1 items-center justify-end gap-2 min-w-0">
             @if (mobileView()) {
-                <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" mat-icon-button
+                <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" matIconButton
                         matBadgeColor="accent" matBadgeSize="small">
                     <mat-icon>filter_list</mat-icon>
                 </button>
