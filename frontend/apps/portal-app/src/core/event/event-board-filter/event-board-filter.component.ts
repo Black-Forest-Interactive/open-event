@@ -9,7 +9,6 @@ import { MatIcon } from '@angular/material/icon'
 import { MatDivider } from '@angular/material/divider'
 import { MatError, MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field'
 import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker } from '@angular/material/datepicker'
-import { MatExpansionModule } from '@angular/material/expansion'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatButton } from '@angular/material/button'
@@ -31,7 +30,6 @@ import { MatButton } from '@angular/material/button'
     MatDatepickerToggle,
     MatDateRangePicker,
     ReactiveFormsModule,
-    MatExpansionModule,
     MatSlideToggle,
     MatButton,
     CategoryChipComponent,

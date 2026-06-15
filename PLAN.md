@@ -143,11 +143,40 @@ matching the design's `CreateEventSheet`/`EditEventSheet`. **Backend untouched.*
 
 ---
 
+### 13. Events board polish — agenda calendar, harmonious filter, header reorder
+
+Full approved spec: `/home/oli.e/.claude/plans/fetch-this-design-file-linear-clover.md` (Events Board polish).
+Follow-up after Phase 2 review of the live board. **Backend untouched.**
+
+- **`event-board-calendar/`** — FullCalendar removed entirely (`@fullcalendar/angular`/`core`/`daygrid` uninstalled
+  from `package.json`; only consumer was this component). `event-board-calendar.component.scss` deleted. New
+  implementation groups `EventBoardService.entries()` by date (`entry.start.substring(0, 10)`) into a `groups`
+  computed signal and renders the design's `.agenda` concept: a date header (day number, weekday/month, `N× Event`
+  count badge, divider rule) per day, followed by the existing `<portal-event-row>` (`mat-card`-based) for each
+  entry — fulfils both "kalender komplett rauswerfen" and "die card ist selbst gebasteltes statt der material card"
+  (the FullCalendar day-grid/event chips were the only non-Material "cards" on the board). Same empty state as
+  `event-board-list`. This also completes the `.agenda` calendar rebuild previously deferred to Phase 4.
+- **`event-board-filter.component.html/.ts`** — removed the `mat-accordion`/`mat-expansion-panel` "Erweitert" section.
+  Its contents (date-range picker + history/own/participating toggle buttons) now render directly as a labeled group
+  (same `flex flex-col gap-2` + label pattern as the "when"/"category" groups, using the existing
+  `event.filter.advanced` key as the group heading), right before the reset button — one flat, harmonious filter
+  panel. Removed the now-unused `MatExpansionModule` import.
+- **`event-board.component.html`** — desktop header reordered into 3 flex zones: left (`flex-1`) = search +
+  result-count, center = "Veranstaltung erstellen" button, right (`flex-1 justify-end`) = mobile filter icon button +
+  the cards/rows/calendar/map `mat-button-toggle-group`. Same elements as before, just regrouped — degrades cleanly on
+  mobile too.
+- Verified via `npx nx lint portal-app` (same 3 pre-existing issues only, none new) and
+  `npx nx build portal-app --configuration=development` (success, same pre-existing Sass deprecation warning only).
+- **Not done / blocked**: browser QA of the new agenda view, flattened filter panel, and reordered header — no running
+  stack in this environment.
+
+---
+
 ## Pending
 
-Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling,
-event-detail page with the flattened main column, and the new Phase 2 create/edit event form) is still recommended
-before merging.
+Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
+the new agenda calendar view, the flattened filter panel and reordered header, event-detail page with the flattened
+main column, and the Phase 2 create/edit event form) is still recommended before merging.
 
 ---
 
@@ -160,4 +189,5 @@ before merging.
 ## Phase 3-4 (future sessions, not detailed here)
 
 - **Phase 3** — Addresses page + Profile screen restyle.
-- **Phase 4** — Default-address backend stub (if needed), notifications restyle, full `.agenda` calendar rebuild, dark-mode QA pass, `event-board-map` `.mapview` venue-grouped sidebar (deferred from task 6).
+- **Phase 4** — Default-address backend stub (if needed), notifications restyle, dark-mode QA pass, `event-board-map`
+  `.mapview` venue-grouped sidebar (deferred from task 6).

@@ -1,37 +1,43 @@
 <div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
     <div class="flex items-center gap-2">
-        <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" placeholder="event.search"></lib-board-search>
-        <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
-            <b>{{ service.totalSize() }}</b> {{ 'event.board.results' | translate }}
-        </span>
-        <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0">
-            <mat-button-toggle (click)="service.setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="service.layout() === 'cards'"
-                                value="cards">
-                <mat-icon>grid_view</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (click)="service.setLayout('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="service.layout() === 'rows'"
-                                value="rows">
-                <mat-icon>view_list</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (click)="service.setLayout('calendar')" [attr.aria-label]="'event.board.calendar' | translate" [checked]="service.layout() === 'calendar'"
-                                value="calendar">
-                <mat-icon>calendar_month</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (click)="service.setLayout('map')" [attr.aria-label]="'event.board.map' | translate" [checked]="service.layout() === 'map'"
-                                value="map">
-                <mat-icon>map</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-        @if (mobileView()) {
-            <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" mat-icon-button
-                    matBadgeColor="accent" matBadgeSize="small">
-                <mat-icon>filter_list</mat-icon>
-            </button>
-        }
-        <button color="accent" matButton="filled" routerLink="./create">
+        <div class="flex flex-1 items-center gap-2 min-w-0">
+            <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" placeholder="event.search"></lib-board-search>
+            <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
+                <b>{{ service.totalSize() }}</b> {{ 'event.board.results' | translate }}
+            </span>
+        </div>
+
+        <button color="accent" matButton="filled" routerLink="./create" class="shrink-0">
             <mat-icon>add</mat-icon>
             <span class="hidden sm:inline">{{ 'event.create' | translate }}</span>
         </button>
+
+        <div class="flex flex-1 items-center justify-end gap-2 min-w-0">
+            @if (mobileView()) {
+                <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" mat-icon-button
+                        matBadgeColor="accent" matBadgeSize="small">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            }
+            <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0">
+                <mat-button-toggle (click)="service.setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="service.layout() === 'cards'"
+                                    value="cards">
+                    <mat-icon>grid_view</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="service.setLayout('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="service.layout() === 'rows'"
+                                    value="rows">
+                    <mat-icon>view_list</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="service.setLayout('calendar')" [attr.aria-label]="'event.board.calendar' | translate" [checked]="service.layout() === 'calendar'"
+                                    value="calendar">
+                    <mat-icon>calendar_month</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="service.setLayout('map')" [attr.aria-label]="'event.board.map' | translate" [checked]="service.layout() === 'map'"
+                                    value="map">
+                    <mat-icon>map</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
     </div>
 
     @if (activeFilterCount() > 0) {
