@@ -5,7 +5,9 @@ Full approved spec: `/home/oli.e/.claude/plans/fetch-this-design-file-linear-clo
 Source design files: `/tmp/design-fetch/open-house/project/` (`Open Event.html`, `app/app.jsx`, `app/data.jsx`, `app/ui.jsx`).
 
 **Hard constraints (still in force):**
-- Do **not** touch `AppFooterComponent` (`frontend/libs/ui/src/lib/layout/app-footer/`).
+- Do **not** redesign `AppFooterComponent` (`frontend/libs/ui/src/lib/layout/app-footer/`) as part of the visual
+  overhaul — it already matched the design in Phase 1. Targeted non-redesign bug fixes (e.g. the dark-mode token fix
+  in task 23) are fine.
 - App shell (toolbar/sidenav) already matches the design — no changes needed there.
 - Reuse the existing backend wherever possible; add only minimal stubs for missing data.
 
@@ -483,12 +485,6 @@ both themes. Backend untouched, no logic changes — token mappings and class sw
 Browser-based QA per the plan's "Verification" checklist (board layouts incl. the new card hover/outline styling and
 the new agenda calendar view, the flattened filter panel and reordered header, event-detail page with the flattened
 main column, and the Phase 2 create/edit event form) is still recommended before merging.
-
----
-
-## Known breakages (intentional, mid-refactor)
-
-- `registration-details/registration-details.component.html` — the `[vertical]="true"` binding on `lib-registration-status` (removed in task 1) was already stripped as an interim fix so the build passes; the **full booking-card restyle** still happens in task 8.
 
 ---
 
