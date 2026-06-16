@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.3.21"
-    kotlin("plugin.allopen") version "2.3.21"
-    kotlin("plugin.jpa") version "2.3.21"
-    kotlin("plugin.serialization") version "2.3.21"
+    kotlin("jvm") version "2.4.0"
+    kotlin("plugin.allopen") version "2.4.0"
+    kotlin("plugin.jpa") version "2.4.0"
+    kotlin("plugin.serialization") version "2.4.0"
 
-    id("com.google.devtools.ksp") version "2.3.7"
+    id("com.google.devtools.ksp") version "2.3.9"
     id("org.sonarqube") version "7.3.1.8318"
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.3"
@@ -57,8 +57,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.34")
     runtimeOnly("org.yaml:snakeyaml")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.0")
     testImplementation("io.mockk:mockk:1.14.11")
 
     // jackson
@@ -90,8 +90,8 @@ dependencies {
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.3.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.21")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.4.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.4.0")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
