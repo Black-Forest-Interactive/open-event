@@ -429,7 +429,8 @@
       "add": "Neue Adresse anlegen",
       "import": "Bestehende Adressen importieren",
       "default": "Standard",
-      "setDefault": "Als Standard setzen"
+      "setDefault": "Als Standard setzen",
+      "makeDefault": "Als Standard speichern"
     },
     "message": {
       "saved": "Adresse wurde gespeichert",

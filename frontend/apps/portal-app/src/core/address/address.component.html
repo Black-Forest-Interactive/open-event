@@ -32,8 +32,8 @@
                 <mat-card appearance="outlined" class="flex flex-col">
                     <div class="flex flex-col gap-3 p-4 flex-1">
                         <div class="flex items-center gap-3">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-[11px] bg-primary-container text-on-primary-container shrink-0 text-xl">
-                                <mat-icon inline>location_on</mat-icon>
+                            <div class="flex items-center justify-center w-9 h-9 text-on-surface-variant shrink-0">
+                                <mat-icon>location_on</mat-icon>
                             </div>
                             <span class="font-semibold text-on-surface">{{ entry.street }} {{ entry.streetNumber }}</span>
                         </div>
@@ -47,12 +47,12 @@
                     <div class="flex items-center justify-between border-t border-outline-variant px-2 py-1">
                         <div>
                             @if (entry.standard) {
-                                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
-                                    <mat-icon inline>star</mat-icon>
+                                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-medium">
+                                    <mat-icon inline>check</mat-icon>
                                     {{ 'address.action.default' | translate }}
                                 </span>
                             } @else {
-                                <button (click)="setDefault(entry)" matButton="outlined">
+                                <button (click)="setDefault(entry)" matButton="text">
                                     {{ 'address.action.setDefault' | translate }}
                                 </button>
                             }

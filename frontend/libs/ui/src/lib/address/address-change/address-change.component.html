@@ -10,10 +10,6 @@
                 <input formControlName="streetNumber" matInput required>
             </mat-form-field>
         </div>
-        <mat-form-field class="dense-1 flex-auto">
-            <mat-label>{{ 'address.property.info' | translate }}</mat-label>
-            <input formControlName="additionalInfo" matInput>
-        </mat-form-field>
         <div class="grid grid-cols-[6.5rem_1fr] gap-3">
             <mat-form-field class="dense-1">
                 <mat-label>{{ 'address.property.zip' | translate }}</mat-label>
@@ -24,6 +20,10 @@
                 <input formControlName="city" matInput required>
             </mat-form-field>
         </div>
+        <mat-form-field class="dense-1 flex-auto">
+            <mat-label>{{ 'address.property.info' | translate }}</mat-label>
+            <input formControlName="additionalInfo" matInput>
+        </mat-form-field>
         <mat-form-field class="dense-1 flex-auto">
             <mat-label>{{ 'address.property.country' | translate }}</mat-label>
             <input formControlName="country" matInput required>

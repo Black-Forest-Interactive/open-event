@@ -7,6 +7,11 @@
 </h1>
 <div mat-dialog-content>
     <lib-address-change #change (request)="handleRequest($event)" [data]="data"></lib-address-change>
+    <div class="flex items-center gap-3 pt-2">
+        <mat-slide-toggle [checked]="makeDefault()" (change)="makeDefault.set($event.checked)">
+            {{ 'address.action.makeDefault' | translate }}
+        </mat-slide-toggle>
+    </div>
 </div>
 <mat-dialog-actions align="end">
     <button (click)="change.submit()" [disabled]="!change.fg.valid" color="primary" matButton="filled">

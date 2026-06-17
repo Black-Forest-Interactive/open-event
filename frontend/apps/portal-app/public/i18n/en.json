@@ -449,7 +449,8 @@
       "add": "Create address",
       "import": "Import addresses",
       "default": "Default",
-      "setDefault": "Set as default"
+      "setDefault": "Set as default",
+      "makeDefault": "Save as default"
     },
     "message": {
       "saved": "Address has been saved",

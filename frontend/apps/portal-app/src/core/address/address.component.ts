@@ -45,7 +45,13 @@ export class AddressComponent {
       .open(AddressChangeDialogComponent, { data: undefined })
       .afterClosed()
       .subscribe((result) => {
-        if (result) this.service.createAddress(result).subscribe({ next: () => this.addressResource.reload() })
+        if (!result) return
+        this.service.createAddress(result.request).subscribe({
+          next: (created) => {
+            if (result.makeDefault) this.service.setDefault(created.id).subscribe({ next: () => this.addressResource.reload() })
+            else this.addressResource.reload()
+          }
+        })
       })
   }
 
@@ -54,7 +60,13 @@ export class AddressComponent {
       .open(AddressChangeDialogComponent, { data: a })
       .afterClosed()
       .subscribe((result) => {
-        if (result) this.service.updateAddress(a.id, result).subscribe({ next: () => this.addressResource.reload() })
+        if (!result) return
+        this.service.updateAddress(a.id, result.request).subscribe({
+          next: () => {
+            if (result.makeDefault) this.service.setDefault(a.id).subscribe({ next: () => this.addressResource.reload() })
+            else this.addressResource.reload()
+          }
+        })
       })
   }
 
