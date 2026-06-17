@@ -49,8 +49,17 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             if (request.onlyAvailableEvents) {
                 filter(term(EventSearchEntryData::hasSpaceLeft, "true"))
             }
+            if (request.featured) {
+                filter(term(EventSearchEntryData::featured, "true"))
+            }
             if (request.categories.isNotEmpty()) {
                 filter(terms(EventSearchEntryData::categories, request.categories))
+            }
+            if (request.bookmarked) {
+                filter(terms(EventSearchEntryData::bookmarks, actor.id.toString()))
+            }
+            if (request.audiences.isNotEmpty()) {
+                filter(terms(EventSearchEntryData::audiences, request.audiences))
             }
             agg(
                 EventSearchEntryData::date.name,

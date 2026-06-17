@@ -34,10 +34,15 @@ export class EventBoardService {
   readonly layout = this.layoutSignal.asReadonly()
   private categoryFilterSignal = signal<Set<string>>(new Set())
   readonly categoryFilter = this.categoryFilterSignal.asReadonly()
+  private navViewSignal = signal<'all' | 'saved' | 'regs'>('all')
+  readonly navView = this.navViewSignal.asReadonly()
   private criteria = computed(() => ({
     request: new EventSearchRequest(
-      this.query(), this.fromDate(), this.toDate(), this.ownOnly(), this.participatingOnly(), this.availableOnly(),
-      Array.from(this.categoryFilterSignal())
+      this.query(), this.fromDate(), this.toDate(), this.ownOnly(),
+      this.navViewSignal() === 'regs' || this.participatingOnly(),
+      this.availableOnly(),
+      Array.from(this.categoryFilterSignal()),
+      this.navViewSignal() === 'saved'
     ),
     page: this.page(),
     size: this.size()
@@ -126,6 +131,11 @@ export class EventBoardService {
     this.layoutSignal.set(layout)
   }
 
+  setNavView(view: 'all' | 'saved' | 'regs') {
+    this.navViewSignal.set(view)
+    this.page.set(0)
+  }
+
   toggleCategory(name: string) {
     this.categoryFilterSignal.update((prev) => {
       const next = new Set(prev)
@@ -144,6 +154,7 @@ export class EventBoardService {
     this.includeHistory.set(false)
     this.categoryFilterSignal.set(new Set())
     this.preselectionSignal.set(undefined)
+    this.navViewSignal.set('all')
     this.updateRange(null, null)
   }
 

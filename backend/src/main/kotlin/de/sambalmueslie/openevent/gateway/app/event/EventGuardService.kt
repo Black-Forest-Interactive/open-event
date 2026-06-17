@@ -100,6 +100,24 @@ class EventGuardService(
         }
     }
 
+    fun setBookmarked(auth: Authentication, id: Long): EventInfo? {
+        return auth.checkPermission(PERMISSION_READ) {
+            val account = accountService.find(auth)
+            val event = service.get(id) ?: return@checkPermission null
+            probe.traceAction(auth, "BOOKMARK", id.toString()) { service.setBookmarked(account, event) }
+            service.getInfo(id, account)
+        }
+    }
+
+    fun clearBookmarked(auth: Authentication, id: Long): EventInfo? {
+        return auth.checkPermission(PERMISSION_READ) {
+            val account = accountService.find(auth)
+            val event = service.get(id) ?: return@checkPermission null
+            probe.traceAction(auth, "UNBOOKMARK", id.toString()) { service.clearBookmarked(account, event) }
+            service.getInfo(id, account)
+        }
+    }
+
     fun getIfAccessible(auth: Authentication, id: Long): Pair<Event, Account>? {
         val event = service.get(id) ?: return null
         val account = accountService.find(auth)

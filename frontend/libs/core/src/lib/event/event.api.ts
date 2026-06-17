@@ -33,6 +33,7 @@ export interface EventInfo {
   registration: RegistrationInfo | undefined
   categories: Category[]
   share: ShareInfo | undefined
+  bookmarked: boolean
   canEdit: boolean
 }
 

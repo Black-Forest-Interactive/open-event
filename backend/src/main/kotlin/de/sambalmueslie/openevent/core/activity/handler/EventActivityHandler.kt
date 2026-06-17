@@ -34,6 +34,7 @@ class EventActivityHandler(
         private val TYPE_CHANGED = "event.changed"
         private val TYPE_DELETED = "event.deleted"
         private val TYPE_PUBLISHED = "event.published"
+        private val TYPE_FEATURED = "event.featured"
     }
 
     override fun getSourceKey(): String {
@@ -59,6 +60,11 @@ class EventActivityHandler(
     override fun publishedChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_PUBLISHED)
     }
+
+    override fun featuredChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_FEATURED)
+    }
+
 
     private fun createActivity(actor: Account, event: Event, type: String) {
         val request = ActivityChangeRequest(event.title, event.id)

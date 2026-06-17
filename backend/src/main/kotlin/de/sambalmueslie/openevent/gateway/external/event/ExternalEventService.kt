@@ -91,14 +91,14 @@ class ExternalEventService(
         return Page.of(result, response.result.pageable, response.result.totalSize)
     }
 
-    private fun PublicEventSearchRequest.convert() = EventSearchRequest(fullTextSearch, from, to, false, false, onlyAvailableEvents)
+    private fun PublicEventSearchRequest.convert() = EventSearchRequest(fullTextSearch, from, to, false, featured, false, false, onlyAvailableEvents)
 
     private fun EventInfo.convert(share: Share?): PublicEvent? {
         return if (share != null) this.toPublicEvent(share) else null
     }
 
     private fun EventInfo.toPublicEvent(share: Share): PublicEvent {
-        val entry = EventSearchEntryData.create(this)
+        val entry = EventSearchEntryData.create(this, emptyList())
         return PublicEvent(
             share.id,
             event.start,

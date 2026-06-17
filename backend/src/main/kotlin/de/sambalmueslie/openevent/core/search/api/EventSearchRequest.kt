@@ -8,7 +8,10 @@ data class EventSearchRequest(
     val from: LocalDate?,
     val to: LocalDate?,
     val ownEvents: Boolean,
+    val featured: Boolean,
+    val bookmarked: Boolean,
     val participatingEvents: Boolean,
     val onlyAvailableEvents: Boolean,
-    val categories: Set<String> = emptySet()
+    val categories: Set<String> = emptySet(),
+    val audiences: Set<String> = emptySet()
 ) : SearchRequest

@@ -3,6 +3,7 @@ import { AccountDetails, AccountInfo } from '../account/account.api'
 export interface Participant {
   id: number
   size: number
+  note: string
   status: string
   rank: number
   waitingList: boolean
@@ -20,6 +21,7 @@ export class ParticipantChangeRequest {
 export interface ParticipantDetails {
   id: number
   size: number
+  note: string
   status: string
   rank: number
   waitingList: boolean

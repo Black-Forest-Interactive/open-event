@@ -71,6 +71,7 @@ export class EventDetailsComponent {
   })
   readonly info = computed(() => this.infoResource.value())
   readonly reloading = this.infoResource.isLoading
+  readonly isBookmarked = computed(() => this.info()?.bookmarked ?? false)
   readonly userParticipant = computed(() => {
     const email = this.authService.getPrincipal()?.email.toLowerCase()
     return this.registration()?.participants.find((p) => p.author.email.toLowerCase() === email)
@@ -84,6 +85,13 @@ export class EventDetailsComponent {
     const id = this.eventId()
     if (!id) return
     this.service.setShared(id, enabled).subscribe((d) => this.infoResource.set(d))
+  }
+
+  toggleBookmark() {
+    const id = this.eventId()
+    if (!id) return
+    const obs = this.isBookmarked() ? this.service.clearBookmarked(id) : this.service.setBookmarked(id)
+    obs.subscribe({ next: (info) => this.infoResource.set(info) })
   }
 
   participateSelf() {

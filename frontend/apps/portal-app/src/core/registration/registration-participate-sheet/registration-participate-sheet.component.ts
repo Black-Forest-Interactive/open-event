@@ -7,6 +7,8 @@ import { TranslatePipe } from '@ngx-translate/core'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { DatePipe } from '@angular/common'
+import { MatFormField, MatLabel } from '@angular/material/form-field'
+import { MatInput } from '@angular/material/input'
 
 export interface RegistrationParticipateSheetData {
   info: EventInfo
@@ -19,7 +21,7 @@ export interface RegistrationParticipateSheetData {
   selector: 'portal-registration-participate-sheet',
   templateUrl: './registration-participate-sheet.component.html',
   styleUrl: './registration-participate-sheet.component.scss',
-  imports: [TranslatePipe, MatButton, MatIconButton, MatIcon, DatePipe],
+  imports: [TranslatePipe, MatButton, MatIconButton, MatIcon, DatePipe, MatFormField, MatLabel, MatInput],
   standalone: true
 })
 export class RegistrationParticipateSheetComponent {
@@ -32,6 +34,7 @@ export class RegistrationParticipateSheetComponent {
   readonly step = signal<'form' | 'success'>('form')
   readonly submitting = signal(false)
   readonly persons = signal(Math.max(1, this.currentSize))
+  readonly note = signal(this.data.participant?.note ?? '')
 
   readonly event = computed(() => this.data.info.event)
   readonly remaining = computed(() => {
@@ -53,7 +56,7 @@ export class RegistrationParticipateSheetComponent {
   submit() {
     if (this.submitting()) return
     this.submitting.set(true)
-    this.data.submit(new ParticipateRequest(this.persons())).subscribe((response) => {
+    this.data.submit(new ParticipateRequest(this.persons(), this.note())).subscribe((response) => {
       this.submitting.set(false)
       this.response.set(response)
       this.step.set('success')

@@ -16,6 +16,8 @@ data class EventSearchEntry(
     val shortText: String,
     val longText: String,
     val published: Boolean,
+    val featured: Boolean,
+    val bookmarked: Boolean,
     val shared: Boolean,
 
     val owner: AccountInfo,
@@ -44,6 +46,7 @@ data class EventSearchEntry(
 
     // categories
     val categories: Set<String>,
+    val audiences: Set<String>,
     val tags: Set<String>,
 ) {
     fun format() = formatRange(start, finish)

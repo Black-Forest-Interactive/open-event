@@ -6,5 +6,6 @@ data class ParticipantAddRequest(
     val email: String,
     val phone: String,
     val mobile: String,
-    val size: Long
+    val size: Long,
+    val note: String
 )

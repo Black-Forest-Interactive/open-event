@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core'
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatIconModule } from '@angular/material/icon'
 import { EventInfo } from '@open-event/core'
@@ -19,7 +19,10 @@ import { CategoryChipComponent, getCategoryStyle } from '@open-event/ui'
 })
 export class EventDetailsBannerComponent {
   data = input<EventInfo>()
+  bookmarked = input<boolean>(false)
+  toggleBookmark = output<void>()
   readonly canEdit = computed(() => this.data()?.canEdit ?? false)
+  readonly isBookmarked = computed(() => this.bookmarked())
   readonly categories = computed(() => this.data()?.categories ?? [])
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0]?.name ?? ''))
   private service = inject(ImageUploadService)

@@ -10,6 +10,19 @@ CREATE TABLE category
     updated  TIMESTAMP WITHOUT TIME ZONE
 );
 
+-- audience
+CREATE SEQUENCE audience_seq;
+CREATE TABLE audience
+(
+    id       BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('audience_seq'::regclass),
+    name     VARCHAR(255) NOT NULL,
+    icon_url VARCHAR(255) NOT NULL,
+
+    created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated  TIMESTAMP WITHOUT TIME ZONE
+);
+
+
 -- account
 CREATE SEQUENCE account_seq;
 CREATE TABLE account
@@ -114,6 +127,7 @@ CREATE TABLE event
     long_text        TEXT         NOT NULL,
     image_url        VARCHAR(255) NOT NULL,
     icon_url         VARCHAR(255) NOT NULL,
+    featured         BOOLEAN      NOT NULL,
 
     has_location     BOOLEAN      NOT NULL,
     has_registration BOOLEAN      NOT NULL,
@@ -132,12 +146,26 @@ CREATE TABLE event_category
     category_id BIGINT NOT NULL references category (id),
     PRIMARY KEY (event_id, category_id)
 );
+-- event audience
+CREATE TABLE event_audience
+(
+    event_id    BIGINT NOT NULL references event (id),
+    audience_id BIGINT NOT NULL references audience (id),
+    PRIMARY KEY (event_id, audience_id)
+);
 -- event announcement
 CREATE TABLE event_announcement
 (
     event_id        BIGINT NOT NULL references event (id),
     announcement_id BIGINT NOT NULL references announcement (id),
     PRIMARY KEY (event_id, announcement_id)
+);
+-- event announcement
+CREATE TABLE event_bookmark
+(
+    event_id   BIGINT NOT NULL references event (id),
+    account_id BIGINT NOT NULL references account (id),
+    PRIMARY KEY (event_id, account_id)
 );
 
 -- location
@@ -188,6 +216,7 @@ CREATE TABLE participant
     account_id      BIGINT       NOT NULL REFERENCES account (id),
 
     size            BIGINT       NOT NULL,
+    note            TEXT         NOT NULL,
     status          VARCHAR(255) NOT NULL,
     rank            INT          NOT NULL,
     waiting_list    BOOLEAN      NOT NULL,

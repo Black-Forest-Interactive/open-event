@@ -31,6 +31,11 @@
             </div>
         </div>
 
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ 'registration.form.note' | translate }}</mat-label>
+            <textarea (input)="note.set($any($event.target).value)" [value]="note()" matInput maxlength="500" rows="3"></textarea>
+        </mat-form-field>
+
         <div class="flex items-center gap-2 pt-2">
             <button (click)="close()" class="flex-1" matButton="text">{{ 'action.cancel' | translate }}</button>
             <button (click)="submit()" [disabled]="submitting()" class="flex-1" matButton="filled">

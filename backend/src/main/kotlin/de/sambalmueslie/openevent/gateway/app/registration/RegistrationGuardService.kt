@@ -68,7 +68,7 @@ class RegistrationGuardService(
             val account = accountService.findByEmail(request.email)
             logger.traceAction(auth, "addParticipant", id.toString(), request) {
                 if (account != null) {
-                    service.addParticipant(actor, registration.id, account, ParticipateRequest(request.size))
+                    service.addParticipant(actor, registration.id, account, ParticipateRequest(request.size, request.note))
                 } else {
                     service.addParticipant(actor, registration.id, request)
                 }

@@ -47,11 +47,18 @@
       "map": "Karte",
       "results": "Ergebnisse",
       "details": "Details ansehen",
-      "venues": "Veranstaltungsorte"
+      "venues": "Veranstaltungsorte",
+      "explore": "Entdecken",
+      "saved": "Merkliste",
+      "regs": "Anmeldungen"
     },
     "empty": {
       "title": "Keine Veranstaltungen gefunden",
-      "subtitle": "Passe deine Filter an oder setze sie zurück."
+      "subtitle": "Passe deine Filter an oder setze sie zurück.",
+      "savedTitle": "Noch nichts gemerkt",
+      "savedSubtitle": "Tippe auf das Herz einer Veranstaltung, um sie zu merken.",
+      "regsTitle": "Keine Anmeldungen",
+      "regsSubtitle": "Melde dich für eine Veranstaltung an, um sie hier zu sehen."
     },
     "detail": {
       "when": "Wann",
@@ -231,7 +238,8 @@
     "form": {
       "firstName": "Vorname",
       "lastName": "Familienname",
-      "email": "Email"
+      "email": "Email",
+      "note": "Anmerkung (optional)"
     },
     "table": {
       "rank": "Platz",
@@ -418,7 +426,9 @@
     },
     "action": {
       "add": "Neue Adresse anlegen",
-      "import": "Bestehende Adressen importieren"
+      "import": "Bestehende Adressen importieren",
+      "default": "Standard",
+      "setDefault": "Als Standard setzen"
     },
     "message": {
       "saved": "Adresse wurde gespeichert",

@@ -28,6 +28,8 @@ class EventNotificationHandler(
         const val KEY_EVENT_DELETED = "event.delete"
         const val KEY_EVENT_PUBLISHED = "event.publish"
         const val KEY_EVENT_UNPUBLISHED = "event.unpublish"
+        const val KEY_EVENT_FEATURED = "event.featured"
+        const val KEY_EVENT_UNFEATURED = "event.unfeatured"
     }
 
     override fun getName(): String = EventNotificationHandler::class.java.simpleName
@@ -39,6 +41,8 @@ class EventNotificationHandler(
             NotificationTypeChangeRequest(KEY_EVENT_DELETED, "Event deleted", ""),
             NotificationTypeChangeRequest(KEY_EVENT_PUBLISHED, "Event published", ""),
             NotificationTypeChangeRequest(KEY_EVENT_UNPUBLISHED, "Event unpublished", ""),
+            NotificationTypeChangeRequest(KEY_EVENT_FEATURED, "Event featured", ""),
+            NotificationTypeChangeRequest(KEY_EVENT_UNFEATURED, "Event unfeatured", ""),
         )
     }
 
@@ -80,6 +84,26 @@ class EventNotificationHandler(
             service.process(
                 NotificationEvent(
                     KEY_EVENT_UNPUBLISHED,
+                    actor,
+                    event
+                ), getRecipients(actor, event)
+            )
+        }
+    }
+
+    override fun featuredChanged(actor: Account, event: Event) {
+        if (event.featured) {
+            service.process(
+                NotificationEvent(
+                    KEY_EVENT_FEATURED,
+                    actor,
+                    event
+                ), getRecipients(actor, event)
+            )
+        } else {
+            service.process(
+                NotificationEvent(
+                    KEY_EVENT_UNFEATURED,
                     actor,
                     event
                 ), getRecipients(actor, event)

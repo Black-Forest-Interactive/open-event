@@ -1,5 +1,6 @@
 import { Page } from '@open-event/shared'
 import { AccountInfo } from '../account'
+import { Audience } from '../audience'
 import { Category } from '../category'
 
 export class EventSearchRequest {
@@ -10,7 +11,10 @@ export class EventSearchRequest {
     public ownEvents: boolean,
     public participatingEvents: boolean,
     public onlyAvailableEvents: boolean,
-    public categories: string[] = []
+    public categories: string[] = [],
+    public bookmarked: boolean = false,
+    public featured: boolean = false,
+    public audiences: string[] = []
   ) {}
 }
 
@@ -59,6 +63,8 @@ export interface EventSearchEntry {
   // user specific flags
   ownEvent: boolean
   participatingEvent: boolean
+  bookmarked: boolean
+  featured: boolean
 
   // categories
   categories: string[]
@@ -89,6 +95,14 @@ export class CategorySearchRequest {
 
 export interface CategorySearchResponse {
   result: Page<Category>
+}
+
+export class AudienceSearchRequest {
+  public constructor(public fullTextSearch: string) {}
+}
+
+export interface AudienceSearchResponse {
+  result: Page<Audience>
 }
 
 export interface SearchOperatorInfo {

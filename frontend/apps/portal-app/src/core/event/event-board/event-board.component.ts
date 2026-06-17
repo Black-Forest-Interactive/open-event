@@ -7,6 +7,7 @@ import { EventBoardListComponent } from '../event-board-list/event-board-list.co
 import { EventBoardCalendarComponent } from '../event-board-calendar/event-board-calendar.component'
 import { EventBoardFilterComponent } from '../event-board-filter/event-board-filter.component'
 import { EventBoardMapComponent } from '../event-board-map/event-board-map.component'
+import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
 import { BoardSearchComponent } from '@open-event/ui'
 import { LoadingBarComponent } from '@open-event/shared'
 import { MatButton, MatIconButton } from '@angular/material/button'
@@ -26,6 +27,7 @@ import { TranslatePipe } from '@ngx-translate/core'
     EventBoardCalendarComponent,
     EventBoardFilterComponent,
     EventBoardMapComponent,
+    EventBoardNavbarComponent,
     BoardSearchComponent,
     LoadingBarComponent,
     MatButton,

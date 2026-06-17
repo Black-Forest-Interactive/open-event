@@ -5,12 +5,13 @@ import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
 import { MatCard } from '@angular/material/card'
 import { CategoryChipComponent, getCategoryStyle, RegistrationStatusComponent } from '@open-event/ui'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'portal-event-row',
   templateUrl: './event-row.component.html',
   styleUrl: './event-row.component.scss',
-  imports: [RouterLink, DatePipe, MatIcon, MatCard, CategoryChipComponent, RegistrationStatusComponent],
+  imports: [RouterLink, DatePipe, MatIcon, MatCard, CategoryChipComponent, RegistrationStatusComponent, TranslatePipe],
   standalone: true
 })
 export class EventRowComponent {
@@ -25,4 +26,5 @@ export class EventRowComponent {
   readonly categories = computed(() => this.entry().categories)
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0] ?? ''))
   readonly hasRegistration = computed(() => this.entry().maxGuestAmount > 0)
+  readonly isRegistered = computed(() => this.entry().participatingEvent)
 }

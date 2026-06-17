@@ -16,8 +16,11 @@
         </div>
     }
 
-    @if (canEdit()) {
-        <div class="absolute top-3 right-3">
+    <div class="absolute top-3 right-3 flex gap-2">
+        <button (click)="toggleBookmark.emit()" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton>
+            <mat-icon class="text-white">{{ isBookmarked() ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+        @if (canEdit()) {
             <button (click)="fileInput.click()" [disabled]="isUploading()"
                     [matTooltip]="'event.action.editBanner' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm"
                     matIconButton matTooltipPosition="left">
@@ -28,15 +31,13 @@
                 }
             </button>
             <input #fileInput (change)="onImageSelected($event)" accept="image/*" class="hidden" type="file"/>
-        </div>
-
-        @if (isUploading()) {
-            <div class="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm p-2">
-                <mat-progress-bar [value]="uploadPercentage()" mode="determinate"></mat-progress-bar>
-                <div class="text-xs text-white mt-1 text-center">{{ 'event.message.uploading' | translate }} {{ uploadPercentage() }}
-                    %
-                </div>
-            </div>
         }
+    </div>
+
+    @if (isUploading()) {
+        <div class="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm p-2">
+            <mat-progress-bar [value]="uploadPercentage()" mode="determinate"></mat-progress-bar>
+            <div class="text-xs text-white mt-1 text-center">{{ 'event.message.uploading' | translate }} {{ uploadPercentage() }}%</div>
+        </div>
     }
 </div>

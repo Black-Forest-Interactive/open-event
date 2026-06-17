@@ -67,6 +67,10 @@ export class AddressComponent {
       })
   }
 
+  setDefault(a: Address) {
+    this.service.setDefault(a.id).subscribe({ next: () => this.addressResource.reload() })
+  }
+
   handlePageChange(event: PageEvent) {
     this.page.set(event.pageIndex)
     this.size.set(event.pageSize)

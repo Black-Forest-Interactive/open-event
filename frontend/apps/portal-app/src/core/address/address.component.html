@@ -44,13 +44,27 @@
                             }
                         </div>
                     </div>
-                    <div class="flex items-center justify-end gap-1 border-t border-outline-variant px-2 py-1">
-                        <button (click)="edit(entry)" matIconButton>
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button (click)="delete(entry)" color="warn" matIconButton>
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                    <div class="flex items-center justify-between border-t border-outline-variant px-2 py-1">
+                        <div>
+                            @if (entry.default) {
+                                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                                    <mat-icon inline>star</mat-icon>
+                                    {{ 'address.action.default' | translate }}
+                                </span>
+                            } @else {
+                                <button (click)="setDefault(entry)" matButton="outlined">
+                                    {{ 'address.action.setDefault' | translate }}
+                                </button>
+                            }
+                        </div>
+                        <div class="flex gap-1">
+                            <button (click)="edit(entry)" matIconButton>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button (click)="delete(entry)" color="warn" matIconButton>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </mat-card>
             }

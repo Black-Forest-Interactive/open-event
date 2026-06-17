@@ -30,4 +30,5 @@ export class EventCardComponent {
   readonly categories = computed(() => this.entry().categories)
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0] ?? ''))
   readonly hasRegistration = computed(() => this.entry().maxGuestAmount > 0)
+  readonly isRegistered = computed(() => this.entry().participatingEvent)
 }

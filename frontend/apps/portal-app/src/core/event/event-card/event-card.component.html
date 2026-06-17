@@ -1,6 +1,12 @@
 <mat-card appearance="outlined" class="ecard flex flex-col overflow-hidden h-full" routerLink="./details/{{ id() }}">
-    <div [style.--h]="mediaStyle().hue" class="ecard__media flex items-center justify-center h-32 text-5xl">
+    <div [style.--h]="mediaStyle().hue" class="ecard__media relative flex items-center justify-center h-32 text-5xl">
         <mat-icon inline>{{ mediaStyle().icon }}</mat-icon>
+        @if (isRegistered()) {
+            <span class="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-medium">
+                <mat-icon inline>check</mat-icon>
+                {{ 'registration.bookbar.registered' | translate }}
+            </span>
+        }
     </div>
     <div class="flex flex-col gap-2 p-4 flex-auto">
         @if (categories().length > 0) {

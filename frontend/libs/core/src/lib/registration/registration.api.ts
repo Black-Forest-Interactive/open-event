@@ -21,7 +21,10 @@ export class RegistrationChangeRequest {
 }
 
 export class ParticipateRequest {
-  constructor(public size: number) {}
+  constructor(
+    public size: number,
+    public note: string = ''
+  ) {}
 }
 
 export class ParticipantAddRequest {

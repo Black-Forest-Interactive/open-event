@@ -22,7 +22,12 @@
             }
         </div>
     </div>
-    @if (hasRegistration()) {
+    @if (isRegistered()) {
+        <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-medium shrink-0">
+            <mat-icon inline>check</mat-icon>
+            <span class="hidden sm:inline">{{ 'registration.bookbar.registered' | translate }}</span>
+        </span>
+    } @else if (hasRegistration()) {
         <div class="hidden sm:block w-40 shrink-0">
             <lib-registration-status [compact]="true" [entry]="entry()"></lib-registration-status>
         </div>

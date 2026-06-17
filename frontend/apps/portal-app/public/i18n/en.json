@@ -47,11 +47,18 @@
       "map": "Map",
       "results": "Results",
       "details": "View details",
-      "venues": "Venues"
+      "venues": "Venues",
+      "explore": "Explore",
+      "saved": "Saved",
+      "regs": "Registrations"
     },
     "empty": {
       "title": "No events found",
-      "subtitle": "Adjust your filters or reset them."
+      "subtitle": "Adjust your filters or reset them.",
+      "savedTitle": "Nothing saved yet",
+      "savedSubtitle": "Tap the heart on an event to save it for later.",
+      "regsTitle": "No registrations",
+      "regsSubtitle": "Register for an event to see it here."
     },
     "detail": {
       "when": "When",
@@ -233,7 +240,8 @@
     "form": {
       "firstName": "First Name",
       "lastName": "Last Name",
-      "email": "Email"
+      "email": "Email",
+      "note": "Note (optional)"
     },
     "table": {
       "rank": "Rank",
@@ -438,7 +446,9 @@
     },
     "action": {
       "add": "Create address",
-      "import": "Import addresses"
+      "import": "Import addresses",
+      "default": "Default",
+      "setDefault": "Set as default"
     },
     "message": {
       "saved": "Address has been saved",

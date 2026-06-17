@@ -9,7 +9,7 @@ import io.micronaut.data.repository.GenericRepository
 
 @Repository
 @JdbcRepository(dialect = Dialect.POSTGRES)
-interface AnnouncementRelationRepository : GenericRepository<EventAnnouncementRelation, Long> {
+interface EventAnnouncementRelationRepository : GenericRepository<EventAnnouncementRelation, Long> {
 
     fun findByAnnouncementIdAndEventId(categoryId: Long, eventId: Long): EventAnnouncementRelation?
     fun existsByAnnouncementIdAndEventId(categoryId: Long, eventId: Long): Boolean

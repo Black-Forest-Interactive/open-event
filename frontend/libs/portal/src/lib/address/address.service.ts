@@ -35,4 +35,8 @@ export class AddressService extends BaseService {
   deleteAddress(id: number): Observable<Address> {
     return this.delete('' + id)
   }
+
+  setDefault(id: number): Observable<Address> {
+    return this.put('' + id + '/default', {})
+  }
 }

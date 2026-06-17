@@ -199,6 +199,31 @@
       }
     }
   },
+  "audience": {
+    "type": "Zielgruppen",
+    "title": "Zielgruppen",
+    "search": "Zielgruppensuche",
+    "create": "Neue Zielgruppe anlegen",
+    "table": {
+      "name": "Name"
+    },
+    "dialog": {
+      "change": {
+        "title": "Zielgruppe bearbeiten"
+      },
+      "create": {
+        "title": "Zielgruppe erstellen"
+      },
+      "delete": {
+        "title": "Zielgruppe löschen",
+        "question": "Soll die Zielgruppe wirklich gelöscht werden?"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "iconUrl": "Icon URL"
+    }
+  },
   "category": {
     "type": "Kategorien",
     "title": "Kategorien",

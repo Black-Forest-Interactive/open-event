@@ -77,7 +77,7 @@
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
-<div class="flex flex-row gap-4 p-4">
+<div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4">
     <div class="flex-auto min-w-0">
         @switch (service.layout()) {
             @case ('map') {
@@ -103,3 +103,11 @@
         <portal-event-board-filter></portal-event-board-filter>
     </div>
 </ng-template>
+
+<portal-event-board-navbar></portal-event-board-navbar>
+
+<a class="fixed bottom-20 right-4 lg:hidden z-10 flex items-center gap-2 px-4 py-3 rounded-2xl bg-primary-container text-on-primary-container shadow-lg font-medium text-sm no-underline"
+   routerLink="./create">
+    <mat-icon>add</mat-icon>
+    {{ 'event.create' | translate }}
+</a>
