@@ -10,5 +10,4 @@ interface Storage<T, O : BusinessObject<T>, R : BusinessObjectChangeRequest> {
     fun create(request: R, properties: Map<String, Any> = emptyMap()): O
     fun update(id: T, request: R): O
     fun delete(id: T): O?
-
 }

@@ -31,15 +31,22 @@ class AddressStorageService(
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(AddressStorageService::class.java)
         private const val ACCOUNT_REFERENCE = "account"
+        private const val DEFAULT_REFERENCE = "default"
     }
 
-    override fun create(request: AddressChangeRequest, account: Account): Address {
-        return create(request, mapOf(Pair(ACCOUNT_REFERENCE, account)))
+    override fun create(request: AddressChangeRequest, default: Boolean, account: Account): Address {
+        return create(
+            request, mapOf(
+                ACCOUNT_REFERENCE to account,
+                DEFAULT_REFERENCE to default
+            )
+        )
     }
 
     override fun createData(request: AddressChangeRequest, properties: Map<String, Any>): AddressData {
         val account = properties[ACCOUNT_REFERENCE] as? Account ?: throw InvalidRequestException("Cannot find account")
-        return AddressData.create(account, request, timeProvider.now())
+        val default = properties[DEFAULT_REFERENCE] as? Boolean ?: false
+        return AddressData.create(account, request, default, timeProvider.now())
     }
 
     override fun updateData(data: AddressData, request: AddressChangeRequest): AddressData {
@@ -48,6 +55,18 @@ class AddressStorageService(
 
     override fun findByAccount(account: Account, pageable: Pageable): Page<Address> {
         return repository.findByAccountId(account.id, pageable).map { it.convert() }
+    }
+
+    override fun getDefault(account: Account): Address? {
+        return repository.findByAccountIdAndDefaultTrue(account.id)?.convert()
+    }
+
+    override fun setDefault(id: Long, default: Boolean): Address? {
+        return patchData(id) { it.setDefault(default, timeProvider.now()) }
+    }
+
+    override fun existsByAccount(account: Account): Boolean {
+        return repository.existsByAccountId(account.id)
     }
 
     override fun getData(id: Long): AddressData? {
