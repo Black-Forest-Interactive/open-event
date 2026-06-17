@@ -97,6 +97,8 @@ class AddressCrudService(
             if (id == current.id) return current
             storage.setDefault(current.id, false)?.let { notifyUpdated(account, it) }
             storage.setDefault(new.id, true)?.let { notifyUpdated(account, it) }
+        } else {
+            storage.setDefault(new.id, true)?.let { notifyUpdated(account, it) }
         }
         return storage.getDefault(account)
     }

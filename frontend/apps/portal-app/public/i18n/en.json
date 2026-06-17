@@ -141,6 +141,7 @@
       },
       "category": "Category",
       "onlyAvailable": "Only available",
+      "audience": "Audience",
       "range": {
         "label": "Enter a date range",
         "today": "Only tody",

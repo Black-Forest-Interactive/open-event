@@ -91,7 +91,7 @@ class AddressController(
         }
     }
 
-    @Put("{id}/default")
+    @Put("/{id}/default")
     fun setDefault(auth: Authentication, id: Long): Address? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.find(auth)

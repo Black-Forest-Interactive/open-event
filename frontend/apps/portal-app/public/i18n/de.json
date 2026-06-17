@@ -137,6 +137,7 @@
         "nextWeek": "Nächste Woche"
       },
       "category": "Kategorie",
+      "audience": "Zielgruppe",
       "onlyAvailable": "Nur freie Plätze",
       "range": {
         "label": "Zeitraum wählen",

@@ -11,7 +11,7 @@ data class Address(
     val city: String,
     val country: String,
     val additionalInfo: String,
-    val default: Boolean,
+    val standard: Boolean,
 
     val lat: Double,
     val lon: Double,

@@ -34,6 +34,8 @@ export class EventBoardService {
   readonly layout = this.layoutSignal.asReadonly()
   private categoryFilterSignal = signal<Set<string>>(new Set())
   readonly categoryFilter = this.categoryFilterSignal.asReadonly()
+  private audienceFilterSignal = signal<Set<string>>(new Set())
+  readonly audienceFilter = this.audienceFilterSignal.asReadonly()
   private navViewSignal = signal<'all' | 'saved' | 'regs'>('all')
   readonly navView = this.navViewSignal.asReadonly()
   private criteria = computed(() => ({
@@ -42,7 +44,9 @@ export class EventBoardService {
       this.navViewSignal() === 'regs' || this.participatingOnly(),
       this.availableOnly(),
       Array.from(this.categoryFilterSignal()),
-      this.navViewSignal() === 'saved'
+      this.navViewSignal() === 'saved',
+      false,
+      Array.from(this.audienceFilterSignal())
     ),
     page: this.page(),
     size: this.size()
@@ -146,6 +150,16 @@ export class EventBoardService {
     this.page.set(0)
   }
 
+  toggleAudience(name: string) {
+    this.audienceFilterSignal.update((prev) => {
+      const next = new Set(prev)
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
+      return next
+    })
+    this.page.set(0)
+  }
+
   resetFilter() {
     this.query.set('')
     this.ownOnly.set(false)
@@ -153,6 +167,7 @@ export class EventBoardService {
     this.participatingOnly.set(false)
     this.includeHistory.set(false)
     this.categoryFilterSignal.set(new Set())
+    this.audienceFilterSignal.set(new Set())
     this.preselectionSignal.set(undefined)
     this.navViewSignal.set('all')
     this.updateRange(null, null)

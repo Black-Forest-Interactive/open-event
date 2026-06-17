@@ -4,6 +4,8 @@ export * from './lib/activity/activity.service'
 
 export * from './lib/address/address.service'
 
+export * from './lib/audience/audience.service'
+
 export * from './lib/category/category.service'
 
 export * from './lib/event/event.service'

@@ -17,7 +17,7 @@ data class AddressData(
     @Column var city: String,
     @Column var country: String,
     @Column var additionalInfo: String,
-    @Column var default: Boolean,
+    @Column var standard: Boolean,
 
     @Column var lat: Double,
     @Column var lon: Double,
@@ -32,7 +32,7 @@ data class AddressData(
         fun create(
             account: Account,
             request: AddressChangeRequest,
-            default: Boolean,
+            standard: Boolean,
             timestamp: LocalDateTime
         ): AddressData {
             return AddressData(
@@ -43,7 +43,7 @@ data class AddressData(
                 request.city,
                 request.country,
                 request.additionalInfo,
-                default,
+                standard,
                 request.lat,
                 request.lon,
                 account.id,
@@ -53,7 +53,7 @@ data class AddressData(
     }
 
     override fun convert(): Address {
-        return Address(id, street, streetNumber, zip, city, country, additionalInfo, default, lat, lon)
+        return Address(id, street, streetNumber, zip, city, country, additionalInfo, standard, lat, lon)
     }
 
     fun update(request: AddressChangeRequest, timestamp: LocalDateTime): AddressData {
@@ -69,8 +69,8 @@ data class AddressData(
         return this
     }
 
-    fun setDefault(default: Boolean, timestamp: LocalDateTime): AddressData {
-        this.default = default
+    fun setDefault(standard: Boolean, timestamp: LocalDateTime): AddressData {
+        this.standard = standard
         updated = timestamp
         return this
     }

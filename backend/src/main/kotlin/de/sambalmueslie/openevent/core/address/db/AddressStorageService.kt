@@ -58,7 +58,7 @@ class AddressStorageService(
     }
 
     override fun getDefault(account: Account): Address? {
-        return repository.findByAccountIdAndDefaultTrue(account.id)?.convert()
+        return repository.findByAccountIdAndStandardTrue(account.id)?.convert()
     }
 
     override fun setDefault(id: Long, default: Boolean): Address? {

@@ -12,6 +12,6 @@ import io.micronaut.data.model.query.builder.sql.Dialect
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface AddressRepository : DataObjectRepository<Long, AddressData> {
     fun findByAccountId(accountId: Long, pageable: Pageable): Page<AddressData>
-    fun findByAccountIdAndDefaultTrue(accountId: Long): AddressData?
+    fun findByAccountIdAndStandardTrue(accountId: Long): AddressData?
     fun existsByAccountId(accountId: Long): Boolean
 }

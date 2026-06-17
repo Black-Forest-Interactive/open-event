@@ -1,7 +1,7 @@
 import { Component, computed, inject, resource } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { EventBoardService } from '../event-board.service'
-import { CategoryService } from '@open-event/portal'
+import { AudienceService, CategoryService } from '@open-event/portal'
 import { CategoryChipComponent } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -40,6 +40,7 @@ import { MatButton } from '@angular/material/button'
 export class EventBoardFilterComponent {
   protected service = inject(EventBoardService)
   private categoryService = inject(CategoryService)
+  private audienceService = inject(AudienceService)
 
   readonly whenOptions = [
     { value: 'any', labelKey: 'event.filter.when.any', icon: 'all_inclusive' },
@@ -52,6 +53,11 @@ export class EventBoardFilterComponent {
     loader: (param) => toPromise(this.categoryService.getCategories(0, 100), param.abortSignal)
   })
   readonly categories = computed(() => this.categoryResource.value()?.content ?? [])
+
+  private audienceResource = resource({
+    loader: (param) => toPromise(this.audienceService.getAudiences(0, 100), param.abortSignal)
+  })
+  readonly audiences = computed(() => this.audienceResource.value()?.content ?? [])
 
   isWhenActive(value: string) {
     const preselection = this.service.preselection()

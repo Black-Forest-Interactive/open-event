@@ -87,7 +87,7 @@ CREATE TABLE address
     city            VARCHAR(255)     NOT NULL,
     country         VARCHAR(255)     NOT NULL,
     additional_info VARCHAR(255)     NOT NULL,
-    default         BOOLEAN          NOT NULL,
+    standard        BOOLEAN          NOT NULL,
 
     lat             DOUBLE PRECISION NOT NULL,
     lon             DOUBLE PRECISION NOT NULL,

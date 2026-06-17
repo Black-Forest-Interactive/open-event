@@ -14,7 +14,7 @@ export interface Address {
   lat: number
   lon: number
 
-  default: boolean
+  standard: boolean
 }
 
 export class AddressChangeRequest {
