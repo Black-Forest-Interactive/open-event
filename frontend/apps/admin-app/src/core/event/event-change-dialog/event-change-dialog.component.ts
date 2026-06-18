@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core'
-import { AccountService, AddressService, CategoryService, EventService } from '@open-event/admin'
+import { AccountService, AddressService, AudienceService, CategoryService, EventService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { Observable } from 'rxjs'
 import { Page } from '@open-event/shared'
@@ -13,13 +13,14 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-change-dialog.component.html',
   styleUrl: './event-change-dialog.component.scss'
 })
-export class EventChangeDialogComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
+export class EventChangeDialogComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {
   dialogRef = inject<MatDialogRef<EventChangeDialogComponent>>(MatDialogRef)
   data = inject<Event>(MAT_DIALOG_DATA)
   private service = inject(EventService)
   private accountService = inject(AccountService)
   private addressService = inject(AddressService)
   private categoryService = inject(CategoryService)
+  private audienceService = inject(AudienceService)
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.accountService.getAddress(this.data.owner.id, page, size)
@@ -35,6 +36,14 @@ export class EventChangeDialogComponent implements AddressReadAPI, CategoryReadA
 
   getCategory(id: number): Observable<Category> {
     return this.categoryService.getCategory(id)
+  }
+
+  getAllAudiences(page: number, size: number): Observable<Page<Audience>> {
+    return this.audienceService.getAllAudiences(page, size)
+  }
+
+  getAudience(id: number): Observable<Audience> {
+    return this.audienceService.getAudience(id)
   }
 
   getEvent(id: number): Observable<Event> {

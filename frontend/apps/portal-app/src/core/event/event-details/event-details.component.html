@@ -1,5 +1,5 @@
 <mat-card appearance="outlined" class="m-0 sm:!m-3 !pb-3 overflow-hidden lg:h-[calc(100vh-100px)]">
-    <portal-event-details-banner [bookmarked]="isBookmarked()" [data]="info()" (toggleBookmark)="toggleBookmark()"></portal-event-details-banner>
+    <portal-event-details-banner [bookmarked]="isBookmarked()" [data]="info()" (toggleBookmark)="toggleBookmark()" (share)="shareEvent()"></portal-event-details-banner>
     <portal-event-details-header (changed)="reload()" [data]="info()"
                                  [reloading]="reloading()"></portal-event-details-header>
     <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>

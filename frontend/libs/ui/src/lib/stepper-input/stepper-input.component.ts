@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon'
 export class StepperInputComponent {
   value = input.required<number>()
   min = input<number>(1)
-  step = input<number>(5)
+  step = input<number>(1)
 
   changed = output<number>()
 
@@ -21,5 +21,11 @@ export class StepperInputComponent {
 
   increment() {
     this.changed.emit(this.value() + this.step())
+  }
+
+  setValue(raw: string) {
+    const parsed = Math.round(Number(raw))
+    if (isNaN(parsed)) return
+    this.changed.emit(Math.max(this.min(), parsed))
   }
 }

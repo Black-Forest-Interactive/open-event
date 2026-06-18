@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core'
-import { AddressReadAPI, CategoryReadAPI, EventInfo } from '@open-event/core'
+import { AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
@@ -17,6 +17,7 @@ import { EventChangeRegistrationComponent } from '../event-change-registration/e
 export class EventChangeSingleComponent {
   addressReadAPI = input.required<AddressReadAPI>()
   categoryReadAPI = input.required<CategoryReadAPI>()
+  audienceReadAPI = input.required<AudienceReadAPI>()
 
   hiddenFields = input.required<string[]>()
   loading = input.required<boolean>()

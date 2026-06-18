@@ -11,8 +11,17 @@
 
     <div class="flex flex-col gap-1 flex-auto min-w-0">
         <div class="flex items-center gap-2 flex-wrap">
+            @if (featured()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                    <mat-icon inline>star</mat-icon>
+                    {{ 'event.board.featured' | translate }}
+                </span>
+            }
             @for (cat of categories(); track cat) {
                 <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+            }
+            @for (audience of audiences(); track audience) {
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-medium">{{ audience }}</span>
             }
             @if (isRegistered()) {
                 <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-xs font-medium">

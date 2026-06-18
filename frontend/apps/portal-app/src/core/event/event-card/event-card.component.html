@@ -4,8 +4,17 @@
         <mat-icon class="ecard__glyph relative z-[1]" inline>{{ mediaStyle().icon }}</mat-icon>
 
         <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+            @if (featured()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                    <mat-icon inline>star</mat-icon>
+                    {{ 'event.board.featured' | translate }}
+                </span>
+            }
             @for (cat of categories(); track cat) {
                 <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+            }
+            @for (audience of audiences(); track audience) {
+                <span class="px-2 py-0.5 rounded-full bg-surface text-on-surface-variant text-xs font-medium">{{ audience }}</span>
             }
         </div>
 

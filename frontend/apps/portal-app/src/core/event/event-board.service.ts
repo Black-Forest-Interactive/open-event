@@ -36,11 +36,11 @@ export class EventBoardService {
   readonly categoryFilter = this.categoryFilterSignal.asReadonly()
   private audienceFilterSignal = signal<Set<string>>(new Set())
   readonly audienceFilter = this.audienceFilterSignal.asReadonly()
-  private navViewSignal = signal<'all' | 'saved' | 'regs'>('all')
+  private navViewSignal = signal<'all' | 'saved' | 'regs' | 'own'>('all')
   readonly navView = this.navViewSignal.asReadonly()
   private criteria = computed(() => ({
     request: new EventSearchRequest(
-      this.query(), this.fromDate(), this.toDate(), this.ownOnly(),
+      this.query(), this.fromDate(), this.toDate(), this.navViewSignal() === 'own' || this.ownOnly(),
       this.navViewSignal() === 'regs' || this.participatingOnly(),
       this.availableOnly(),
       Array.from(this.categoryFilterSignal()),
@@ -135,9 +135,11 @@ export class EventBoardService {
     this.layoutSignal.set(layout)
   }
 
-  setNavView(view: 'all' | 'saved' | 'regs') {
+  setNavView(view: 'all' | 'saved' | 'regs' | 'own') {
     this.navViewSignal.set(view)
+    this.includeHistory.set(false)
     this.page.set(0)
+    this.handleRangeChanged()
   }
 
   toggleCategory(name: string) {

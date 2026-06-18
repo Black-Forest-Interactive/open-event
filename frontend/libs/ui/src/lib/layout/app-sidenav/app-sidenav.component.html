@@ -10,12 +10,14 @@
                          style="color: var(--mat-sys-on-surface-variant)">{{ group.title | translate }}
                     </div>
                 }
-                @for (item of group.items; track item.url) {
+                @for (item of group.items; track item.text) {
                     <a [class.gap-3]="!collapsed()"
                        [class.justify-center]="collapsed()"
                        [class.px-3]="!collapsed()"
                        [matTooltip]="collapsed() ? (item.text | translate) : ''"
+                       [queryParams]="item.queryParams"
                        [routerLink]="item.url"
+                       [routerLinkActiveOptions]="linkActiveOptions"
                        class="nav-item flex items-center h-10 rounded-lg no-underline transition-colors duration-150"
                        matTooltipPosition="right"
                        routerLinkActive="nav-active">

@@ -3,7 +3,7 @@ import { Component, effect, inject, input, output, signal } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
-import { AddressChangeRequest, AddressReadAPI, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
+import { AddressChangeRequest, AddressReadAPI, AudienceReadAPI, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
@@ -31,6 +31,7 @@ export class EventChangeComponent {
 
   addressReadAPI = input.required<AddressReadAPI>()
   categoryReadAPI = input.required<CategoryReadAPI>()
+  audienceReadAPI = input.required<AudienceReadAPI>()
   eventReadAPI = input.required<EventReadAPI>()
 
   fg: FormGroup
@@ -103,6 +104,7 @@ export class EventChangeComponent {
       value.general.imageUrl,
       value.general.iconUrl,
       value.registration.categories ?? [],
+      value.registration.audiences ?? [],
       location,
       registration,
       true,

@@ -14,11 +14,12 @@ import io.micronaut.data.model.Pageable
 interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun create(request: EventChangeRequest, owner: Account): Event
 
-    fun set(event: Event, categories: List<Category>)
+    fun setCategories(event: Event, categories: List<Category>)
     fun assign(event: Event, category: Category)
     fun revoke(event: Event, category: Category)
     fun getCategories(event: Event): List<Category>
 
+    fun setAudiences(event: Event, audiences: List<Audience>)
     fun assign(event: Event, audience: Audience)
     fun revoke(event: Event, audience: Audience)
     fun getAudiences(event: Event): List<Audience>

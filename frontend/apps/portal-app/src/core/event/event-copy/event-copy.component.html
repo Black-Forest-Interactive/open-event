@@ -19,6 +19,7 @@
         <lib-event-change (cancel)="cancel()"
                           (request)="handleRequest($event)"
                           [addressReadAPI]="this"
+                          [audienceReadAPI]="this"
                           [categoryReadAPI]="this"
                           [eventReadAPI]="this"
                           [event]="event()!"

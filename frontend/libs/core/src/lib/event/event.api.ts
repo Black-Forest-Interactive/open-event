@@ -1,5 +1,6 @@
 import { RegistrationChangeRequest, RegistrationInfo } from '../registration'
 import { Category } from '../category'
+import { Audience } from '../audience'
 import { Location, LocationChangeRequest } from '../location'
 import { Observable } from 'rxjs'
 import { ShareInfo } from '../share'
@@ -16,6 +17,7 @@ export interface Event {
   longText: string
   imageUrl: string
   iconUrl: string
+  featured: boolean
 
   hasLocation: boolean
   hasRegistration: boolean
@@ -32,6 +34,7 @@ export interface EventInfo {
   location: Location | undefined
   registration: RegistrationInfo | undefined
   categories: Category[]
+  audiences: Audience[]
   share: ShareInfo | undefined
   bookmarked: boolean
   canEdit: boolean
@@ -47,6 +50,7 @@ export class EventChangeRequest {
     public imageUrl: string,
     public iconUrl: string,
     public categoryIds: number[],
+    public audienceIds: number[],
     public location: LocationChangeRequest,
     public registration: RegistrationChangeRequest,
     public published: boolean,

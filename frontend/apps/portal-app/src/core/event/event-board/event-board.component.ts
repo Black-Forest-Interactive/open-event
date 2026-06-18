@@ -15,7 +15,7 @@ import { MatIcon } from '@angular/material/icon'
 import { MatBadge } from '@angular/material/badge'
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
-import { RouterLink } from '@angular/router'
+import { ActivatedRoute, RouterLink } from '@angular/router'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
@@ -44,6 +44,8 @@ import { TranslatePipe } from '@ngx-translate/core'
 export class EventBoardComponent {
   protected service = inject(EventBoardService)
   readonly reloading = this.service.reloading
+  private route = inject(ActivatedRoute)
+  private viewParam = toSignal(this.route.queryParamMap.pipe(map((p) => p.get('view'))))
   private responsive = inject(BreakpointObserver)
   private bottomSheet = inject(MatBottomSheet)
   private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
@@ -55,6 +57,8 @@ export class EventBoardComponent {
         return 'event.board.intro.savedTitle'
       case 'regs':
         return 'event.board.intro.regsTitle'
+      case 'own':
+        return 'event.board.intro.ownTitle'
       default:
         return 'event.board.intro.discoverTitle'
     }
@@ -66,6 +70,8 @@ export class EventBoardComponent {
         return 'event.board.intro.savedSubtitle'
       case 'regs':
         return 'event.board.intro.regsSubtitle'
+      case 'own':
+        return 'event.board.intro.ownSubtitle'
       default:
         return 'event.board.intro.discoverSubtitle'
     }
@@ -84,6 +90,8 @@ export class EventBoardComponent {
     }
   })
 
+  readonly showHistoryToggle = computed(() => this.service.navView() !== 'all')
+
   readonly activeFilterCount = computed(() => {
     const preselection = this.service.preselection()
     let count = this.service.categoryFilter().size
@@ -97,6 +105,10 @@ export class EventBoardComponent {
       const mobile = this.mobileView()
       this.service.setFilterToolbarVisible(!mobile)
       this.service.setInfiniteScrollMode(mobile)
+    })
+    effect(() => {
+      const view = this.viewParam()
+      this.service.setNavView(view === 'saved' || view === 'regs' || view === 'own' ? view : 'all')
     })
   }
 

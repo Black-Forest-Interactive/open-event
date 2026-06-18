@@ -21,7 +21,8 @@
     "delete": "Delete",
     "reset": "Reset",
     "loadMore": "Load more",
-    "more": "More"
+    "more": "More",
+    "share": "Share"
   },
   "event": {
     "type": "Event",
@@ -38,7 +39,8 @@
       "saveChanges": "Save changes"
     },
     "message": {
-      "uploading": "Uploading"
+      "uploading": "Uploading",
+      "linkCopied": "Link copied"
     },
     "board": {
       "cards": "Cards",
@@ -52,13 +54,18 @@
       "explore": "Explore",
       "saved": "Saved",
       "regs": "Registrations",
+      "featured": "Featured",
+      "showHistory": "Show past",
+      "hideHistory": "Hide past",
       "intro": {
         "discoverTitle": "Discover events",
         "discoverSubtitle": "Find and book events near you.",
         "savedTitle": "Saved",
         "savedSubtitle": "Your saved events at a glance.",
         "regsTitle": "My registrations",
-        "regsSubtitle": "Events you are registered for."
+        "regsSubtitle": "Events you are registered for.",
+        "ownTitle": "My events",
+        "ownSubtitle": "Events you created."
       }
     },
     "empty": {
@@ -107,6 +114,7 @@
       "country": "Country",
       "maxGuests": "Max guest amount",
       "category": "Categories",
+      "audiences": "Audiences",
       "tags": "Hashtags",
       "hint": {
         "Title": "Short and powerfull description of the event (max 40 chars)",
@@ -491,6 +499,12 @@
       "main": "Overview",
       "communication": "Communication",
       "info": "Info"
+    },
+    "item": {
+      "discover": "Discover",
+      "saved": "Saved",
+      "regs": "My registrations",
+      "own": "My events"
     }
   },
   "lang": {

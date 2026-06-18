@@ -35,6 +35,18 @@
             <lib-category-picker (toggled)="toggleCategory($event)" [categories]="allCategories()" [selectedIds]="categories.value ?? []"></lib-category-picker>
         }
 
+        @if (allAudiences().length > 0) {
+            <div class="flex flex-col gap-2">
+                <span class="text-sm font-medium">{{ 'event.form.audiences' | translate }}</span>
+                <div class="flex flex-wrap gap-2">
+                    @for (a of allAudiences(); track a.id) {
+                        <button (click)="toggleAudience(a.id)" [class.!bg-primary]="(audiences.value ?? []).includes(a.id)" [class.!text-on-primary]="(audiences.value ?? []).includes(a.id)"
+                                class="px-3 py-1 rounded-full border border-outline-variant text-sm" type="button">{{ a.name }}</button>
+                    }
+                </div>
+            </div>
+        }
+
         <mat-form-field class="dense-1">
             <mat-label>{{ 'event.form.tags' | translate }}</mat-label>
             <mat-chip-grid #chipGrid aria-label="Enter tags" formControlName="tags">

@@ -33,7 +33,8 @@ export class EventChangeLocationComponent implements OnInit {
   loading = this.addressResource.isLoading
   error = this.addressResource.error
 
-  selectedAddress = signal<Address | undefined>(undefined)
+  private selectedAddressId = signal<number | undefined>(undefined)
+  readonly selectedAddress = computed(() => this.addresses().find((a) => a.id === this.selectedAddressId()))
 
   constructor() {
     const fb = inject(FormBuilder)
@@ -86,7 +87,7 @@ export class EventChangeLocationComponent implements OnInit {
   }
 
   private selectAddress(address: Address) {
-    this.selectedAddress.set(address)
+    this.selectedAddressId.set(address.id)
     this.fg.patchValue({
       street: address.street,
       streetNumber: address.streetNumber,

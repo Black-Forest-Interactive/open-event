@@ -87,6 +87,17 @@ export class EventDetailsComponent {
     this.service.setShared(id, enabled).subscribe((d) => this.infoResource.set(d))
   }
 
+  shareEvent() {
+    const info = this.info()
+    if (!info) return
+    const url = window.location.href
+    if (navigator.share) {
+      navigator.share({ title: info.event.title, url }).catch(() => undefined)
+      return
+    }
+    navigator.clipboard.writeText(url).then(() => this.translation.get('event.message.linkCopied').subscribe((m) => this.hotToast.success(m)))
+  }
+
   toggleBookmark() {
     const id = this.eventId()
     if (!id) return

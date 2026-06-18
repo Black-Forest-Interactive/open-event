@@ -15,4 +15,8 @@ export class AudienceService extends BaseService {
   getAudiences(page: number, size: number): Observable<Page<Audience>> {
     return this.getPaged('', page, size)
   }
+
+  getAudience(id: number): Observable<Audience> {
+    return this.get(`${id}`)
+  }
 }

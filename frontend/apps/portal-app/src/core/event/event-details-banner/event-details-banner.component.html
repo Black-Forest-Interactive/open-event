@@ -8,10 +8,19 @@
         </div>
     }
 
-    @if (categories().length > 0) {
+    @if (categories().length > 0 || featured() || audiences().length > 0) {
         <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+            @if (featured()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                    <mat-icon inline>star</mat-icon>
+                    {{ 'event.board.featured' | translate }}
+                </span>
+            }
             @for (cat of categories(); track cat.id) {
                 <lib-category-chip [iconUrl]="cat.iconUrl" [name]="cat.name"></lib-category-chip>
+            }
+            @for (audience of audiences(); track audience.id) {
+                <span class="px-2 py-0.5 rounded-full bg-surface text-on-surface-variant text-xs font-medium">{{ audience.name }}</span>
             }
         </div>
     }
@@ -19,6 +28,9 @@
     <div class="absolute top-3 right-3 flex gap-2">
         <button (click)="toggleBookmark.emit()" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton>
             <mat-icon class="text-white">{{ isBookmarked() ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+        <button (click)="share.emit()" [matTooltip]="'action.share' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton matTooltipPosition="left">
+            <mat-icon class="text-white">share</mat-icon>
         </button>
         @if (canEdit()) {
             <button (click)="fileInput.click()" [disabled]="isUploading()"

@@ -494,3 +494,70 @@ main column, and the Phase 2 create/edit event form) is still recommended before
 - **Phase 4** — Notifications restyle done (task 21); `event-board-map` `.mapview` venue-grouped sidebar done (task
   22); dark-mode QA pass done (task 23). Remaining: default-address backend stub (if needed, out of scope per "backend
   untouched").
+
+---
+
+### 24. Mockup-Parity-Audit — `featured`-Flag, `audience`-Badge, Hero-Share
+
+Full audit + approved plan: `/home/oli.e/.claude/plans/encapsulated-booping-cray.md`. Re-derived the complete mockup
+topic list fresh from the Claude Design project ("Open House", `app/app.jsx`/`screens.jsx`/`account.jsx`) and mapped
+**every** portal-app screen against it. Result: high parity (most areas already done, often beyond what earlier PLAN.md
+sections recorded — bottom-nav, `Address.standard`, `navView` saved/regs, audience *filter*, registration note all
+already existed). Only 3 genuine gaps remained, all pure UI-surfacing of data the backend already sends.
+**Backend untouched** (only frontend interface fields added for already-transmitted data); **Tweaks panel out of scope**.
+
+- **`featured` flag** — surfaced the existing `featured` field on board cards, board rows and the detail hero.
+  - `libs/core/.../search/search.api.ts` — added `audiences: string[]` to the `EventSearchEntry` interface and
+    `libs/core/.../event/event.api.ts` — added `featured: boolean` to the `Event` interface. Both were already part of
+    the backend payload (`EventSearchEntry.kt` / `Event.kt`) but missing from the frontend types, so the build couldn't
+    see them. No backend change.
+  - `event/event-card/`, `event/event-row/` — added `readonly featured`/`audiences` computeds; templates render a
+    "Empfohlen"/"Featured" pill (`bg-primary-container text-on-primary-container`, `star` icon) in the media-float /
+    chip row.
+  - `event/event-details-banner/` — added `readonly featured` (from `data().event.featured`) + the same pill in the
+    hero category-chip float (float now also shows when `featured()` even with no categories).
+- **`audience` badge** — board cards/rows render one neutral pill per `entry().audiences` entry
+  (`bg-surface`/`bg-surface-container-high` + `text-on-surface-variant`). **Detail-hero audience badge NOT done**:
+  `EventInfo`/`Event` (detail API) carries no `audiences` — flagged as future backend work (add field to the `Event`
+  API + mapping).
+- **Hero share button** (user chose "share/copy link for everyone") — `event-details-banner` gained a `share` output +
+  a glass `share` icon button next to the bookmark. `event-details.component.ts` `shareEvent()` uses the Web Share API
+  with a `navigator.clipboard` + toast (`event.message.linkCopied`) fallback, sharing the current event-detail URL.
+  Independent of the organizer `share-details` panel.
+- **i18n** — added `event.board.featured`, `event.message.linkCopied`, global `action.share` (DE+EN).
+- Verified via `npx nx build portal-app --configuration=development` (success, only the pre-existing Sass deprecation
+  warning) and `npx nx lint portal-app` (same 3 pre-existing baseline issues only — `event-menu-item.ts:5`,
+  `dashboard.component.ts:11`, `app.component.ts:35` — none new).
+- **Not done / blocked**: live browser confirmation of the new flags/badges/share button.
+- **Flagged future backend work**: detail-hero `audience` badge (needs `audiences` on the `Event`/`EventInfo` API).
+
+### 25. Sechs gemeldete Fehler/Features (Test-Feedback nach §24)
+
+Reine Frontend-Arbeit; die **Backend-Seite der Audience-Zuweisung** (`EventChangeRequest.audienceIds`,
+`EventCrudService.create/update`) hatte der Nutzer bereits selbst eingebaut.
+
+- **(1) Kapazitäts-Stepper** — `libs/ui/.../stepper-input`: Default-`step` 5 → 1; mittlere Anzeige ist jetzt ein
+  editierbares `<input type="number">` (`setValue` clampt gegen `min`). Einziger Verwender = maxGuests.
+- **(2) Audience-Auswahl im Create/Edit** — `AudienceReadAPI` durch die Formular-Kette gereicht
+  (`event-create`/`event-edit`/`event-copy` portal + admin `event-change-dialog`/`event-create-dialog` →
+  `lib-event-change` → `event-change-single` → `event-change-registration`). Registration-Form hat jetzt ein
+  `audiences`-Control + Toggle-Picker (lädt via `audienceResource`), Vorbelegung aus `info.audiences`. Request füllt
+  den neuen `audienceIds`-Slot. `AudienceReadAPI` ergänzt um `EventChangeRequest.audienceIds` (core) und
+  `AudienceService.getAudience(id)` (portal).
+- **(3) Adress-Default** — `event-change-location`: Auswahl jetzt id-basiert (`selectedAddressId` + `selectedAddress`
+  computed über `addresses().find(id)`), damit die Standard-Adresse nach dem `reload()`-bedingten zweiten Laden
+  referenzstabil im Radio markiert bleibt. „Gespeichert"-Tab + Standard sind im Create vorausgewählt.
+- **(4) Sidenav-Menüpunkte** — `NavItem` um `queryParams` erweitert; `app-sidenav` bindet `[queryParams]` +
+  query-genaues `routerLinkActiveOptions`; `dashboard.service` listet Entdecken/Wunschliste/Meine Teilnahme/Meine
+  Angebote (Deeplinks `/event?view=saved|regs|own`). `EventBoardComponent` liest `?view` → `setNavView`; Board-Service
+  kennt navView `own` (→ `ownOnly`).
+- **(5) Zeitraum-Default** — `setNavView` setzt `includeHistory=false` (Default heute→∞); Board-Header zeigt für
+  saved/regs/own einen Toggle „Vergangenheit anzeigen/ausblenden" (`toggleShowHistory`/`showHistory`).
+- **(6) Detail-Hero Audience-Badge** — jetzt freigeschaltet: `EventInfo.audiences: Audience[]` (core) ergänzt
+  (Backend liefert es schon, `EventInfo.kt:13`); Banner rendert neutrale Audience-Pills im Hero-Float.
+- **i18n** — `event.form.audiences`, `event.board.{showHistory,hideHistory}`, `event.board.intro.{ownTitle,ownSubtitle}`,
+  `nav.item.{discover,saved,regs,own}` (+ fehlende `nav.group.*` in `de.json` ergänzt) in DE+EN.
+- **Verifiziert**: `nx build portal-app` ✅, `nx build admin-app` ✅ (beide nur Sass-Deprecation-Warnung);
+  `nx lint portal-app` = die 3 bekannten Baseline-Issues; admin-Lint-Issues liegen ausschließlich in nicht angefassten
+  Dateien (kein neues Problem).
+- **Offen**: Live-Browser-QA (insb. Adress-Default-Fix #3 visuell bestätigen).

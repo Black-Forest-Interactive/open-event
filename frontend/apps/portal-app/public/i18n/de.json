@@ -21,7 +21,8 @@
     "delete": "Löschen",
     "reset": "Zurücksetzen",
     "loadMore": "Mehr laden",
-    "more": "Mehr"
+    "more": "Mehr",
+    "share": "Teilen"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -38,7 +39,8 @@
       "saveChanges": "Änderungen speichern"
     },
     "message": {
-      "uploading": "Wird hochgeladen"
+      "uploading": "Wird hochgeladen",
+      "linkCopied": "Link kopiert"
     },
     "board": {
       "cards": "Karten",
@@ -52,13 +54,18 @@
       "explore": "Entdecken",
       "saved": "Merkliste",
       "regs": "Anmeldungen",
+      "featured": "Empfohlen",
+      "showHistory": "Vergangenheit anzeigen",
+      "hideHistory": "Vergangenheit ausblenden",
       "intro": {
         "discoverTitle": "Entdecke Veranstaltungen",
         "discoverSubtitle": "Finde und buche Veranstaltungen in deiner Nähe.",
         "savedTitle": "Merkliste",
         "savedSubtitle": "Deine gemerkten Veranstaltungen auf einen Blick.",
         "regsTitle": "Meine Anmeldungen",
-        "regsSubtitle": "Veranstaltungen, für die du angemeldet bist."
+        "regsSubtitle": "Veranstaltungen, für die du angemeldet bist.",
+        "ownTitle": "Meine Angebote",
+        "ownSubtitle": "Veranstaltungen, die du erstellt hast."
       }
     },
     "empty": {
@@ -107,6 +114,7 @@
       "country": "Land",
       "maxGuests": "Teilnehmer",
       "category": "Kategorien",
+      "audiences": "Zielgruppen",
       "tags": "Hashtags",
       "hint": {
         "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
@@ -463,6 +471,19 @@
         "title": "Hinweis zum Datenschutz",
         "content": "Beim teilen deiner Veranstaltung werden einige Angaben wie der Titel und der Veranstaltungsort für alle sichtbar, die den Link haben. Der Link enthält jedoch eine zufällig erzeugte Kennung, sodass er nicht erraten werden kann. Nur Personen, denen du den Link gibst, können auf die Veranstaltungsseite zugreifen.\nDu kannst die Freigabe jederzeit wieder deaktivieren. Dann ist der Link nicht mehr gültig und die Veranstaltung nicht mehr einsehbar."
       }
+    }
+  },
+  "nav": {
+    "group": {
+      "main": "Übersicht",
+      "communication": "Kommunikation",
+      "info": "Info"
+    },
+    "item": {
+      "discover": "Entdecken",
+      "saved": "Merkliste",
+      "regs": "Meine Anmeldungen",
+      "own": "Meine Angebote"
     }
   },
   "lang": {

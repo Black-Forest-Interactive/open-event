@@ -68,6 +68,7 @@ export interface EventSearchEntry {
 
   // categories
   categories: string[]
+  audiences: string[]
   tags: string[]
 }
 

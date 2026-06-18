@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, resource } from '@angular/core'
-import { Category, CategoryReadAPI, EventInfo } from '@open-event/core'
+import { Audience, AudienceReadAPI, Category, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -38,6 +38,7 @@ export class EventChangeRegistrationComponent {
   fg: FormGroup
 
   categoryReadAPI = input.required<CategoryReadAPI>()
+  audienceReadAPI = input.required<AudienceReadAPI>()
 
   categoryResource = resource({
     loader: (param) => {
@@ -45,8 +46,15 @@ export class EventChangeRegistrationComponent {
     }
   })
 
+  audienceResource = resource({
+    loader: (param) => {
+      return toPromise(this.audienceReadAPI().getAllAudiences(0, 100))
+    }
+  })
+
   category = computed(this.categoryResource.value ?? undefined)
   allCategories = computed<Category[]>(() => this.category()?.content ?? [])
+  allAudiences = computed<Audience[]>(() => this.audienceResource.value()?.content ?? [])
   loading = this.categoryResource.isLoading
   error = this.categoryResource.error
 
@@ -65,6 +73,7 @@ export class EventChangeRegistrationComponent {
       ticketsEnabled: [false, Validators.required],
       shared: [true, Validators.required],
       categories: [[]],
+      audiences: [[]],
       tags: fb.control([])
     })
 
@@ -87,6 +96,10 @@ export class EventChangeRegistrationComponent {
     return this.fg.get('categories') as FormControl
   }
 
+  get audiences(): FormControl {
+    return this.fg.get('audiences') as FormControl
+  }
+
   get tags(): FormControl {
     return this.fg.get('tags') as FormControl
   }
@@ -99,6 +112,12 @@ export class EventChangeRegistrationComponent {
     const current = (this.categories.value as number[]) ?? []
     const updated = current.includes(id) ? current.filter((c) => c !== id) : [...current, id]
     this.categories.setValue(updated)
+  }
+
+  toggleAudience(id: number) {
+    const current = (this.audiences.value as number[]) ?? []
+    const updated = current.includes(id) ? current.filter((a) => a !== id) : [...current, id]
+    this.audiences.setValue(updated)
   }
 
   addTag(event: MatChipInputEvent) {
@@ -132,6 +151,7 @@ export class EventChangeRegistrationComponent {
         interestedAllowed: registration.registration.interestedAllowed,
         shared: info.share?.share.enabled ?? false,
         categories: info.categories.map((c) => c.id) ?? [],
+        audiences: info.audiences?.map((a) => a.id) ?? [],
         tags: info.event.tags ?? []
       })
     }

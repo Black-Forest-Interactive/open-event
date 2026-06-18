@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { Account, AccountSearchEntry, EventChangeRequest } from '@open-event/core'
-import { AccountService, AddressService, CategoryService, EventService } from '@open-event/admin'
+import { AccountService, AddressService, AudienceService, CategoryService, EventService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventCreateComponent } from '@open-event/ui'
@@ -18,6 +18,7 @@ export class EventCreateDialogComponent {
   private eventService = inject(EventService)
   private addressService = inject(AddressService)
   private categoryService = inject(CategoryService)
+  private audienceService = inject(AudienceService)
 
   addressReadAPI = {
     getAllAddresses: (page: number, size: number) => this.accountService.getAddress(this.data.id, page, size),
@@ -27,6 +28,11 @@ export class EventCreateDialogComponent {
   categoryReadAPI = {
     getAllCategories: (page: number, size: number) => this.categoryService.getAllCategories(page, size),
     getCategory: (id: number) => this.categoryService.getCategory(id)
+  }
+
+  audienceReadAPI = {
+    getAllAudiences: (page: number, size: number) => this.audienceService.getAllAudiences(page, size),
+    getAudience: (id: number) => this.audienceService.getAudience(id)
   }
 
   eventReadAPI = {

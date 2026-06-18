@@ -58,7 +58,7 @@ class EventStorageService(
         return data.update(request, timeProvider.now())
     }
 
-    override fun set(event: Event, categories: List<Category>) {
+    override fun setCategories(event: Event, categories: List<Category>) {
         categoryRelationService.set(event, categories)
     }
 
@@ -72,6 +72,11 @@ class EventStorageService(
 
     override fun getCategories(event: Event): List<Category> {
         return categoryRelationService.get(event)
+    }
+
+
+    override fun setAudiences(event: Event, audiences: List<Audience>) {
+        audienceRelationService.set(event, audiences)
     }
 
     override fun assign(event: Event, audience: Audience) {
