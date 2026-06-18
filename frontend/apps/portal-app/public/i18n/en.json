@@ -47,10 +47,19 @@
       "map": "Map",
       "results": "Results",
       "details": "View details",
+      "imageTag": "Event image",
       "venues": "Venues",
       "explore": "Explore",
       "saved": "Saved",
-      "regs": "Registrations"
+      "regs": "Registrations",
+      "intro": {
+        "discoverTitle": "Discover events",
+        "discoverSubtitle": "Find and book events near you.",
+        "savedTitle": "Saved",
+        "savedSubtitle": "Your saved events at a glance.",
+        "regsTitle": "My registrations",
+        "regsSubtitle": "Events you are registered for."
+      }
     },
     "empty": {
       "title": "No events found",

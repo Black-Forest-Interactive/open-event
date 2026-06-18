@@ -49,6 +49,28 @@ export class EventBoardComponent {
   private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
+  readonly introTitleKey = computed(() => {
+    switch (this.service.navView()) {
+      case 'saved':
+        return 'event.board.intro.savedTitle'
+      case 'regs':
+        return 'event.board.intro.regsTitle'
+      default:
+        return 'event.board.intro.discoverTitle'
+    }
+  })
+
+  readonly introSubtitleKey = computed(() => {
+    switch (this.service.navView()) {
+      case 'saved':
+        return 'event.board.intro.savedSubtitle'
+      case 'regs':
+        return 'event.board.intro.regsSubtitle'
+      default:
+        return 'event.board.intro.discoverSubtitle'
+    }
+  })
+
   readonly whenLabelKey = computed(() => {
     switch (this.service.preselection()) {
       case 'today':

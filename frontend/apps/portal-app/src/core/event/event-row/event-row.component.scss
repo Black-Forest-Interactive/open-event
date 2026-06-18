@@ -9,11 +9,15 @@
 }
 
 .erow__media {
-  background: oklch(0.93 0.04 var(--h));
+  background: linear-gradient(150deg, oklch(0.92 0.05 var(--h)) 0%, oklch(0.85 0.08 var(--h)) 100%);
   color: oklch(0.42 0.1 var(--h));
 
   :host-context(.dark) & {
-    background: oklch(0.3 0.05 var(--h));
+    background: linear-gradient(150deg, oklch(0.36 0.06 var(--h)) 0%, oklch(0.29 0.07 var(--h)) 100%);
     color: oklch(0.85 0.06 var(--h));
   }
+}
+
+.erow__glyph {
+  font-variation-settings: 'FILL' 1, 'wght' 300;
 }

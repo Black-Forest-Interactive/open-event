@@ -8,7 +8,15 @@
         <mat-radio-group (change)="handleAddressSelected($event)" [class.hidden]="addressMode.value !== 'saved'" [value]="selectedAddress()" class="flex flex-col gap-2">
             @for (a of addresses(); track a.id) {
                 <mat-radio-button [class.bg-surface-container]="selectedAddress() === a" [value]="a" class="block rounded-xl border border-outline-variant px-4 py-3">
-                    <span class="font-medium">{{ a.street }} {{ a.streetNumber }}</span>
+                    <span class="flex items-center gap-2 font-medium">
+                        {{ a.street }} {{ a.streetNumber }}
+                        @if (a.standard) {
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-xs font-medium">
+                                <mat-icon inline>check</mat-icon>
+                                {{ 'address.action.default' | translate }}
+                            </span>
+                        }
+                    </span>
                     <span class="block text-sm text-on-surface-variant">{{ a.zip }} {{ a.city }}</span>
                 </mat-radio-button>
             }

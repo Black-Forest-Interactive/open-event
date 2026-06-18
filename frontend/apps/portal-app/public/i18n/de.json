@@ -47,10 +47,19 @@
       "map": "Karte",
       "results": "Ergebnisse",
       "details": "Details ansehen",
+      "imageTag": "Veranstaltungsbild",
       "venues": "Veranstaltungsorte",
       "explore": "Entdecken",
       "saved": "Merkliste",
-      "regs": "Anmeldungen"
+      "regs": "Anmeldungen",
+      "intro": {
+        "discoverTitle": "Entdecke Veranstaltungen",
+        "discoverSubtitle": "Finde und buche Veranstaltungen in deiner Nähe.",
+        "savedTitle": "Merkliste",
+        "savedSubtitle": "Deine gemerkten Veranstaltungen auf einen Blick.",
+        "regsTitle": "Meine Anmeldungen",
+        "regsSubtitle": "Veranstaltungen, für die du angemeldet bist."
+      }
     },
     "empty": {
       "title": "Keine Veranstaltungen gefunden",

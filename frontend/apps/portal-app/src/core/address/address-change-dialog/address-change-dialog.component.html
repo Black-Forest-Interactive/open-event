@@ -1,10 +1,11 @@
-<h1 mat-dialog-title>
+<h1 mat-dialog-title class="!mb-1">
     @if (data) {
         {{ "address.dialog.change.title" | translate }}
     } @else {
         {{ "address.dialog.create.title" | translate }}
     }
 </h1>
+<p class="px-6 -mt-2 mb-2 text-sm text-on-surface-variant">{{ 'address.subtitle' | translate }}</p>
 <div mat-dialog-content>
     <lib-address-change #change (request)="handleRequest($event)" [data]="data"></lib-address-change>
     <div class="flex items-center gap-3 pt-2">

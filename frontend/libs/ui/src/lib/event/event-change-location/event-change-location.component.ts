@@ -8,11 +8,12 @@ import { TranslatePipe } from '@ngx-translate/core'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio'
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatIcon } from '@angular/material/icon'
 import { toPromise } from '@open-event/shared'
 
 @Component({
   selector: 'lib-event-change-location',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslatePipe, MatButtonToggleModule, MatRadioModule, MatCheckboxModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslatePipe, MatButtonToggleModule, MatRadioModule, MatCheckboxModule, MatIcon],
   templateUrl: './event-change-location.component.html',
   styleUrl: './event-change-location.component.scss'
 })
@@ -57,7 +58,8 @@ export class EventChangeLocationComponent implements OnInit {
       const addresses = this.addresses()
       if (!this.data() && addresses.length > 0 && !this.addressMode.dirty) {
         this.addressMode.setValue('saved')
-        this.selectAddress(addresses[0])
+        const preferred = addresses.find((a) => a.standard) ?? addresses[0]
+        this.selectAddress(preferred)
       }
     })
 
