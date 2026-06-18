@@ -1,63 +1,118 @@
-@if (mobileView()) {
-    <div class="sticky top-0 z-10 flex items-center gap-2 h-16 px-3 border-b bg-surface-container-lowest border-outline-variant">
-        <lib-board-search (search)="setQuery($event)" class="flex-auto" placeholder="event.search"></lib-board-search>
-        <button [matMenuTriggerFor]="mobileMenu" mat-icon-button>
-            <mat-icon>more_vert</mat-icon>
-        </button>
-    </div>
-} @else {
-    <div class="sticky top-0 z-10 flex items-center h-16 px-4 gap-4 shrink-0 border-b bg-surface-container-lowest border-outline-variant">
-        <div class="flex-auto py-2 max-w-lg">
-            <lib-board-search (search)="setQuery($event)" placeholder="event.search"></lib-board-search>
+<div class="px-3 sm:px-4 pt-4 pb-1">
+    <h1 class="text-2xl font-semibold text-on-surface">{{ introTitleKey() | translate }}</h1>
+    <p class="text-sm text-on-surface-variant">{{ introSubtitleKey() | translate }}</p>
+</div>
+
+<div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
+    <div class="flex items-center gap-2">
+        <div class="flex flex-1 items-center gap-2 min-w-0">
+            <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" placeholder="event.search"></lib-board-search>
+            <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
+                <b>{{ service.totalSize() }}</b> {{ 'event.board.results' | translate }}
+            </span>
         </div>
-        <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="ml-auto shrink-0">
-            <mat-button-toggle (click)="setMode('list')" [checked]="mode() === 'list'" value="list">
-                <mat-icon>list</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (click)="setMode('map')" [checked]="mode() === 'map'" value="map">
-                <mat-icon>map</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (click)="setMode('calendar')" [checked]="mode() === 'calendar'" value="calendar">
-                <mat-icon>calendar_month</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
+
+        <button color="accent" matButton="filled" routerLink="./create" class="shrink-0">
+            <mat-icon>add</mat-icon>
+            <span class="hidden sm:inline">{{ 'event.create' | translate }}</span>
+        </button>
+
+        <div class="flex flex-1 items-center justify-end gap-2 min-w-0">
+            @if (mobileView()) {
+                <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" matIconButton
+                        matBadgeColor="accent" matBadgeSize="small">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            }
+            <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0">
+                <mat-button-toggle (click)="service.setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="service.layout() === 'cards'"
+                                    value="cards">
+                    <mat-icon>grid_view</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="service.setLayout('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="service.layout() === 'rows'"
+                                    value="rows">
+                    <mat-icon>view_list</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="service.setLayout('calendar')" [attr.aria-label]="'event.board.calendar' | translate" [checked]="service.layout() === 'calendar'"
+                                    value="calendar">
+                    <mat-icon>calendar_month</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="service.setLayout('map')" [attr.aria-label]="'event.board.map' | translate" [checked]="service.layout() === 'map'"
+                                    value="map">
+                    <mat-icon>map</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
     </div>
-}
+
+    @if (activeFilterCount() > 0) {
+        <div class="flex items-center gap-2 flex-wrap">
+            @if (whenLabelKey()) {
+                <button (click)="removeWhenFilter()"
+                        class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
+                        type="button">
+                    {{ whenLabelKey() | translate }}
+                    <mat-icon inline>close</mat-icon>
+                </button>
+            }
+            @for (cat of service.categoryFilter(); track cat) {
+                <button (click)="removeCategoryFilter(cat)"
+                        class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
+                        type="button">
+                    {{ cat }}
+                    <mat-icon inline>close</mat-icon>
+                </button>
+            }
+            @if (service.showAvailableOnly()) {
+                <button (click)="removeAvailableFilter()"
+                        class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
+                        type="button">
+                    {{ 'event.filter.onlyAvailable' | translate }}
+                    <mat-icon inline>close</mat-icon>
+                </button>
+            }
+            <button (click)="service.resetFilter()"
+                    class="inline-flex items-center h-7 px-3 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                    type="button">
+                {{ 'event.filter.reset' | translate }}
+            </button>
+        </div>
+    }
+</div>
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
-<div class="flex flex-row gap-4 p-4">
+<div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4">
     <div class="flex-auto min-w-0">
-        @if (mobileView()) {
-            <portal-event-board-list></portal-event-board-list>
-        } @else {
-            @switch (mode()) {
-                @case ('map') {
-                    <portal-event-board-map></portal-event-board-map>
-                }
-                @case ('calendar') {
-                    <portal-event-board-calendar></portal-event-board-calendar>
-                }
-                @default {
-                    <portal-event-board-table></portal-event-board-table>
-                }
+        @switch (service.layout()) {
+            @case ('map') {
+                <portal-event-board-map></portal-event-board-map>
+            }
+            @case ('calendar') {
+                <portal-event-board-calendar></portal-event-board-calendar>
+            }
+            @default {
+                <portal-event-board-list></portal-event-board-list>
             }
         }
     </div>
     @if (!mobileView()) {
         <div class="basis-72 shrink-0 flex flex-col gap-3">
-            <button class="w-full" color="accent" matButton="filled" routerLink="./create">
-                <mat-icon>add</mat-icon>
-                {{ 'event.create' | translate }}
-            </button>
             <portal-event-board-filter></portal-event-board-filter>
         </div>
     }
 </div>
 
-<mat-menu #mobileMenu="matMenu">
-    <button mat-menu-item routerLink="./create">
-        <mat-icon>event</mat-icon>
-        {{ 'event.create' | translate }}
-    </button>
-</mat-menu>
+<ng-template #filterSheet>
+    <div class="px-4 pt-4 pb-6">
+        <portal-event-board-filter></portal-event-board-filter>
+    </div>
+</ng-template>
+
+<portal-event-board-navbar></portal-event-board-navbar>
+
+<a class="fixed bottom-20 right-4 lg:hidden z-10 flex items-center gap-2 px-4 py-3 rounded-2xl bg-primary-container text-on-primary-container shadow-lg font-medium text-sm no-underline"
+   routerLink="./create">
+    <mat-icon>add</mat-icon>
+    {{ 'event.create' | translate }}
+</a>

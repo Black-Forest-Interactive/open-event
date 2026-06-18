@@ -44,6 +44,13 @@ html {
   --mat-sys-on-error: #ffffff;
   --mat-sys-error-container: #fee2e2;
   --mat-sys-on-error-container: #7f1d1d;
+
+  // Availability semantics (event capacity status bar)
+  --ev-ok: oklch(0.52 0.09 153);
+  --ev-mid: oklch(0.62 0.10 130);
+  --ev-warn: oklch(0.66 0.13 70);
+  --ev-danger: oklch(0.55 0.17 27);
+  --ev-on-danger: oklch(0.98 0.01 27);
 }
 
 html.dark {
@@ -78,4 +85,11 @@ html.dark {
   --mat-sys-on-error: #450a0a;
   --mat-sys-error-container: #7f1d1d;
   --mat-sys-on-error-container: #fee2e2;
+
+  // Availability semantics (event capacity status bar)
+  --ev-ok: oklch(0.52 0.09 153);
+  --ev-mid: oklch(0.62 0.10 130);
+  --ev-warn: oklch(0.66 0.13 70);
+  --ev-danger: oklch(0.55 0.17 27);
+  --ev-on-danger: oklch(0.98 0.01 27);
 }

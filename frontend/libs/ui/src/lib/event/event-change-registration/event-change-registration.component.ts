@@ -1,31 +1,32 @@
 import { Component, computed, effect, inject, input, resource } from '@angular/core'
-import { EventInfo, CategoryReadAPI } from '@open-event/core'
+import { Category, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatInputModule } from '@angular/material/input'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatSelectModule } from '@angular/material/select'
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips'
-import { ChipSelectEntry, ChipSelectPaneComponent, LoadingBarComponent, toPromise } from '@open-event/shared'
+import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatIconModule } from '@angular/material/icon'
 import { MatCheckbox } from '@angular/material/checkbox'
+import { CategoryPickerComponent } from '../../category/category-picker/category-picker.component'
+import { StepperInputComponent } from '../../stepper-input/stepper-input.component'
 
 @Component({
   selector: 'lib-event-change-registration',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatDatepickerModule,
     MatInputModule,
     MatSelectModule,
     MatChipsModule,
     MatIconModule,
     TranslatePipe,
     LoadingBarComponent,
-    ChipSelectPaneComponent,
-    MatCheckbox
+    MatCheckbox,
+    CategoryPickerComponent,
+    StepperInputComponent
   ],
   templateUrl: './event-change-registration.component.html',
   styleUrl: './event-change-registration.component.scss'
@@ -45,9 +46,15 @@ export class EventChangeRegistrationComponent {
   })
 
   category = computed(this.categoryResource.value ?? undefined)
-  allCategories = computed(() => this.category()?.content?.map((d) => ({ id: d.id, name: d.name }) as ChipSelectEntry) ?? [])
+  allCategories = computed<Category[]>(() => this.category()?.content ?? [])
   loading = this.categoryResource.isLoading
   error = this.categoryResource.error
+
+  readonly minCapacity = computed(() => {
+    const participants = this.data()?.registration?.participants ?? []
+    const taken = participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0)
+    return Math.max(1, taken)
+  })
 
   constructor() {
     const fb = inject(FormBuilder)
@@ -72,9 +79,8 @@ export class EventChangeRegistrationComponent {
     })
   }
 
-  get ticketsEnabled(): FormControl<any> {
-    // @ts-ignore
-    return this.form!.get('ticketsEnabled')
+  get maxGuestAmount(): FormControl {
+    return this.fg.get('maxGuestAmount') as FormControl
   }
 
   get categories(): FormControl {
@@ -87,6 +93,12 @@ export class EventChangeRegistrationComponent {
 
   isVisible(ctrl: string): boolean {
     return this.hiddenFields().find((x) => x == ctrl) == null
+  }
+
+  toggleCategory(id: number) {
+    const current = (this.categories.value as number[]) ?? []
+    const updated = current.includes(id) ? current.filter((c) => c !== id) : [...current, id]
+    this.categories.setValue(updated)
   }
 
   addTag(event: MatChipInputEvent) {

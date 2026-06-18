@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 
 @Singleton
 class EventCategoryRelationService(
-    private val repository: CategoryRelationRepository,
+    private val repository: EventCategoryRelationRepository,
     private val service: CategoryStorageService
 ) {
 

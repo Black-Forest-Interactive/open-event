@@ -5,15 +5,16 @@
         </button>
         <span class="title ps-2">{{ "event.change.create" | translate }}</span>
         <div class="flex-auto"></div>
-        <mat-slide-toggle #mode checked>{{ "event.change.mode" | translate }}</mat-slide-toggle>
     </div>
 </mat-toolbar>
-<lib-event-change
-        (cancel)="cancel()"
-        (request)="handleRequest($event)"
-        [addressReadAPI]="this"
-        [categoryReadAPI]="this"
-        [eventReadAPI]="this"
-        [mode]="mode.checked ? 'single' : 'stepper'"
->
-</lib-event-change>
+<mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">
+    <lib-event-change
+            (cancel)="cancel()"
+            (request)="handleRequest($event)"
+            [addressReadAPI]="this"
+            [categoryReadAPI]="this"
+            [eventReadAPI]="this"
+            submitLabel="event.action.publish"
+    >
+    </lib-event-change>
+</mat-card>

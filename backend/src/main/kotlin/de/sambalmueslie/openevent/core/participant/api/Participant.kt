@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 data class Participant(
     override val id: Long,
     val size: Long,
+    val note: String,
     val status: ParticipantStatus,
     val rank: Int,
     val waitingList: Boolean,

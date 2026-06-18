@@ -15,13 +15,14 @@
 </mat-toolbar>
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 @if (event()) {
-    <lib-event-change (cancel)="cancel()"
-                      (request)="handleRequest($event)"
-                      [addressReadAPI]="this"
-                      [categoryReadAPI]="this"
-                      [eventReadAPI]="this"
-                      [event]="event()!"
-                      title=""
-    >
-    </lib-event-change>
+    <mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">
+        <lib-event-change (cancel)="cancel()"
+                          (request)="handleRequest($event)"
+                          [addressReadAPI]="this"
+                          [categoryReadAPI]="this"
+                          [eventReadAPI]="this"
+                          [event]="event()!"
+        >
+        </lib-event-change>
+    </mat-card>
 }

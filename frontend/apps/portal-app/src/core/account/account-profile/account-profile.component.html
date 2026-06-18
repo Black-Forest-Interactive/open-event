@@ -1,10 +1,11 @@
-<mat-card>
-    <div class="flex items-center gap-3 h-16 px-6 rounded-t bg-surface-container-high text-on-surface">
-        <mat-icon>person</mat-icon>
-        <span class="text-xl font-semibold">{{ 'profile.title' | translate }}</span>
-        <span class="flex-1"></span>
+<mat-card appearance="outlined" class="h-full">
+    <div class="flex items-start justify-between gap-3 p-4">
+        <div>
+            <h1 class="text-xl font-semibold text-on-surface">{{ 'profile.title' | translate }}</h1>
+            <p class="text-sm text-on-surface-variant mt-1">{{ 'profile.subtitle' | translate }}</p>
+        </div>
         @if (!editMode()) {
-            <button (click)="editMode.set(true)" mat-icon-button>
+            <button (click)="editMode.set(true)" matIconButton>
                 <mat-icon>edit</mat-icon>
             </button>
         }
@@ -12,65 +13,72 @@
     <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
 
     @if (profile()) {
+        <div class="border-t border-outline-variant p-4">
+            <div class="flex items-center gap-3">
+                <lib-avatar [name]="profile()!.firstName + ' ' + profile()!.lastName" size="lg"></lib-avatar>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-sm font-semibold truncate">{{ profile()!.firstName }} {{ profile()!.lastName }}</span>
+                    <span class="text-xs text-on-surface-variant truncate">{{ profile()!.email }}</span>
+                </div>
+            </div>
+        </div>
+
         @if (editMode()) {
-            <form [formGroup]="fg" class="grid gap-y-3 px-6 py-4" style="grid-template-columns: 9rem 1fr">
-                <span class="text-sm font-medium self-center text-on-surface-variant">{{ 'profile.email' | translate }}</span>
-                <span class="text-sm self-center">{{ profile()!.email }}</span>
-                @for (field of [
-                    {key: 'phone', label: 'profile.phone'},
-                    {key: 'mobile', label: 'profile.mobile'},
-                    {key: 'firstName', label: 'profile.firstName'},
-                    {key: 'lastName', label: 'profile.lastName'},
-                    {key: 'dateOfBirth', label: 'profile.dateOfBirth'},
-                    {key: 'gender', label: 'profile.gender'},
-                    {key: 'profilePicture', label: 'profile.profilePicture'},
-                    {key: 'website', label: 'profile.website'}
-                ]; track field.key) {
-                    <span class="text-sm font-medium self-center text-on-surface-variant">{{ field.label | translate }}</span>
+            <div class="border-t border-outline-variant p-4">
+                <form [formGroup]="fg" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    @for (field of [
+                        {key: 'firstName', label: 'profile.firstName'},
+                        {key: 'lastName', label: 'profile.lastName'},
+                        {key: 'phone', label: 'profile.phone'},
+                        {key: 'mobile', label: 'profile.mobile'},
+                        {key: 'dateOfBirth', label: 'profile.dateOfBirth'},
+                        {key: 'gender', label: 'profile.gender'},
+                        {key: 'profilePicture', label: 'profile.profilePicture'},
+                        {key: 'website', label: 'profile.website'}
+                    ]; track field.key) {
+                        <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
+                            <mat-label>{{ field.label | translate }}</mat-label>
+                            <input [formControlName]="field.key" matInput>
+                        </mat-form-field>
+                    }
                     <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
-                        <input [formControlName]="field.key" matInput>
+                        <mat-label>{{ 'profile.language' | translate }}</mat-label>
+                        <mat-select formControlName="language">
+                            <mat-option value="en">{{ 'lang.en' | translate }}</mat-option>
+                            <mat-option value="de">{{ 'lang.de' | translate }}</mat-option>
+                        </mat-select>
                     </mat-form-field>
-                }
-                <span class="text-sm font-medium self-center text-on-surface-variant">{{ 'profile.language' | translate }}</span>
-                <mat-form-field appearance="outline" class="dense-1" subscriptSizing="dynamic">
-                    <mat-select formControlName="language">
-                        <mat-option value="en">{{ 'lang.en' | translate }}</mat-option>
-                        <mat-option value="de">{{ 'lang.de' | translate }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </form>
-            <div class="flex gap-3 px-6 pb-4">
-                <button (click)="save()" matButton="filled">
-                    <mat-icon>save</mat-icon>
-                    {{ 'action.save' | translate }}
-                </button>
-                <button (click)="cancel()" matButton="outlined">
-                    <mat-icon>cancel</mat-icon>
-                    {{ 'action.cancel' | translate }}
-                </button>
+                </form>
+                <div class="flex gap-3 mt-3">
+                    <button (click)="save()" matButton="filled">
+                        <mat-icon>save</mat-icon>
+                        {{ 'action.save' | translate }}
+                    </button>
+                    <button (click)="cancel()" matButton="outlined">
+                        <mat-icon>cancel</mat-icon>
+                        {{ 'action.cancel' | translate }}
+                    </button>
+                </div>
             </div>
         }
 
         @if (!editMode()) {
-            <div class="flex flex-col divide-y divide-outline-variant">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 border-t border-outline-variant p-4">
                 @for (row of [
-                    {label: 'profile.email', value: profile()!.email},
                     {label: 'profile.phone', value: profile()!.phone},
                     {label: 'profile.mobile', value: profile()!.mobile},
-                    {label: 'profile.firstName', value: profile()!.firstName},
-                    {label: 'profile.lastName', value: profile()!.lastName},
                     {label: 'profile.dateOfBirth', value: profile()!.dateOfBirth},
                     {label: 'profile.gender', value: profile()!.gender},
                     {label: 'profile.profilePicture', value: profile()!.profilePicture},
                     {label: 'profile.website', value: profile()!.website}
                 ]; track row.label) {
-                    <div class="flex gap-4 py-2 px-6">
-                        <span class="w-36 text-sm font-medium shrink-0 text-on-surface-variant">{{ row.label | translate }}</span>
+                    <div class="flex flex-col gap-0.5">
+                        <span class="text-xs font-medium text-on-surface-variant">{{ row.label | translate }}</span>
                         <span class="text-sm">{{ row.value }}</span>
                     </div>
                 }
-                <div class="flex gap-4 py-2 px-6">
-                    <span class="w-36 text-sm font-medium shrink-0 text-on-surface-variant">{{ 'profile.language' | translate }}</span>
+                <div class="flex flex-col gap-0.5">
+                    <span class="text-xs font-medium text-on-surface-variant">{{ 'profile.language' | translate }}</span>
                     <span class="text-sm">{{ 'lang.' + profile()!.language | translate }}</span>
                 </div>
             </div>

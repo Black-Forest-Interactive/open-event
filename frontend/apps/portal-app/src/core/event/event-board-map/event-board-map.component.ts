@@ -1,14 +1,28 @@
-import { Component, createComponent, effect, ElementRef, EnvironmentInjector, inject, viewChild } from '@angular/core'
+import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, viewChild } from '@angular/core'
 import * as L from 'leaflet'
-import { icon, Map, Marker, MarkerClusterGroup } from 'leaflet'
+import { icon, Map as LeafletMap, Marker, MarkerClusterGroup } from 'leaflet'
 import { EventBoardMapPopupComponent } from '../event-board-map-popup/event-board-map-popup.component'
 import { EventNavigationService } from '../event-navigation.service'
 import { Router } from '@angular/router'
 import { EventBoardService } from '../event-board.service'
 import { EventSearchEntry } from '@open-event/core'
 import { MatCard } from '@angular/material/card'
+import { MatIcon } from '@angular/material/icon'
+import { DatePipe } from '@angular/common'
+import { TranslatePipe } from '@ngx-translate/core'
 import 'leaflet.markercluster'
 import { LoadingBarComponent } from '@open-event/shared'
+
+interface VenueGroup {
+  key: string
+  street: string
+  streetNumber: string
+  zip: string
+  city: string
+  lat: number
+  lon: number
+  entries: EventSearchEntry[]
+}
 
 const iconDefault = icon({
   iconRetinaUrl: 'marker/marker-icon-2x.png',
@@ -26,7 +40,7 @@ Marker.prototype.options.icon = iconDefault
   selector: 'portal-event-board-map',
   templateUrl: './event-board-map.component.html',
   styleUrl: './event-board-map.component.scss',
-  imports: [MatCard, LoadingBarComponent],
+  imports: [MatCard, MatIcon, DatePipe, TranslatePipe, LoadingBarComponent],
   standalone: true
 })
 export class EventBoardMapComponent {
@@ -35,7 +49,19 @@ export class EventBoardMapComponent {
   private environmentInjector = inject(EnvironmentInjector)
   private router = inject(Router)
   private mapContainerRef = viewChild<ElementRef<HTMLDivElement>>('map')
-  private map: Map | undefined
+  private map: LeafletMap | undefined
+
+  readonly venues = computed(() => {
+    const groups = new Map<string, VenueGroup>()
+    for (const e of this.service.entries()) {
+      if (!e.hasLocation || (e.lat === 0 && e.lon === 0)) continue
+      const key = `${e.street} ${e.streetNumber}|${e.zip} ${e.city}`
+      const group = groups.get(key)
+      if (group) group.entries.push(e)
+      else groups.set(key, { key, street: e.street, streetNumber: e.streetNumber, zip: e.zip, city: e.city, lat: e.lat, lon: e.lon, entries: [e] })
+    }
+    return Array.from(groups.values())
+  })
 
   constructor() {
     effect(() => {
@@ -81,5 +107,13 @@ export class EventBoardMapComponent {
       if (navigate) EventNavigationService.navigateToEventDetails(this.router, +e.id)
     })
     group.addLayer(marker)
+  }
+
+  flyToVenue(venue: VenueGroup) {
+    this.map?.flyTo([venue.lat, venue.lon], 15)
+  }
+
+  openEvent(entry: EventSearchEntry) {
+    EventNavigationService.navigateToEventDetails(this.router, +entry.id)
   }
 }

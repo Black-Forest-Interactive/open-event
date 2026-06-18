@@ -207,6 +207,31 @@
       }
     }
   },
+  "audience": {
+    "type": "Audience",
+    "title": "Audience",
+    "search": "Audience search",
+    "create": "Create Audience",
+    "table": {
+      "name": "Name"
+    },
+    "dialog": {
+      "change": {
+        "title": "Change Audience"
+      },
+      "create": {
+        "title": "Create new Audience"
+      },
+      "delete": {
+        "title": "Delete Audience",
+        "question": "Do you really want to delete the audience?"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "iconUrl": "Icon URL"
+    }
+  },
   "category": {
     "type": "Category",
     "title": "Category",

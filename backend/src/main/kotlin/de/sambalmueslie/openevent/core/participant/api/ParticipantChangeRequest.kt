@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 
 class ParticipantChangeRequest(
     val size: Long,
+    val note: String,
     val status: ParticipantStatus,
     val rank: Int,
     val waitingList: Boolean,

@@ -56,10 +56,10 @@
             </mat-form-field>
         }
 
-        <div class="flex flex-row gap-3 align-items-stretch">
+        <div class="grid grid-cols-2 gap-3">
             <!-- startDate-->
             @if (isVisible('startDate')) {
-                <mat-form-field class="dense-1" style="flex: 1 1 auto">
+                <mat-form-field class="dense-1">
                     <mat-label>{{ 'event.form.startDate' | translate }}</mat-label>
                     <input [matDatepicker]="startPicker" formControlName="startDate" matInput>
                     <mat-datepicker-toggle [for]="startPicker" matSuffix></mat-datepicker-toggle>
@@ -69,7 +69,7 @@
             }
             <!-- endDate-->
             @if (isVisible('endDate')) {
-                <mat-form-field class="dense-1" style="flex: 1 1 auto">
+                <mat-form-field class="dense-1">
                     <mat-label>{{ 'event.form.endDate' | translate }}</mat-label>
                     <input [matDatepicker]="endPicker" formControlName="endDate" matInput>
                     <mat-datepicker-toggle [for]="endPicker" matSuffix></mat-datepicker-toggle>
@@ -77,12 +77,11 @@
                     <mat-hint align="start">{{ 'event.form.hint.endDate'| translate }}</mat-hint>
                 </mat-form-field>
             }
-
         </div>
-        <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row sm:flex-col gap-3 align-items-stretch">
+        <div class="grid grid-cols-2 gap-3">
             <!-- startTime-->
             @if (isVisible('startTime')) {
-                <mat-form-field class="dense-1" style="flex: 1 1 auto">
+                <mat-form-field class="dense-1">
                     <mat-label>{{ 'event.form.startTime' | translate }}</mat-label>
                     <input formControlName="startTime" matInput type="time">
                     <mat-hint align="start">{{ 'event.form.hint.startTime'| translate }}</mat-hint>
@@ -90,7 +89,7 @@
             }
             <!-- endTime-->
             @if (isVisible('endTime')) {
-                <mat-form-field class="dense-1" style="flex: 1 1 auto">
+                <mat-form-field class="dense-1">
                     <mat-label>{{ 'event.form.endTime' | translate }}</mat-label>
                     <input formControlName="endTime" matInput type="time">
                     <mat-hint align="start">{{ 'event.form.hint.endTime'| translate }}</mat-hint>

@@ -21,6 +21,8 @@ data class ParticipantData(
     @Column var accountId: Long,
 
     @Column var size: Long,
+    @Column var note: String,
+
     @Column @Enumerated(EnumType.STRING) var status: ParticipantStatus,
     @Column var rank: Int,
     @Column var waitingList: Boolean,
@@ -40,6 +42,7 @@ data class ParticipantData(
                 registration.id,
                 account.id,
                 request.size,
+                request.note,
                 request.status,
                 request.rank,
                 request.waitingList,
@@ -49,15 +52,16 @@ data class ParticipantData(
     }
 
     fun convert(account: AccountInfo): Participant {
-        return Participant(id, size, status, rank, waitingList, account, updated ?: created)
+        return Participant(id, size, note, status, rank, waitingList, account, updated ?: created)
     }
 
     fun convert(account: AccountDetails): ParticipantDetails {
-        return ParticipantDetails(id, size, status, rank, waitingList, account, updated ?: created)
+        return ParticipantDetails(id, size, note, status, rank, waitingList, account, updated ?: created)
     }
 
     fun update(request: ParticipantChangeRequest, timestamp: LocalDateTime): ParticipantData {
         size = request.size
+        note = request.note
         status = request.status
         rank = request.rank
         waitingList = request.waitingList

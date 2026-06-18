@@ -19,6 +19,7 @@ class EventFieldMappingProvider : FieldMappingProvider {
             text(EventSearchEntryData::shortText)
             text(EventSearchEntryData::longText)
             bool(EventSearchEntryData::published)
+            bool(EventSearchEntryData::featured)
             bool(EventSearchEntryData::shared)
             number<Long>(EventSearchEntryData::owner)
 
@@ -39,8 +40,10 @@ class EventFieldMappingProvider : FieldMappingProvider {
             number<Int>(EventSearchEntryData::remainingSpace)
 
             number<Long>(EventSearchEntryData::participant)
+            number<Long>(EventSearchEntryData::bookmarks)
 
             keyword(EventSearchEntryData::categories)
+            keyword(EventSearchEntryData::audiences)
             keyword(EventSearchEntryData::tags)
         }
     }

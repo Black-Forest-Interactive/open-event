@@ -2,8 +2,6 @@ import { Component, computed, inject, resource, signal } from '@angular/core'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatCard } from '@angular/material/card'
-import { MatTableModule } from '@angular/material/table'
-import { MatDivider } from '@angular/material/divider'
 import { MatIcon } from '@angular/material/icon'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -15,12 +13,11 @@ import { AddressDeleteDialogComponent } from './address-delete-dialog/address-de
 
 @Component({
   selector: 'portal-address',
-  imports: [LoadingBarComponent, MatButton, MatCard, MatTableModule, MatDivider, MatIcon, MatIconButton, MatPaginator, TranslatePipe],
+  imports: [LoadingBarComponent, MatButton, MatCard, MatIcon, MatIconButton, MatPaginator, TranslatePipe],
   templateUrl: './address.component.html',
   styleUrl: './address.component.scss'
 })
 export class AddressComponent {
-  readonly displayedColumns = ['street', 'streetNumber', 'zip', 'city', 'country', 'cmd']
   private service = inject(AddressService)
   private dialog = inject(MatDialog)
   private page = signal(0)
@@ -48,7 +45,13 @@ export class AddressComponent {
       .open(AddressChangeDialogComponent, { data: undefined })
       .afterClosed()
       .subscribe((result) => {
-        if (result) this.service.createAddress(result).subscribe({ next: () => this.addressResource.reload() })
+        if (!result) return
+        this.service.createAddress(result.request).subscribe({
+          next: (created) => {
+            if (result.makeDefault) this.service.setDefault(created.id).subscribe({ next: () => this.addressResource.reload() })
+            else this.addressResource.reload()
+          }
+        })
       })
   }
 
@@ -57,7 +60,13 @@ export class AddressComponent {
       .open(AddressChangeDialogComponent, { data: a })
       .afterClosed()
       .subscribe((result) => {
-        if (result) this.service.updateAddress(a.id, result).subscribe({ next: () => this.addressResource.reload() })
+        if (!result) return
+        this.service.updateAddress(a.id, result.request).subscribe({
+          next: () => {
+            if (result.makeDefault) this.service.setDefault(a.id).subscribe({ next: () => this.addressResource.reload() })
+            else this.addressResource.reload()
+          }
+        })
       })
   }
 
@@ -68,6 +77,10 @@ export class AddressComponent {
       .subscribe((result) => {
         if (result) this.service.deleteAddress(a.id).subscribe({ next: () => this.addressResource.reload() })
       })
+  }
+
+  setDefault(a: Address) {
+    this.service.setDefault(a.id).subscribe({ next: () => this.addressResource.reload() })
   }
 
   handlePageChange(event: PageEvent) {

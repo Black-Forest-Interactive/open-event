@@ -71,7 +71,7 @@ class RegistrationController(
             val account = accountService.findByEmail(request.email)
             logger.traceAction(auth, "addParticipant", id.toString(), request) {
                 if (account != null) {
-                    service.addParticipant(accountService.find(auth), id, account, ParticipateRequest(request.size))
+                    service.addParticipant(accountService.find(auth), id, account, ParticipateRequest(request.size, request.note))
                 } else {
                     service.addParticipant(accountService.find(auth), id, request)
                 }

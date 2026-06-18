@@ -20,7 +20,8 @@
     "save": "Speichern",
     "delete": "Löschen",
     "reset": "Zurücksetzen",
-    "loadMore": "Mehr laden"
+    "loadMore": "Mehr laden",
+    "more": "Mehr"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -31,7 +32,48 @@
       "copy": "Veranstaltung Kopieren",
       "delete": "Veranstaltung Löschen",
       "publish": "Veranstaltung Veröffentlichen",
-      "admin": "Teilnehmer anzeigen"
+      "admin": "Teilnehmer anzeigen",
+      "export": "Exportieren",
+      "editBanner": "Banner ändern",
+      "saveChanges": "Änderungen speichern"
+    },
+    "message": {
+      "uploading": "Wird hochgeladen"
+    },
+    "board": {
+      "cards": "Karten",
+      "rows": "Liste",
+      "calendar": "Kalender",
+      "map": "Karte",
+      "results": "Ergebnisse",
+      "details": "Details ansehen",
+      "imageTag": "Veranstaltungsbild",
+      "venues": "Veranstaltungsorte",
+      "explore": "Entdecken",
+      "saved": "Merkliste",
+      "regs": "Anmeldungen",
+      "intro": {
+        "discoverTitle": "Entdecke Veranstaltungen",
+        "discoverSubtitle": "Finde und buche Veranstaltungen in deiner Nähe.",
+        "savedTitle": "Merkliste",
+        "savedSubtitle": "Deine gemerkten Veranstaltungen auf einen Blick.",
+        "regsTitle": "Meine Anmeldungen",
+        "regsSubtitle": "Veranstaltungen, für die du angemeldet bist."
+      }
+    },
+    "empty": {
+      "title": "Keine Veranstaltungen gefunden",
+      "subtitle": "Passe deine Filter an oder setze sie zurück.",
+      "savedTitle": "Noch nichts gemerkt",
+      "savedSubtitle": "Tippe auf das Herz einer Veranstaltung, um sie zu merken.",
+      "regsTitle": "Keine Anmeldungen",
+      "regsSubtitle": "Melde dich für eine Veranstaltung an, um sie hier zu sehen."
+    },
+    "detail": {
+      "when": "Wann",
+      "minutes": "Min.",
+      "about": "Über die Veranstaltung",
+      "host": "Veranstalter"
     },
     "step": {
       "event": "Veranstaltung",
@@ -51,7 +93,12 @@
       "startDate": "Datum",
       "startTime": "Begin",
       "endTime": "Ende",
-      "address": "Gespeicherte Adresse auswählen",
+      "address": {
+        "saved": "Gespeicherte Adresse",
+        "new": "Neue Adresse",
+        "save": "Adresse speichern",
+        "saveHint": "Die neue Adresse wird zu deinen gespeicherten Adressen hinzugefügt."
+      },
       "street": "Straße",
       "nr": "Nr",
       "info": "Addresszusatz",
@@ -68,13 +115,15 @@
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
-        "tags": "Eigene Hashtags hinzufügen"
+        "tags": "Eigene Hashtags hinzufügen",
+        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst wichtig?"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
         "shortText": "Bitte einen Kurztext angeben",
         "longText": "Bitte eine Beschreibung angeben"
-      }
+      },
+      "shortText": "Kurzbeschreibung"
     },
     "dialog": {
       "delete": {
@@ -89,6 +138,16 @@
       "own": "Meine Angebote anzeigen",
       "available": "Verfügbare anzeigen",
       "participating": "Meine Teilnahme anzeigen",
+      "whenLabel": "Zeitraum",
+      "when": {
+        "any": "Jederzeit",
+        "today": "Heute",
+        "weekend": "Wochenende",
+        "nextWeek": "Nächste Woche"
+      },
+      "category": "Kategorie",
+      "audience": "Zielgruppe",
+      "onlyAvailable": "Nur freie Plätze",
       "range": {
         "label": "Zeitraum wählen",
         "today": "Nur heute anzeigen",
@@ -118,6 +177,14 @@
     "title": "Teilnehmer",
     "space": "Plätze",
     "waitlist": "Warteliste",
+    "organizer": "Veranstalter",
+    "count": "Anmeldungen",
+    "free": "Kostenlos",
+    "availability": {
+      "spotsFree": "Plätze frei",
+      "spotFree": "Platz frei",
+      "soldOut": "Ausgebucht"
+    },
     "action": {
       "participate": "Teilnehmen",
       "participateAccount": "Account hinzufügen",
@@ -128,6 +195,26 @@
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",
     "empty": "Momentan gibt es noch keine Teilnehmer – mach den Anfang und melde dich jetzt an.",
+    "guestlist": {
+      "title": "Teilnehmerliste",
+      "since": "seit",
+      "you": "Du",
+      "empty": "Noch keine Anmeldungen.",
+      "emailAll": "Alle anschreiben",
+      "export": "Exportieren",
+      "orgOnly": "Nur für dich als Veranstalter sichtbar"
+    },
+    "bookbar": {
+      "registered": "Angemeldet"
+    },
+    "sheet": {
+      "subtitle": "Sichere dir deinen Platz – in wenigen Sekunden.",
+      "confirm": "Anmeldung bestätigen",
+      "success": {
+        "title": "Anmeldung bestätigt!",
+        "subtitle": "Deine Teilnahme wurde gespeichert."
+      }
+    },
     "dialog": {
       "accept": {
         "title": "An Veranstaltung teilnehmen",
@@ -161,7 +248,8 @@
     "form": {
       "firstName": "Vorname",
       "lastName": "Familienname",
-      "email": "Email"
+      "email": "Email",
+      "note": "Anmerkung (optional)"
     },
     "table": {
       "rank": "Platz",
@@ -306,6 +394,7 @@
   },
   "profile": {
     "title": "Benutzerprofil",
+    "subtitle": "Verwalte deine persönlichen Daten",
     "email": "E-Mail",
     "phone": "Telefon",
     "mobile": "Mobil",
@@ -320,7 +409,11 @@
   "address": {
     "type": "Adressen",
     "title": "Adressen",
-    "empty": "Keine Adressen vorhanden",
+    "subtitle": "Verwalte deine gespeicherten Adressen",
+    "empty": {
+      "title": "Keine Adressen vorhanden",
+      "subtitle": "Lege eine neue Adresse an oder importiere bestehende."
+    },
     "dialog": {
       "create": {
         "title": "Neue Adresse erstellen"
@@ -343,7 +436,14 @@
     },
     "action": {
       "add": "Neue Adresse anlegen",
-      "import": "Bestehende Adressen importieren"
+      "import": "Bestehende Adressen importieren",
+      "default": "Standard",
+      "setDefault": "Als Standard setzen",
+      "makeDefault": "Als Standard speichern"
+    },
+    "message": {
+      "saved": "Adresse wurde gespeichert",
+      "error": "Adresse konnte nicht gespeichert werden"
     }
   },
   "share": {
@@ -379,20 +479,17 @@
   },
   "activity": {
     "title": "Benachrichtigungen",
-    "empty": "Keine Benachrichtigungen vorhanden",
+    "subtitle": "Hinweise zu deinen Anmeldungen und Veranstaltungen",
+    "empty": {
+      "title": "Keine Benachrichtigungen vorhanden",
+      "subtitle": "Neue Hinweise zu deinen Anmeldungen und Veranstaltungen erscheinen hier."
+    },
     "type": {
       "EVENT_CREATED": "Veranstaltung erstellt",
       "EVENT_CHANGED": "Veranstaltung geändert",
       "PARTICIPANT_ACCEPTED": "Neuer Teilnehmer",
       "PARTICIPANT_DECLINED": "Teilnahme abgesagt",
       "PARTICIPANT_CHANGED": "Teilnehmer geändert"
-    },
-    "table": {
-      "type": "Typ",
-      "title": "Titel",
-      "actor": "Benutzer",
-      "timestamp": "Datum",
-      "read": "Gelesen"
     },
     "action": {
       "read": "Gelesen",

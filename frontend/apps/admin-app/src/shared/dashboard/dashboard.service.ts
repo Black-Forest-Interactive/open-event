@@ -19,7 +19,8 @@ export class DashboardService {
       items: [
         new NavItem('/event', 'event.type', 'event_note', [Roles.EVENT_ADMIN]),
         new NavItem('/account', 'account.admin', 'manage_accounts', [Roles.ACCOUNT_ADMIN]),
-        new NavItem('/category', 'category.type', 'label', [Roles.CATEGORY_ADMIN])
+        new NavItem('/category', 'category.type', 'label', [Roles.CATEGORY_ADMIN]),
+        new NavItem('/audience', 'audience.type', 'groups', [Roles.AUDIENCE_ADMIN])
       ]
     },
     {

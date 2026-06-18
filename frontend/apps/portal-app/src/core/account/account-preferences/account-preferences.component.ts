@@ -3,7 +3,6 @@ import { TranslatePipe } from '@ngx-translate/core'
 import { MatCard } from '@angular/material/card'
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
-import { MatDivider } from '@angular/material/divider'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/portal'
 import { PreferencesChangeRequest } from '@open-event/core'
@@ -11,7 +10,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
   selector: 'portal-account-preferences',
-  imports: [TranslatePipe, MatCard, MatButton, MatIcon, MatDivider, LoadingBarComponent],
+  imports: [TranslatePipe, MatCard, MatButton, MatIcon, LoadingBarComponent],
   templateUrl: './account-preferences.component.html',
   styleUrl: './account-preferences.component.scss'
 })

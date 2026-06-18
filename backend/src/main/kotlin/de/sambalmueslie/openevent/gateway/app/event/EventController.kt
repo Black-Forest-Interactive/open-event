@@ -59,6 +59,16 @@ class EventController(private val service: EventGuardService) {
         return service.setShared(auth, id, value)
     }
 
+    @Put("/{id}/bookmark")
+    fun setBookmarked(auth: Authentication, id: Long): EventInfo? {
+        return service.setBookmarked(auth, id)
+    }
+
+    @Delete("/{id}/bookmark")
+    fun clearBookmarked(auth: Authentication, id: Long): EventInfo? {
+        return service.clearBookmarked(auth, id)
+    }
+
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
     @Get("/event/{eventId}/pdf")
     fun export(auth: Authentication, eventId: Long): SystemFile? {

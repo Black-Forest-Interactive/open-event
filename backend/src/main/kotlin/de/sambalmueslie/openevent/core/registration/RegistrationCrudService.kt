@@ -135,7 +135,7 @@ class RegistrationCrudService(
             )
         )
         val account = accountCrudService.get(info.id) ?: return null
-        return changeParticipant(actor, registration, account, ParticipateRequest(request.size))
+        return changeParticipant(actor, registration, account, ParticipateRequest(request.size,request.note))
     }
 
     private fun changeParticipant(

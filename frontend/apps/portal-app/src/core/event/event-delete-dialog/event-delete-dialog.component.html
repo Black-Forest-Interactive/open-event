@@ -8,11 +8,11 @@
 </div>
 <mat-dialog-actions align="end">
     <div class="flex flex-row gap-2">
-        <button color="warn" mat-button mat-dialog-close mat-stroked-button>
+        <button color="warn" mat-dialog-close matButton="outlined">
             <mat-icon>cancel</mat-icon>
             {{ "action.no" | translate }}
         </button>
-        <button [mat-dialog-close]="true" cdkFocusInitial color="primary" mat-button mat-stroked-button>
+        <button [mat-dialog-close]="true" cdkFocusInitial color="primary" matButton="outlined">
             <mat-icon>check</mat-icon>
             {{ "action.yes" | translate }}
         </button>

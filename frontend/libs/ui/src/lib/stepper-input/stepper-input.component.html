@@ -1,0 +1,9 @@
+<div class="stepper">
+    <button (click)="decrement()" [disabled]="value() <= min()" matIconButton type="button">
+        <mat-icon>remove</mat-icon>
+    </button>
+    <span class="stepper__value">{{ value() }}</span>
+    <button (click)="increment()" matIconButton type="button">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

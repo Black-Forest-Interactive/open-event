@@ -5,15 +5,17 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatIcon } from '@angular/material/icon'
 import { MatCard } from '@angular/material/card'
-import { MatFormField, MatInput } from '@angular/material/input'
+import { MatInput } from '@angular/material/input'
+import { MatFormField, MatLabel } from '@angular/material/form-field'
 import { MatOption, MatSelect } from '@angular/material/select'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/portal'
+import { AvatarComponent } from '@open-event/ui'
 
 @Component({
   selector: 'portal-account-profile',
-  imports: [TranslatePipe, MatIcon, MatCard, ReactiveFormsModule, MatInput, MatFormField, MatSelect, MatOption, MatButton, MatIconButton, LoadingBarComponent],
+  imports: [TranslatePipe, MatIcon, MatCard, ReactiveFormsModule, MatInput, MatFormField, MatLabel, MatSelect, MatOption, MatButton, MatIconButton, LoadingBarComponent, AvatarComponent],
   templateUrl: './account-profile.component.html',
   styleUrl: './account-profile.component.scss'
 })

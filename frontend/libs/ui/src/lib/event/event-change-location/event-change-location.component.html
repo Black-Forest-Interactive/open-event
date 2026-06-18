@@ -1,46 +1,64 @@
-@if (addresses().length > 0) {
-    <div class="flex flex-col gap-2 align-items-stretch flex-auto pt-2">
-        <mat-form-field class="dense-1 flex-auto" style="flex: 1 1 auto">
-            <mat-label>{{ 'event.form.address' | translate }}</mat-label>
-            <mat-select (selectionChange)="handleAddressSelected($event)">
-                @for (a of addresses(); track a.id) {
-                    <mat-option [value]="a">{{ a.street }} {{ a.streetNumber }}, {{ a.zip }} {{ a.city }}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <mat-divider class="pb-3"></mat-divider>
-}
+<form [formGroup]="fg" class="flex flex-col gap-4 pt-2">
+    @if (addresses().length > 0) {
+        <mat-button-toggle-group class="w-fit" formControlName="addressMode">
+            <mat-button-toggle value="saved">{{ 'event.form.address.saved' | translate }}</mat-button-toggle>
+            <mat-button-toggle value="new">{{ 'event.form.address.new' | translate }}</mat-button-toggle>
+        </mat-button-toggle-group>
 
-<form [formGroup]="fg">
-    <div class="flex flex-col gap-2 align-items-stretch flex-auto pt-2">
-        <div class="flex flex-row gap-3">
-            <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-radio-group (change)="handleAddressSelected($event)" [class.hidden]="addressMode.value !== 'saved'" [value]="selectedAddress()" class="flex flex-col gap-2">
+            @for (a of addresses(); track a.id) {
+                <mat-radio-button [class.bg-surface-container]="selectedAddress() === a" [value]="a" class="block rounded-xl border border-outline-variant px-4 py-3">
+                    <span class="flex items-center gap-2 font-medium">
+                        {{ a.street }} {{ a.streetNumber }}
+                        @if (a.standard) {
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-xs font-medium">
+                                <mat-icon inline>check</mat-icon>
+                                {{ 'address.action.default' | translate }}
+                            </span>
+                        }
+                    </span>
+                    <span class="block text-sm text-on-surface-variant">{{ a.zip }} {{ a.city }}</span>
+                </mat-radio-button>
+            }
+        </mat-radio-group>
+    }
+
+    <div [class.hidden]="addresses().length > 0 && addressMode.value === 'saved'" class="flex flex-col gap-4">
+        <div class="grid grid-cols-[1fr_100px] gap-3">
+            <mat-form-field class="dense-1">
                 <mat-label>{{ 'event.form.street' | translate }}</mat-label>
                 <input formControlName="street" matInput required>
             </mat-form-field>
-            <mat-form-field class="dense-1" style="flex: 0 1 100px">
+            <mat-form-field class="dense-1">
                 <mat-label>{{ 'event.form.nr' | translate }}</mat-label>
                 <input formControlName="streetNumber" matInput required>
             </mat-form-field>
         </div>
-        <mat-form-field class="dense-1" style="flex: 1 1 auto">
-            <mat-label>{{ 'event.form.info' | translate }}</mat-label>
-            <input formControlName="additionalInfo" matInput>
-        </mat-form-field>
-        <div class="flex flex-row gap-3">
-            <mat-form-field class="dense-1" style="flex: 0 1 200px">
+        <div class="grid grid-cols-2 gap-3">
+            <mat-form-field class="dense-1">
                 <mat-label>{{ 'event.form.zip' | translate }}</mat-label>
                 <input formControlName="zip" matInput required>
             </mat-form-field>
-            <mat-form-field class="dense-1" style="flex: 1 1 auto">
+            <mat-form-field class="dense-1">
                 <mat-label>{{ 'event.form.city' | translate }}</mat-label>
                 <input formControlName="city" matInput required>
             </mat-form-field>
         </div>
-        <mat-form-field class="dense-1" style="flex: 1 1 auto">
+        <mat-form-field class="dense-1">
             <mat-label>{{ 'event.form.country' | translate }}</mat-label>
             <input formControlName="country" matInput required>
         </mat-form-field>
+        <mat-form-field class="dense-1">
+            <mat-label>{{ 'event.form.info' | translate }}</mat-label>
+            <input formControlName="additionalInfo" matInput>
+        </mat-form-field>
+
+        <div class="flex items-start gap-3 bg-surface-container rounded-xl p-4">
+            <mat-checkbox formControlName="saveAddress"></mat-checkbox>
+            <div class="flex flex-col">
+                <span class="text-sm font-medium">{{ 'event.form.address.save' | translate }}</span>
+                <span class="text-xs text-on-surface-variant">{{ 'event.form.address.saveHint' | translate }}</span>
+            </div>
+        </div>
     </div>
 </form>

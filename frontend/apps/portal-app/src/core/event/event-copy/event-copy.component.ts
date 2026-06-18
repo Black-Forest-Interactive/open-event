@@ -1,5 +1,5 @@
 import { Component, computed, inject, resource } from '@angular/core'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressChangeRequest, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { LoadingBarComponent, Page, toPromise } from '@open-event/shared'
 import { MatToolbar } from '@angular/material/toolbar'
@@ -13,11 +13,12 @@ import { map } from 'rxjs/operators'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
 import { MatTooltip } from '@angular/material/tooltip'
+import { MatCard } from '@angular/material/card'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'portal-event-copy',
-  imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe],
+  imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, MatCard],
   templateUrl: './event-copy.component.html',
   styleUrl: './event-copy.component.scss'
 })
@@ -53,6 +54,9 @@ export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, Even
   }
   getAddress(id: number): Observable<Address> {
     return this.addressService.getAddress(id)
+  }
+  createAddress(request: AddressChangeRequest): Observable<Address> {
+    return this.addressService.createAddress(request)
   }
   getAllCategories(page: number, size: number): Observable<Page<Category>> {
     return this.categoryService.getCategories(page, size)

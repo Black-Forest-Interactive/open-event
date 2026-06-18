@@ -29,6 +29,12 @@ export const appRoutes: Route[] = [
     data: { roles: [Roles.ADDRESS_ADMIN] }
   },
   {
+    path: 'audience',
+    loadChildren: () => import('../core/audience/audience.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.AUDIENCE_ADMIN] }
+  },
+  {
     path: 'category',
     loadChildren: () => import('../core/category/category.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],

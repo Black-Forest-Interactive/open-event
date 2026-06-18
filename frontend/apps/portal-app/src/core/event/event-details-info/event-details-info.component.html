@@ -1,36 +1,28 @@
-<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 p-3">
-    <portal-account [account]="info().event.owner"></portal-account>
-    <div class="flex-auto"></div>
-    <div class="flex flex-col items-start sm:items-end text-sm" style="color: var(--mat-sys-on-surface-variant)">
-        <div>{{ info().event.start | date:'fullDate' }}</div>
-        <div>{{ info().event.start | date:'shortTime' }} - {{ info().event.finish | date:'shortTime' }}</div>
+<div class="flex flex-col gap-4 p-4">
+    <portal-event-fact-row [info]="info()"></portal-event-fact-row>
+
+    <div>
+        <h1 class="text-2xl font-normal leading-tight">{{ info().event.title }}</h1>
+        @if (info().event.shortText.length > 0) {
+            <p class="text-base text-on-surface-variant mt-2">{{ info().event.shortText }}</p>
+        }
     </div>
-</div>
-@if (info().event.longText.length > 0) {
-    <mat-divider></mat-divider>
-    <div [innerHTML]="info().event.longText" class="p-3"></div>
-}
-@if (info().event.imageUrl && info().event.imageUrl.length > 0) {
-    <img [src]="info().event.imageUrl" alt="" class="w-full">
-}
-@if (info().categories.length > 0 || info().event.tags.length > 0) {
-    <mat-divider></mat-divider>
-    <div class="flex flex-row flex-wrap gap-2 p-3">
-        <mat-chip-set>
+
+    @if (info().categories.length > 0 || info().event.tags.length > 0) {
+        <div class="flex flex-row flex-wrap gap-2">
             @for (category of info().categories; track category.id) {
-                <mat-chip>
-                    <mat-icon matChipAvatar>label</mat-icon>
-                    {{ category.name }}
-                </mat-chip>
+                <lib-category-chip [iconUrl]="category.iconUrl" [name]="category.name"></lib-category-chip>
             }
-        </mat-chip-set>
-        <mat-chip-set>
             @for (tag of info().event.tags; track tag) {
-                <mat-chip>
-                    <mat-icon matChipAvatar>tag</mat-icon>
-                    {{ tag }}
-                </mat-chip>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-surface-container-high text-on-surface-variant">#{{ tag }}</span>
             }
-        </mat-chip-set>
-    </div>
-}
+        </div>
+    }
+
+    @if (info().event.longText.length > 0) {
+        <section class="border-t border-outline-variant pt-4">
+            <h2 class="text-lg font-medium mb-3">{{ 'event.detail.about' | translate }}</h2>
+            <div [innerHTML]="info().event.longText" class="prose prose-sm max-w-none text-on-surface"></div>
+        </section>
+    }
+</div>

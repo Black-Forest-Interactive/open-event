@@ -106,6 +106,15 @@ class EventController(
         }
     }
 
+    @Put("/{id}/featured")
+    fun setFeatured(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>): Event? {
+        return auth.checkPermission(PERMISSION_ADMIN) {
+            logger.traceAction(auth, "FEATURED", id.toString(), value) {
+                service.setFeatured(accountService.find(auth), id, value)
+            }
+        }
+    }
+
     @Put("/{id}/published")
     fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>): Event? {
         return auth.checkPermission(PERMISSION_ADMIN) {

@@ -4,7 +4,7 @@ import { Location } from '@angular/common'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatMiniFabButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
-import { MatSlideToggle } from '@angular/material/slide-toggle'
+import { MatCard } from '@angular/material/card'
 import { Observable } from 'rxjs'
 import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { Page } from '@open-event/shared'
@@ -13,7 +13,7 @@ import { EventChangeComponent } from '../event-change/event-change.component'
 
 @Component({
   selector: 'lib-event-create',
-  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, MatSlideToggle],
+  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, MatCard],
   templateUrl: './event-create.component.html',
   styleUrl: './event-create.component.scss'
 })

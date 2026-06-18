@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.core.search
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.search.account.AccountSearchOperator
 import de.sambalmueslie.openevent.core.search.api.*
+import de.sambalmueslie.openevent.core.search.audience.AudienceSearchOperator
 import de.sambalmueslie.openevent.core.search.category.CategorySearchOperator
 import de.sambalmueslie.openevent.core.search.common.SearchOperatorInfo
 import de.sambalmueslie.openevent.core.search.event.EventSearchOperator
@@ -15,13 +16,14 @@ import org.slf4j.LoggerFactory
 class SearchService(
     private val eventOperator: EventSearchOperator,
     private val accountOperator: AccountSearchOperator,
-    private val categoryOperator: CategorySearchOperator
+    private val categoryOperator: CategorySearchOperator,
+    private val audienceSearchOperator: AudienceSearchOperator,
 ) {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(SearchService::class.java)
     }
 
-    private val operators = listOf(eventOperator, accountOperator, categoryOperator).associateBy { it.key() }
+    private val operators = listOf(eventOperator, accountOperator, categoryOperator, audienceSearchOperator).associateBy { it.key() }
 
     fun searchEvents(actor: Account, request: EventSearchRequest, pageable: Pageable): EventSearchResponse {
         return eventOperator.search(actor, request, pageable)
@@ -49,6 +51,14 @@ class SearchService(
 
     fun setupCategories() {
         return categoryOperator.setup()
+    }
+
+    fun searchAudiences(actor: Account, request: AudienceSearchRequest, pageable: Pageable): AudienceSearchResponse {
+        return audienceSearchOperator.search(actor, request, pageable)
+    }
+
+    fun setupAudiences() {
+        return audienceSearchOperator.setup()
     }
 
     fun getInfo() = operators.values.map { it.info() }

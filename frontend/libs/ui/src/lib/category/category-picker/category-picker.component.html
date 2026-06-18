@@ -1,0 +1,8 @@
+<div class="flex flex-wrap gap-2">
+    @for (entry of entries(); track entry.category.id) {
+        <button (click)="toggled.emit(entry.category.id)" [class.catopt--selected]="entry.selected" [style.--h]="entry.style.hue" class="catopt" type="button">
+            <mat-icon>{{ entry.style.icon }}</mat-icon>
+            <span>{{ entry.category.name }}</span>
+        </button>
+    }
+</div>

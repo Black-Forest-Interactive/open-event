@@ -20,7 +20,8 @@
     "save": "Save",
     "delete": "Delete",
     "reset": "Reset",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "more": "More"
   },
   "event": {
     "type": "Event",
@@ -31,7 +32,48 @@
       "copy": "Copy Event",
       "delete": "Delete Event",
       "publish": "Publish Event",
-      "admin": "Event Administration"
+      "admin": "Event Administration",
+      "export": "Export",
+      "editBanner": "Change banner",
+      "saveChanges": "Save changes"
+    },
+    "message": {
+      "uploading": "Uploading"
+    },
+    "board": {
+      "cards": "Cards",
+      "rows": "List",
+      "calendar": "Calendar",
+      "map": "Map",
+      "results": "Results",
+      "details": "View details",
+      "imageTag": "Event image",
+      "venues": "Venues",
+      "explore": "Explore",
+      "saved": "Saved",
+      "regs": "Registrations",
+      "intro": {
+        "discoverTitle": "Discover events",
+        "discoverSubtitle": "Find and book events near you.",
+        "savedTitle": "Saved",
+        "savedSubtitle": "Your saved events at a glance.",
+        "regsTitle": "My registrations",
+        "regsSubtitle": "Events you are registered for."
+      }
+    },
+    "empty": {
+      "title": "No events found",
+      "subtitle": "Adjust your filters or reset them.",
+      "savedTitle": "Nothing saved yet",
+      "savedSubtitle": "Tap the heart on an event to save it for later.",
+      "regsTitle": "No registrations",
+      "regsSubtitle": "Register for an event to see it here."
+    },
+    "detail": {
+      "when": "When",
+      "minutes": "min",
+      "about": "About this event",
+      "host": "Host"
     },
     "step": {
       "event": "Event",
@@ -51,7 +93,12 @@
       "startDate": "Date",
       "startTime": "Start Time",
       "endTime": "End Time",
-      "address": "Select predefined address",
+      "address": {
+        "saved": "Saved address",
+        "new": "New address",
+        "save": "Save address",
+        "saveHint": "The new address will be added to your saved addresses."
+      },
       "street": "Street",
       "nr": "Nr",
       "info": "Additonal Info",
@@ -68,7 +115,8 @@
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
         "maxGuest": "How many guests coult attend to the event",
-        "tags": "Add some custom hashtags"
+        "tags": "Add some custom hashtags",
+        "shortText": "Short description – anything else attendees should know."
       },
       "error": {
         "title": "Please input some title",
@@ -77,7 +125,8 @@
       },
       "admin": {
         "registration": "Event Participants"
-      }
+      },
+      "shortText": "Short description"
     },
     "dialog": {
       "delete": {
@@ -92,6 +141,16 @@
       "own": "Show own",
       "available": "Show available",
       "participating": "Show participating",
+      "whenLabel": "Period",
+      "when": {
+        "any": "Anytime",
+        "today": "Today",
+        "weekend": "Weekend",
+        "nextWeek": "Next week"
+      },
+      "category": "Category",
+      "onlyAvailable": "Only available",
+      "audience": "Audience",
       "range": {
         "label": "Enter a date range",
         "today": "Only tody",
@@ -118,6 +177,14 @@
     "title": "Participants",
     "space": "Seats",
     "waitlist": "Waiting List",
+    "organizer": "Organizer",
+    "count": "registrations",
+    "free": "Free",
+    "availability": {
+      "spotsFree": "spots free",
+      "spotFree": "spot free",
+      "soldOut": "Sold out"
+    },
     "action": {
       "participate": "Participate",
       "participateAccount": "Add Account",
@@ -130,6 +197,26 @@
     "people": "people",
     "peopleAmount": "Amount of people",
     "empty": "There are currently no participants – sign up now and be the first.",
+    "guestlist": {
+      "title": "Guest list",
+      "since": "since",
+      "you": "You",
+      "empty": "No registrations yet.",
+      "emailAll": "Email everyone",
+      "export": "Export",
+      "orgOnly": "Only visible to you as organizer"
+    },
+    "bookbar": {
+      "registered": "Registered"
+    },
+    "sheet": {
+      "subtitle": "Secure your spot – it only takes a few seconds.",
+      "confirm": "Confirm registration",
+      "success": {
+        "title": "Registration confirmed!",
+        "subtitle": "Your participation has been saved."
+      }
+    },
     "dialog": {
       "accept": {
         "title": "Participate on event",
@@ -163,7 +250,8 @@
     "form": {
       "firstName": "First Name",
       "lastName": "Last Name",
-      "email": "Email"
+      "email": "Email",
+      "note": "Note (optional)"
     },
     "table": {
       "rank": "Rank",
@@ -326,6 +414,7 @@
   },
   "profile": {
     "title": "Userprofile",
+    "subtitle": "Manage your personal information",
     "email": "E-Mail",
     "phone": "Phone",
     "mobile": "Mobile",
@@ -340,7 +429,11 @@
   "address": {
     "type": "Address",
     "title": "Address",
-    "empty": "No addresses found",
+    "subtitle": "Manage your saved addresses",
+    "empty": {
+      "title": "No addresses found",
+      "subtitle": "Add a new address or import an existing one."
+    },
     "dialog": {
       "create": {
         "title": "Create address"
@@ -363,7 +456,14 @@
     },
     "action": {
       "add": "Create address",
-      "import": "Import addresses"
+      "import": "Import addresses",
+      "default": "Default",
+      "setDefault": "Set as default",
+      "makeDefault": "Save as default"
+    },
+    "message": {
+      "saved": "Address has been saved",
+      "error": "Address could not be saved"
     }
   },
   "share": {
@@ -407,20 +507,17 @@
   },
   "activity": {
     "title": "Notifications",
-    "empty": "No notifications found",
+    "subtitle": "Updates about your registrations and events",
+    "empty": {
+      "title": "No notifications yet",
+      "subtitle": "New updates about your registrations and events will show up here."
+    },
     "type": {
       "EVENT_CREATED": "Event created",
       "EVENT_CHANGED": "Event changed",
       "PARTICIPANT_ACCEPTED": "Participant added",
       "PARTICIPANT_DECLINED": "Participant declined",
       "PARTICIPANT_CHANGED": "Participant changed"
-    },
-    "table": {
-      "type": "Type",
-      "title": "Title",
-      "actor": "Actor",
-      "timestamp": "Timestamp",
-      "read": "Read"
     },
     "action": {
       "read": "Read",
