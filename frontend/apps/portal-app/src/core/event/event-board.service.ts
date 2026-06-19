@@ -139,6 +139,7 @@ export class EventBoardService {
     this.navViewSignal.set(view)
     this.includeHistory.set(false)
     this.page.set(0)
+    if (view !== 'all') this.layoutSignal.set('rows')
     this.handleRangeChanged()
   }
 

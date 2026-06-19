@@ -13,9 +13,6 @@
             @for (cat of categories(); track cat) {
                 <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
             }
-            @for (audience of audiences(); track audience) {
-                <span class="px-2 py-0.5 rounded-full bg-surface text-on-surface-variant text-xs font-medium">{{ audience }}</span>
-            }
         </div>
 
         @if (isRegistered()) {

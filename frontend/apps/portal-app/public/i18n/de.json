@@ -476,6 +476,7 @@
   "nav": {
     "group": {
       "main": "Übersicht",
+      "account": "Konto",
       "communication": "Kommunikation",
       "info": "Info"
     },

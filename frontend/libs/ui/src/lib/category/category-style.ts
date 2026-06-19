@@ -4,21 +4,31 @@ export interface CategoryStyle {
 }
 
 const CATEGORY_STYLES: Record<string, CategoryStyle> = {
-  tour: { hue: 205, icon: 'explore' },
-  führung: { hue: 205, icon: 'explore' },
-  fuehrung: { hue: 205, icon: 'explore' },
-  workshop: { hue: 268, icon: 'handyman' },
-  family: { hue: 30, icon: 'family_restroom' },
-  familie: { hue: 30, icon: 'family_restroom' },
-  contest: { hue: 350, icon: 'emoji_events' },
-  wettbewerb: { hue: 350, icon: 'emoji_events' },
-  food: { hue: 45, icon: 'restaurant' },
-  kulinarik: { hue: 45, icon: 'restaurant' },
-  music: { hue: 305, icon: 'music_note' },
-  musik: { hue: 305, icon: 'music_note' },
-  sport: { hue: 165, icon: 'directions_run' },
-  talk: { hue: 232, icon: 'mic' },
-  vortrag: { hue: 232, icon: 'mic' }
+  // 12 Kategorien — Farbtöne gleichmäßig über den Farbkreis verteilt (30° Abstand)
+  familie: { hue: 0, icon: 'family_restroom' },
+  family: { hue: 0, icon: 'family_restroom' },
+  café: { hue: 30, icon: 'local_cafe' },
+  kulinarik: { hue: 60, icon: 'restaurant' },
+  food: { hue: 60, icon: 'restaurant' },
+  touren: { hue: 90, icon: 'hiking' },
+  sport: { hue: 120, icon: 'directions_run' },
+  gemeinschaft: { hue: 150, icon: 'groups' },
+  glaube: { hue: 180, icon: 'church' },
+  bildung: { hue: 210, icon: 'school' },
+  film: { hue: 240, icon: 'movie' },
+  spiele: { hue: 270, icon: 'casino' },
+  musik: { hue: 300, icon: 'music_note' },
+  music: { hue: 300, icon: 'music_note' },
+  kreativ: { hue: 330, icon: 'palette' },
+  // Legacy-Aliase (andere Namensschemata)
+  tour: { hue: 90, icon: 'explore' },
+  führung: { hue: 90, icon: 'explore' },
+  fuehrung: { hue: 90, icon: 'explore' },
+  workshop: { hue: 330, icon: 'handyman' },
+  contest: { hue: 0, icon: 'emoji_events' },
+  wettbewerb: { hue: 0, icon: 'emoji_events' },
+  talk: { hue: 210, icon: 'mic' },
+  vortrag: { hue: 210, icon: 'mic' }
 }
 
 function hashString(value: string): number {

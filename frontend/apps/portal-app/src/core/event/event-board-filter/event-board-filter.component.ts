@@ -42,12 +42,7 @@ export class EventBoardFilterComponent {
   private categoryService = inject(CategoryService)
   private audienceService = inject(AudienceService)
 
-  readonly whenOptions = [
-    { value: 'any', labelKey: 'event.filter.when.any', icon: 'all_inclusive' },
-    { value: 'today', labelKey: 'event.filter.when.today', icon: 'today' },
-    { value: 'weekend', labelKey: 'event.filter.when.weekend', icon: 'weekend' },
-    { value: 'next_week', labelKey: 'event.filter.when.nextWeek', icon: 'next_week' }
-  ]
+  readonly isDiscover = computed(() => this.service.navView() === 'all')
 
   private categoryResource = resource({
     loader: (param) => toPromise(this.categoryService.getCategories(0, 100), param.abortSignal)
@@ -58,16 +53,6 @@ export class EventBoardFilterComponent {
     loader: (param) => toPromise(this.audienceService.getAudiences(0, 100), param.abortSignal)
   })
   readonly audiences = computed(() => this.audienceResource.value()?.content ?? [])
-
-  isWhenActive(value: string) {
-    const preselection = this.service.preselection()
-    if (value === 'any') return (preselection === undefined || preselection === 'any') && !this.service.showHistory()
-    return preselection === value
-  }
-
-  selectWhen(value: string) {
-    this.service.handlePreselectionChanged(true, value)
-  }
 
   onDateRangePickerClosed() {
     if (!this.service.range.valid) return

@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, TemplateRef, viewChild } from '@angular/core'
+import { Component, computed, effect, inject, TemplateRef, untracked, viewChild } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
@@ -77,21 +77,6 @@ export class EventBoardComponent {
     }
   })
 
-  readonly whenLabelKey = computed(() => {
-    switch (this.service.preselection()) {
-      case 'today':
-        return 'event.filter.when.today'
-      case 'weekend':
-        return 'event.filter.when.weekend'
-      case 'next_week':
-        return 'event.filter.when.nextWeek'
-      default:
-        return ''
-    }
-  })
-
-  readonly showHistoryToggle = computed(() => this.service.navView() !== 'all')
-
   readonly activeFilterCount = computed(() => {
     const preselection = this.service.preselection()
     let count = this.service.categoryFilter().size
@@ -108,7 +93,7 @@ export class EventBoardComponent {
     })
     effect(() => {
       const view = this.viewParam()
-      this.service.setNavView(view === 'saved' || view === 'regs' || view === 'own' ? view : 'all')
+      untracked(() => this.service.setNavView(view === 'saved' || view === 'regs' || view === 'own' ? view : 'all'))
     })
   }
 
@@ -119,17 +104,5 @@ export class EventBoardComponent {
   openFilter() {
     const sheet = this.filterSheet()
     if (sheet) this.bottomSheet.open(sheet)
-  }
-
-  removeWhenFilter() {
-    this.service.handlePreselectionChanged(true, 'any')
-  }
-
-  removeCategoryFilter(name: string) {
-    this.service.toggleCategory(name)
-  }
-
-  removeAvailableFilter() {
-    this.service.toggleAvailableEvents()
   }
 }

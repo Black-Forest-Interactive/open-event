@@ -28,7 +28,6 @@ export class EventCardComponent {
   readonly streetNumber = computed(() => this.entry().streetNumber)
   readonly city = computed(() => this.entry().city)
   readonly categories = computed(() => this.entry().categories)
-  readonly audiences = computed(() => this.entry().audiences)
   readonly featured = computed(() => this.entry().featured)
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0] ?? ''))
   readonly hasRegistration = computed(() => this.entry().maxGuestAmount > 0)

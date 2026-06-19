@@ -139,8 +139,8 @@ data class EventSearchEntryData(
             amountAccepted,
             amountOnWaitingList,
             remainingSpace,
-            this.owner == owner.id,
-            participant.contains(owner.id),
+            this.owner == actor.id,
+            participant.contains(actor.id),
             categories,
             audiences,
             tags

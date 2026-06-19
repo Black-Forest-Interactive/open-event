@@ -1,14 +1,6 @@
 <div class="px-3 sm:px-4 pt-4 pb-1">
     <h1 class="text-2xl font-semibold text-on-surface">{{ introTitleKey() | translate }}</h1>
     <p class="text-sm text-on-surface-variant">{{ introSubtitleKey() | translate }}</p>
-    @if (showHistoryToggle()) {
-        <button (click)="service.toggleShowHistory()"
-                class="mt-2 inline-flex items-center gap-1 h-8 px-3 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors"
-                type="button">
-            <mat-icon inline>history</mat-icon>
-            {{ (service.showHistory() ? 'event.board.hideHistory' : 'event.board.showHistory') | translate }}
-        </button>
-    }
 </div>
 
 <div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
@@ -52,40 +44,6 @@
             </mat-button-toggle-group>
         </div>
     </div>
-
-    @if (activeFilterCount() > 0) {
-        <div class="flex items-center gap-2 flex-wrap">
-            @if (whenLabelKey()) {
-                <button (click)="removeWhenFilter()"
-                        class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
-                        type="button">
-                    {{ whenLabelKey() | translate }}
-                    <mat-icon inline>close</mat-icon>
-                </button>
-            }
-            @for (cat of service.categoryFilter(); track cat) {
-                <button (click)="removeCategoryFilter(cat)"
-                        class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
-                        type="button">
-                    {{ cat }}
-                    <mat-icon inline>close</mat-icon>
-                </button>
-            }
-            @if (service.showAvailableOnly()) {
-                <button (click)="removeAvailableFilter()"
-                        class="inline-flex items-center gap-1 h-7 px-3 rounded-full text-xs font-medium bg-secondary-container text-on-secondary-container hover:opacity-80 transition-opacity"
-                        type="button">
-                    {{ 'event.filter.onlyAvailable' | translate }}
-                    <mat-icon inline>close</mat-icon>
-                </button>
-            }
-            <button (click)="service.resetFilter()"
-                    class="inline-flex items-center h-7 px-3 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors"
-                    type="button">
-                {{ 'event.filter.reset' | translate }}
-            </button>
-        </div>
-    }
 </div>
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>

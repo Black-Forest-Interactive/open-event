@@ -497,6 +497,7 @@
   "nav": {
     "group": {
       "main": "Overview",
+      "account": "Account",
       "communication": "Communication",
       "info": "Info"
     },
