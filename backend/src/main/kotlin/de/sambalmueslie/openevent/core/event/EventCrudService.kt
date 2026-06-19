@@ -168,10 +168,12 @@ class EventCrudService(
 
     fun setBookmarked(actor: Account, event: Event) {
         storage.setBookmarked(event, actor)
+        updateSearch(actor, event, ChangeType.UPDATED)
     }
 
     fun clearBookmarked(actor: Account, event: Event) {
         storage.clearBookmarked(event, actor)
+        updateSearch(actor, event, ChangeType.UPDATED)
     }
 
     fun getBookmarks(id: Long): List<EventBookmarkRelation> {

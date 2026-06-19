@@ -95,6 +95,7 @@ export class EventBoardComponent {
       const view = this.viewParam()
       untracked(() => this.service.setNavView(view === 'saved' || view === 'regs' || view === 'own' ? view : 'all'))
     })
+    this.service.reload()
   }
 
   setQuery(query: string) {

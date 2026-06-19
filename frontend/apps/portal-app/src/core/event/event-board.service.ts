@@ -172,8 +172,12 @@ export class EventBoardService {
     this.categoryFilterSignal.set(new Set())
     this.audienceFilterSignal.set(new Set())
     this.preselectionSignal.set(undefined)
-    this.navViewSignal.set('all')
     this.updateRange(null, null)
+  }
+
+  reload() {
+    this.page.set(0)
+    this.searchResource.reload()
   }
 
   onScroll() {
