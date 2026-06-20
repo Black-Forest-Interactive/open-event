@@ -28,6 +28,10 @@ abstract class BaseStorageService<T : Any, O : BusinessObject<T>, R : BusinessOb
             .build { id -> repository.findByIdOrNull(id)?.let { converter.convert(it) } }
     }
 
+    protected fun invalidateAll() {
+        cache.invalidateAll()
+    }
+
     override fun get(id: T): O? {
         return cache[id]
     }

@@ -11,6 +11,8 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: ./backend
@@ -40,6 +42,27 @@ jobs:
       - name: Generate test report
         if: always()
         run: ./gradlew jacocoTestReport --no-daemon
+
+      - name: Generate JaCoCo coverage badges
+        if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: backend/build/reports/jacoco/test/jacocoTestReport.csv
+          badges-directory: badges
+          coverage-badge-filename: coverage.svg
+          branches-badge-filename: branches.svg
+          generate-coverage-badge: true
+          generate-branches-badge: true
+
+      - name: Commit and push coverage badges
+        if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+        working-directory: ${{ github.workspace }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add badges/coverage.svg badges/branches.svg
+          git diff --staged --quiet || git commit -m "chore: update coverage badges [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
 
       - name: Upload test results
         if: always()
