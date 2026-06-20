@@ -52,6 +52,7 @@ class EventCrudService(
     }
 
     fun create(actor: Account, request: EventChangeRequest): Event {
+        isValid(request)
         val result = storage.create(request, actor)
         val categories = categoryCrudService.getByIds(request.categoryIds)
         if (categories.isNotEmpty()) storage.setCategories(result, categories)

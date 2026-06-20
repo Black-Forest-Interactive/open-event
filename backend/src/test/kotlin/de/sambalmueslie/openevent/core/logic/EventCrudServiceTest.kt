@@ -15,12 +15,16 @@ import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.registration.api.Registration
 import de.sambalmueslie.openevent.core.registration.api.RegistrationChangeRequest
 import de.sambalmueslie.openevent.core.search.event.EventSearchOperator
+import de.sambalmueslie.openevent.error.InvalidRequestException
+import de.sambalmueslie.openevent.testdata.AccountTestData
+import de.sambalmueslie.openevent.testdata.EventTestData
 import io.micronaut.data.model.Pageable
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.mockk.*
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
@@ -45,6 +49,25 @@ class EventCrudServiceTest : TimeBasedTest() {
     private val eventListener = mockk<de.sambalmueslie.openevent.core.event.EventChangeListener>()
     private val locationListener = mockk<LocationChangeListener>()
     private val registrationListener = mockk<RegistrationChangeListener>()
+
+    @Test
+    fun isValidRejectsBlankTitleOnCreate() {
+        val actor = AccountTestData.createActor(accountStorage)
+
+        assertThrows(InvalidRequestException::class.java) {
+            service.create(actor, EventTestData.createRequest(title = " "))
+        }
+    }
+
+    @Test
+    fun isValidRejectsBlankTitleOnUpdate() {
+        val actor = AccountTestData.createActor(accountStorage)
+        val event = service.create(actor, EventTestData.createRequest())
+
+        assertThrows(InvalidRequestException::class.java) {
+            service.update(actor, event.id, EventTestData.createRequest(title = " "))
+        }
+    }
 
     @Test
     fun eventCrud() {

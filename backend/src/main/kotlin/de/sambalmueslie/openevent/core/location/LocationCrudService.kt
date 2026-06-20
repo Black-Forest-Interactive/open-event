@@ -23,6 +23,7 @@ class LocationCrudService(
     }
 
     fun create(actor: Account, event: Event, request: LocationChangeRequest): Location {
+        isValid(request)
         val result = storage.create(resolveGeoLocation(request), event)
         notifyCreated(actor, result)
         return result

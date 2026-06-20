@@ -22,6 +22,7 @@ class FeedbackCrudService(
     }
 
     fun create(actor: Account, account: Account, request: FeedbackChangeRequest, http: HttpRequest<*>): Feedback {
+        isValid(request)
         val clientIp = http.headers["X-Real-IP"] ?: http.headers["X-Forwarded-For"] ?: http.remoteAddress.address.hostAddress
         val userAgent = http.headers["User-Agent"] ?: "unknown"
         val result = storage.create(request, account, clientIp, userAgent)

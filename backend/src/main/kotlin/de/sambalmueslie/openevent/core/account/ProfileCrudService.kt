@@ -21,6 +21,7 @@ class ProfileCrudService(
     }
 
     fun create(actor: Account, account: Account, request: ProfileChangeRequest): Profile {
+        isValid(request)
         val result = storage.create(request, account)
         notifyCreated(actor, result)
         return result

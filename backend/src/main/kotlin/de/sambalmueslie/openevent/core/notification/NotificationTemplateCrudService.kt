@@ -26,11 +26,8 @@ class NotificationTemplateCrudService(
         private val logger: Logger = LoggerFactory.getLogger(NotificationTemplateCrudService::class.java)
     }
 
-    fun create(
-        actor: Account,
-        type: NotificationType,
-        request: NotificationTemplateChangeRequest
-    ): NotificationTemplate {
+    fun create(actor: Account, type: NotificationType, request: NotificationTemplateChangeRequest): NotificationTemplate {
+        isValid(request)
         val result = storage.create(type, request)
         notifyCreated(actor, result)
         return result

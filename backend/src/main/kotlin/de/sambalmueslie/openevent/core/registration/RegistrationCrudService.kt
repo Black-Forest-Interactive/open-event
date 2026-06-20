@@ -43,6 +43,7 @@ class RegistrationCrudService(
     }
 
     fun create(actor: Account, event: Event, request: RegistrationChangeRequest): Registration {
+        isValid(request)
         val result = storage.create(request, event)
         notifyCreated(actor, result)
         return result
@@ -59,6 +60,7 @@ class RegistrationCrudService(
 
 
     fun updateByEvent(actor: Account, event: Event, request: RegistrationChangeRequest): Registration {
+        isValid(request)
         val existing = storage.findByEvent(event)
         return if (existing != null) {
             val result = storage.update(existing.id, request)

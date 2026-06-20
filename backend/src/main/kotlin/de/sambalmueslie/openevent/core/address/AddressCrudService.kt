@@ -30,6 +30,7 @@ class AddressCrudService(
     }
 
     fun create(actor: Account, account: Account, request: AddressChangeRequest): Address {
+        isValid(request)
         val primary = storage.getDefault(account)
         val result = storage.create(resolveGeoAddress(request), primary != null, account)
         notifyCreated(actor, result)

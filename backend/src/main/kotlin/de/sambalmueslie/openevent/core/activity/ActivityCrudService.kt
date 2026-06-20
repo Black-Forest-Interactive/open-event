@@ -22,6 +22,7 @@ class ActivityCrudService(
     }
 
     fun create(actor: Account, request: ActivityChangeRequest, source: ActivitySource, type: ActivityType): Activity {
+        isValid(request)
         val result = storage.create(request, actor, source, type)
         notifyCreated(actor, result)
         return result

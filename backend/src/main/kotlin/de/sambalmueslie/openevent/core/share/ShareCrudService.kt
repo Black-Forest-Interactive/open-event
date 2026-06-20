@@ -28,6 +28,7 @@ class ShareCrudService(
     }
 
     fun create(actor: Account, event: Event, request: ShareChangeRequest): Share {
+        isValid(request)
         val result = storage.create(event, request)
         notifyCreated(actor, result)
         return result
