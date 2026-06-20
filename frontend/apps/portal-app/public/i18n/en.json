@@ -28,6 +28,9 @@
     "type": "Event",
     "search": "Search for event",
     "create": "Create new event",
+    "admin": {
+      "registration": "Participant list"
+    },
     "action": {
       "edit": "Edit Event",
       "copy": "Copy Event",
@@ -130,9 +133,6 @@
         "title": "Please input some title",
         "shortText": "Please input some short description",
         "longText": "Please input some long description"
-      },
-      "admin": {
-        "registration": "Event Participants"
       },
       "shortText": "Short description"
     },
@@ -303,18 +303,7 @@
     }
   },
   "settings": {
-    "type": "Settings",
-    "create": "Create new Setting",
-    "table": {
-      "key": "Key",
-      "value": "Value",
-      "type": "Type"
-    },
-    "form": {
-      "key": "Key",
-      "value": "Value",
-      "type": "Type"
-    }
+    "type": "Settings"
   },
   "cache": {
     "type": "Cache"
@@ -331,7 +320,6 @@
     "title": "Account",
     "type": "Account",
     "search": "Search for an account",
-    "create": "Create new account",
     "dialog": {
       "create": {
         "title": "Create new manual account"
@@ -350,12 +338,6 @@
     },
     "message": {
       "created": "Account created successfully"
-    },
-    "table": {
-      "name": "Username",
-      "firstname": "First Name",
-      "lastname": "Last Name",
-      "email": "E-Mail"
     }
   },
   "backoffice": {
@@ -479,7 +461,6 @@
     "action": {
       "enable": "Enable Sharing",
       "disable": "Disable Sharing",
-      "participate": "Participate (without login)",
       "activate": "Yes i like to activate sharing",
       "show": "Show shared event"
     },

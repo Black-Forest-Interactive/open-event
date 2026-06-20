@@ -109,9 +109,6 @@
       "category": "Kategorien",
       "label": "Markierung"
     },
-    "admin": {
-      "registration": "Teilnehmerliste"
-    },
     "property": {
       "id": "ID",
       "title": "Titel",
@@ -122,6 +119,8 @@
       "categories": "Kategorien",
       "owner": "Ersteller",
       "date": "Datum",
+      "start": "Beginn",
+      "finish": "Ende",
       "participants": "Teilnehmerinfo",
       "shared": "Geteilt",
       "created": "Erstellt",
@@ -143,7 +142,9 @@
       "participateAccount": "Account hinzufügen",
       "participateManual": "Manuell hinzufügen",
       "edit": "Teilnahme ändern",
-      "cancel": "Absagen"
+      "cancel": "Absagen",
+      "editParticipant": "Ändern",
+      "removeParticipant": "Entfernen"
     },
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",
@@ -165,6 +166,10 @@
       "manual": {
         "title": "Manuellen Teilnehmer hinzufügen",
         "question": "Bitte Daten des Teilnehemers eingeben"
+      },
+      "account": {
+        "title": "Teilnehmer hinzufügen",
+        "question": "Bitte die Daten des Teilnehmers eingeben"
       }
     },
     "message": {
@@ -286,6 +291,9 @@
     "admin": "Benutzerverwaltung",
     "search": "Suche nach Benutzer",
     "create": "Benutzer anlegen",
+    "action": {
+      "select": "Auswählen"
+    },
     "dialog": {
       "create": {
         "title": "Neuen Benutzer erstellen"
@@ -338,6 +346,7 @@
     "export": {
       "title": "Export",
       "action": {
+        "single": "Veranstaltung exportieren",
         "all": "Export per Download",
         "notice": "Aushang exportieren",
         "mail": {
@@ -431,7 +440,6 @@
     "table": {
       "street": "Straße",
       "streetNumber": "Nr",
-      "info": "Addresszusatz",
       "zip": "PLZ",
       "city": "Wohnort",
       "country": "Land"
@@ -455,7 +463,6 @@
     "title": "Veranstaltung teilen",
     "action": {
       "enable": "Teilen aktivieren",
-      "disable": "Teilen deaktivieren",
       "activate": "Ja, ich möchte die Veranstaltung gerne teilen"
     },
     "info": {
@@ -496,6 +503,12 @@
     "action": {
       "read": "Gelesen",
       "readAll": "Alle gelesen"
+    },
+    "form": {
+      "timestamp": "Zeitpunkt",
+      "hint": {
+        "timestamp": "Benachrichtigungen vor diesem Zeitpunkt werden gelöscht"
+      }
     }
   },
   "paginator": {
@@ -538,8 +551,39 @@
       "size": "Maximale Teilnehmer"
     }
   },
+  "MAIL": {
+    "Table": {
+      "Message": "Nachricht",
+      "Timestamp": "Zeitstempel"
+    }
+  },
+  "nav": {
+    "group": {
+      "content": "Inhalte",
+      "communication": "Kommunikation",
+      "system": "System",
+      "monitoring": "Überwachung"
+    }
+  },
   "issue": {
-    "type": "Fehler"
+    "type": "Fehler",
+    "title": "Fehler",
+    "property": {
+      "subject": "Betreff",
+      "description": "Beschreibung",
+      "error": "Fehler",
+      "url": "URL",
+      "account": "Benutzer",
+      "status": "Status",
+      "client_ip": "Client-IP",
+      "user_agent": "User-Agent",
+      "timestamp": "Zeitstempel"
+    },
+    "status": {
+      "CREATED": "Erstellt",
+      "IN_PROGRESS": "In Bearbeitung",
+      "RESOLVED": "Gelöst"
+    }
   },
   "feedback": {
     "type": "Feedback",
@@ -549,7 +593,16 @@
       "topic": "Kategorie",
       "account": "Benutzer",
       "rating": "Bewertung",
-      "timestamp": "Zeitstempel"
+      "timestamp": "Zeitstempel",
+      "description": "Beschreibung",
+      "tags": "Tags",
+      "client_ip": "Client-IP",
+      "user_agent": "User-Agent"
+    },
+    "dialog": {
+      "details": {
+        "title": "Feedback-Details"
+      }
     }
   }
 }

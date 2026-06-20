@@ -1,22 +1,42 @@
 import { Component, computed, effect, inject, resource, signal } from '@angular/core'
 import { EventService, PublicEvent, PublicEventSearchRequest } from '@open-event/external'
 import { DateTime } from 'luxon'
-import { toPromise } from '@open-event/shared'
+import { LoadingBarComponent, ScrollNearEndDirective, toPromise } from '@open-event/shared'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
-import { BoardSearchComponent, EventBoardDateFilterComponent, EventBoardDateRange, EventCardComponent, EventCardEntry, EventCardListComponent } from '@open-event/ui'
+import { BoardSearchComponent, EventBoardDateFilterComponent, EventBoardDateRange } from '@open-event/ui'
 import { MatButton } from '@angular/material/button'
+import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
+import { EventCardComponent } from '../event-card/event-card.component'
+import { EventRowComponent } from '../event-row/event-row.component'
+import { EventBoardCalendarComponent } from '../event-board-calendar/event-board-calendar.component'
+
+type BoardLayout = 'cards' | 'rows' | 'calendar'
 
 @Component({
   selector: 'app-event-board',
   templateUrl: './event-board.component.html',
-  imports: [BoardSearchComponent, EventBoardDateFilterComponent, EventCardListComponent, EventCardComponent, MatButton, MatIcon, TranslatePipe]
+  imports: [
+    BoardSearchComponent,
+    EventBoardDateFilterComponent,
+    EventCardComponent,
+    EventRowComponent,
+    EventBoardCalendarComponent,
+    LoadingBarComponent,
+    ScrollNearEndDirective,
+    MatButton,
+    MatButtonToggle,
+    MatButtonToggleGroup,
+    MatIcon,
+    TranslatePipe
+  ]
 })
 export class EventBoardComponent {
+  readonly layout = signal<BoardLayout>('cards')
   readonly filterVisible = signal(false)
   readonly showAvailableOnly = signal(false)
   readonly showHistory = signal(false)
@@ -43,6 +63,7 @@ export class EventBoardComponent {
     loader: (p) => toPromise(this.service.search(p.params.key, p.params.request, p.params.page, p.params.size), p.abortSignal)
   })
   readonly reloading = this.searchResource.isLoading
+  readonly totalSize = computed(() => this.searchResource.value()?.totalSize ?? 0)
   readonly hasMoreElements = computed(() => {
     const result = this.searchResource.value()
     if (!result) return false
@@ -66,6 +87,10 @@ export class EventBoardComponent {
     effect(() => {
       this.infiniteScrollMode.set(this.mobileView())
     })
+  }
+
+  setLayout(layout: BoardLayout) {
+    this.layout.set(layout)
   }
 
   setQuery(val: string) {
@@ -101,22 +126,6 @@ export class EventBoardComponent {
   onScroll() {
     if (this.reloading() || !this.hasMoreElements()) return
     this.page.set(this.pageIndex() + 1)
-  }
-
-  toCardData(event: PublicEvent): EventCardEntry {
-    return {
-      link: ['/event', event.key],
-      title: event.title,
-      ownerName: event.owner.name,
-      start: event.start,
-      finish: event.finish,
-      hasLocation: event.hasLocation,
-      zip: event.zip,
-      city: event.city,
-      country: event.country,
-      categories: event.categories,
-      tags: event.tags
-    }
   }
 
   private applyDefaultRange() {

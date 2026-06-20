@@ -561,3 +561,46 @@ Reine Frontend-Arbeit; die **Backend-Seite der Audience-Zuweisung** (`EventChang
   `nx lint portal-app` = die 3 bekannten Baseline-Issues; admin-Lint-Issues liegen ausschließlich in nicht angefassten
   Dateien (kein neues Problem).
 - **Offen**: Live-Browser-QA (insb. Adress-Default-Fix #3 visuell bestätigen).
+
+---
+
+### 26. External-App ans Portal angeglichen (Event-Board + Event-Info)
+
+Genehmigter Plan: `/home/oli.e/.claude/plans/so-jetzt-bitte-die-hashed-tarjan.md`. Die öffentliche `external-app`
+optisch/inhaltlich ans Portal-Design angeglichen. **Portal-App und Backend unangetastet.** Komponenten wurden
+**external-spezifisch** nachgebaut (gespeist aus dem reduzierten `PublicEvent`-DTO), nicht aus dem Portal geteilt —
+die Portal-Komponenten liegen nicht in `libs/ui` und hängen an Portal-Services. Wiederverwendet wurden die bereits
+geteilten `libs/ui`-Primitive (`lib-category-chip`, `getCategoryStyle`, `lib-avatar`, `lib-registration-status`
+mit `[public]`-Setter) sowie `libs/shared` (`ScrollNearEndDirective`, `LoadingBarComponent`).
+
+- **Event-Board** (`apps/external-app/src/core/event/`) — Board nach Portal-Vorbild, aber **mit weniger Infos** und
+  **nur Kacheln/Liste/Kalender — keine Map**.
+  - NEU `event-card/` (`.ecard`, 1:1 vom Portal-`event-card` inkl. `.scss`, ohne `featured`/`audiences`/`isRegistered`;
+    `MatCard` importiert), NEU `event-row/` (`.erow`, `class="erow flex !flex-row …"`), NEU `event-board-calendar/`
+    (Agenda: `groups`-Computed gruppiert nach `start.substring(0,10)`, rendert `app-event-row`).
+  - `event-board.component.ts` — neues `layout`-Signal (`cards|rows|calendar`) + `setLayout()`, `totalSize`-Computed;
+    `toCardData()` + libs/ui-`EventCardComponent`/`EventCardListComponent` entfernt.
+  - `event-board.component.html` — Sticky-Header (Suche + Ergebniszähler + 3er-`mat-button-toggle-group` **ohne**
+    map-Toggle), `lib-loading-bar`, `@switch (layout())` (Kalender/Liste/Kachel-Grid) in `libScrollNearEnd` mit
+    "Mehr laden", Empty-State; Filter weiter über `lib-event-board-date-filter` (Zeitraum + "Nur verfügbare" +
+    "Vergangene anzeigen"), Desktop-Sidebar / Mobile-Slide-in (Slide-in-Hintergrund `bg-white` →
+    `bg-surface-container-lowest`).
+- **Event-Info / Detail** (öffentlicher Teil der Detailanzeige).
+  - `event-info.component.ts/.html/.scss` neu: kategorie-getönter Platzhalter-Hero (`getCategoryStyle`, da `PublicEvent`
+    kein Bild hat) mit schwebenden Kategorie-Chips, Fact-Row (Datum/Zeit+Dauer/Ort — Ort zeigt `zip city`/`country`,
+    da `PublicEvent` keine Straße/Koordinaten hat), Titel + `shortText`-Lead, Kategorie-Chips + `#tag`-Pills,
+    „Über"-Block (`longText` via `[innerHTML]` mit `prose`, Dark-Mode-`--tw-prose-*`-Overrides), Veranstalter-Block
+    (`lib-avatar` + `owner.name`). Alle Template-Props als `readonly computed`.
+  - `event.component.html` — Seitenlayout mit Aside-Buchungskarte (wie Portal): Hauptkarte = `app-event-info`,
+    rechte sticky Aside-`mat-card` = `lib-registration-status` + Teilnehmen-Button. `event.component.ts`-Logik
+    (resource, Teilnahme-Dialog-Flow, sessionStorage-Status, OG-Tags) unverändert; `RegistrationStatusComponent`/
+    `TranslatePipe` zu den Imports ergänzt.
+  - `event-action.component` — Template auf reinen Full-Width-Button reduziert (Divider/`p-4`-Wrapper raus,
+    `color="accent"`), damit es sauber in die Buchungskarte passt; Output/`participationPossible`-Logik unverändert,
+    `MatDivider`-Import entfernt.
+- **i18n** — `event.type`, `event.board.{cards,rows,calendar,results,details}`,
+  `event.detail.{about,when,minutes,host}` in `apps/external-app/public/i18n/{de,en}.json`.
+- **Verifiziert**: `nx build external-app --configuration=development` ✅ (nur die bekannte Sass-`@import`-Deprecation-
+  Warnung), `nx lint external-app` ✅ (0 Issues).
+- **Offen**: Live-Browser-QA (Board-Layout-Umschaltung inkl. Agenda, Filter/Infinite-Scroll, Detailseite mit
+  Hero/Fact-Row/Aside-Buchungskarte, Teilnahme-Flow, Dark-Mode).

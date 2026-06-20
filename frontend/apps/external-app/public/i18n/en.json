@@ -25,8 +25,22 @@
     "delete": "Delete"
   },
   "event": {
+    "type": "Event",
     "search": "Search for event",
     "empty": "No events found. Please try different filters.",
+    "board": {
+      "cards": "Tiles",
+      "rows": "List",
+      "calendar": "Calendar",
+      "results": "results",
+      "details": "Details"
+    },
+    "detail": {
+      "about": "About this event",
+      "when": "When",
+      "minutes": "min",
+      "host": "Host"
+    },
     "filter": {
       "title": "Filter",
       "availableOnly": "Available only",
@@ -53,6 +67,7 @@
   },
   "registration": {
     "peopleAmount": "Amount of people",
+    "code": "Confirmation code",
     "status": {
       "full": "Full",
       "available": "seats available"
@@ -61,6 +76,10 @@
       "manual": {
         "title": "Add participant",
         "question": "Add the data of the participant please"
+      },
+      "confirm": {
+        "title": "Complete registration",
+        "question": "Please enter the confirmation code from the email"
       },
       "response": {
         "title": "Participation request Received",

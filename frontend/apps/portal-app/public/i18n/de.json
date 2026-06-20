@@ -198,7 +198,9 @@
       "participateAccount": "Account hinzufügen",
       "participateManual": "Manuell hinzufügen",
       "edit": "Teilnahme ändern",
-      "cancel": "Absagen"
+      "cancel": "Absagen",
+      "editParticipant": "Ändern",
+      "removeParticipant": "Entfernen"
     },
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",

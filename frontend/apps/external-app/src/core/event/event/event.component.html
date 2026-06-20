@@ -1,12 +1,20 @@
 <div class="flex flex-col gap-2 items-center flex-auto">
     <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
-    @if (event()) {
-        <div class="flex flex-col container gap-4 content-stretch w-full px-2 sm:px-4">
-            <mat-card class="flex flex-col">
-                <app-event-info [event]="event()!!" class="flex-auto"/>
-                <app-event-action (participateEvent)="participate()" [processing]="processing()"
-                                  [status]="status()"></app-event-action>
+    @if (event(); as e) {
+        <div class="flex flex-col lg:flex-row gap-4 w-full max-w-5xl px-2 sm:px-4 py-3">
+            <mat-card appearance="outlined" class="flex-auto min-w-0 overflow-hidden">
+                <app-event-info [event]="e"></app-event-info>
             </mat-card>
+
+            <div class="lg:basis-80 shrink-0 lg:sticky lg:top-3 lg:self-start">
+                <mat-card appearance="outlined" class="p-4 flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm font-semibold">{{ 'event.property.registration' | translate }}</span>
+                        <lib-registration-status [public]="e"></lib-registration-status>
+                    </div>
+                    <app-event-action (participateEvent)="participate()" [processing]="processing()" [status]="status()"></app-event-action>
+                </mat-card>
+            </div>
         </div>
     }
 </div>

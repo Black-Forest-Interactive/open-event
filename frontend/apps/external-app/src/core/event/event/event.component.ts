@@ -13,10 +13,12 @@ import { RequestParticipationDialogComponent } from '../../participant/request-p
 import { RequestParticipationResponseDialogComponent } from '../../participant/request-participation-response-dialog/request-participation-response-dialog.component'
 import { EventActionComponent } from '../event-action/event-action.component'
 import { MatCard } from '@angular/material/card'
+import { TranslatePipe } from '@ngx-translate/core'
+import { RegistrationStatusComponent } from '@open-event/ui'
 
 @Component({
   selector: 'app-event',
-  imports: [LoadingBarComponent, EventInfoComponent, EventActionComponent, MatCard],
+  imports: [LoadingBarComponent, EventInfoComponent, EventActionComponent, MatCard, TranslatePipe, RegistrationStatusComponent],
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss'
 })
