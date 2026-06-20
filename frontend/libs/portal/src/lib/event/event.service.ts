@@ -46,6 +46,14 @@ export class EventService extends BaseService {
     return this.put('' + id + '/shared', new PatchRequest(enabled))
   }
 
+  setBookmarked(id: number): Observable<EventInfo> {
+    return this.put('' + id + '/bookmark', {})
+  }
+
+  clearBookmarked(id: number): Observable<EventInfo> {
+    return this.delete('' + id + '/bookmark')
+  }
+
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
     return this.getBlob('event/' + eventId + '/pdf')
   }

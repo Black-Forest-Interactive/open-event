@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 
 @Singleton
 class EventAnnouncementRelationService(
-    private val repository: AnnouncementRelationRepository,
+    private val repository: EventAnnouncementRelationRepository,
     private val service: AnnouncementStorageService
 ) {
 

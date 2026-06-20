@@ -1,45 +1,25 @@
 import { Component, computed, effect, inject, resource, signal } from '@angular/core'
-import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableModule } from '@angular/material/table'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { MatButton } from '@angular/material/button'
-import { DatePipe, NgClass } from '@angular/common'
-import { MatDivider } from '@angular/material/divider'
 import { ActivityInfo } from '@open-event/core'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
-import { ActivityReadComponent } from '../activity-read/activity-read.component'
+import { ActivityRowComponent } from '../activity-row/activity-row.component'
 import { ActivityService } from '@open-event/portal'
 
 @Component({
   selector: 'portal-activity-table',
   templateUrl: './activity-table.component.html',
   styleUrl: './activity-table.component.scss',
-  imports: [
-    MatTableModule,
-    MatColumnDef,
-    MatHeaderCell,
-    MatCell,
-    TranslatePipe,
-    MatIcon,
-    MatButton,
-    NgClass,
-    MatDivider,
-    MatPaginator,
-    ActivityReadComponent,
-    DatePipe,
-    MatRow,
-    MatHeaderRow,
-    LoadingBarComponent
-  ],
+  imports: [TranslatePipe, MatIcon, MatButton, MatPaginator, ActivityRowComponent, LoadingBarComponent],
   standalone: true
 })
 export class ActivityTableComponent {
   // writable so handleReadStatusChanged can patch individual rows without a full reload
   readonly items = signal<ActivityInfo[]>([])
   readonly unread = computed(() => this.items().filter((c) => !c.read).length)
-  readonly displayedColumns = ['type', 'title', 'actor', 'timestamp', 'read']
   private service = inject(ActivityService)
   private toast = inject(HotToastService)
   private page = signal(0)

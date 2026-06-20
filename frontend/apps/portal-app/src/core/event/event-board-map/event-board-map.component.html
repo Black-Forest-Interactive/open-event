@@ -1,6 +1,35 @@
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
-<div class="flex flex-col gap-2">
-    <mat-card>
+<div class="flex flex-col lg:flex-row gap-2">
+    <mat-card class="flex-auto min-w-0">
         <div #map class="flex-auto map-container"></div>
     </mat-card>
+    @if (venues().length > 0) {
+        <mat-card appearance="outlined" class="basis-80 shrink-0 overflow-hidden">
+            <div class="border-b border-outline-variant p-3">
+                <h2 class="text-sm font-semibold text-on-surface">{{ 'event.board.venues' | translate }}</h2>
+            </div>
+            <div class="flex flex-col divide-y divide-outline-variant lg:max-h-[750px] lg:overflow-y-auto">
+                @for (venue of venues(); track venue.key) {
+                    <div class="flex flex-col">
+                        <div (click)="flyToVenue(venue)" class="flex items-center gap-2 p-3 cursor-pointer hover:bg-surface-container">
+                            <mat-icon inline class="text-on-surface-variant">place</mat-icon>
+                            <div class="flex flex-col min-w-0 flex-auto">
+                                <span class="text-sm font-medium truncate">{{ venue.street }} {{ venue.streetNumber }}</span>
+                                <span class="text-xs text-on-surface-variant truncate">{{ venue.zip }} {{ venue.city }}</span>
+                            </div>
+                            <span class="text-xs font-medium text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full shrink-0">{{ venue.entries.length }}</span>
+                        </div>
+                        <div class="flex flex-col divide-y divide-outline-variant border-t border-outline-variant">
+                            @for (entry of venue.entries; track entry.id) {
+                                <div (click)="openEvent(entry)" class="flex items-center gap-2 pl-10 pr-3 py-2 cursor-pointer hover:bg-surface-container">
+                                    <span class="text-sm truncate flex-auto">{{ entry.title }}</span>
+                                    <span class="text-xs text-on-surface-variant whitespace-nowrap">{{ entry.start | date: 'shortDate' }}</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </mat-card>
+    }
 </div>

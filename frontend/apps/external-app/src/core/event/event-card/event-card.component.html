@@ -1,0 +1,49 @@
+<mat-card appearance="outlined" class="ecard flex flex-col overflow-hidden h-full" routerLink="/event/{{ key() }}">
+    <div [style.--h]="mediaStyle().hue" class="ecard__media relative grid place-items-center aspect-[16/9] overflow-hidden text-5xl">
+        <div class="ecard__pattern"></div>
+        <mat-icon class="ecard__glyph relative z-[1]" inline>{{ mediaStyle().icon }}</mat-icon>
+
+        @if (categories().length > 0) {
+            <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                @for (cat of categories(); track cat) {
+                    <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="flex flex-col gap-2 p-4 flex-auto">
+        <h3 class="text-lg font-medium leading-snug line-clamp-2">{{ title() }}</h3>
+        @if (shortText()) {
+            <p class="text-sm text-on-surface-variant line-clamp-2">{{ shortText() }}</p>
+        }
+        <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-on-surface-variant">
+            <span class="flex items-center gap-1">
+                <mat-icon inline>event</mat-icon>
+                {{ start() | date: 'mediumDate' }}
+            </span>
+            <span class="flex items-center gap-1">
+                <mat-icon inline>schedule</mat-icon>
+                {{ start() | date: 'shortTime' }} – {{ finish() | date: 'shortTime' }}
+            </span>
+            @if (hasLocation()) {
+                <span class="flex items-center gap-1">
+                    <mat-icon inline>place</mat-icon>
+                    {{ city() }}
+                </span>
+            }
+        </div>
+
+        <div class="mt-auto flex items-end gap-3 pt-1.5">
+            @if (hasRegistration()) {
+                <lib-registration-status [compact]="true" [public]="event()" class="flex-1 min-w-0"></lib-registration-status>
+            } @else {
+                <span class="flex-1"></span>
+            }
+            <button (click)="$event.stopPropagation()" color="accent" matButton="filled" routerLink="/event/{{ key() }}" class="shrink-0">
+                {{ 'event.board.details' | translate }}
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card>

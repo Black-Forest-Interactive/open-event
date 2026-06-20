@@ -21,6 +21,7 @@ class LinkCrudService(
     }
 
     fun create(actor: Account, key: String, request: LinkChangeRequest): Link {
+        isValid(request)
         val result = storage.create(key, request)
         notifyCreated(actor, result)
         return result

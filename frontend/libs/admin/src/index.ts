@@ -2,6 +2,8 @@ export * from './lib/account/account.service'
 
 export * from './lib/activity/activity.service'
 
+export * from './lib/audience/audience.service'
+
 export * from './lib/address/address.service'
 
 export * from './lib/cache/cache.service'

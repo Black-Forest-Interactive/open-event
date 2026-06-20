@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.db.AccountStorageService
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.db.EventBookmarkRelation
 import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.registration.api.Registration
 import de.sambalmueslie.openevent.core.search.api.*
@@ -33,7 +34,7 @@ open class EventSearchOperator(
     private val queryBuilder: EventSearchQueryBuilder,
     private val createdQueryBuilder: EventCreatedSearchQueryBuilder,
     config: OpenSearchConfig,
-    openSearch: SearchClientFactory
+    openSearch: SearchClientFactory,
 ) : BaseOpenSearchOperator<EventSearchEntry, EventSearchRequest, EventSearchResponse>(openSearch, "event", config, logger) {
 
     companion object {
@@ -50,11 +51,12 @@ open class EventSearchOperator(
 
     override fun initialLoadPage(pageable: Pageable): Page<Pair<String, String>> {
         val page = service.getInfos(pageable)
-        return page.map { convert(it) }
+        val bookmarks = service.getBookmarks(page.content.map { it.event.id }.toSet()).groupBy { it.eventId }
+        return page.map { convert(it, bookmarks[it.event.id] ?: emptyList()) }
     }
 
-    private fun convert(obj: EventInfo): Pair<String, String> {
-        val input = EventSearchEntryData.create(obj)
+    private fun convert(obj: EventInfo, bookmarks: List<EventBookmarkRelation>): Pair<String, String> {
+        val input = EventSearchEntryData.create(obj, bookmarks)
         return Pair(input.id, mapper.writeValueAsString(input))
     }
 
@@ -62,7 +64,8 @@ open class EventSearchOperator(
         if (event.type == ChangeType.DELETED) {
             deleteDocument(event.data.event.id.toString())
         } else {
-            val data = convert(event.data)
+            val bookmarks = service.getBookmarks(event.data.event.id)
+            val data = convert(event.data, bookmarks)
             updateDocument(data)
         }
     }
@@ -88,7 +91,7 @@ open class EventSearchOperator(
 
         val content = data.mapNotNull {
             val owner = accountService.getInfo(it.owner) ?: return@mapNotNull null
-            it.convert(owner)
+            it.convert(actor, owner)
         }
 
         return EventSearchResponse(Page.of(content, pageable, response.total), dateHistogram)

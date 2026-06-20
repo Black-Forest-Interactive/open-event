@@ -6,5 +6,6 @@ data class PublicEventSearchRequest(
     val fullTextSearch: String,
     val from: LocalDate?,
     val to: LocalDate?,
-    val onlyAvailableEvents: Boolean
+    val onlyAvailableEvents: Boolean,
+    val featured: Boolean
 )

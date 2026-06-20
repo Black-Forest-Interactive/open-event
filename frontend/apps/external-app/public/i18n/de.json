@@ -25,8 +25,22 @@
     "delete": "Löschen"
   },
   "event": {
+    "type": "Veranstaltung",
     "search": "Veranstaltung suchen",
     "empty": "Keine Veranstaltungen gefunden. Bitte andere Filter versuchen.",
+    "board": {
+      "cards": "Kacheln",
+      "rows": "Liste",
+      "calendar": "Kalender",
+      "results": "Ergebnisse",
+      "details": "Details"
+    },
+    "detail": {
+      "about": "Über die Veranstaltung",
+      "when": "Wann",
+      "minutes": "Min.",
+      "host": "Veranstalter"
+    },
     "filter": {
       "title": "Filter",
       "availableOnly": "Nur verfügbare",

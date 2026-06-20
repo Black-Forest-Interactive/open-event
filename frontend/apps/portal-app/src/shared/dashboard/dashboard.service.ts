@@ -17,10 +17,15 @@ export class DashboardService {
     {
       title: 'nav.group.main',
       items: [
-        new NavItem('/event', 'event.type', 'event_note'),
-        new NavItem('/account', 'account.type', 'person', [Roles.ACCOUNT_READ]),
-        new NavItem('/address', 'address.title', 'contact_mail', [Roles.ADDRESS_READ])
+        new NavItem('/event', 'nav.item.discover', 'explore'),
+        new NavItem('/event', 'nav.item.saved', 'bookmark', [], { view: 'saved' }),
+        new NavItem('/event', 'nav.item.regs', 'event_available', [], { view: 'regs' }),
+        new NavItem('/event', 'nav.item.own', 'campaign', [], { view: 'own' })
       ]
+    },
+    {
+      title: 'nav.group.account',
+      items: [new NavItem('/account', 'account.type', 'person', [Roles.ACCOUNT_READ]), new NavItem('/address', 'address.title', 'contact_mail', [Roles.ADDRESS_READ])]
     },
     {
       title: 'nav.group.communication',

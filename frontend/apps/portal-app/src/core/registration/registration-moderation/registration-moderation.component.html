@@ -31,6 +31,12 @@
                     </mat-icon>
                 }
             </div>
+            @if (participant.note) {
+                <div class="flex flex-row items-start gap-2 text-sm" style="color: var(--mat-sys-on-surface-variant)">
+                    <mat-icon class="!text-base shrink-0 mt-0.5">notes</mat-icon>
+                    <span>{{ participant.note }}</span>
+                </div>
+            }
 
             <div class="flex flex-row flex-wrap gap-x-4 gap-y-1 text-sm"
                  style="color: var(--mat-sys-on-surface-variant)">

@@ -60,6 +60,7 @@ class ParticipantCrudService(
 
         val changeRequest = ParticipantChangeRequest(
             request.size,
+            request.note,
             status,
             participants.size,
             waitingList
@@ -129,6 +130,7 @@ class ParticipantCrudService(
 
         val changeRequest = ParticipantChangeRequest(
             request.size,
+            request.note,
             ParticipantStatus.ACCEPTED,
             rank,
             waitingList
@@ -189,6 +191,7 @@ class ParticipantCrudService(
 
         val request = ParticipantChangeRequest(
             participant.size,
+            participant.note,
             ParticipantStatus.ACCEPTED,
             rank,
             waitList

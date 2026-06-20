@@ -1,5 +1,6 @@
 export * from './lib/account'
 export * from './lib/activity'
+export * from './lib/audience'
 export * from './lib/address'
 export * from './lib/cache'
 export * from './lib/category'

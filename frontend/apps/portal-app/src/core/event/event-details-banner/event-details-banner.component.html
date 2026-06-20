@@ -1,9 +1,38 @@
 <div class="relative w-full h-[160px] sm:h-[220px] lg:h-[250px] overflow-hidden group">
-    <img (error)="onImageError()" [src]="bannerUrl()" alt="Banner"
-         class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
+    @if (hasImage()) {
+        <img (error)="onImageError()" [src]="bannerUrl()" alt="Banner"
+             class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-90">
+    } @else {
+        <div [style.--h]="mediaStyle().hue" class="hero-placeholder w-full h-full flex items-center justify-center text-6xl">
+            <mat-icon inline>{{ mediaStyle().icon }}</mat-icon>
+        </div>
+    }
 
-    @if (canEdit()) {
-        <div class="absolute top-3 right-3">
+    @if (categories().length > 0 || featured() || audiences().length > 0) {
+        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+            @if (featured()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                    <mat-icon inline>star</mat-icon>
+                    {{ 'event.board.featured' | translate }}
+                </span>
+            }
+            @for (cat of categories(); track cat.id) {
+                <lib-category-chip [iconUrl]="cat.iconUrl" [name]="cat.name"></lib-category-chip>
+            }
+            @for (audience of audiences(); track audience.id) {
+                <span class="px-2 py-0.5 rounded-full bg-surface text-on-surface-variant text-xs font-medium">{{ audience.name }}</span>
+            }
+        </div>
+    }
+
+    <div class="absolute top-3 right-3 flex gap-2">
+        <button (click)="toggleBookmark.emit()" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton>
+            <mat-icon class="text-white">{{ isBookmarked() ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+        <button (click)="share.emit()" [matTooltip]="'action.share' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton matTooltipPosition="left">
+            <mat-icon class="text-white">share</mat-icon>
+        </button>
+        @if (canEdit()) {
             <button (click)="fileInput.click()" [disabled]="isUploading()"
                     [matTooltip]="'event.action.editBanner' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm"
                     matIconButton matTooltipPosition="left">
@@ -14,15 +43,13 @@
                 }
             </button>
             <input #fileInput (change)="onImageSelected($event)" accept="image/*" class="hidden" type="file"/>
-        </div>
-
-        @if (isUploading()) {
-            <div class="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm p-2">
-                <mat-progress-bar [value]="uploadPercentage()" mode="determinate"></mat-progress-bar>
-                <div class="text-xs text-white mt-1 text-center">{{ 'event.message.uploading' | translate }} {{ uploadPercentage() }}
-                    %
-                </div>
-            </div>
         }
+    </div>
+
+    @if (isUploading()) {
+        <div class="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm p-2">
+            <mat-progress-bar [value]="uploadPercentage()" mode="determinate"></mat-progress-bar>
+            <div class="text-xs text-white mt-1 text-center">{{ 'event.message.uploading' | translate }} {{ uploadPercentage() }}%</div>
+        </div>
     }
 </div>

@@ -1,7 +1,34 @@
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
-<div class="flex flex-col gap-2">
-    <mat-card>
-        <full-calendar [options]="calendarOptions" class="flex-auto"></full-calendar>
-    </mat-card>
-</div>
+@if (service.entries().length === 0 && !reloading()) {
+    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+        <mat-icon inline>search_off</mat-icon>
+        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
+        <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
+    </div>
+} @else {
+    <div class="flex flex-col gap-7">
+        @for (group of groups(); track group.date) {
+            <section class="flex flex-col gap-3">
+                <div class="flex items-center gap-3.5">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-3xl font-medium text-primary leading-none">{{ group.date | date: 'd' }}</span>
+                        <div class="flex flex-col text-xs uppercase tracking-wide text-on-surface-variant leading-tight">
+                            <strong class="text-sm font-semibold text-on-surface normal-case">{{ group.date | date: 'EEE' }}</strong>
+                            {{ group.date | date: 'MMM' }}
+                        </div>
+                    </div>
+                    <span class="text-xs font-medium text-on-surface-variant bg-surface-container px-3 py-1 rounded-full whitespace-nowrap">
+                        {{ group.entries.length }}× {{ 'event.type' | translate }}
+                    </span>
+                    <div class="flex-1 h-px bg-outline-variant"></div>
+                </div>
+                <div class="flex flex-col gap-3">
+                    @for (entry of group.entries; track entry.id) {
+                        <portal-event-row [entry]="entry"></portal-event-row>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+}

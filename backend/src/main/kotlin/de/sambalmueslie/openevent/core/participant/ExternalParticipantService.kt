@@ -59,7 +59,7 @@ class ExternalParticipantService(
 
         if (autoConfirmRegistration) {
             if (registration.participants.any { it.author.id == account.id }) return ExternalParticipantChangeResponse.failed()
-            val participateRequest = ParticipateRequest(request.size)
+            val participateRequest = ParticipateRequest(request.size, "")
             val participateResponse = registrationService.addParticipant(systemAccount, registration.registration.id, account, participateRequest) ?: return ExternalParticipantChangeResponse.failed()
             return ExternalParticipantChangeResponse(participateResponse.participant?.toExternalParticipant(), participateResponse.status)
         } else {
@@ -135,7 +135,7 @@ class ExternalParticipantService(
         val (_, account) = getOrCreateAccount(participant) ?: return ExternalParticipantConfirmResponse.failed()
         if (registration.participants.any { it.author.id == account.id }) return ExternalParticipantConfirmResponse.failed()
 
-        val participateRequest = ParticipateRequest(participant.size)
+        val participateRequest = ParticipateRequest(participant.size, "")
         val participateResponse = registrationService.addParticipant(systemAccount, registration.registration.id, account, participateRequest) ?: return ExternalParticipantConfirmResponse.failed()
         repository.delete(participant)
         return ExternalParticipantConfirmResponse(participateResponse.participant?.toExternalParticipant(), participateResponse.status)

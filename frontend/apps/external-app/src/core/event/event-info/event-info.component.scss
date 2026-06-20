@@ -1,0 +1,23 @@
+.hero-placeholder {
+  background: oklch(0.93 0.04 var(--h));
+  color: oklch(0.42 0.1 var(--h));
+
+  :host-context(.dark) & {
+    background: oklch(0.3 0.05 var(--h));
+    color: oklch(0.85 0.06 var(--h));
+  }
+}
+
+:host-context(.dark) ::ng-deep .prose {
+  --tw-prose-body: var(--mat-sys-on-surface-variant);
+  --tw-prose-headings: var(--mat-sys-on-surface);
+  --tw-prose-bold: var(--mat-sys-on-surface);
+  --tw-prose-links: var(--mat-sys-primary);
+  --tw-prose-bullets: var(--mat-sys-outline);
+  --tw-prose-counters: var(--mat-sys-outline);
+  --tw-prose-hr: var(--mat-sys-outline-variant);
+  --tw-prose-quotes: var(--mat-sys-on-surface);
+  --tw-prose-quote-borders: var(--mat-sys-outline-variant);
+  --tw-prose-th-borders: var(--mat-sys-outline-variant);
+  --tw-prose-td-borders: var(--mat-sys-outline-variant);
+}

@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core'
-import { RouterLink, RouterLinkActive } from '@angular/router'
+import { IsActiveMatchOptions, RouterLink, RouterLinkActive } from '@angular/router'
 import { MatIcon } from '@angular/material/icon'
 import { MatTooltip } from '@angular/material/tooltip'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -20,4 +20,6 @@ export class AppSidenavComponent {
 
   logoutClick = output<void>()
   collapseClick = output<void>()
+
+  readonly linkActiveOptions: IsActiveMatchOptions = { paths: 'exact', queryParams: 'exact', matrixParams: 'ignored', fragment: 'ignored' }
 }

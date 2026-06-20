@@ -1,0 +1,62 @@
+@if (step() === 'form') {
+    <div class="flex flex-col gap-4 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div class="flex items-start justify-between gap-2">
+            <div>
+                <h2 class="text-lg font-medium m-0">{{ data.titleKey | translate }}</h2>
+                <p class="text-sm text-on-surface-variant m-0">{{ 'registration.sheet.subtitle' | translate }}</p>
+            </div>
+            <button (click)="close()" matIconButton>
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="flex flex-col bg-surface-container rounded-xl p-3">
+            <b class="text-sm font-semibold truncate">{{ event().title }}</b>
+            <span class="text-xs text-on-surface-variant">{{ event().start | date:'medium' }} – {{ event().finish | date:'shortTime' }}</span>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <span class="text-sm font-medium">{{ 'registration.peopleAmount' | translate }}</span>
+            <div class="flex items-center gap-4">
+                <button (click)="decrement()" [disabled]="persons() <= 1" matIconButton>
+                    <mat-icon>remove</mat-icon>
+                </button>
+                <output class="text-xl font-semibold w-6 text-center">{{ persons() }}</output>
+                <button (click)="increment()" [disabled]="persons() >= maxPersons()" matIconButton>
+                    <mat-icon>add</mat-icon>
+                </button>
+                <span class="text-xs text-on-surface-variant">
+                    {{ remaining() }} {{ (remaining() === 1 ? 'registration.availability.spotFree' : 'registration.availability.spotsFree') | translate }}
+                </span>
+            </div>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ 'registration.form.note' | translate }}</mat-label>
+            <textarea (input)="note.set($any($event.target).value)" [value]="note()" matInput maxlength="500" rows="3"></textarea>
+        </mat-form-field>
+
+        <div class="flex items-center gap-2 pt-2">
+            <button (click)="close()" class="flex-1" matButton="text">{{ 'action.cancel' | translate }}</button>
+            <button (click)="submit()" [disabled]="submitting()" class="flex-1" matButton="filled">
+                <mat-icon>check</mat-icon>{{ 'registration.sheet.confirm' | translate }}
+            </button>
+        </div>
+    </div>
+} @else {
+    <div class="flex flex-col items-center gap-3 p-6 text-center pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+        <div class="w-16 h-16 rounded-full bg-primary text-on-primary grid place-items-center">
+            <mat-icon class="!text-4xl !w-9 !h-9">check</mat-icon>
+        </div>
+        <h2 class="text-lg font-medium m-0">{{ 'registration.sheet.success.title' | translate }}</h2>
+        <p class="text-sm text-on-surface-variant m-0">{{ 'registration.sheet.success.subtitle' | translate }}</p>
+        <div class="flex items-center gap-2 w-full pt-2">
+            <button (click)="downloadCalendar()" class="flex-1" matButton="outlined">
+                <mat-icon>edit_calendar</mat-icon>{{ 'location.action.calendar' | translate }}
+            </button>
+            <button (click)="close()" class="flex-1" matButton="filled">
+                {{ 'action.ok' | translate }}
+            </button>
+        </div>
+    </div>
+}

@@ -1,19 +1,25 @@
-<h1 mat-dialog-title>
+<h1 mat-dialog-title class="!mb-1">
     @if (data) {
         {{ "address.dialog.change.title" | translate }}
     } @else {
         {{ "address.dialog.create.title" | translate }}
     }
 </h1>
+<p class="px-6 -mt-2 mb-2 text-sm text-on-surface-variant">{{ 'address.subtitle' | translate }}</p>
 <div mat-dialog-content>
     <lib-address-change #change (request)="handleRequest($event)" [data]="data"></lib-address-change>
+    <div class="flex items-center gap-3 pt-2">
+        <mat-slide-toggle [checked]="makeDefault()" (change)="makeDefault.set($event.checked)">
+            {{ 'address.action.makeDefault' | translate }}
+        </mat-slide-toggle>
+    </div>
 </div>
 <mat-dialog-actions align="end">
-    <button (click)="change.submit()" [disabled]="!change.fg.valid" color="primary" mat-flat-button>
+    <button (click)="change.submit()" [disabled]="!change.fg.valid" color="primary" matButton="filled">
         <mat-icon>check</mat-icon>
         {{ "action.submit" | translate }}
     </button>
-    <button color="warn" mat-dialog-close mat-flat-button>
+    <button color="warn" mat-dialog-close matButton="outlined">
         <mat-icon>cancel</mat-icon>
         {{ "action.cancel" | translate }}
     </button>

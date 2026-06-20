@@ -1,10 +1,7 @@
-<div class="container mx-auto p-4">
-    <mat-card>
-        <div class="flex items-center gap-3 py-4 px-6 rounded-t"
-             style="background-color: var(--mat-sys-surface-container-high); color: var(--mat-sys-on-surface)">
-            <mat-icon>notifications</mat-icon>
-            <span class="text-xl font-semibold">{{ 'activity.title' | translate }}</span>
-        </div>
-        <portal-activity-table></portal-activity-table>
-    </mat-card>
-</div>
+<mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">
+    <div class="p-4">
+        <h1 class="text-2xl font-semibold text-on-surface">{{ 'activity.title' | translate }}</h1>
+        <p class="text-sm text-on-surface-variant mt-1">{{ 'activity.subtitle' | translate }}</p>
+    </div>
+    <portal-activity-table></portal-activity-table>
+</mat-card>

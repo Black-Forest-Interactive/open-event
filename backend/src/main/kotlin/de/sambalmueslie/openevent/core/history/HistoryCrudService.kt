@@ -29,6 +29,7 @@ class HistoryCrudService(
     }
 
     fun create(actor: Account, event: Event, request: HistoryEntryChangeRequest): HistoryEntry {
+        isValid(request)
         val result = storage.create(request, event, actor)
         notifyCreated(actor, result)
         return result

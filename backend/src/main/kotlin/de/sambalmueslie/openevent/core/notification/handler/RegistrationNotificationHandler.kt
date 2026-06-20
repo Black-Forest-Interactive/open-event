@@ -1,4 +1,4 @@
-package handler
+package de.sambalmueslie.openevent.core.notification.handler
 
 
 import biweekly.Biweekly
@@ -12,8 +12,6 @@ import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.notification.NotificationEvent
 import de.sambalmueslie.openevent.core.notification.NotificationService
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
-import de.sambalmueslie.openevent.core.notification.handler.NotificationHandler
-import de.sambalmueslie.openevent.core.notification.handler.RegistrationEventContent
 import de.sambalmueslie.openevent.core.participant.api.Participant
 import de.sambalmueslie.openevent.core.participant.api.ParticipateStatus
 import de.sambalmueslie.openevent.core.registration.RegistrationChangeListener

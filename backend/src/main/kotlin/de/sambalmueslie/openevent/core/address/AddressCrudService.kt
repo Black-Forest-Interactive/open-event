@@ -30,7 +30,9 @@ class AddressCrudService(
     }
 
     fun create(actor: Account, account: Account, request: AddressChangeRequest): Address {
-        val result = storage.create(resolveGeoAddress(request), account)
+        isValid(request)
+        val primary = storage.getDefault(account)
+        val result = storage.create(resolveGeoAddress(request), primary != null, account)
         notifyCreated(actor, result)
         return result
     }
@@ -87,6 +89,19 @@ class AddressCrudService(
     fun getForAccount(account: Account, id: Long): Address? {
         val data = storage.getData(id) ?: return null
         return if (data.accountId == account.id) data.convert() else null
+    }
+
+    fun setDefault(account: Account, id: Long): Address? {
+        val current = storage.getDefault(account)
+        val new = storage.get(id) ?: return current
+        if (current != null) {
+            if (id == current.id) return current
+            storage.setDefault(current.id, false)?.let { notifyUpdated(account, it) }
+            storage.setDefault(new.id, true)?.let { notifyUpdated(account, it) }
+        } else {
+            storage.setDefault(new.id, true)?.let { notifyUpdated(account, it) }
+        }
+        return storage.getDefault(account)
     }
 
 }

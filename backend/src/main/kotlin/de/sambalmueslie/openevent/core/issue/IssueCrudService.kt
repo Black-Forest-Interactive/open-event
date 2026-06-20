@@ -24,6 +24,7 @@ class IssueCrudService(
     }
 
     fun create(actor: Account, account: Account, request: IssueChangeRequest, http: HttpRequest<*>): Issue {
+        isValid(request)
         val clientIp = http.headers["X-Real-IP"] ?: http.headers["X-Forwarded-For"] ?: http.remoteAddress.address.hostAddress
         val userAgent = http.headers["User-Agent"] ?: "unknown"
         val result = storage.create(request, account, clientIp, userAgent)

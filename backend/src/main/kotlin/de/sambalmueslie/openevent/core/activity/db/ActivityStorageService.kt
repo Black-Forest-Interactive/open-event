@@ -129,8 +129,8 @@ class ActivityStorageService(
     override fun deleteAll(activities: List<Activity>) {
         val activityIds = activities.map { it.id }.toSet()
         subscriberRelationService.deleteByActivityId(activityIds)
-        repository.deleteByIdIn(activityIds)
         unreadInfosCache.invalidateAll()
+        invalidateAll()
     }
 
 }

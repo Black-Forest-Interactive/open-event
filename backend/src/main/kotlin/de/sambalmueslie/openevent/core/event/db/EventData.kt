@@ -26,6 +26,7 @@ data class EventData(
     @Column var longText: String,
     @Column var imageUrl: String,
     @Column var iconUrl: String,
+    @Column var featured: Boolean,
 
     @Column var hasLocation: Boolean,
     @Column var hasRegistration: Boolean,
@@ -53,6 +54,7 @@ data class EventData(
                 request.longText,
                 request.imageUrl,
                 request.iconUrl,
+                false,
                 request.location != null,
                 true,
                 request.published,
@@ -73,6 +75,7 @@ data class EventData(
             longText,
             imageUrl,
             iconUrl,
+            featured,
             hasLocation,
             hasRegistration,
             published,
@@ -106,6 +109,12 @@ data class EventData(
         imageUrl = request.imageUrl
         iconUrl = request.iconUrl
         hasLocation = request.location != null
+        updated = timestamp
+        return this
+    }
+
+    fun setFeatured(value: Boolean, timestamp: LocalDateTime): EventData {
+        this.featured = value
         updated = timestamp
         return this
     }

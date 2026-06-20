@@ -4,12 +4,12 @@ import { interval, startWith, switchMap } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MatBadge } from '@angular/material/badge'
 import { MatIcon } from '@angular/material/icon'
-import { MatIconAnchor, MatIconButton } from '@angular/material/button'
+import { MatIconButton } from '@angular/material/button'
 import { RouterLink } from '@angular/router'
 
 @Component({
   selector: 'portal-activity-indicator',
-  imports: [MatBadge, MatIcon, MatIconAnchor, MatIconButton, RouterLink],
+  imports: [MatBadge, MatIcon, MatIconButton, RouterLink],
   templateUrl: './activity-indicator.component.html',
   styleUrl: './activity-indicator.component.scss'
 })

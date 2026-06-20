@@ -18,6 +18,7 @@ data class Event(
     val longText: String,
     val imageUrl: String,
     val iconUrl: String,
+    val featured: Boolean,
 
     val hasLocation: Boolean,
     val hasRegistration: Boolean,

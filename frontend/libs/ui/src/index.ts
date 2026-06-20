@@ -10,6 +10,12 @@ export { AppToolbarComponent } from './lib/layout/app-toolbar/app-toolbar.compon
 export { AppSidenavComponent } from './lib/layout/app-sidenav/app-sidenav.component'
 export { AppLayoutComponent } from './lib/layout/app-layout/app-layout.component'
 
+// activity
+export { getActivityIcon } from './lib/activity/activity-style'
+
+// avatar
+export { AvatarComponent } from './lib/avatar/avatar.component'
+
 // account
 export { AccountChangeComponent } from './lib/account/account-change/account-change.component'
 export { AccountDisplayNamePipe } from './lib/account/account-display-name.pipe'
@@ -19,6 +25,9 @@ export { AddressChangeComponent } from './lib/address/address-change/address-cha
 
 // category
 export { CategoryChangeComponent } from './lib/category/category-change/category-change.component'
+export { CategoryChipComponent } from './lib/category/category-chip/category-chip.component'
+export { CategoryPickerComponent } from './lib/category/category-picker/category-picker.component'
+export { CategoryStyle, getCategoryStyle } from './lib/category/category-style'
 
 // event
 export { EventCreateComponent } from './lib/event/event-create/event-create.component'
@@ -27,8 +36,6 @@ export { EventChangeGeneralComponent } from './lib/event/event-change-general/ev
 export { EventChangeLocationComponent } from './lib/event/event-change-location/event-change-location.component'
 export { EventChangeRegistrationComponent } from './lib/event/event-change-registration/event-change-registration.component'
 export { EventChangeSingleComponent } from './lib/event/event-change-single/event-change-single.component'
-export { EventChangeStepperComponent } from './lib/event/event-change-stepper/event-change-stepper.component'
-export { EventChangeUploadComponent } from './lib/event/event-change-upload/event-change-upload.component'
 export { EventPublishedIconComponent } from './lib/event/event-published-icon/event-published-icon.component'
 export { EventRangePickerComponent } from './lib/event/event-range-picker/event-range-picker.component'
 export { EventRangeSelection } from './lib/event/event-range-picker/event-range-selection'
@@ -49,3 +56,6 @@ export { ProfileChangeComponent } from './lib/profile/profile-change/profile-cha
 
 // registration
 export { RegistrationStatusComponent } from './lib/registration/registration-status/registration-status.component'
+
+// stepper-input
+export { StepperInputComponent } from './lib/stepper-input/stepper-input.component'

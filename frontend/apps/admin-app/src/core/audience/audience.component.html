@@ -1,0 +1,17 @@
+<admin-board (search)="fullTextSearch = $event" (reload)="reload()" [reloading]="reloading"
+             searchPlaceholder="audience.search" title="audience.title">
+    <board-toolbar-actions>
+        <button (click)="create()" color="accent" mat-flat-button>
+            <mat-icon>new_label</mat-icon>
+            {{ 'audience.create' | translate }}
+        </button>
+    </board-toolbar-actions>
+    <mat-card>
+        <admin-audience-table (deleteEvent)="delete($event)" (editEvent)="edit($event)" (pageEvent)="handlePageChange($event)" [data]="data"
+                              [pageNumber]="pageNumber"
+                              [pageSize]="pageSize"
+                              [reloading]="reloading"
+                              [totalElements]="totalElements"
+        ></admin-audience-table>
+    </mat-card>
+</admin-board>

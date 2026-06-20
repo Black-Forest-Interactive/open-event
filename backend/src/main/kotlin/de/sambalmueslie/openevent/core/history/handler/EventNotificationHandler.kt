@@ -25,6 +25,8 @@ class EventNotificationHandler(
         const val KEY_EVENT_DELETED = "event.delete"
         const val KEY_EVENT_PUBLISHED = "event.publish"
         const val KEY_EVENT_UNPUBLISHED = "event.unpublish"
+        const val KEY_EVENT_FEATURED = "event.featured"
+        const val KEY_EVENT_UNFEATURED = "event.unfeatured"
     }
 
 
@@ -55,6 +57,19 @@ class EventNotificationHandler(
         } else {
             HistoryEntryChangeRequest(
                 HistoryEntryType.EVENT_CHANGED, KEY_EVENT_UNPUBLISHED, HistoryEntrySource.EVENT, ""
+            )
+        }
+        service.create(actor, event, request)
+    }
+
+    override fun featuredChanged(actor: Account, event: Event) {
+        val request = if (event.featured) {
+            HistoryEntryChangeRequest(
+                HistoryEntryType.EVENT_CHANGED, KEY_EVENT_FEATURED, HistoryEntrySource.EVENT, ""
+            )
+        } else {
+            HistoryEntryChangeRequest(
+                HistoryEntryType.EVENT_CHANGED, KEY_EVENT_UNFEATURED, HistoryEntrySource.EVENT, ""
             )
         }
         service.create(actor, event, request)

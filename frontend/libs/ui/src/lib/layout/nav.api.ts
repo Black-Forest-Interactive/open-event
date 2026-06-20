@@ -5,7 +5,8 @@ export class NavItem {
     public url: string,
     public text: string,
     public icon: string,
-    public permissions: string[] = []
+    public permissions: string[] = [],
+    public queryParams: Record<string, string> | undefined = undefined
   ) {}
 
   isAccessible(principal: Principal | undefined): boolean {

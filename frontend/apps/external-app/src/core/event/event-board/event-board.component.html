@@ -1,24 +1,71 @@
-<div class="sticky top-0 z-10 flex items-center h-16 px-4 gap-4 shrink-0 border-b bg-surface-container-lowest border-outline-variant">
-    <div class="flex-auto py-2 max-w-lg">
-        <lib-board-search (search)="setQuery($event)" placeholder="event.search"></lib-board-search>
+<div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 shrink-0 border-b bg-surface-container-lowest border-outline-variant">
+    <div class="flex items-center gap-2">
+        <div class="flex flex-1 items-center gap-2 min-w-0">
+            <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" placeholder="event.search"></lib-board-search>
+            <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
+                <b>{{ totalSize() }}</b> {{ 'event.board.results' | translate }}
+            </span>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 shrink-0">
+            @if (mobileView()) {
+                <button (click)="filterVisible.set(!filterVisible())" matIconButton>
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            }
+            <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0">
+                <mat-button-toggle (click)="setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="layout() === 'cards'" value="cards">
+                    <mat-icon>grid_view</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="setLayout('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="layout() === 'rows'" value="rows">
+                    <mat-icon>view_list</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="setLayout('calendar')" [attr.aria-label]="'event.board.calendar' | translate" [checked]="layout() === 'calendar'" value="calendar">
+                    <mat-icon>calendar_month</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
     </div>
 </div>
 
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
 <div class="flex flex-row gap-4 p-4">
     <div class="flex-auto min-w-0">
-        <lib-event-card-list (filterClicked)="filterVisible.set(!filterVisible())" (loadMore)="onScroll()" [hasMore]="hasMoreElements()"
-                             [reloading]="reloading()">
-            @for (event of entries(); track event.key) {
-                <lib-event-card [data]="toCardData(event)"></lib-event-card>
-            } @empty {
-                @if (!reloading()) {
-                    <div class="flex flex-col items-center gap-2 py-16 text-on-surface-variant">
-                        <mat-icon class="text-5xl! w-12! h-12!">search_off</mat-icon>
-                        <p class="text-sm">{{ 'event.empty' | translate }}</p>
-                    </div>
+        @if (entries().length === 0 && !reloading()) {
+            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                <mat-icon inline>search_off</mat-icon>
+                <span class="text-sm">{{ 'event.empty' | translate }}</span>
+            </div>
+        } @else {
+            <div (nearEnd)="onScroll()" libScrollNearEnd>
+                @switch (layout()) {
+                    @case ('calendar') {
+                        <app-event-board-calendar [entries]="entries()"></app-event-board-calendar>
+                    }
+                    @case ('rows') {
+                        <div class="flex flex-col gap-2 pb-4">
+                            @for (event of entries(); track event.key) {
+                                <app-event-row [event]="event"></app-event-row>
+                            }
+                        </div>
+                    }
+                    @default {
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+                            @for (event of entries(); track event.key) {
+                                <app-event-card [event]="event"></app-event-card>
+                            }
+                        </div>
+                    }
                 }
-            }
-        </lib-event-card-list>
+
+                @if (hasMoreElements() && !reloading()) {
+                    <button (click)="onScroll()" class="w-full" color="accent" matButton="filled">
+                        {{ 'action.loadMore' | translate }}
+                    </button>
+                }
+            </div>
+        }
     </div>
 
     @if (!mobileView()) {
@@ -54,9 +101,8 @@
 </div>
 
 @if (mobileView() && filterVisible()) {
-    <button (click)="filterVisible.set(false)" aria-label="Close filter"
-            class="fixed inset-0 z-30 bg-black/40 w-full border-0 cursor-default"></button>
-    <div class="fixed right-0 top-0 h-full w-80 z-30 overflow-y-auto shadow-xl bg-white">
+    <button (click)="filterVisible.set(false)" aria-label="Close filter" class="fixed inset-0 z-30 bg-black/40 w-full border-0 cursor-default"></button>
+    <div class="fixed right-0 top-0 h-full w-80 z-30 overflow-y-auto shadow-xl bg-surface-container-lowest">
         <lib-event-board-date-filter (filterReset)="handleReset()" (rangeChanged)="handleRangeChanged($event)">
             <div class="flex flex-col gap-2 px-4 py-2">
                 @if (showAvailableOnly()) {
@@ -85,4 +131,3 @@
         </lib-event-board-date-filter>
     </div>
 }
-

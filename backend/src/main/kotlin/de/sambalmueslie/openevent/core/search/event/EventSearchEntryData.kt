@@ -1,7 +1,9 @@
 package de.sambalmueslie.openevent.core.search.event
 
+import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.db.EventBookmarkRelation
 import de.sambalmueslie.openevent.core.search.api.EventSearchEntry
 import de.sambalmueslie.openevent.core.search.common.DateSerializer
 import de.sambalmueslie.openevent.core.search.common.DateTimeSerializer
@@ -23,6 +25,7 @@ data class EventSearchEntryData(
     var shortText: String,
     var longText: String,
     var published: Boolean,
+    var featured: Boolean,
     var shared: Boolean,
     var owner: Long,
 
@@ -42,19 +45,22 @@ data class EventSearchEntryData(
     var amountOnWaitingList: Int,
     var remainingSpace: Int,
     var participant: Set<Long>,
+    var bookmarks: Set<Long>,
     var categories: Set<String>,
+    var audiences: Set<String>,
     var tags: Set<String>,
 
     ) {
 
     companion object {
 
-        fun create(info: EventInfo): EventSearchEntryData {
+        fun create(info: EventInfo, bookmarks: List<EventBookmarkRelation>): EventSearchEntryData {
             val e = info.event
             val l = info.location
             val r = info.registration
             val p = r?.participants ?: emptyList()
             val c = info.categories
+            val a = info.audiences
             info.share
 
             val (waitingList, accepted) = p.partition { it.waitingList }
@@ -75,6 +81,7 @@ data class EventSearchEntryData(
                 Jsoup.parse(e.shortText).text(),
                 Jsoup.parse(e.longText).text(),
                 e.published,
+                e.featured,
                 info.share?.share?.enabled ?: false,
                 e.owner.id,
 
@@ -95,14 +102,16 @@ data class EventSearchEntryData(
                 remainingSpace,
 
                 p.map { it.author.id }.toSet(),
+                bookmarks.map { it.accountId }.toSet(),
                 c.map { it.name }.toSet(),
+                a.map { it.name }.toSet(),
                 info.event.tags
             )
         }
     }
 
 
-    fun convert(owner: AccountInfo): EventSearchEntry {
+    fun convert(actor: Account, owner: AccountInfo): EventSearchEntry {
         return EventSearchEntry(
             id,
             created,
@@ -113,6 +122,8 @@ data class EventSearchEntryData(
             shortText,
             longText,
             published,
+            featured,
+            bookmarks.contains(actor.id),
             shared,
             owner,
             hasLocation,
@@ -128,9 +139,10 @@ data class EventSearchEntryData(
             amountAccepted,
             amountOnWaitingList,
             remainingSpace,
-            this.owner == owner.id,
-            participant.contains(owner.id),
+            this.owner == actor.id,
+            participant.contains(actor.id),
             categories,
+            audiences,
             tags
         )
     }

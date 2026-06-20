@@ -1,0 +1,10 @@
+<section class="border-t border-outline-variant p-4">
+    <h2 class="text-lg font-medium mb-3">{{ 'event.detail.host' | translate }}</h2>
+    <div class="flex items-center gap-3">
+        <lib-avatar [name]="owner() | accountDisplayName" size="lg"></lib-avatar>
+        <div class="flex flex-col min-w-0">
+            <span class="text-sm font-semibold truncate">{{ owner() | accountDisplayName }}</span>
+            <span class="text-xs text-on-surface-variant">{{ 'event.detail.host' | translate }}</span>
+        </div>
+    </div>
+</section>

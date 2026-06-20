@@ -4,22 +4,23 @@ import { Location } from '@angular/common'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatMiniFabButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
-import { MatSlideToggle } from '@angular/material/slide-toggle'
+import { MatCard } from '@angular/material/card'
 import { Observable } from 'rxjs'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { Page } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { EventChangeComponent } from '../event-change/event-change.component'
 
 @Component({
   selector: 'lib-event-create',
-  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, MatSlideToggle],
+  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, MatCard],
   templateUrl: './event-create.component.html',
   styleUrl: './event-create.component.scss'
 })
-export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
+export class EventCreateComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {
   addressReadAPI = input.required<AddressReadAPI>()
   categoryReadAPI = input.required<CategoryReadAPI>()
+  audienceReadAPI = input.required<AudienceReadAPI>()
   eventReadAPI = input.required<EventReadAPI>()
 
   created = output<Event>()
@@ -43,6 +44,14 @@ export class EventCreateComponent implements AddressReadAPI, CategoryReadAPI, Ev
 
   getCategory(id: number): Observable<Category> {
     return this.categoryReadAPI().getCategory(id)
+  }
+
+  getAllAudiences(page: number, size: number): Observable<Page<Audience>> {
+    return this.audienceReadAPI().getAllAudiences(page, size)
+  }
+
+  getAudience(id: number): Observable<Audience> {
+    return this.audienceReadAPI().getAudience(id)
   }
 
   getEvent(id: number): Observable<Event> {

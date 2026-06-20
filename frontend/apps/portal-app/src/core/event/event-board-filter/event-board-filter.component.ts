@@ -1,12 +1,15 @@
-import { Component, inject } from '@angular/core'
+import { Component, computed, inject, resource } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import { MatChipListbox, MatChipOption, MatChipSelectionChange } from '@angular/material/chips'
 import { EventBoardService } from '../event-board.service'
+import { AudienceService, CategoryService } from '@open-event/portal'
+import { CategoryChipComponent } from '@open-event/ui'
+import { toPromise } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
 import { MatDivider } from '@angular/material/divider'
 import { MatError, MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field'
 import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker } from '@angular/material/datepicker'
+import { MatSlideToggle } from '@angular/material/slide-toggle'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatButton } from '@angular/material/button'
 
@@ -27,23 +30,32 @@ import { MatButton } from '@angular/material/button'
     MatDatepickerToggle,
     MatDateRangePicker,
     ReactiveFormsModule,
-    MatChipListbox,
-    MatChipOption,
+    MatSlideToggle,
     MatButton,
+    CategoryChipComponent,
     TranslatePipe
   ],
   standalone: true
 })
 export class EventBoardFilterComponent {
   protected service = inject(EventBoardService)
+  private categoryService = inject(CategoryService)
+  private audienceService = inject(AudienceService)
+
+  readonly isDiscover = computed(() => this.service.navView() === 'all')
+
+  private categoryResource = resource({
+    loader: (param) => toPromise(this.categoryService.getCategories(0, 100), param.abortSignal)
+  })
+  readonly categories = computed(() => this.categoryResource.value()?.content ?? [])
+
+  private audienceResource = resource({
+    loader: (param) => toPromise(this.audienceService.getAudiences(0, 100), param.abortSignal)
+  })
+  readonly audiences = computed(() => this.audienceResource.value()?.content ?? [])
 
   onDateRangePickerClosed() {
     if (!this.service.range.valid) return
     this.service.handleDatePickerChanged()
-  }
-
-  handleDatePreselectionChange(event: MatChipSelectionChange) {
-    const value = event.selected ? event.source.value : undefined
-    this.service.handlePreselectionChanged(event.selected, value)
   }
 }

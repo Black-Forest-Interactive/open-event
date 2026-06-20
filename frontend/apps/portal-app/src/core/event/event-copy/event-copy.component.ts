@@ -1,10 +1,10 @@
 import { Component, computed, inject, resource } from '@angular/core'
-import { Address, AddressReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { LoadingBarComponent, Page, toPromise } from '@open-event/shared'
 import { MatToolbar } from '@angular/material/toolbar'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
-import { AddressService, CategoryService, EventService } from '@open-event/portal'
+import { AddressService, AudienceService, CategoryService, EventService } from '@open-event/portal'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
@@ -13,18 +13,20 @@ import { map } from 'rxjs/operators'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
 import { MatTooltip } from '@angular/material/tooltip'
+import { MatCard } from '@angular/material/card'
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'portal-event-copy',
-  imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe],
+  imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, MatCard],
   templateUrl: './event-copy.component.html',
   styleUrl: './event-copy.component.scss'
 })
-export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, EventReadAPI {
+export class EventCopyComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {
   private service = inject(EventService)
   private addressService = inject(AddressService)
   private categoryService = inject(CategoryService)
+  private audienceService = inject(AudienceService)
   private translationService = inject(TranslateService)
   private toastService = inject(HotToastService)
   private router = inject(Router)
@@ -54,11 +56,20 @@ export class EventCopyComponent implements AddressReadAPI, CategoryReadAPI, Even
   getAddress(id: number): Observable<Address> {
     return this.addressService.getAddress(id)
   }
+  createAddress(request: AddressChangeRequest): Observable<Address> {
+    return this.addressService.createAddress(request)
+  }
   getAllCategories(page: number, size: number): Observable<Page<Category>> {
     return this.categoryService.getCategories(page, size)
   }
   getCategory(id: number): Observable<Category> {
     return this.categoryService.getCategory(id)
+  }
+  getAllAudiences(page: number, size: number): Observable<Page<Audience>> {
+    return this.audienceService.getAudiences(page, size)
+  }
+  getAudience(id: number): Observable<Audience> {
+    return this.audienceService.getAudience(id)
   }
   getEvent(id: number): Observable<Event> {
     return this.service.getEvent(id)

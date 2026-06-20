@@ -1,41 +1,80 @@
-<div class="flex flex-col">
-    <div class="header p-4 bg-gray-100 text-lg font-medium">{{ event().title }}</div>
-    <mat-divider class="!p-0"></mat-divider>
-    <div class="flex flex-col gap-3 p-4">
-        <div class="flex flex-col sm:flex-row sm:gap-4">
-            <div class="sm:basis-32 font-bold">{{ 'event.property.owner' | translate }}</div>
-            <div>{{ event().owner.name }}</div>
+<div [style.--h]="mediaStyle().hue" class="hero-placeholder relative w-full h-[160px] sm:h-[220px] lg:h-[250px] flex items-center justify-center text-6xl overflow-hidden">
+    <mat-icon inline>{{ mediaStyle().icon }}</mat-icon>
+    @if (categories().length > 0) {
+        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+            @for (cat of categories(); track cat) {
+                <lib-category-chip [name]="cat"></lib-category-chip>
+            }
         </div>
-        <div class="flex flex-col sm:flex-row sm:gap-4">
-            <div class="sm:basis-32 font-bold">{{ 'event.property.date' | translate }}</div>
-            <div>{{ event().start | date:'fullDate' }}</div>
-        </div>
-        <div class="flex flex-col sm:flex-row sm:gap-4">
-            <div class="sm:basis-32 font-bold">{{ 'event.property.time' | translate }}</div>
-            <div>{{ event().start | date:'shortTime' }} - {{ event().finish | date:'shortTime' }}</div>
-        </div>
-        @if (event().hasLocation) {
-            <div class="flex flex-col sm:flex-row sm:gap-4">
-                <div class="sm:basis-32 font-bold">{{ 'event.property.location' | translate }}</div>
-                <div>{{ event().zip }} {{ event().city }} // {{ event().country }}</div>
-            </div>
-        }
-        <div class="flex flex-col sm:flex-row sm:gap-4">
-            <div class="sm:basis-32 font-bold">{{ 'event.property.registration' | translate }}</div>
-            <div>
-                <lib-registration-status [public]="event()"></lib-registration-status>
-            </div>
-        </div>
-    </div>
+    }
 </div>
-<div [innerHTML]="event().longText" class="p-4"></div>
-@if (event().categories.length > 0 || event().tags.length > 0) {
-    <div class="flex flex-row flex-wrap gap-2 p-4">
-        @for (category of event().categories; track category) {
-            <div class="rounded-full border-accent-default bg-accent-lighter px-3 py-1">{{ category }}</div>
-        }
-        @for (tag of event().tags; track tag) {
-            <div class="rounded-full border-primary-default bg-primary-lighter px-3 py-1">{{ tag }}</div>
+
+<div class="flex flex-col gap-4 p-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="flex items-center gap-3 bg-surface-container rounded-2xl p-3">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container shrink-0">
+                <mat-icon>calendar_month</mat-icon>
+            </div>
+            <div class="flex flex-col min-w-0">
+                <span class="text-sm font-semibold truncate">{{ start() | date: 'fullDate' }}</span>
+                <span class="text-xs text-on-surface-variant">{{ 'event.detail.when' | translate }}</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 bg-surface-container rounded-2xl p-3">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container shrink-0">
+                <mat-icon>schedule</mat-icon>
+            </div>
+            <div class="flex flex-col min-w-0">
+                <span class="text-sm font-semibold truncate">{{ start() | date: 'shortTime' }} – {{ finish() | date: 'shortTime' }}</span>
+                <span class="text-xs text-on-surface-variant">{{ durationMinutes() }} {{ 'event.detail.minutes' | translate }}</span>
+            </div>
+        </div>
+        @if (hasLocation()) {
+            <div class="flex items-center gap-3 bg-surface-container rounded-2xl p-3">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container shrink-0">
+                    <mat-icon>pin_drop</mat-icon>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-sm font-semibold truncate">{{ zip() }} {{ city() }}</span>
+                    <span class="text-xs text-on-surface-variant truncate">{{ country() }}</span>
+                </div>
+            </div>
         }
     </div>
-}
+
+    <div>
+        <h1 class="text-2xl font-normal leading-tight">{{ title() }}</h1>
+        @if (shortText().length > 0) {
+            <p class="text-base text-on-surface-variant mt-2">{{ shortText() }}</p>
+        }
+    </div>
+
+    @if (categories().length > 0 || tags().length > 0) {
+        <div class="flex flex-row flex-wrap gap-2">
+            @for (category of categories(); track category) {
+                <lib-category-chip [name]="category"></lib-category-chip>
+            }
+            @for (tag of tags(); track tag) {
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-surface-container-high text-on-surface-variant">#{{ tag }}</span>
+            }
+        </div>
+    }
+
+    @if (longText().length > 0) {
+        <section class="border-t border-outline-variant pt-4">
+            <h2 class="text-lg font-medium mb-3">{{ 'event.detail.about' | translate }}</h2>
+            <div [innerHTML]="longText()" class="prose prose-sm max-w-none text-on-surface"></div>
+        </section>
+    }
+
+    <section class="border-t border-outline-variant pt-4">
+        <h2 class="text-lg font-medium mb-3">{{ 'event.detail.host' | translate }}</h2>
+        <div class="flex items-center gap-3">
+            <lib-avatar [name]="ownerName()" size="lg"></lib-avatar>
+            <div class="flex flex-col min-w-0">
+                <span class="text-sm font-semibold truncate">{{ ownerName() }}</span>
+                <span class="text-xs text-on-surface-variant">{{ 'event.detail.host' | translate }}</span>
+            </div>
+        </div>
+    </section>
+</div>

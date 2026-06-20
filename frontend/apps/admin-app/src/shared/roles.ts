@@ -3,6 +3,10 @@ export class Roles {
   public static SETTINGS_WRITE = 'settings.write'
   public static SETTINGS_ADMIN = 'settings.admin'
 
+  public static AUDIENCE_READ = 'audience.read'
+  public static AUDIENCE_WRITE = 'audience.write'
+  public static AUDIENCE_ADMIN = 'audience.admin'
+
   public static CATEGORY_READ = 'category.read'
   public static CATEGORY_WRITE = 'category.write'
   public static CATEGORY_ADMIN = 'category.admin'

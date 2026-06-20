@@ -17,6 +17,7 @@ data class EventChangeRequest(
     val iconUrl: String,
 
     val categoryIds: Set<Long>,
+    val audienceIds: Set<Long>,
     val location: LocationChangeRequest?,
     val registration: RegistrationChangeRequest,
     val published: Boolean,

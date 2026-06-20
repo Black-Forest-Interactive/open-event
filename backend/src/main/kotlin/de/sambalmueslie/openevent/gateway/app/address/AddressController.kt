@@ -84,7 +84,20 @@ class AddressController(
             val account = accountService.find(auth)
             val address = service.getData(id) ?: return@checkPermission null
             if (address.accountId == account.id) {
-                logger.traceDelete(auth) { service.delete(accountService.find(auth), id) }
+                logger.traceDelete(auth) { service.delete(account, id) }
+            } else {
+                throw IllegalAccessException("Cannot access address cause user is not author")
+            }
+        }
+    }
+
+    @Put("/{id}/default")
+    fun setDefault(auth: Authentication, id: Long): Address? {
+        return auth.checkPermission(PERMISSION_WRITE) {
+            val account = accountService.find(auth)
+            val address = service.getData(id) ?: return@checkPermission null
+            if (address.accountId == account.id) {
+                logger.traceAction(auth, "Set default address", "$id") { service.setDefault(account, id) }
             } else {
                 throw IllegalAccessException("Cannot access address cause user is not author")
             }

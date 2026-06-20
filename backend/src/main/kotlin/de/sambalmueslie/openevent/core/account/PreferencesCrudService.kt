@@ -17,6 +17,7 @@ class PreferencesCrudService(
     }
 
     fun create(actor: Account, account: Account, request: PreferencesChangeRequest): Preferences {
+        isValid(request)
         val result = storage.create(request, account)
         notifyCreated(actor, result)
         return result

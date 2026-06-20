@@ -28,11 +28,7 @@ class AnnouncementStorageService(
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(AnnouncementStorageService::class.java)
-        private const val AUTHOR_REFERENCE = "author"
-    }
-
-    override fun create(request: AnnouncementChangeRequest, author: Account): Announcement {
-        return create(request, mapOf(Pair(AUTHOR_REFERENCE, author)))
+        const val AUTHOR_REFERENCE = "author"
     }
 
     override fun createData(request: AnnouncementChangeRequest, properties: Map<String, Any>): AnnouncementData {

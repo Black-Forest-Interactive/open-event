@@ -1,0 +1,9 @@
+<div class="stepper">
+    <button (click)="decrement()" [disabled]="value() <= min()" matIconButton type="button">
+        <mat-icon>remove</mat-icon>
+    </button>
+    <input #input (change)="setValue(input.value)" [min]="min()" [value]="value()" class="stepper__value w-12 text-center bg-transparent border-none outline-none" inputmode="numeric" type="number"/>
+    <button (click)="increment()" matIconButton type="button">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

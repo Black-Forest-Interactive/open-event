@@ -73,9 +73,6 @@
         "title": "Please input some title",
         "shortText": "Please input some short description",
         "longText": "Please input some long description"
-      },
-      "admin": {
-        "registration": "Event Participants"
       }
     },
     "dialog": {
@@ -99,8 +96,6 @@
         "today": "Today",
         "week": "This week",
         "next": "Next week",
-        "month": "This month",
-        "custom": "Custom",
         "start": "Start date",
         "end": "End date"
       }
@@ -124,6 +119,8 @@
       "categories": "Categories",
       "owner": "Owner",
       "date": "Date",
+      "start": "Start",
+      "finish": "End",
       "participants": "Participants",
       "shared": "Shared",
       "created": "Created",
@@ -207,6 +204,31 @@
       }
     }
   },
+  "audience": {
+    "type": "Audience",
+    "title": "Audience",
+    "search": "Audience search",
+    "create": "Create Audience",
+    "table": {
+      "name": "Name"
+    },
+    "dialog": {
+      "change": {
+        "title": "Change Audience"
+      },
+      "create": {
+        "title": "Create new Audience"
+      },
+      "delete": {
+        "title": "Delete Audience",
+        "question": "Do you really want to delete the audience?"
+      }
+    },
+    "form": {
+      "name": "Name",
+      "iconUrl": "Icon URL"
+    }
+  },
   "category": {
     "type": "Category",
     "title": "Category",
@@ -269,6 +291,9 @@
     "admin": "Accounts",
     "search": "Search for an account",
     "create": "Create new account",
+    "action": {
+      "select": "Select"
+    },
     "dialog": {
       "create": {
         "title": "Create new manual account"
@@ -321,6 +346,7 @@
     "export": {
       "title": "Export",
       "action": {
+        "single": "Export event",
         "all": "Export as pdf",
         "notice": "Export Notice",
         "mail": {
@@ -426,6 +452,7 @@
     "property": {
       "street": "Street",
       "streetNumber": "Nr",
+      "info": "Address addition",
       "zip": "Zip",
       "city": "City",
       "country": "Country",
@@ -436,7 +463,6 @@
     "title": "Share",
     "action": {
       "enable": "Enable Sharing",
-      "participate": "Participate (without login)",
       "activate": "Yes i like to activate sharing"
     },
     "info": {
@@ -450,14 +476,18 @@
       }
     }
   },
+  "MAIL": {
+    "Table": {
+      "Message": "Message",
+      "Timestamp": "Timestamp"
+    }
+  },
   "nav": {
     "group": {
       "content": "Content",
       "communication": "Communication",
       "system": "System",
-      "monitoring": "Monitoring",
-      "main": "Overview",
-      "info": "Info"
+      "monitoring": "Monitoring"
     }
   },
   "lang": {
@@ -487,6 +517,12 @@
     "action": {
       "read": "Read",
       "readAll": "All read"
+    },
+    "form": {
+      "timestamp": "Timestamp",
+      "hint": {
+        "timestamp": "Notifications before this timestamp will be deleted"
+      }
     }
   },
   "paginator": {
@@ -562,7 +598,11 @@
       "topic": "Topic",
       "account": "Account",
       "rating": "Rating",
-      "timestamp": "Timestamp"
+      "timestamp": "Timestamp",
+      "description": "Description",
+      "tags": "Tags",
+      "client_ip": "Client IP",
+      "user_agent": "User Agent"
     }
   }
 }
