@@ -39,6 +39,7 @@ export class PublicEventSearchRequest {
     public fullTextSearch: string,
     public from: string | undefined,
     public to: string | undefined,
-    public onlyAvailableEvents: boolean
+    public onlyAvailableEvents: boolean,
+    public featured: boolean
   ) {}
 }

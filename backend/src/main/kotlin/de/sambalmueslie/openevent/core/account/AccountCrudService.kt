@@ -164,4 +164,17 @@ class AccountCrudService(
 
         return AccountInfo.create(result, profile)
     }
+
+    override fun delete(actor: Account, id: Long): Account? {
+        val data = storage.get(id) ?: return null
+        val profile = profileService.getForAccount(data)
+        profile?.let { profileService.delete(actor, it.id) }
+
+        val preferences = preferencesService.getForAccount(data)
+        preferences?.let { preferencesService.delete(actor, it.id) }
+
+        return super.delete(actor, id)
+    }
+
+
 }

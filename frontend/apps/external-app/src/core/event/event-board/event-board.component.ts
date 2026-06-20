@@ -54,7 +54,7 @@ export class EventBoardComponent {
   private infiniteScrollMode = signal(false)
   private criteria = computed(() => ({
     key: this.routeKey(),
-    request: new PublicEventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.showAvailableOnly()),
+    request: new PublicEventSearchRequest(this.query(), this.fromDate(), this.toDate(), this.showAvailableOnly(), false),
     page: this.page(),
     size: this.size()
   }))
