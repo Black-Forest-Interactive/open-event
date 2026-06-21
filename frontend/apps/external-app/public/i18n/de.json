@@ -16,6 +16,7 @@
     "yes": "Ja",
     "no": "Nein",
     "logout": "Ausloggen",
+    "toggleTheme": "Design wechseln",
     "collapse": "Collapse",
     "close": "Schliesen",
     "ok": "Ok",
@@ -63,6 +64,9 @@
       "time": "Zeit",
       "location": "Adresse",
       "registration": "Anmeldestatus"
+    },
+    "message": {
+      "error": "Die Veranstaltungen konnten nicht geladen werden. Bitte versuche es später erneut."
     }
   },
   "registration": {
@@ -71,6 +75,11 @@
     "status": {
       "full": "Ausgebucht",
       "available": "Plätze frei"
+    },
+    "availability": {
+      "spotsFree": "Plätze frei",
+      "spotFree": "Platz frei",
+      "soldOut": "Ausgebucht"
     },
     "dialog": {
       "manual": {
@@ -100,6 +109,9 @@
     "action": {
       "participate": "Anmelden",
       "confirm": "Anmeldung abschließen"
+    },
+    "message": {
+      "error": "Deine Anmeldung konnte nicht verarbeitet werden. Bitte versuche es später erneut."
     }
   },
   "account": {
