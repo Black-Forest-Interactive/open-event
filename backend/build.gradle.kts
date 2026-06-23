@@ -11,9 +11,9 @@ plugins {
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.3"
 
-    id("io.micronaut.application") version "5.0.0"
-    id("io.micronaut.test-resources") version "5.0.0"
-    id("io.micronaut.aot") version "5.0.0"
+    id("io.micronaut.application") version "5.0.1"
+    id("io.micronaut.test-resources") version "5.0.1"
+    id("io.micronaut.aot") version "5.0.1"
 
     id("maven-publish")
     id("jacoco")
@@ -85,7 +85,7 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:5.0.0")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:5.2.0")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -127,7 +127,7 @@ dependencies {
     // POI
     implementation("org.apache.poi:poi:5.5.1")
     implementation("org.apache.poi:poi-ooxml:5.5.1")
-    implementation("builders.dsl:spreadsheet-builder-poi:4.0.1")
+    implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
     implementation("org.simplejavamail:simple-java-mail:8.12.6")
