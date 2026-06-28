@@ -1,25 +1,14 @@
 import { Component, computed, input } from '@angular/core'
 import { PublicEvent } from '@open-event/external'
-import { DatePipe } from '@angular/common'
-import { TranslatePipe } from '@ngx-translate/core'
-import { EventRowComponent } from '../event-row/event-row.component'
+import { EventBoardCalendarComponent as LibEventBoardCalendarComponent } from '@open-event/ui'
+import { toEventBoardEntry } from '../event-board-entry.mapper'
 
 @Component({
   selector: 'app-event-board-calendar',
-  templateUrl: './event-board-calendar.component.html',
-  imports: [DatePipe, TranslatePipe, EventRowComponent]
+  template: '<lib-event-board-calendar [entries]="mapped()"></lib-event-board-calendar>',
+  imports: [LibEventBoardCalendarComponent]
 })
 export class EventBoardCalendarComponent {
   entries = input.required<PublicEvent[]>()
-
-  readonly groups = computed(() => {
-    const map = new Map<string, PublicEvent[]>()
-    for (const entry of this.entries()) {
-      const date = entry.start.substring(0, 10)
-      const list = map.get(date) ?? []
-      list.push(entry)
-      map.set(date, list)
-    }
-    return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([date, list]) => ({ date, entries: list }))
-  })
+  readonly mapped = computed(() => this.entries().map(e => toEventBoardEntry(e)))
 }

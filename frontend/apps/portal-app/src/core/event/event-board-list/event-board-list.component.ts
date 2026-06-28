@@ -1,17 +1,14 @@
-import { Component, input, output } from '@angular/core'
+import { Component, computed, input, output } from '@angular/core'
 import { EventSearchEntry } from '@open-event/core'
-import { EventCardComponent } from '../event-card/event-card.component'
-import { EventRowComponent } from '../event-row/event-row.component'
-import { MatButton } from '@angular/material/button'
+import { EventBoardListComponent as LibEventBoardListComponent, EventBoardCalendarComponent } from '@open-event/ui'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
-import { LoadingBarComponent, ScrollNearEndDirective } from '@open-event/shared'
+import { toEventBoardEntry } from '../event-board-entry.mapper'
 
 @Component({
   selector: 'portal-event-board-list',
   templateUrl: './event-board-list.component.html',
-  styleUrl: './event-board-list.component.scss',
-  imports: [EventCardComponent, EventRowComponent, MatButton, MatIcon, TranslatePipe, ScrollNearEndDirective, LoadingBarComponent],
+  imports: [LibEventBoardListComponent, EventBoardCalendarComponent, MatIcon, TranslatePipe],
   standalone: true
 })
 export class EventBoardListComponent {
@@ -21,4 +18,7 @@ export class EventBoardListComponent {
   navView = input.required<'all' | 'saved' | 'regs' | 'own'>()
   hasMoreElements = input.required<boolean>()
   nearEnd = output<void>()
+
+  readonly mapped = computed(() => this.entries().map(e => toEventBoardEntry(e)))
+  readonly listLayout = computed(() => this.layout() === 'rows' ? 'rows' as const : 'cards' as const)
 }

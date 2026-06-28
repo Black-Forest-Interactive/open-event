@@ -1,34 +1,15 @@
 import { Component, computed, input } from '@angular/core'
 import { EventSearchEntry } from '@open-event/core'
-import { RouterLink } from '@angular/router'
-import { DatePipe } from '@angular/common'
-import { MatIcon } from '@angular/material/icon'
-import { MatButton } from '@angular/material/button'
-import { MatCard } from '@angular/material/card'
-import { CategoryChipComponent, getCategoryStyle, RegistrationStatusComponent } from '@open-event/ui'
-import { TranslatePipe } from '@ngx-translate/core'
+import { EventBoardRowComponent } from '@open-event/ui'
+import { toEventBoardEntry } from '../event-board-entry.mapper'
 
 @Component({
   selector: 'portal-event-row',
-  templateUrl: './event-row.component.html',
-  styleUrl: './event-row.component.scss',
-  imports: [RouterLink, DatePipe, MatIcon, MatButton, MatCard, CategoryChipComponent, RegistrationStatusComponent, TranslatePipe],
+  template: '<lib-event-board-row [data]="mapped()"></lib-event-board-row>',
+  imports: [EventBoardRowComponent],
   standalone: true
 })
 export class EventRowComponent {
   entry = input.required<EventSearchEntry>()
-
-  readonly id = computed(() => this.entry().id)
-  readonly title = computed(() => this.entry().title)
-  readonly shortText = computed(() => this.entry().shortText)
-  readonly start = computed(() => this.entry().start)
-  readonly finish = computed(() => this.entry().finish)
-  readonly hasLocation = computed(() => this.entry().hasLocation)
-  readonly city = computed(() => this.entry().city)
-  readonly categories = computed(() => this.entry().categories)
-  readonly audiences = computed(() => this.entry().audiences)
-  readonly featured = computed(() => this.entry().featured)
-  readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0] ?? ''))
-  readonly hasRegistration = computed(() => this.entry().maxGuestAmount > 0)
-  readonly isRegistered = computed(() => this.entry().participatingEvent)
+  readonly mapped = computed(() => toEventBoardEntry(this.entry()))
 }

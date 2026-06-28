@@ -1,0 +1,27 @@
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+@if (entries().length === 0 && !reloading()) {
+    <ng-content select="[emptyState]"></ng-content>
+} @else {
+    <div (nearEnd)="nearEnd.emit()" libScrollNearEnd>
+        @if (layout() === 'rows') {
+            <div class="flex flex-col gap-2 pb-4">
+                @for (entry of entries(); track entry.id) {
+                    <lib-event-board-row [data]="entry"></lib-event-board-row>
+                }
+            </div>
+        } @else {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+                @for (entry of entries(); track entry.id) {
+                    <lib-event-card [data]="entry"></lib-event-card>
+                }
+            </div>
+        }
+
+        @if (hasMoreElements() && !reloading()) {
+            <button (click)="nearEnd.emit()" class="w-full" color="accent" matButton="filled">
+                {{ 'action.loadMore' | translate }}
+            </button>
+        }
+    </div>
+}

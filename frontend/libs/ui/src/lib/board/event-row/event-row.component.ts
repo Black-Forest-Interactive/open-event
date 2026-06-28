@@ -11,12 +11,12 @@ import { getCategoryStyle } from '../../category/category-style'
 import { EventBoardEntry } from '../event-board.api'
 
 @Component({
-  selector: 'lib-event-card',
-  templateUrl: './event-card.component.html',
-  styleUrl: './event-card.component.scss',
+  selector: 'lib-event-board-row',
+  templateUrl: './event-row.component.html',
+  styleUrl: './event-row.component.scss',
   imports: [RouterLink, DatePipe, MatIcon, MatButton, MatCard, TranslatePipe, CategoryChipComponent, RegistrationStatusComponent]
 })
-export class EventCardComponent {
+export class EventBoardRowComponent {
   data = input.required<EventBoardEntry>()
 
   readonly link = computed(() => this.data().link)
@@ -27,6 +27,7 @@ export class EventCardComponent {
   readonly hasLocation = computed(() => this.data().hasLocation)
   readonly city = computed(() => this.data().city)
   readonly categories = computed(() => this.data().categories)
+  readonly audiences = computed(() => this.data().audiences)
   readonly featured = computed(() => this.data().featured)
   readonly isRegistered = computed(() => this.data().isRegistered)
   readonly hasRegistration = computed(() => this.data().maxGuestAmount > 0)

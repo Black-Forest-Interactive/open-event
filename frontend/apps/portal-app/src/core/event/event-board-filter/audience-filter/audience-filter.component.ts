@@ -1,13 +1,12 @@
 import { Component, computed, inject, input, output, resource } from '@angular/core'
-import { Audience } from '@open-event/core'
 import { AudienceService } from '@open-event/portal'
+import { AudienceFilterComponent as LibAudienceFilterComponent } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
-import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'portal-audience-filter',
   templateUrl: './audience-filter.component.html',
-  imports: [TranslatePipe],
+  imports: [LibAudienceFilterComponent],
   standalone: true
 })
 export class AudienceFilterComponent {
@@ -19,5 +18,5 @@ export class AudienceFilterComponent {
   private audienceResource = resource({
     loader: (p) => toPromise(this.audienceService.getAudiences(0, 100), p.abortSignal)
   })
-  readonly audiences = computed<Audience[]>(() => this.audienceResource.value()?.content ?? [])
+  readonly audiences = computed(() => this.audienceResource.value()?.content ?? [])
 }

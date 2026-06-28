@@ -1,52 +1,31 @@
-<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
-
-@if (entries().length === 0 && !reloading()) {
-    @switch (navView()) {
-        @case ('saved') {
-            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
-                <mat-icon inline>bookmark_border</mat-icon>
-                <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.savedTitle' | translate }}</span>
-                <span class="text-sm">{{ 'event.empty.savedSubtitle' | translate }}</span>
-            </div>
-        }
-        @case ('regs') {
-            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
-                <mat-icon inline>how_to_reg</mat-icon>
-                <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.regsTitle' | translate }}</span>
-                <span class="text-sm">{{ 'event.empty.regsSubtitle' | translate }}</span>
-            </div>
-        }
-        @default {
-            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
-                <mat-icon inline>search_off</mat-icon>
-                <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
-                <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
-            </div>
-        }
-    }
+@if (layout() === 'calendar') {
+    <lib-event-board-calendar [entries]="mapped()" [reloading]="reloading()"></lib-event-board-calendar>
 } @else {
-    <div (nearEnd)="nearEnd.emit()" libScrollNearEnd>
-        @switch (layout()) {
-            @case ('rows') {
-                <div class="flex flex-col gap-2 pb-4">
-                    @for (entry of entries(); track entry.id) {
-                        <portal-event-row [entry]="entry"></portal-event-row>
-                    }
-                </div>
+    <lib-event-board-list [entries]="mapped()" [reloading]="reloading()" [layout]="listLayout()" [hasMoreElements]="hasMoreElements()" (nearEnd)="nearEnd.emit()">
+        <ng-container emptyState>
+            @switch (navView()) {
+                @case ('saved') {
+                    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                        <mat-icon inline>bookmark_border</mat-icon>
+                        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.savedTitle' | translate }}</span>
+                        <span class="text-sm">{{ 'event.empty.savedSubtitle' | translate }}</span>
+                    </div>
+                }
+                @case ('regs') {
+                    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                        <mat-icon inline>how_to_reg</mat-icon>
+                        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.regsTitle' | translate }}</span>
+                        <span class="text-sm">{{ 'event.empty.regsSubtitle' | translate }}</span>
+                    </div>
+                }
+                @default {
+                    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                        <mat-icon inline>search_off</mat-icon>
+                        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
+                        <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
+                    </div>
+                }
             }
-            @default {
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                    @for (entry of entries(); track entry.id) {
-                        <portal-event-card [entry]="entry"></portal-event-card>
-                    }
-                </div>
-            }
-        }
-
-        @if (hasMoreElements() && !reloading()) {
-            <button (click)="nearEnd.emit()" class="w-full" color="accent" matButton="filled">
-                {{ 'action.loadMore' | translate }}
-            </button>
-        }
-    </div>
+        </ng-container>
+    </lib-event-board-list>
 }

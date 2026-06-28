@@ -1,53 +1,66 @@
-<mat-card [routerLink]="link()" class="!p-0 cursor-pointer">
-    <div class="flex flex-col gap-2 content-stretch flex-auto">
+<mat-card appearance="outlined" class="ecard flex flex-col overflow-hidden h-full" [routerLink]="link()">
+    <div [style.--h]="mediaStyle().hue" class="ecard__media relative grid place-items-center aspect-[16/9] overflow-hidden text-5xl">
+        <div class="ecard__pattern"></div>
+        <mat-icon class="ecard__glyph relative z-[1]" inline>{{ mediaStyle().icon }}</mat-icon>
 
-        <div class="flex flex-row gap-3 items-center px-4 py-2 bg-surface-container-high">
-            <mat-icon>description</mat-icon>
-            <div>{{ title() }}</div>
+        <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+            @if (featured()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                    <mat-icon inline>star</mat-icon>
+                    {{ 'event.board.featured' | translate }}
+                </span>
+            }
+            @for (cat of categories(); track cat) {
+                <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+            }
         </div>
 
-        <div class="flex flex-row gap-3 items-center px-4">
-            <mat-icon>account_box</mat-icon>
-            <div>{{ ownerName() }}</div>
-        </div>
-
-        <div class="flex flex-row gap-3 items-center px-4">
-            <mat-icon>schedule</mat-icon>
-            <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
-                <div>{{ start() | date:'fullDate' }}</div>
-                <div class="text-on-surface-variant">{{ start() | date:'shortTime' }} - {{ finish() | date:'shortTime' }}</div>
-            </div>
-        </div>
-
-        @if (hasLocation()) {
-            <div class="flex flex-row gap-3 items-center px-4">
-                <mat-icon>pin_drop</mat-icon>
-                <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
-                    @if (street()) {
-                        <div>{{ street() }} {{ streetNumber() }}</div>
-                    }
-                    <div class="text-on-surface-variant">{{ zip() }} {{ city() }}</div>
-                </div>
-            </div>
+        @if (isRegistered()) {
+            <span class="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-xs font-medium">
+                <mat-icon inline>check</mat-icon>
+                {{ 'registration.bookbar.registered' | translate }}
+            </span>
         }
 
-        @if (categories().length > 0 || tags().length > 0) {
-            <div class="flex flex-row gap-3 items-center px-4">
-                <mat-icon>label</mat-icon>
-                <div class="flex flex-row flex-wrap gap-2 justify-between flex-auto">
-                    <div>@for (c of categories(); track c) {
-                        {{ c }}
-                    }</div>
-                    <div class="text-on-surface-variant">@for (t of tags(); track t) {
-                        #{{ t }}
-                    }</div>
-                </div>
-            </div>
+        @if (categories().length > 0) {
+            <span class="absolute left-3 bottom-2 font-mono text-[8.5px] tracking-wide uppercase opacity-60">
+                {{ 'event.board.imageTag' | translate }} · {{ categories()[0] }}
+            </span>
         }
+    </div>
 
-        <div class="flex flex-row flex-wrap justify-end gap-2 px-4 py-2">
-            <ng-content></ng-content>
+    <div class="flex flex-col gap-2 p-4 flex-auto">
+        <h3 class="text-lg font-medium leading-snug line-clamp-2">{{ title() }}</h3>
+        @if (shortText()) {
+            <p class="text-sm text-on-surface-variant line-clamp-2">{{ shortText() }}</p>
+        }
+        <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-on-surface-variant">
+            <span class="flex items-center gap-1">
+                <mat-icon inline>event</mat-icon>
+                {{ start() | date: 'mediumDate' }}
+            </span>
+            <span class="flex items-center gap-1">
+                <mat-icon inline>schedule</mat-icon>
+                {{ start() | date: 'shortTime' }} – {{ finish() | date: 'shortTime' }}
+            </span>
+            @if (hasLocation()) {
+                <span class="flex items-center gap-1">
+                    <mat-icon inline>place</mat-icon>
+                    {{ city() }}
+                </span>
+            }
         </div>
 
+        <div class="mt-auto flex items-end gap-3 pt-1.5">
+            @if (hasRegistration()) {
+                <lib-registration-status [compact]="true" [public]="data()" class="flex-1 min-w-0"></lib-registration-status>
+            } @else {
+                <span class="flex-1"></span>
+            }
+            <button (click)="$event.stopPropagation()" color="accent" matButton="filled" [routerLink]="link()" class="shrink-0">
+                {{ 'event.board.details' | translate }}
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
     </div>
 </mat-card>
