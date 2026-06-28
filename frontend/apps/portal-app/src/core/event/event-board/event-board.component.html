@@ -1,6 +1,6 @@
 <div class="px-3 sm:px-4 pt-4 pb-1">
-    <h1 class="text-2xl font-semibold text-on-surface">{{ introTitleKey() | translate }}</h1>
-    <p class="text-sm text-on-surface-variant">{{ introSubtitleKey() | translate }}</p>
+    <h1 class="text-2xl font-semibold text-on-surface">{{ 'event.board.intro.discoverTitle' | translate }}</h1>
+    <p class="text-sm text-on-surface-variant">{{ 'event.board.intro.discoverSubtitle' | translate }}</p>
 </div>
 
 <div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
@@ -52,26 +52,26 @@
     <div class="flex-auto min-w-0">
         @switch (service.layout()) {
             @case ('map') {
-                <portal-event-board-map></portal-event-board-map>
+                <portal-event-board-map [entries]="service.entries()" [reloading]="service.reloading()"></portal-event-board-map>
             }
             @case ('calendar') {
-                <portal-event-board-calendar></portal-event-board-calendar>
+                <portal-event-board-calendar [entries]="service.entries()" [reloading]="service.reloading()"></portal-event-board-calendar>
             }
             @default {
-                <portal-event-board-list></portal-event-board-list>
+                <portal-event-board-list [entries]="service.entries()" [reloading]="service.reloading()" [layout]="service.layout()" [navView]="'all'" [hasMoreElements]="service.hasMoreElements()" (nearEnd)="service.onScroll()"></portal-event-board-list>
             }
         }
     </div>
     @if (!mobileView()) {
         <div class="basis-72 shrink-0 flex flex-col gap-3">
-            <portal-event-board-filter></portal-event-board-filter>
+            <portal-event-board-filter [isDiscover]="true" [categoryFilter]="service.categoryFilter()" [audienceFilter]="service.audienceFilter()" [showHistory]="service.showHistory()" [showAvailableOnly]="service.showAvailableOnly()" (dateRangeChanged)="service.setDateRange($event)" (toggleHistory)="service.toggleShowHistory()" (toggleCategory)="service.toggleCategory($event)" (toggleAudience)="service.toggleAudience($event)" (toggleAvailable)="service.toggleAvailableEvents()" (resetFilter)="service.resetFilter()"></portal-event-board-filter>
         </div>
     }
 </div>
 
 <ng-template #filterSheet>
     <div class="px-4 pt-4 pb-6">
-        <portal-event-board-filter></portal-event-board-filter>
+        <portal-event-board-filter [isDiscover]="true" [categoryFilter]="service.categoryFilter()" [audienceFilter]="service.audienceFilter()" [showHistory]="service.showHistory()" [showAvailableOnly]="service.showAvailableOnly()" (dateRangeChanged)="service.setDateRange($event)" (toggleHistory)="service.toggleShowHistory()" (toggleCategory)="service.toggleCategory($event)" (toggleAudience)="service.toggleAudience($event)" (toggleAvailable)="service.toggleAvailableEvents()" (resetFilter)="service.resetFilter()"></portal-event-board-filter>
     </div>
 </ng-template>
 

@@ -1,20 +1,20 @@
 <nav class="fixed bottom-0 left-0 right-0 z-20 lg:hidden bg-surface border-t border-outline-variant safe-area-bottom">
     <div class="grid grid-cols-4">
-        <button (click)="selectExplore()" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors" [class.text-primary]="isExplore()" [class.text-on-surface-variant]="!isExplore()">
+        <a routerLink="/event" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isExplore()" [class.text-on-surface-variant]="!isExplore()">
             <mat-icon>home</mat-icon>
             {{ 'event.board.explore' | translate }}
-        </button>
-        <button (click)="selectCalendar()" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors" [class.text-primary]="isCalendar()" [class.text-on-surface-variant]="!isCalendar()">
-            <mat-icon>calendar_month</mat-icon>
-            {{ 'event.board.calendar' | translate }}
-        </button>
-        <button (click)="selectSaved()" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors" [class.text-primary]="isSaved()" [class.text-on-surface-variant]="!isSaved()">
+        </a>
+        <a routerLink="/event/saved" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isSaved()" [class.text-on-surface-variant]="!isSaved()">
             <mat-icon>{{ isSaved() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
             {{ 'event.board.saved' | translate }}
-        </button>
-        <button (click)="selectRegs()" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors" [class.text-primary]="isRegs()" [class.text-on-surface-variant]="!isRegs()">
+        </a>
+        <a routerLink="/event/regs" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isRegs()" [class.text-on-surface-variant]="!isRegs()">
             <mat-icon>how_to_reg</mat-icon>
             {{ 'event.board.regs' | translate }}
-        </button>
+        </a>
+        <a routerLink="/event/own" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isOwn()" [class.text-on-surface-variant]="!isOwn()">
+            <mat-icon>person</mat-icon>
+            {{ 'event.board.own' | translate }}
+        </a>
     </div>
 </nav>

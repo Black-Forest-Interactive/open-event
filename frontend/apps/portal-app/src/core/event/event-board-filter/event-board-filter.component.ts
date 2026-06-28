@@ -1,61 +1,30 @@
-import { Component, computed, inject, resource } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
-import { EventBoardService } from '../event-board.service'
-import { AudienceService, CategoryService } from '@open-event/portal'
-import { CategoryChipComponent } from '@open-event/ui'
-import { toPromise } from '@open-event/shared'
-import { MatCard } from '@angular/material/card'
+import { Component, input, output } from '@angular/core'
+import { EventBoardDateFilterComponent, EventBoardDateRange } from '@open-event/ui'
 import { MatIcon } from '@angular/material/icon'
-import { MatDivider } from '@angular/material/divider'
-import { MatError, MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field'
-import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker } from '@angular/material/datepicker'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
-import { TranslatePipe } from '@ngx-translate/core'
 import { MatButton } from '@angular/material/button'
+import { TranslatePipe } from '@ngx-translate/core'
+import { CategoryFilterComponent } from './category-filter/category-filter.component'
+import { AudienceFilterComponent } from './audience-filter/audience-filter.component'
 
 @Component({
   selector: 'portal-event-board-filter',
   templateUrl: './event-board-filter.component.html',
   styleUrl: './event-board-filter.component.scss',
-  imports: [
-    MatCard,
-    MatIcon,
-    MatDivider,
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatDateRangeInput,
-    MatDatepickerToggle,
-    MatDateRangePicker,
-    ReactiveFormsModule,
-    MatSlideToggle,
-    MatButton,
-    CategoryChipComponent,
-    TranslatePipe
-  ],
+  imports: [EventBoardDateFilterComponent, MatIcon, MatSlideToggle, MatButton, TranslatePipe, CategoryFilterComponent, AudienceFilterComponent],
   standalone: true
 })
 export class EventBoardFilterComponent {
-  protected service = inject(EventBoardService)
-  private categoryService = inject(CategoryService)
-  private audienceService = inject(AudienceService)
+  isDiscover = input.required<boolean>()
+  categoryFilter = input.required<Set<string>>()
+  audienceFilter = input.required<Set<string>>()
+  showHistory = input.required<boolean>()
+  showAvailableOnly = input.required<boolean>()
 
-  readonly isDiscover = computed(() => this.service.navView() === 'all')
-
-  private categoryResource = resource({
-    loader: (param) => toPromise(this.categoryService.getCategories(0, 100), param.abortSignal)
-  })
-  readonly categories = computed(() => this.categoryResource.value()?.content ?? [])
-
-  private audienceResource = resource({
-    loader: (param) => toPromise(this.audienceService.getAudiences(0, 100), param.abortSignal)
-  })
-  readonly audiences = computed(() => this.audienceResource.value()?.content ?? [])
-
-  onDateRangePickerClosed() {
-    if (!this.service.range.valid) return
-    this.service.handleDatePickerChanged()
-  }
+  dateRangeChanged = output<EventBoardDateRange>()
+  toggleHistory = output<void>()
+  toggleCategory = output<string>()
+  toggleAudience = output<string>()
+  toggleAvailable = output<void>()
+  resetFilter = output<void>()
 }

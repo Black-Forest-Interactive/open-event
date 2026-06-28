@@ -1,0 +1,14 @@
+@if (audiences().length > 0) {
+    <div class="flex flex-col gap-2">
+        <span class="text-sm font-semibold text-on-surface-variant">{{ 'event.filter.audience' | translate }}</span>
+        <div class="flex flex-wrap gap-2">
+            @for (aud of audiences(); track aud.id) {
+                <button (click)="toggle.emit(aud.name)" [class.!bg-primary]="selected().has(aud.name)"
+                        [class.!text-on-primary]="selected().has(aud.name)" [class.ring-2]="selected().has(aud.name)"
+                        class="ring-primary rounded-full border border-outline-variant bg-surface-container px-3 py-1 text-sm" type="button">
+                    {{ aud.name }}
+                </button>
+            }
+        </div>
+    </div>
+}

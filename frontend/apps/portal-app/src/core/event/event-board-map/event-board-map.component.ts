@@ -1,10 +1,9 @@
-import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, viewChild } from '@angular/core'
+import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, input, viewChild } from '@angular/core'
 import * as L from 'leaflet'
 import { icon, Map as LeafletMap, Marker, MarkerClusterGroup } from 'leaflet'
 import { EventBoardMapPopupComponent } from '../event-board-map-popup/event-board-map-popup.component'
 import { EventNavigationService } from '../event-navigation.service'
 import { Router } from '@angular/router'
-import { EventBoardService } from '../event-board.service'
 import { EventSearchEntry } from '@open-event/core'
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
@@ -44,8 +43,8 @@ Marker.prototype.options.icon = iconDefault
   standalone: true
 })
 export class EventBoardMapComponent {
-  private service = inject(EventBoardService)
-  readonly reloading = this.service.reloading
+  entries = input.required<EventSearchEntry[]>()
+  reloading = input.required<boolean>()
   private environmentInjector = inject(EnvironmentInjector)
   private router = inject(Router)
   private mapContainerRef = viewChild<ElementRef<HTMLDivElement>>('map')
@@ -53,7 +52,7 @@ export class EventBoardMapComponent {
 
   readonly venues = computed(() => {
     const groups = new Map<string, VenueGroup>()
-    for (const e of this.service.entries()) {
+    for (const e of this.entries()) {
       if (!e.hasLocation || (e.lat === 0 && e.lon === 0)) continue
       const key = `${e.street} ${e.streetNumber}|${e.zip} ${e.city}`
       const group = groups.get(key)
@@ -74,12 +73,12 @@ export class EventBoardMapComponent {
           subdomains: 'abcd',
           maxZoom: 19
         }).addTo(this.map)
-        this.updateMarkers(this.service.entries())
+        this.updateMarkers(this.entries())
       }
     })
 
     effect(() => {
-      const entries = this.service.entries()
+      const entries = this.entries()
       if (this.map) this.updateMarkers(entries)
     })
   }

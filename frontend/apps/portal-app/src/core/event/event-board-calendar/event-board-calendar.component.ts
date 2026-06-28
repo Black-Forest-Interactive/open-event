@@ -1,10 +1,9 @@
-import { Component, computed, inject } from '@angular/core'
+import { Component, computed, input } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { EventSearchEntry } from '@open-event/core'
 import { EventRowComponent } from '../event-row/event-row.component'
-import { EventBoardService } from '../event-board.service'
 import { LoadingBarComponent } from '@open-event/shared'
 
 @Component({
@@ -14,12 +13,12 @@ import { LoadingBarComponent } from '@open-event/shared'
   standalone: true
 })
 export class EventBoardCalendarComponent {
-  protected service = inject(EventBoardService)
-  readonly reloading = this.service.reloading
+  entries = input.required<EventSearchEntry[]>()
+  reloading = input.required<boolean>()
 
   readonly groups = computed(() => {
     const days = new Map<string, EventSearchEntry[]>()
-    for (const entry of this.service.entries()) {
+    for (const entry of this.entries()) {
       const key = entry.start.substring(0, 10)
       const list = days.get(key)
       if (list) list.push(entry)

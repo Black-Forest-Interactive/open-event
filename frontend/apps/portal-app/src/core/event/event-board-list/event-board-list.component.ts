@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core'
-import { EventBoardService } from '../event-board.service'
+import { Component, input, output } from '@angular/core'
+import { EventSearchEntry } from '@open-event/core'
 import { EventCardComponent } from '../event-card/event-card.component'
 import { EventRowComponent } from '../event-row/event-row.component'
 import { MatButton } from '@angular/material/button'
@@ -15,5 +15,10 @@ import { LoadingBarComponent, ScrollNearEndDirective } from '@open-event/shared'
   standalone: true
 })
 export class EventBoardListComponent {
-  protected service = inject(EventBoardService)
+  entries = input.required<EventSearchEntry[]>()
+  reloading = input.required<boolean>()
+  layout = input.required<'cards' | 'rows' | 'calendar' | 'map'>()
+  navView = input.required<'all' | 'saved' | 'regs' | 'own'>()
+  hasMoreElements = input.required<boolean>()
+  nearEnd = output<void>()
 }

@@ -1,69 +1,21 @@
-<mat-card class="flex flex-col gap-4 p-4">
-    <div class="flex flex-col gap-2">
-        <span class="text-sm font-semibold text-on-surface-variant">{{ 'event.filter.whenLabel' | translate }}</span>
-        @if (isDiscover()) {
-            <mat-form-field class="dense-1" subscriptSizing="dynamic">
-                <mat-label>{{ 'event.filter.range.label' | translate }}</mat-label>
-                <mat-date-range-input [formGroup]="service.range" [rangePicker]="picker">
-                    <input formControlName="start" matStartDate placeholder="{{ 'event.filter.range.start' | translate }}">
-                    <input formControlName="end" matEndDate placeholder="{{ 'event.filter.range.end' | translate }}">
-                </mat-date-range-input>
-                <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-                <mat-date-range-picker #picker (closed)="onDateRangePickerClosed()"></mat-date-range-picker>
-                @if (service.range.controls.start.hasError('matStartDateInvalid')) {
-                    <mat-error>{{ 'event.filter.range.errorStart' | translate }}</mat-error>
-                }
-                @if (service.range.controls.end.hasError('matEndDateInvalid')) {
-                    <mat-error>{{ 'event.filter.range.errorEnd' | translate }}</mat-error>
-                }
-            </mat-form-field>
-        }
-        <div class="flex flex-wrap gap-2">
-            <button (click)="service.toggleShowHistory()" [matButton]="service.showHistory() ? 'filled' : 'outlined'" color="accent" type="button">
+<lib-event-board-date-filter (filterReset)="resetFilter.emit()" (rangeChanged)="dateRangeChanged.emit($event)">
+    <div class="flex flex-col gap-4 px-4 py-2">
+        <div class="flex flex-col gap-2">
+            <button (click)="toggleHistory.emit()" [matButton]="showHistory() ? 'filled' : 'outlined'" color="accent" type="button">
                 <mat-icon>history</mat-icon>
                 {{ 'event.filter.history' | translate }}
             </button>
         </div>
-    </div>
 
-    <div class="flex flex-col gap-2">
-        <span class="text-sm font-semibold text-on-surface-variant">{{ 'event.filter.category' | translate }}</span>
-        <div class="flex flex-wrap gap-2">
-            @for (cat of categories(); track cat.id) {
-                <button (click)="service.toggleCategory(cat.name)" [class.ring-2]="service.categoryFilter().has(cat.name)"
-                        class="ring-primary ring-offset-1 ring-offset-surface rounded-lg" type="button">
-                    <lib-category-chip [iconUrl]="cat.iconUrl" [name]="cat.name" size="md"></lib-category-chip>
-                </button>
-            }
-        </div>
-    </div>
+        <portal-category-filter [selected]="categoryFilter()" (toggle)="toggleCategory.emit($event)"></portal-category-filter>
 
-    @if (audiences().length > 0) {
-        <div class="flex flex-col gap-2">
-            <span class="text-sm font-semibold text-on-surface-variant">{{ 'event.filter.audience' | translate }}</span>
-            <div class="flex flex-wrap gap-2">
-                @for (aud of audiences(); track aud.id) {
-                    <button (click)="service.toggleAudience(aud.name)" [class.!bg-primary]="service.audienceFilter().has(aud.name)"
-                            [class.!text-on-primary]="service.audienceFilter().has(aud.name)" [class.ring-2]="service.audienceFilter().has(aud.name)"
-                            class="ring-primary rounded-full border border-outline-variant bg-surface-container px-3 py-1 text-sm" type="button">
-                        {{ aud.name }}
-                    </button>
-                }
+        <portal-audience-filter [selected]="audienceFilter()" (toggle)="toggleAudience.emit($event)"></portal-audience-filter>
+
+        @if (isDiscover()) {
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium">{{ 'event.filter.onlyAvailable' | translate }}</span>
+                <mat-slide-toggle (change)="toggleAvailable.emit()" [checked]="showAvailableOnly()"></mat-slide-toggle>
             </div>
-        </div>
-    }
-
-    @if (isDiscover()) {
-        <mat-divider></mat-divider>
-
-        <div class="flex items-center justify-between">
-            <span class="text-sm font-medium">{{ 'event.filter.onlyAvailable' | translate }}</span>
-            <mat-slide-toggle (change)="service.toggleAvailableEvents()" [checked]="service.showAvailableOnly()"></mat-slide-toggle>
-        </div>
-    }
-
-    <button (click)="service.resetFilter()" color="warn" matButton="outlined">
-        <mat-icon>cancel</mat-icon>
-        {{ 'event.filter.reset' | translate }}
-    </button>
-</mat-card>
+        }
+    </div>
+</lib-event-board-date-filter>

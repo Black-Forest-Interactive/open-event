@@ -1,7 +1,8 @@
-import { Component, computed, effect, inject, TemplateRef, untracked, viewChild } from '@angular/core'
+import { Component, effect, inject, TemplateRef, viewChild } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
+import { computed } from '@angular/core'
 import { EventBoardService } from '../event-board.service'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardCalendarComponent } from '../event-board-calendar/event-board-calendar.component'
@@ -15,7 +16,7 @@ import { MatIcon } from '@angular/material/icon'
 import { MatBadge } from '@angular/material/badge'
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
-import { ActivatedRoute, RouterLink } from '@angular/router'
+import { RouterLink } from '@angular/router'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
@@ -44,56 +45,20 @@ import { TranslatePipe } from '@ngx-translate/core'
 export class EventBoardComponent {
   protected service = inject(EventBoardService)
   readonly reloading = this.service.reloading
-  private route = inject(ActivatedRoute)
-  private viewParam = toSignal(this.route.queryParamMap.pipe(map((p) => p.get('view'))))
   private responsive = inject(BreakpointObserver)
   private bottomSheet = inject(MatBottomSheet)
   private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
-  readonly introTitleKey = computed(() => {
-    switch (this.service.navView()) {
-      case 'saved':
-        return 'event.board.intro.savedTitle'
-      case 'regs':
-        return 'event.board.intro.regsTitle'
-      case 'own':
-        return 'event.board.intro.ownTitle'
-      default:
-        return 'event.board.intro.discoverTitle'
-    }
-  })
-
-  readonly introSubtitleKey = computed(() => {
-    switch (this.service.navView()) {
-      case 'saved':
-        return 'event.board.intro.savedSubtitle'
-      case 'regs':
-        return 'event.board.intro.regsSubtitle'
-      case 'own':
-        return 'event.board.intro.ownSubtitle'
-      default:
-        return 'event.board.intro.discoverSubtitle'
-    }
-  })
-
   readonly activeFilterCount = computed(() => {
-    const preselection = this.service.preselection()
     let count = this.service.categoryFilter().size
-    if (preselection !== undefined && preselection !== 'any') count++
     if (this.service.showAvailableOnly()) count++
     return count
   })
 
   constructor() {
     effect(() => {
-      const mobile = this.mobileView()
-      this.service.setFilterToolbarVisible(!mobile)
-      this.service.setInfiniteScrollMode(mobile)
-    })
-    effect(() => {
-      const view = this.viewParam()
-      untracked(() => this.service.setNavView(view === 'saved' || view === 'regs' || view === 'own' ? view : 'all'))
+      this.service.setInfiniteScrollMode(this.mobileView())
     })
     this.service.reload()
   }

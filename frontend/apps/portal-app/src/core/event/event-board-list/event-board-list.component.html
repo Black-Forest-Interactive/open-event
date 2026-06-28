@@ -1,7 +1,7 @@
-<lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
-@if (service.entries().length === 0 && !service.reloading()) {
-    @switch (service.navView()) {
+@if (entries().length === 0 && !reloading()) {
+    @switch (navView()) {
         @case ('saved') {
             <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
                 <mat-icon inline>bookmark_border</mat-icon>
@@ -25,26 +25,26 @@
         }
     }
 } @else {
-    <div (nearEnd)="service.onScroll()" libScrollNearEnd>
-        @switch (service.layout()) {
+    <div (nearEnd)="nearEnd.emit()" libScrollNearEnd>
+        @switch (layout()) {
             @case ('rows') {
                 <div class="flex flex-col gap-2 pb-4">
-                    @for (entry of service.entries(); track entry.id) {
+                    @for (entry of entries(); track entry.id) {
                         <portal-event-row [entry]="entry"></portal-event-row>
                     }
                 </div>
             }
             @default {
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                    @for (entry of service.entries(); track entry.id) {
+                    @for (entry of entries(); track entry.id) {
                         <portal-event-card [entry]="entry"></portal-event-card>
                     }
                 </div>
             }
         }
 
-        @if (service.hasMoreElements() && !service.reloading()) {
-            <button (click)="service.onScroll()" class="w-full" color="accent" matButton="filled">
+        @if (hasMoreElements() && !reloading()) {
+            <button (click)="nearEnd.emit()" class="w-full" color="accent" matButton="filled">
                 {{ 'action.loadMore' | translate }}
             </button>
         }

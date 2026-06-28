@@ -1,0 +1,52 @@
+<div class="px-3 sm:px-4 pt-4 pb-1">
+    <h1 class="text-2xl font-semibold text-on-surface">{{ 'event.board.intro.savedTitle' | translate }}</h1>
+    <p class="text-sm text-on-surface-variant">{{ 'event.board.intro.savedSubtitle' | translate }}</p>
+</div>
+
+<div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
+    <div class="flex items-center gap-2">
+        <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" placeholder="event.search"></lib-board-search>
+        <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
+            <b>{{ totalSize() }}</b> {{ 'event.board.results' | translate }}
+        </span>
+        @if (mobileView()) {
+            <button (click)="openFilter()" matIconButton>
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        }
+    </div>
+</div>
+
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+<div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4">
+    <div class="flex-auto min-w-0">
+        <portal-event-board-list [entries]="entries()" [reloading]="reloading()" layout="rows" navView="saved" [hasMoreElements]="hasMoreElements()" (nearEnd)="onScroll()"></portal-event-board-list>
+    </div>
+    @if (!mobileView()) {
+        <div class="basis-72 shrink-0">
+            <ng-container *ngTemplateOutlet="filterPanel"></ng-container>
+        </div>
+    }
+</div>
+
+<ng-template #filterSheet>
+    <div class="px-4 pt-4 pb-6">
+        <ng-container *ngTemplateOutlet="filterPanel"></ng-container>
+    </div>
+</ng-template>
+
+<ng-template #filterPanel>
+    <lib-event-board-date-filter (filterReset)="handleReset()" (rangeChanged)="handleRangeChanged($event)">
+        <div class="flex flex-col gap-4 px-4 py-2">
+            <button (click)="toggleHistory()" [matButton]="includeHistory() ? 'filled' : 'outlined'" color="accent" type="button">
+                <mat-icon>history</mat-icon>
+                {{ 'event.filter.history' | translate }}
+            </button>
+            <portal-category-filter [selected]="categoryFilter()" (toggle)="toggleCategory($event)"></portal-category-filter>
+            <portal-audience-filter [selected]="audienceFilter()" (toggle)="toggleAudience($event)"></portal-audience-filter>
+        </div>
+    </lib-event-board-date-filter>
+</ng-template>
+
+<portal-event-board-navbar></portal-event-board-navbar>
