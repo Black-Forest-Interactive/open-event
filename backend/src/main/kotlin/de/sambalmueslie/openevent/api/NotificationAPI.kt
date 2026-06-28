@@ -36,5 +36,4 @@ interface NotificationAPI : CrudAPI<Long, NotificationScheme, NotificationScheme
 
     fun getTypes(auth: Authentication, pageable: Pageable): Page<NotificationType>
 
-
 }

@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory
 @Singleton
 class NotificationSettingCrudService(
     private val storage: NotificationSettingStorage,
-) : BaseCrudService<Long, NotificationSetting, NotificationSettingChangeRequest, NotificationSettingChangeListener>(
-    storage
-) {
+) : BaseCrudService<Long, NotificationSetting, NotificationSettingChangeRequest, NotificationSettingChangeListener>(storage) {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(NotificationSettingCrudService::class.java)
     }

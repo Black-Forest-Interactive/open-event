@@ -28,6 +28,7 @@ export class DashboardService {
       items: [
         new NavItem('/activity', 'activity.title', 'notifications', [Roles.ACTIVITY_ADMIN]),
         new NavItem('/mail', 'mail.type', 'email', [Roles.MAIL_ADMIN]),
+        new NavItem('/newsletter', 'newsletter.type', 'mark_email_read', [Roles.MAIL_ADMIN]),
         new NavItem('/feedback', 'feedback.type', 'feedback', [Roles.FEEDBACK_ADMIN])
       ]
     },

@@ -120,5 +120,4 @@ class NotificationController(
         return auth.checkPermission(PERMISSION_READ) { typeService.getAll(pageable) }
     }
 
-
 }

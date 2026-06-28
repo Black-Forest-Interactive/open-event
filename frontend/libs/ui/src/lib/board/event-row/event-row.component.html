@@ -48,15 +48,14 @@
         </div>
     </div>
 
-    <div class="hidden md:flex flex-col items-stretch gap-2 w-44 shrink-0">
+    <div class="hidden md:flex flex-col items-stretch gap-2 w-48 shrink-0">
         @if (hasRegistration()) {
             <lib-registration-status [compact]="true" [public]="data()"></lib-registration-status>
         }
-        <button (click)="$event.stopPropagation()" color="accent" matButton="filled" [routerLink]="link()">
+        <button (click)="$event.stopPropagation()" color="accent" matButton="filled" [routerLink]="link()" class="!px-3">
             {{ 'event.board.details' | translate }}
             <mat-icon>arrow_forward</mat-icon>
         </button>
     </div>
 
-    <mat-icon class="md:hidden text-on-surface-variant shrink-0">chevron_right</mat-icon>
 </mat-card>

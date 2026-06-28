@@ -604,5 +604,21 @@
       "client_ip": "Client IP",
       "user_agent": "User Agent"
     }
+  },
+  "newsletter": {
+    "type": "Newsletter",
+    "title": "Newsletter Subscribers",
+    "enabled": "Newsletter active",
+    "disabled": "Newsletter inactive",
+    "table": {
+      "name": "Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email"
+    },
+    "message": {
+      "enabled": "Newsletter sending has been enabled",
+      "disabled": "Newsletter sending has been disabled"
+    }
   }
 }

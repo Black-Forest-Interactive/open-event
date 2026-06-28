@@ -604,5 +604,21 @@
         "title": "Feedback-Details"
       }
     }
+  },
+  "newsletter": {
+    "type": "Newsletter",
+    "title": "Newsletter Abonnenten",
+    "enabled": "Newsletter aktiv",
+    "disabled": "Newsletter inaktiv",
+    "table": {
+      "name": "Name",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail"
+    },
+    "message": {
+      "enabled": "Newsletter-Versand wurde aktiviert",
+      "disabled": "Newsletter-Versand wurde deaktiviert"
+    }
   }
 }

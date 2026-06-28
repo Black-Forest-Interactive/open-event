@@ -1,5 +1,8 @@
 <lib-app-layout (logoutClick)="logout()" [navGroups]="navGroups()" [title]="title()">
     <ng-container toolbar-right>
+        @if (newsletterState.loaded()) {
+            <admin-newsletter-status-button class="mr-1"></admin-newsletter-status-button>
+        }
         @if (info(); as info) {
             <div [matMenuTriggerFor]="userMenu" class="flex items-center gap-2 cursor-pointer px-2">
                 <div class="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-white text-xs font-semibold select-none">{{ info.firstName[0] }}{{ info.lastName[0] }}</div>

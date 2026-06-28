@@ -3,6 +3,8 @@ package de.sambalmueslie.openevent.core.account
 
 import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.core.account.api.*
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -37,6 +39,10 @@ class PreferencesCrudService(
             NotificationPreferences()
         )
         create(actor, account, request)
+    }
+
+    fun findByEmailNotificationsEnabled(pageable: Pageable): Page<Preferences> {
+        return storage.findByEmailNotificationsEnabled(pageable)
     }
 
     override fun isValid(request: PreferencesChangeRequest) {
