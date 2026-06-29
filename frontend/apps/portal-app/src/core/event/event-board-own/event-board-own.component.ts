@@ -8,7 +8,6 @@ import { BoardSearchComponent } from '@open-event/ui'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatIcon } from '@angular/material/icon'
 import { MatButton } from '@angular/material/button'
-import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
@@ -24,8 +23,6 @@ import { RouterLink } from '@angular/router'
     LoadingBarComponent,
     MatIcon,
     MatButton,
-    MatButtonToggleGroup,
-    MatButtonToggle,
     RouterLink,
     TranslatePipe
   ],
@@ -41,7 +38,6 @@ export class EventBoardOwnComponent {
   private page = signal(0)
   private size = signal(200)
   private infiniteScrollMode = signal(false)
-  readonly layout = signal<'cards' | 'rows'>('rows')
 
   private criteria = computed(() => ({
     request: new EventSearchRequest(this.query(), undefined, undefined, true, false, false, [], false, false, []),

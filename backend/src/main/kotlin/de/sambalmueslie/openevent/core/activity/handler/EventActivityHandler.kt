@@ -35,6 +35,10 @@ class EventActivityHandler(
         private val TYPE_DELETED = "event.deleted"
         private val TYPE_PUBLISHED = "event.published"
         private val TYPE_FEATURED = "event.featured"
+        private val TYPE_TITLE = "event.title"
+        private val TYPE_SHORT_TEXT = "event.short-text"
+        private val TYPE_LONG_TEXT = "event.long-text"
+        private val TYPE_TAGS = "event.tags"
     }
 
     override fun getSourceKey(): String {
@@ -57,14 +61,28 @@ class EventActivityHandler(
         createActivity(actor, obj, TYPE_DELETED)
     }
 
+    override fun featuredChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_FEATURED)
+    }
     override fun publishedChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_PUBLISHED)
     }
 
-    override fun featuredChanged(actor: Account, event: Event) {
-        createActivity(actor, event, TYPE_FEATURED)
+    override fun titleChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_TITLE)
     }
 
+    override fun shortTextChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_SHORT_TEXT)
+    }
+
+    override fun longTextChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_LONG_TEXT)
+    }
+
+    override fun tagsChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_TAGS)
+    }
 
     private fun createActivity(actor: Account, event: Event, type: String) {
         val request = ActivityChangeRequest(event.title, event.id)

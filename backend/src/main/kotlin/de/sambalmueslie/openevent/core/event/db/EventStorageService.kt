@@ -136,6 +136,22 @@ class EventStorageService(
         return patchData(id) { it.setFeatured(value.value, timeProvider.now()) }
     }
 
+    override fun setTitle(id: Long, value: PatchRequest<String>): Event? {
+        return patchData(id) { it.setTitle(value.value, timeProvider.now()) }
+    }
+
+    override fun setShortText(id: Long, value: PatchRequest<String>): Event? {
+        return patchData(id) { it.setShortText(value.value, timeProvider.now()) }
+    }
+
+    override fun setLongText(id: Long, value: PatchRequest<String>): Event? {
+        return patchData(id) { it.setLongText(value.value, timeProvider.now()) }
+    }
+
+    override fun setTags(id: Long, value: PatchRequest<Set<String>>): Event? {
+        return patchData(id) { it.setTags(value.value, timeProvider.now()) }
+    }
+
     override fun getAllForAccount(account: Account, pageable: Pageable): Page<Event> {
         return repository.findForUser(account.id, pageable).let { converter.convert(it) }
     }

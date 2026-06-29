@@ -17,6 +17,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
 import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
+import { EventEditDialogComponent } from '../event-edit/event-edit-dialog.component'
 import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 import { EventMenuItem } from '../event-menu-item'
 import { EventNavigationService } from '../event-navigation.service'
@@ -72,7 +73,8 @@ export class EventDetailsHeaderComponent {
 
   private handleActionEdit() {
     const e = this.event()
-    if (e) EventNavigationService.navigateToEventEdit(this.router, e.id)
+    if (!e) return
+    this.dialog.open(EventEditDialogComponent, { data: { id: e.id }, width: '680px', maxWidth: '95vw', disableClose: true })
   }
 
   private handleActionCopy() {

@@ -1,0 +1,28 @@
+<div class="flex items-center justify-between gap-2 px-4 pt-3">
+    <h2 mat-dialog-title class="!m-0 !text-lg font-semibold truncate">
+        @if (event()) {
+            {{ "event.change.update" | translate:{event: event()!.title} }}
+        } @else {
+            {{ "event.change.update" | translate }}
+        }
+    </h2>
+    <button matIconButton [mat-dialog-close]="false">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content class="!p-0 !max-h-[80vh]">
+    <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+    @if (event()) {
+        <lib-event-change
+                (cancel)="dialogRef.close(false)"
+                (request)="handleRequest($event)"
+                [addressReadAPI]="this"
+                [audienceReadAPI]="this"
+                [categoryReadAPI]="this"
+                [eventReadAPI]="this"
+                [event]="event()!"
+                submitLabel="event.action.saveChanges"
+        ></lib-event-change>
+    }
+</mat-dialog-content>

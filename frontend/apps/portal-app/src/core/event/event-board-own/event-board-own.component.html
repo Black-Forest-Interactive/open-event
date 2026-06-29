@@ -11,22 +11,13 @@
             <mat-icon>add</mat-icon>
             {{ 'event.create' | translate }}
         </button>
-
-        <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0">
-            <mat-button-toggle (click)="layout.set('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="layout() === 'cards'" value="cards">
-                <mat-icon>grid_view</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle (click)="layout.set('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="layout() === 'rows'" value="rows">
-                <mat-icon>view_list</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
     </div>
 </div>
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
 <div class="p-4 pb-20 lg:pb-4 max-w-[960px] mx-auto w-full">
-    <portal-event-board-list [entries]="entries()" [reloading]="reloading()" [layout]="layout()" navView="own" [hasMoreElements]="hasMoreElements()" (nearEnd)="onScroll()"></portal-event-board-list>
+    <portal-event-board-list [entries]="entries()" [reloading]="reloading()" layout="rows" navView="own" [hasMoreElements]="hasMoreElements()" (nearEnd)="onScroll()"></portal-event-board-list>
 </div>
 
 <portal-event-board-navbar></portal-event-board-navbar>

@@ -11,6 +11,7 @@ import { MatProgressBar } from '@angular/material/progress-bar'
 import { CategoryChipComponent, EventBoardListComponent as LibEventBoardListComponent, EventBoardCalendarComponent, getCategoryStyle } from '@open-event/ui'
 import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
+import { EventEditDialogComponent } from '../event-edit/event-edit-dialog.component'
 import { EventShareSheetComponent } from '../../share/event-share-sheet/event-share-sheet.component'
 import { toEventBoardEntry } from '../event-board-entry.mapper'
 
@@ -42,6 +43,10 @@ export class EventBoardListComponent {
   fillPct(entry: EventSearchEntry): number {
     if (!entry.maxGuestAmount) return 0
     return Math.round((entry.amountAccepted / entry.maxGuestAmount) * 100)
+  }
+
+  edit(entry: EventSearchEntry) {
+    this.dialog.open(EventEditDialogComponent, { data: { id: entry.id }, width: '680px', maxWidth: '95vw', disableClose: true })
   }
 
   openBroadcast(entry: EventSearchEntry) {

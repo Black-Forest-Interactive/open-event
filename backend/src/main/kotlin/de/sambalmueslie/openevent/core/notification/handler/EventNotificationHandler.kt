@@ -111,6 +111,34 @@ class EventNotificationHandler(
         }
     }
 
+    override fun titleChanged(actor: Account, event: Event) {
+        service.process(
+            NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
+    override fun shortTextChanged(actor: Account, event: Event) {
+        service.process(
+            NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
+    override fun longTextChanged(actor: Account, event: Event) {
+        service.process(
+            NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
+    override fun tagsChanged(actor: Account, event: Event) {
+        service.process(
+            NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
     private fun getRecipients(actor: Account, event: Event): Set<AccountInfo> {
         val recipients = mutableSetOf<AccountInfo>()
         val changeByOwner = actor.id == event.owner.id

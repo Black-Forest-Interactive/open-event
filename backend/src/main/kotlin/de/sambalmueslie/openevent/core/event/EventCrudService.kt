@@ -85,7 +85,7 @@ class EventCrudService(
         storage.setCategories(result, categories)
 
         val audiences = audienceCrudService.getByIds(request.audienceIds)
-         storage.setAudiences(result, audiences)
+        storage.setAudiences(result, audiences)
 
         if (request.location == null) {
             locationCrudService.deleteByEvent(actor, result)
@@ -110,6 +110,13 @@ class EventCrudService(
         return result
     }
 
+    fun setPublished(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
+        val result = storage.setPublished(id, value) ?: return null
+        notify { it.publishedChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
     fun setFeatured(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
         val result = storage.setFeatured(id, value) ?: return null
         notify { it.featuredChanged(actor, result) }
@@ -117,9 +124,30 @@ class EventCrudService(
         return result
     }
 
-    fun setPublished(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
-        val result = storage.setPublished(id, value) ?: return null
-        notify { it.publishedChanged(actor, result) }
+    fun setTitle(actor: Account, id: Long, value: PatchRequest<String>): Event? {
+        val result = storage.setTitle(id, value) ?: return null
+        notify { it.titleChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setShortText(actor: Account, id: Long, value: PatchRequest<String>): Event? {
+        val result = storage.setShortText(id, value) ?: return null
+        notify { it.shortTextChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setLongText(actor: Account, id: Long, value: PatchRequest<String>): Event? {
+        val result = storage.setLongText(id, value) ?: return null
+        notify { it.longTextChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setTags(actor: Account, id: Long, value: PatchRequest<Set<String>>): Event? {
+        val result = storage.setTags(id, value) ?: return null
+        notify { it.tagsChanged(actor, result) }
         updateSearch(actor, result, ChangeType.UPDATED)
         return result
     }

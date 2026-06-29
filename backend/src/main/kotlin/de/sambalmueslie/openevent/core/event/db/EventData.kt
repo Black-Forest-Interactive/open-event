@@ -124,6 +124,31 @@ data class EventData(
         updated = timestamp
         return this
     }
+
+    fun setTitle(value: String, timestamp: LocalDateTime): EventData {
+        this.title = value
+        updated = timestamp
+        return this
+    }
+
+    fun setShortText(value: String, timestamp: LocalDateTime): EventData {
+        this.shortText = value
+        updated = timestamp
+        return this
+    }
+
+    fun setLongText(value: String, timestamp: LocalDateTime): EventData {
+        this.longText = value
+        updated = timestamp
+        return this
+    }
+
+    fun setTags(value: Set<String>, timestamp: LocalDateTime): EventData {
+        this.tags = value
+        this.tagsJson = mapper.writeValueAsString(value)
+        updated = timestamp
+        return this
+    }
 }
 
 

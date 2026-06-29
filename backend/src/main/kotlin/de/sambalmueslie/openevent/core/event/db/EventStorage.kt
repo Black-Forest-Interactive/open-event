@@ -38,13 +38,16 @@ interface EventStorage : Storage<Long, Event, EventChangeRequest> {
 
     fun setPublished(id: Long, value: PatchRequest<Boolean>): Event?
     fun setFeatured(id: Long, value: PatchRequest<Boolean>): Event?
+    fun setTitle(id: Long, value: PatchRequest<String>): Event?
+    fun setShortText(id: Long, value: PatchRequest<String>): Event?
+    fun setLongText(id: Long, value: PatchRequest<String>): Event?
+    fun setTags(id: Long, value: PatchRequest<Set<String>>): Event?
 
     @Deprecated("use opensearch for that")
     fun getAllForAccount(account: Account, pageable: Pageable): Page<Event>
     fun getCategoriesByEventIds(eventIds: Set<Long>): Map<Long, List<Category>>
     fun getAudiencesByEventIds(eventIds: Set<Long>): Map<Long, List<Audience>>
     fun getOwned(owner: Account, pageable: Pageable): Page<Event>
-
 
 
 }

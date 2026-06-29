@@ -57,7 +57,7 @@
                             {{ 'event.own.action.manage' | translate }}
                         </a>
                         <div class="flex gap-1 justify-between">
-                            <button matIconButton [routerLink]="['/event/edit', entry.id]" [title]="'event.action.edit' | translate">
+                            <button matIconButton (click)="edit(entry)" [title]="'event.action.edit' | translate">
                                 <mat-icon>edit</mat-icon>
                             </button>
                             <button matIconButton (click)="openBroadcast(entry)" [title]="'event.own.action.broadcast' | translate">
