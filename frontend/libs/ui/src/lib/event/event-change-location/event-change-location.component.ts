@@ -11,6 +11,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatIcon } from '@angular/material/icon'
 import { toPromise } from '@open-event/shared'
 
+function norm(s: string | null | undefined): string {
+  return (s ?? '').toLowerCase().trim()
+}
+
 @Component({
   selector: 'lib-event-change-location',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslatePipe, MatButtonToggleModule, MatRadioModule, MatCheckboxModule, MatIcon],
@@ -57,10 +61,27 @@ export class EventChangeLocationComponent implements OnInit {
 
     effect(() => {
       const addresses = this.addresses()
-      if (!this.data() && addresses.length > 0 && !this.addressMode.dirty) {
+      const info = this.data()
+      if (addresses.length === 0 || this.addressMode.dirty) return
+
+      if (!info) {
         this.addressMode.setValue('saved')
         const preferred = addresses.find((a) => a.standard) ?? addresses[0]
         this.selectAddress(preferred)
+      } else {
+        const loc = info.location
+        if (loc) {
+          const match = addresses.find((a) =>
+            norm(a.street) === norm(loc.street) &&
+            norm(a.streetNumber) === norm(loc.streetNumber) &&
+            norm(a.zip) === norm(loc.zip) &&
+            norm(a.city) === norm(loc.city)
+          )
+          if (match) {
+            this.addressMode.setValue('saved')
+            this.selectAddress(match)
+          }
+        }
       }
     })
 
@@ -108,7 +129,6 @@ export class EventChangeLocationComponent implements OnInit {
         streetNumber: location.streetNumber ?? '',
         zip: location.zip ?? '',
         additionalInfo: location.additionalInfo ?? '',
-        addressMode: 'new',
         saveAddress: false
       })
     }

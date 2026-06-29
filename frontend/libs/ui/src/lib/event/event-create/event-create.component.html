@@ -1,13 +1,12 @@
-<mat-toolbar class="justify-center items-center">
-    <div class="flex flex-row gap-2 flex-auto items-center container px-4">
+<mat-toolbar>
+    <div class="flex items-center gap-2 max-w-[680px] mx-auto w-full">
         <button (click)="cancel()" mat-mini-fab>
             <mat-icon>arrow_back</mat-icon>
         </button>
-        <span class="title ps-2">{{ "event.change.create" | translate }}</span>
-        <div class="flex-auto"></div>
+        <span class="ps-2 font-medium">{{ "event.change.create" | translate }}</span>
     </div>
 </mat-toolbar>
-<mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">
+<div class="max-w-[680px] mx-auto w-full">
     <lib-event-change
             (cancel)="cancel()"
             (request)="handleRequest($event)"
@@ -16,6 +15,5 @@
             [categoryReadAPI]="this"
             [eventReadAPI]="this"
             submitLabel="event.action.publish"
-    >
-    </lib-event-change>
-</mat-card>
+    ></lib-event-change>
+</div>

@@ -1,21 +1,20 @@
 <mat-toolbar>
-    <div class="flex flex-row gap-2 flex-auto items-center">
+    <div class="flex items-center gap-2 max-w-[680px] mx-auto w-full">
         <button (click)="cancel()" [matTooltip]="'action.back' | translate" matIconButton>
             <mat-icon>arrow_back</mat-icon>
         </button>
-        <span class="title ps-2">
-      @if (event()) {
-          {{ "event.change.update" | translate:{event: event()!.title} }}
-      } @else {
-          {{ "event.change.update" | translate }}
-      }
-    </span>
-        <div class="flex-auto"></div>
+        <span class="ps-2 font-medium truncate">
+          @if (event()) {
+              {{ "event.change.update" | translate:{event: event()!.title} }}
+          } @else {
+              {{ "event.change.update" | translate }}
+          }
+        </span>
     </div>
 </mat-toolbar>
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 @if (event()) {
-    <mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">
+    <div class="max-w-[680px] mx-auto w-full">
         <lib-event-change
                 (cancel)="cancel()"
                 (request)="handleRequest($event)"
@@ -25,7 +24,6 @@
                 [eventReadAPI]="this"
                 [event]="event()!"
                 submitLabel="event.action.saveChanges"
-        >
-        </lib-event-change>
-    </mat-card>
+        ></lib-event-change>
+    </div>
 }
