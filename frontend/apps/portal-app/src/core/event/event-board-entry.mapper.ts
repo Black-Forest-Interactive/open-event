@@ -1,7 +1,7 @@
 import { EventSearchEntry } from '@open-event/core'
 import { EventBoardEntry } from '@open-event/ui'
 
-export function toEventBoardEntry(entry: EventSearchEntry, basePath = './details'): EventBoardEntry {
+export function toEventBoardEntry(entry: EventSearchEntry, basePath = '/event/details'): EventBoardEntry {
   return {
     id: String(entry.id),
     link: `${basePath}/${entry.id}`,

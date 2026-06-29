@@ -3,6 +3,7 @@ import { Location } from '@angular/common'
 import { Router } from '@angular/router'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatDialog } from '@angular/material/dialog'
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { Event, EventInfo } from '@open-event/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { MatIconButton } from '@angular/material/button'
@@ -15,6 +16,8 @@ import { EventService } from '@open-event/portal'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
+import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
+import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 import { EventMenuItem } from '../event-menu-item'
 import { EventNavigationService } from '../event-navigation.service'
 
@@ -35,15 +38,19 @@ export class EventDetailsHeaderComponent {
   readonly copyMenuItem = new EventMenuItem('content_copy', 'event.action.copy', () => this.handleActionCopy(), false)
   readonly deleteMenuItem = new EventMenuItem('delete', 'event.action.delete', () => this.handleActionDelete(), false)
   readonly adminMenuItem = new EventMenuItem('admin_panel_settings', 'event.action.admin', () => this.handleActionAdmin(), false)
+  readonly broadcastMenuItem = new EventMenuItem('campaign', 'event.own.action.broadcast', () => this.handleActionBroadcast(), false)
+  readonly cancelMenuItem = new EventMenuItem('cancel', 'event.action.cancel', () => this.handleActionCancel(), false)
   readonly publishMenuItem = new EventMenuItem('publish', 'event.action.publish', () => this.handleActionPublish(), false)
-  readonly menuItems = [this.editMenuItem, this.copyMenuItem, this.deleteMenuItem, this.adminMenuItem]
+  readonly menuItems = [this.editMenuItem, this.copyMenuItem, this.adminMenuItem, this.broadcastMenuItem, this.cancelMenuItem, this.deleteMenuItem]
   private location = inject(Location)
   private router = inject(Router)
   private service = inject(EventService)
   private toastService = inject(HotToastService)
   private dialog = inject(MatDialog)
+  private bottomSheet = inject(MatBottomSheet)
   private breakpointObserver = inject(BreakpointObserver)
   private event = signal<Event | undefined>(undefined)
+  private participantCount = signal(0)
   private mobileBreakpoint = toSignal(this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]))
   readonly isMobile = computed(() => this.mobileBreakpoint()?.matches ?? false)
 
@@ -54,6 +61,7 @@ export class EventDetailsHeaderComponent {
       if (value) {
         this.event.set(value.event)
         this.publishMenuItem.disabled = value.event.published
+        this.participantCount.set(value.registration?.participants?.length ?? 0)
       }
     })
   }
@@ -86,6 +94,18 @@ export class EventDetailsHeaderComponent {
       .subscribe((result) => {
         if (result) this.service.deleteEvent(e.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
       })
+  }
+
+  private handleActionBroadcast() {
+    const e = this.event()
+    if (!e) return
+    this.bottomSheet.open(EventBroadcastSheetComponent, { data: { eventId: e.id, eventTitle: e.title, participantCount: this.participantCount() } })
+  }
+
+  private handleActionCancel() {
+    const e = this.event()
+    if (!e) return
+    this.dialog.open(EventCancelDialogComponent, { width: '400px', data: { event: e, participantCount: this.participantCount() } })
   }
 
   private handleActionPublish() {

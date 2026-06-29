@@ -79,6 +79,7 @@ class EventCrudService(
     }
 
     override fun update(actor: Account, id: Long, request: EventChangeRequest): Event {
+        val oldRegistration = registrationCrudService.findByEvent(storage.get(id) ?: return super.update(actor, id, request))
         val result = super.update(actor, id, request)
         val categories = categoryCrudService.getByIds(request.categoryIds)
         storage.setCategories(result, categories)
@@ -91,7 +92,10 @@ class EventCrudService(
         } else {
             locationCrudService.updateByEvent(actor, result, request.location)
         }
-        registrationCrudService.updateByEvent(actor, result, request.registration)
+        val newRegistration = registrationCrudService.updateByEvent(actor, result, request.registration)
+        if (oldRegistration != null && newRegistration.maxGuestAmount > oldRegistration.maxGuestAmount) {
+            registrationCrudService.promoteWaitlisted(actor, newRegistration)
+        }
         updateSearch(actor, result, ChangeType.UPDATED)
         return result
     }

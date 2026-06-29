@@ -1,0 +1,15 @@
+<header class="flex items-center justify-between p-4 border-b border-outline-variant">
+    <div>
+        <h2 class="text-base font-semibold">{{ 'event.own.action.share' | translate }}</h2>
+        <p class="text-sm text-on-surface-variant">{{ eventTitle }}</p>
+    </div>
+    <button matIconButton (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</header>
+
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+@if (info(); as eventInfo) {
+    <portal-share-details [info]="eventInfo" [reloading]="reloading()" (changed)="onSharingChanged($event)"></portal-share-details>
+}

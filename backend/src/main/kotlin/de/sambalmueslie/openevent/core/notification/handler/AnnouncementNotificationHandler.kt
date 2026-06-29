@@ -6,16 +6,22 @@ import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.announcement.AnnouncementChangeListener
 import de.sambalmueslie.openevent.core.announcement.AnnouncementCrudService
 import de.sambalmueslie.openevent.core.announcement.api.Announcement
+import de.sambalmueslie.openevent.core.event.EventCrudService
+import de.sambalmueslie.openevent.core.event.db.EventAnnouncementRelationService
 import de.sambalmueslie.openevent.core.notification.NotificationService
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
+import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @Singleton
 class AnnouncementNotificationHandler(
-    eventService: AnnouncementCrudService,
+    announcementCrudService: AnnouncementCrudService,
     private val service: NotificationService,
+    private val eventAnnouncementRelationService: EventAnnouncementRelationService,
+    private val eventCrudService: EventCrudService,
+    private val registrationCrudService: RegistrationCrudService,
 ) : NotificationHandler, AnnouncementChangeListener {
 
     companion object {
@@ -68,9 +74,9 @@ class AnnouncementNotificationHandler(
 
 
     private fun getRecipients(actor: Account, obj: Announcement): Collection<AccountInfo> {
-        // get event for announcement
-        // get event participants (registered users)
-        //        TODO("Not yet implemented")
-        return emptyList()
+        val eventId = eventAnnouncementRelationService.findEventId(obj.id) ?: return emptyList()
+        val event = eventCrudService.get(eventId) ?: return emptyList()
+        val registration = registrationCrudService.findByEvent(event) ?: return emptyList()
+        return registrationCrudService.getParticipants(registration.id).map { it.author }
     }
 }

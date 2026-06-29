@@ -12,9 +12,9 @@
             </span>
         </div>
 
-        <button color="accent" matButton="filled" routerLink="./create" class="shrink-0">
+        <button color="accent" matButton="filled" routerLink="./create" class="hidden sm:flex shrink-0">
             <mat-icon>add</mat-icon>
-            <span class="hidden sm:inline">{{ 'event.create' | translate }}</span>
+            {{ 'event.create' | translate }}
         </button>
 
         <div class="flex flex-1 items-center justify-end gap-2 min-w-0">
@@ -77,8 +77,3 @@
 
 <portal-event-board-navbar></portal-event-board-navbar>
 
-<a class="fixed bottom-20 right-4 lg:hidden z-10 flex items-center gap-2 px-4 py-3 rounded-2xl bg-primary-container text-on-primary-container shadow-lg font-medium text-sm no-underline"
-   routerLink="./create">
-    <mat-icon>add</mat-icon>
-    {{ 'event.create' | translate }}
-</a>

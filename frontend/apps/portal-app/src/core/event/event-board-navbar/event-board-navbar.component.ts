@@ -26,5 +26,6 @@ export class EventBoardNavbarComponent {
   readonly isSaved = computed(() => this.currentUrl().includes('/event/saved'))
   readonly isRegs = computed(() => this.currentUrl().includes('/event/regs'))
   readonly isOwn = computed(() => this.currentUrl().includes('/event/own'))
-  readonly isExplore = computed(() => !this.isSaved() && !this.isRegs() && !this.isOwn())
+  readonly isCreate = computed(() => this.currentUrl().includes('/event/create'))
+  readonly isExplore = computed(() => !this.isSaved() && !this.isRegs() && !this.isOwn() && !this.isCreate())
 }

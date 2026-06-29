@@ -1,0 +1,53 @@
+<div class="flex flex-col gap-4 p-4 pb-6 max-h-[80vh] overflow-y-auto">
+    <div class="flex items-center gap-2">
+        <mat-icon class="text-on-surface-variant">campaign</mat-icon>
+        <h2 class="text-lg font-semibold flex-auto">{{ 'event.broadcast.title' | translate }}</h2>
+        <button matIconButton (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <p class="text-sm text-on-surface-variant -mt-2">
+        {{ 'event.broadcast.recipients' | translate: { count: participantCount } }}
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+        @for (tpl of templates; track tpl.key) {
+            <button matButton="outlined" type="button" (click)="applyTemplate(tpl.key)">
+                {{ tpl.key | translate }}
+            </button>
+        }
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'event.broadcast.subject' | translate }}</mat-label>
+        <input matInput [ngModel]="subject()" (ngModelChange)="subject.set($event)" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'event.broadcast.body' | translate }}</mat-label>
+        <textarea matInput rows="4" [ngModel]="body()" (ngModelChange)="body.set($event)"></textarea>
+    </mat-form-field>
+
+    <button matButton="filled" color="primary" (click)="send()" [disabled]="sending() || !subject().trim()">
+        <mat-icon>send</mat-icon>
+        {{ 'event.broadcast.send' | translate }}
+    </button>
+
+    @if (history().length > 0) {
+        <mat-divider></mat-divider>
+        <p class="text-sm font-medium text-on-surface-variant">{{ 'event.broadcast.history' | translate }}</p>
+        <lib-loading-bar [reloading]="historyLoading()"></lib-loading-bar>
+        @for (entry of history(); track entry.id) {
+            <div class="flex flex-col gap-0.5 text-sm">
+                <span class="font-medium">{{ entry.subject }}</span>
+                @if (entry.content) {
+                    <span class="text-on-surface-variant">{{ entry.content }}</span>
+                }
+                <span class="text-xs text-on-surface-variant">{{ entry.timestamp | date:'short' }}</span>
+            </div>
+        }
+    } @else if (!historyLoading()) {
+        <p class="text-sm text-on-surface-variant">{{ 'event.broadcast.historyEmpty' | translate }}</p>
+    }
+</div>

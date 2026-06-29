@@ -1,1 +1,21 @@
+.offer-card__media {
+  min-height: 92px;
+  background: linear-gradient(150deg, oklch(0.92 0.05 var(--h)) 0%, oklch(0.85 0.08 var(--h)) 100%);
+  color: oklch(0.42 0.1 var(--h));
 
+  :host-context(.dark) & {
+    background: linear-gradient(150deg, oklch(0.36 0.06 var(--h)) 0%, oklch(0.29 0.07 var(--h)) 100%);
+    color: oklch(0.82 0.09 var(--h));
+  }
+}
+
+.offer-card__pattern {
+  background-image:
+    repeating-linear-gradient(-45deg, transparent 0 13px, oklch(1 0 0 / 0.12) 13px 14px),
+    radial-gradient(circle at 78% 18%, oklch(1 0 0 / 0.3) 0, transparent 42%);
+}
+
+.offer-card__glyph {
+  font-size: 2.5rem !important;
+  font-variation-settings: 'FILL' 1, 'wght' 300;
+}

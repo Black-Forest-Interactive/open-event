@@ -1,33 +1,60 @@
 <div class="p-3 font-medium border-t border-outline-variant">{{ 'share.title' | translate }}</div>
 <mat-divider></mat-divider>
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
-<div class="flex flex-col gap-3 p-3">
-    @if (active()) {
-        <share-buttons [include]="['copy', 'facebook', 'email', 'whatsapp']"
-                       [showIcon]="true"
-                       [showText]="true"
-                       [url]="share()!.url"
-                       description="{{title()}}"
-                       theme="modern-dark">
-        </share-buttons>
-        <div class="flex flex-col sm:flex-row gap-2">
-            <a [href]="url()" class="max-w-xs truncate" matButton="outlined"
-               target="_blank">{{ 'share.action.show' | translate }}</a>
-            <button (click)="disableSharing()" [disabled]="reloading()" class="max-w-xs truncate"
-                    matButton="outlined">{{ 'share.action.disable' | translate }}
-            </button>
-        </div>
-    } @else {
+
+@if (active()) {
+    <mat-tab-group>
+        <mat-tab [label]="'share.tabLink' | translate">
+            <div class="flex flex-col gap-3 p-3">
+                <share-buttons [include]="['copy', 'facebook', 'email', 'whatsapp']"
+                               [showIcon]="true"
+                               [showText]="true"
+                               [url]="url()"
+                               description="{{ title() }}"
+                               theme="modern-dark">
+                </share-buttons>
+
+                @if (url()) {
+                    <div class="flex flex-col items-center gap-2 py-2">
+                        <p class="text-xs text-on-surface-variant">{{ 'share.qr' | translate }}</p>
+                        <img [src]="qrUrl()" [alt]="'share.qr' | translate" class="w-36 h-36 rounded-lg border border-outline-variant" />
+                    </div>
+                }
+
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <a [href]="url()" class="max-w-xs truncate" matButton="outlined" target="_blank">{{ 'share.action.show' | translate }}</a>
+                    <button (click)="disableSharing()" [disabled]="reloading()" class="max-w-xs truncate" matButton="outlined">{{ 'share.action.disable' | translate }}</button>
+                </div>
+            </div>
+        </mat-tab>
+
+        <mat-tab [label]="'share.tabPoster' | translate">
+            <div class="flex flex-col gap-3 p-3">
+                <button matButton="outlined" (click)="print()">
+                    <mat-icon>print</mat-icon>
+                    {{ 'share.print' | translate }}
+                </button>
+
+                <div id="share-poster" class="flex flex-col items-center gap-4 p-6 border border-outline-variant rounded-xl">
+                    <h2 class="text-xl font-bold text-center">{{ title() }}</h2>
+                    <p class="text-sm text-on-surface-variant">{{ start() | date:'EEEE, d. MMMM yyyy · HH:mm' }}</p>
+                    @if (url()) {
+                        <img [src]="qrUrl()" [alt]="'share.qr' | translate" class="w-40 h-40" />
+                        <p class="text-xs text-on-surface-variant break-all text-center">{{ url() }}</p>
+                    }
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+} @else {
+    <div class="flex flex-col gap-3 p-3">
         <div class="text-sm text-justify hyphens-auto">{{ 'share.info.description.content' | translate }}</div>
-        <button (click)="enableSharing()" [disabled]="reloading()"
-                matButton="filled">{{ 'share.action.activate' | translate }}
-        </button>
-    }
-</div>
+        <button (click)="enableSharing()" [disabled]="reloading()" matButton="filled">{{ 'share.action.activate' | translate }}</button>
+    </div>
+}
+
 <mat-divider></mat-divider>
 <div class="flex flex-col gap-2 p-3">
     <div class="font-medium text-sm">{{ 'share.info.disclaimer.title' | translate }}</div>
-    <div class="text-sm text-justify hyphens-auto"
-         style="color: var(--mat-sys-on-surface-variant)">{{ 'share.info.disclaimer.content' | translate }}
-    </div>
+    <div class="text-sm text-justify hyphens-auto" style="color: var(--mat-sys-on-surface-variant)">{{ 'share.info.disclaimer.content' | translate }}</div>
 </div>

@@ -31,6 +31,50 @@
     "admin": {
       "registration": "Participant list"
     },
+    "broadcast": {
+      "title": "Send Message",
+      "subject": "Subject",
+      "body": "Message",
+      "send": "Send",
+      "recipients": "{{ count }} recipients",
+      "template": {
+        "reminder": "Reminder",
+        "bring": "What to bring",
+        "thanks": "Thank you"
+      },
+      "history": "History",
+      "historyEmpty": "No messages sent yet.",
+      "message": {
+        "sent": "Message sent successfully"
+      }
+    },
+    "cancel": {
+      "title": "Cancel Event",
+      "reason": "Reason for cancellation",
+      "reasonHint": "Participants will be notified by email.",
+      "confirm": "Cancel Event",
+      "message": {
+        "done": "Event has been cancelled"
+      }
+    },
+    "notify": {
+      "title": "Notify participants?",
+      "subtitle": "You made changes. Would you like to inform registered participants?",
+      "skip": "Skip",
+      "defaultSubject": "Update: {{ event }}"
+    },
+    "own": {
+      "stats": {
+        "participants": "Registrations",
+        "waitlist": "Waitlist"
+      },
+      "action": {
+        "manage": "Manage",
+        "broadcast": "Send message",
+        "share": "Share",
+        "cancel": "Cancel event"
+      }
+    },
     "action": {
       "edit": "Edit Event",
       "copy": "Copy Event",
@@ -39,7 +83,8 @@
       "admin": "Event Administration",
       "export": "Export",
       "editBanner": "Change banner",
-      "saveChanges": "Save changes"
+      "saveChanges": "Save changes",
+      "cancel": "Cancel Event"
     },
     "message": {
       "uploading": "Uploading",
@@ -57,6 +102,8 @@
       "explore": "Explore",
       "saved": "Saved",
       "regs": "Registrations",
+      "own": "My Events",
+      "create": "Create",
       "featured": "Featured",
       "showHistory": "Show past",
       "hideHistory": "Hide past",
@@ -464,6 +511,10 @@
       "activate": "Yes i like to activate sharing",
       "show": "Show shared event"
     },
+    "tabLink": "Link & QR",
+    "tabPoster": "Poster",
+    "print": "Print",
+    "qr": "QR Code",
     "info": {
       "description": {
         "title": "Share Your Event",

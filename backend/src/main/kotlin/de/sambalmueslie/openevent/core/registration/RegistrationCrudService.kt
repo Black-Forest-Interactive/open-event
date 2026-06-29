@@ -73,6 +73,11 @@ class RegistrationCrudService(
         }
     }
 
+    fun promoteWaitlisted(actor: Account, registration: Registration) {
+        participantCrudService.promotePendingWaitlist(actor, registration)
+        updateSearch(registration, ChangeType.UPDATED)
+    }
+
     fun deleteByEvent(actor: Account, event: Event): Registration? {
         val existing = storage.findByEvent(event) ?: return null
         participantCrudService.deleteByRegistration(actor, existing)

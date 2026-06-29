@@ -38,6 +38,10 @@ class EventAnnouncementRelationService(
         return Page.of(result, relations.pageable, relations.totalSize)
     }
 
+    fun findEventId(announcementId: Long): Long? {
+        return repository.findByAnnouncementId(announcementId)?.eventId
+    }
+
     fun delete(data: EventData) {
         repository.deleteByEventId(data.id)
     }

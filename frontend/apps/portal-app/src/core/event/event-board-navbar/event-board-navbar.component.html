@@ -1,5 +1,5 @@
 <nav class="fixed bottom-0 left-0 right-0 z-20 lg:hidden bg-surface border-t border-outline-variant safe-area-bottom">
-    <div class="grid grid-cols-4">
+    <div class="grid grid-cols-5">
         <a routerLink="/event" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isExplore()" [class.text-on-surface-variant]="!isExplore()">
             <mat-icon>home</mat-icon>
             {{ 'event.board.explore' | translate }}
@@ -8,12 +8,16 @@
             <mat-icon>{{ isSaved() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
             {{ 'event.board.saved' | translate }}
         </a>
+        <a routerLink="/event/create" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isCreate()" [class.text-on-surface-variant]="!isCreate()">
+            <mat-icon class="text-2xl">add_circle</mat-icon>
+            {{ 'event.board.create' | translate }}
+        </a>
         <a routerLink="/event/regs" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isRegs()" [class.text-on-surface-variant]="!isRegs()">
             <mat-icon>how_to_reg</mat-icon>
             {{ 'event.board.regs' | translate }}
         </a>
         <a routerLink="/event/own" class="flex flex-col items-center gap-0.5 py-2 text-xs transition-colors no-underline" [class.text-primary]="isOwn()" [class.text-on-surface-variant]="!isOwn()">
-            <mat-icon>person</mat-icon>
+            <mat-icon>campaign</mat-icon>
             {{ 'event.board.own' | translate }}
         </a>
     </div>

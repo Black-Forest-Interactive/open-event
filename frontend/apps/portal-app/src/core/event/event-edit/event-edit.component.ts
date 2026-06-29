@@ -1,7 +1,8 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, signal } from '@angular/core'
 import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { MatToolbar } from '@angular/material/toolbar'
+import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
@@ -15,6 +16,7 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { LoadingBarComponent, Page, toPromise } from '@open-event/shared'
 import { toSignal } from '@angular/core/rxjs-interop'
+import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 
 @Component({
   selector: 'portal-event-edit',
@@ -32,6 +34,7 @@ export class EventEditComponent implements AddressReadAPI, AudienceReadAPI, Cate
   private router = inject(Router)
   private route = inject(ActivatedRoute)
   private location = inject(Location)
+  private bottomSheet = inject(MatBottomSheet)
 
   private eventId = toSignal(
     this.route.paramMap.pipe(
@@ -42,13 +45,14 @@ export class EventEditComponent implements AddressReadAPI, AudienceReadAPI, Cate
     )
   )
 
-  private eventResource = resource({
+  private infoResource = resource({
     params: this.eventId,
-    loader: (p) => (p.params ? toPromise(this.service.getEvent(p.params), p.abortSignal) : Promise.resolve(undefined))
+    loader: (p) => (p.params ? toPromise(this.service.getEventInfo(p.params), p.abortSignal) : Promise.resolve(undefined))
   })
 
-  readonly event = computed(() => this.eventResource.value())
-  readonly reloading = this.eventResource.isLoading
+  readonly event = computed(() => this.infoResource.value()?.event)
+  readonly reloading = this.infoResource.isLoading
+  private participantCount = computed(() => this.infoResource.value()?.registration?.participants?.length ?? 0)
 
   getAllAddresses(page: number, size: number): Observable<Page<Address>> {
     return this.addressService.getAddresses(page, size)
@@ -74,6 +78,7 @@ export class EventEditComponent implements AddressReadAPI, AudienceReadAPI, Cate
   getEvent(id: number): Observable<Event> {
     return this.service.getEvent(id)
   }
+
   getEventInfo(id: number): Observable<EventInfo> {
     return this.service.getEventInfo(id)
   }
@@ -93,6 +98,11 @@ export class EventEditComponent implements AddressReadAPI, AudienceReadAPI, Cate
       next: (value) => {
         this.translationService.get('event.message.update.succeed').subscribe((msg) => {
           this.toastService.success(msg)
+          if (this.participantCount() > 0) {
+            this.translationService.get('event.notify.defaultSubject', { event: value.title }).subscribe((subject) => {
+              this.bottomSheet.open(EventBroadcastSheetComponent, { data: { eventId: value.id, eventTitle: value.title, participantCount: this.participantCount(), defaultSubject: subject } })
+            })
+          }
           this.router.navigate(['/event/details/' + value.id]).then()
         })
       },

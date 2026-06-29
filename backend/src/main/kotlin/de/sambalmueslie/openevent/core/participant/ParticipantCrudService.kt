@@ -150,6 +150,10 @@ class ParticipantCrudService(
         return ParticipateResponse(registration, participant, result, status, false)
     }
 
+    fun promotePendingWaitlist(actor: Account, registration: Registration): List<Participant> {
+        return updateWaitList(actor, registration)
+    }
+
     private fun updateWaitList(actor: Account, registration: Registration): List<Participant> {
         val availableSpace = registration.maxGuestAmount
         var remainingSpace = availableSpace.toLong()

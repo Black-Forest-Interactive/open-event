@@ -1,0 +1,14 @@
+@media print {
+  body > * {
+    display: none !important;
+  }
+
+  #share-poster {
+    display: flex !important;
+    position: fixed;
+    inset: 0;
+    border: none;
+    border-radius: 0;
+    padding: 2rem;
+  }
+}

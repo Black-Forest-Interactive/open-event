@@ -36,7 +36,8 @@
       "admin": "Teilnehmer anzeigen",
       "export": "Exportieren",
       "editBanner": "Banner ändern",
-      "saveChanges": "Änderungen speichern"
+      "saveChanges": "Änderungen speichern",
+      "cancel": "Veranstaltung absagen"
     },
     "message": {
       "uploading": "Wird hochgeladen",
@@ -54,6 +55,8 @@
       "explore": "Entdecken",
       "saved": "Merkliste",
       "regs": "Anmeldungen",
+      "own": "Angebote",
+      "create": "Erstellen",
       "featured": "Empfohlen",
       "showHistory": "Vergangenheit anzeigen",
       "hideHistory": "Vergangenheit ausblenden",
@@ -179,6 +182,50 @@
     },
     "admin": {
       "registration": "Teilnehmerliste"
+    },
+    "broadcast": {
+      "title": "Nachricht senden",
+      "subject": "Betreff",
+      "body": "Nachricht",
+      "send": "Senden",
+      "recipients": "{{ count }} Empfänger",
+      "template": {
+        "reminder": "Erinnerung",
+        "bring": "Mitbringen",
+        "thanks": "Danke"
+      },
+      "history": "Verlauf",
+      "historyEmpty": "Noch keine Nachrichten gesendet.",
+      "message": {
+        "sent": "Nachricht wurde gesendet"
+      }
+    },
+    "cancel": {
+      "title": "Veranstaltung absagen",
+      "reason": "Grund für die Absage",
+      "reasonHint": "Die Teilnehmer werden per E-Mail benachrichtigt.",
+      "confirm": "Veranstaltung absagen",
+      "message": {
+        "done": "Veranstaltung wurde abgesagt"
+      }
+    },
+    "notify": {
+      "title": "Angemeldete benachrichtigen?",
+      "subtitle": "Du hast Änderungen vorgenommen. Möchtest du die Teilnehmer informieren?",
+      "skip": "Überspringen",
+      "defaultSubject": "Änderung: {{ event }}"
+    },
+    "own": {
+      "stats": {
+        "participants": "Anmeldungen",
+        "waitlist": "Warteliste"
+      },
+      "action": {
+        "manage": "Verwalten",
+        "broadcast": "Nachricht senden",
+        "share": "Teilen",
+        "cancel": "Absagen"
+      }
     }
   },
   "registration": {
@@ -464,6 +511,10 @@
       "activate": "Ja, ich möchte die Veranstaltung gerne teilen",
       "show": "Geteilte Veranstaltung anzeigen"
     },
+    "tabLink": "Link & QR",
+    "tabPoster": "Plakat",
+    "print": "Drucken",
+    "qr": "QR-Code",
     "info": {
       "description": {
         "title": "Veranstaltung teilen",

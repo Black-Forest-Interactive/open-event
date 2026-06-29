@@ -1,5 +1,7 @@
 export * from './lib/account/account.service'
 
+export * from './lib/announcement/announcement.service'
+
 export * from './lib/activity/activity.service'
 
 export * from './lib/address/address.service'

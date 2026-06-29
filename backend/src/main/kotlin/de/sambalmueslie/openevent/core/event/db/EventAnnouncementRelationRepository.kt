@@ -14,6 +14,7 @@ interface EventAnnouncementRelationRepository : GenericRepository<EventAnnouncem
     fun findByAnnouncementIdAndEventId(categoryId: Long, eventId: Long): EventAnnouncementRelation?
     fun existsByAnnouncementIdAndEventId(categoryId: Long, eventId: Long): Boolean
     fun findByEventId(eventId: Long, pageable: Pageable): Page<EventAnnouncementRelation>
+    fun findByAnnouncementId(announcementId: Long): EventAnnouncementRelation?
 
     fun deleteByAnnouncementId(categoryId: Long)
     fun deleteByAnnouncementIdAndEventId(categoryId: Long, eventId: Long)
