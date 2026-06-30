@@ -76,3 +76,7 @@ export interface EventReadAPI {
 
   create(request: EventChangeRequest): Observable<Event>
 }
+
+export class EventUpdateTextRequest {
+  constructor(public title: string, public shortText: string, public longText: string) {}
+}

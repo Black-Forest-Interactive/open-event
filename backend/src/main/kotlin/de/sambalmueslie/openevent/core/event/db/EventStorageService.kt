@@ -9,6 +9,7 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import de.sambalmueslie.openevent.core.history.db.HistoryStorageService
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
@@ -150,6 +151,10 @@ class EventStorageService(
 
     override fun setTags(id: Long, value: PatchRequest<Set<String>>): Event? {
         return patchData(id) { it.setTags(value.value, timeProvider.now()) }
+    }
+
+    override fun setText(id: Long, request: EventUpdateTextRequest): Event? {
+        return patchData(id) { it.setText(request, timeProvider.now()) }
     }
 
     override fun getAllForAccount(account: Account, pageable: Pageable): Page<Event> {

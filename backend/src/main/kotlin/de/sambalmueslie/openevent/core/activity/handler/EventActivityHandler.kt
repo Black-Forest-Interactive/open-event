@@ -39,6 +39,7 @@ class EventActivityHandler(
         private val TYPE_SHORT_TEXT = "event.short-text"
         private val TYPE_LONG_TEXT = "event.long-text"
         private val TYPE_TAGS = "event.tags"
+        private val TYPE_TEXT = "event.text"
     }
 
     override fun getSourceKey(): String {
@@ -82,6 +83,10 @@ class EventActivityHandler(
 
     override fun tagsChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_TAGS)
+    }
+
+    override fun textChanged(actor: Account, result: Event) {
+        createActivity(actor, result, TYPE_TEXT)
     }
 
     private fun createActivity(actor: Account, event: Event, type: String) {

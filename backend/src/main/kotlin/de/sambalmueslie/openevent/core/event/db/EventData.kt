@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -146,6 +147,14 @@ data class EventData(
     fun setTags(value: Set<String>, timestamp: LocalDateTime): EventData {
         this.tags = value
         this.tagsJson = mapper.writeValueAsString(value)
+        updated = timestamp
+        return this
+    }
+
+    fun setText(request: EventUpdateTextRequest, timestamp: LocalDateTime): EventData {
+        this.title = request.title
+        this.shortText = request.shortText
+        this.longText = request.longText
         updated = timestamp
         return this
     }

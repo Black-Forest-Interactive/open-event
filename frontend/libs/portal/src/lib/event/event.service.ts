@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpParams, HttpResponse } from '@angular/common/http'
 import { BaseService, PatchRequest } from '@open-event/shared'
-import { Event, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse } from '@open-event/core'
+import { Event, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse, EventUpdateTextRequest } from '@open-event/core'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -52,6 +52,26 @@ export class EventService extends BaseService {
 
   clearBookmarked(id: number): Observable<EventInfo> {
     return this.delete('' + id + '/bookmark')
+  }
+
+  setTitle(id: number, value: string): Observable<Event> {
+    return this.put('' + id + '/title', new PatchRequest(value))
+  }
+
+  setShortText(id: number, value: string): Observable<Event> {
+    return this.put('' + id + '/shortText', new PatchRequest(value))
+  }
+
+  setLongText(id: number, value: string): Observable<Event> {
+    return this.put('' + id + '/longText', new PatchRequest(value))
+  }
+
+  setTags(id: number, value: string[]): Observable<Event> {
+    return this.put('' + id + '/tags', new PatchRequest(value))
+  }
+
+  setText(id: number, request: EventUpdateTextRequest): Observable<Event> {
+    return this.put('' + id + '/text', request)
   }
 
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {

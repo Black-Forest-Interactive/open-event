@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import de.sambalmueslie.openevent.core.export.ExportService
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
@@ -117,6 +118,36 @@ class EventGuardService(
             service.getInfo(id, account)
         }
     }
+
+    fun setTitle(auth: Authentication, id: Long, value: PatchRequest<String>): Event? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "TITLE", id.toString(), value) { service.setTitle(account, event.id, value) }
+        }
+
+    fun setShortText(auth: Authentication, id: Long, value: PatchRequest<String>): Event? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "SHORT_TEXT", id.toString(), value) { service.setShortText(account, event.id, value) }
+        }
+
+    fun setLongText(auth: Authentication, id: Long, value: PatchRequest<String>): Event? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "LONG_TEXT", id.toString(), value) { service.setLongText(account, event.id, value) }
+        }
+
+    fun setTags(auth: Authentication, id: Long, value: PatchRequest<Set<String>>): Event? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "TAGS", id.toString(), value) { service.setTags(account, event.id, value) }
+        }
+
+    fun setText(auth: Authentication, id: Long, request: EventUpdateTextRequest): Event? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "TEXT", id.toString(), request) { service.setText(account, event.id, request) }
+        }
 
     fun getIfAccessible(auth: Authentication, id: Long): Pair<Event, Account>? {
         val event = service.get(id) ?: return null

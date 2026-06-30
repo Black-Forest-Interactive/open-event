@@ -9,10 +9,7 @@ import de.sambalmueslie.openevent.core.audience.AudienceCrudService
 import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.CategoryCrudService
 import de.sambalmueslie.openevent.core.category.api.Category
-import de.sambalmueslie.openevent.core.event.api.Event
-import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
-import de.sambalmueslie.openevent.core.event.api.EventInfo
-import de.sambalmueslie.openevent.core.event.api.EventStats
+import de.sambalmueslie.openevent.core.event.api.*
 import de.sambalmueslie.openevent.core.event.db.EventBookmarkRelation
 import de.sambalmueslie.openevent.core.event.db.EventStorage
 import de.sambalmueslie.openevent.core.location.LocationCrudService
@@ -151,6 +148,15 @@ class EventCrudService(
         updateSearch(actor, result, ChangeType.UPDATED)
         return result
     }
+
+    fun setText(actor: Account, id: Long, request: EventUpdateTextRequest): Event? {
+        val result = storage.setText(id, request) ?: return null
+        notify { it.textChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+
 
     fun setShared(account: Account, id: Long, value: PatchRequest<Boolean>): EventInfo? {
         val event = storage.get(id) ?: return null

@@ -4,6 +4,7 @@ import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import io.micronaut.data.model.Pageable
@@ -68,6 +69,26 @@ class EventController(private val service: EventGuardService) {
     fun clearBookmarked(auth: Authentication, id: Long): EventInfo? {
         return service.clearBookmarked(auth, id)
     }
+
+    @Put("/{id}/title")
+    fun setTitle(auth: Authentication, id: Long, @Body value: PatchRequest<String>): Event? =
+        service.setTitle(auth, id, value)
+
+    @Put("/{id}/shortText")
+    fun setShortText(auth: Authentication, id: Long, @Body value: PatchRequest<String>): Event? =
+        service.setShortText(auth, id, value)
+
+    @Put("/{id}/longText")
+    fun setLongText(auth: Authentication, id: Long, @Body value: PatchRequest<String>): Event? =
+        service.setLongText(auth, id, value)
+
+    @Put("/{id}/tags")
+    fun setTags(auth: Authentication, id: Long, @Body value: PatchRequest<Set<String>>): Event? =
+        service.setTags(auth, id, value)
+
+    @Put("/{id}/text")
+    fun setText(auth: Authentication, id: Long, @Body request: EventUpdateTextRequest): Event? =
+        service.setText(auth, id, request)
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
     @Get("/event/{eventId}/pdf")

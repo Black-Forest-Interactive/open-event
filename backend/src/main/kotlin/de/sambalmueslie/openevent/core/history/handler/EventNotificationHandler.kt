@@ -31,6 +31,7 @@ class EventNotificationHandler(
         const val KEY_EVENT_SHORT_TEXT = "event.short-text"
         const val KEY_EVENT_LONG_TEXT = "event.long-text"
         const val KEY_EVENT_TAGS = "event.tags"
+        const val KEY_EVENT_TEXT = "event.text"
     }
 
 
@@ -104,6 +105,13 @@ class EventNotificationHandler(
     override fun tagsChanged(actor: Account, event: Event) {
         val request = HistoryEntryChangeRequest(
             HistoryEntryType.EVENT_CHANGED, KEY_EVENT_TAGS, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun textChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_TEXT, HistoryEntrySource.EVENT, ""
         )
         service.create(actor, event, request)
     }

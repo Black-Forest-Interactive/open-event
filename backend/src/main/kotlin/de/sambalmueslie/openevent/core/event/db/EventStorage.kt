@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 
@@ -42,6 +43,7 @@ interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun setShortText(id: Long, value: PatchRequest<String>): Event?
     fun setLongText(id: Long, value: PatchRequest<String>): Event?
     fun setTags(id: Long, value: PatchRequest<Set<String>>): Event?
+    fun setText(id: Long, request: EventUpdateTextRequest): Event?
 
     @Deprecated("use opensearch for that")
     fun getAllForAccount(account: Account, pageable: Pageable): Page<Event>
