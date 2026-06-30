@@ -16,7 +16,7 @@ import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
 
 @Singleton
-class EventActivityHandler(
+ class EventActivityHandler(
     private val eventService: EventCrudService,
     service: ActivityCrudService,
     typeStorage: ActivityTypeStorage,
@@ -40,6 +40,8 @@ class EventActivityHandler(
         private val TYPE_LONG_TEXT = "event.long-text"
         private val TYPE_TAGS = "event.tags"
         private val TYPE_TEXT = "event.text"
+        private val TYPE_CATEGORY = "event.category"
+        private val TYPE_AUDIENCE = "event.audience"
     }
 
     override fun getSourceKey(): String {
@@ -85,8 +87,16 @@ class EventActivityHandler(
         createActivity(actor, event, TYPE_TAGS)
     }
 
-    override fun textChanged(actor: Account, result: Event) {
-        createActivity(actor, result, TYPE_TEXT)
+    override fun textChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_TEXT)
+    }
+
+    override fun categoryChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_CATEGORY)
+    }
+
+    override fun audienceChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_AUDIENCE)
     }
 
     private fun createActivity(actor: Account, event: Event, type: String) {

@@ -146,6 +146,20 @@ class EventNotificationHandler(
         )
     }
 
+    override fun categoryChanged(actor: Account, event: Event) {
+        service.process(
+            NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
+    override fun audienceChanged(actor: Account, event: Event) {
+        service.process(
+            NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
     private fun getRecipients(actor: Account, event: Event): Set<AccountInfo> {
         val recipients = mutableSetOf<AccountInfo>()
         val changeByOwner = actor.id == event.owner.id

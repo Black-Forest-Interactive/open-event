@@ -74,6 +74,14 @@ export class EventService extends BaseService {
     return this.put('' + id + '/text', request)
   }
 
+  setCategories(id: number, value: number[]): Observable<Event> {
+    return this.put('' + id + '/categories', new PatchRequest(value))
+  }
+
+  setAudiences(id: number, value: number[]): Observable<Event> {
+    return this.put('' + id + '/audiences', new PatchRequest(value))
+  }
+
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
     return this.getBlob('event/' + eventId + '/pdf')
   }

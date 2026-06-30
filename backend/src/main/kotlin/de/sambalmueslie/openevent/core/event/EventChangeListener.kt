@@ -12,4 +12,7 @@ interface EventChangeListener : BusinessObjectChangeListener<Long, Event> {
     fun longTextChanged(actor: Account, event: Event)
     fun tagsChanged(actor: Account, event: Event)
     fun textChanged(actor: Account, event: Event)
+    fun categoryChanged(actor: Account, event: Event)
+    fun audienceChanged(actor: Account, event: Event)
+
 }

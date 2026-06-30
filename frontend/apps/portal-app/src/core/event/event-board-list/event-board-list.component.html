@@ -10,66 +10,131 @@
     } @else {
         <div class="flex flex-col gap-3 pb-4">
             @for (entry of entries(); track entry.id) {
-                <article class="offer-card grid grid-cols-[96px_1fr_auto] sm:grid-cols-[132px_1fr_auto] rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden">
 
-                    <!-- Left: category image -->
-                    <a class="offer-card__media flex items-center justify-center relative no-underline" [style.--h]="categoryStyle(entry).hue" [routerLink]="['/event/details', entry.id]">
+                <!-- Category picker overlay -->
+                <mat-menu #catMenu class="cat-picker-panel">
+                    <div (click)="$event.stopPropagation()" class="p-3 flex flex-col gap-3">
+                        <p class="text-xs text-on-surface-variant m-0">{{ 'event.own.picker.categoryHint' | translate }}</p>
+                        <lib-category-picker [categories]="allCategories()" [selectedIds]="pendingCatIds(entry)" (toggled)="togglePendingCategory(entry, $event)"></lib-category-picker>
+                        <div class="flex justify-end">
+                            <button matButton="filled" (click)="savePendingCats(entry)" [disabled]="savingCat()">{{ 'action.save' | translate }}</button>
+                        </div>
+                    </div>
+                </mat-menu>
+
+                <!-- Audience picker overlay -->
+                <mat-menu #audMenu class="aud-picker-panel">
+                    <div (click)="$event.stopPropagation()" class="p-3 flex flex-col gap-3">
+                        <p class="text-xs text-on-surface-variant m-0">{{ 'event.own.picker.audienceHint' | translate }}</p>
+                        <div class="flex flex-wrap gap-2">
+                            @for (aud of allAudiences(); track aud.id) {
+                                <button class="audopt" [class.audopt--selected]="isAudPendingSelected(entry, aud)" (click)="togglePendingAudience(entry, aud.id)" type="button">
+                                    <mat-icon>group</mat-icon>
+                                    <span>{{ aud.name }}</span>
+                                </button>
+                            }
+                        </div>
+                        <div class="flex justify-end">
+                            <button matButton="filled" (click)="savePendingAuds(entry)" [disabled]="savingAud()">{{ 'action.save' | translate }}</button>
+                        </div>
+                    </div>
+                </mat-menu>
+
+                <article class="offer bg-surface-container-low">
+
+                    <!-- THUMBNAIL -->
+                    <a class="offer__thumb offer-card__media flex items-center justify-center relative no-underline" [style.--h]="categoryStyle(entry).hue" [routerLink]="['/event/details', entry.id]">
                         <div class="offer-card__pattern absolute inset-0"></div>
-                        <mat-icon class="offer-card__glyph relative z-[1] text-5xl" inline>{{ categoryStyle(entry).icon }}</mat-icon>
+                        <mat-icon class="offer-card__glyph relative z-[1]" inline>{{ categoryStyle(entry).icon }}</mat-icon>
                     </a>
 
-                    <!-- Middle: info -->
-                    <div class="flex flex-col gap-1 flex-auto min-w-0 p-2 cursor-pointer overflow-hidden" [routerLink]="['/event/details', entry.id]">
-                        <div class="flex flex-wrap gap-1">
-                            @if (entry.categories.length > 0) {
-                                <lib-category-chip [name]="entry.categories[0]" size="sm"></lib-category-chip>
+                    <!-- CONTENT -->
+                    <div class="flex flex-col gap-1 min-w-0 py-1 overflow-hidden">
+
+                        <!-- Chip row with quick-edit triggers -->
+                        <div class="flex flex-wrap gap-1 items-center">
+                            <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
+                                  [matMenuTriggerFor]="catMenu" #catTrigger="matMenuTrigger"
+                                  (menuOpened)="initPendingCats(entry, catTrigger)">
+                                @for (cat of entryCats(entry); track cat) {
+                                    <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                                }
+                                <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
+                            </span>
+
+                            @if (isGhostAud(entry)) {
+                                <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
+                            } @else if (isAllAud(entry)) {
+                                <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
+                            } @else {
+                                <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
                             }
+                            <button matIconButton class="!w-6 !h-6 shrink-0 !text-on-surface-variant"
+                                    [matMenuTriggerFor]="audMenu" #audTrigger="matMenuTrigger"
+                                    (menuOpened)="initPendingAuds(entry, audTrigger)"
+                                    [title]="'event.own.action.editAudience' | translate">
+                                <mat-icon class="!text-base">edit</mat-icon>
+                            </button>
+
                             @if (entry.featured) {
                                 <span class="text-xs px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-medium">{{ 'event.board.featured' | translate }}</span>
                             }
-                            @for (aud of entry.audiences; track aud) {
-                                <span class="text-xs px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container">{{ aud }}</span>
-                            }
                         </div>
-                        <div class="font-semibold text-sm leading-snug line-clamp-2">{{ entry.title }}</div>
+
+                        <!-- Title + pencil -->
+                        <div class="flex items-start gap-0.5">
+                            <a class="font-semibold text-sm leading-snug flex-auto" [routerLink]="['/event/details', entry.id]">{{ entry.title }}</a>
+                            <button matIconButton class="shrink-0 !text-on-surface-variant" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+
+                        <!-- Meta row -->
                         <div class="flex flex-wrap gap-x-2 text-xs text-on-surface-variant">
-                            <span class="flex items-center gap-0.5"><mat-icon class="!text-sm !w-4 !h-4">calendar_today</mat-icon>{{ entry.start | date:'d. MMM' }}</span>
-                            <span class="flex items-center gap-0.5"><mat-icon class="!text-sm !w-4 !h-4">schedule</mat-icon>{{ entry.start | date:'HH:mm' }}</span>
+                            <span class="flex items-center gap-0.5"><mat-icon inline>calendar_today</mat-icon>{{ entry.start | date:'d. MMM' }}</span>
+                            <span class="flex items-center gap-0.5"><mat-icon inline>schedule</mat-icon>{{ entry.start | date:'HH:mm' }}</span>
                             @if (entry.city) {
-                                <span class="flex items-center gap-0.5"><mat-icon class="!text-sm !w-4 !h-4">place</mat-icon>{{ entry.city }}</span>
+                                <span class="flex items-center gap-0.5"><mat-icon inline>place</mat-icon>{{ entry.city }}</span>
                             }
                         </div>
+
+                        <!-- Stat line + progress bar -->
                         @if (entry.maxGuestAmount > 0) {
-                            <div class="flex gap-4 text-xs text-on-surface-variant mt-1 flex-wrap">
-                                <span><b class="text-sm font-semibold text-on-surface">{{ entry.amountAccepted }}/{{ entry.maxGuestAmount }}</b> {{ 'event.own.stats.participants' | translate }}</span>
+                            <div class="offer__statline mt-0.5">
+                                <span><b>{{ entry.amountAccepted }}/{{ entry.maxGuestAmount }}</b> {{ 'event.own.stats.registrations' | translate }}</span>
+                                <span class="sep"></span>
+                                <span><b>{{ entry.maxGuestAmount - entry.amountAccepted }}</b> {{ 'event.own.stats.free' | translate }}</span>
                                 @if (entry.amountOnWaitingList > 0) {
-                                    <span><b class="text-sm font-semibold text-on-surface">{{ entry.amountOnWaitingList }}</b> {{ 'event.own.stats.waitlist' | translate }}</span>
+                                    <span class="sep"></span>
+                                    <span><b>{{ entry.amountOnWaitingList }}</b> {{ 'event.own.stats.waitlist' | translate }}</span>
                                 }
                             </div>
-                            <mat-progress-bar mode="determinate" [value]="fillPct(entry)" class="rounded mt-1"></mat-progress-bar>
+                            <mat-progress-bar mode="determinate" [value]="fillPct(entry)" class="rounded"></mat-progress-bar>
                         }
                     </div>
 
-                    <!-- Right: actions -->
-                    <div class="flex flex-col gap-2.5 p-3 items-stretch justify-center">
-                        <a [routerLink]="['/event/admin', entry.id]" matButton="filled" class="justify-center text-xs">
+                    <!-- ACTIONS CLUSTER -->
+                    <div class="offer__acts p-2">
+                        <a [routerLink]="['/event/admin', entry.id]" matButton="filled" class="wide justify-center">
                             <mat-icon>settings</mat-icon>
                             {{ 'event.own.action.manage' | translate }}
                         </a>
-                        <div class="flex gap-1 justify-between">
-                            <button matIconButton (click)="edit(entry)" [title]="'event.action.edit' | translate">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button matIconButton (click)="openBroadcast(entry)" [title]="'event.own.action.broadcast' | translate">
-                                <mat-icon>campaign</mat-icon>
-                            </button>
-                            <button matIconButton (click)="openShare(entry)" [title]="'event.own.action.share' | translate">
-                                <mat-icon>share</mat-icon>
-                            </button>
-                            <button matIconButton (click)="openCancel(entry)" [title]="'event.action.cancel' | translate" class="!text-error">
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </div>
+                        <button matButton="outlined" (click)="edit(entry)">
+                            <mat-icon>edit</mat-icon>
+                            {{ 'event.own.action.edit' | translate }}
+                        </button>
+                        <button matButton="outlined" (click)="openBroadcast(entry)">
+                            <mat-icon>campaign</mat-icon>
+                            {{ 'event.own.action.message' | translate }}
+                        </button>
+                        <button matButton="outlined" (click)="openShare(entry)">
+                            <mat-icon>share</mat-icon>
+                            {{ 'event.own.action.promote' | translate }}
+                        </button>
+                        <button matButton="outlined" class="!text-error" (click)="openCancel(entry)">
+                            <mat-icon>cancel</mat-icon>
+                            {{ 'event.own.action.cancel' | translate }}
+                        </button>
                     </div>
                 </article>
             }

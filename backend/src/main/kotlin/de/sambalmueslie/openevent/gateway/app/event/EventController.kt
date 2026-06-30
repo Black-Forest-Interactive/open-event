@@ -1,7 +1,6 @@
 package de.sambalmueslie.openevent.gateway.app.event
 
 import de.sambalmueslie.openevent.common.PatchRequest
-import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
@@ -25,7 +24,7 @@ class EventController(private val service: EventGuardService) {
     }
 
     @Get("/{id}")
-    fun get(auth: Authentication, id: Long): Event? {
+    fun get(auth: Authentication, id: Long) {
         return service.get(auth, id)
     }
 
@@ -35,24 +34,16 @@ class EventController(private val service: EventGuardService) {
     }
 
     @Post()
-    fun create(auth: Authentication, @Body request: EventChangeRequest): Event {
-        return service.create(auth, request)
-    }
+    fun create(auth: Authentication, @Body request: EventChangeRequest) = service.create(auth, request)
 
     @Put("/{id}")
-    fun update(auth: Authentication, id: Long, @Body request: EventChangeRequest): Event {
-        return service.update(auth, id, request)
-    }
+    fun update(auth: Authentication, id: Long, @Body request: EventChangeRequest) = service.update(auth, id, request)
 
     @Delete("/{id}")
-    fun delete(auth: Authentication, id: Long): Event? {
-        return service.delete(auth, id)
-    }
+    fun delete(auth: Authentication, id: Long) = service.delete(auth, id)
 
     @Put("/{id}/published")
-    fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>): Event? {
-        return service.setPublished(auth, id, value)
-    }
+    fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setPublished(auth, id, value)
 
 
     @Put("/{id}/shared")
@@ -71,28 +62,32 @@ class EventController(private val service: EventGuardService) {
     }
 
     @Put("/{id}/title")
-    fun setTitle(auth: Authentication, id: Long, @Body value: PatchRequest<String>): Event? =
+    fun setTitle(auth: Authentication, id: Long, @Body value: PatchRequest<String>) =
         service.setTitle(auth, id, value)
 
     @Put("/{id}/shortText")
-    fun setShortText(auth: Authentication, id: Long, @Body value: PatchRequest<String>): Event? =
+    fun setShortText(auth: Authentication, id: Long, @Body value: PatchRequest<String>) =
         service.setShortText(auth, id, value)
 
     @Put("/{id}/longText")
-    fun setLongText(auth: Authentication, id: Long, @Body value: PatchRequest<String>): Event? =
+    fun setLongText(auth: Authentication, id: Long, @Body value: PatchRequest<String>) =
         service.setLongText(auth, id, value)
 
     @Put("/{id}/tags")
-    fun setTags(auth: Authentication, id: Long, @Body value: PatchRequest<Set<String>>): Event? =
+    fun setTags(auth: Authentication, id: Long, @Body value: PatchRequest<Set<String>>) =
         service.setTags(auth, id, value)
 
     @Put("/{id}/text")
-    fun setText(auth: Authentication, id: Long, @Body request: EventUpdateTextRequest): Event? =
+    fun setText(auth: Authentication, id: Long, @Body request: EventUpdateTextRequest) =
         service.setText(auth, id, request)
+
+    @Put("/{id}/categories")
+    fun setCategories(auth: Authentication, id: Long, @Body categoryIds: PatchRequest<Set<Long>>) = service.setCategories(auth, id, categoryIds)
+
+    @Put("/{id}/audiences")
+    fun setAudiences(auth: Authentication, id: Long, @Body audienceIds: PatchRequest<Set<Long>>) = service.setAudiences(auth, id, audienceIds)
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
     @Get("/event/{eventId}/pdf")
-    fun export(auth: Authentication, eventId: Long): SystemFile? {
-        return service.export(auth, eventId)
-    }
+    fun export(auth: Authentication, eventId: Long): SystemFile? = service.export(auth, eventId)
 }

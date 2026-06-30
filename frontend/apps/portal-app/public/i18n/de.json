@@ -37,11 +37,16 @@
       "export": "Exportieren",
       "editBanner": "Banner ändern",
       "saveChanges": "Änderungen speichern",
-      "cancel": "Veranstaltung absagen"
+      "cancel": "Veranstaltung absagen",
+      "editText": "Texte bearbeiten"
     },
     "message": {
       "uploading": "Wird hochgeladen",
-      "linkCopied": "Link kopiert"
+      "linkCopied": "Link kopiert",
+      "update": {
+        "succeed": "Änderungen gespeichert",
+        "failed": "Fehler beim Speichern"
+      }
     },
     "board": {
       "cards": "Karten",
@@ -140,6 +145,9 @@
       "delete": {
         "title": "Veranstaltung löschen",
         "question": "Soll die Veranstaltung wirklich gelöscht werden?"
+      },
+      "editText": {
+        "title": "Texte bearbeiten"
       }
     },
     "filter": {
@@ -218,13 +226,27 @@
     "own": {
       "stats": {
         "participants": "Anmeldungen",
+        "registrations": "Anmeldungen",
+        "free": "Plätze frei",
         "waitlist": "Warteliste"
       },
       "action": {
         "manage": "Verwalten",
+        "edit": "Bearbeiten",
+        "message": "Nachricht",
+        "promote": "Bewerben",
         "broadcast": "Nachricht senden",
         "share": "Teilen",
-        "cancel": "Absagen"
+        "cancel": "Absagen",
+        "editAudience": "Zielgruppen bearbeiten"
+      },
+      "chips": {
+        "audiences": "Zielgruppen",
+        "allAudiences": "Alle"
+      },
+      "picker": {
+        "categoryHint": "Mindestens eine Kategorie muss ausgewählt bleiben.",
+        "audienceHint": "Für wen ist das Angebot?"
       }
     }
   },

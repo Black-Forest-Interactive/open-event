@@ -157,6 +157,24 @@ class EventCrudService(
     }
 
 
+    fun setCategories(actor: Account, id: Long, categoryIds: PatchRequest<Set<Long>>): Event? {
+        val event = get(id) ?: return null
+        val categories = categoryCrudService.getByIds(categoryIds.value)
+        storage.setCategories(event, categories)
+        notify { it.categoryChanged(actor, event) }
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+    fun setAudiences(actor: Account, id: Long, audienceIds: PatchRequest<Set<Long>>): Event? {
+        val event = get(id) ?: return null
+        val audiences = audienceCrudService.getByIds(audienceIds.value)
+        storage.setAudiences(event, audiences)
+        notify { it.audienceChanged(actor, event) }
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
 
     fun setShared(account: Account, id: Long, value: PatchRequest<Boolean>): EventInfo? {
         val event = storage.get(id) ?: return null

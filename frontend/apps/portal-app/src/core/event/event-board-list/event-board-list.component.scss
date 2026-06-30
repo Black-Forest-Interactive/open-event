@@ -1,3 +1,141 @@
+// ── Offer card (navView=own) ───────────────────────────────────────────────────
+
+.offer {
+  display: grid;
+  grid-template-columns: 132px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--mat-sys-level1);
+}
+
+.offer__thumb {
+  height: 92px;
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.offer__statline {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+
+  b {
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+  }
+
+  .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--mat-sys-outline);
+    flex-shrink: 0;
+  }
+}
+
+.offer__acts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  width: 268px;
+
+  .wide {
+    grid-column: 1 / -1;
+  }
+
+  button, a {
+    justify-content: flex-start;
+    gap: 5px;
+    font-size: 13px;
+    min-height: 28px;
+    --mdc-outlined-button-container-height: 28px;
+    --mdc-filled-button-container-height: 32px;
+    --mdc-outlined-button-label-text-size: 12px;
+    --mdc-filled-button-label-text-size: 12px;
+  }
+}
+
+@media (max-width: 759px) {
+  .offer {
+    grid-template-columns: 1fr;
+
+    .offer__thumb {
+      width: 100%;
+      height: 160px;
+      border-radius: 8px;
+    }
+
+    .offer__acts {
+      width: auto;
+    }
+  }
+}
+
+// ── Picker panel overrides ────────────────────────────────────────────────────
+// mat-menu panels render in CDK overlay — ::ng-deep to reach them
+
+:host ::ng-deep .cat-picker-panel,
+:host ::ng-deep .aud-picker-panel {
+  .mat-mdc-menu-content {
+    padding: 0;
+    min-width: 280px;
+  }
+}
+
+// ── Audience picker buttons (mirrors CategoryPickerComponent .catopt) ─────────
+
+.audopt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 999px;
+  border: none;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface-variant);
+  box-shadow: inset 0 0 0 1px var(--mat-sys-outline-variant);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover { background: var(--mat-sys-surface-container-high); }
+}
+
+.audopt--selected {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  box-shadow: inset 0 0 0 1px var(--mat-sys-secondary);
+
+  &:hover { background: var(--mat-sys-secondary-container); }
+}
+
+// ── Quick-edit audience chips ─────────────────────────────────────────────────
+
+.offer__aud-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+// ── Category media (shared by own + other views) ──────────────────────────────
+
 .offer-card__media {
   min-height: 92px;
   background: linear-gradient(150deg, oklch(0.92 0.05 var(--h)) 0%, oklch(0.85 0.08 var(--h)) 100%);

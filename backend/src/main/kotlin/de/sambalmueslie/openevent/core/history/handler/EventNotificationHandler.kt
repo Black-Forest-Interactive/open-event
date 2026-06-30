@@ -32,6 +32,8 @@ class EventNotificationHandler(
         const val KEY_EVENT_LONG_TEXT = "event.long-text"
         const val KEY_EVENT_TAGS = "event.tags"
         const val KEY_EVENT_TEXT = "event.text"
+        const val KEY_EVENT_CATEGORY = "event.category"
+        const val KEY_EVENT_AUDIENCE = "event.audience"
     }
 
 
@@ -112,6 +114,20 @@ class EventNotificationHandler(
     override fun textChanged(actor: Account, event: Event) {
         val request = HistoryEntryChangeRequest(
             HistoryEntryType.EVENT_CHANGED, KEY_EVENT_TEXT, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun categoryChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_CATEGORY, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun audienceChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_AUDIENCE, HistoryEntrySource.EVENT, ""
         )
         service.create(actor, event, request)
     }

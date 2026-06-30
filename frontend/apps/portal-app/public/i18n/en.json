@@ -66,13 +66,27 @@
     "own": {
       "stats": {
         "participants": "Registrations",
+        "registrations": "Registrations",
+        "free": "Spots free",
         "waitlist": "Waitlist"
       },
       "action": {
         "manage": "Manage",
+        "edit": "Edit",
+        "message": "Message",
+        "promote": "Promote",
         "broadcast": "Send message",
         "share": "Share",
-        "cancel": "Cancel event"
+        "cancel": "Cancel",
+        "editAudience": "Edit audience"
+      },
+      "chips": {
+        "audiences": "Audience",
+        "allAudiences": "All"
+      },
+      "picker": {
+        "categoryHint": "At least one category must remain selected.",
+        "audienceHint": "Who is this offer for?"
       }
     },
     "action": {
@@ -84,11 +98,16 @@
       "export": "Export",
       "editBanner": "Change banner",
       "saveChanges": "Save changes",
-      "cancel": "Cancel Event"
+      "cancel": "Cancel Event",
+      "editText": "Edit texts"
     },
     "message": {
       "uploading": "Uploading",
-      "linkCopied": "Link copied"
+      "linkCopied": "Link copied",
+      "update": {
+        "succeed": "Changes saved",
+        "failed": "Failed to save changes"
+      }
     },
     "board": {
       "cards": "Cards",
@@ -187,6 +206,9 @@
       "delete": {
         "title": "Delete event",
         "question": "Do you really want to delete the event?"
+      },
+      "editText": {
+        "title": "Edit texts"
       }
     },
     "filter": {
