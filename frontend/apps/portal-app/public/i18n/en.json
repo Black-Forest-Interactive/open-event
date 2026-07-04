@@ -78,7 +78,9 @@
         "broadcast": "Send message",
         "share": "Share",
         "cancel": "Cancel",
-        "editAudience": "Edit audience"
+        "editAudience": "Edit audience",
+        "copy": "Copy",
+        "delete": "Delete"
       },
       "chips": {
         "audiences": "Audience",
@@ -107,6 +109,10 @@
       "update": {
         "succeed": "Changes saved",
         "failed": "Failed to save changes"
+      },
+      "delete": {
+        "succeed": "Event deleted",
+        "failed": "Failed to delete event"
       }
     },
     "board": {

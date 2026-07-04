@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output, resource, signal } from '@angular/core'
 import { DatePipe } from '@angular/common'
-import { RouterLink } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { MatDialog } from '@angular/material/dialog'
 import { MatButton, MatIconButton } from '@angular/material/button'
@@ -15,6 +15,7 @@ import { CategoryChipComponent, CategoryPickerComponent, EventBoardListComponent
 import { toPromise } from '@open-event/shared'
 import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
+import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
 import { EventEditDialogComponent } from '../event-edit/event-edit-dialog.component'
 import { EventTextEditDialogComponent } from '../event-edit/event-text-edit-dialog.component'
 import { EventShareSheetComponent } from '../../share/event-share-sheet/event-share-sheet.component'
@@ -34,9 +35,11 @@ export class EventBoardListComponent {
   navView = input.required<'all' | 'saved' | 'regs' | 'own'>()
   hasMoreElements = input.required<boolean>()
   nearEnd = output<void>()
+  refresh = output<void>()
 
   private bottomSheet = inject(MatBottomSheet)
   private dialog = inject(MatDialog)
+  private router = inject(Router)
   private eventService = inject(EventService)
   private categoryService = inject(CategoryService)
   private audienceService = inject(AudienceService)
@@ -205,5 +208,22 @@ export class EventBoardListComponent {
 
   openCancel(entry: EventSearchEntry) {
     this.dialog.open(EventCancelDialogComponent, { width: '400px', data: { event: { id: entry.id, title: entry.title }, participantCount: entry.amountAccepted } })
+  }
+
+  openCopy(entry: EventSearchEntry) {
+    this.router.navigate(['/event/copy', entry.id])
+  }
+
+  openDelete(entry: EventSearchEntry) {
+    this.dialog.open(EventDeleteDialogComponent, { width: '400px', data: { id: entry.id, title: entry.title } }).afterClosed().subscribe(confirmed => {
+      if (!confirmed) return
+      this.eventService.deleteEvent(entry.id).subscribe({
+        next: () => {
+          this.translate.get('event.message.delete.succeed').subscribe(msg => this.toast.success(msg))
+          this.refresh.emit()
+        },
+        error: () => this.translate.get('event.message.delete.failed').subscribe(msg => this.toast.error(msg))
+      })
+    })
   }
 }

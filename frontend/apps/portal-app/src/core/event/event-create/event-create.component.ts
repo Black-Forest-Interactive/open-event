@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core'
 import { Router } from '@angular/router'
+import { MatDialog } from '@angular/material/dialog'
 import { EventCreateComponent as UiEventCreateComponent } from '@open-event/ui'
 import { AddressService, AudienceService, CategoryService, EventService } from '@open-event/portal'
 import { AddressChangeRequest } from '@open-event/core'
+import { EventTextEditDialogComponent } from '../event-edit/event-text-edit-dialog.component'
 
 @Component({
   selector: 'portal-event-create',
@@ -16,6 +18,7 @@ export class EventCreateComponent {
   private categoryService = inject(CategoryService)
   private audienceService = inject(AudienceService)
   private router = inject(Router)
+  private dialog = inject(MatDialog)
 
   addressReadAPI = {
     getAllAddresses: (page: number, size: number) => this.addressService.getAddresses(page, size),
@@ -40,6 +43,8 @@ export class EventCreateComponent {
   }
 
   navigateToEvent(eventId: number) {
-    this.router.navigate(['/event/details/' + eventId]).then()
+    this.dialog.open(EventTextEditDialogComponent, { data: { id: eventId } }).afterClosed().subscribe(() => {
+      this.router.navigate(['/event/details/' + eventId]).then()
+    })
   }
 }

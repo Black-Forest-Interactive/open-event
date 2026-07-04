@@ -62,28 +62,32 @@
                                 <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
                             </span>
 
-                            @if (isGhostAud(entry)) {
-                                <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
-                            } @else if (isAllAud(entry)) {
-                                <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
-                            } @else {
-                                <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
-                            }
-                            <button matIconButton class="!w-6 !h-6 shrink-0 !text-on-surface-variant"
-                                    [matMenuTriggerFor]="audMenu" #audTrigger="matMenuTrigger"
-                                    (menuOpened)="initPendingAuds(entry, audTrigger)"
-                                    [title]="'event.own.action.editAudience' | translate">
-                                <mat-icon class="!text-base">edit</mat-icon>
-                            </button>
+                            <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
+                                  [matMenuTriggerFor]="audMenu" #audTrigger="matMenuTrigger"
+                                  (menuOpened)="initPendingAuds(entry, audTrigger)">
+                                @if (isGhostAud(entry)) {
+                                    <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
+                                } @else if (isAllAud(entry)) {
+                                    <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
+                                } @else {
+                                    <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
+                                }
+                                <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
+                            </span>
 
                             @if (entry.featured) {
                                 <span class="text-xs px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-medium">{{ 'event.board.featured' | translate }}</span>
                             }
                         </div>
 
-                        <!-- Title + pencil -->
+                        <!-- Title + shortText + pencil -->
                         <div class="flex items-start gap-0.5">
-                            <a class="font-semibold text-sm leading-snug flex-auto" [routerLink]="['/event/details', entry.id]">{{ entry.title }}</a>
+                            <div class="flex flex-col gap-0.5 flex-auto min-w-0">
+                                <a class="font-semibold text-sm leading-snug" [routerLink]="['/event/details', entry.id]">{{ entry.title }}</a>
+                                @if (entry.shortText) {
+                                    <p class="text-xs text-on-surface-variant leading-snug line-clamp-2 m-0">{{ entry.shortText }}</p>
+                                }
+                            </div>
                             <button matIconButton class="shrink-0 !text-on-surface-variant" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
                                 <mat-icon>edit</mat-icon>
                             </button>
@@ -132,7 +136,7 @@
                             {{ 'event.own.action.promote' | translate }}
                         </button>
                         <button matButton="outlined" class="!text-error" (click)="openCancel(entry)">
-                            <mat-icon>cancel</mat-icon>
+                            <mat-icon>event_busy</mat-icon>
                             {{ 'event.own.action.cancel' | translate }}
                         </button>
                     </div>

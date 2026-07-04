@@ -19,7 +19,7 @@ export class EventBoardService {
   private page = signal(0)
   private size = signal(200)
   private infiniteScrollMode = signal(false)
-  private layoutSignal = signal<'cards' | 'rows' | 'calendar' | 'map'>('cards')
+  private layoutSignal = signal<'cards' | 'rows' | 'calendar' | 'map'>('rows')
   readonly layout = this.layoutSignal.asReadonly()
   private categoryFilterSignal = signal<Set<string>>(new Set())
   readonly categoryFilter = this.categoryFilterSignal.asReadonly()

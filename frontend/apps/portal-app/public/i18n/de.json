@@ -46,6 +46,10 @@
       "update": {
         "succeed": "Änderungen gespeichert",
         "failed": "Fehler beim Speichern"
+      },
+      "delete": {
+        "succeed": "Veranstaltung gelöscht",
+        "failed": "Fehler beim Löschen"
       }
     },
     "board": {
@@ -238,7 +242,9 @@
         "broadcast": "Nachricht senden",
         "share": "Teilen",
         "cancel": "Absagen",
-        "editAudience": "Zielgruppen bearbeiten"
+        "editAudience": "Zielgruppen bearbeiten",
+        "copy": "Kopieren",
+        "delete": "Löschen"
       },
       "chips": {
         "audiences": "Zielgruppen",
