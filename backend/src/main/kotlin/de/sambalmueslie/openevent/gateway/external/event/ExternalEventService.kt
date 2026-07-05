@@ -18,6 +18,8 @@ import io.micronaut.data.model.Pageable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import jakarta.inject.Singleton
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Entities
 import org.slf4j.LoggerFactory
 
 @Singleton
@@ -128,15 +130,17 @@ class ExternalEventService(
         val (share, event) = getEvent(id) ?: return HttpResponse.notFound()
         val shareUrl = settingsService.getShareUrl()
         val portalUrl = settingsService.getPortalUrl()
+        val title = Entities.escape(event.event.title)
+        val description = Entities.escape(Jsoup.parse(event.event.longText).text())
         val content = """
           <!DOCTYPE html>
           <html>
           <head>
             <meta charset="utf-8">
-            <title>${event.event.title}</title>
+            <title>$title</title>
             <meta property="og:type" content="website">
-            <meta property="og:title" content="${event.event.title}">
-            <meta property="og:description" content="${event.event.longText}">
+            <meta property="og:title" content="$title">
+            <meta property="og:description" content="$description">
             <meta property="og:image" content="${portalUrl}/img/banner.png">
             <meta property="og:url" content="${shareUrl}/event/${share.id}">
             <meta name="twitter:card" content="summary">

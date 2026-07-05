@@ -46,10 +46,11 @@ class ImageController(
     @Get("/event/{eventId}/banner")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     @Secured(SecurityRule.IS_ANONYMOUS)
-    fun getImage(eventId: Long): HttpResponse<*>? {
-        val data = service.getBanner(eventId) ?: return HttpResponse.notFound("")
-        return HttpResponse.ok(data)
-            .header("Content-Type", "image/jpeg")
+    fun getImage(eventId: Long, auth: Authentication?): HttpResponse<*> {
+        eventService.getReadable(auth, eventId) ?: return HttpResponse.notFound("")
+        val banner = service.getBanner(eventId) ?: return HttpResponse.notFound("")
+        return HttpResponse.ok(banner.content)
+            .header("Content-Type", banner.contentType)
             .header("Cache-Control", "public, max-age=31536000")
     }
 }

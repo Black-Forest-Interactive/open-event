@@ -51,6 +51,7 @@ class EventGuardService(
     fun getInfo(auth: Authentication, id: Long): EventInfo? {
         return auth.checkPermission(PERMISSION_READ) {
             val account = accountService.get(auth) ?: return@checkPermission null
+            getReadable(auth, id) ?: return@checkPermission null
             probe.traceAccess(auth, id) { service.getInfo(id, account) }
         }
     }
@@ -167,6 +168,12 @@ class EventGuardService(
         return Pair(event, account)
     }
 
+    fun getReadable(auth: Authentication?, id: Long): Event? {
+        val event = service.get(id) ?: return null
+        if (event.published) return event
+        val account = auth?.let { accountService.find(it) } ?: return null
+        return if (event.owner.id == account.id) event else null
+    }
 
     fun export(auth: Authentication, eventId: Long): SystemFile? {
         return auth.checkPermission(PERMISSION_WRITE) {

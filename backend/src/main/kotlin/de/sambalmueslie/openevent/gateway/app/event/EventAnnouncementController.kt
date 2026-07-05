@@ -10,7 +10,10 @@ import de.sambalmueslie.openevent.core.event.db.EventAnnouncementRelationService
 import de.sambalmueslie.openevent.error.IllegalAccessException
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
-import io.micronaut.http.annotation.*
+import io.micronaut.http.annotation.Body
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
 import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
 
@@ -32,6 +35,9 @@ class EventAnnouncementController(
     fun getAnnouncements(auth: Authentication, eventId: Long, pageable: Pageable): Page<Announcement> {
         return auth.checkPermission(PERMISSION_READ) {
             val event = eventCrudService.get(eventId) ?: return@checkPermission Page.empty()
+            if(!event.published) return@checkPermission Page.empty()
+            val account = accountService.find(auth)
+            if (event.owner.id != account.id) throw IllegalAccessException("Only the event owner can send announcements")
             announcementRelationService.get(event, pageable)
         }
     }

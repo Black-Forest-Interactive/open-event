@@ -68,7 +68,7 @@ class ExternalParticipantService(
                 requestParticipationForExisting(existing)
             } else {
                 requestParticipationNew(event, request, lang)
-            } ?: return ExternalParticipantChangeResponse.failed()
+            }
             notificationHandler.handleCreated(systemAccount, share, event, registration, result)
             return ExternalParticipantChangeResponse(null, ParticipateStatus.UNCONFIRMED)
         }
@@ -100,11 +100,15 @@ class ExternalParticipantService(
     }
 
     fun changeParticipation(event: EventInfo, participantId: String, request: ExternalParticipantChangeRequest): ExternalParticipantChangeResponse {
-        TODO("Not yet implemented")
+        // Not yet implemented — return a clean failed response instead of throwing a 500 on this anonymous route.
+        logger.warn("changeParticipation is not implemented yet [event=${event.event.id}, participant=$participantId]")
+        return ExternalParticipantChangeResponse.failed()
     }
 
     fun cancelParticipation(event: EventInfo, participantId: String): ExternalParticipantChangeResponse {
-        TODO("Not yet implemented")
+        // Not yet implemented — return a clean failed response instead of throwing a 500 on this anonymous route.
+        logger.warn("cancelParticipation is not implemented yet [event=${event.event.id}, participant=$participantId]")
+        return ExternalParticipantChangeResponse.failed()
     }
 
     fun confirmParticipation(event: EventInfo, participantId: String, request: ExternalParticipantConfirmRequest): ExternalParticipantConfirmResponse {

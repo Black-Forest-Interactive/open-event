@@ -3,6 +3,8 @@ package de.sambalmueslie.openevent.core.export
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.QRCodeWriter
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import de.sambalmueslie.openevent.api.SettingsAPI
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
@@ -18,14 +20,10 @@ import io.micronaut.http.server.types.files.SystemFile
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.generic.EscapeTool
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
-import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import org.slf4j.Logger
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.StringWriter
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -179,13 +177,10 @@ abstract class BasePdfExporter(
     }
 
     private fun fetchImageBytes(imagePath: String): ByteArray {
-        return if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-            val connection = java.net.URI(imagePath).toURL().openConnection() as java.net.HttpURLConnection
-            connection.connectTimeout = 5_000
-            connection.readTimeout = 15_000
-            connection.inputStream.use { it.readBytes() }
-        } else {
-            Files.readAllBytes(Paths.get(imagePath))
-        }
+        require(imagePath.startsWith("https://")) { "Only https image URLs are allowed" }
+        val connection = java.net.URI(imagePath).toURL().openConnection() as java.net.HttpURLConnection
+        connection.connectTimeout = 5_000
+        connection.readTimeout = 15_000
+        return connection.inputStream.use { it.readBytes() }
     }
 }

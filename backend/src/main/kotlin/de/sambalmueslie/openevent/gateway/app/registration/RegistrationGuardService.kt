@@ -32,7 +32,11 @@ class RegistrationGuardService(
     private val logger = audit.getLogger("APP Registration API")
 
     fun getParticipants(auth: Authentication, id: Long): List<Participant> {
-        return auth.checkPermission(PERMISSION_READ) { service.getParticipants(id) }
+        return auth.checkPermission(PERMISSION_READ) {
+            val registration = service.get(id) ?: return@checkPermission emptyList()
+            eventService.getIfAccessible(auth, registration.eventId) ?: return@checkPermission emptyList()
+            service.getParticipants(id)
+        }
     }
 
     fun addParticipant(auth: Authentication, id: Long, request: ParticipateRequest): ParticipateResponse? {
