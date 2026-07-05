@@ -8,7 +8,7 @@ import { Observable } from 'rxjs'
 })
 export class ShareService extends BaseService {
   constructor() {
-    super('app/share')
+    super('portal/share')
     this.retryCount = 1
   }
 

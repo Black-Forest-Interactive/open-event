@@ -20,7 +20,7 @@ export class AnnouncementChangeRequest {
 })
 export class AnnouncementService extends BaseService {
   constructor() {
-    super('app/event')
+    super('portal/event')
     this.retryCount = 1
   }
 

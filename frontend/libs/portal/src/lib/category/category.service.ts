@@ -8,7 +8,7 @@ import { Category } from '@open-event/core'
 })
 export class CategoryService extends BaseService {
   constructor() {
-    super('app/category')
+    super('portal/category')
     this.retryCount = 1
   }
 

@@ -8,7 +8,7 @@ import { Audience } from '@open-event/core'
 })
 export class AudienceService extends BaseService {
   constructor() {
-    super('app/audience')
+    super('portal/audience')
     this.retryCount = 1
   }
 

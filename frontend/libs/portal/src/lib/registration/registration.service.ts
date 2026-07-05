@@ -8,7 +8,7 @@ import { Participant, ParticipantAddRequest, ParticipateRequest, ParticipateResp
 })
 export class RegistrationService extends BaseService {
   constructor() {
-    super('app/registration')
+    super('portal/registration')
     this.retryCount = 1
   }
 

@@ -8,7 +8,7 @@ import { BaseService } from '@open-event/shared'
 })
 export class FeedbackService extends BaseService {
   constructor() {
-    super('app/feedback')
+    super('portal/feedback')
     this.retryCount = 0
   }
 

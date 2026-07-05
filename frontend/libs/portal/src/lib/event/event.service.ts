@@ -9,7 +9,7 @@ import { Observable } from 'rxjs'
 })
 export class EventService extends BaseService {
   constructor() {
-    super('app/event')
+    super('portal/event')
     this.retryCount = 1
   }
 
