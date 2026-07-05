@@ -2,8 +2,9 @@ import { Component, computed, input, output } from '@angular/core'
 import { EventInfo, Participant } from '@open-event/core'
 import { RegistrationStatusComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
-import { MatButton } from '@angular/material/button'
+import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 import { RouterLink } from '@angular/router'
 import { EventActionExportComponent } from '../../event/event-action-export/event-action-export.component'
 
@@ -11,7 +12,7 @@ import { EventActionExportComponent } from '../../event/event-action-export/even
   selector: 'portal-registration-details',
   templateUrl: './registration-details.component.html',
   styleUrl: './registration-details.component.scss',
-  imports: [RegistrationStatusComponent, TranslatePipe, MatButton, MatIcon, RouterLink, EventActionExportComponent],
+  imports: [RegistrationStatusComponent, TranslatePipe, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger, RouterLink, EventActionExportComponent],
   standalone: true
 })
 export class RegistrationDetailsComponent {
@@ -22,9 +23,17 @@ export class RegistrationDetailsComponent {
   participate = output<void>()
   edit = output<void>()
   cancelParticipation = output<void>()
+  broadcast = output<void>()
+  promote = output<void>()
+  publish = output<void>()
+  duplicate = output<void>()
+  admin = output<void>()
+  cancelEvent = output<void>()
+  deleteEvent = output<void>()
 
   readonly event = computed(() => this.info().event)
   readonly canEdit = computed(() => this.info().canEdit)
+  readonly published = computed(() => this.event().published)
   readonly registration = computed(() => this.info().registration)
   readonly taken = computed(() => this.registration()?.participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0) ?? 0)
   readonly capacity = computed(() => this.registration()?.registration.maxGuestAmount ?? 0)

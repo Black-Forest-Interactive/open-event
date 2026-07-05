@@ -83,6 +83,6 @@ export class EventService extends BaseService {
   }
 
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
-    return this.getBlob('event/' + eventId + '/pdf')
+    return this.getBlob('' + eventId + '/pdf')
   }
 }

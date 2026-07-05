@@ -26,19 +26,19 @@ class EventAnnouncementGuardService(
         private const val PERMISSION_WRITE = "event.write"
     }
 
-    fun getAnnouncements(auth: Authentication, eventId: Long, pageable: Pageable): Page<Announcement> =
+    fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable): Page<Announcement> =
         auth.checkPermission(PERMISSION_READ) {
-            val event = eventCrudService.get(eventId) ?: return@checkPermission Page.empty()
+            val event = eventCrudService.get(id) ?: return@checkPermission Page.empty()
             if (!event.published) return@checkPermission Page.empty()
             val account = accountService.find(auth)
             if (event.owner.id != account.id) throw IllegalAccessException("Only the event owner can send announcements")
             announcementRelationService.get(event, pageable)
         }
 
-    fun createAnnouncement(auth: Authentication, eventId: Long, request: AnnouncementChangeRequest) =
+    fun createAnnouncement(auth: Authentication, id: Long, request: AnnouncementChangeRequest) =
         auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.find(auth)
-            val event = eventCrudService.get(eventId) ?: throw IllegalAccessException("Event not found")
+            val event = eventCrudService.get(id) ?: throw IllegalAccessException("Event not found")
             if (event.owner.id != account.id) throw IllegalAccessException("Only the event owner can send announcements")
             val announcement = announcementCrudService.create(account, request)
             announcementRelationService.assign(event, announcement)

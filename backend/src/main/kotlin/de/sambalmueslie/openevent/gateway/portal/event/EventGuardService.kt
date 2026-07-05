@@ -81,6 +81,12 @@ class EventGuardService(
         }
     }
 
+    fun cancel(auth: Authentication, id: Long): Event? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "CANCELLED", id.toString()) { TODO("implement event cancellation semantics") }
+        }
+
     fun setPublished(auth: Authentication, id: Long, value: PatchRequest<Boolean>): Event? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
@@ -174,9 +180,9 @@ class EventGuardService(
         return if (event.owner.id == account.id) event else null
     }
 
-    fun export(auth: Authentication, eventId: Long): SystemFile? {
+    fun export(auth: Authentication, id: Long): SystemFile? {
         return auth.checkPermission(PERMISSION_WRITE) {
-            val (event, account) = getIfAccessible(auth, eventId) ?: return@checkPermission null
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
             exportService.exportEventPdf(event.id, account)
         }
     }

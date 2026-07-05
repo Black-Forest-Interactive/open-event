@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.gateway.portal.event
 
 import de.sambalmueslie.openevent.common.PatchRequest
+import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
@@ -15,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 
 @Controller("/api/portal/event")
 @Tag(name = "APP Event API")
-class EventController(private val service: EventGuardService) {
+class EventController(private val service: EventGuardService, private val announcementService: EventAnnouncementGuardService) {
 
 
     @Post("search")
@@ -35,6 +36,9 @@ class EventController(private val service: EventGuardService) {
 
     @Delete("/{id}")
     fun delete(auth: Authentication, id: Long) = service.delete(auth, id)
+
+    @Post("/{id}/cancel")
+    fun cancel(auth: Authentication, id: Long) = service.cancel(auth, id)
 
     @Put("/{id}/published")
     fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setPublished(auth, id, value)
@@ -76,6 +80,12 @@ class EventController(private val service: EventGuardService) {
     fun setAudiences(auth: Authentication, id: Long, @Body audienceIds: PatchRequest<Set<Long>>) = service.setAudiences(auth, id, audienceIds)
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
-    @Get("/event/{eventId}/pdf")
-    fun export(auth: Authentication, eventId: Long): SystemFile? = service.export(auth, eventId)
+    @Get("/{id}/pdf")
+    fun export(auth: Authentication, id: Long): SystemFile? = service.export(auth, id)
+
+    @Get("/{id}/announcement")
+    fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable) = announcementService.getAnnouncements(auth, id, pageable)
+
+    @Post("/{id}/announcement")
+    fun createAnnouncement(auth: Authentication, id: Long, @Body request: AnnouncementChangeRequest) = announcementService.createAnnouncement(auth, id, request)
 }

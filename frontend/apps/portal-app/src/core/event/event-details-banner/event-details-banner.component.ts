@@ -1,4 +1,5 @@
 import { Component, computed, effect, inject, input, output, signal } from '@angular/core'
+import { RouterLink } from '@angular/router'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatIconModule } from '@angular/material/icon'
 import { EventInfo } from '@open-event/core'
@@ -13,7 +14,7 @@ import { CategoryChipComponent, getCategoryStyle } from '@open-event/ui'
 
 @Component({
   selector: 'portal-event-details-banner',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule, TranslatePipe, CategoryChipComponent],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule, TranslatePipe, CategoryChipComponent, RouterLink],
   templateUrl: './event-details-banner.component.html',
   styleUrl: './event-details-banner.component.scss'
 })

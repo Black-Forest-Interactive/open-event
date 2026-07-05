@@ -1,10 +1,12 @@
 import { Component, computed, inject, resource, signal } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
+import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
+import { MatButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
 import { HotToastService } from '@ngxpert/hot-toast'
-import { TranslateService } from '@ngx-translate/core'
-import { EventDetailsHeaderComponent } from '../event-details-header/event-details-header.component'
+import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { EventDetailsInfoComponent } from '../event-details-info/event-details-info.component'
 import { EventDetailsLocationComponent } from '../event-details-location/event-details-location.component'
 import { EventHostBlockComponent } from '../event-host-block/event-host-block.component'
@@ -14,7 +16,11 @@ import { EventBookbarComponent } from '../event-bookbar/event-bookbar.component'
 import { RegistrationDetailsComponent } from '../../registration/registration-details/registration-details.component'
 import { RegistrationParticipateSheetComponent } from '../../registration/registration-participate-sheet/registration-participate-sheet.component'
 import { RegistrationCancelDialogComponent } from '../../registration/registration-cancel-dialog/registration-cancel-dialog.component'
-import { ShareDetailsComponent } from '../../share/share-details/share-details.component'
+import { EventShareSheetComponent } from '../../share/event-share-sheet/event-share-sheet.component'
+import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
+import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
+import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
+import { EventNavigationService } from '../event-navigation.service'
 import { EventService, RegistrationService } from '@open-event/portal'
 import { AuthService, LoadingBarComponent, toPromise } from '@open-event/shared'
 import { ParticipateRequest, ParticipateResponse } from '@open-event/core'
@@ -28,7 +34,6 @@ import { map } from 'rxjs/operators'
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss'],
   imports: [
-    EventDetailsHeaderComponent,
     EventDetailsInfoComponent,
     EventDetailsLocationComponent,
     EventHostBlockComponent,
@@ -36,20 +41,23 @@ import { map } from 'rxjs/operators'
     EventParticipantsStackComponent,
     EventBookbarComponent,
     RegistrationDetailsComponent,
-    ShareDetailsComponent,
     LoadingBarComponent,
     EventDetailsBannerComponent,
-    MatCard
+    MatCard,
+    MatButton,
+    MatIcon,
+    TranslatePipe
   ],
   standalone: true
 })
 export class EventDetailsComponent {
   readonly registration = computed(() => this.info()?.registration)
   readonly canEdit = computed(() => this.info()?.canEdit ?? false)
-  readonly share = computed(() => this.info()?.share)
   readonly location = computed(() => this.info()?.location)
   readonly registrationReloading = signal(false)
   private route = inject(ActivatedRoute)
+  private router = inject(Router)
+  private locationService = inject(Location)
   private service = inject(EventService)
   private registrationService = inject(RegistrationService)
   private dialog = inject(MatDialog)
@@ -81,21 +89,58 @@ export class EventDetailsComponent {
     this.infoResource.reload()
   }
 
-  setSharingEnabled(enabled: boolean) {
-    const id = this.eventId()
-    if (!id) return
-    this.service.setShared(id, enabled).subscribe((d) => this.infoResource.set(d))
+  goBack() {
+    this.locationService.back()
   }
 
   shareEvent() {
     const info = this.info()
     if (!info) return
-    const url = window.location.href
-    if (navigator.share) {
-      navigator.share({ title: info.event.title, url }).catch(() => undefined)
-      return
-    }
-    navigator.clipboard.writeText(url).then(() => this.translation.get('event.message.linkCopied').subscribe((m) => this.hotToast.success(m)))
+    this.bottomSheet.open(EventShareSheetComponent, { data: { eventId: info.event.id, eventTitle: info.event.title } })
+  }
+
+  publishEvent() {
+    const id = this.eventId()
+    if (!id) return
+    this.service.publish(id).subscribe(() => this.reload())
+  }
+
+  openBroadcast() {
+    const info = this.info()
+    if (!info) return
+    this.bottomSheet.open(EventBroadcastSheetComponent, {
+      data: { eventId: info.event.id, eventTitle: info.event.title, participantCount: info.registration?.participants.length ?? 0 }
+    })
+  }
+
+  copyEvent() {
+    const id = this.eventId()
+    if (id) EventNavigationService.navigateToEventCopy(this.router, id)
+  }
+
+  openAdmin() {
+    const id = this.eventId()
+    if (id) EventNavigationService.navigateToEventAdministration(this.router, id)
+  }
+
+  cancelEvent() {
+    const info = this.info()
+    if (!info) return
+    this.dialog.open(EventCancelDialogComponent, {
+      width: '400px',
+      data: { event: info.event, participantCount: info.registration?.participants.length ?? 0 }
+    })
+  }
+
+  deleteEvent() {
+    const info = this.info()
+    if (!info) return
+    this.dialog
+      .open(EventDeleteDialogComponent, { width: '350px', data: info.event })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) this.service.deleteEvent(info.event.id).subscribe(() => EventNavigationService.navigateToEventShow(this.router))
+      })
   }
 
   toggleBookmark() {
