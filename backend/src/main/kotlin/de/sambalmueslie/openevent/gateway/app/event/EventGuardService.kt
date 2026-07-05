@@ -42,11 +42,10 @@ class EventGuardService(
         }
     }
 
-    fun get(auth: Authentication, id: Long) {
-        return auth.checkPermission(PERMISSION_READ) {
+    fun get(auth: Authentication, id: Long): Event? =
+        auth.checkPermission(PERMISSION_READ) {
             probe.traceAccess(auth, id) { service.get(id) }
         }
-    }
 
     fun getInfo(auth: Authentication, id: Long): EventInfo? {
         return auth.checkPermission(PERMISSION_READ) {

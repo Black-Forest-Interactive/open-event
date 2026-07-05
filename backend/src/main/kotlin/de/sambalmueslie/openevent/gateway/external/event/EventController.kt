@@ -18,14 +18,10 @@ class EventController(
 
 
     @Post("search")
-    fun search(@Body request: PublicEventSearchRequest, @QueryValue key: String, pageable: Pageable): Page<PublicEvent> {
-        return service.search(request, key, pageable)
-    }
+    fun search(@Body request: PublicEventSearchRequest, @QueryValue key: String, pageable: Pageable) = service.search(request, key, pageable)
 
     @Get("{id}")
-    fun get(id: String): PublicEvent? {
-        return service.getPublicEvent(id)
-    }
+    fun get(id: String) = service.getPublicEvent(id)
 
     @Get("settings")
     fun getSettings(): EventParticipationSettings = service.getSettings()
@@ -48,7 +44,5 @@ class EventController(
 
 
     @Get("{id}/og-preview")
-    fun getPreview(id: String): HttpResponse<String> {
-        return service.getPublicEventPreview(id)
-    }
+    fun getPreview(id: String): HttpResponse<String> = service.getPublicEventPreview(id)
 }

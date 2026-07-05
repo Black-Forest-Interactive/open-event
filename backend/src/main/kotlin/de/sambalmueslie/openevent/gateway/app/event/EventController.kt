@@ -19,19 +19,13 @@ class EventController(private val service: EventGuardService) {
 
 
     @Post("search")
-    fun search(auth: Authentication, @Body request: EventSearchRequest, pageable: Pageable): EventSearchResponse {
-        return service.search(auth, request, pageable)
-    }
+    fun search(auth: Authentication, @Body request: EventSearchRequest, pageable: Pageable) = service.search(auth, request, pageable)
 
     @Get("/{id}")
-    fun get(auth: Authentication, id: Long) {
-        return service.get(auth, id)
-    }
+    fun get(auth: Authentication, id: Long) = service.get(auth, id)
 
     @Get("/{id}/info")
-    fun getInfo(auth: Authentication, id: Long): EventInfo? {
-        return service.getInfo(auth, id)
-    }
+    fun getInfo(auth: Authentication, id: Long) = service.getInfo(auth, id)
 
     @Post()
     fun create(auth: Authentication, @Body request: EventChangeRequest) = service.create(auth, request)
@@ -47,19 +41,13 @@ class EventController(private val service: EventGuardService) {
 
 
     @Put("/{id}/shared")
-    fun setShared(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>): EventInfo? {
-        return service.setShared(auth, id, value)
-    }
+    fun setShared(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setShared(auth, id, value)
 
     @Put("/{id}/bookmark")
-    fun setBookmarked(auth: Authentication, id: Long): EventInfo? {
-        return service.setBookmarked(auth, id)
-    }
+    fun setBookmarked(auth: Authentication, id: Long) = service.setBookmarked(auth, id)
 
     @Delete("/{id}/bookmark")
-    fun clearBookmarked(auth: Authentication, id: Long): EventInfo? {
-        return service.clearBookmarked(auth, id)
-    }
+    fun clearBookmarked(auth: Authentication, id: Long) = service.clearBookmarked(auth, id)
 
     @Put("/{id}/title")
     fun setTitle(auth: Authentication, id: Long, @Body value: PatchRequest<String>) =
