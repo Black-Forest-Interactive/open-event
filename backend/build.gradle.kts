@@ -11,9 +11,9 @@ plugins {
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.3"
 
-    id("io.micronaut.application") version "5.0.1"
-    id("io.micronaut.test-resources") version "5.0.1"
-    id("io.micronaut.aot") version "5.0.1"
+    id("io.micronaut.application") version "5.0.2"
+    id("io.micronaut.test-resources") version "5.0.2"
+    id("io.micronaut.aot") version "5.0.2"
 
     id("maven-publish")
     id("jacoco")
@@ -148,7 +148,7 @@ dependencies {
     // tracing
     implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
     // opensearch
-    implementation("com.jillesvangurp:search-client:2.8.7")
+    implementation("com.jillesvangurp:search-client:2.9.0")
 
     // jsoup
     implementation("org.jsoup:jsoup:1.22.2")
