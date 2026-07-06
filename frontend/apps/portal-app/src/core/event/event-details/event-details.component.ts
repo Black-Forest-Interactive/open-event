@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
+import { BreakpointObserver } from '@angular/cdk/layout'
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { HotToastService } from '@ngxpert/hot-toast'
@@ -16,7 +17,7 @@ import { EventBookbarComponent } from '../event-bookbar/event-bookbar.component'
 import { RegistrationDetailsComponent } from '../../registration/registration-details/registration-details.component'
 import { RegistrationParticipateSheetComponent } from '../../registration/registration-participate-sheet/registration-participate-sheet.component'
 import { RegistrationCancelDialogComponent } from '../../registration/registration-cancel-dialog/registration-cancel-dialog.component'
-import { EventShareSheetComponent } from '../../share/event-share-sheet/event-share-sheet.component'
+import { EventShareLauncher } from '../../share/event-share-launcher'
 import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
@@ -25,6 +26,7 @@ import { EventService, RegistrationService } from '@open-event/portal'
 import { AuthService, LoadingBarComponent, toPromise } from '@open-event/shared'
 import { ParticipateRequest, ParticipateResponse } from '@open-event/core'
 import { EventDetailsBannerComponent } from '../event-details-banner/event-details-banner.component'
+import { ShareSettingsComponent } from '../../share/share-settings/share-settings.component'
 import { MatCard } from '@angular/material/card'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs/operators'
@@ -43,6 +45,7 @@ import { map } from 'rxjs/operators'
     RegistrationDetailsComponent,
     LoadingBarComponent,
     EventDetailsBannerComponent,
+    ShareSettingsComponent,
     MatCard,
     MatButton,
     MatIcon,
@@ -62,6 +65,7 @@ export class EventDetailsComponent {
   private registrationService = inject(RegistrationService)
   private dialog = inject(MatDialog)
   private bottomSheet = inject(MatBottomSheet)
+  private breakpointObserver = inject(BreakpointObserver)
   private hotToast = inject(HotToastService)
   private translation = inject(TranslateService)
   private authService = inject(AuthService)
@@ -96,7 +100,7 @@ export class EventDetailsComponent {
   shareEvent() {
     const info = this.info()
     if (!info) return
-    this.bottomSheet.open(EventShareSheetComponent, { data: { eventId: info.event.id, eventTitle: info.event.title } })
+    EventShareLauncher.open(this.dialog, this.bottomSheet, this.breakpointObserver, { eventId: info.event.id, eventTitle: info.event.title })
   }
 
   publishEvent() {
@@ -148,6 +152,12 @@ export class EventDetailsComponent {
     if (!id) return
     const obs = this.isBookmarked() ? this.service.clearBookmarked(id) : this.service.setBookmarked(id)
     obs.subscribe({ next: (info) => this.infoResource.set(info) })
+  }
+
+  onSharingChanged(enabled: boolean) {
+    const id = this.eventId()
+    if (!id) return
+    this.service.setShared(id, enabled).subscribe((info) => this.infoResource.set(info))
   }
 
   participateSelf() {

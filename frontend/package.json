@@ -36,7 +36,6 @@
     "ngx-echarts": "^21.0.0",
     "ngx-gravatar": "^13.0.0",
     "ngx-quill": "^30.0.1",
-    "ngx-sharebuttons": "^17.0.0",
     "quill": "^2.0.3",
     "rxjs": "~7.8.2",
     "tailwind-scrollbar": "^4.0.2",

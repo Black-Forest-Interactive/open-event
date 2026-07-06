@@ -32,6 +32,11 @@
                         <portal-event-details-location [info]="info()!"/>
                     </mat-card>
                 }
+                @if (canEdit()) {
+                    <mat-card appearance="outlined">
+                        <portal-share-settings [info]="info()!" [reloading]="reloading()" (changed)="onSharingChanged($event)"/>
+                    </mat-card>
+                }
             </div>
         </div>
     }

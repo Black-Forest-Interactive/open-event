@@ -22,7 +22,8 @@
     "reset": "Reset",
     "loadMore": "Load more",
     "more": "More",
-    "share": "Share"
+    "share": "Share",
+    "done": "Done"
   },
   "event": {
     "type": "Event",
@@ -80,7 +81,8 @@
         "cancel": "Cancel",
         "editAudience": "Edit audience",
         "copy": "Copy",
-        "delete": "Delete"
+        "delete": "Delete",
+        "promoteDisabled": "Enable sharing in the event settings first."
       },
       "chips": {
         "audiences": "Audience",
@@ -533,19 +535,32 @@
   },
   "share": {
     "title": "Share Event",
+    "notActive": "Sharing is not yet enabled for this event. You can enable it in the event settings.",
     "action": {
       "enable": "Enable Sharing",
       "disable": "Disable Sharing",
       "activate": "Yes i like to activate sharing",
-      "show": "Show shared event"
+      "copy": "Copy"
+    },
+    "target": {
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail"
     },
     "tabLink": "Link & QR",
     "tabPoster": "Poster",
-    "print": "Print",
+    "linkLabel": "Link",
+    "shareVia": "Share via",
     "qr": "QR Code",
+    "qrHint": "Scan with your smartphone to open the link.",
+    "poster": {
+      "loading": "Loading poster …",
+      "error": "The poster could not be loaded.",
+      "retry": "Retry",
+      "download": "Download poster",
+      "open": "Open in new tab"
+    },
     "info": {
       "description": {
-        "title": "Share Your Event",
         "content": "This function allows you to share your event with others – for example via email or social media. A special link is generated that you can send to friends, family, or guests. With this link, they can view key details about the event and participate."
       },
       "disclaimer": {

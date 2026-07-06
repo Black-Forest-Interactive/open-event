@@ -22,7 +22,8 @@
     "reset": "Zurücksetzen",
     "loadMore": "Mehr laden",
     "more": "Mehr",
-    "share": "Teilen"
+    "share": "Teilen",
+    "done": "Fertig"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -244,7 +245,8 @@
         "cancel": "Absagen",
         "editAudience": "Zielgruppen bearbeiten",
         "copy": "Kopieren",
-        "delete": "Löschen"
+        "delete": "Löschen",
+        "promoteDisabled": "Aktiviere zuerst das Teilen in den Einstellungen der Veranstaltung."
       },
       "chips": {
         "audiences": "Zielgruppen",
@@ -533,19 +535,32 @@
   },
   "share": {
     "title": "Veranstaltung teilen",
+    "notActive": "Das Teilen ist für diese Veranstaltung noch nicht aktiviert. Du kannst es in den Einstellungen der Veranstaltung aktivieren.",
     "action": {
       "enable": "Teilen aktivieren",
       "disable": "Teilen deaktivieren",
       "activate": "Ja, ich möchte die Veranstaltung gerne teilen",
-      "show": "Geteilte Veranstaltung anzeigen"
+      "copy": "Kopieren"
+    },
+    "target": {
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail"
     },
     "tabLink": "Link & QR",
     "tabPoster": "Plakat",
-    "print": "Drucken",
+    "linkLabel": "Link",
+    "shareVia": "Teilen über",
     "qr": "QR-Code",
+    "qrHint": "Mit dem Smartphone scannen, um den Link zu öffnen.",
+    "poster": {
+      "loading": "Plakat wird geladen …",
+      "error": "Das Plakat konnte nicht geladen werden.",
+      "retry": "Erneut versuchen",
+      "download": "Plakat herunterladen",
+      "open": "In neuem Tab öffnen"
+    },
     "info": {
       "description": {
-        "title": "Veranstaltung teilen",
         "content": "Mit dieser Funktion kannst du deine Veranstaltung mit anderen Personen teilen – zum Beispiel über E-Mail oder soziale Netzwerke. Dafür wird ein spezieller Link erstellt, den du an Freunde, Familie oder Gäste weiterleiten kannst. Über diesen Link können sie die wichtigsten Informationen zur Veranstaltung sehen und daran teilnehmen."
       },
       "disclaimer": {

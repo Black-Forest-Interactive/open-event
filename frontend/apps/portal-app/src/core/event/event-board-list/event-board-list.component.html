@@ -131,7 +131,7 @@
                             <mat-icon>campaign</mat-icon>
                             {{ 'event.own.action.message' | translate }}
                         </button>
-                        <button matButton="outlined" (click)="openShare(entry)">
+                        <button matButton="outlined" [disabled]="!entry.shared" [matTooltip]="!entry.shared ? ('event.own.action.promoteDisabled' | translate) : ''" (click)="openShare(entry)">
                             <mat-icon>share</mat-icon>
                             {{ 'event.own.action.promote' | translate }}
                         </button>

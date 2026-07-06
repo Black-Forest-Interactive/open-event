@@ -1,26 +1,22 @@
 import { Component, computed, inject, resource } from '@angular/core'
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { EventService } from '@open-event/portal'
 import { ShareDetailsComponent } from '../share-details/share-details.component'
-
-export interface EventShareSheetData {
-  eventId: number
-  eventTitle: string
-}
+import { EventShareSheetData } from '../event-share-sheet/event-share-sheet.component'
 
 @Component({
-  selector: 'portal-event-share-sheet',
-  templateUrl: './event-share-sheet.component.html',
+  selector: 'portal-event-share-dialog',
+  templateUrl: './event-share-dialog.component.html',
   imports: [ShareDetailsComponent, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
   standalone: true
 })
-export class EventShareSheetComponent {
-  private data = inject<EventShareSheetData>(MAT_BOTTOM_SHEET_DATA)
-  private sheetRef = inject(MatBottomSheetRef)
+export class EventShareDialogComponent {
+  private data = inject<EventShareSheetData>(MAT_DIALOG_DATA)
+  private dialogRef = inject(MatDialogRef)
   private eventService = inject(EventService)
 
   readonly eventTitle = this.data.eventTitle
@@ -33,6 +29,6 @@ export class EventShareSheetComponent {
   readonly reloading = this.infoResource.isLoading
 
   close() {
-    this.sheetRef.dismiss()
+    this.dialogRef.close()
   }
 }

@@ -8,8 +8,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { provideShareButtonsOptions } from 'ngx-sharebuttons'
-import { shareIcons } from 'ngx-sharebuttons/icons'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import { ENVIRONMENT, MatPaginatorI18nService } from '@open-event/shared'
 import { registerLocaleData } from '@angular/common'
@@ -46,7 +44,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
     provideTranslateConfig(),
-    provideShareButtonsOptions(shareIcons()),
     {
       provide: MatPaginatorIntl,
       useClass: MatPaginatorI18nService

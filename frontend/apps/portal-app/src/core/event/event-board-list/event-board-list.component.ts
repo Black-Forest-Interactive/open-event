@@ -3,10 +3,12 @@ import { DatePipe } from '@angular/common'
 import { Router, RouterLink } from '@angular/router'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { MatDialog } from '@angular/material/dialog'
+import { BreakpointObserver } from '@angular/cdk/layout'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu'
 import { MatProgressBar } from '@angular/material/progress-bar'
+import { MatTooltip } from '@angular/material/tooltip'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { Audience, EventSearchEntry } from '@open-event/core'
@@ -18,14 +20,14 @@ import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
 import { EventEditDialogComponent } from '../event-edit/event-edit-dialog.component'
 import { EventTextEditDialogComponent } from '../event-edit/event-text-edit-dialog.component'
-import { EventShareSheetComponent } from '../../share/event-share-sheet/event-share-sheet.component'
+import { EventShareLauncher } from '../../share/event-share-launcher'
 import { toEventBoardEntry } from '../event-board-entry.mapper'
 
 @Component({
   selector: 'portal-event-board-list',
   templateUrl: './event-board-list.component.html',
   styleUrl: './event-board-list.component.scss',
-  imports: [LibEventBoardListComponent, EventBoardCalendarComponent, DatePipe, RouterLink, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuTrigger, MatProgressBar, TranslatePipe, CategoryChipComponent, CategoryPickerComponent],
+  imports: [LibEventBoardListComponent, EventBoardCalendarComponent, DatePipe, RouterLink, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuTrigger, MatProgressBar, MatTooltip, TranslatePipe, CategoryChipComponent, CategoryPickerComponent],
   standalone: true
 })
 export class EventBoardListComponent {
@@ -39,6 +41,7 @@ export class EventBoardListComponent {
 
   private bottomSheet = inject(MatBottomSheet)
   private dialog = inject(MatDialog)
+  private breakpointObserver = inject(BreakpointObserver)
   private router = inject(Router)
   private eventService = inject(EventService)
   private categoryService = inject(CategoryService)
@@ -203,7 +206,7 @@ export class EventBoardListComponent {
   }
 
   openShare(entry: EventSearchEntry) {
-    this.bottomSheet.open(EventShareSheetComponent, { data: { eventId: entry.id, eventTitle: entry.title } })
+    EventShareLauncher.open(this.dialog, this.bottomSheet, this.breakpointObserver, { eventId: entry.id, eventTitle: entry.title })
   }
 
   openCancel(entry: EventSearchEntry) {
