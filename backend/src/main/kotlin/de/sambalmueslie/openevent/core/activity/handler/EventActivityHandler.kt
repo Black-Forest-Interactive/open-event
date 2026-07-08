@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.activity.ActivityTypeStorage
 import de.sambalmueslie.openevent.core.activity.api.Activity
 import de.sambalmueslie.openevent.core.activity.api.ActivityChangeRequest
 import de.sambalmueslie.openevent.core.activity.db.ActivitySubscriberRelationService
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.event.EventChangeListener
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
@@ -42,6 +43,8 @@ import org.slf4j.LoggerFactory
         private val TYPE_TEXT = "event.text"
         private val TYPE_CATEGORY = "event.category"
         private val TYPE_AUDIENCE = "event.audience"
+        private val TYPE_ANNOUNCEMENT_ADDED = "event.announcement.added"
+        private val TYPE_ANNOUNCEMENT_REMOVED = "event.announcement.removed"
     }
 
     override fun getSourceKey(): String {
@@ -97,6 +100,14 @@ import org.slf4j.LoggerFactory
 
     override fun audienceChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_AUDIENCE)
+    }
+
+    override fun announcementAdded(actor: Account, event: Event, announcement: Announcement) {
+        createActivity(actor, event, TYPE_ANNOUNCEMENT_ADDED)
+    }
+
+    override fun announcementRemoved(actor: Account, event: Event, announcement: Announcement) {
+        createActivity(actor, event, TYPE_ANNOUNCEMENT_REMOVED)
     }
 
     private fun createActivity(actor: Account, event: Event, type: String) {

@@ -1,0 +1,18 @@
+<div class="p-3 font-medium">{{ 'event.announcement.title' | translate }}</div>
+<mat-divider></mat-divider>
+<div class="flex flex-col gap-3 p-3">
+    <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
+    @if (announcements().length > 0) {
+        @for (entry of announcements(); track entry.id) {
+            <div class="flex flex-col gap-0.5 text-sm">
+                <span class="font-medium">{{ entry.subject }}</span>
+                @if (entry.content) {
+                    <span class="text-on-surface-variant">{{ entry.content }}</span>
+                }
+                <span class="text-xs text-on-surface-variant">{{ entry.timestamp | date:'short' }}</span>
+            </div>
+        }
+    } @else if (!loading()) {
+        <p class="text-sm text-on-surface-variant">{{ 'event.announcement.empty' | translate }}</p>
+    }
+</div>

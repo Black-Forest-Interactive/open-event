@@ -33,21 +33,4 @@
         <mat-icon>send</mat-icon>
         {{ 'event.broadcast.send' | translate }}
     </button>
-
-    @if (history().length > 0) {
-        <mat-divider></mat-divider>
-        <p class="text-sm font-medium text-on-surface-variant">{{ 'event.broadcast.history' | translate }}</p>
-        <lib-loading-bar [reloading]="historyLoading()"></lib-loading-bar>
-        @for (entry of history(); track entry.id) {
-            <div class="flex flex-col gap-0.5 text-sm">
-                <span class="font-medium">{{ entry.subject }}</span>
-                @if (entry.content) {
-                    <span class="text-on-surface-variant">{{ entry.content }}</span>
-                }
-                <span class="text-xs text-on-surface-variant">{{ entry.timestamp | date:'short' }}</span>
-            </div>
-        }
-    } @else if (!historyLoading()) {
-        <p class="text-sm text-on-surface-variant">{{ 'event.broadcast.historyEmpty' | translate }}</p>
-    }
 </div>

@@ -1,17 +1,14 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet'
 import { FormsModule } from '@angular/forms'
-import { DatePipe } from '@angular/common'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
 import { MatIcon } from '@angular/material/icon'
-import { MatDivider } from '@angular/material/divider'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
-import { LoadingBarComponent, toPromise } from '@open-event/shared'
-import { Announcement, AnnouncementChangeRequest, AnnouncementService } from '@open-event/portal'
+import { AnnouncementChangeRequest, AnnouncementService } from '@open-event/portal'
 
 export interface EventBroadcastSheetData {
   eventId: number
@@ -19,12 +16,13 @@ export interface EventBroadcastSheetData {
   participantCount: number
   defaultSubject?: string
   defaultBody?: string
+  onSent?: () => void
 }
 
 @Component({
   selector: 'portal-event-broadcast-sheet',
   templateUrl: './event-broadcast-sheet.component.html',
-  imports: [FormsModule, DatePipe, MatButton, MatIconButton, MatChipsModule, MatFormField, MatLabel, MatInput, MatIcon, MatDivider, TranslatePipe, LoadingBarComponent],
+  imports: [FormsModule, MatButton, MatIconButton, MatChipsModule, MatFormField, MatLabel, MatInput, MatIcon, TranslatePipe],
   standalone: true
 })
 export class EventBroadcastSheetComponent {
@@ -41,12 +39,6 @@ export class EventBroadcastSheetComponent {
   readonly subject = signal(this.data.defaultSubject ?? '')
   readonly body = signal(this.data.defaultBody ?? '')
   readonly sending = signal(false)
-
-  private historyResource = resource({
-    loader: (p) => toPromise(this.service.getAnnouncements(this.eventId, 0, 20), p.abortSignal)
-  })
-  readonly history = computed(() => this.historyResource.value()?.content ?? [])
-  readonly historyLoading = this.historyResource.isLoading
 
   readonly templates = [
     { key: 'event.broadcast.template.reminder', subject: '', body: '' },
@@ -66,7 +58,7 @@ export class EventBroadcastSheetComponent {
         this.sending.set(false)
         this.subject.set('')
         this.body.set('')
-        this.historyResource.reload()
+        this.data.onSent?.()
         this.translateService.get('event.broadcast.message.sent').subscribe((t) => this.toast.success(t))
       },
       error: () => {
@@ -78,9 +70,5 @@ export class EventBroadcastSheetComponent {
 
   close() {
     this.bottomSheetRef.dismiss()
-  }
-
-  trackById(_: number, item: Announcement) {
-    return item.id
   }
 }

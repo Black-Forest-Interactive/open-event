@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.history.handler
 
 
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.history.HistoryCrudService
@@ -34,6 +35,8 @@ class EventNotificationHandler(
         const val KEY_EVENT_TEXT = "event.text"
         const val KEY_EVENT_CATEGORY = "event.category"
         const val KEY_EVENT_AUDIENCE = "event.audience"
+        const val KEY_EVENT_ANNOUNCEMENT_ADDED = "event.announcement.added"
+        const val KEY_EVENT_ANNOUNCEMENT_REMOVED = "event.announcement.removed"
     }
 
 
@@ -128,6 +131,20 @@ class EventNotificationHandler(
     override fun audienceChanged(actor: Account, event: Event) {
         val request = HistoryEntryChangeRequest(
             HistoryEntryType.EVENT_CHANGED, KEY_EVENT_AUDIENCE, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun announcementAdded(actor: Account, event: Event, announcement: Announcement) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_ANNOUNCEMENT_ADDED, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun announcementRemoved(actor: Account, event: Event, announcement: Announcement) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_ANNOUNCEMENT_REMOVED, HistoryEntrySource.EVENT, ""
         )
         service.create(actor, event, request)
     }

@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.core.notification.handler
 
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.event.EventChangeListener
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
@@ -30,6 +31,8 @@ class EventNotificationHandler(
         const val KEY_EVENT_UNPUBLISHED = "event.unpublish"
         const val KEY_EVENT_FEATURED = "event.featured"
         const val KEY_EVENT_UNFEATURED = "event.unfeatured"
+        const val KEY_EVENT_ANNOUNCEMENT_ADDED = "event.announcement.added"
+        const val KEY_EVENT_ANNOUNCEMENT_REMOVED = "event.announcement.removed"
     }
 
     override fun getName(): String = EventNotificationHandler::class.java.simpleName
@@ -43,6 +46,8 @@ class EventNotificationHandler(
             NotificationTypeChangeRequest(KEY_EVENT_UNPUBLISHED, "Event unpublished", ""),
             NotificationTypeChangeRequest(KEY_EVENT_FEATURED, "Event featured", ""),
             NotificationTypeChangeRequest(KEY_EVENT_UNFEATURED, "Event unfeatured", ""),
+            NotificationTypeChangeRequest(KEY_EVENT_ANNOUNCEMENT_ADDED, "Event announcement added", ""),
+            NotificationTypeChangeRequest(KEY_EVENT_ANNOUNCEMENT_REMOVED, "Event announcement removed", "")
         )
     }
 
@@ -156,6 +161,20 @@ class EventNotificationHandler(
     override fun audienceChanged(actor: Account, event: Event) {
         service.process(
             NotificationEvent(KEY_EVENT_UPDATED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
+    override fun announcementAdded(actor: Account, event: Event, announcement: Announcement) {
+        service.process(
+            NotificationEvent(KEY_EVENT_ANNOUNCEMENT_ADDED, actor, event),
+            getRecipients(actor, event)
+        )
+    }
+
+    override fun announcementRemoved(actor: Account, event: Event, announcement: Announcement) {
+        service.process(
+            NotificationEvent(KEY_EVENT_ANNOUNCEMENT_REMOVED, actor, event),
             getRecipients(actor, event)
         )
     }

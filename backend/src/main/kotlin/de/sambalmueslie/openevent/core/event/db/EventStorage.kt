@@ -25,8 +25,9 @@ interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun revoke(event: Event, audience: Audience)
     fun getAudiences(event: Event): List<Audience>
 
-    fun assign(event: Event, announcement: Announcement)
-    fun revoke(event: Event, announcement: Announcement)
+    fun add(event: Event, announcement: Announcement)
+    fun remove(event: Event, announcement: Announcement)
+    fun isAssigned(event: Event, announcement: Announcement): Boolean
     fun getAnnouncements(event: Event, pageable: Pageable): Page<Announcement>
 
 

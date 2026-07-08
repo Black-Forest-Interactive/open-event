@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, viewChild } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
@@ -19,6 +19,7 @@ import { RegistrationParticipateSheetComponent } from '../../registration/regist
 import { RegistrationCancelDialogComponent } from '../../registration/registration-cancel-dialog/registration-cancel-dialog.component'
 import { EventShareLauncher } from '../../share/event-share-launcher'
 import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
+import { EventAnnouncementsComponent } from '../../announcement/event-announcements/event-announcements.component'
 import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
 import { EventNavigationService } from '../event-navigation.service'
@@ -46,6 +47,7 @@ import { map } from 'rxjs/operators'
     LoadingBarComponent,
     EventDetailsBannerComponent,
     ShareSettingsComponent,
+    EventAnnouncementsComponent,
     MatCard,
     MatButton,
     MatIcon,
@@ -88,6 +90,8 @@ export class EventDetailsComponent {
     const email = this.authService.getPrincipal()?.email.toLowerCase()
     return this.registration()?.participants.find((p) => p.author.email.toLowerCase() === email)
   })
+  readonly canViewAnnouncements = computed(() => this.canEdit() || !!this.userParticipant())
+  private announcementsCard = viewChild(EventAnnouncementsComponent)
 
   reload() {
     this.infoResource.reload()
@@ -113,7 +117,12 @@ export class EventDetailsComponent {
     const info = this.info()
     if (!info) return
     this.bottomSheet.open(EventBroadcastSheetComponent, {
-      data: { eventId: info.event.id, eventTitle: info.event.title, participantCount: info.registration?.participants.length ?? 0 }
+      data: {
+        eventId: info.event.id,
+        eventTitle: info.event.title,
+        participantCount: info.registration?.participants.length ?? 0,
+        onSent: () => this.announcementsCard()?.reload()
+      }
     })
   }
 

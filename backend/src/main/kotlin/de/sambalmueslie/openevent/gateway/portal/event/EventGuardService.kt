@@ -3,6 +3,8 @@ package de.sambalmueslie.openevent.gateway.portal.event
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
+import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
@@ -15,6 +17,7 @@ import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.metrics.MetricsService
+import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.server.types.files.SystemFile
 import io.micronaut.security.authentication.Authentication
@@ -72,7 +75,7 @@ class EventGuardService(
         }
     }
 
-    fun delete(auth: Authentication, id: Long) : Event?{
+    fun delete(auth: Authentication, id: Long): Event? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
             probe.traceDelete(auth) {
@@ -186,4 +189,29 @@ class EventGuardService(
             exportService.exportEventPdf(event.id, account)
         }
     }
+
+    fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable): Page<Announcement> =
+        auth.checkPermission(PERMISSION_READ) {
+            val event = service.get(id) ?: return@checkPermission Page.empty()
+            val account = accountService.find(auth)
+            val canAccessAnnouncements = event.owner.id == account.id || service.getInfo(event, account).registration?.participants?.any { it.author.id == account.id } ?: false
+            if (!canAccessAnnouncements) return@checkPermission Page.empty()
+            service.getAnnouncements(event.id, pageable)
+        }
+
+    fun createAnnouncement(auth: Authentication, id: Long, request: AnnouncementChangeRequest) =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "announcement", event.id.toString(), request) {
+                service.addAnnouncement(account, event.id, request)
+            }
+        }
+
+    fun deleteAnnouncement(auth: Authentication, id: Long, announcementId: Long) =
+        auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "DELETE", id.toString(), announcementId) {
+                service.removeAnnouncement(account, event.id, announcementId)
+            }
+        }
 }

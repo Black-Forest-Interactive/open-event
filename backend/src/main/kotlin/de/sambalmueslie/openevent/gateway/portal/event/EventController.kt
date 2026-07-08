@@ -3,10 +3,8 @@ package de.sambalmueslie.openevent.gateway.portal.event
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
-import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
-import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.*
@@ -16,7 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 
 @Controller("/api/portal/event")
 @Tag(name = "APP Event API")
-class EventController(private val service: EventGuardService, private val announcementService: EventAnnouncementGuardService) {
+class EventController(private val service: EventGuardService) {
 
 
     @Post("search")
@@ -84,8 +82,11 @@ class EventController(private val service: EventGuardService, private val announ
     fun export(auth: Authentication, id: Long): SystemFile? = service.export(auth, id)
 
     @Get("/{id}/announcement")
-    fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable) = announcementService.getAnnouncements(auth, id, pageable)
+    fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable) = service.getAnnouncements(auth, id, pageable)
 
     @Post("/{id}/announcement")
-    fun createAnnouncement(auth: Authentication, id: Long, @Body request: AnnouncementChangeRequest) = announcementService.createAnnouncement(auth, id, request)
+    fun createAnnouncement(auth: Authentication, id: Long, @Body request: AnnouncementChangeRequest) = service.createAnnouncement(auth, id, request)
+
+    @Delete("/{id}/announcement/{announcementId}")
+    fun createAnnouncement(auth: Authentication, id: Long, announcementId: Long) = service.deleteAnnouncement(auth, id, announcementId)
 }

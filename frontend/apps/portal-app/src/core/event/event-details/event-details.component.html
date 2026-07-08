@@ -27,6 +27,11 @@
                                                       [userParticipant]="userParticipant()"/>
                     </mat-card>
                 }
+                @if (canViewAnnouncements()) {
+                    <mat-card appearance="outlined">
+                        <portal-event-announcements [eventId]="info()!.event.id"/>
+                    </mat-card>
+                }
                 @if (location()) {
                     <mat-card appearance="outlined">
                         <portal-event-details-location [info]="info()!"/>

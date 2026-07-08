@@ -92,12 +92,16 @@ class EventStorageService(
         return audienceRelationService.get(event)
     }
 
-    override fun assign(event: Event, announcement: Announcement) {
+    override fun add(event: Event, announcement: Announcement) {
         announcementRelationService.assign(event, announcement)
     }
 
-    override fun revoke(event: Event, announcement: Announcement) {
+    override fun remove(event: Event, announcement: Announcement) {
         announcementRelationService.revoke(event, announcement)
+    }
+
+    override fun isAssigned(event: Event, announcement: Announcement): Boolean {
+        return announcementRelationService.isAssigned(event, announcement)
     }
 
     override fun getAnnouncements(event: Event, pageable: Pageable): Page<Announcement> {

@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.event
 
 import de.sambalmueslie.openevent.common.BusinessObjectChangeListener
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.event.api.Event
 
 interface EventChangeListener : BusinessObjectChangeListener<Long, Event> {
@@ -14,5 +15,7 @@ interface EventChangeListener : BusinessObjectChangeListener<Long, Event> {
     fun textChanged(actor: Account, event: Event)
     fun categoryChanged(actor: Account, event: Event)
     fun audienceChanged(actor: Account, event: Event)
+    fun announcementAdded(actor: Account, event: Event, announcement: Announcement)
+    fun announcementRemoved(actor: Account, event: Event, announcement: Announcement)
 
 }

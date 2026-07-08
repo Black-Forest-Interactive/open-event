@@ -11,13 +11,15 @@ import io.micronaut.data.repository.GenericRepository
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface EventAnnouncementRelationRepository : GenericRepository<EventAnnouncementRelation, Long> {
 
-    fun findByAnnouncementIdAndEventId(categoryId: Long, eventId: Long): EventAnnouncementRelation?
-    fun existsByAnnouncementIdAndEventId(categoryId: Long, eventId: Long): Boolean
+    fun findByEventIdAndAnnouncementId(eventId: Long, announcementId: Long): EventAnnouncementRelation?
+    fun existsByEventIdAndAnnouncementId(eventId: Long, announcementId: Long): Boolean
+    fun deleteByEventIdAndAnnouncementId(eventId: Long, announcementId: Long)
+
+
+
     fun findByEventId(eventId: Long, pageable: Pageable): Page<EventAnnouncementRelation>
     fun findByAnnouncementId(announcementId: Long): EventAnnouncementRelation?
 
-    fun deleteByAnnouncementId(categoryId: Long)
-    fun deleteByAnnouncementIdAndEventId(categoryId: Long, eventId: Long)
     fun save(relation: EventAnnouncementRelation): EventAnnouncementRelation
     fun deleteByEventId(eventId: Long)
 

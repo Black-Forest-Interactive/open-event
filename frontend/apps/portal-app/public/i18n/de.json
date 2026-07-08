@@ -196,6 +196,10 @@
     "admin": {
       "registration": "Teilnehmerliste"
     },
+    "announcement": {
+      "title": "Ankündigungen",
+      "empty": "Noch keine Ankündigungen."
+    },
     "broadcast": {
       "title": "Nachricht senden",
       "subject": "Betreff",
@@ -207,8 +211,6 @@
         "bring": "Mitbringen",
         "thanks": "Danke"
       },
-      "history": "Verlauf",
-      "historyEmpty": "Noch keine Nachrichten gesendet.",
       "message": {
         "sent": "Nachricht wurde gesendet"
       }

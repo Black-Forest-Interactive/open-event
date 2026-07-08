@@ -5,6 +5,9 @@ import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.common.PageableSequence
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.announcement.AnnouncementCrudService
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
+import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.audience.AudienceCrudService
 import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.CategoryCrudService
@@ -35,6 +38,7 @@ class EventCrudService(
     private val registrationCrudService: RegistrationCrudService,
     private val categoryCrudService: CategoryCrudService,
     private val audienceCrudService: AudienceCrudService,
+    private val announcementCrudService: AnnouncementCrudService,
     private val shareCrudService: ShareCrudService,
 ) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
 
@@ -331,6 +335,34 @@ class EventCrudService(
             waitingListSize,
             waitingListAmount
         )
+    }
+
+    fun addAnnouncement(actor: Account, id: Long, request: AnnouncementChangeRequest): Event? {
+        val event = get(id) ?: return null
+        val announcement = announcementCrudService.create(actor, request)
+        storage.add(event, announcement)
+        notify { it.announcementAdded(actor, event, announcement) }
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+    fun removeAnnouncement(actor: Account, id: Long, announcementId: Long): Event? {
+        val event = get(id) ?: return null
+        val announcement = announcementCrudService.get(announcementId) ?: return event
+        if (!storage.isAssigned(event, announcement)) return event
+
+        storage.remove(event, announcement)
+        notify { it.announcementRemoved(actor, event, announcement) }
+
+        announcementCrudService.delete(actor, announcementId)
+
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+    fun getAnnouncements(id: Long, pageable: Pageable): Page<Announcement> {
+        val event = get(id) ?: return Page.empty()
+        return storage.getAnnouncements(event, pageable)
     }
 
 

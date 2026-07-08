@@ -32,6 +32,10 @@
     "admin": {
       "registration": "Participant list"
     },
+    "announcement": {
+      "title": "Announcements",
+      "empty": "No announcements yet."
+    },
     "broadcast": {
       "title": "Send Message",
       "subject": "Subject",
@@ -43,8 +47,6 @@
         "bring": "What to bring",
         "thanks": "Thank you"
       },
-      "history": "History",
-      "historyEmpty": "No messages sent yet.",
       "message": {
         "sent": "Message sent successfully"
       }
