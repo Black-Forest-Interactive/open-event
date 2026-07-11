@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
-    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.10")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.40")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.40")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")

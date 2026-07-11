@@ -54,6 +54,10 @@
       },
       "bookmark": {
         "removed": "Von der Merkliste entfernt"
+      },
+      "create": {
+        "succeed": "Veranstaltung erstellt",
+        "failed": "Fehler beim Erstellen der Veranstaltung"
       }
     },
     "board": {
@@ -141,14 +145,24 @@
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
         "tags": "Eigene Hashtags hinzufügen",
-        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst wichtig?"
+        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst noch wichtig?",
+        "endDate": "Datum, an dem die Veranstaltung endet",
+        "iconUrl": "URL zu einem Icon für die Veranstaltung",
+        "imageUrl": "URL zu einem Titelbild der Veranstaltung",
+        "interestedAllowed": "Dürfen sich Interessenten ohne feste Zusage eintragen?",
+        "ticketsEnabled": "Sollen Tickets für die Veranstaltung erstellt werden?"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
         "shortText": "Bitte einen Kurztext angeben",
         "longText": "Bitte eine Beschreibung angeben"
       },
-      "shortText": "Kurzbeschreibung"
+      "shortText": "Kurzbeschreibung",
+      "endDate": "Enddatum",
+      "iconUrl": "Icon URL",
+      "imageUrl": "Bild URL",
+      "interestedAllowed": "Interessenten erlauben",
+      "ticketsEnabled": "Tickets aktivieren"
     },
     "dialog": {
       "delete": {

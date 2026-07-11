@@ -18,7 +18,8 @@
     "details": "Details",
     "edit": "Bearbeiten",
     "save": "Speichern",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "toggleTheme": "Design wechseln"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -50,7 +51,12 @@
       "startDate": "Datum",
       "startTime": "Begin",
       "endTime": "Ende",
-      "address": "Gespeicherte Adresse auswählen",
+      "address": {
+        "saved": "Gespeicherte Adresse",
+        "new": "Neue Adresse",
+        "save": "Adresse speichern",
+        "saveHint": "Die neue Adresse wird zu deinen gespeicherten Adressen hinzugefügt."
+      },
       "street": "Straße",
       "nr": "Nr",
       "info": "Addresszusatz",
@@ -67,13 +73,26 @@
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
-        "tags": "Eigene Hashtags hinzufügen"
+        "tags": "Eigene Hashtags hinzufügen",
+        "endDate": "Datum, an dem die Veranstaltung endet",
+        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst noch wichtig?",
+        "iconUrl": "URL zu einem Icon für die Veranstaltung",
+        "imageUrl": "URL zu einem Titelbild der Veranstaltung",
+        "interestedAllowed": "Dürfen sich Interessenten ohne feste Zusage eintragen?",
+        "ticketsEnabled": "Sollen Tickets für die Veranstaltung erstellt werden?"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
         "shortText": "Bitte einen Kurztext angeben",
         "longText": "Bitte eine Beschreibung angeben"
-      }
+      },
+      "endDate": "Enddatum",
+      "shortText": "Kurzbeschreibung",
+      "iconUrl": "Icon URL",
+      "imageUrl": "Bild URL",
+      "interestedAllowed": "Interessenten erlauben",
+      "ticketsEnabled": "Tickets aktivieren",
+      "audiences": "Zielgruppen"
     },
     "dialog": {
       "create": {
@@ -82,6 +101,9 @@
       "delete": {
         "title": "Veranstaltung löschen",
         "question": "Soll die Veranstaltung wirklich gelöscht werden?"
+      },
+      "change": {
+        "title": "Veranstaltung bearbeiten"
       }
     },
     "filter": {
@@ -131,6 +153,12 @@
       "location": "Ort",
       "registration": "Anmeldungen",
       "history": "Protokoll"
+    },
+    "message": {
+      "create": {
+        "succeed": "Veranstaltung erstellt",
+        "failed": "Fehler beim Erstellen der Veranstaltung"
+      }
     }
   },
   "registration": {
@@ -199,8 +227,9 @@
       "timestamp": "Timestamp",
       "enum": {
         "ACCEPTED": "Bestätigt",
-        "INTERESTED": "Interesiert",
-        "CANCELED": "Abgesagt"
+        "INTERESTED": "Interessiert",
+        "CANCELED": "Abgesagt",
+        "UNCONFIRMED": "Unbestätigt"
       }
     }
   },
@@ -251,7 +280,11 @@
     },
     "form": {
       "name": "Name",
-      "iconUrl": "Icon URL"
+      "iconUrl": "Icon URL",
+      "hint": {
+        "name": "Name der Kategorie",
+        "iconUrl": "URL zu einem Icon für die Kategorie"
+      }
     }
   },
   "settings": {
@@ -271,6 +304,9 @@
     "dialog": {
       "create": {
         "title": "Neuen Parameter anlegen"
+      },
+      "change": {
+        "title": "Parameter bearbeiten"
       }
     }
   },
@@ -387,6 +423,12 @@
       "timestamp": "Zeitstempel",
       "status": "Status",
       "title": "Betreff"
+    },
+    "status": {
+      "QUEUED": "In Warteschlange",
+      "RETRY": "Wiederholung",
+      "FINISHED": "Versendet",
+      "FAILED": "Fehlgeschlagen"
     }
   },
   "history": {
@@ -447,7 +489,8 @@
     "action": {
       "add": "Neue Adresse anlegen",
       "create": "Neue Adresse anlegen",
-      "import": "Bestehende Adressen importieren"
+      "import": "Bestehende Adressen importieren",
+      "default": "Standard"
     },
     "property": {
       "street": "Straße",
@@ -457,6 +500,10 @@
       "city": "Wohnort",
       "country": "Land",
       "additionalInfo": "Zusätzliche Angaben"
+    },
+    "message": {
+      "saved": "Adresse wurde gespeichert",
+      "error": "Adresse konnte nicht gespeichert werden"
     }
   },
   "share": {
@@ -486,11 +533,29 @@
   "activity": {
     "title": "Benachrichtigungen",
     "type": {
-      "EVENT_CREATED": "Veranstaltung erstellt",
-      "EVENT_CHANGED": "Veranstaltung geändert",
-      "PARTICIPANT_ACCEPTED": "Neuer Teilnehmer",
-      "PARTICIPANT_DECLINED": "Teilnahme abgesagt",
-      "PARTICIPANT_CHANGED": "Teilnehmer geändert"
+      "event": {
+        "created": "Veranstaltung erstellt",
+        "changed": "Veranstaltung geändert",
+        "deleted": "Veranstaltung gelöscht",
+        "published": "Veranstaltung veröffentlicht",
+        "featured": "Hervorhebung geändert",
+        "title": "Titel geändert",
+        "text": "Beschreibung geändert",
+        "audience": "Zielgruppen geändert",
+        "category": "Kategorien geändert",
+        "tags": "Hashtags geändert",
+        "announcement": {
+          "added": "Ankündigung hinzugefügt",
+          "removed": "Ankündigung entfernt"
+        }
+      },
+      "registration": {
+        "participant": {
+          "accepted": "Neuer Teilnehmer",
+          "declined": "Teilnahme abgesagt",
+          "changed": "Teilnehmer geändert"
+        }
+      }
     },
     "table": {
       "type": "Typ",
@@ -509,6 +574,11 @@
       "hint": {
         "timestamp": "Benachrichtigungen vor diesem Zeitpunkt werden gelöscht"
       }
+    },
+    "dialog": {
+      "cleanup": {
+        "title": "Benachrichtigungen aufräumen"
+      }
     }
   },
   "paginator": {
@@ -524,7 +594,8 @@
     "key": {
       "event": "Ereignisse",
       "account": "Konten",
-      "category": "Kategorien"
+      "category": "Kategorien",
+      "audience": "Zielgruppen"
     },
     "status": {
       "UNKNOWN": "Unbekannt",
@@ -583,6 +654,11 @@
       "CREATED": "Erstellt",
       "IN_PROGRESS": "In Bearbeitung",
       "RESOLVED": "Gelöst"
+    },
+    "dialog": {
+      "details": {
+        "title": "Fehler-Details"
+      }
     }
   },
   "feedback": {
@@ -603,7 +679,8 @@
       "details": {
         "title": "Feedback-Details"
       }
-    }
+    },
+    "title": "Feedback"
   },
   "newsletter": {
     "type": "Newsletter",

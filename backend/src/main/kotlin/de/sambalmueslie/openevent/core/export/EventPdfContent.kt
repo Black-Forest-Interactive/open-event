@@ -11,5 +11,7 @@ data class EventPdfContent(
     val registration: RegistrationInfo,
     val categories: List<Category>,
     val qrCode: String,
-    val availableSpace: List<Char>
+    val availableSpace: List<Char>,
+    val description: String,
+    val shortDescription: String
 )

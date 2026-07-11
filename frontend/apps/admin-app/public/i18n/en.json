@@ -18,7 +18,8 @@
     "details": "Details",
     "edit": "Edit",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "toggleTheme": "Toggle theme"
   },
   "event": {
     "type": "Event",
@@ -50,7 +51,12 @@
       "startDate": "Date",
       "startTime": "Start Time",
       "endTime": "End Time",
-      "address": "Select predefined address",
+      "address": {
+        "saved": "Saved address",
+        "new": "New address",
+        "save": "Save address",
+        "saveHint": "The new address will be added to your saved addresses."
+      },
       "street": "Street",
       "nr": "Nr",
       "info": "Additonal Info",
@@ -67,13 +73,26 @@
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
         "maxGuest": "How many guests coult attend to the event",
-        "tags": "Add some custom hashtags"
+        "tags": "Add some custom hashtags",
+        "endDate": "Date the event ends",
+        "shortText": "Short description – what should you bring, what else is important?",
+        "iconUrl": "URL of an icon for the event",
+        "imageUrl": "URL of a banner image for the event",
+        "interestedAllowed": "May people sign up as interested without a firm commitment?",
+        "ticketsEnabled": "Should tickets be generated for the event?"
       },
       "error": {
         "title": "Please input some title",
         "shortText": "Please input some short description",
         "longText": "Please input some long description"
-      }
+      },
+      "endDate": "End date",
+      "shortText": "Short description",
+      "iconUrl": "Icon URL",
+      "imageUrl": "Image URL",
+      "interestedAllowed": "Allow interested",
+      "ticketsEnabled": "Enable tickets",
+      "audiences": "Audiences"
     },
     "dialog": {
       "create": {
@@ -82,6 +101,9 @@
       "delete": {
         "title": "Delete event",
         "question": "Do you really want to delete the event?"
+      },
+      "change": {
+        "title": "Edit event"
       }
     },
     "filter": {
@@ -131,6 +153,12 @@
       "location": "Location",
       "registration": "Registration",
       "history": "History"
+    },
+    "message": {
+      "create": {
+        "succeed": "Event created",
+        "failed": "Failed to create the event"
+      }
     }
   },
   "registration": {
@@ -200,7 +228,8 @@
       "enum": {
         "ACCEPTED": "Accepted",
         "INTERESTED": "Interested",
-        "CANCELED": "Canceled"
+        "CANCELED": "Canceled",
+        "UNCONFIRMED": "Unconfirmed"
       }
     }
   },
@@ -251,7 +280,11 @@
     },
     "form": {
       "name": "Name",
-      "iconUrl": "Icon URL"
+      "iconUrl": "Icon URL",
+      "hint": {
+        "name": "Name of the category",
+        "iconUrl": "URL of an icon for the category"
+      }
     }
   },
   "settings": {
@@ -271,6 +304,9 @@
     "dialog": {
       "create": {
         "title": "Create new setting"
+      },
+      "change": {
+        "title": "Change parameter"
       }
     }
   },
@@ -387,6 +423,12 @@
       "timestamp": "Timestamp",
       "status": "Status",
       "title": "Title"
+    },
+    "status": {
+      "QUEUED": "Queued",
+      "RETRY": "Retry",
+      "FINISHED": "Sent",
+      "FAILED": "Failed"
     }
   },
   "history": {
@@ -447,7 +489,8 @@
     "action": {
       "add": "Create address",
       "create": "Create address",
-      "import": "Import addresses"
+      "import": "Import addresses",
+      "default": "Default"
     },
     "property": {
       "street": "Street",
@@ -457,6 +500,10 @@
       "city": "City",
       "country": "Country",
       "additionalInfo": "Additional Info"
+    },
+    "message": {
+      "saved": "Address has been saved",
+      "error": "Address could not be saved"
     }
   },
   "share": {
@@ -500,11 +547,29 @@
   "activity": {
     "title": "Notifications",
     "type": {
-      "EVENT_CREATED": "Event created",
-      "EVENT_CHANGED": "Event changed",
-      "PARTICIPANT_ACCEPTED": "Participant added",
-      "PARTICIPANT_DECLINED": "Participant declined",
-      "PARTICIPANT_CHANGED": "Participant changed"
+      "event": {
+        "created": "Event created",
+        "changed": "Event changed",
+        "deleted": "Event deleted",
+        "published": "Event published",
+        "featured": "Featured changed",
+        "title": "Title changed",
+        "text": "Description changed",
+        "audience": "Audiences changed",
+        "category": "Categories changed",
+        "tags": "Hashtags changed",
+        "announcement": {
+          "added": "Announcement added",
+          "removed": "Announcement removed"
+        }
+      },
+      "registration": {
+        "participant": {
+          "accepted": "Participant added",
+          "declined": "Participant declined",
+          "changed": "Participant changed"
+        }
+      }
     },
     "table": {
       "type": "Type",
@@ -523,6 +588,11 @@
       "hint": {
         "timestamp": "Notifications before this timestamp will be deleted"
       }
+    },
+    "dialog": {
+      "cleanup": {
+        "title": "Clean up notifications"
+      }
     }
   },
   "paginator": {
@@ -538,7 +608,8 @@
     "key": {
       "event": "Events",
       "account": "Accounts",
-      "category": "Categories"
+      "category": "Categories",
+      "audience": "Audiences"
     },
     "status": {
       "UNKNOWN": "Unknown",
@@ -583,6 +654,11 @@
       "CREATED": "Created",
       "IN_PROGRESS": "In Progress",
       "RESOLVED": "Resolved"
+    },
+    "dialog": {
+      "details": {
+        "title": "Issue details"
+      }
     }
   },
   "feedback": {
@@ -603,7 +679,8 @@
       "tags": "Tags",
       "client_ip": "Client IP",
       "user_agent": "User Agent"
-    }
+    },
+    "title": "Feedback"
   },
   "newsletter": {
     "type": "Newsletter",

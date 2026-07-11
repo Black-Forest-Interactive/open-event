@@ -141,7 +141,7 @@ export class EventComponent implements OnInit {
   exportMail() {
     this.exportService.exportEventsToEmail(this.request).subscribe({
       next: () => this.translateService.get('backoffice.export.action.mail.success').subscribe((t) => this.toast.success(t)),
-      error: () => this.translateService.get('backoffice.export.action.mail.error').subscribe((t) => this.toast.error(t))
+      error: () => this.translateService.get('backoffice.export.action.mail.failed').subscribe((t) => this.toast.error(t))
     })
   }
 

@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.core.export
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.QRCodeWriter
+import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder.FontStyle
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import de.sambalmueslie.openevent.api.SettingsAPI
@@ -42,6 +43,7 @@ abstract class BasePdfExporter(
         private const val HEADER_PDF_FILE_SUFIX = ".pdf"
         private const val HEADER_PDF_FILE_PREFIX = "events"
         private const val TRANSPARENT_PIXEL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+        private const val FONT_FAMILY = "Liberation Sans"
     }
 
     private val ve = VelocityEngine().apply {
@@ -50,6 +52,7 @@ abstract class BasePdfExporter(
         init()
     }
     private val barcodeWriter = QRCodeWriter()
+    private val htmlConverter = HtmlConverter()
 
     override fun exportEvents(provider: () -> Sequence<EventInfo>): SystemFile? {
         val infos = provider.invoke().toList()
@@ -101,8 +104,10 @@ abstract class BasePdfExporter(
 
         val qrCode = createQrCode(info)
         val availableSpace = getAvailableSpace(registration.registration)
+        val description = htmlConverter.convert(event.longText)
+        val shortDescription = htmlConverter.convert(event.shortText)
 
-        return EventPdfContent(event, location, registration, categories, qrCode, availableSpace)
+        return EventPdfContent(event, location, registration, categories, qrCode, availableSpace, description, shortDescription)
     }
 
     protected fun renderPdfFile(infos: List<EventInfo>, additionalProperties: Map<String, Any>? = null): SystemFile? {
@@ -129,7 +134,7 @@ abstract class BasePdfExporter(
         }
         logger.info("Template result size ${writer.buffer.length} bytes")
 
-        val result = writer.toString()
+        val result = PdfTextSanitizer.sanitize(writer.toString())
         val out = renderPdfContent(content, result)
 
         return logger.logTimeMillisWithValue("Write result to file with ${out.size()} bytes")
@@ -149,11 +154,18 @@ abstract class BasePdfExporter(
         val out = ByteArrayOutputStream()
         PdfRendererBuilder()
             .useSVGDrawer(BatikSVGDrawer())
+            .useFont({ fontStream("LiberationSans-Regular.ttf") }, FONT_FAMILY, 400, FontStyle.NORMAL, true)
+            .useFont({ fontStream("LiberationSans-Bold.ttf") }, FONT_FAMILY, 700, FontStyle.NORMAL, true)
+            .useFont({ fontStream("LiberationSans-Italic.ttf") }, FONT_FAMILY, 400, FontStyle.ITALIC, true)
+            .useFont({ fontStream("LiberationSans-BoldItalic.ttf") }, FONT_FAMILY, 700, FontStyle.ITALIC, true)
             .withHtmlContent(content, "about:blank")
             .toStream(out)
             .run()
         return out
     }
+
+    private fun fontStream(name: String) = javaClass.getResourceAsStream("/fonts/$name")
+        ?: throw IllegalStateException("Font /fonts/$name not found on classpath")
 
     private fun convertImageToBase64(imagePath: String): String {
         if (imagePath.isBlank()) return TRANSPARENT_PIXEL
