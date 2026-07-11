@@ -13,7 +13,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { Audience, EventSearchEntry } from '@open-event/core'
 import { AudienceService, CategoryService, EventService } from '@open-event/portal'
-import { CategoryChipComponent, CategoryPickerComponent, EventBoardListComponent as LibEventBoardListComponent, EventBoardCalendarComponent, getCategoryStyle } from '@open-event/ui'
+import { CategoryChipComponent, CategoryPickerComponent, EventBoardEntry, EventBoardListComponent as LibEventBoardListComponent, EventBoardCalendarComponent, getCategoryStyle } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
 import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast-sheet/event-broadcast-sheet.component'
 import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-dialog.component'
@@ -211,6 +211,16 @@ export class EventBoardListComponent {
 
   openCancel(entry: EventSearchEntry) {
     this.dialog.open(EventCancelDialogComponent, { width: '400px', data: { event: { id: entry.id, title: entry.title }, participantCount: entry.amountAccepted } })
+  }
+
+  removeBookmark(entry: EventBoardEntry) {
+    this.eventService.clearBookmarked(+entry.id).subscribe({
+      next: () => {
+        this.translate.get('event.message.bookmark.removed').subscribe(msg => this.toast.success(msg))
+        this.refresh.emit()
+      },
+      error: () => this.translate.get('event.message.update.failed').subscribe(msg => this.toast.error(msg))
+    })
   }
 
   openCopy(entry: EventSearchEntry) {

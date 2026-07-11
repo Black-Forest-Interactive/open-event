@@ -1,69 +1,40 @@
-import { Component, computed, effect, inject, resource, signal, TemplateRef, viewChild } from '@angular/core'
-import { NgTemplateOutlet } from '@angular/common'
+import { Component, computed, DestroyRef, effect, inject, resource, signal } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
-import { DateTime } from 'luxon'
 import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
 import { EventService } from '@open-event/portal'
-import { BoardSearchComponent, EventBoardDateFilterComponent, EventBoardDateRange } from '@open-event/ui'
-import { LoadingBarComponent, toPromise } from '@open-event/shared'
-import { MatBottomSheet } from '@angular/material/bottom-sheet'
+import { BoardSearchComponent } from '@open-event/ui'
+import { LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
 import { MatIcon } from '@angular/material/icon'
-import { MatButton, MatIconButton } from '@angular/material/button'
+import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { RouterLink } from '@angular/router'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
-import { CategoryFilterComponent } from '../event-board-filter/category-filter/category-filter.component'
-import { AudienceFilterComponent } from '../event-board-filter/audience-filter/audience-filter.component'
+import { eventBoardOwnTour } from './event-board-own.tour'
 
 @Component({
   selector: 'portal-event-board-own',
   templateUrl: './event-board-own.component.html',
-  imports: [
-    NgTemplateOutlet,
-    EventBoardListComponent,
-    EventBoardNavbarComponent,
-    EventBoardDateFilterComponent,
-    CategoryFilterComponent,
-    AudienceFilterComponent,
-    BoardSearchComponent,
-    LoadingBarComponent,
-    MatIcon,
-    MatButton,
-    MatIconButton,
-    RouterLink,
-    TranslatePipe
-  ],
+  imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, MatIcon, MatButton, RouterLink, TranslatePipe],
   standalone: true
 })
 export class EventBoardOwnComponent {
   private eventService = inject(EventService)
   private responsive = inject(BreakpointObserver)
-  private bottomSheet = inject(MatBottomSheet)
-  private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
+  private tourService = inject(TourService)
+  private destroyRef = inject(DestroyRef)
 
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
   private query = signal('')
-  private fromDate = signal<string | undefined>(undefined)
-  private toDate = signal<string | undefined>(undefined)
   private page = signal(0)
   private size = signal(200)
   private infiniteScrollMode = signal(false)
-  readonly includeHistory = signal(true)
-  readonly categoryFilter = signal<Set<string>>(new Set())
-  readonly audienceFilter = signal<Set<string>>(new Set())
 
   private criteria = computed(() => ({
-    request: new EventSearchRequest(
-      this.query(), this.fromDate(), this.toDate(),
-      true, false, false,
-      Array.from(this.categoryFilter()),
-      false, false,
-      Array.from(this.audienceFilter())
-    ),
+    request: new EventSearchRequest(this.query(), undefined, undefined, true, false, false, [], false, false, []),
     page: this.page(),
     size: this.size()
   }))
@@ -96,54 +67,13 @@ export class EventBoardOwnComponent {
     effect(() => {
       this.infiniteScrollMode.set(this.mobileView())
     })
+    this.tourService.register(eventBoardOwnTour, () => !this.reloading())
+    this.destroyRef.onDestroy(() => this.tourService.unregister(eventBoardOwnTour.id))
   }
 
   setQuery(val: string) {
     if (this.query() === val) return
     this.query.set(val)
-    this.page.set(0)
-  }
-
-  handleRangeChanged(range: EventBoardDateRange) {
-    this.fromDate.set(range.start)
-    this.toDate.set(range.end)
-    this.page.set(0)
-  }
-
-  handleReset() {
-    this.query.set('')
-    this.categoryFilter.set(new Set())
-    this.audienceFilter.set(new Set())
-    this.includeHistory.set(true)
-    this.fromDate.set(undefined)
-    this.toDate.set(undefined)
-    this.page.set(0)
-  }
-
-  toggleHistory() {
-    this.includeHistory.update((v) => !v)
-    this.fromDate.set(this.includeHistory() ? undefined : (DateTime.now().startOf('day').toISODate() ?? undefined))
-    this.toDate.set(undefined)
-    this.page.set(0)
-  }
-
-  toggleCategory(name: string) {
-    this.categoryFilter.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
-    this.page.set(0)
-  }
-
-  toggleAudience(name: string) {
-    this.audienceFilter.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
     this.page.set(0)
   }
 
@@ -155,10 +85,5 @@ export class EventBoardOwnComponent {
   reload() {
     this.page.set(0)
     this.searchResource.reload()
-  }
-
-  openFilter() {
-    const sheet = this.filterSheet()
-    if (sheet) this.bottomSheet.open(sheet)
   }
 }

@@ -28,6 +28,8 @@
           "libs/ui/src/lib/theme/theme.scss",
           "libs/ui/src/lib/theme/utilities.scss",
           "libs/ui/src/lib/theme/base.scss",
+          "node_modules/driver.js/dist/driver.css",
+          "libs/ui/src/lib/theme/driver.scss",
           "node_modules/quill/dist/quill.core.css",
           "node_modules/quill/dist/quill.bubble.css",
           "node_modules/quill/dist/quill.snow.css",

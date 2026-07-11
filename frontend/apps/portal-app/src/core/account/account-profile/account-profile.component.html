@@ -5,7 +5,7 @@
             <p class="text-sm text-on-surface-variant mt-1">{{ 'profile.subtitle' | translate }}</p>
         </div>
         @if (!editMode()) {
-            <button (click)="editMode.set(true)" matIconButton>
+            <button (click)="editMode.set(true)" data-tour="profile-edit" matIconButton>
                 <mat-icon>edit</mat-icon>
             </button>
         }

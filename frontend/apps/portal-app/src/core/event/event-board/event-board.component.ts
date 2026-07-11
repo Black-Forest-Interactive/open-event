@@ -1,4 +1,4 @@
-import { Component, effect, inject, TemplateRef, viewChild } from '@angular/core'
+import { Component, DestroyRef, effect, inject, TemplateRef, viewChild } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
@@ -10,7 +10,8 @@ import { EventBoardFilterComponent } from '../event-board-filter/event-board-fil
 import { EventBoardMapComponent } from '../event-board-map/event-board-map.component'
 import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
 import { BoardSearchComponent } from '@open-event/ui'
-import { LoadingBarComponent } from '@open-event/shared'
+import { LoadingBarComponent, TourService } from '@open-event/shared'
+import { eventBoardTour } from './event-board.tour'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { MatBadge } from '@angular/material/badge'
@@ -47,6 +48,8 @@ export class EventBoardComponent {
   readonly reloading = this.service.reloading
   private responsive = inject(BreakpointObserver)
   private bottomSheet = inject(MatBottomSheet)
+  private tourService = inject(TourService)
+  private destroyRef = inject(DestroyRef)
   private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
@@ -61,6 +64,8 @@ export class EventBoardComponent {
       this.service.setInfiniteScrollMode(this.mobileView())
     })
     this.service.reload()
+    this.tourService.register(eventBoardTour, () => !this.reloading())
+    this.destroyRef.onDestroy(() => this.tourService.unregister(eventBoardTour.id))
   }
 
   setQuery(query: string) {

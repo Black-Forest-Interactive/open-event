@@ -38,14 +38,14 @@
             </button>
             <input #fileInput (change)="onImageSelected($event)" accept="image/*" class="hidden" type="file"/>
             <a [matTooltip]="'event.action.edit' | translate" [routerLink]="'/event/edit/' + data()!.event.id"
-               class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton matTooltipPosition="left">
+               class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" data-tour="details-edit" matIconButton matTooltipPosition="left">
                 <mat-icon class="text-white">edit</mat-icon>
             </a>
         }
-        <button (click)="toggleBookmark.emit()" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton>
+        <button (click)="toggleBookmark.emit()" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" data-tour="details-bookmark" matIconButton>
             <mat-icon class="text-white">{{ isBookmarked() ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
-        <button (click)="share.emit()" [matTooltip]="'action.share' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" matIconButton matTooltipPosition="left">
+        <button (click)="share.emit()" [matTooltip]="'action.share' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm" data-tour="details-share" matIconButton matTooltipPosition="left">
             <mat-icon class="text-white">share</mat-icon>
         </button>
     </div>

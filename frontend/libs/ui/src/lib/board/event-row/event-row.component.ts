@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, output } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -18,6 +18,8 @@ import { EventBoardEntry } from '../event-board.api'
 })
 export class EventBoardRowComponent {
   data = input.required<EventBoardEntry>()
+  removable = input(false)
+  removeClick = output<void>()
 
   readonly link = computed(() => this.data().link)
   readonly title = computed(() => this.data().title)

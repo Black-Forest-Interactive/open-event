@@ -52,10 +52,16 @@
         @if (hasRegistration()) {
             <lib-registration-status [compact]="true" [public]="data()"></lib-registration-status>
         }
-        <button (click)="$event.stopPropagation()" color="accent" matButton="filled" [routerLink]="link()" class="!px-3">
+        <button (click)="$event.stopPropagation()" color="accent" data-tour="row-details" matButton="filled" [routerLink]="link()" class="!px-3">
             {{ 'event.board.details' | translate }}
             <mat-icon>arrow_forward</mat-icon>
         </button>
+        @if (removable()) {
+            <button (click)="$event.stopPropagation(); removeClick.emit()" data-tour="row-remove" matButton="outlined" class="!px-3" type="button">
+                <mat-icon>bookmark_remove</mat-icon>
+                {{ 'event.board.removeSaved' | translate }}
+            </button>
+        }
     </div>
 
 </mat-card>

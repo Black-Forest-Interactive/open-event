@@ -25,6 +25,7 @@
     "@ngx-translate/http-loader": "^17.0.0",
     "@ngxpert/hot-toast": "^4.2.0",
     "@types/leaflet.markercluster": "^1.5.6",
+    "driver.js": "^1.6.0",
     "echarts": "^6.0.0",
     "file-saver": "^2.0.5",
     "keycloak-angular": "^21.0.0",

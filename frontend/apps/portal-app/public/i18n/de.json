@@ -51,6 +51,9 @@
       "delete": {
         "succeed": "Veranstaltung gelöscht",
         "failed": "Fehler beim Löschen"
+      },
+      "bookmark": {
+        "removed": "Von der Merkliste entfernt"
       }
     },
     "board": {
@@ -79,7 +82,8 @@
         "regsSubtitle": "Veranstaltungen, für die du angemeldet bist.",
         "ownTitle": "Meine Angebote",
         "ownSubtitle": "Veranstaltungen, die du erstellt hast."
-      }
+      },
+      "removeSaved": "Entfernen"
     },
     "empty": {
       "title": "Keine Veranstaltungen gefunden",
@@ -687,5 +691,226 @@
       "error_required": "Bitte gib eine Bewertung ab"
     },
     "confirmation": "Wir haben dein Feedback erhalten, vielen Dank"
+  },
+  "tour": {
+    "progress": "{{current}} von {{total}}",
+    "eventBoard": {
+      "welcome": {
+        "title": "Willkommen!",
+        "description": "Diese kurze Tour zeigt dir die wichtigsten Funktionen. Du kannst sie jederzeit über den Hilfe-Button oben rechts erneut starten."
+      },
+      "navDiscover": {
+        "title": "Entdecken",
+        "description": "Hier findest du alle veröffentlichten Veranstaltungen und kannst neue Angebote entdecken."
+      },
+      "navSaved": {
+        "title": "Merkliste",
+        "description": "Veranstaltungen, die du dir gemerkt hast, findest du hier jederzeit wieder."
+      },
+      "navRegs": {
+        "title": "Meine Anmeldungen",
+        "description": "Hier siehst du alle Veranstaltungen, zu denen du dich angemeldet hast."
+      },
+      "navOwn": {
+        "title": "Meine Angebote",
+        "description": "Hier verwaltest du deine eigenen Veranstaltungen und kannst neue erstellen."
+      },
+      "search": {
+        "title": "Veranstaltungen suchen",
+        "description": "Gib hier einen Suchbegriff ein, um Veranstaltungen nach Titel oder Inhalt zu finden."
+      },
+      "filter": {
+        "title": "Filtern",
+        "description": "Grenze die Ergebnisse nach Kategorie, Zielgruppe, Zeitraum oder Verfügbarkeit ein."
+      },
+      "layout": {
+        "title": "Ansicht wechseln",
+        "description": "Wechsle zwischen Karten-, Listen-, Kalender- und Kartenansicht — ganz wie es dir am besten passt."
+      },
+      "filterReset": {
+        "title": "Filter zurücksetzen",
+        "description": "Mit einem Klick entfernst du alle gesetzten Filter und siehst wieder alle Veranstaltungen."
+      },
+      "details": {
+        "title": "Details ansehen",
+        "description": "Klicke auf eine Veranstaltung, um alle Details zu sehen und dich anzumelden."
+      },
+      "create": {
+        "title": "Neue Veranstaltung erstellen",
+        "description": "Hier erstellst du deine eigene Veranstaltung und kannst sie anschließend veröffentlichen."
+      }
+    },
+    "eventBoardSaved": {
+      "welcome": {
+        "title": "Deine Merkliste",
+        "description": "Hier sammelst du Veranstaltungen, die dich interessieren. Tippe unter „Entdecken“ bei einer Veranstaltung auf das Lesezeichen-Symbol, um sie auf die Merkliste zu setzen."
+      },
+      "search": {
+        "title": "Merkliste durchsuchen",
+        "description": "Mit der Volltextsuche findest du gemerkte Veranstaltungen schnell wieder."
+      },
+      "card": {
+        "title": "Gemerkte Veranstaltung",
+        "description": "Jeder Eintrag zeigt dir Datum, Uhrzeit, Ort sowie Kategorien und Zielgruppen auf einen Blick. Bist du bereits angemeldet, siehst du hier auch den Status deiner Anmeldung."
+      },
+      "details": {
+        "title": "Details ansehen",
+        "description": "Öffnet die Detailseite der Veranstaltung — dort findest du alle Informationen und kannst dich direkt anmelden."
+      },
+      "remove": {
+        "title": "Von der Merkliste entfernen",
+        "description": "Nimmt die Veranstaltung von deiner Merkliste — sie bleibt natürlich unter „Entdecken“ weiterhin auffindbar."
+      }
+    },
+    "eventBoardRegs": {
+      "welcome": {
+        "title": "Meine Anmeldungen",
+        "description": "Hier siehst du alle Veranstaltungen, zu denen du dich angemeldet hast — inklusive des aktuellen Status deiner Anmeldung."
+      },
+      "search": {
+        "title": "Anmeldungen durchsuchen",
+        "description": "Mit der Volltextsuche findest du eine bestimmte Anmeldung schnell wieder."
+      },
+      "card": {
+        "title": "Deine Anmeldung",
+        "description": "Am Eintrag erkennst du den Status deiner Anmeldung. Klicke darauf, um Details zu sehen oder deine Anmeldung zu verwalten."
+      }
+    },
+    "eventBoardOwn": {
+      "welcome": {
+        "title": "Meine Angebote",
+        "description": "Hier verwaltest du deine eigenen Veranstaltungen — von der Erstellung über die Veröffentlichung bis zur Teilnehmerverwaltung."
+      },
+      "search": {
+        "title": "Angebote durchsuchen",
+        "description": "Mit der Volltextsuche findest du deine Veranstaltungen schnell wieder."
+      },
+      "create": {
+        "title": "Neue Veranstaltung erstellen",
+        "description": "Lege hier eine neue Veranstaltung an und veröffentliche sie, sobald alles passt."
+      },
+      "card": {
+        "title": "Dein Angebot",
+        "description": "Jede Karte zeigt deine Veranstaltung mit allen wichtigen Informationen — vieles davon kannst du direkt hier bearbeiten, ohne die Seite zu verlassen."
+      },
+      "chips": {
+        "title": "Kategorien & Zielgruppen",
+        "description": "Klicke auf die Kategorie- oder Zielgruppen-Chips, um sie direkt anzupassen — die Änderung wird sofort gespeichert."
+      },
+      "text": {
+        "title": "Texte bearbeiten",
+        "description": "Über den Stift passt du Titel und Kurzbeschreibung deiner Veranstaltung schnell an."
+      },
+      "stats": {
+        "title": "Anmeldungen im Blick",
+        "description": "Hier siehst du, wie viele Plätze belegt und frei sind — und ob es eine Warteliste gibt."
+      },
+      "manage": {
+        "title": "Verwalten",
+        "description": "Öffnet die Verwaltungsseite deiner Veranstaltung: Dort siehst du alle Anmeldungen, nimmst Teilnehmer an oder lehnst sie ab, verwaltest die Warteliste und exportierst die Gästeliste."
+      },
+      "edit": {
+        "title": "Bearbeiten",
+        "description": "Öffnet den Bearbeitungsdialog, in dem du alle Eckdaten anpasst — zum Beispiel Termin, Ort und Teilnehmerlimit."
+      },
+      "message": {
+        "title": "Nachricht",
+        "description": "Sendet eine Nachricht an alle angemeldeten Teilnehmer — praktisch bei kurzfristigen Änderungen oder wichtigen Infos."
+      },
+      "promote": {
+        "title": "Bewerben",
+        "description": "Teile deine Veranstaltung per Link oder QR-Code, um mehr Teilnehmer zu erreichen. Der Button wird aktiv, sobald du das Teilen in den Einstellungen der Veranstaltung aktiviert hast."
+      },
+      "cancel": {
+        "title": "Absagen",
+        "description": "Sagt die Veranstaltung ab — alle angemeldeten Teilnehmer werden darüber informiert."
+      }
+    },
+    "account": {
+      "welcome": {
+        "title": "Dein Benutzerprofil",
+        "description": "Hier verwaltest du deine persönlichen Daten und Einstellungen."
+      },
+      "profile": {
+        "title": "Persönliche Daten",
+        "description": "Hier siehst du deine hinterlegten Daten wie Name, E-Mail, Telefonnummer und Sprache."
+      },
+      "edit": {
+        "title": "Profil bearbeiten",
+        "description": "Über den Stift bearbeitest du deine Daten — zum Beispiel Kontaktinformationen oder die bevorzugte Sprache."
+      },
+      "preferences": {
+        "title": "Einstellungen",
+        "description": "Hier meldest du dich für den Newsletter an oder wieder ab — er informiert dich regelmäßig über neue Veranstaltungen."
+      }
+    },
+    "address": {
+      "welcome": {
+        "title": "Deine Adressen",
+        "description": "Hier verwaltest du deine gespeicherten Adressen. Beim Anlegen einer Veranstaltung kannst du sie als Veranstaltungsort auswählen."
+      },
+      "add": {
+        "title": "Neue Adresse anlegen",
+        "description": "Lege hier eine neue Adresse mit Straße, PLZ und Ort an."
+      },
+      "import": {
+        "title": "Adressen importieren",
+        "description": "Übernimm bestehende Adressen aus deinem Konto, statt sie neu einzugeben."
+      },
+      "card": {
+        "title": "Deine Adresse",
+        "description": "Jede Karte zeigt eine gespeicherte Adresse mit allen Angaben."
+      },
+      "default": {
+        "title": "Standardadresse",
+        "description": "Markiere eine Adresse als Standard — sie wird dann automatisch vorausgewählt."
+      },
+      "actions": {
+        "title": "Bearbeiten & Löschen",
+        "description": "Über den Stift änderst du die Adresse, über den Papierkorb entfernst du sie."
+      }
+    },
+    "eventDetails": {
+      "welcome": {
+        "title": "Veranstaltungsdetails",
+        "description": "Auf dieser Seite findest du alle Informationen zu einer Veranstaltung — und kannst dich direkt anmelden."
+      },
+      "info": {
+        "title": "Alle Infos auf einen Blick",
+        "description": "Beschreibung, Termin und alle wichtigen Fakten zur Veranstaltung."
+      },
+      "host": {
+        "title": "Veranstalter",
+        "description": "Hier siehst du, wer die Veranstaltung anbietet."
+      },
+      "registration": {
+        "title": "Anmeldung",
+        "description": "Hier meldest du dich zur Veranstaltung an, siehst freie Plätze und den Status deiner Anmeldung — und kannst sie bei Bedarf wieder stornieren."
+      },
+      "location": {
+        "title": "Veranstaltungsort",
+        "description": "Die Adresse der Veranstaltung mit Karte — so findest du direkt hin."
+      },
+      "bookmark": {
+        "title": "Auf die Merkliste",
+        "description": "Tippe auf das Herz, um die Veranstaltung auf deine Merkliste zu setzen — so findest du sie später schnell wieder."
+      },
+      "share": {
+        "title": "Teilen",
+        "description": "Teile die Veranstaltung per Link mit Freunden und Bekannten."
+      },
+      "guests": {
+        "title": "Gästeliste",
+        "description": "Als Veranstalter siehst du hier alle Anmeldungen und verwaltest deine Gäste."
+      },
+      "shareSettings": {
+        "title": "Teilen aktivieren",
+        "description": "Aktiviere hier das Teilen deiner Veranstaltung — erst dann kannst du sie öffentlich bewerben."
+      },
+      "edit": {
+        "title": "Bearbeiten",
+        "description": "Als Veranstalter bearbeitest du hier deine Veranstaltung."
+      }
+    }
   }
 }

@@ -117,6 +117,9 @@
       "delete": {
         "succeed": "Event deleted",
         "failed": "Failed to delete event"
+      },
+      "bookmark": {
+        "removed": "Removed from your saved events"
       }
     },
     "board": {
@@ -145,7 +148,8 @@
         "regsSubtitle": "Events you are registered for.",
         "ownTitle": "My events",
         "ownSubtitle": "Events you created."
-      }
+      },
+      "removeSaved": "Remove"
     },
     "empty": {
       "title": "No events found",
@@ -687,5 +691,226 @@
       "error_required": "Please select a rating"
     },
     "confirmation": "We received your feedback, thanks"
+  },
+  "tour": {
+    "progress": "{{current}} of {{total}}",
+    "eventBoard": {
+      "welcome": {
+        "title": "Welcome!",
+        "description": "This short tour shows you the most important features. You can restart it anytime via the help button in the top right corner."
+      },
+      "navDiscover": {
+        "title": "Discover",
+        "description": "Here you find all published events and can discover new offers."
+      },
+      "navSaved": {
+        "title": "Saved",
+        "description": "Events you bookmarked can always be found here."
+      },
+      "navRegs": {
+        "title": "My registrations",
+        "description": "Here you see all events you registered for."
+      },
+      "navOwn": {
+        "title": "My offers",
+        "description": "Here you manage your own events and can create new ones."
+      },
+      "search": {
+        "title": "Search events",
+        "description": "Enter a search term to find events by title or content."
+      },
+      "filter": {
+        "title": "Filter",
+        "description": "Narrow down the results by category, audience, date range or availability."
+      },
+      "layout": {
+        "title": "Switch view",
+        "description": "Switch between card, list, calendar and map view — whatever suits you best."
+      },
+      "filterReset": {
+        "title": "Reset filters",
+        "description": "One click removes all active filters and shows all events again."
+      },
+      "details": {
+        "title": "View details",
+        "description": "Click on an event to see all details and register."
+      },
+      "create": {
+        "title": "Create a new event",
+        "description": "Here you create your own event and can publish it afterwards."
+      }
+    },
+    "eventBoardSaved": {
+      "welcome": {
+        "title": "Your saved events",
+        "description": "Here you collect events you are interested in. Tap the bookmark icon on an event in “Discover” to add it to your list."
+      },
+      "search": {
+        "title": "Search saved events",
+        "description": "Use the full-text search to quickly find a saved event."
+      },
+      "card": {
+        "title": "Saved event",
+        "description": "Each entry shows date, time, location, categories and audiences at a glance. If you are already registered, the status of your registration is shown as well."
+      },
+      "details": {
+        "title": "View details",
+        "description": "Opens the event detail page — there you find all information and can register directly."
+      },
+      "remove": {
+        "title": "Remove from saved",
+        "description": "Removes the event from your saved list — you can of course still find it under “Discover”."
+      }
+    },
+    "eventBoardRegs": {
+      "welcome": {
+        "title": "My registrations",
+        "description": "Here you see all events you registered for — including the current status of your registration."
+      },
+      "search": {
+        "title": "Search registrations",
+        "description": "Use the full-text search to quickly find a specific registration."
+      },
+      "card": {
+        "title": "Your registration",
+        "description": "The entry shows the status of your registration. Click it to see details or manage your registration."
+      }
+    },
+    "eventBoardOwn": {
+      "welcome": {
+        "title": "My offers",
+        "description": "Here you manage your own events — from creation and publishing to managing participants."
+      },
+      "search": {
+        "title": "Search offers",
+        "description": "Use the full-text search to quickly find your events."
+      },
+      "create": {
+        "title": "Create a new event",
+        "description": "Create a new event here and publish it once everything is ready."
+      },
+      "card": {
+        "title": "Your offer",
+        "description": "Each card shows your event with all important information — much of it can be edited right here without leaving the page."
+      },
+      "chips": {
+        "title": "Categories & audiences",
+        "description": "Click the category or audience chips to adjust them directly — changes are saved immediately."
+      },
+      "text": {
+        "title": "Edit texts",
+        "description": "Use the pencil to quickly adjust the title and short description of your event."
+      },
+      "stats": {
+        "title": "Registrations at a glance",
+        "description": "Here you see how many spots are taken and free — and whether there is a waiting list."
+      },
+      "manage": {
+        "title": "Manage",
+        "description": "Opens the management page of your event: there you see all registrations, accept or decline participants, manage the waiting list and export the guest list."
+      },
+      "edit": {
+        "title": "Edit",
+        "description": "Opens the edit dialog where you adjust all key data — for example date, location and participant limit."
+      },
+      "message": {
+        "title": "Message",
+        "description": "Sends a message to all registered participants — useful for last-minute changes or important information."
+      },
+      "promote": {
+        "title": "Promote",
+        "description": "Share your event via link or QR code to reach more participants. The button becomes active once you enable sharing in the event settings."
+      },
+      "cancel": {
+        "title": "Cancel",
+        "description": "Cancels the event — all registered participants will be informed."
+      }
+    },
+    "account": {
+      "welcome": {
+        "title": "Your user profile",
+        "description": "Here you manage your personal data and settings."
+      },
+      "profile": {
+        "title": "Personal data",
+        "description": "Here you see your stored data such as name, email, phone number and language."
+      },
+      "edit": {
+        "title": "Edit profile",
+        "description": "Use the pencil to edit your data — for example contact information or your preferred language."
+      },
+      "preferences": {
+        "title": "Settings",
+        "description": "Subscribe to or unsubscribe from the newsletter here — it keeps you informed about new events."
+      }
+    },
+    "address": {
+      "welcome": {
+        "title": "Your addresses",
+        "description": "Here you manage your saved addresses. When creating an event you can select one of them as the venue."
+      },
+      "add": {
+        "title": "Add a new address",
+        "description": "Create a new address with street, zip code and city."
+      },
+      "import": {
+        "title": "Import addresses",
+        "description": "Take over existing addresses from your account instead of entering them again."
+      },
+      "card": {
+        "title": "Your address",
+        "description": "Each card shows one saved address with all its details."
+      },
+      "default": {
+        "title": "Default address",
+        "description": "Mark an address as default — it will then be preselected automatically."
+      },
+      "actions": {
+        "title": "Edit & delete",
+        "description": "Use the pencil to change the address, the trash can to remove it."
+      }
+    },
+    "eventDetails": {
+      "welcome": {
+        "title": "Event details",
+        "description": "On this page you find all information about an event — and can register directly."
+      },
+      "info": {
+        "title": "All info at a glance",
+        "description": "Description, date and all important facts about the event."
+      },
+      "host": {
+        "title": "Host",
+        "description": "Here you see who offers the event."
+      },
+      "registration": {
+        "title": "Registration",
+        "description": "Register for the event here, see free spots and the status of your registration — and cancel it if needed."
+      },
+      "location": {
+        "title": "Venue",
+        "description": "The address of the event with a map — so you find your way there."
+      },
+      "bookmark": {
+        "title": "Save for later",
+        "description": "Tap the heart to add the event to your saved list — so you can quickly find it again later."
+      },
+      "share": {
+        "title": "Share",
+        "description": "Share the event with friends via link."
+      },
+      "guests": {
+        "title": "Guest list",
+        "description": "As the host you see all registrations here and manage your guests."
+      },
+      "shareSettings": {
+        "title": "Enable sharing",
+        "description": "Enable sharing of your event here — only then can you promote it publicly."
+      },
+      "edit": {
+        "title": "Edit",
+        "description": "As the host you edit your event here."
+      }
+    }
   }
 }

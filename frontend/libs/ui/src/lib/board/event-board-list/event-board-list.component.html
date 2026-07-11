@@ -6,14 +6,14 @@
     <div (nearEnd)="nearEnd.emit()" libScrollNearEnd>
         @if (layout() === 'rows') {
             <div class="flex flex-col gap-2 pb-4">
-                @for (entry of entries(); track entry.id) {
-                    <lib-event-board-row [data]="entry"></lib-event-board-row>
+                @for (entry of entries(); track entry.id; let first = $first) {
+                    <lib-event-board-row (removeClick)="entryRemove.emit(entry)" [attr.data-tour]="first ? 'event-card' : null" [data]="entry" [removable]="removable()"></lib-event-board-row>
                 }
             </div>
         } @else {
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                @for (entry of entries(); track entry.id) {
-                    <lib-event-card [data]="entry"></lib-event-card>
+                @for (entry of entries(); track entry.id; let first = $first) {
+                    <lib-event-card [attr.data-tour]="first ? 'event-card' : null" [data]="entry"></lib-event-card>
                 }
             </div>
         }

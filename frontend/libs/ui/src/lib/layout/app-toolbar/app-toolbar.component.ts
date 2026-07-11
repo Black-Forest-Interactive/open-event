@@ -3,7 +3,7 @@ import { MatToolbar } from '@angular/material/toolbar'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { TranslatePipe } from '@ngx-translate/core'
-import { ThemeService } from '@open-event/shared'
+import { ThemeService, TourService } from '@open-event/shared'
 
 @Component({
   selector: 'lib-app-toolbar',
@@ -17,4 +17,5 @@ export class AppToolbarComponent {
   showMenuToggle = input<boolean>(true)
   menuToggle = output<void>()
   protected readonly themeService = inject(ThemeService)
+  protected readonly tourService = inject(TourService)
 }

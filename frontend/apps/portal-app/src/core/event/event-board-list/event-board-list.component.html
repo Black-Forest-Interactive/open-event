@@ -9,7 +9,7 @@
         </div>
     } @else {
         <div class="flex flex-col gap-3 pb-4">
-            @for (entry of entries(); track entry.id) {
+            @for (entry of entries(); track entry.id; let first = $first) {
 
                 <!-- Category picker overlay -->
                 <mat-menu #catMenu class="cat-picker-panel">
@@ -40,7 +40,7 @@
                     </div>
                 </mat-menu>
 
-                <article class="offer bg-surface-container-low">
+                <article [attr.data-tour]="first ? 'event-card' : null" class="offer bg-surface-container-low">
 
                     <!-- THUMBNAIL -->
                     <a class="offer__thumb offer-card__media flex items-center justify-center relative no-underline" [style.--h]="categoryStyle(entry).hue" [routerLink]="['/event/details', entry.id]">
@@ -52,7 +52,7 @@
                     <div class="flex flex-col gap-1 min-w-0 py-1 overflow-hidden">
 
                         <!-- Chip row with quick-edit triggers -->
-                        <div class="flex flex-wrap gap-1 items-center">
+                        <div class="flex flex-wrap gap-1 items-center" data-tour="own-chips">
                             <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
                                   [matMenuTriggerFor]="catMenu" #catTrigger="matMenuTrigger"
                                   (menuOpened)="initPendingCats(entry, catTrigger)">
@@ -88,7 +88,7 @@
                                     <p class="text-xs text-on-surface-variant leading-snug line-clamp-2 m-0">{{ entry.shortText }}</p>
                                 }
                             </div>
-                            <button matIconButton class="shrink-0 !text-on-surface-variant" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
+                            <button matIconButton class="shrink-0 !text-on-surface-variant" data-tour="own-text" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
                                 <mat-icon>edit</mat-icon>
                             </button>
                         </div>
@@ -104,7 +104,7 @@
 
                         <!-- Stat line + progress bar -->
                         @if (entry.maxGuestAmount > 0) {
-                            <div class="offer__statline mt-0.5">
+                            <div class="offer__statline mt-0.5" data-tour="own-stats">
                                 <span><b>{{ entry.amountAccepted }}/{{ entry.maxGuestAmount }}</b> {{ 'event.own.stats.registrations' | translate }}</span>
                                 <span class="sep"></span>
                                 <span><b>{{ entry.maxGuestAmount - entry.amountAccepted }}</b> {{ 'event.own.stats.free' | translate }}</span>
@@ -119,23 +119,23 @@
 
                     <!-- ACTIONS CLUSTER -->
                     <div class="offer__acts p-2">
-                        <a [routerLink]="['/event/admin', entry.id]" matButton="filled" class="wide justify-center">
+                        <a [routerLink]="['/event/admin', entry.id]" data-tour="own-action-manage" matButton="filled" class="wide justify-center">
                             <mat-icon>settings</mat-icon>
                             {{ 'event.own.action.manage' | translate }}
                         </a>
-                        <button matButton="outlined" (click)="edit(entry)">
+                        <button matButton="outlined" data-tour="own-action-edit" (click)="edit(entry)">
                             <mat-icon>edit</mat-icon>
                             {{ 'event.own.action.edit' | translate }}
                         </button>
-                        <button matButton="outlined" (click)="openBroadcast(entry)">
+                        <button matButton="outlined" data-tour="own-action-message" (click)="openBroadcast(entry)">
                             <mat-icon>campaign</mat-icon>
                             {{ 'event.own.action.message' | translate }}
                         </button>
-                        <button matButton="outlined" [disabled]="!entry.shared" [matTooltip]="!entry.shared ? ('event.own.action.promoteDisabled' | translate) : ''" (click)="openShare(entry)">
+                        <button matButton="outlined" data-tour="own-action-promote" [disabled]="!entry.shared" [matTooltip]="!entry.shared ? ('event.own.action.promoteDisabled' | translate) : ''" (click)="openShare(entry)">
                             <mat-icon>share</mat-icon>
                             {{ 'event.own.action.promote' | translate }}
                         </button>
-                        <button matButton="outlined" class="!text-error" (click)="openCancel(entry)">
+                        <button matButton="outlined" data-tour="own-action-cancel" class="!text-error" (click)="openCancel(entry)">
                             <mat-icon>event_busy</mat-icon>
                             {{ 'event.own.action.cancel' | translate }}
                         </button>
@@ -145,7 +145,7 @@
         </div>
     }
 } @else {
-    <lib-event-board-list [entries]="mapped()" [reloading]="reloading()" [layout]="listLayout()" [hasMoreElements]="hasMoreElements()" (nearEnd)="nearEnd.emit()">
+    <lib-event-board-list [entries]="mapped()" [reloading]="reloading()" [layout]="listLayout()" [hasMoreElements]="hasMoreElements()" [removable]="navView() === 'saved'" (entryRemove)="removeBookmark($event)" (nearEnd)="nearEnd.emit()">
         <ng-container emptyState>
             @switch (navView()) {
                 @case ('saved') {

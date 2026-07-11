@@ -16,5 +16,7 @@ export class EventBoardListComponent {
   reloading = input.required<boolean>()
   layout = input.required<'cards' | 'rows'>()
   hasMoreElements = input.required<boolean>()
+  removable = input(false)
   nearEnd = output<void>()
+  entryRemove = output<EventBoardEntry>()
 }

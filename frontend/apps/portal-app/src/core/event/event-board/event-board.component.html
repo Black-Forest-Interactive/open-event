@@ -6,25 +6,25 @@
 <div class="sticky top-0 z-10 flex flex-col gap-2 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
     <div class="flex items-center gap-2">
         <div class="flex flex-1 items-center gap-2 min-w-0">
-            <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" placeholder="event.search"></lib-board-search>
+            <lib-board-search (search)="setQuery($event)" class="flex-auto max-w-lg" data-tour="event-search" placeholder="event.search"></lib-board-search>
             <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
                 <b>{{ service.totalSize() }}</b> {{ 'event.board.results' | translate }}
             </span>
         </div>
 
-        <button color="accent" matButton="filled" routerLink="./create" class="hidden md:flex shrink-0">
+        <button color="accent" matButton="filled" routerLink="./create" class="hidden md:flex shrink-0" data-tour="event-create">
             <mat-icon>add</mat-icon>
             {{ 'event.create' | translate }}
         </button>
 
         <div class="flex flex-1 items-center justify-end gap-2 min-w-0">
             @if (mobileView()) {
-                <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" matIconButton
+                <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" data-tour="event-filter" matIconButton
                         matBadgeColor="accent" matBadgeSize="small">
                     <mat-icon>filter_list</mat-icon>
                 </button>
             }
-            <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0">
+            <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0" data-tour="event-layout">
                 <mat-button-toggle (click)="service.setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="service.layout() === 'cards'"
                                     value="cards">
                     <mat-icon>grid_view</mat-icon>
@@ -50,7 +50,7 @@
 
 <div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4">
     @if (!mobileView()) {
-        <div class="basis-80 shrink-0 flex flex-col gap-3">
+        <div class="basis-80 shrink-0 flex flex-col gap-3" data-tour="event-filter">
             <portal-event-board-filter [isDiscover]="true" [categoryFilter]="service.categoryFilter()" [audienceFilter]="service.audienceFilter()" [showHistory]="service.showHistory()" [showAvailableOnly]="service.showAvailableOnly()" (dateRangeChanged)="service.setDateRange($event)" (toggleHistory)="service.toggleShowHistory()" (toggleCategory)="service.toggleCategory($event)" (toggleAudience)="service.toggleAudience($event)" (toggleAvailable)="service.toggleAvailableEvents()" (resetFilter)="service.resetFilter()"></portal-event-board-filter>
         </div>
     }

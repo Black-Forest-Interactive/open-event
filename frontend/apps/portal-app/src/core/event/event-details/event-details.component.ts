@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal, viewChild } from '@angular/core'
+import { Component, computed, DestroyRef, inject, resource, signal, viewChild } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
@@ -24,7 +24,8 @@ import { EventCancelDialogComponent } from '../event-cancel-dialog/event-cancel-
 import { EventDeleteDialogComponent } from '../event-delete-dialog/event-delete-dialog.component'
 import { EventNavigationService } from '../event-navigation.service'
 import { EventService, RegistrationService } from '@open-event/portal'
-import { AuthService, LoadingBarComponent, toPromise } from '@open-event/shared'
+import { AuthService, LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
+import { eventDetailsTour } from './event-details.tour'
 import { ParticipateRequest, ParticipateResponse } from '@open-event/core'
 import { EventDetailsBannerComponent } from '../event-details-banner/event-details-banner.component'
 import { ShareSettingsComponent } from '../../share/share-settings/share-settings.component'
@@ -92,6 +93,13 @@ export class EventDetailsComponent {
   })
   readonly canViewAnnouncements = computed(() => this.canEdit() || !!this.userParticipant())
   private announcementsCard = viewChild(EventAnnouncementsComponent)
+  private tourService = inject(TourService)
+  private destroyRef = inject(DestroyRef)
+
+  constructor() {
+    this.tourService.register(eventDetailsTour, () => !this.reloading())
+    this.destroyRef.onDestroy(() => this.tourService.unregister(eventDetailsTour.id))
+  }
 
   reload() {
     this.infoResource.reload()

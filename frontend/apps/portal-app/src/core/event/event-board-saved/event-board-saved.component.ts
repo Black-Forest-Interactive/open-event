@@ -1,67 +1,39 @@
-import { Component, computed, effect, inject, resource, signal, TemplateRef, viewChild } from '@angular/core'
-import { NgTemplateOutlet } from '@angular/common'
+import { Component, computed, DestroyRef, effect, inject, resource, signal } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
 import { DateTime } from 'luxon'
 import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
 import { EventService } from '@open-event/portal'
-import { EventBoardDateFilterComponent, EventBoardDateRange, BoardSearchComponent } from '@open-event/ui'
-import { LoadingBarComponent, toPromise } from '@open-event/shared'
-import { MatBottomSheet } from '@angular/material/bottom-sheet'
-import { MatIcon } from '@angular/material/icon'
-import { MatButton, MatIconButton } from '@angular/material/button'
+import { BoardSearchComponent } from '@open-event/ui'
+import { LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
-import { CategoryFilterComponent } from '../event-board-filter/category-filter/category-filter.component'
-import { AudienceFilterComponent } from '../event-board-filter/audience-filter/audience-filter.component'
+import { eventBoardSavedTour } from './event-board-saved.tour'
 
 @Component({
   selector: 'portal-event-board-saved',
   templateUrl: './event-board-saved.component.html',
-  imports: [
-    NgTemplateOutlet,
-    EventBoardListComponent,
-    EventBoardNavbarComponent,
-    EventBoardDateFilterComponent,
-    CategoryFilterComponent,
-    AudienceFilterComponent,
-    BoardSearchComponent,
-    LoadingBarComponent,
-    MatIcon,
-    MatButton,
-    MatIconButton,
-    TranslatePipe
-  ],
+  imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, TranslatePipe],
   standalone: true
 })
 export class EventBoardSavedComponent {
   private eventService = inject(EventService)
   private responsive = inject(BreakpointObserver)
-  private bottomSheet = inject(MatBottomSheet)
-  private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
+  private tourService = inject(TourService)
+  private destroyRef = inject(DestroyRef)
 
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
   private query = signal('')
-  private fromDate = signal<string | undefined>(undefined)
-  private toDate = signal<string | undefined>(undefined)
+  private fromDate = DateTime.now().startOf('day').toISODate() ?? undefined
   private page = signal(0)
   private size = signal(200)
   private infiniteScrollMode = signal(false)
-  readonly includeHistory = signal(false)
-  readonly categoryFilter = signal<Set<string>>(new Set())
-  readonly audienceFilter = signal<Set<string>>(new Set())
 
   private criteria = computed(() => ({
-    request: new EventSearchRequest(
-      this.query(), this.fromDate(), this.toDate(),
-      false, false, false,
-      Array.from(this.categoryFilter()),
-      true, false,
-      Array.from(this.audienceFilter())
-    ),
+    request: new EventSearchRequest(this.query(), this.fromDate, undefined, false, false, false, [], true, false, []),
     page: this.page(),
     size: this.size()
   }))
@@ -82,7 +54,6 @@ export class EventBoardSavedComponent {
   readonly entries = computed(() => this.loaded())
 
   constructor() {
-    this.applyDefaultRange()
     effect(() => {
       const result = this.searchResource.value()
       if (!result) return
@@ -96,6 +67,8 @@ export class EventBoardSavedComponent {
     effect(() => {
       this.infiniteScrollMode.set(this.mobileView())
     })
+    this.tourService.register(eventBoardSavedTour, () => !this.reloading())
+    this.destroyRef.onDestroy(() => this.tourService.unregister(eventBoardSavedTour.id))
   }
 
   setQuery(val: string) {
@@ -104,59 +77,13 @@ export class EventBoardSavedComponent {
     this.page.set(0)
   }
 
-  handleRangeChanged(range: EventBoardDateRange) {
-    this.fromDate.set(range.start)
-    this.toDate.set(range.end)
-    this.page.set(0)
-  }
-
-  handleReset() {
-    this.query.set('')
-    this.categoryFilter.set(new Set())
-    this.audienceFilter.set(new Set())
-    this.includeHistory.set(false)
-    this.applyDefaultRange()
-    this.page.set(0)
-  }
-
-  toggleHistory() {
-    this.includeHistory.update((v) => !v)
-    this.applyDefaultRange()
-    this.page.set(0)
-  }
-
-  toggleCategory(name: string) {
-    this.categoryFilter.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
-    this.page.set(0)
-  }
-
-  toggleAudience(name: string) {
-    this.audienceFilter.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
-    this.page.set(0)
-  }
-
   onScroll() {
     if (this.reloading() || !this.hasMoreElements()) return
     this.page.set(this.pageIndex() + 1)
   }
 
-  openFilter() {
-    const sheet = this.filterSheet()
-    if (sheet) this.bottomSheet.open(sheet)
-  }
-
-  private applyDefaultRange() {
-    this.fromDate.set(this.includeHistory() ? undefined : (DateTime.now().startOf('day').toISODate() ?? undefined))
-    this.toDate.set(undefined)
+  reload() {
+    this.page.set(0)
+    this.searchResource.reload()
   }
 }
