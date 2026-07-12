@@ -68,7 +68,7 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
-        "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+        "LongDescr": "Ausführliche Beschreibung – Ablauf, Details, alles Wissenswerte.",
         "startDate": "Datum der Veranstaltung",
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",

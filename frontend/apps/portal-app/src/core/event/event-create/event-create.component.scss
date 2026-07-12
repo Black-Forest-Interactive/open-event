@@ -1,0 +1,26 @@
+:host ::ng-deep .wizard-stepper {
+  --mat-stepper-container-color: transparent;
+  background: transparent;
+
+  .mat-horizontal-content-container {
+    padding: 0 4px 8px;
+  }
+
+  .mat-step-icon-state-edit,
+  .mat-step-icon-state-done {
+    background-color: var(--ev-ok);
+    color: #fff;
+  }
+}
+
+@media (max-width: 640px) {
+  :host ::ng-deep .wizard-stepper {
+    .mat-step-label {
+      display: none;
+    }
+
+    .mat-horizontal-stepper-header {
+      padding: 0 8px;
+    }
+  }
+}

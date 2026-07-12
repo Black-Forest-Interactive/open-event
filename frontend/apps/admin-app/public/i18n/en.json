@@ -68,7 +68,7 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Short and powerfull description of the event (max 40 chars)",
-        "LongDescr": "What is the event about, what is required to bring and some additonal information",
+        "LongDescr": "Detailed description – schedule, details, everything worth knowing.",
         "startDate": "The date of the event",
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",

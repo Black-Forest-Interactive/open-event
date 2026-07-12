@@ -123,7 +123,8 @@
       },
       "create": {
         "succeed": "Event created",
-        "failed": "Failed to create the event"
+        "failed": "Failed to create the event",
+        "saved": "Event saved."
       }
     },
     "board": {
@@ -173,7 +174,8 @@
       "event": "Event",
       "location": "Location",
       "registration": "Registration",
-      "incomplete": "Missing required fields"
+      "incomplete": "Missing required fields",
+      "summary": "Summary"
     },
     "change": {
       "create": "Create new event",
@@ -205,7 +207,7 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Short and powerfull description of the event (max 40 chars)",
-        "LongDescr": "What is the event about, what is required to bring and some additonal information",
+        "LongDescr": "Detailed description – schedule, details, everything worth knowing.",
         "startDate": "The date of the event",
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
@@ -276,6 +278,23 @@
       "status": "Status",
       "category": "Category",
       "label": "Label"
+    },
+    "wizard": {
+      "title": "New event",
+      "subtitle": "Create a new event in four steps.",
+      "subtitleConfirm": "Review the details before saving.",
+      "none": "Not specified",
+      "hint": {
+        "step1": "Fill in title and date to continue",
+        "step2": "Select or enter an address to continue"
+      },
+      "summary": {
+        "event": "Event",
+        "date": "Date",
+        "location": "Location",
+        "participants": "Participants & category",
+        "misc": "Other"
+      }
     }
   },
   "registration": {
@@ -924,6 +943,86 @@
       "edit": {
         "title": "Edit",
         "description": "As the host you edit your event here."
+      }
+    },
+    "eventCreate": {
+      "welcome": {
+        "title": "New event",
+        "description": "Create a new event in four steps — from the basics to the final summary."
+      },
+      "steps": {
+        "title": "The four steps",
+        "description": "This shows where you are. You can jump back to steps you have already visited via the circles."
+      },
+      "title": {
+        "title": "Title",
+        "description": "A short and concise name for your event — 40 characters max, the counter helps you."
+      },
+      "shortText": {
+        "title": "Short description",
+        "description": "Optional: What should people bring, what else matters? Shown in lists and on the business cards."
+      },
+      "longText": {
+        "title": "Description",
+        "description": "Optional: The detailed description — schedule, details and everything worth knowing."
+      },
+      "date": {
+        "title": "Date",
+        "description": "On which day does the event take place?"
+      },
+      "time": {
+        "title": "Start & end",
+        "description": "When does it start and when does it end?"
+      },
+      "nav": {
+        "title": "Navigation",
+        "description": "\"Next\" takes you to the following step — once all required fields of the current step are filled in."
+      }
+    },
+    "eventCreateAddress": {
+      "mode": {
+        "title": "Choose address",
+        "description": "Use one of your saved addresses or enter a new one."
+      },
+      "saved": {
+        "title": "Saved addresses",
+        "description": "Pick an address — your default address is already preselected."
+      },
+      "new": {
+        "title": "New address",
+        "description": "Enter the address of the event. \"Save address\" keeps it for next time."
+      }
+    },
+    "eventCreateMisc": {
+      "participants": {
+        "title": "Participants",
+        "description": "Define how many visitors or guests can take part in the event."
+      },
+      "categories": {
+        "title": "Categories",
+        "description": "Pick one or more matching categories — it helps people find your event."
+      },
+      "audiences": {
+        "title": "Audiences",
+        "description": "Optional: Who is the event for?"
+      },
+      "tags": {
+        "title": "Hashtags",
+        "description": "Optional: Add your own hashtags — confirm with Enter."
+      },
+      "share": {
+        "title": "Sharing",
+        "description": "Creates a special link that lets guests see the key facts and join directly."
+      }
+    },
+    "eventCreateSummary": {
+      "overview": {
+        "title": "Summary",
+        "description": "Review all details — \"Edit\" jumps straight back to the matching step."
+      },
+      "save": {
+        "title": "Save",
+        "description": "Everything correct? Save your event — it will show up under \"My offers\"."
       }
     }
   }

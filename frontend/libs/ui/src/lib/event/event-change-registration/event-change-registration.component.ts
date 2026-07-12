@@ -68,7 +68,7 @@ export class EventChangeRegistrationComponent {
     const fb = inject(FormBuilder)
 
     this.fg = fb.group({
-      maxGuestAmount: [4, Validators.required],
+      maxGuestAmount: [20, Validators.required],
       interestedAllowed: [false, Validators.required],
       ticketsEnabled: [false, Validators.required],
       shared: [true, Validators.required],

@@ -57,7 +57,8 @@
       },
       "create": {
         "succeed": "Veranstaltung erstellt",
-        "failed": "Fehler beim Erstellen der Veranstaltung"
+        "failed": "Fehler beim Erstellen der Veranstaltung",
+        "saved": "Veranstaltung gespeichert."
       }
     },
     "board": {
@@ -107,7 +108,8 @@
       "event": "Veranstaltung",
       "location": "Adresse",
       "registration": "Sonstiges",
-      "incomplete": "Angaben unvollständig"
+      "incomplete": "Angaben unvollständig",
+      "summary": "Zusammenfassung"
     },
     "change": {
       "create": "Neue Veranstaltung erstellen",
@@ -139,7 +141,7 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
-        "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+        "LongDescr": "Ausführliche Beschreibung – Ablauf, Details, alles Wissenswerte.",
         "startDate": "Datum der Veranstaltung",
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
@@ -275,6 +277,23 @@
       "picker": {
         "categoryHint": "Mindestens eine Kategorie muss ausgewählt bleiben.",
         "audienceHint": "Für wen ist das Angebot?"
+      }
+    },
+    "wizard": {
+      "title": "Neue Veranstaltung",
+      "subtitle": "Erstelle in vier Schritten eine neue Veranstaltung.",
+      "subtitleConfirm": "Prüfe kurz die Angaben, bevor du speicherst.",
+      "none": "Keine Angabe",
+      "hint": {
+        "step1": "Titel und Datum ausfüllen, um fortzufahren",
+        "step2": "Adresse auswählen oder eingeben, um fortzufahren"
+      },
+      "summary": {
+        "event": "Veranstaltung",
+        "date": "Termin",
+        "location": "Ort",
+        "participants": "Teilnehmer & Kategorie",
+        "misc": "Sonstiges"
       }
     }
   },
@@ -924,6 +943,86 @@
       "edit": {
         "title": "Bearbeiten",
         "description": "Als Veranstalter bearbeitest du hier deine Veranstaltung."
+      }
+    },
+    "eventCreate": {
+      "welcome": {
+        "title": "Neue Veranstaltung",
+        "description": "Hier erstellst du in vier Schritten eine neue Veranstaltung — von den Eckdaten bis zur Zusammenfassung."
+      },
+      "steps": {
+        "title": "Die vier Schritte",
+        "description": "Hier siehst du, wo du gerade stehst. Zu bereits besuchten Schritten kannst du jederzeit über die Kreise zurückspringen."
+      },
+      "title": {
+        "title": "Titel",
+        "description": "Eine kurze und prägnante Bezeichnung deiner Veranstaltung — maximal 40 Zeichen, der Zähler hilft dir dabei."
+      },
+      "shortText": {
+        "title": "Kurzbeschreibung",
+        "description": "Optional: Was sollte man mitbringen, was ist sonst wichtig? Erscheint in Listen und auf den Visitenkarten."
+      },
+      "longText": {
+        "title": "Beschreibung",
+        "description": "Optional: Die ausführliche Beschreibung — Ablauf, Details und alles Wissenswerte zur Veranstaltung."
+      },
+      "date": {
+        "title": "Datum",
+        "description": "An welchem Tag findet die Veranstaltung statt?"
+      },
+      "time": {
+        "title": "Beginn & Ende",
+        "description": "Wann geht es los und wann ist Schluss?"
+      },
+      "nav": {
+        "title": "Navigation",
+        "description": "Mit „Weiter\" kommst du zum nächsten Schritt — sobald alle Pflichtfelder des aktuellen Schritts ausgefüllt sind."
+      }
+    },
+    "eventCreateAddress": {
+      "mode": {
+        "title": "Adresse wählen",
+        "description": "Nutze eine deiner gespeicherten Adressen oder lege eine neue an."
+      },
+      "saved": {
+        "title": "Gespeicherte Adressen",
+        "description": "Wähle eine Adresse aus — deine Standard-Adresse ist bereits vorausgewählt."
+      },
+      "new": {
+        "title": "Neue Adresse",
+        "description": "Gib die Adresse der Veranstaltung ein. Mit „Adresse speichern\" wird sie für das nächste Mal gemerkt."
+      }
+    },
+    "eventCreateMisc": {
+      "participants": {
+        "title": "Teilnehmer",
+        "description": "Lege fest, wie viele Besucher oder Gäste an der Veranstaltung teilnehmen können."
+      },
+      "categories": {
+        "title": "Kategorien",
+        "description": "Wähle eine oder mehrere passende Kategorien — so wird deine Veranstaltung besser gefunden."
+      },
+      "audiences": {
+        "title": "Zielgruppen",
+        "description": "Optional: Für wen ist die Veranstaltung gedacht?"
+      },
+      "tags": {
+        "title": "Hashtags",
+        "description": "Optional: Eigene Hashtags hinzufügen — mit Enter bestätigen."
+      },
+      "share": {
+        "title": "Teilen",
+        "description": "Erstellt einen speziellen Link, über den Gäste die wichtigsten Infos sehen und direkt teilnehmen können."
+      }
+    },
+    "eventCreateSummary": {
+      "overview": {
+        "title": "Zusammenfassung",
+        "description": "Prüfe hier alle Angaben — über „Bearbeiten\" springst du direkt zum passenden Schritt zurück."
+      },
+      "save": {
+        "title": "Speichern",
+        "description": "Alles korrekt? Dann speichere deine Veranstaltung — sie erscheint danach unter „Meine Angebote\"."
       }
     }
   }

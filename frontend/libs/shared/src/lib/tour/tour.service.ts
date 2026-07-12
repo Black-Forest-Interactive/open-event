@@ -43,8 +43,8 @@ export class TourService {
     const tour = this.tour()
     if (!tour) return
     localStorage.setItem(this.storageKey(tour.id), new Date().toISOString())
-    // steps whose target is not rendered (empty list, mobile-only controls, ...) are skipped
-    const steps = tour.steps.filter((s) => !s.element || document.querySelector(s.element))
+    // steps whose target is not rendered or not visible (empty list, mobile-only controls, inactive wizard steps, ...) are skipped
+    const steps = tour.steps.filter((s) => !s.element || this.isVisible(document.querySelector(s.element)))
     if (steps.length === 0) return
     const keys = steps.flatMap((s) => [s.title, s.description])
     this.translate.get([...keys, 'action.next', 'action.back', 'action.done', 'tour.progress']).subscribe((t) => {
@@ -57,6 +57,10 @@ export class TourService {
         steps: steps.map((s) => ({ element: s.element, popover: { title: t[s.title], description: t[s.description] } }))
       }).drive()
     })
+  }
+
+  private isVisible(el: Element | null): boolean {
+    return el instanceof HTMLElement && el.offsetParent !== null
   }
 
   private cancelAutoStart() {

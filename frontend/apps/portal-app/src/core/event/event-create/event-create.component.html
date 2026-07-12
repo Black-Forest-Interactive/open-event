@@ -1,7 +1,126 @@
-<lib-event-create
-        (created)="navigateToEvent($event.id)"
-        [addressReadAPI]="addressReadAPI"
-        [audienceReadAPI]="audienceReadAPI"
-        [categoryReadAPI]="categoryReadAPI"
-        [eventReadAPI]="eventReadAPI"
-/>
+<div (keydown.enter)="handleEnter($event)" class="pb-8">
+
+    <!-- Seitenkopf -->
+    <div class="max-w-[760px] mx-auto w-full px-4 pt-4">
+        <button (click)="back()" matButton>
+            <mat-icon>arrow_back</mat-icon>
+            {{ 'action.back' | translate }}
+        </button>
+        <h1 class="text-xl font-semibold mt-2">{{ 'event.wizard.title' | translate }}</h1>
+        <p class="text-sm text-on-surface-variant mb-3">{{ (stepIndex() === 3 ? 'event.wizard.subtitleConfirm' : 'event.wizard.subtitle') | translate }}</p>
+    </div>
+
+    <!-- Wizard-Karte -->
+    <div class="max-w-[760px] mx-auto w-full px-4">
+        <mat-card class="p-2 sm:p-4">
+            <mat-stepper #stepper (selectionChange)="handleStepChange($event)" [linear]="true" class="wizard-stepper">
+                <ng-template matStepperIcon="edit"><mat-icon>check</mat-icon></ng-template>
+                <ng-template matStepperIcon="done"><mat-icon>check</mat-icon></ng-template>
+
+                <!-- Schritt 1: Veranstaltung -->
+                <mat-step [editable]="true" [stepControl]="generalGroup" label="{{ 'event.step.event' | translate }}">
+                    <lib-event-change-general [hiddenFields]="generalHiddenFields" [parent]="fg"/>
+                </mat-step>
+
+                <!-- Schritt 2: Adresse -->
+                <mat-step [editable]="true" [stepControl]="locationGroup" label="{{ 'event.step.location' | translate }}">
+                    <lib-event-change-location [addressReadAPI]="addressReadAPI" [parent]="fg"/>
+                </mat-step>
+
+                <!-- Schritt 3: Sonstiges -->
+                <mat-step [editable]="true" [stepControl]="registrationGroup" label="{{ 'event.step.registration' | translate }}">
+                    <lib-event-change-registration [audienceReadAPI]="audienceReadAPI" [categoryReadAPI]="categoryReadAPI" [hiddenFields]="registrationHiddenFields" [parent]="fg"/>
+                </mat-step>
+
+                <!-- Schritt 4: Zusammenfassung -->
+                <mat-step [editable]="true" label="{{ 'event.step.summary' | translate }}">
+                    @if (summary(); as s) {
+                        <div class="flex flex-col pt-2" data-tour="create-summary">
+
+                            <div class="flex items-start justify-between gap-3 py-3 border-b border-outline-variant">
+                                <div class="min-w-0">
+                                    <div class="text-[11px] uppercase tracking-wide text-on-surface-variant">{{ 'event.wizard.summary.event' | translate }}</div>
+                                    <div class="font-semibold truncate">{{ s.title }}</div>
+                                    @if (s.shortText) {
+                                        <div class="text-sm text-on-surface-variant">{{ s.shortText }}</div>
+                                    }
+                                </div>
+                                <button (click)="stepper.selectedIndex = 0" matButton>{{ 'action.edit' | translate }}</button>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-3 py-3 border-b border-outline-variant">
+                                <div class="min-w-0">
+                                    <div class="text-[11px] uppercase tracking-wide text-on-surface-variant">{{ 'event.wizard.summary.date' | translate }}</div>
+                                    <div class="text-sm">{{ s.dateLine }}</div>
+                                </div>
+                                <button (click)="stepper.selectedIndex = 0" matButton>{{ 'action.edit' | translate }}</button>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-3 py-3 border-b border-outline-variant">
+                                <div class="min-w-0">
+                                    <div class="text-[11px] uppercase tracking-wide text-on-surface-variant">{{ 'event.wizard.summary.location' | translate }}</div>
+                                    <div class="text-sm">{{ s.locationLine }}</div>
+                                </div>
+                                <button (click)="stepper.selectedIndex = 1" matButton>{{ 'action.edit' | translate }}</button>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-3 py-3 border-b border-outline-variant">
+                                <div class="min-w-0">
+                                    <div class="text-[11px] uppercase tracking-wide text-on-surface-variant">{{ 'event.wizard.summary.participants' | translate }}</div>
+                                    <div class="text-sm">{{ s.maxGuests }} · {{ s.audienceNames || ('event.wizard.none' | translate) }}</div>
+                                    @if (s.categoryNames.length > 0) {
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            @for (name of s.categoryNames; track name) {
+                                                <lib-category-chip [name]="name" size="sm"/>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                <button (click)="stepper.selectedIndex = 2" matButton>{{ 'action.edit' | translate }}</button>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-3 py-3">
+                                <div class="min-w-0">
+                                    <div class="text-[11px] uppercase tracking-wide text-on-surface-variant">{{ 'event.wizard.summary.misc' | translate }}</div>
+                                    <div class="text-sm">{{ s.tagsLine || ('event.wizard.none' | translate) }} · {{ (s.shared ? 'action.yes' : 'action.no') | translate }} ({{ 'action.share' | translate }})</div>
+                                </div>
+                                <button (click)="stepper.selectedIndex = 2" matButton>{{ 'action.edit' | translate }}</button>
+                            </div>
+
+                        </div>
+                    }
+                </mat-step>
+            </mat-stepper>
+
+            <!-- Fußleiste -->
+            <div class="border-t border-outline-variant mt-3 pt-3 flex items-center gap-3" data-tour="create-nav">
+                @if (stepIndex() === 0) {
+                    <button (click)="back()" matButton>{{ 'action.cancel' | translate }}</button>
+                } @else {
+                    <button (click)="stepper.previous()" matButton>
+                        <mat-icon>arrow_back</mat-icon>
+                        {{ 'action.back' | translate }}
+                    </button>
+                }
+                <div class="flex-1 text-center text-xs text-on-surface-variant">
+                    @if (isCurrentStepValid()) {
+                        {{ stepIndex() + 1 }} / 4
+                    } @else {
+                        {{ stepHint() | translate }}
+                    }
+                </div>
+                @if (stepIndex() < 3) {
+                    <button (click)="stepper.next()" [disabled]="!isCurrentStepValid()" class="wizard-next" matButton="filled">
+                        {{ 'action.next' | translate }}
+                        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+                    </button>
+                } @else {
+                    <button (click)="save()" [disabled]="saving() || !fg.valid" data-tour="create-save" matButton="filled">
+                        <mat-icon>check</mat-icon>
+                        {{ 'action.save' | translate }}
+                    </button>
+                }
+            </div>
+        </mat-card>
+    </div>
+</div>

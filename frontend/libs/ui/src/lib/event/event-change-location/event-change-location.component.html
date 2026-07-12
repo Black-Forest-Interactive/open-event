@@ -1,11 +1,11 @@
 <form [formGroup]="fg" class="flex flex-col gap-4 pt-2">
     @if (addresses().length > 0) {
-        <mat-button-toggle-group class="w-fit" formControlName="addressMode">
+        <mat-button-toggle-group class="w-fit" data-tour="create-address-mode" formControlName="addressMode">
             <mat-button-toggle value="saved">{{ 'event.form.address.saved' | translate }}</mat-button-toggle>
             <mat-button-toggle value="new">{{ 'event.form.address.new' | translate }}</mat-button-toggle>
         </mat-button-toggle-group>
 
-        <mat-radio-group (change)="handleAddressSelected($event)" [class.hidden]="addressMode.value !== 'saved'" [value]="selectedAddress()" class="flex flex-col gap-2">
+        <mat-radio-group (change)="handleAddressSelected($event)" [class.hidden]="addressMode.value !== 'saved'" [value]="selectedAddress()" class="flex flex-col gap-2" data-tour="create-address-saved">
             @for (a of addresses(); track a.id) {
                 <mat-radio-button [class.bg-surface-container]="selectedAddress() === a" [value]="a" class="block rounded-xl border border-outline-variant px-4 py-3">
                     <span class="flex items-center gap-2 font-medium">
@@ -23,7 +23,7 @@
         </mat-radio-group>
     }
 
-    <div [class.hidden]="addresses().length > 0 && addressMode.value === 'saved'" class="flex flex-col gap-4">
+    <div [class.hidden]="addresses().length > 0 && addressMode.value === 'saved'" class="flex flex-col gap-4" data-tour="create-address-new">
         <div class="grid grid-cols-[1fr_100px] gap-3">
             <mat-form-field class="dense-1">
                 <mat-label>{{ 'event.form.street' | translate }}</mat-label>
