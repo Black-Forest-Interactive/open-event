@@ -43,6 +43,12 @@ class ExportGuardService(
             service.exportNoticePdf(account, request)
         }
 
+    fun exportCardsPdf(auth: Authentication, request: EventSearchRequest): SystemFile? =
+        auth.checkPermission(PERMISSION_ADMIN) {
+            val account = accountService.get(auth) ?: return@checkPermission null
+            service.exportCardsPdf(account, request)
+        }
+
     fun exportEventSummaryExcel(auth: Authentication, request: EventSearchRequest): SystemFile? =
         auth.checkPermission(PERMISSION_ADMIN) {
             val account = accountService.get(auth) ?: return@checkPermission null

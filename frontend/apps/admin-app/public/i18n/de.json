@@ -383,7 +383,8 @@
       "title": "Export",
       "action": {
         "single": "Veranstaltung exportieren",
-        "all": "Export per Download",
+        "all": "Flyer exportieren",
+        "cards": "Visitenkarten exportieren",
         "notice": "Aushang exportieren",
         "mail": {
           "title": "Export per Mail",

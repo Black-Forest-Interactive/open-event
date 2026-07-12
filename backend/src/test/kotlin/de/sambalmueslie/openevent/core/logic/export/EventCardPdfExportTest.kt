@@ -5,7 +5,9 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventInfo
-import de.sambalmueslie.openevent.core.export.EventOpenPdfExporter
+import de.sambalmueslie.openevent.core.export.EventCardPdfExporter
+import de.sambalmueslie.openevent.core.link.LinkCrudService
+import de.sambalmueslie.openevent.core.link.api.Link
 import de.sambalmueslie.openevent.core.location.api.Location
 import de.sambalmueslie.openevent.core.registration.api.Registration
 import de.sambalmueslie.openevent.core.registration.api.RegistrationInfo
@@ -21,16 +23,21 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
-class EventFlyerPdfExportTest {
+class EventCardPdfExportTest {
 
     @Test
-    fun flyerContainsTitleShortAndLongText() {
+    fun cardSheetContainsTenCardsOnSinglePage() {
         val settingsService = mockk<SettingsService>()
         every { settingsService.findByKey(any()) } returns null
+        every { settingsService.getPublicEventListKey() } returns "public-list"
+        every { settingsService.getShareUrl() } returns "https://example.com"
+        val linkService = mockk<LinkCrudService>()
+        every { linkService.findByKey("public-list") } returns
+                Link("l1", "public-list", true, emptyMap(), LocalDateTime.of(2026, 7, 1, 8, 0), null)
         val timeProvider = mockk<TimeProvider>()
         every { timeProvider.now() } returns LocalDateTime.of(2026, 7, 11, 12, 0)
 
-        val exporter = EventOpenPdfExporter(settingsService, timeProvider)
+        val exporter = EventCardPdfExporter(settingsService, linkService, timeProvider)
 
         val owner = AccountInfo(1, "orga", "", "info@example.com", "Anna", "Beispiel", "de")
         val event = Event(
@@ -49,10 +56,11 @@ class EventFlyerPdfExportTest {
         assertNotNull(file)
 
         val (pageCount, text) = Loader.loadPDF(file!!.file).use { it.numberOfPages to PDFTextStripper().getText(it) }
-        assertEquals(1, pageCount, "expected a single flyer page")
-        assertTrue(text.contains("Kinderbasteln"), "title missing in: $text")
-        assertTrue(text.contains("Bastelprogramm"), "short text missing in: $text")
-        assertTrue(text.contains("Fischsuppe"), "long text missing in: $text")
-        assertTrue(text.contains("Kinder"), "category missing in: $text")
+        assertEquals(1, pageCount, "expected a single card sheet page")
+        val cardCount = Regex("Kinderbasteln").findAll(text).count()
+        assertEquals(10, cardCount, "expected 10 business cards (SIGEL LP799 grid), text: $text")
+        assertTrue(text.contains("Samstag"), "weekday missing in: $text")
+        assertTrue(text.contains("Familien"), "audience missing in: $text")
+        assertTrue(text.contains("Sommer"), "tag missing in: $text")
     }
 }

@@ -41,6 +41,15 @@
                 }
                 <span class="truncate">{{ 'backoffice.export.action.all' | translate }}</span>
             </button>
+            <button (click)="exportCards()" [disabled]="exportingCards" matButton="outlined"
+                    class="w-full justify-start">
+                @if (exportingCards) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>badge</mat-icon>
+                }
+                <span class="truncate">{{ 'backoffice.export.action.cards' | translate }}</span>
+            </button>
             <button (click)="exportNotice()" [disabled]="exportingNotice" matButton="outlined"
                     class="w-full justify-start">
                 @if (exportingNotice) {

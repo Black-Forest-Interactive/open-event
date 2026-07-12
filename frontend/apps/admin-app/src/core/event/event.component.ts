@@ -31,6 +31,7 @@ export class EventComponent implements OnInit {
   reloading = false
   exportingEvents = false
   exportingNotice = false
+  exportingCards = false
   exportingSummary = false
   pageSize = 20
   pageNumber = 0
@@ -134,6 +135,20 @@ export class EventComponent implements OnInit {
       },
       error: () => {
         this.exportingNotice = false
+      }
+    })
+  }
+
+  exportCards() {
+    if (this.exportingCards) return
+    this.exportingCards = true
+    this.exportService.exportCards(this.request).subscribe({
+      next: (r) => {
+        download(r)
+        this.exportingCards = false
+      },
+      error: () => {
+        this.exportingCards = false
       }
     })
   }

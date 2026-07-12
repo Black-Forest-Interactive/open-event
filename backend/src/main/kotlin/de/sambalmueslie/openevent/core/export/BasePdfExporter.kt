@@ -107,7 +107,7 @@ abstract class BasePdfExporter(
         val description = htmlConverter.convert(event.longText)
         val shortDescription = htmlConverter.convert(event.shortText)
 
-        return EventPdfContent(event, location, registration, categories, qrCode, availableSpace, description, shortDescription)
+        return EventPdfContent(event, location, registration, categories, info.audiences, qrCode, availableSpace, description, shortDescription)
     }
 
     protected fun renderPdfFile(infos: List<EventInfo>, additionalProperties: Map<String, Any>? = null): SystemFile? {

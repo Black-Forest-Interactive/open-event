@@ -28,6 +28,10 @@ class ExportController(private val service: ExportGuardService) {
     fun exportNoticePdf(auth: Authentication, @Body request: EventSearchRequest): SystemFile? = service.exportNoticePdf(auth, request)
 
     @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
+    @Post("/event/cards")
+    fun exportCardsPdf(auth: Authentication, @Body request: EventSearchRequest): SystemFile? = service.exportCardsPdf(auth, request)
+
+    @Produces(value = [MediaType.APPLICATION_OCTET_STREAM])
     @Post("/event/summary")
     fun exportEventSummaryExcel(auth: Authentication, @Body request: EventSearchRequest): SystemFile? = service.exportEventSummaryExcel(auth, request)
 }

@@ -383,7 +383,8 @@
       "title": "Export",
       "action": {
         "single": "Export event",
-        "all": "Export as pdf",
+        "all": "Export flyer",
+        "cards": "Export business cards",
         "notice": "Export Notice",
         "mail": {
           "title": "Export as email",
