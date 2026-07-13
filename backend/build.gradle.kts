@@ -130,9 +130,9 @@ dependencies {
     implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
-    implementation("org.simplejavamail:simple-java-mail:8.12.6")
-    implementation("org.simplejavamail:batch-module:8.12.6")
-    implementation("org.simplejavamail:authenticated-socks-module:8.12.6")
+    implementation("org.simplejavamail:simple-java-mail:9.1.0")
+    implementation("org.simplejavamail:batch-module:9.1.0")
+    implementation("org.simplejavamail:authenticated-socks-module:9.1.0")
 
     // test
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
