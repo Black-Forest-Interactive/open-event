@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
@@ -12,6 +12,7 @@ import { EventShareSheetData } from '../event-share-sheet/event-share-sheet.comp
   selector: 'portal-event-share-dialog',
   templateUrl: './event-share-dialog.component.html',
   imports: [ShareDetailsComponent, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventShareDialogComponent {

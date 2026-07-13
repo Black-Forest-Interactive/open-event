@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { EventPublishedIconComponent, EventSharedIconComponent } from '@open-event/ui'
 import { BoardCardComponent } from '../../../shared/board-card/board-card.component'
@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common'
   selector: 'admin-event-details-info',
   imports: [BoardCardComponent, TranslatePipe, EventPublishedIconComponent, EventSharedIconComponent, DatePipe],
   templateUrl: './event-details-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-info.component.scss'
 })
 export class EventDetailsInfoComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { Account, AddressChangeRequest } from '@open-event/core'
 import { AddressChangeComponent } from '@open-event/ui'
 import { MatButton } from '@angular/material/button'
@@ -11,6 +11,7 @@ import { AccountService } from '@open-event/admin'
   selector: 'admin-address-create-dialog',
   imports: [AddressChangeComponent, MatButton, MatDialogActions, MatDialogContent, MatIcon, TranslatePipe],
   templateUrl: './address-create-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './address-create-dialog.component.scss'
 })
 export class AddressCreateDialogComponent {

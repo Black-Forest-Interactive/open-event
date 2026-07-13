@@ -7,9 +7,9 @@
             </button>
         </div>
 
-        <portal-category-filter [selected]="categoryFilter()" (toggle)="toggleCategory.emit($event)"></portal-category-filter>
+        <portal-category-filter [selected]="categoryFilter()" (toggled)="toggleCategory.emit($event)"></portal-category-filter>
 
-        <portal-audience-filter [selected]="audienceFilter()" (toggle)="toggleAudience.emit($event)"></portal-audience-filter>
+        <portal-audience-filter [selected]="audienceFilter()" (toggled)="toggleAudience.emit($event)"></portal-audience-filter>
 
         @if (isDiscover()) {
             <div class="flex items-center justify-between">

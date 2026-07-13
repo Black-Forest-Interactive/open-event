@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatIcon } from '@angular/material/icon'
@@ -9,6 +9,7 @@ import { EventBoardEntry } from '../event-board.api'
 @Component({
   selector: 'lib-event-board-calendar',
   templateUrl: './event-board-calendar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [LoadingBarComponent, EventBoardRowComponent, MatIcon, DatePipe, TranslatePipe]
 })
 export class EventBoardCalendarComponent {

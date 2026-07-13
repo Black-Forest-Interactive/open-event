@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { ActivityInfo } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -10,6 +10,7 @@ import { ActivityReadComponent } from '../activity-read/activity-read.component'
   selector: 'portal-activity-row',
   imports: [DatePipe, MatIcon, TranslatePipe, ActivityReadComponent],
   templateUrl: './activity-row.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-row.component.scss'
 })
 export class ActivityRowComponent {

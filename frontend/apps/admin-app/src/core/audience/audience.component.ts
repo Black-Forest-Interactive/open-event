@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
@@ -22,6 +22,7 @@ import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.co
   selector: 'admin-audience',
   imports: [MatCardModule, MatIconModule, MatToolbarModule, MatFormFieldModule, MatButtonModule, MatInputModule, TranslatePipe, AudienceTableComponent, BoardComponent, BoardToolbarActions],
   templateUrl: './audience.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './audience.component.scss'
 })
 export class AudienceComponent implements OnInit {

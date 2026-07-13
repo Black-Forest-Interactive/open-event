@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core'
+import { Component, DestroyRef, inject, ChangeDetectionStrategy } from '@angular/core'
 
 import { AccountProfileComponent } from './account-profile/account-profile.component'
 import { AccountPreferencesComponent } from './account-preferences/account-preferences.component'
@@ -9,6 +9,7 @@ import { accountTour } from './account.tour'
   selector: 'portal-account',
   imports: [AccountProfileComponent, AccountPreferencesComponent],
   templateUrl: './account.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account.component.scss'
 })
 export class AccountComponent {

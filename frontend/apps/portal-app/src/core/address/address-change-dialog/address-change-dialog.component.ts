@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Address, AddressChangeRequest } from '@open-event/core'
@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms'
   templateUrl: './address-change-dialog.component.html',
   styleUrl: './address-change-dialog.component.scss',
   imports: [MatDialogTitle, TranslatePipe, ReactiveFormsModule, FormsModule, MatDialogContent, MatDialogActions, MatIcon, MatButton, MatDialogClose, AddressChangeComponent, MatSlideToggle],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class AddressChangeDialogComponent {

@@ -1,4 +1,4 @@
-import { Component, effect, inject, resource, signal } from '@angular/core'
+import { Component, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { ProfileChangeRequest } from '@open-event/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
@@ -17,6 +17,7 @@ import { AvatarComponent } from '@open-event/ui'
   selector: 'portal-account-profile',
   imports: [TranslatePipe, MatIcon, MatCard, ReactiveFormsModule, MatInput, MatFormField, MatLabel, MatSelect, MatOption, MatButton, MatIconButton, LoadingBarComponent, AvatarComponent],
   templateUrl: './account-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-profile.component.scss'
 })
 export class AccountProfileComponent {

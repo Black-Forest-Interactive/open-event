@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 
 import { toPromise } from '@open-event/shared'
 import { SettingsService } from '@open-event/portal'
@@ -10,6 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'portal-imprint',
   imports: [MatCard, MatIcon, TranslatePipe],
   templateUrl: './imprint.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './imprint.component.scss'
 })
 export class ImprintComponent {

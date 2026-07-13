@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, input, output, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { Clipboard } from '@angular/cdk/clipboard'
 import { LoadingBarComponent, download, toPromise } from '@open-event/shared'
@@ -14,6 +14,7 @@ import { MatIcon } from '@angular/material/icon'
   selector: 'portal-share-details',
   templateUrl: './share-details.component.html',
   imports: [TranslatePipe, LoadingBarComponent, MatButtonModule, MatButtonToggleModule, MatIcon],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class ShareDetailsComponent {

@@ -1,4 +1,4 @@
-<admin-board (search)="fullTextSearch = $event" (reload)="reload()" [reloading]="reloading"
+<admin-board (searchChange)="fullTextSearch = $event" (reload)="reload()" [reloading]="reloading"
              searchPlaceholder="audience.search" title="audience.title">
     <board-toolbar-actions>
         <button (click)="create()" color="accent" mat-flat-button>

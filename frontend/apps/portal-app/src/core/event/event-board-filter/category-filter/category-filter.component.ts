@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, resource } from '@angular/core'
+import { Component, computed, inject, input, output, resource, ChangeDetectionStrategy } from '@angular/core'
 import { CategoryService } from '@open-event/portal'
 import { CategoryFilterComponent as LibCategoryFilterComponent } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
@@ -7,11 +7,12 @@ import { toPromise } from '@open-event/shared'
   selector: 'portal-category-filter',
   templateUrl: './category-filter.component.html',
   imports: [LibCategoryFilterComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class CategoryFilterComponent {
   selected = input.required<Set<string>>()
-  toggle = output<string>()
+  toggled = output<string>()
 
   private categoryService = inject(CategoryService)
 

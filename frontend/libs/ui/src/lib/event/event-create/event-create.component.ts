@@ -1,10 +1,9 @@
-import { Component, inject, input, output } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { Location } from '@angular/common'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatMiniFabButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
-import { MatCard } from '@angular/material/card'
 import { Observable } from 'rxjs'
 import { Address, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { Page } from '@open-event/shared'
@@ -13,8 +12,9 @@ import { EventChangeComponent } from '../event-change/event-change.component'
 
 @Component({
   selector: 'lib-event-create',
-  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe, MatCard],
+  imports: [EventChangeComponent, MatIcon, MatMiniFabButton, MatToolbar, TranslatePipe],
   templateUrl: './event-create.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-create.component.scss'
 })
 export class EventCreateComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {

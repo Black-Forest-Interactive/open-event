@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -9,6 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-fact-row.component.html',
   styleUrl: './event-fact-row.component.scss',
   imports: [DatePipe, MatIcon, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventFactRowComponent {

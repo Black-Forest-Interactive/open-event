@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatIcon } from '@angular/material/icon'
 import { Category } from '@open-event/core'
 import { getCategoryStyle } from '../category-style'
@@ -7,6 +7,7 @@ import { getCategoryStyle } from '../category-style'
   selector: 'lib-category-picker',
   imports: [MatIcon],
   templateUrl: './category-picker.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './category-picker.component.scss'
 })
 export class CategoryPickerComponent {

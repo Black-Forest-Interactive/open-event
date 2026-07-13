@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -14,6 +14,7 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-table.component.html',
   styleUrl: './activity-table.component.scss',
   imports: [TranslatePipe, MatIcon, MatButton, MatPaginator, ActivityRowComponent, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class ActivityTableComponent {

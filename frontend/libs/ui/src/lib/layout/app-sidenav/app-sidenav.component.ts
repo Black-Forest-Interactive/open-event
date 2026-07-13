@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { IsActiveMatchOptions, RouterLink, RouterLinkActive } from '@angular/router'
 import { MatIcon } from '@angular/material/icon'
 import { MatTooltip } from '@angular/material/tooltip'
@@ -11,6 +11,7 @@ import { NavGroup } from '../nav.api'
   styleUrl: './app-sidenav.component.scss',
   standalone: true,
   host: { class: 'flex flex-col h-full w-full overflow-hidden' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, RouterLinkActive, MatIcon, MatTooltip, TranslatePipe]
 })
 export class AppSidenavComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, Input, input, signal } from '@angular/core'
+import { Component, computed, Input, input, signal, ChangeDetectionStrategy } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventSearchEntry, Participant, RegistrationInfo } from '@open-event/core'
 
@@ -12,6 +12,7 @@ interface SpaceEntry {
   selector: 'lib-registration-status',
   imports: [TranslatePipe],
   templateUrl: './registration-status.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registration-status.component.scss'
 })
 export class RegistrationStatusComponent {

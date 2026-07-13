@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core'
+import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core'
 import { EventSearchEntry } from '@open-event/core'
 import { AccountDisplayNamePipe, CategoryChipComponent, RegistrationStatusComponent } from '@open-event/ui'
 import { DatePipe } from '@angular/common'
@@ -12,6 +12,7 @@ import { Subject } from 'rxjs'
   templateUrl: './event-board-map-popup.component.html',
   styleUrl: './event-board-map-popup.component.scss',
   imports: [AccountDisplayNamePipe, DatePipe, MatIcon, TranslatePipe, MatButton, CategoryChipComponent, RegistrationStatusComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardMapPopupComponent {

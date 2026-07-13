@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -13,6 +13,7 @@ import { Participant, ParticipateRequest } from '@open-event/core'
   templateUrl: './registration-edit-dialog.component.html',
   styleUrls: ['./registration-edit-dialog.component.scss'],
   imports: [MatDialogTitle, MatDialogContent, TranslatePipe, MatDialogActions, MatButton, MatIcon, MatDialogClose, ReactiveFormsModule, MatFormField, MatInput, MatLabel],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class RegistrationEditDialogComponent {

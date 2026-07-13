@@ -1,4 +1,4 @@
-import { Component, inject, resource } from '@angular/core'
+import { Component, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatCard } from '@angular/material/card'
 import { MatButton } from '@angular/material/button'
@@ -12,6 +12,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
   selector: 'portal-account-preferences',
   imports: [TranslatePipe, MatCard, MatButton, MatIcon, LoadingBarComponent],
   templateUrl: './account-preferences.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-preferences.component.scss'
 })
 export class AccountPreferencesComponent {

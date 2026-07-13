@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, input, output, viewChild } from '@angular/core'
+import { AfterViewInit, Component, inject, input, output, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { EventMenuItem } from './event-menu-item'
 import { EventService } from '@open-event/admin'
@@ -15,6 +15,7 @@ import { EventChangeDialogComponent } from '../event-change-dialog/event-change-
   imports: [MatIcon, MatMenu, TranslatePipe, MatIcon, MatMenuItem],
   templateUrl: './event-menu.component.html',
   styleUrl: './event-menu.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   exportAs: 'matMenu'
 })
 export class EventMenuComponent implements AfterViewInit {

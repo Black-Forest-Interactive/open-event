@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, Participant } from '@open-event/core'
 import { RegistrationStatusComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -13,6 +13,7 @@ import { EventActionExportComponent } from '../../event/event-action-export/even
   templateUrl: './registration-details.component.html',
   styleUrl: './registration-details.component.scss',
   imports: [RegistrationStatusComponent, TranslatePipe, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger, RouterLink, EventActionExportComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class RegistrationDetailsComponent {

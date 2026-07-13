@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { TranslatePipe } from '@ngx-translate/core'
 import { RegistrationService } from '@open-event/admin'
@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common'
   selector: 'admin-registration-participant-remove-dialog',
   imports: [MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, MatButton, AccountDisplayNamePipe, DatePipe],
   templateUrl: './registration-participant-remove-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registration-participant-remove-dialog.component.scss'
 })
 export class RegistrationParticipantRemoveDialogComponent {

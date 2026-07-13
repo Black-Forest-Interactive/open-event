@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core'
+import { Component, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatProgressSpinner } from '@angular/material/progress-spinner'
@@ -11,6 +11,7 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-read.component.html',
   styleUrl: './activity-read.component.scss',
   imports: [MatButton, MatIcon, TranslatePipe, MatProgressSpinner],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class ActivityReadComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, Participant } from '@open-event/core'
 import { AccountDisplayNamePipe, AvatarComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -12,6 +12,7 @@ const STACK_LIMIT = 6
   templateUrl: './event-participants-stack.component.html',
   styleUrl: './event-participants-stack.component.scss',
   imports: [AvatarComponent, AccountDisplayNamePipe, TranslatePipe, MatIcon],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventParticipantsStackComponent {

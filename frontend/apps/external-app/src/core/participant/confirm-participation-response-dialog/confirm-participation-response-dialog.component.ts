@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog'
 import { ExternalParticipant } from '@open-event/external'
 import { MatButtonModule } from '@angular/material/button'
@@ -11,6 +11,7 @@ import { WaitingListPipe } from '@open-event/core'
   selector: 'app-confirm-participation-response-dialog',
   imports: [MatDialogContent, TranslatePipe, MatIcon, MatButtonModule, MatDialogActions, MatDialogClose, MatDivider, WaitingListPipe, MatDialogTitle],
   templateUrl: './confirm-participation-response-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './confirm-participation-response-dialog.component.scss'
 })
 export class ConfirmParticipationResponseDialogComponent {

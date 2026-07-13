@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { PublicEvent } from '@open-event/external'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -9,6 +9,7 @@ import { AvatarComponent, CategoryChipComponent, getCategoryStyle } from '@open-
   selector: 'app-event-info',
   imports: [DatePipe, MatIcon, TranslatePipe, AvatarComponent, CategoryChipComponent],
   templateUrl: './event-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-info.component.scss'
 })
 export class EventInfoComponent {

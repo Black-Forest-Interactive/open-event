@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
@@ -15,6 +15,7 @@ import { DateTime } from 'luxon'
   selector: 'admin-activity-cleanup-dialog',
   imports: [TranslatePipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatDialogModule, MatButtonModule],
   templateUrl: './activity-cleanup-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-cleanup-dialog.component.scss'
 })
 export class ActivityCleanupDialogComponent {

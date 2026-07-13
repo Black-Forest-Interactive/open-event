@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe, NgClass } from '@angular/common'
 import { HistoryEventInfo } from '@open-event/core'
 import { Page } from '@open-event/shared'
@@ -15,6 +15,7 @@ import { HistoryTableComponent } from './history-table/history-table.component'
   selector: 'admin-history',
   imports: [MatCard, NgClass, MatDivider, MatPaginator, MatTableModule, DatePipe, BoardComponent, HistoryTableComponent],
   templateUrl: './history.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './history.component.scss'
 })
 export class HistoryComponent implements OnInit {

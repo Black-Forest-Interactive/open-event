@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { AccountDisplayNamePipe, AvatarComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -7,6 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'portal-event-host-block',
   templateUrl: './event-host-block.component.html',
   imports: [AvatarComponent, AccountDisplayNamePipe, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventHostBlockComponent {

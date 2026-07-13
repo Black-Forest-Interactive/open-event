@@ -1,7 +1,7 @@
 import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core'
 import { provideRouter } from '@angular/router'
 import { appRoutes } from './app.routes'
-import { provideHttpClient, withInterceptors } from '@angular/common/http'
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http'
 import { includeBearerTokenInterceptor } from 'keycloak-angular'
 import { provideKeycloakAngular } from './keycloak.config'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideToastConfig(),
     provideKeycloakAngular(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([includeBearerTokenInterceptor])),
     provideTranslateConfig(),
     provideQuill(),
     provideRouter(appRoutes),

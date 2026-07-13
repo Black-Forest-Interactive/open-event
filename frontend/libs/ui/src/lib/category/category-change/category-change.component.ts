@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core'
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
@@ -9,6 +9,7 @@ import { Category, CategoryChangeRequest } from '@open-event/core'
   selector: 'lib-category-change',
   imports: [FormsModule, MatFormField, MatHint, MatInput, MatLabel, ReactiveFormsModule, TranslatePipe],
   templateUrl: './category-change.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './category-change.component.scss'
 })
 export class CategoryChangeComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { PublicEvent } from '@open-event/external'
 import { EventBoardCalendarComponent as LibEventBoardCalendarComponent } from '@open-event/ui'
 import { toEventBoardEntry } from '../event-board-entry.mapper'
@@ -6,6 +6,7 @@ import { toEventBoardEntry } from '../event-board-entry.mapper'
 @Component({
   selector: 'app-event-board-calendar',
   template: '<lib-event-board-calendar [entries]="mapped()"></lib-event-board-calendar>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [LibEventBoardCalendarComponent]
 })
 export class EventBoardCalendarComponent {

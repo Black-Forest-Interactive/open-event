@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core'
+import { Component, computed, inject, input, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { EventService } from '@open-event/admin'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
@@ -10,6 +10,7 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   selector: 'admin-event-details-history',
   imports: [LoadingBarComponent, HistoryTableComponent, BoardCardComponent],
   templateUrl: './event-details-history.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-history.component.scss'
 })
 export class EventDetailsHistoryComponent {

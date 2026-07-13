@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, resource } from '@angular/core'
+import { Component, computed, inject, input, output, resource, ChangeDetectionStrategy } from '@angular/core'
 import { AudienceService } from '@open-event/portal'
 import { AudienceFilterComponent as LibAudienceFilterComponent } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
@@ -7,11 +7,12 @@ import { toPromise } from '@open-event/shared'
   selector: 'portal-audience-filter',
   templateUrl: './audience-filter.component.html',
   imports: [LibAudienceFilterComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class AudienceFilterComponent {
   selected = input.required<Set<string>>()
-  toggle = output<string>()
+  toggled = output<string>()
 
   private audienceService = inject(AudienceService)
 

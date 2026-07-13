@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, resource, signal, viewChild } from '@angular/core'
+import { Component, computed, DestroyRef, inject, resource, signal, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
@@ -54,6 +54,7 @@ import { map } from 'rxjs/operators'
     MatIcon,
     TranslatePipe
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventDetailsComponent {

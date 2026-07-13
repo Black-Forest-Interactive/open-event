@@ -1,4 +1,4 @@
-import { Component, Directive, input, output } from '@angular/core'
+import { Component, Directive, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { LoadingBarComponent } from '@open-event/shared'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
@@ -9,6 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'admin-board',
   imports: [LoadingBarComponent, MatIconButton, MatIcon, BoardSearchComponent, TranslatePipe],
   templateUrl: './board.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './board.component.scss'
 })
 export class BoardComponent {
@@ -19,7 +20,7 @@ export class BoardComponent {
   showReload = input(true)
   showSearch = input(true)
 
-  search = output<string>()
+  searchChange = output<string>()
   reload = output<boolean>()
   back = output<boolean>()
 }

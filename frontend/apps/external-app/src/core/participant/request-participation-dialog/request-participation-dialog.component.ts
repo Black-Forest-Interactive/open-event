@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { ExternalParticipantAddRequest } from '@open-event/external'
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'app-request-participation-dialog',
   imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './request-participation-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './request-participation-dialog.component.scss'
 })
 export class RequestParticipationDialogComponent {

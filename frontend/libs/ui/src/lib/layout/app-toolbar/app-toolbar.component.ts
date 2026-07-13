@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core'
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatToolbar } from '@angular/material/toolbar'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
@@ -10,6 +10,7 @@ import { ThemeService, TourService } from '@open-event/shared'
   templateUrl: './app-toolbar.component.html',
   styleUrl: './app-toolbar.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatToolbar, MatIconButton, MatIcon, TranslatePipe]
 })
 export class AppToolbarComponent {

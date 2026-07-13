@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -14,6 +14,7 @@ import { EventBoardEntry } from '../event-board.api'
   selector: 'lib-event-board-row',
   templateUrl: './event-row.component.html',
   styleUrl: './event-row.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, DatePipe, MatIcon, MatButton, MatCard, TranslatePipe, CategoryChipComponent, RegistrationStatusComponent]
 })
 export class EventBoardRowComponent {

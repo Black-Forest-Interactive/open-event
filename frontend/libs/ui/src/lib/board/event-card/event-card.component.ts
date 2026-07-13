@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -14,6 +14,7 @@ import { EventBoardEntry } from '../event-board.api'
   selector: 'lib-event-card',
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, DatePipe, MatIcon, MatButton, MatCard, TranslatePipe, CategoryChipComponent, RegistrationStatusComponent]
 })
 export class EventCardComponent {

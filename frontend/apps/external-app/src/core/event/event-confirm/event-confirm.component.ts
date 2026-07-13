@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfoComponent } from '../event-info/event-info.component'
 import { ConfirmationCodeComponent, LoadingBarComponent, toPromise } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -15,6 +15,7 @@ import { ConfirmParticipationResponseDialogComponent } from '../../participant/c
   selector: 'app-event-confirm',
   imports: [EventInfoComponent, LoadingBarComponent, MatCard, TranslatePipe, ConfirmationCodeComponent],
   templateUrl: './event-confirm.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-confirm.component.scss'
 })
 export class EventConfirmComponent {

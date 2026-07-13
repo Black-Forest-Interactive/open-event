@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnDestroy, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { Page } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -19,6 +19,7 @@ import { BoardComponent } from '../../shared/board/board.component'
   selector: 'admin-mail',
   imports: [MatIcon, TranslatePipe, MatCard, MatTableModule, DatePipe, MatChip, MatIconButton, RouterLink, MatPaginator, BoardComponent],
   templateUrl: './mail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './mail.component.scss'
 })
 export class MailComponent implements OnInit, OnDestroy {

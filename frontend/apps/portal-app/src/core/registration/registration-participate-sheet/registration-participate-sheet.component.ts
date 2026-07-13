@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core'
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet'
 import { Observable } from 'rxjs'
 import { EventInfo, Participant, ParticipateRequest, ParticipateResponse } from '@open-event/core'
@@ -22,6 +22,7 @@ export interface RegistrationParticipateSheetData {
   templateUrl: './registration-participate-sheet.component.html',
   styleUrl: './registration-participate-sheet.component.scss',
   imports: [TranslatePipe, MatButton, MatIconButton, MatIcon, DatePipe, MatFormField, MatLabel, MatInput],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class RegistrationParticipateSheetComponent {

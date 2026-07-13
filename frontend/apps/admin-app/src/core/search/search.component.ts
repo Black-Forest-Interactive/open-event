@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy, OnInit, resource } from '@angular/core'
+import { Component, computed, inject, OnDestroy, OnInit, resource, ChangeDetectionStrategy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
@@ -16,6 +16,7 @@ import { MatChipsModule } from '@angular/material/chips'
   selector: 'admin-search',
   imports: [MatCardModule, MatButtonModule, MatIconModule, MatProgressBarModule, MatChipsModule, CommonModule, TranslatePipe, BoardComponent],
   templateUrl: './search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search.component.scss'
 })
 export class SearchComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet'
 import { FormsModule } from '@angular/forms'
 import { MatButton, MatIconButton } from '@angular/material/button'
@@ -23,6 +23,7 @@ export interface EventBroadcastSheetData {
   selector: 'portal-event-broadcast-sheet',
   templateUrl: './event-broadcast-sheet.component.html',
   imports: [FormsModule, MatButton, MatIconButton, MatChipsModule, MatFormField, MatLabel, MatInput, MatIcon, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBroadcastSheetComponent {

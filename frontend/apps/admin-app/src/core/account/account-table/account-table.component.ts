@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { AccountSearchEntry } from '@open-event/core'
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
 import { MatTableModule } from '@angular/material/table'
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router'
   selector: 'admin-account-table',
   imports: [MatIconModule, MatButtonModule, MatPaginatorModule, MatTableModule, TranslatePipe, RouterLink],
   templateUrl: './account-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-table.component.scss'
 })
 export class AccountTableComponent {

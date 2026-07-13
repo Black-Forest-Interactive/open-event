@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core'
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, ParticipateResponse } from '@open-event/core'
 import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/board-card/board-card.component'
 import { RegistrationTableComponent } from '../../registration/registration-table/registration-table.component'
@@ -14,6 +14,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
   selector: 'admin-event-details-registration',
   imports: [BoardCardComponent, RegistrationTableComponent, BoardCardToolbarActions, MatButton, MatIcon, TranslatePipe],
   templateUrl: './event-details-registration.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-registration.component.scss'
 })
 export class EventDetailsRegistrationComponent {

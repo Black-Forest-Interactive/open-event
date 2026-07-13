@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core'
+import { Component, inject, model, ChangeDetectionStrategy } from '@angular/core'
 import { Issue } from '@open-event/core'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -11,6 +11,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
   selector: 'admin-issue-card',
   imports: [DatePipe, MatButton, MatDivider, TranslatePipe],
   templateUrl: './issue-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './issue-card.component.scss'
 })
 export class IssueCardComponent {

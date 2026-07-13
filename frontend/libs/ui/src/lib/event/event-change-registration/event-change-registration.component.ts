@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, resource } from '@angular/core'
+import { Component, computed, effect, inject, input, resource, ChangeDetectionStrategy } from '@angular/core'
 import { Audience, AudienceReadAPI, Category, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -29,6 +29,7 @@ import { StepperInputComponent } from '../../stepper-input/stepper-input.compone
     StepperInputComponent
   ],
   templateUrl: './event-change-registration.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-registration.component.scss'
 })
 export class EventChangeRegistrationComponent {

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatTableModule } from '@angular/material/table'
 import { TranslatePipe } from '@ngx-translate/core'
 import { DatePipe } from '@angular/common'
@@ -10,6 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator'
   selector: 'admin-history-table',
   imports: [MatTableModule, TranslatePipe, DatePipe, AccountDisplayNamePipe, MatPaginator],
   templateUrl: './history-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './history-table.component.scss'
 })
 export class HistoryTableComponent {

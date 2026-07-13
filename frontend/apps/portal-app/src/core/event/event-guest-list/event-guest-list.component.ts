@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, resource } from '@angular/core'
+import { Component, computed, inject, input, resource, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, ParticipantDetails } from '@open-event/core'
 import { RegistrationService } from '@open-event/portal'
 import { AuthService, toPromise } from '@open-event/shared'
@@ -15,6 +15,7 @@ import FileSaver from 'file-saver'
   templateUrl: './event-guest-list.component.html',
   styleUrl: './event-guest-list.component.scss',
   imports: [AvatarComponent, AccountDisplayNamePipe, TranslatePipe, DatePipe, NgTemplateOutlet, MatButton, MatIcon, MatDivider],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventGuestListComponent {

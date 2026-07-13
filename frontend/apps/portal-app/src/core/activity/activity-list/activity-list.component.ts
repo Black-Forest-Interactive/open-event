@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ActivityInfo } from '@open-event/core'
 import { MatIcon } from '@angular/material/icon'
@@ -8,6 +8,7 @@ import { getActivityIcon } from '@open-event/ui'
   selector: 'portal-activity-list',
   imports: [CommonModule, MatIcon],
   templateUrl: './activity-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-list.component.scss'
 })
 export class ActivityListComponent {

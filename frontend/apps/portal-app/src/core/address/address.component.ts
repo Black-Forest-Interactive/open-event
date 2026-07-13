@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, resource, signal } from '@angular/core'
+import { Component, computed, DestroyRef, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatCard } from '@angular/material/card'
@@ -16,6 +16,7 @@ import { addressTour } from './address.tour'
   selector: 'portal-address',
   imports: [LoadingBarComponent, MatButton, MatCard, MatIcon, MatIconButton, MatPaginator, TranslatePipe],
   templateUrl: './address.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './address.component.scss'
 })
 export class AddressComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { MatIcon } from '@angular/material/icon'
 import { getCategoryStyle } from '../category-style'
 
@@ -6,6 +6,7 @@ import { getCategoryStyle } from '../category-style'
   selector: 'lib-category-chip',
   imports: [MatIcon],
   templateUrl: './category-chip.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './category-chip.component.scss'
 })
 export class CategoryChipComponent {

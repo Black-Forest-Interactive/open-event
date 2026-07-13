@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { NewsletterStateService } from '../newsletter-state.service'
@@ -7,6 +7,7 @@ import { NewsletterStateService } from '../newsletter-state.service'
   selector: 'admin-newsletter-status-button',
   standalone: true,
   imports: [MatButton, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <button matButton="outlined" (click)="state.toggle()">
       <span class="flex flex-row items-center gap-2">

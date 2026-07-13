@@ -3,7 +3,7 @@
     <div class="bg-accent-default rounded-sm px-4 py-1">{{ data.owner.name }}</div>
 </div>
 <div mat-dialog-content>
-    <lib-event-change (cancel)="onCancelClick()"
+    <lib-event-change (cancelled)="onCancelClick()"
                       (request)="handleRequest($event)"
                       [addressReadAPI]="this"
                       [audienceReadAPI]="this"

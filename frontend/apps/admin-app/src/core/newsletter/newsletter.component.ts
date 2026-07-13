@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { MatCard } from '@angular/material/card'
 import { PageEvent } from '@angular/material/paginator'
 import { toPromise } from '@open-event/shared'
@@ -11,6 +11,7 @@ import { NewsletterTableComponent } from './newsletter-table/newsletter-table.co
 @Component({
   selector: 'admin-newsletter',
   imports: [MatCard, BoardComponent, BoardToolbarActions, NewsletterStatusButtonComponent, NewsletterTableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './newsletter.component.html'
 })
 export class NewsletterComponent {

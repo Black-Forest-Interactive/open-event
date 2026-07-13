@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core'
+import { Component, effect, inject, ChangeDetectionStrategy } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
@@ -12,6 +12,7 @@ import { DashboardComponent } from '../shared/dashboard/dashboard.component'
   imports: [RouterModule, DashboardComponent],
   selector: 'portal-root',
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss'
 })
 export class AppComponent {

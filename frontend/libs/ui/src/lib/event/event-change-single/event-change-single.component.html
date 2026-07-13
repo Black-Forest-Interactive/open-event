@@ -18,10 +18,10 @@
         </div>
     </section>
     <div class="flex gap-3 justify-end">
-        <button (click)="cancel.emit(true)" matButton="text" type="button">
+        <button (click)="cancelled.emit(true)" matButton="text" type="button">
             {{ 'action.cancel' | translate }}
         </button>
-        <button (click)="submit.emit(true)" [disabled]="!fg().valid && !loading()" color="accent" matButton="filled" type="submit">
+        <button (click)="submitted.emit(true)" [disabled]="!fg().valid && !loading()" color="accent" matButton="filled" type="submit">
             <mat-icon>save</mat-icon>
             {{ submitLabel() | translate }}
         </button>

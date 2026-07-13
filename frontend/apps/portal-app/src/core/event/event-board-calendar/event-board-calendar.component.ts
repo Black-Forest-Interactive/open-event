@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventSearchEntry } from '@open-event/core'
 import { EventBoardCalendarComponent as LibEventBoardCalendarComponent } from '@open-event/ui'
 import { toEventBoardEntry } from '../event-board-entry.mapper'
@@ -7,6 +7,7 @@ import { toEventBoardEntry } from '../event-board-entry.mapper'
   selector: 'portal-event-board-calendar',
   templateUrl: './event-board-calendar.component.html',
   imports: [LibEventBoardCalendarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardCalendarComponent {

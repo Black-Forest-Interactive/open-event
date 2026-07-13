@@ -9,6 +9,7 @@ import io.micronaut.context.annotation.Requirements
 import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
 import jakarta.inject.Singleton
+import jakarta.mail.Message
 import org.simplejavamail.MailException
 import org.simplejavamail.api.email.Email
 import org.simplejavamail.api.mailer.Mailer
@@ -48,8 +49,8 @@ class SimpleJavaMailClient(
     ): Boolean {
         logger.debug("Send mail '${mail.subject}' to ${to.joinToString { it.address }}")
         val builder = EmailBuilder.startingBlank()
-        to.forEach { builder.to(it.name, it.address) }
-        bcc.forEach { builder.bcc(it.name, it.address) }
+        to.forEach { builder.withRecipients(it.name, true, Message.RecipientType.TO, it.address) }
+        bcc.forEach { builder.withRecipients(it.name, true, Message.RecipientType.BCC, it.address) }
         builder.withReplyTo(getReplyToAddress())
 
         builder.withSubject(mail.subject)

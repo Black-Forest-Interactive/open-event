@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { EventBoardDateFilterComponent, EventBoardDateRange } from '@open-event/ui'
 import { MatIcon } from '@angular/material/icon'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
@@ -12,6 +12,7 @@ import { AudienceFilterComponent } from './audience-filter/audience-filter.compo
   templateUrl: './event-board-filter.component.html',
   styleUrl: './event-board-filter.component.scss',
   imports: [EventBoardDateFilterComponent, MatIcon, MatSlideToggle, MatButton, TranslatePipe, CategoryFilterComponent, AudienceFilterComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardFilterComponent {

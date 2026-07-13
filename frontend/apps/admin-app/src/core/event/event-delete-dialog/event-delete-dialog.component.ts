@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { EventService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { Event } from '@open-event/core'
@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common'
   selector: 'admin-event-delete-dialog',
   imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, AccountDisplayNamePipe, DatePipe],
   templateUrl: './event-delete-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-delete-dialog.component.scss'
 })
 export class EventDeleteDialogComponent {

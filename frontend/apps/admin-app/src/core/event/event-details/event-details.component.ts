@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, resource, signal, viewChild } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { EventService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -37,6 +37,7 @@ import { ExportEventButtonComponent } from '../../export/export-event-button/exp
     ExportEventButtonComponent
   ],
   templateUrl: './event-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details.component.scss'
 })
 export class EventDetailsComponent {

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
 import { MatTableModule } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
@@ -8,6 +8,7 @@ import { AccountInfo } from '@open-event/core'
 @Component({
   selector: 'admin-newsletter-table',
   imports: [MatIconModule, MatPaginatorModule, MatTableModule, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './newsletter-table.component.html'
 })
 export class NewsletterTableComponent {

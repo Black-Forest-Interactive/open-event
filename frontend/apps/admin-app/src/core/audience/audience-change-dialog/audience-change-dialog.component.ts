@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core'
+import { Component, effect, inject, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { AudienceService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'admin-audience-change-dialog',
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, TranslatePipe, ReactiveFormsModule],
   templateUrl: './audience-change-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './audience-change-dialog.component.scss'
 })
 export class AudienceChangeDialogComponent {

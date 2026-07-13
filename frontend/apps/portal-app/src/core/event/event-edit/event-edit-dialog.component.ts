@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { Observable } from 'rxjs'
 import { MAT_DIALOG_DATA, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
@@ -16,6 +16,7 @@ import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast
   selector: 'portal-event-edit-dialog',
   templateUrl: './event-edit-dialog.component.html',
   imports: [EventChangeComponent, MatDialogTitle, MatDialogContent, MatDialogClose, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventEditDialogComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {

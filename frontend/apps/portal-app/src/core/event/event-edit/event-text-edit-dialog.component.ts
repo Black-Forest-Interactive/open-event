@@ -1,4 +1,4 @@
-import { Component, inject, linkedSignal, resource, signal } from '@angular/core'
+import { Component, inject, linkedSignal, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { MatButton } from '@angular/material/button'
@@ -15,6 +15,7 @@ import { LoadingBarComponent, toPromise } from '@open-event/shared'
   templateUrl: './event-text-edit-dialog.component.html',
   styleUrl: './event-text-edit-dialog.component.scss',
   imports: [FormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatFormField, MatLabel, MatHint, MatInput, MatButton, TranslatePipe, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventTextEditDialogComponent {

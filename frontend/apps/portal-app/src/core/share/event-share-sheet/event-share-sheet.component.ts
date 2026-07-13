@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet'
 import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
@@ -16,6 +16,7 @@ export interface EventShareSheetData {
   selector: 'portal-event-share-sheet',
   templateUrl: './event-share-sheet.component.html',
   imports: [ShareDetailsComponent, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventShareSheetComponent {

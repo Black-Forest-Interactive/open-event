@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AccountService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'
@@ -33,6 +33,7 @@ import { TranslatePipe } from '@ngx-translate/core'
     TranslatePipe
   ],
   templateUrl: './account-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-details.component.scss'
 })
 export class AccountDetailsComponent {

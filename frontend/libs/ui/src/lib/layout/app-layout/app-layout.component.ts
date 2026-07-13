@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, signal, ViewChild } from '@angular/core'
+import { Component, computed, effect, inject, input, output, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
@@ -14,6 +14,7 @@ import { AppFooterComponent } from '../app-footer/app-footer.component'
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet, MatSidenavContainer, MatSidenav, MatSidenavContent, AppToolbarComponent, AppSidenavComponent, AppFooterComponent]
 })
 export class AppLayoutComponent {

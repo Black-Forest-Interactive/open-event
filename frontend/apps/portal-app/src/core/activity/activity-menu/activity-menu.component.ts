@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, viewChild } from '@angular/core'
+import { Component, effect, inject, signal, viewChild, ChangeDetectionStrategy } from '@angular/core'
 
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
@@ -15,6 +15,7 @@ import { switchMap } from 'rxjs'
   selector: 'portal-activity-menu',
   imports: [MatButton, MatIcon, MatMenu, TranslatePipe, ActivityListComponent, MatProgressBar],
   templateUrl: './activity-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-menu.component.scss'
 })
 export class ActivityMenuComponent {

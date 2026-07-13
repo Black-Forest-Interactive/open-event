@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 
@@ -6,6 +6,7 @@ import { MatIcon } from '@angular/material/icon'
   selector: 'lib-stepper-input',
   imports: [MatIconButton, MatIcon],
   templateUrl: './stepper-input.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './stepper-input.component.scss'
 })
 export class StepperInputComponent {

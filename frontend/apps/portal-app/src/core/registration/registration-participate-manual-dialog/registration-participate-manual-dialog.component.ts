@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms'
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -13,6 +13,7 @@ import { MatLabel } from '@angular/material/form-field'
   templateUrl: './registration-participate-manual-dialog.component.html',
   styleUrls: ['./registration-participate-manual-dialog.component.scss'],
   imports: [MatDialogTitle, TranslatePipe, MatDialogContent, ReactiveFormsModule, MatInput, MatFormField, MatButton, MatDialogClose, MatDialogActions, MatIcon, MatLabel],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class RegistrationParticipateManualDialogComponent {

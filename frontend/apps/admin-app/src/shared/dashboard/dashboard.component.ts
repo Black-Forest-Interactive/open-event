@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { AppLayoutComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
@@ -15,6 +15,7 @@ import { NewsletterStatusButtonComponent } from '../newsletter-status-button/new
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   imports: [AppLayoutComponent, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, RouterLinkActive, NewsletterStatusButtonComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class DashboardComponent {

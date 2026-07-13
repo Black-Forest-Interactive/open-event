@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core'
+import { Component, computed, inject, input, signal, ChangeDetectionStrategy } from '@angular/core'
 import { HttpResponse } from '@angular/common/http'
 import { AuthService, download } from '@open-event/shared'
 import { Event } from '@open-event/core'
@@ -15,6 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-action-export.component.html',
   styleUrls: ['./event-action-export.component.scss'],
   imports: [MatIcon, MatProgressSpinner, MatIconButton, MatTooltip, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventActionExportComponent {

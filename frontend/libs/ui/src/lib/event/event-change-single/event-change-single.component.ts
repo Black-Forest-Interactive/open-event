@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -12,6 +12,7 @@ import { EventChangeRegistrationComponent } from '../event-change-registration/e
   selector: 'lib-event-change-single',
   imports: [EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent, MatButton, MatIcon, TranslatePipe],
   templateUrl: './event-change-single.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-single.component.scss'
 })
 export class EventChangeSingleComponent {
@@ -25,6 +26,6 @@ export class EventChangeSingleComponent {
   info = input<EventInfo>()
   submitLabel = input<string>('action.submit')
 
-  submit = output<boolean>()
-  cancel = output<boolean>()
+  submitted = output<boolean>()
+  cancelled = output<boolean>()
 }

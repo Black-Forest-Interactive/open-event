@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, resource, signal } from '@angular/core'
+import { Component, computed, inject, input, output, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { Router, RouterLink } from '@angular/router'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
@@ -28,6 +28,7 @@ import { toEventBoardEntry } from '../event-board-entry.mapper'
   templateUrl: './event-board-list.component.html',
   styleUrl: './event-board-list.component.scss',
   imports: [LibEventBoardListComponent, EventBoardCalendarComponent, DatePipe, RouterLink, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuTrigger, MatProgressBar, MatTooltip, TranslatePipe, CategoryChipComponent, CategoryPickerComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardListComponent {

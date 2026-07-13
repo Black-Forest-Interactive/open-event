@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { LoadingBarComponent, Page, toPromise } from '@open-event/shared'
@@ -20,6 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
   selector: 'portal-event-copy',
   imports: [EventChangeComponent, LoadingBarComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, MatCard],
   templateUrl: './event-copy.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-copy.component.scss'
 })
 export class EventCopyComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {

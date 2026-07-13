@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core'
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core'
 import { NavigationEnd, Router, RouterLink } from '@angular/router'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { filter, map, startWith } from 'rxjs'
@@ -9,6 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'portal-event-board-navbar',
   templateUrl: './event-board-navbar.component.html',
   imports: [MatIcon, RouterLink, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardNavbarComponent {

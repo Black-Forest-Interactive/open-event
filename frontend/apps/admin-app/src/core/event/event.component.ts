@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { defaultEventSearchRequest, EventSearchEntry, EventSearchResponse } from '@open-event/core'
 import { EventRangePickerComponent, EventRangeSelection } from '@open-event/ui'
 import { EventService, ExportService } from '@open-event/admin'
@@ -25,6 +25,7 @@ import { Sort } from '@angular/material/sort'
   selector: 'admin-event',
   imports: [MatCard, EventTableComponent, BoardComponent, ReactiveFormsModule, EventRangePickerComponent, MatIcon, MatProgressSpinner, MatDivider, TranslatePipe, MatButton],
   templateUrl: './event.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event.component.scss'
 })
 export class EventComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, input, viewChild } from '@angular/core'
+import { Component, effect, ElementRef, input, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { Location } from '@open-event/core'
 import * as L from 'leaflet'
 import { icon, Map, Marker, Zoom } from 'leaflet'
@@ -19,6 +19,7 @@ Marker.prototype.options.icon = iconDefault
   selector: 'lib-location-map',
   imports: [],
   templateUrl: './location-map.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './location-map.component.scss'
 })
 export class LocationMapComponent {

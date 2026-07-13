@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { MatToolbar } from '@angular/material/toolbar'
@@ -22,6 +22,7 @@ import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast
   selector: 'portal-event-edit',
   imports: [EventChangeComponent, MatIcon, MatIconButton, MatTooltip, MatToolbar, TranslatePipe, LoadingBarComponent, MatCard],
   templateUrl: './event-edit.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-edit.component.scss'
 })
 export class EventEditComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {

@@ -8,7 +8,7 @@
 </mat-toolbar>
 <div class="max-w-[680px] mx-auto w-full">
     <lib-event-change
-            (cancel)="cancel()"
+            (cancelled)="cancel()"
             (request)="handleRequest($event)"
             [addressReadAPI]="this"
             [audienceReadAPI]="this"

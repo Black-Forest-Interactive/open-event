@@ -1,4 +1,4 @@
-import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, input, viewChild } from '@angular/core'
+import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import * as L from 'leaflet'
 import { icon, Map as LeafletMap, Marker, MarkerClusterGroup } from 'leaflet'
 import { EventBoardMapPopupComponent } from '../event-board-map-popup/event-board-map-popup.component'
@@ -40,6 +40,7 @@ Marker.prototype.options.icon = iconDefault
   templateUrl: './event-board-map.component.html',
   styleUrl: './event-board-map.component.scss',
   imports: [MatCard, MatIcon, DatePipe, TranslatePipe, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardMapComponent {

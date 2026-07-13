@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, input, output, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { RegistrationService } from '@open-event/admin'
 import { Participant, ParticipantDetails, ParticipateResponse, RegistrationInfo } from '@open-event/core'
 import { toPromise } from '@open-event/shared'
@@ -17,6 +17,7 @@ import { RegistrationParticipantRemoveDialogComponent } from '../registration-pa
   selector: 'admin-registration-table',
   imports: [MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, TranslatePipe, DatePipe],
   templateUrl: './registration-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registration-table.component.scss'
 })
 export class RegistrationTableComponent {

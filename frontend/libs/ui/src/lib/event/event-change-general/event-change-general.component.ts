@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit } from '@angular/core'
+import { Component, effect, inject, input, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { EventInfo } from '@open-event/core'
 import { DateTime } from 'luxon'
@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input'
   selector: 'lib-event-change-general',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatDatepickerModule, MatInputModule, TranslatePipe],
   templateUrl: './event-change-general.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-general.component.scss'
 })
 export class EventChangeGeneralComponent implements OnInit {

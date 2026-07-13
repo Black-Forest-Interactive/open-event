@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { MatButton } from '@angular/material/button'
 import { MatCard } from '@angular/material/card'
@@ -19,6 +19,7 @@ import { EventCreateDialogComponent } from '../event/event-create-dialog/event-c
   selector: 'admin-account',
   imports: [MatButton, MatCard, MatIcon, TranslatePipe, AccountTableComponent, BoardComponent, BoardToolbarActions],
   templateUrl: './account.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account.component.scss'
 })
 export class AccountComponent implements OnInit {

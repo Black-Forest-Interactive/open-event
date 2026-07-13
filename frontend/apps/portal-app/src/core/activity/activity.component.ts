@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ActivityTableComponent } from './activity-table/activity-table.component'
 import { MatCard } from '@angular/material/card'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -7,6 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'portal-activity',
   imports: [ActivityTableComponent, MatCard, TranslatePipe],
   templateUrl: './activity.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity.component.scss'
 })
 export class ActivityComponent {}

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, resource } from '@angular/core'
+import { Component, computed, inject, input, resource, ChangeDetectionStrategy } from '@angular/core'
 import { MatDivider } from '@angular/material/divider'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -9,6 +9,7 @@ import { LoadingBarComponent, toPromise } from '@open-event/shared'
   selector: 'portal-event-announcements',
   templateUrl: './event-announcements.component.html',
   imports: [MatDivider, DatePipe, TranslatePipe, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventAnnouncementsComponent {

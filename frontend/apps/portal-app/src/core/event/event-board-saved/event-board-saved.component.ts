@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, DestroyRef, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
@@ -16,6 +16,7 @@ import { eventBoardSavedTour } from './event-board-saved.tour'
   selector: 'portal-event-board-saved',
   templateUrl: './event-board-saved.component.html',
   imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardSavedComponent {

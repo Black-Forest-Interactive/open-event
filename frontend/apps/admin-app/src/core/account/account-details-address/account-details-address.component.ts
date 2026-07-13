@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, input, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { Account, Address } from '@open-event/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
@@ -18,6 +18,7 @@ import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/boa
   selector: 'admin-account-details-address',
   imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, TranslatePipe, BoardCardComponent, BoardCardToolbarActions],
   templateUrl: './account-details-address.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-details-address.component.scss'
 })
 export class AccountDetailsAddressComponent {

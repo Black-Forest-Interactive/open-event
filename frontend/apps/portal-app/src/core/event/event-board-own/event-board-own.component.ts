@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, DestroyRef, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
@@ -18,6 +18,7 @@ import { eventBoardOwnTour } from './event-board-own.tour'
   selector: 'portal-event-board-own',
   templateUrl: './event-board-own.component.html',
   imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, MatIcon, MatButton, RouterLink, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardOwnComponent {

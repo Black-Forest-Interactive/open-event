@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core'
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input'
@@ -9,6 +9,7 @@ import { AccountSearchEntry, AccountChangeRequest, AccountDetails, AccountSetupR
   selector: 'lib-account-change',
   imports: [FormsModule, MatFormField, MatInput, MatLabel, ReactiveFormsModule, TranslatePipe],
   templateUrl: './account-change.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-change.component.scss'
 })
 export class AccountChangeComponent {

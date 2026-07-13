@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
@@ -14,6 +14,7 @@ import { BaseIssueService, IssueChangeRequest } from '@open-event/core'
   selector: 'lib-issue-create-dialog',
   imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, MatButton, MatDialogContent, MatDialogTitle, TranslatePipe, MatDialogActions, MatDialogClose, MatIcon, MatInput],
   templateUrl: './issue-create-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './issue-create-dialog.component.scss'
 })
 export class IssueCreateDialogComponent {

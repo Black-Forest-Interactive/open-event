@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, Participant } from '@open-event/core'
 import { RegistrationStatusComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router'
   templateUrl: './event-bookbar.component.html',
   styleUrl: './event-bookbar.component.scss',
   imports: [RegistrationStatusComponent, TranslatePipe, MatButton, MatIcon, RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBookbarComponent {

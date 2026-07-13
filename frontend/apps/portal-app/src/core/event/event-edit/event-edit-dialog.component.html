@@ -15,7 +15,7 @@
     <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
     @if (event()) {
         <lib-event-change
-                (cancel)="dialogRef.close(false)"
+                (cancelled)="dialogRef.close(false)"
                 (request)="handleRequest($event)"
                 [addressReadAPI]="this"
                 [audienceReadAPI]="this"

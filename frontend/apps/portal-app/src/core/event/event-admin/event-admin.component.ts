@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatToolbar } from '@angular/material/toolbar'
@@ -18,6 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-admin.component.html',
   styleUrl: './event-admin.component.scss',
   imports: [MatToolbar, MatIcon, EventActionExportComponent, RegistrationModerationComponent, MatIconButton, MatTooltip, LoadingBarComponent, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventAdminComponent {

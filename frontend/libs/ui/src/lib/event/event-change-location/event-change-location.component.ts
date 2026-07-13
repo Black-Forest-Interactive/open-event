@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, OnInit, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, input, OnInit, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { Address, AddressReadAPI, EventInfo } from '@open-event/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -19,6 +19,7 @@ function norm(s: string | null | undefined): string {
   selector: 'lib-event-change-location',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslatePipe, MatButtonToggleModule, MatRadioModule, MatCheckboxModule, MatIcon],
   templateUrl: './event-change-location.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-location.component.scss'
 })
 export class EventChangeLocationComponent implements OnInit {

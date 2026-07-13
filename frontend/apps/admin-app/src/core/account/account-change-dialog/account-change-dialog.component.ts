@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { AccountChangeRequest, AccountSearchEntry, AccountSetupRequest, ProfileChangeRequest } from '@open-event/core'
@@ -14,6 +14,7 @@ import { AccountService } from '@open-event/admin'
   selector: 'admin-account-change-dialog',
   imports: [TranslatePipe, ReactiveFormsModule, MatFormField, MatDialogActions, MatIcon, MatInput, MatLabel, MatDialogClose, MatButton, MatDialogTitle, MatDialogContent],
   templateUrl: './account-change-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-change-dialog.component.scss'
 })
 export class AccountChangeDialogComponent {

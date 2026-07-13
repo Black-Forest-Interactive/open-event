@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe, Location } from '@angular/common'
 import { LoadingBarComponent, Page } from '@open-event/shared'
 import { MatCard } from '@angular/material/card'
@@ -37,6 +37,7 @@ import { MailService } from '@open-event/admin'
     MatHeaderCellDef
   ],
   templateUrl: './mail-history.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './mail-history.component.scss'
 })
 export class MailHistoryComponent implements OnInit {

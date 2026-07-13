@@ -1,7 +1,8 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'lib-avatar',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './avatar.component.html'
 })
 export class AvatarComponent {

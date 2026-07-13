@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, DestroyRef, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { Location } from '@angular/common'
 import { Router } from '@angular/router'
 import { FormBuilder, FormGroup } from '@angular/forms'
@@ -32,6 +32,7 @@ interface WizardSummary {
   selector: 'portal-event-create',
   imports: [MatStepperModule, MatButton, MatIcon, MatCard, TranslatePipe, CategoryChipComponent, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent],
   templateUrl: './event-create.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-create.component.scss'
 })
 export class EventCreateComponent {

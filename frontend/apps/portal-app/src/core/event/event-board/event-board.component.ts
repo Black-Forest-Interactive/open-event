@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, TemplateRef, viewChild } from '@angular/core'
+import { Component, DestroyRef, effect, inject, TemplateRef, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
@@ -41,6 +41,7 @@ import { TranslatePipe } from '@ngx-translate/core'
     RouterLink,
     TranslatePipe
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class EventBoardComponent {

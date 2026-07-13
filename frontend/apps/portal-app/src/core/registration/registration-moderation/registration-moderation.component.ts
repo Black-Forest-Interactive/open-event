@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core'
+import { Component, computed, inject, input, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { RegistrationEditDialogComponent } from '../registration-edit-dialog/registration-edit-dialog.component'
 import { RegistrationCancelDialogComponent } from '../registration-cancel-dialog/registration-cancel-dialog.component'
 import { AuthService, LoadingBarComponent, toPromise } from '@open-event/shared'
@@ -21,6 +21,7 @@ import { RegistrationService } from '@open-event/portal'
   templateUrl: './registration-moderation.component.html',
   styleUrl: './registration-moderation.component.scss',
   imports: [MatIcon, MatIconButton, MatTooltip, TranslatePipe, MatCard, DatePipe, NgStyle, MatDivider, MatButton, LoadingBarComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class RegistrationModerationComponent {

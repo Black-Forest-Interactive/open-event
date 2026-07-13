@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output, signal } from '@angular/core'
+import { Component, effect, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core'
 
 import { MatCardModule } from '@angular/material/card'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
@@ -16,6 +16,7 @@ import { EventChangeSingleComponent } from '../event-change-single/event-change-
   selector: 'lib-event-change',
   imports: [MatCardModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, TranslateModule, LoadingBarComponent, EventChangeSingleComponent],
   templateUrl: './event-change.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change.component.scss'
 })
 export class EventChangeComponent {
@@ -23,7 +24,7 @@ export class EventChangeComponent {
   info = signal<EventInfo | undefined>(undefined)
   submitLabel = input<string>('action.submit')
   request = output<EventChangeRequest>()
-  cancel = output<boolean>()
+  cancelled = output<boolean>()
 
   hiddenFields: string[] = ['iconUrl', 'imageUrl', 'endDate', 'interestedAllowed', 'ticketsEnabled']
 

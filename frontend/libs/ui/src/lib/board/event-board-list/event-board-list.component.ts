@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { LoadingBarComponent, ScrollNearEndDirective } from '@open-event/shared'
@@ -9,6 +9,7 @@ import { EventBoardEntry } from '../event-board.api'
 @Component({
   selector: 'lib-event-board-list',
   templateUrl: './event-board-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [EventCardComponent, EventBoardRowComponent, MatButton, TranslatePipe, ScrollNearEndDirective, LoadingBarComponent]
 })
 export class EventBoardListComponent {

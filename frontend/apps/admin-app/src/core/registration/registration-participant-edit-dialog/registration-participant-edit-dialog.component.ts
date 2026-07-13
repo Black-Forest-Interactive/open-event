@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { Participant, Registration } from '@open-event/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { RegistrationService } from '@open-event/admin'
@@ -13,6 +13,7 @@ import { MatLabel } from '@angular/material/form-field'
   selector: 'admin-registration-participant-edit-dialog',
   imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, ReactiveFormsModule, MatFormField, MatInput, MatFormField, MatLabel],
   templateUrl: './registration-participant-edit-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registration-participant-edit-dialog.component.scss'
 })
 export class RegistrationParticipantEditDialogComponent {

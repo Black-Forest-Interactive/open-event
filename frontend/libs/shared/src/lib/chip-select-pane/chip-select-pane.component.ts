@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, input, Input, Output, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, input, Output, ViewChild } from '@angular/core'
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete'
 import { ChipSelectEntry } from './chip-select-entry'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
@@ -12,6 +12,7 @@ import { MatIcon } from '@angular/material/icon'
   templateUrl: './chip-select-pane.component.html',
   styleUrls: ['./chip-select-pane.component.scss'],
   imports: [MatFormField, MatChipGrid, MatChipRow, MatIcon, ReactiveFormsModule, MatAutocompleteTrigger, MatChipInput, MatAutocomplete, MatOption, MatLabel],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class ChipSelectPaneComponent {
@@ -27,8 +28,6 @@ export class ChipSelectPaneComponent {
   allEntries: ChipSelectEntry[] = []
   @ViewChild('entryInput') entryInput: ElementRef<HTMLInputElement> | undefined
   @ViewChild('auto') matAutocomplete: MatAutocomplete | undefined
-
-  constructor() {}
 
   @Input()
   set entries(data: ChipSelectEntry[]) {

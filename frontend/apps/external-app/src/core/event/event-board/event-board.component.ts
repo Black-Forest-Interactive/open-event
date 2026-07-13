@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { EventService, PublicEvent, PublicEventSearchRequest } from '@open-event/external'
 import { DateTime } from 'luxon'
 import { LoadingBarComponent, ScrollNearEndDirective, toPromise } from '@open-event/shared'
@@ -20,6 +20,7 @@ type BoardLayout = 'cards' | 'rows' | 'calendar'
 @Component({
   selector: 'app-event-board',
   templateUrl: './event-board.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BoardSearchComponent,
     EventBoardDateFilterComponent,

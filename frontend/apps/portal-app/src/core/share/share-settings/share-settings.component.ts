@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
 import { MatDivider } from '@angular/material/divider'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -8,6 +8,7 @@ import { EventInfo } from '@open-event/core'
   selector: 'portal-share-settings',
   templateUrl: './share-settings.component.html',
   imports: [MatSlideToggle, MatDivider, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class ShareSettingsComponent {

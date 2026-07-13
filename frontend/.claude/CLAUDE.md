@@ -1,4 +1,4 @@
-Angular 21 Nx monorepo. See .claude/rules/ for all standards and migration rules:
+Angular 22 Nx monorepo. See .claude/rules/ for all standards and migration rules:
 
 - `rules/code-style.md` — formatting, data modeling, component structure, SCSS, i18n
 - `rules/project-structure.md` — monorepo layout, library rules, import boundaries
