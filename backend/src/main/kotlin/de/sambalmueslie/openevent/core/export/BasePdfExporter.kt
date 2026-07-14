@@ -63,8 +63,6 @@ abstract class BasePdfExporter(
         return renderPdfFile(listOf(info))
     }
 
-    private fun createQrCode(info: EventInfo): String = createQrCodeFromUrl(getUrl(info))
-
     protected fun createQrCodeFromUrl(url: String): String {
         if (url.isBlank()) return ""
         return try {
@@ -102,12 +100,13 @@ abstract class BasePdfExporter(
         val registration: RegistrationInfo = info.registration ?: return null
         val categories: List<Category> = info.categories
 
-        val qrCode = createQrCode(info)
+        val url = getUrl(info)
+        val qrCode = createQrCodeFromUrl(url)
         val availableSpace = getAvailableSpace(registration.registration)
         val description = htmlConverter.convert(event.longText)
         val shortDescription = htmlConverter.convert(event.shortText)
 
-        return EventPdfContent(event, location, registration, categories, info.audiences, qrCode, availableSpace, description, shortDescription)
+        return EventPdfContent(event, location, registration, categories, info.audiences, qrCode, availableSpace, description, shortDescription, url)
     }
 
     protected fun renderPdfFile(infos: List<EventInfo>, additionalProperties: Map<String, Any>? = null): SystemFile? {
@@ -120,6 +119,7 @@ abstract class BasePdfExporter(
             Pair("content", content),
             Pair("logo", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_LOGO_URL)?.value as? String ?: "")),
             Pair("image", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_IMAGE_URL)?.value as? String ?: "")),
+            Pair("title", settingsService.findByKey(SettingsAPI.SETTINGS_TEXT_TITLE)?.value as? String ?: ""),
             Pair("date", formatter.format(LocalDateTime.now(ZoneId.of("Europe/Berlin")))),
         )
 
