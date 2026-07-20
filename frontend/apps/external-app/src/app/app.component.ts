@@ -16,7 +16,7 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 })
 export class AppComponent {
   private translate = inject(TranslateService)
-  readonly currentLang = signal(this.translate.currentLang ?? this.translate.defaultLang)
+  readonly currentLang = signal(this.translate.currentLang() ?? this.translate.fallbackLang())
   private settings = inject(SettingsService)
   private titleResource = resource({
     loader: (p) => toPromise(this.settings.getTitle(), p.abortSignal)

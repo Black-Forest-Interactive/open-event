@@ -8,8 +8,7 @@ import { EventInfo } from '@open-event/core'
   selector: 'portal-share-settings',
   templateUrl: './share-settings.component.html',
   imports: [MatSlideToggle, MatDivider, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ShareSettingsComponent {
   info = input.required<EventInfo>()

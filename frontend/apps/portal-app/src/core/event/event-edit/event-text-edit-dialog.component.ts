@@ -15,8 +15,7 @@ import { LoadingBarComponent, toPromise } from '@open-event/shared'
   templateUrl: './event-text-edit-dialog.component.html',
   styleUrl: './event-text-edit-dialog.component.scss',
   imports: [FormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatFormField, MatLabel, MatHint, MatInput, MatButton, TranslatePipe, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventTextEditDialogComponent {
   private data = inject<{ id: number }>(MAT_DIALOG_DATA)

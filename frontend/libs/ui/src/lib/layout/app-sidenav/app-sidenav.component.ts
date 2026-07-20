@@ -9,7 +9,6 @@ import { NavGroup } from '../nav.api'
   selector: 'lib-app-sidenav',
   templateUrl: './app-sidenav.component.html',
   styleUrl: './app-sidenav.component.scss',
-  standalone: true,
   host: { class: 'flex flex-col h-full w-full overflow-hidden' },
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, RouterLinkActive, MatIcon, MatTooltip, TranslatePipe]

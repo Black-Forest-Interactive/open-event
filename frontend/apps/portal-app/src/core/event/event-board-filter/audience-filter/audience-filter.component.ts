@@ -7,8 +7,7 @@ import { toPromise } from '@open-event/shared'
   selector: 'portal-audience-filter',
   templateUrl: './audience-filter.component.html',
   imports: [LibAudienceFilterComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class AudienceFilterComponent {
   selected = input.required<Set<string>>()

@@ -54,8 +54,7 @@ import { map } from 'rxjs/operators'
     MatIcon,
     TranslatePipe
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventDetailsComponent {
   readonly registration = computed(() => this.info()?.registration)

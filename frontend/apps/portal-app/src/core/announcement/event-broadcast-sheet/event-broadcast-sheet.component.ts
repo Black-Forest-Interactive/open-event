@@ -23,8 +23,7 @@ export interface EventBroadcastSheetData {
   selector: 'portal-event-broadcast-sheet',
   templateUrl: './event-broadcast-sheet.component.html',
   imports: [FormsModule, MatButton, MatIconButton, MatChipsModule, MatFormField, MatLabel, MatInput, MatIcon, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBroadcastSheetComponent {
   private data = inject<EventBroadcastSheetData>(MAT_BOTTOM_SHEET_DATA)

@@ -21,8 +21,7 @@ import { RegistrationService } from '@open-event/portal'
   templateUrl: './registration-moderation.component.html',
   styleUrl: './registration-moderation.component.scss',
   imports: [MatIcon, MatIconButton, MatTooltip, TranslatePipe, MatCard, DatePipe, NgStyle, MatDivider, MatButton, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationModerationComponent {
   data = input<RegistrationInfo | undefined>()

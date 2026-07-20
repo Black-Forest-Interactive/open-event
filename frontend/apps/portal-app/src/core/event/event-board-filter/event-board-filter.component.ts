@@ -12,8 +12,7 @@ import { AudienceFilterComponent } from './audience-filter/audience-filter.compo
   templateUrl: './event-board-filter.component.html',
   styleUrl: './event-board-filter.component.scss',
   imports: [EventBoardDateFilterComponent, MatIcon, MatSlideToggle, MatButton, TranslatePipe, CategoryFilterComponent, AudienceFilterComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardFilterComponent {
   isDiscover = input.required<boolean>()

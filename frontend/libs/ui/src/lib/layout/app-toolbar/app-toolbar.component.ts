@@ -9,7 +9,6 @@ import { ThemeService, TourService } from '@open-event/shared'
   selector: 'lib-app-toolbar',
   templateUrl: './app-toolbar.component.html',
   styleUrl: './app-toolbar.component.scss',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatToolbar, MatIconButton, MatIcon, TranslatePipe]
 })

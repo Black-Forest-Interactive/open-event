@@ -16,8 +16,7 @@ import { eventBoardSavedTour } from './event-board-saved.tour'
   selector: 'portal-event-board-saved',
   templateUrl: './event-board-saved.component.html',
   imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardSavedComponent {
   private eventService = inject(EventService)

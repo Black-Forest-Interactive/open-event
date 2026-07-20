@@ -12,8 +12,7 @@ import { EventShareSheetData } from '../event-share-sheet/event-share-sheet.comp
   selector: 'portal-event-share-dialog',
   templateUrl: './event-share-dialog.component.html',
   imports: [ShareDetailsComponent, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventShareDialogComponent {
   private data = inject<EventShareSheetData>(MAT_DIALOG_DATA)

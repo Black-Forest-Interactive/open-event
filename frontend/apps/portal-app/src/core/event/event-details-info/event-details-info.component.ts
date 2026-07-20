@@ -8,8 +8,7 @@ import { EventFactRowComponent } from '../event-fact-row/event-fact-row.componen
   templateUrl: './event-details-info.component.html',
   styleUrl: './event-details-info.component.scss',
   imports: [TranslatePipe, EventFactRowComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventDetailsInfoComponent {
   info = input.required<EventInfo>()

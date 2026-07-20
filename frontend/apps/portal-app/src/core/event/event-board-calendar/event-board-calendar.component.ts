@@ -7,8 +7,7 @@ import { toEventBoardEntry } from '../event-board-entry.mapper'
   selector: 'portal-event-board-calendar',
   templateUrl: './event-board-calendar.component.html',
   imports: [LibEventBoardCalendarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardCalendarComponent {
   entries = input.required<EventSearchEntry[]>()

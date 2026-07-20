@@ -5,7 +5,6 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'lib-app-footer',
   templateUrl: './app-footer.component.html',
   styleUrl: './app-footer.component.scss',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe]
 })

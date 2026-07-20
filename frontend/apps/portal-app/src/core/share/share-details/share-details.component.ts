@@ -14,8 +14,7 @@ import { MatIcon } from '@angular/material/icon'
   selector: 'portal-share-details',
   templateUrl: './share-details.component.html',
   imports: [TranslatePipe, LoadingBarComponent, MatButtonModule, MatButtonToggleModule, MatIcon],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ShareDetailsComponent {
   private eventService = inject(EventService)

@@ -13,8 +13,7 @@ import { MatLabel } from '@angular/material/form-field'
   templateUrl: './registration-participate-manual-dialog.component.html',
   styleUrls: ['./registration-participate-manual-dialog.component.scss'],
   imports: [MatDialogTitle, TranslatePipe, MatDialogContent, ReactiveFormsModule, MatInput, MatFormField, MatButton, MatDialogClose, MatDialogActions, MatIcon, MatLabel],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationParticipateManualDialogComponent {
   dialogRef = inject<MatDialogRef<RegistrationParticipateManualDialogComponent>>(MatDialogRef)

@@ -4,12 +4,12 @@ import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 import { ExternalParticipantConfirmRequest } from '@open-event/external'
 
 @Component({
   selector: 'app-confirm-participation-dialog',
-  imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslateModule],
+  imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './confirm-participation-dialog.component.html',
   styleUrl: './confirm-participation-dialog.component.scss'
 })

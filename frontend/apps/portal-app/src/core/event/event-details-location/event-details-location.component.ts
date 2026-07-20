@@ -9,8 +9,7 @@ import { MatDivider } from '@angular/material/divider'
   templateUrl: './event-details-location.component.html',
   styleUrl: './event-details-location.component.scss',
   imports: [LocationMapComponent, TranslatePipe, MatDivider],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventDetailsLocationComponent {
   info = input.required<EventInfo>()

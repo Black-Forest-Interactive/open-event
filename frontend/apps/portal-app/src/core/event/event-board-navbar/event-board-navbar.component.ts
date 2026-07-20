@@ -9,8 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'portal-event-board-navbar',
   templateUrl: './event-board-navbar.component.html',
   imports: [MatIcon, RouterLink, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardNavbarComponent {
   private router = inject(Router)

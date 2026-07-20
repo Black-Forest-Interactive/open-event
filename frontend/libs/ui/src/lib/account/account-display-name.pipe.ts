@@ -2,8 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { AccountInfo } from '@open-event/core'
 
 @Pipe({
-  name: 'accountDisplayName',
-  standalone: true
+  name: 'accountDisplayName'
 })
 export class AccountDisplayNamePipe implements PipeTransform {
   transform(account: AccountInfo, ...args: any[]): any {

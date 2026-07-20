@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, input, Output, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, ElementRef, input, output, signal, viewChild } from '@angular/core'
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete'
 import { ChipSelectEntry } from './chip-select-entry'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
@@ -12,76 +12,69 @@ import { MatIcon } from '@angular/material/icon'
   templateUrl: './chip-select-pane.component.html',
   styleUrls: ['./chip-select-pane.component.scss'],
   imports: [MatFormField, MatChipGrid, MatChipRow, MatIcon, ReactiveFormsModule, MatAutocompleteTrigger, MatChipInput, MatAutocomplete, MatOption, MatLabel],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ChipSelectPaneComponent {
   removable = input<boolean>(true)
   formCtrl = input.required<FormControl>()
   placeholder = input<string>('Assigned entry ...')
+  entries = input<ChipSelectEntry[]>([])
 
-  @Output()
-  changed: EventEmitter<boolean> = new EventEmitter<boolean>()
+  changed = output<boolean>()
   separatorKeysCodes: number[] = [ENTER, COMMA]
-  filteredEntries: ChipSelectEntry[] = []
-  selectedEntries: ChipSelectEntry[] = []
-  allEntries: ChipSelectEntry[] = []
-  @ViewChild('entryInput') entryInput: ElementRef<HTMLInputElement> | undefined
-  @ViewChild('auto') matAutocomplete: MatAutocomplete | undefined
 
-  @Input()
-  set entries(data: ChipSelectEntry[]) {
-    this.allEntries = data
-    this.updateAutocomplete()
-  }
+  private entryInput = viewChild<ElementRef<HTMLInputElement>>('entryInput')
+
+  readonly selectedEntries = signal<ChipSelectEntry[]>([])
+  readonly filteredEntries = computed(() => this.entries().filter((o) => this.selectedEntries().indexOf(o) < 0))
 
   clear(emitEvent: boolean = true) {
-    if (this.entryInput) this.entryInput.nativeElement.value = ''
-    this.selectedEntries = []
-    this.formCtrl().reset({ emitEvent: emitEvent })
-    this.updateAutocomplete()
+    this.clearInput()
+    this.selectedEntries.set([])
+    this.formCtrl().reset({ emitEvent })
+    this.changed.emit(true)
   }
 
   getSelectedEntryIds(): number[] {
-    return this.selectedEntries.map((e) => e.id)
+    return this.selectedEntries().map((e) => e.id)
   }
 
   setSelectedValues(current: ChipSelectEntry[]) {
-    this.selectedEntries = current
-    if (this.entryInput) this.entryInput.nativeElement.value = ''
+    this.selectedEntries.set(current)
+    this.clearInput()
     this.formCtrl().setValue(
-      this.selectedEntries.map((s) => s.id),
+      current.map((s) => s.id),
       { emitEvent: true }
     )
-    this.updateAutocomplete()
+    this.changed.emit(true)
   }
 
   handleRemoveEvent(entry: ChipSelectEntry): void {
-    const index = this.selectedEntries.indexOf(entry)
-    if (index < 0) return
+    const updated = this.selectedEntries().filter((e) => e !== entry)
+    if (updated.length === this.selectedEntries().length) return
 
-    this.selectedEntries.splice(index, 1)
+    this.selectedEntries.set(updated)
     this.formCtrl().setValue(
-      this.selectedEntries.map((s) => s.id),
+      updated.map((s) => s.id),
       { emitEvent: true }
     )
-    this.updateAutocomplete()
-    if (this.entryInput) this.entryInput.nativeElement.blur()
+    this.changed.emit(true)
+    this.entryInput()?.nativeElement.blur()
   }
 
   handleSelectedEvent(event: MatAutocompleteSelectedEvent): void {
-    this.selectedEntries.push(event.option.value)
-    if (this.entryInput) this.entryInput.nativeElement.value = ''
+    this.selectedEntries.set([...this.selectedEntries(), event.option.value])
+    this.clearInput()
     this.formCtrl().setValue(
-      this.selectedEntries.map((s) => s.id),
+      this.selectedEntries().map((s) => s.id),
       { emitEvent: true }
     )
-    this.updateAutocomplete()
-    if (this.entryInput) this.entryInput.nativeElement.blur()
+    this.changed.emit(true)
+    this.entryInput()?.nativeElement.blur()
   }
 
-  private updateAutocomplete() {
-    this.filteredEntries = this.allEntries.filter((o) => this.selectedEntries.indexOf(o) < 0)
-    this.changed.emit(true)
+  private clearInput() {
+    const el = this.entryInput()
+    if (el) el.nativeElement.value = ''
   }
 }

@@ -14,8 +14,7 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-table.component.html',
   styleUrl: './activity-table.component.scss',
   imports: [TranslatePipe, MatIcon, MatButton, MatPaginator, ActivityRowComponent, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ActivityTableComponent {
   // writable so handleReadStatusChanged can patch individual rows without a full reload

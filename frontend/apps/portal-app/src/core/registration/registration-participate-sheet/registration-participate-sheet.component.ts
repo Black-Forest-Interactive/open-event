@@ -22,8 +22,7 @@ export interface RegistrationParticipateSheetData {
   templateUrl: './registration-participate-sheet.component.html',
   styleUrl: './registration-participate-sheet.component.scss',
   imports: [TranslatePipe, MatButton, MatIconButton, MatIcon, DatePipe, MatFormField, MatLabel, MatInput],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationParticipateSheetComponent {
   data = inject<RegistrationParticipateSheetData>(MAT_BOTTOM_SHEET_DATA)

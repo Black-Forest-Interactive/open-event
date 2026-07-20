@@ -11,8 +11,7 @@ import { RouterLink } from '@angular/router'
   templateUrl: './event-bookbar.component.html',
   styleUrl: './event-bookbar.component.scss',
   imports: [RegistrationStatusComponent, TranslatePipe, MatButton, MatIcon, RouterLink],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBookbarComponent {
   info = input.required<EventInfo>()

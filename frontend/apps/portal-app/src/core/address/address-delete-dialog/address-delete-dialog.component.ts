@@ -10,8 +10,7 @@ import { MatIcon } from '@angular/material/icon'
   templateUrl: './address-delete-dialog.component.html',
   styleUrl: './address-delete-dialog.component.scss',
   imports: [MatDialogTitle, TranslatePipe, MatDialogActions, MatDialogContent, MatDialogClose, MatButton, MatIcon],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class AddressDeleteDialogComponent {
   data = inject<Address>(MAT_DIALOG_DATA)

@@ -6,8 +6,7 @@ import { toEventBoardEntry } from '../event-board-entry.mapper'
 @Component({
   selector: 'portal-event-card',
   template: '<lib-event-card [data]="mapped()"></lib-event-card>',
-  imports: [LibEventCardComponent],
-  standalone: true
+  imports: [LibEventCardComponent]
 })
 export class EventCardComponent {
   entry = input.required<EventSearchEntry>()

@@ -11,8 +11,7 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-read.component.html',
   styleUrl: './activity-read.component.scss',
   imports: [MatButton, MatIcon, TranslatePipe, MatProgressSpinner],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ActivityReadComponent {
   info = input.required<ActivityInfo>()

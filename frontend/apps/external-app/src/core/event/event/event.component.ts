@@ -45,7 +45,7 @@ export class EventComponent {
   readonly error = this.eventResource.error
 
   constructor() {
-    this.translate.setDefaultLang('de')
+    this.translate.setFallbackLang('de')
 
     effect(() => {
       const lang = this.lang()

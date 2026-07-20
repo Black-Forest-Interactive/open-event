@@ -15,8 +15,7 @@ import { NewsletterStatusButtonComponent } from '../newsletter-status-button/new
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   imports: [AppLayoutComponent, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, RouterLinkActive, NewsletterStatusButtonComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DashboardComponent {
   private appService = inject(AppService)

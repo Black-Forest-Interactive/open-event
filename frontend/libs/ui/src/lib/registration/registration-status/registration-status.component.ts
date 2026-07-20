@@ -1,4 +1,4 @@
-import { Component, computed, Input, input, signal, ChangeDetectionStrategy } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventSearchEntry, Participant, RegistrationInfo } from '@open-event/core'
 
@@ -17,8 +17,25 @@ interface SpaceEntry {
 })
 export class RegistrationStatusComponent {
   compact = input(false)
+  data = input<RegistrationInfo>()
+  entry = input<EventSearchEntry>()
+  public = input<SpaceEntry>()
 
-  private space = signal({ available: 0, taken: 0, remaining: 0 })
+  private space = computed(() => {
+    const info = this.data()
+    if (info) {
+      const taken = info.participants.filter((p) => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
+      const available = info.registration.maxGuestAmount
+      return { available, taken, remaining: available - taken }
+    }
+    const spaceEntry = this.entry() ?? this.public()
+    if (spaceEntry) {
+      const available = spaceEntry.maxGuestAmount
+      const remaining = spaceEntry.remainingSpace
+      return { available, remaining, taken: available - remaining }
+    }
+    return { available: 0, taken: 0, remaining: 0 }
+  })
 
   readonly available = computed(() => this.space().available)
   readonly taken = computed(() => this.space().taken)
@@ -39,29 +56,4 @@ export class RegistrationStatusComponent {
     const ratio = Math.round((this.taken() / this.available()) * 100)
     return this.level() === 'ok' ? Math.max(6, ratio) : ratio
   })
-
-  @Input()
-  set data(info: RegistrationInfo | undefined) {
-    if (info) {
-      const taken = info.participants.filter((p) => !p.waitingList).reduce((sum: number, p: Participant) => sum + p.size, 0)
-      const available = info.registration.maxGuestAmount
-      this.space.set({ available, taken, remaining: available - taken })
-    }
-  }
-
-  @Input()
-  set entry(entry: EventSearchEntry) {
-    this.applyEntry(entry)
-  }
-
-  @Input()
-  set public(entry: SpaceEntry) {
-    this.applyEntry(entry)
-  }
-
-  private applyEntry(entry: SpaceEntry) {
-    const available = entry.maxGuestAmount
-    const remaining = entry.remainingSpace
-    this.space.set({ available, remaining, taken: available - remaining })
-  }
 }

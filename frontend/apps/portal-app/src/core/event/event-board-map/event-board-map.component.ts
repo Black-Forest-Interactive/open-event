@@ -40,8 +40,7 @@ Marker.prototype.options.icon = iconDefault
   templateUrl: './event-board-map.component.html',
   styleUrl: './event-board-map.component.scss',
   imports: [MatCard, MatIcon, DatePipe, TranslatePipe, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardMapComponent {
   entries = input.required<EventSearchEntry[]>()

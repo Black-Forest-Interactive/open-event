@@ -10,8 +10,7 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-button.component.html',
   styleUrl: './activity-button.component.scss',
   imports: [ActivityIndicatorComponent, ActivityMenuComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ActivityButtonComponent {
   private service = inject(ActivityService)

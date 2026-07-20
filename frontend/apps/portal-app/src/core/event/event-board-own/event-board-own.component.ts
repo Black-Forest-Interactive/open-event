@@ -18,8 +18,7 @@ import { eventBoardOwnTour } from './event-board-own.tour'
   selector: 'portal-event-board-own',
   templateUrl: './event-board-own.component.html',
   imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, MatIcon, MatButton, RouterLink, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardOwnComponent {
   private eventService = inject(EventService)

@@ -9,8 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-fact-row.component.html',
   styleUrl: './event-fact-row.component.scss',
   imports: [DatePipe, MatIcon, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventFactRowComponent {
   info = input.required<EventInfo>()

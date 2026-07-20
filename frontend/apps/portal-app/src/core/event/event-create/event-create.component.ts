@@ -169,7 +169,7 @@ export class EventCreateComponent {
     const location = value.location ?? {}
     const registration = value.registration ?? {}
 
-    const locale = this.translate.currentLang || 'de'
+    const locale = this.translate.currentLang() || 'de'
     const date = general.startDate as DateTime
     const dateLine = date?.isValid ? `${date.setLocale(locale).toFormat('ccc, d. LLL')} · ${general.startTime}–${general.endTime}` : ''
 

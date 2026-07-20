@@ -15,8 +15,7 @@ import packageJson from '../../../../../package.json'
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   imports: [AppLayoutComponent, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, RouterLinkActive, ActivityButtonComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DashboardComponent {
   version = 'V ' + packageJson.version

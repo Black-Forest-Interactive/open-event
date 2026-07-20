@@ -10,8 +10,7 @@ import { MatIcon } from '@angular/material/icon'
   templateUrl: './event-delete-dialog.component.html',
   styleUrls: ['./event-delete-dialog.component.scss'],
   imports: [MatDialogTitle, MatDialogContent, TranslatePipe, MatDialogActions, MatButton, MatIcon, MatDialogClose],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventDeleteDialogComponent {
   data = inject<Event>(MAT_DIALOG_DATA)

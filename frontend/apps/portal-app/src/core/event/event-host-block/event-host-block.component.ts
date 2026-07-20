@@ -7,8 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'portal-event-host-block',
   templateUrl: './event-host-block.component.html',
   imports: [AvatarComponent, AccountDisplayNamePipe, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventHostBlockComponent {
   info = input.required<EventInfo>()

@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, signal, ViewChild, ChangeDetectionStrategy } from '@angular/core'
+import { Component, computed, effect, inject, input, output, signal, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
@@ -13,7 +13,6 @@ import { AppFooterComponent } from '../app-footer/app-footer.component'
   selector: 'lib-app-layout',
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.scss',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet, MatSidenavContainer, MatSidenav, MatSidenavContent, AppToolbarComponent, AppSidenavComponent, AppFooterComponent]
 })
@@ -23,7 +22,7 @@ export class AppLayoutComponent {
   version = input<string>('')
   footerInfo = input<string>('')
   logoutClick = output<void>()
-  @ViewChild('sidenav') sidenav: MatSidenav | undefined
+  private sidenav = viewChild<MatSidenav>('sidenav')
   readonly sidenavCollapsed = signal(false)
   readonly sidenavOpen = signal(true)
   readonly sidenavMode = computed<'over' | 'side'>(() => (this.isHandset() ? 'over' : 'side'))

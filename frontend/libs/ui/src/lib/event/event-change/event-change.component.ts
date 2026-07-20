@@ -2,7 +2,7 @@ import { Component, effect, inject, input, output, signal, ChangeDetectionStrate
 
 import { MatCardModule } from '@angular/material/card'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { TranslateModule, TranslateService } from '@ngx-translate/core'
+import { TranslateService } from '@ngx-translate/core'
 import { AddressChangeRequest, AddressReadAPI, AudienceReadAPI, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
@@ -14,7 +14,7 @@ import { EventChangeSingleComponent } from '../event-change-single/event-change-
 
 @Component({
   selector: 'lib-event-change',
-  imports: [MatCardModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, TranslateModule, LoadingBarComponent, EventChangeSingleComponent],
+  imports: [MatCardModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ReactiveFormsModule, LoadingBarComponent, EventChangeSingleComponent],
   templateUrl: './event-change.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change.component.scss'

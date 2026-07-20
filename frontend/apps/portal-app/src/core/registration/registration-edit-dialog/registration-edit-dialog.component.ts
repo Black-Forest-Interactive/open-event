@@ -13,8 +13,7 @@ import { Participant, ParticipateRequest } from '@open-event/core'
   templateUrl: './registration-edit-dialog.component.html',
   styleUrls: ['./registration-edit-dialog.component.scss'],
   imports: [MatDialogTitle, MatDialogContent, TranslatePipe, MatDialogActions, MatButton, MatIcon, MatDialogClose, ReactiveFormsModule, MatFormField, MatInput, MatLabel],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationEditDialogComponent {
   dialogRef = inject<MatDialogRef<RegistrationEditDialogComponent>>(MatDialogRef)

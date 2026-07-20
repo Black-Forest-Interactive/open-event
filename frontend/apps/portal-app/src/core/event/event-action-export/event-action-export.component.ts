@@ -15,8 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-action-export.component.html',
   styleUrls: ['./event-action-export.component.scss'],
   imports: [MatIcon, MatProgressSpinner, MatIconButton, MatTooltip, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventActionExportComponent {
   event = input<Event | undefined>()

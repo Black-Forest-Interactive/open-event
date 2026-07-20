@@ -16,8 +16,7 @@ import { eventBoardRegsTour } from './event-board-regs.tour'
   selector: 'portal-event-board-regs',
   templateUrl: './event-board-regs.component.html',
   imports: [EventBoardListComponent, EventBoardNavbarComponent, BoardSearchComponent, LoadingBarComponent, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardRegsComponent {
   private eventService = inject(EventService)

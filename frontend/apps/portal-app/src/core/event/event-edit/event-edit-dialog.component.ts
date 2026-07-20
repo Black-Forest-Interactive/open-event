@@ -16,8 +16,7 @@ import { EventBroadcastSheetComponent } from '../../announcement/event-broadcast
   selector: 'portal-event-edit-dialog',
   templateUrl: './event-edit-dialog.component.html',
   imports: [EventChangeComponent, MatDialogTitle, MatDialogContent, MatDialogClose, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventEditDialogComponent implements AddressReadAPI, AudienceReadAPI, CategoryReadAPI, EventReadAPI {
   private eventData = inject<{ id: number }>(MAT_DIALOG_DATA)

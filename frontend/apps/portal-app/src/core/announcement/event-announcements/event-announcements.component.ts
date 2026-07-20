@@ -9,8 +9,7 @@ import { LoadingBarComponent, toPromise } from '@open-event/shared'
   selector: 'portal-event-announcements',
   templateUrl: './event-announcements.component.html',
   imports: [MatDivider, DatePipe, TranslatePipe, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventAnnouncementsComponent {
   private service = inject(AnnouncementService)

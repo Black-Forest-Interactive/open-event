@@ -16,8 +16,7 @@ export interface EventShareSheetData {
   selector: 'portal-event-share-sheet',
   templateUrl: './event-share-sheet.component.html',
   imports: [ShareDetailsComponent, MatIcon, MatIconButton, TranslatePipe, LoadingBarComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventShareSheetComponent {
   private data = inject<EventShareSheetData>(MAT_BOTTOM_SHEET_DATA)

@@ -8,7 +8,6 @@ import { MatProgressBar } from '@angular/material/progress-bar'
   templateUrl: './loading-screen.component.html',
   styleUrls: ['./loading-screen.component.scss'],
   imports: [MatDialogContent, TranslatePipe, MatProgressBar],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class LoadingScreenComponent {}

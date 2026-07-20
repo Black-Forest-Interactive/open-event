@@ -18,8 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './event-admin.component.html',
   styleUrl: './event-admin.component.scss',
   imports: [MatToolbar, MatIcon, EventActionExportComponent, RegistrationModerationComponent, MatIconButton, MatTooltip, LoadingBarComponent, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventAdminComponent {
   readonly event = computed(() => this.info()?.event)

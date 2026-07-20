@@ -48,7 +48,7 @@ export class EventConfirmComponent {
   readonly error = computed(() => this.eventResource.error() || this.settingsResource.error())
 
   constructor() {
-    this.translate.setDefaultLang('en')
+    this.translate.setFallbackLang('en')
 
     effect(() => {
       const lang = this.lang()

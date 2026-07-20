@@ -9,8 +9,7 @@ import { MatIcon } from '@angular/material/icon'
   templateUrl: './registration-cancel-dialog.component.html',
   styleUrls: ['./registration-cancel-dialog.component.scss'],
   imports: [MatDialogTitle, MatDialogContent, TranslatePipe, MatDialogActions, MatButton, MatIcon, MatDialogClose],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationCancelDialogComponent {
   dialogRef = inject<MatDialogRef<RegistrationCancelDialogComponent>>(MatDialogRef)

@@ -7,8 +7,7 @@ import { toPromise } from '@open-event/shared'
   selector: 'portal-category-filter',
   templateUrl: './category-filter.component.html',
   imports: [LibCategoryFilterComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class CategoryFilterComponent {
   selected = input.required<Set<string>>()

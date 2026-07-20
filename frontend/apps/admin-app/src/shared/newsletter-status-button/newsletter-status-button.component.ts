@@ -5,7 +5,6 @@ import { NewsletterStateService } from '../newsletter-state.service'
 
 @Component({
   selector: 'admin-newsletter-status-button',
-  standalone: true,
   imports: [MatButton, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `

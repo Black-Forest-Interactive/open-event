@@ -13,8 +13,7 @@ import { EventActionExportComponent } from '../../event/event-action-export/even
   templateUrl: './registration-details.component.html',
   styleUrl: './registration-details.component.scss',
   imports: [RegistrationStatusComponent, TranslatePipe, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger, RouterLink, EventActionExportComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationDetailsComponent {
   info = input.required<EventInfo>()

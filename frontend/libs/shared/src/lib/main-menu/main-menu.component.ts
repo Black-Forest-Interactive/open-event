@@ -9,8 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   templateUrl: './main-menu.component.html',
   styleUrl: './main-menu.component.scss',
   imports: [RouterLink, RouterLinkActive, MatIcon, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class MainMenuComponent {
   accessibleItems = input<MainNavItem[]>([])

@@ -14,8 +14,7 @@ import { MatIconModule } from '@angular/material/icon'
   templateUrl: './settings-change-dialog.component.html',
   styleUrl: './settings-change-dialog.component.scss',
   imports: [TranslatePipe, ReactiveFormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatInput],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class SettingsChangeDialogComponent {
   dialogRef = inject<MatDialogRef<SettingsChangeDialogComponent>>(MatDialogRef)

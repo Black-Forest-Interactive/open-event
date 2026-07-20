@@ -41,8 +41,7 @@ import { TranslatePipe } from '@ngx-translate/core'
     RouterLink,
     TranslatePipe
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardComponent {
   protected service = inject(EventBoardService)

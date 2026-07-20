@@ -28,8 +28,7 @@ import { toEventBoardEntry } from '../event-board-entry.mapper'
   templateUrl: './event-board-list.component.html',
   styleUrl: './event-board-list.component.scss',
   imports: [LibEventBoardListComponent, EventBoardCalendarComponent, DatePipe, RouterLink, MatButton, MatIconButton, MatIcon, MatMenu, MatMenuTrigger, MatProgressBar, MatTooltip, TranslatePipe, CategoryChipComponent, CategoryPickerComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardListComponent {
   entries = input.required<EventSearchEntry[]>()

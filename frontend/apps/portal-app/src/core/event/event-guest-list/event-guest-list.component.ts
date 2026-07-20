@@ -15,8 +15,7 @@ import FileSaver from 'file-saver'
   templateUrl: './event-guest-list.component.html',
   styleUrl: './event-guest-list.component.scss',
   imports: [AvatarComponent, AccountDisplayNamePipe, TranslatePipe, DatePipe, NgTemplateOutlet, MatButton, MatIcon, MatDivider],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventGuestListComponent {
   info = input.required<EventInfo>()

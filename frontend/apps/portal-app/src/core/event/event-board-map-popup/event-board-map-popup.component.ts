@@ -12,8 +12,7 @@ import { Subject } from 'rxjs'
   templateUrl: './event-board-map-popup.component.html',
   styleUrl: './event-board-map-popup.component.scss',
   imports: [AccountDisplayNamePipe, DatePipe, MatIcon, TranslatePipe, MatButton, CategoryChipComponent, RegistrationStatusComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardMapPopupComponent {
   data = signal<EventSearchEntry | undefined>(undefined)

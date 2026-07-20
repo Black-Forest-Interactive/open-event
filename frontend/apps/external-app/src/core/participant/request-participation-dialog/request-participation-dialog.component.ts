@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { ExternalParticipantAddRequest } from '@open-event/external'
 import { MatInputModule } from '@angular/material/input'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 
 @Component({
   selector: 'app-request-participation-dialog',
-  imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslateModule],
+  imports: [MatDialogModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './request-participation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './request-participation-dialog.component.scss'

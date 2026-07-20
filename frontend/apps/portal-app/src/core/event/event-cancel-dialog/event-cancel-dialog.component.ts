@@ -14,8 +14,7 @@ import { AnnouncementChangeRequest, AnnouncementService, EventService } from '@o
   selector: 'portal-event-cancel-dialog',
   templateUrl: './event-cancel-dialog.component.html',
   imports: [FormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, MatFormField, MatLabel, MatInput, TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventCancelDialogComponent {
   private data = inject<{ event: Event; participantCount: number }>(MAT_DIALOG_DATA)
