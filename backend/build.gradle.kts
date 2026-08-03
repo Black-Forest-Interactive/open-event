@@ -54,7 +54,7 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.6.0")
+    implementation("ch.qos.logback:logback-classic:1.6.1")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.2")
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.62")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.62")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.65")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.65")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -151,7 +151,7 @@ dependencies {
     implementation("com.jillesvangurp:search-client:2.9.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.22.2")
+    implementation("org.jsoup:jsoup:1.23.1")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
