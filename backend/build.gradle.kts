@@ -6,8 +6,8 @@ plugins {
     kotlin("plugin.jpa") version "2.4.10"
     kotlin("plugin.serialization") version "2.4.10"
 
-    id("com.google.devtools.ksp") version "2.3.10"
-    id("org.sonarqube") version "7.3.1.8318"
+    id("com.google.devtools.ksp") version "2.3.11"
+    id("org.sonarqube") version "7.4.0.8496"
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.4"
 
@@ -54,7 +54,7 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.5.38")
+    implementation("ch.qos.logback:logback-classic:1.6.1")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.2")
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.41")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.41")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.69")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.69")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -130,9 +130,9 @@ dependencies {
     implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
-    implementation("org.simplejavamail:simple-java-mail:9.1.0")
-    implementation("org.simplejavamail:batch-module:9.1.0")
-    implementation("org.simplejavamail:authenticated-socks-module:9.1.0")
+    implementation("org.simplejavamail:simple-java-mail:9.1.7")
+    implementation("org.simplejavamail:batch-module:9.1.7")
+    implementation("org.simplejavamail:authenticated-socks-module:9.1.7")
 
     // test
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
@@ -151,7 +151,7 @@ dependencies {
     implementation("com.jillesvangurp:search-client:2.9.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.22.2")
+    implementation("org.jsoup:jsoup:1.23.1")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
