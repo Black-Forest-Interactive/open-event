@@ -34,6 +34,7 @@ export class RegistrationDetailsComponent {
   readonly event = computed(() => this.info().event)
   readonly canEdit = computed(() => this.info().canEdit)
   readonly published = computed(() => this.event().published)
+  readonly readOnly = computed(() => this.event().status === 'ENDED' || this.event().status === 'CANCELED')
   readonly registration = computed(() => this.info().registration)
   readonly taken = computed(() => this.registration()?.participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0) ?? 0)
   readonly capacity = computed(() => this.registration()?.registration.maxGuestAmount ?? 0)

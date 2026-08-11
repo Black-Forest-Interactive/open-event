@@ -2,7 +2,9 @@ package de.sambalmueslie.openevent.gateway.portal.event
 
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventCancelRequest
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import io.micronaut.data.model.Pageable
@@ -36,11 +38,13 @@ class EventController(private val service: EventGuardService) {
     fun delete(auth: Authentication, id: Long) = service.delete(auth, id)
 
     @Post("/{id}/cancel")
-    fun cancel(auth: Authentication, id: Long) = service.cancel(auth, id)
+    fun cancel(auth: Authentication, id: Long, @Body request: EventCancelRequest) = service.cancel(auth, id, request)
+
+    @Put("/{id}/status")
+    fun setStatus(auth: Authentication, id: Long, @Body value: EventStatus) = service.setStatus(auth, id, value)
 
     @Put("/{id}/published")
     fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setPublished(auth, id, value)
-
 
     @Put("/{id}/shared")
     fun setShared(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setShared(auth, id, value)

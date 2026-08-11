@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory
 class RegistrationCrudService(
     private val storage: RegistrationStorage,
     private val participantCrudService: ParticipantCrudService,
-    private val accountCrudService: AccountCrudService,
+    private val accountCrudService: AccountCrudService
 ) : BaseCrudService<Long, Registration, RegistrationChangeRequest, RegistrationChangeListener>(storage) {
 
     companion object {
@@ -222,6 +222,5 @@ class RegistrationCrudService(
         if (this.searchListener == null) return
         this.searchListener?.updateSearch(SearchUpdateEvent(registration, type))
     }
-
 
 }

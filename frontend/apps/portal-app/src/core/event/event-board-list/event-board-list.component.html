@@ -53,28 +53,56 @@
 
                         <!-- Chip row with quick-edit triggers -->
                         <div class="flex flex-wrap gap-1 items-center" data-tour="own-chips">
-                            <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
-                                  [matMenuTriggerFor]="catMenu" #catTrigger="matMenuTrigger"
-                                  (menuOpened)="initPendingCats(entry, catTrigger)">
-                                @for (cat of entryCats(entry); track cat) {
-                                    <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
-                                }
-                                <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
-                            </span>
+                            @if (isReadOnly(entry)) {
+                                <span class="flex items-center gap-0.5">
+                                    @for (cat of entryCats(entry); track cat) {
+                                        <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                                    }
+                                </span>
+                                <span class="flex items-center gap-0.5">
+                                    @if (isGhostAud(entry)) {
+                                        <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
+                                    } @else if (isAllAud(entry)) {
+                                        <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
+                                    } @else {
+                                        <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
+                                    }
+                                </span>
+                            } @else {
+                                <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
+                                      [matMenuTriggerFor]="catMenu" #catTrigger="matMenuTrigger"
+                                      (menuOpened)="initPendingCats(entry, catTrigger)">
+                                    @for (cat of entryCats(entry); track cat) {
+                                        <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                                    }
+                                    <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
+                                </span>
 
-                            <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
-                                  [matMenuTriggerFor]="audMenu" #audTrigger="matMenuTrigger"
-                                  (menuOpened)="initPendingAuds(entry, audTrigger)">
-                                @if (isGhostAud(entry)) {
-                                    <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
-                                } @else if (isAllAud(entry)) {
-                                    <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
-                                } @else {
-                                    <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
-                                }
-                                <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
-                            </span>
+                                <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
+                                      [matMenuTriggerFor]="audMenu" #audTrigger="matMenuTrigger"
+                                      (menuOpened)="initPendingAuds(entry, audTrigger)">
+                                    @if (isGhostAud(entry)) {
+                                        <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
+                                    } @else if (isAllAud(entry)) {
+                                        <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
+                                    } @else {
+                                        <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
+                                    }
+                                    <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
+                                </span>
+                            }
 
+                            @if (entry.status === 'CANCELED') {
+                                <span class="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full bg-error text-on-error font-medium">
+                                    <mat-icon inline class="!text-sm">event_busy</mat-icon>
+                                    {{ 'event.status.CANCELED' | translate }}
+                                </span>
+                            } @else if (entry.status === 'ENDED') {
+                                <span class="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-medium">
+                                    <mat-icon inline class="!text-sm">history</mat-icon>
+                                    {{ 'event.status.ENDED' | translate }}
+                                </span>
+                            }
                             @if (entry.featured) {
                                 <span class="text-xs px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-medium">{{ 'event.board.featured' | translate }}</span>
                             }
@@ -88,9 +116,11 @@
                                     <p class="text-xs text-on-surface-variant leading-snug line-clamp-2 m-0">{{ entry.shortText }}</p>
                                 }
                             </div>
-                            <button matIconButton class="shrink-0 !text-on-surface-variant" data-tour="own-text" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
-                                <mat-icon>edit</mat-icon>
-                            </button>
+                            @if (!isReadOnly(entry)) {
+                                <button matIconButton class="shrink-0 !text-on-surface-variant" data-tour="own-text" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            }
                         </div>
 
                         <!-- Meta row -->
@@ -123,22 +153,26 @@
                             <mat-icon>settings</mat-icon>
                             {{ 'event.own.action.manage' | translate }}
                         </a>
-                        <button matButton="outlined" data-tour="own-action-edit" (click)="edit(entry)">
-                            <mat-icon>edit</mat-icon>
-                            {{ 'event.own.action.edit' | translate }}
-                        </button>
+                        @if (!isReadOnly(entry)) {
+                            <button matButton="outlined" data-tour="own-action-edit" (click)="edit(entry)">
+                                <mat-icon>edit</mat-icon>
+                                {{ 'event.own.action.edit' | translate }}
+                            </button>
+                        }
                         <button matButton="outlined" data-tour="own-action-message" (click)="openBroadcast(entry)">
                             <mat-icon>campaign</mat-icon>
                             {{ 'event.own.action.message' | translate }}
                         </button>
-                        <button matButton="outlined" data-tour="own-action-promote" [disabled]="!entry.shared" [matTooltip]="!entry.shared ? ('event.own.action.promoteDisabled' | translate) : ''" (click)="openShare(entry)">
-                            <mat-icon>share</mat-icon>
-                            {{ 'event.own.action.promote' | translate }}
-                        </button>
-                        <button matButton="outlined" data-tour="own-action-cancel" class="!text-error" (click)="openCancel(entry)">
-                            <mat-icon>event_busy</mat-icon>
-                            {{ 'event.own.action.cancel' | translate }}
-                        </button>
+                        @if (!isReadOnly(entry)) {
+                            <button matButton="outlined" data-tour="own-action-promote" [disabled]="!entry.shared" [matTooltip]="!entry.shared ? ('event.own.action.promoteDisabled' | translate) : ''" (click)="openShare(entry)">
+                                <mat-icon>share</mat-icon>
+                                {{ 'event.own.action.promote' | translate }}
+                            </button>
+                            <button matButton="outlined" data-tour="own-action-cancel" class="!text-error" (click)="openCancel(entry)">
+                                <mat-icon>event_busy</mat-icon>
+                                {{ 'event.own.action.cancel' | translate }}
+                            </button>
+                        }
                     </div>
                 </article>
             }

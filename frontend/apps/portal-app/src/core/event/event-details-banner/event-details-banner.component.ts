@@ -25,10 +25,16 @@ export class EventDetailsBannerComponent {
   toggleBookmark = output<void>()
   share = output<void>()
   readonly canEdit = computed(() => this.data()?.canEdit ?? false)
+  readonly readOnly = computed(() => {
+    const status = this.data()?.event.status
+    return status === 'ENDED' || status === 'CANCELED'
+  })
   readonly isBookmarked = computed(() => this.bookmarked())
   readonly categories = computed(() => this.data()?.categories ?? [])
   readonly audiences = computed(() => this.data()?.audiences ?? [])
   readonly featured = computed(() => this.data()?.event.featured ?? false)
+  readonly canceled = computed(() => this.data()?.event.status === 'CANCELED')
+  readonly ended = computed(() => this.data()?.event.status === 'ENDED')
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0]?.name ?? ''))
   private service = inject(ImageUploadService)
   readonly isUploading = computed(() => this.service.isUploading())

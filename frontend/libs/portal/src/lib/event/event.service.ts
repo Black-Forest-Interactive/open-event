@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpParams, HttpResponse } from '@angular/common/http'
 import { BaseService, PatchRequest } from '@open-event/shared'
-import { Event, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse, EventUpdateTextRequest } from '@open-event/core'
+import { Event, EventCancelRequest, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse, EventUpdateTextRequest } from '@open-event/core'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -36,6 +36,10 @@ export class EventService extends BaseService {
 
   deleteEvent(id: number): Observable<Event> {
     return this.delete('' + id)
+  }
+
+  cancel(id: number, reason: string): Observable<Event> {
+    return this.post('' + id + '/cancel', new EventCancelRequest(reason))
   }
 
   publish(id: number): Observable<Event> {

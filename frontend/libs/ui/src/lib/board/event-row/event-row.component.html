@@ -11,6 +11,17 @@
 
     <div class="flex flex-col gap-1 flex-auto min-w-0">
         <div class="flex items-center gap-2 flex-wrap">
+            @if (canceled()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-error text-on-error text-xs font-medium">
+                    <mat-icon inline>event_busy</mat-icon>
+                    {{ 'event.status.CANCELED' | translate }}
+                </span>
+            } @else if (ended()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant text-xs font-medium">
+                    <mat-icon inline>history</mat-icon>
+                    {{ 'event.status.ENDED' | translate }}
+                </span>
+            }
             @if (featured()) {
                 <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
                     <mat-icon inline>star</mat-icon>

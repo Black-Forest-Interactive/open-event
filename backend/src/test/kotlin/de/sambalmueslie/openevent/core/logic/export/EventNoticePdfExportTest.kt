@@ -4,6 +4,7 @@ import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.export.EventNoticePdfExporter
 import de.sambalmueslie.openevent.core.link.LinkCrudService
 import de.sambalmueslie.openevent.core.link.api.Link
@@ -46,7 +47,7 @@ class EventNoticePdfExportTest {
             "Kinderbasteln",
             "<p>Ein betreutes Bastelprogramm für Kinder von 4 bis 10 Jahren.</p>",
             "Langer Text",
-            "", "", false, true, true, true, emptySet(), LocalDateTime.of(2026, 7, 1, 8, 0), null
+            "", "", false, true, true, EventStatus.ACTIVE, true, emptySet(), LocalDateTime.of(2026, 7, 1, 8, 0), null
         )
         val location = Location(1, 1, "Musterweg", "5", "12345", "Musterstadt", "DE", "", 0.0, 0.0, 20)
         val registration = RegistrationInfo(Registration(1, 1, 25, true, false), emptyList())

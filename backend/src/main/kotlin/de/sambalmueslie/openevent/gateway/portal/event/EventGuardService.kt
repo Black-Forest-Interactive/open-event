@@ -7,10 +7,7 @@ import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.core.event.EventCrudService
-import de.sambalmueslie.openevent.core.event.api.Event
-import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
-import de.sambalmueslie.openevent.core.event.api.EventInfo
-import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
+import de.sambalmueslie.openevent.core.event.api.*
 import de.sambalmueslie.openevent.core.export.ExportService
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
@@ -84,16 +81,25 @@ class EventGuardService(
         }
     }
 
-    fun cancel(auth: Authentication, id: Long): Event? =
+    fun cancel(auth: Authentication, id: Long, request: EventCancelRequest): Event? =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "CANCELLED", id.toString()) { TODO("implement event cancellation semantics") }
+            probe.traceAction(auth, "CANCELLED", id.toString(), request) { service.cancel(account, event.id, request.reason) }
         }
+
+    fun setStatus(auth: Authentication, id: Long, value: EventStatus): Event? {
+        return auth.checkPermission(PERMISSION_WRITE) {
+            val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
+            probe.traceAction(auth, "STATUS", id.toString(), value) {
+                service.setStatus(account, event.id, value)
+            }
+        }
+    }
 
     fun setPublished(auth: Authentication, id: Long, value: PatchRequest<Boolean>): Event? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "PUBLISHED", id.toString(), value) {
+            probe.traceAction(auth, "PUBLISH", id.toString(), value) {
                 service.setPublished(account, event.id, value)
             }
         }

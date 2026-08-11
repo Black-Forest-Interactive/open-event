@@ -31,7 +31,7 @@
         <div class="text-lg font-medium">{{ 'registration.free' | translate }}</div>
     }
     <lib-registration-status [data]="registration()"></lib-registration-status>
-    @if (canEdit() && !published()) {
+    @if (canEdit() && !published() && !readOnly()) {
         <div class="flex items-center justify-between gap-2 rounded-xl bg-tertiary-container text-on-tertiary-container px-3 py-2">
             <span class="text-sm font-medium">{{ 'event.action.publish' | translate }}</span>
             <button (click)="publish.emit()" matButton="tonal">
@@ -42,18 +42,22 @@
     }
     @if (canEdit()) {
         <div class="flex flex-col gap-2">
-            <button [routerLink]="'/event/edit/' + event().id" matButton="filled">
-                <mat-icon>edit</mat-icon>
-                {{ 'event.action.edit' | translate }}
-            </button>
+            @if (!readOnly()) {
+                <button [routerLink]="'/event/edit/' + event().id" matButton="filled">
+                    <mat-icon>edit</mat-icon>
+                    {{ 'event.action.edit' | translate }}
+                </button>
+            }
             <button (click)="broadcast.emit()" matButton="tonal">
                 <mat-icon>campaign</mat-icon>
                 {{ 'event.own.action.message' | translate }}
             </button>
-            <button (click)="promote.emit()" matButton="outlined">
-                <mat-icon>share</mat-icon>
-                {{ 'event.own.action.promote' | translate }}
-            </button>
+            @if (!readOnly()) {
+                <button (click)="promote.emit()" matButton="outlined">
+                    <mat-icon>share</mat-icon>
+                    {{ 'event.own.action.promote' | translate }}
+                </button>
+            }
 
             <button (click)="admin.emit()"  matButton="outlined">
                 <mat-icon>admin_panel_settings</mat-icon>
@@ -61,10 +65,12 @@
             </button>
             <portal-event-action-export [event]="event()" />
 
-            <button (click)="cancelEvent.emit()" class="!text-error" matButton="text">
-                <mat-icon>event_busy</mat-icon>
-                {{ 'event.action.cancel' | translate }}
-            </button>
+            @if (!readOnly()) {
+                <button (click)="cancelEvent.emit()" class="!text-error" matButton="text">
+                    <mat-icon>event_busy</mat-icon>
+                    {{ 'event.action.cancel' | translate }}
+                </button>
+            }
         </div>
     }
     @if (userParticipant()) {
@@ -72,15 +78,17 @@
             <mat-icon inline>check</mat-icon>
             {{ 'registration.bookbar.registered' | translate }}
         </div>
-        <button (click)="edit.emit()" [disabled]="reloading()" matButton="outlined">
-            <mat-icon>manage_accounts</mat-icon>
-            {{ 'registration.action.edit' | translate }}
-        </button>
-        <button (click)="cancelParticipation.emit()" [disabled]="reloading()" matButton="outlined">
-            <mat-icon>person_remove</mat-icon>
-            {{ 'registration.action.cancel' | translate }}
-        </button>
-    } @else if (!canEdit()) {
+        @if (!readOnly()) {
+            <button (click)="edit.emit()" [disabled]="reloading()" matButton="outlined">
+                <mat-icon>manage_accounts</mat-icon>
+                {{ 'registration.action.edit' | translate }}
+            </button>
+            <button (click)="cancelParticipation.emit()" [disabled]="reloading()" matButton="outlined">
+                <mat-icon>person_remove</mat-icon>
+                {{ 'registration.action.cancel' | translate }}
+            </button>
+        }
+    } @else if (!canEdit() && !readOnly()) {
         <button (click)="participate.emit()" [disabled]="reloading() || isFull()" matButton="filled">
             <mat-icon>confirmation_number</mat-icon>
             {{ (isFull() ? 'registration.availability.soldOut' : 'registration.action.participate') | translate }}

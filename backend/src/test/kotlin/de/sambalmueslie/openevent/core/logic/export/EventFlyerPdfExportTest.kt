@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.export.EventOpenPdfExporter
 import de.sambalmueslie.openevent.core.location.api.Location
 import de.sambalmueslie.openevent.core.registration.api.Registration
@@ -39,7 +40,7 @@ class EventFlyerPdfExportTest {
             "Kinderbasteln",
             "<p>Ein betreutes Bastelprogramm für Kinder von 4 bis 10 Jahren. Material ist vorhanden, Eltern können in der Zeit andere Veranstaltungen besuchen.</p>",
             "<ul><li>Färorische Fischsuppe genießen 🎉</li><li>mit Bildern eintauchen</li></ul>",
-            "", "", false, true, true, true, setOf("Sommer"), LocalDateTime.of(2026, 7, 1, 8, 0), null
+            "", "", false, true, true, EventStatus.ACTIVE, true, setOf("Sommer"), LocalDateTime.of(2026, 7, 1, 8, 0), null
         )
         val location = Location(1, 1, "Musterweg", "5", "12345", "Musterstadt", "DE", "", 0.0, 0.0, 20)
         val registration = RegistrationInfo(Registration(1, 1, 25, true, false), emptyList())

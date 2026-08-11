@@ -131,6 +131,7 @@ CREATE TABLE event
 
     has_location     BOOLEAN      NOT NULL,
     has_registration BOOLEAN      NOT NULL,
+    status           VARCHAR(255) NOT NULL,
     published        BOOLEAN      NOT NULL,
 
     tags             TEXT         NOT NULL,

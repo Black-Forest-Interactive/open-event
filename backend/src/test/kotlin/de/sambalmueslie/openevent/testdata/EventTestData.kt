@@ -4,6 +4,7 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.location.api.LocationChangeRequest
 import de.sambalmueslie.openevent.core.registration.api.RegistrationChangeRequest
 import java.time.LocalDateTime
@@ -28,12 +29,13 @@ object EventTestData {
         audienceIds: Set<Long> = emptySet(),
         location: LocationChangeRequest? = LocationTestData.createRequest(),
         registration: RegistrationChangeRequest = RegistrationChangeRequest(10, true, false),
+        status: EventStatus = EventStatus.ACTIVE,
         published: Boolean = true,
         shared: Boolean = true,
         tags: Set<String> = setOf("tag"),
     ) = EventChangeRequest(
         start, finish, title, shortText, longText, imageUrl, iconUrl,
-        categoryIds, audienceIds, location, registration, published, shared, tags,
+        categoryIds, audienceIds, location, registration, status, published, shared, tags,
     )
 
     fun create(

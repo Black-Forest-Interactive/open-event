@@ -29,6 +29,10 @@
     "type": "Event",
     "search": "Search for event",
     "create": "Create new event",
+    "status": {
+      "CANCELED": "Canceled",
+      "ENDED": "Ended"
+    },
     "admin": {
       "registration": "Participant list"
     },

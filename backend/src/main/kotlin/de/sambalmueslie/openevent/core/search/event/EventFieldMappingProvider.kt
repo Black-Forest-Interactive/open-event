@@ -18,6 +18,7 @@ class EventFieldMappingProvider : FieldMappingProvider {
             text(EventSearchEntryData::title)
             text(EventSearchEntryData::shortText)
             text(EventSearchEntryData::longText)
+            keyword(EventSearchEntryData::status)
             bool(EventSearchEntryData::published)
             bool(EventSearchEntryData::featured)
             bool(EventSearchEntryData::shared)

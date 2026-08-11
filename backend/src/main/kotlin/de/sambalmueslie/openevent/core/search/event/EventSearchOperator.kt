@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.db.AccountStorageService
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.db.EventBookmarkRelation
 import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.registration.api.Registration
@@ -89,12 +90,16 @@ open class EventSearchOperator(
             .map { it.parse<DateHistogramBucket>() }
             .map { DateHistogramEntry(LocalDate.parse(it.keyAsString, DateTimeFormatter.ISO_DATE_TIME), it.docCount) }
 
+        val statusAggregation = response.aggregations.termsResult("status").buckets
+            .map { it.parse<TermsBucket>() }
+            .map { StatusAggregationEntry(EventStatus.valueOf(it.key), it.docCount) }
+
         val content = data.mapNotNull {
             val owner = accountService.getInfo(it.owner) ?: return@mapNotNull null
             it.convert(actor, owner)
         }
 
-        return EventSearchResponse(Page.of(content, pageable, response.total), dateHistogram)
+        return EventSearchResponse(Page.of(content, pageable, response.total), dateHistogram, statusAggregation)
     }
 
 

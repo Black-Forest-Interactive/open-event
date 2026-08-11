@@ -193,6 +193,10 @@ export class EventBoardListComponent {
     return Math.round((entry.amountAccepted / entry.maxGuestAmount) * 100)
   }
 
+  isReadOnly(entry: EventSearchEntry): boolean {
+    return entry.status === 'ENDED' || entry.status === 'CANCELED'
+  }
+
   edit(entry: EventSearchEntry) {
     this.dialog.open(EventEditDialogComponent, { data: { id: entry.id }, width: '680px', maxWidth: '95vw', disableClose: true })
   }
@@ -210,7 +214,7 @@ export class EventBoardListComponent {
   }
 
   openCancel(entry: EventSearchEntry) {
-    this.dialog.open(EventCancelDialogComponent, { width: '400px', data: { event: { id: entry.id, title: entry.title }, participantCount: entry.amountAccepted } })
+    this.dialog.open(EventCancelDialogComponent, { width: '400px', data: { event: { id: entry.id, title: entry.title } } })
   }
 
   removeBookmark(entry: EventBoardEntry) {

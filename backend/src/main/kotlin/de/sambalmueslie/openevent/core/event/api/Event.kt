@@ -22,6 +22,7 @@ data class Event(
 
     val hasLocation: Boolean,
     val hasRegistration: Boolean,
+    val status: EventStatus,
     val published: Boolean,
 
     val tags: Set<String>,

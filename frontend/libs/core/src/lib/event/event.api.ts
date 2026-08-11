@@ -21,6 +21,7 @@ export interface Event {
 
   hasLocation: boolean
   hasRegistration: boolean
+  status: string
   published: boolean
 
   tags: string[]
@@ -53,6 +54,7 @@ export class EventChangeRequest {
     public audienceIds: number[],
     public location: LocationChangeRequest,
     public registration: RegistrationChangeRequest,
+    public status: string,
     public published: boolean,
     public shared: boolean,
     public tags: string[]
@@ -79,4 +81,8 @@ export interface EventReadAPI {
 
 export class EventUpdateTextRequest {
   constructor(public title: string, public shortText: string, public longText: string) {}
+}
+
+export class EventCancelRequest {
+  constructor(public reason: string) {}
 }

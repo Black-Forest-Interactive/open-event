@@ -9,6 +9,7 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import de.sambalmueslie.openevent.core.history.db.HistoryStorageService
 import de.sambalmueslie.openevent.error.InvalidRequestException
@@ -58,6 +59,7 @@ class EventStorageService(
     override fun updateData(data: EventData, request: EventChangeRequest): EventData {
         return data.update(request, timeProvider.now())
     }
+
 
     override fun setCategories(event: Event, categories: List<Category>) {
         categoryRelationService.set(event, categories)
@@ -131,6 +133,10 @@ class EventStorageService(
 
     override fun getBookmarked(account: Account, eventIds: Set<Long>): Set<Long> {
         return bookmarkRelationService.get(account, eventIds)
+    }
+
+    override fun setStatus(id: Long, value: EventStatus): Event? {
+        return patchData(id) { it.setStatus(value, timeProvider.now()) }
     }
 
     override fun setPublished(id: Long, value: PatchRequest<Boolean>): Event? {

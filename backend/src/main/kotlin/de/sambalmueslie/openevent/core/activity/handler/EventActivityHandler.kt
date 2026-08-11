@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory
         private val TYPE_CHANGED = "event.changed"
         private val TYPE_DELETED = "event.deleted"
         private val TYPE_PUBLISHED = "event.published"
+        private val TYPE_CANCELED = "event.canceled"
         private val TYPE_FEATURED = "event.featured"
         private val TYPE_TITLE = "event.title"
         private val TYPE_SHORT_TEXT = "event.short-text"
@@ -70,8 +71,17 @@ import org.slf4j.LoggerFactory
     override fun featuredChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_FEATURED)
     }
+
+    override fun statusChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_CHANGED)
+    }
+
     override fun publishedChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_PUBLISHED)
+    }
+
+    override fun canceled(actor: Account, event: Event, reason: String) {
+        createActivity(actor, event, TYPE_CANCELED)
     }
 
     override fun titleChanged(actor: Account, event: Event) {

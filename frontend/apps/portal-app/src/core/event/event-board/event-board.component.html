@@ -12,10 +12,12 @@
             </span>
         </div>
 
-        <button color="accent" matButton="filled" routerLink="./create" class="hidden md:flex shrink-0" data-tour="event-create">
-            <mat-icon>add</mat-icon>
-            {{ 'event.create' | translate }}
-        </button>
+        @if (!mobileView()) {
+            <button color="accent" matButton="filled" routerLink="./create" class="shrink-0" data-tour="event-create">
+                <mat-icon>add</mat-icon>
+                {{ 'event.create' | translate }}
+            </button>
+        }
 
         <div class="flex flex-1 items-center justify-end gap-2 min-w-0">
             @if (mobileView()) {
@@ -24,24 +26,26 @@
                     <mat-icon>filter_list</mat-icon>
                 </button>
             }
-            <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0" data-tour="event-layout">
-                <mat-button-toggle (click)="service.setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="service.layout() === 'cards'"
-                                    value="cards">
-                    <mat-icon>grid_view</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (click)="service.setLayout('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="service.layout() === 'rows'"
-                                    value="rows">
-                    <mat-icon>view_list</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (click)="service.setLayout('calendar')" [attr.aria-label]="'event.board.calendar' | translate" [checked]="service.layout() === 'calendar'"
-                                    value="calendar">
-                    <mat-icon>calendar_month</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle (click)="service.setLayout('map')" [attr.aria-label]="'event.board.map' | translate" [checked]="service.layout() === 'map'"
-                                    value="map">
-                    <mat-icon>map</mat-icon>
-                </mat-button-toggle>
-            </mat-button-toggle-group>
+            @if (!mobileView()) {
+                <mat-button-toggle-group [hideSingleSelectionIndicator]="true" class="shrink-0" data-tour="event-layout">
+                    <mat-button-toggle (click)="service.setLayout('cards')" [attr.aria-label]="'event.board.cards' | translate" [checked]="service.layout() === 'cards'"
+                                        value="cards">
+                        <mat-icon>grid_view</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="service.setLayout('rows')" [attr.aria-label]="'event.board.rows' | translate" [checked]="service.layout() === 'rows'"
+                                        value="rows">
+                        <mat-icon>view_list</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="service.setLayout('calendar')" [attr.aria-label]="'event.board.calendar' | translate" [checked]="service.layout() === 'calendar'"
+                                        value="calendar">
+                        <mat-icon>calendar_month</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle (click)="service.setLayout('map')" [attr.aria-label]="'event.board.map' | translate" [checked]="service.layout() === 'map'"
+                                        value="map">
+                        <mat-icon>map</mat-icon>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            }
         </div>
     </div>
 </div>
@@ -55,15 +59,19 @@
         </div>
     }
     <div class="flex-auto min-w-0">
-        @switch (service.layout()) {
-            @case ('map') {
-                <portal-event-board-map [entries]="service.entries()" [reloading]="service.reloading()"></portal-event-board-map>
-            }
-            @case ('calendar') {
-                <portal-event-board-calendar [entries]="service.entries()" [reloading]="service.reloading()"></portal-event-board-calendar>
-            }
-            @default {
-                <portal-event-board-list [entries]="service.entries()" [reloading]="service.reloading()" [layout]="service.layout()" [navView]="'all'" [hasMoreElements]="service.hasMoreElements()" (nearEnd)="service.onScroll()"></portal-event-board-list>
+        @if (mobileView()) {
+            <portal-event-board-list [entries]="service.entries()" [reloading]="service.reloading()" layout="rows" [navView]="'all'" [hasMoreElements]="service.hasMoreElements()" (nearEnd)="service.onScroll()"></portal-event-board-list>
+        } @else {
+            @switch (service.layout()) {
+                @case ('map') {
+                    <portal-event-board-map [entries]="service.entries()" [reloading]="service.reloading()"></portal-event-board-map>
+                }
+                @case ('calendar') {
+                    <portal-event-board-calendar [entries]="service.entries()" [reloading]="service.reloading()"></portal-event-board-calendar>
+                }
+                @default {
+                    <portal-event-board-list [entries]="service.entries()" [reloading]="service.reloading()" [layout]="service.layout()" [navView]="'all'" [hasMoreElements]="service.hasMoreElements()" (nearEnd)="service.onScroll()"></portal-event-board-list>
+                }
             }
         }
     </div>

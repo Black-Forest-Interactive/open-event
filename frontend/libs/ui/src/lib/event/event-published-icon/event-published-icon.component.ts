@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core'
+import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core'
 import { MatIcon } from '@angular/material/icon'
 import { Event } from '@open-event/core'
 
@@ -11,4 +11,6 @@ import { Event } from '@open-event/core'
 })
 export class EventPublishedIconComponent {
   event = input.required<Event>()
+
+  readonly published = computed(() => this.event().published)
 }

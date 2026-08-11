@@ -26,6 +26,7 @@ class EventNotificationHandler(
         const val KEY_EVENT_DELETED = "event.delete"
         const val KEY_EVENT_PUBLISHED = "event.publish"
         const val KEY_EVENT_UNPUBLISHED = "event.unpublish"
+        const val KEY_EVENT_CANCELED = "event.canceled"
         const val KEY_EVENT_FEATURED = "event.featured"
         const val KEY_EVENT_UNFEATURED = "event.unfeatured"
         const val KEY_EVENT_TITLE = "event.title"
@@ -59,6 +60,13 @@ class EventNotificationHandler(
     }
 
 
+    override fun statusChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_UPDATED, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
     override fun publishedChanged(actor: Account, event: Event) {
         val request = if (event.published) {
             HistoryEntryChangeRequest(
@@ -69,6 +77,13 @@ class EventNotificationHandler(
                 HistoryEntryType.EVENT_CHANGED, KEY_EVENT_UNPUBLISHED, HistoryEntrySource.EVENT, ""
             )
         }
+        service.create(actor, event, request)
+    }
+
+    override fun canceled(actor: Account, event: Event, reason: String) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_CANCELED, HistoryEntrySource.EVENT, reason
+        )
         service.create(actor, event, request)
     }
 

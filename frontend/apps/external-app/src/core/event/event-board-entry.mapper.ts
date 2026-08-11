@@ -15,6 +15,7 @@ export function toEventBoardEntry(event: PublicEvent): EventBoardEntry {
     audiences: [],
     tags: event.tags,
     featured: false,
+    status: undefined,
     isRegistered: false,
     maxGuestAmount: event.maxGuestAmount,
     remainingSpace: event.remainingSpace,

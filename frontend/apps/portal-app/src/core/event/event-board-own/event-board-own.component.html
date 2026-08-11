@@ -6,10 +6,12 @@
 <div class="sticky top-0 z-10 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
     <div class="flex items-center gap-2">
         <lib-board-search (searchChange)="setQuery($event)" class="flex-auto max-w-lg" data-tour="event-search" placeholder="event.search"></lib-board-search>
-        <button color="accent" matButton="filled" routerLink="../create" class="hidden md:flex shrink-0" data-tour="event-create">
-            <mat-icon>add</mat-icon>
-            {{ 'event.create' | translate }}
-        </button>
+        @if (!mobileView()) {
+            <button color="accent" matButton="filled" routerLink="../create" class="shrink-0" data-tour="event-create">
+                <mat-icon>add</mat-icon>
+                {{ 'event.create' | translate }}
+            </button>
+        }
     </div>
 </div>
 

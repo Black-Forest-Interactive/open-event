@@ -1,12 +1,11 @@
 package de.sambalmueslie.openevent.infrastructure.mail.db
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import de.sambalmueslie.openevent.common.SimpleDataObject
 import de.sambalmueslie.openevent.infrastructure.mail.api.Mail
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailJobContent
 import de.sambalmueslie.openevent.infrastructure.mail.api.MailParticipant
+import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.model.DataType
 import jakarta.persistence.*
 
 @Suppress("JpaObjectClassSignatureInspection")
@@ -14,17 +13,14 @@ import jakarta.persistence.*
 @Table(name = "mail_job_content")
 data class MailJobContentData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long,
-    @Column var mailJson: String,
-    @Column var fromJson: String,
-    @Column var toJson: String,
-    @Column var bccJson: String,
+    @Column(name = "mail_json") @field:TypeDef(type = DataType.JSON) var mail: Mail,
+    @Column(name = "from_json") @field:TypeDef(type = DataType.JSON) var from: MailParticipant,
+    @Column(name = "to_json") @field:TypeDef(type = DataType.JSON) var to: List<MailParticipant>,
+    @Column(name = "bcc_json") @field:TypeDef(type = DataType.JSON) var bcc: List<MailParticipant>,
     @Column(unique = true) var jobId: Long,
 ) : SimpleDataObject<MailJobContent> {
 
-
     companion object {
-        private val mapper = ObjectMapper().registerKotlinModule()
-
         fun create(
             mail: Mail,
             from: MailParticipant,
@@ -32,66 +28,12 @@ data class MailJobContentData(
             bcc: List<MailParticipant>,
             jobId: Long
         ): MailJobContentData {
-            val m = mapper.writeValueAsString(mail)
-            val f = mapper.writeValueAsString(from)
-            val t = mapper.writeValueAsString(to)
-            val b = mapper.writeValueAsString(bcc)
-            val data = MailJobContentData(0, m, f, t, b, jobId)
-            data.mail = mail
-            data.from = from
-            data.to = to
-            data.bcc = bcc
-            return data
+            return MailJobContentData(0, mail, from, to, bcc, jobId)
         }
     }
 
     override fun convert(): MailJobContent {
-        return MailJobContent(id, getMailObj(), getFromObj(), getToObj(), getBccObj())
+        return MailJobContent(id, mail, from, to, bcc)
     }
-
-    @Transient
-    private var mail: Mail? = null
-
-    @Transient
-    fun getMailObj(): Mail {
-        if (mail == null) {
-            mail = mapper.readValue<Mail>(mailJson)
-        }
-        return mail!!
-    }
-
-    @Transient
-    private var from: MailParticipant? = null
-
-    @Transient
-    fun getFromObj(): MailParticipant {
-        if (from == null) {
-            from = mapper.readValue<MailParticipant>(fromJson)
-        }
-        return from!!
-    }
-
-    @Transient
-    private var to: List<MailParticipant>? = null
-
-    @Transient
-    fun getToObj(): List<MailParticipant> {
-        if (to == null) {
-            to = mapper.readValue<List<MailParticipant>>(toJson)
-        }
-        return to ?: emptyList()
-    }
-
-    @Transient
-    private var bcc: List<MailParticipant>? = null
-
-    @Transient
-    fun getBccObj(): List<MailParticipant> {
-        if (bcc == null) {
-            bcc = mapper.readValue<List<MailParticipant>>(bccJson)
-        }
-        return bcc ?: emptyList()
-    }
-
 
 }

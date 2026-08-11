@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.search.api
 
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import java.time.LocalDate
 
 
@@ -13,5 +14,6 @@ data class EventSearchRequest(
     val participatingEvents: Boolean,
     val onlyAvailableEvents: Boolean,
     val categories: Set<String> = emptySet(),
-    val audiences: Set<String> = emptySet()
+    val audiences: Set<String> = emptySet(),
+    val status: Set<EventStatus> = emptySet()
 ) : SearchRequest

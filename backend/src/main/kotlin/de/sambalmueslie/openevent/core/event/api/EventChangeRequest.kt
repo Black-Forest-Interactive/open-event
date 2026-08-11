@@ -20,6 +20,7 @@ data class EventChangeRequest(
     val audienceIds: Set<Long>,
     val location: LocationChangeRequest?,
     val registration: RegistrationChangeRequest,
+    val status: EventStatus,
     val published: Boolean,
     val shared: Boolean,
     val tags: Set<String>,

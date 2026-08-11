@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -38,6 +39,7 @@ interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun getBookmarks(ids: Set<Long>): List<EventBookmarkRelation>
     fun getBookmarked(account: Account, eventIds: Set<Long>): Set<Long>
 
+    fun setStatus(id: Long, value: EventStatus): Event?
     fun setPublished(id: Long, value: PatchRequest<Boolean>): Event?
     fun setFeatured(id: Long, value: PatchRequest<Boolean>): Event?
     fun setTitle(id: Long, value: PatchRequest<String>): Event?

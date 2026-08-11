@@ -3,6 +3,8 @@ package de.sambalmueslie.openevent.core.participant
 
 import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.event.api.EventStatus
+import de.sambalmueslie.openevent.core.event.db.EventStorage
 import de.sambalmueslie.openevent.core.participant.api.*
 import de.sambalmueslie.openevent.core.participant.db.ParticipantStorage
 import de.sambalmueslie.openevent.core.registration.api.Registration
@@ -13,7 +15,8 @@ import org.slf4j.LoggerFactory
 
 @Singleton
 class ParticipantCrudService(
-    private val storage: ParticipantStorage
+    private val storage: ParticipantStorage,
+    private val eventStorage: EventStorage,
 ) : BaseCrudService<Long, Participant, ParticipantChangeRequest, ParticipantChangeListener>(storage) {
 
     companion object {
@@ -49,7 +52,7 @@ class ParticipantCrudService(
         if (participant != null) {
             return change(actor, registration, participant, request)
         }
-
+        validateEventAvailableForParticipation(registration)
         val participants = storage.get(registration)
 
         val availableSpace = registration.maxGuestAmount
@@ -72,6 +75,7 @@ class ParticipantCrudService(
         val status: ParticipateStatus = if (waitingList) ParticipateStatus.WAITING_LIST else ParticipateStatus.ACCEPTED
         return getResponse(registration, status, true, result)
     }
+
 
     fun remove(actor: Account, registration: Registration, account: Account): ParticipateResponse {
         val participants = storage.get(registration)
@@ -229,4 +233,10 @@ class ParticipantCrudService(
     }
 
 
+    private fun validateEventAvailableForParticipation(registration: Registration) {
+        val event = eventStorage.get(registration.eventId) ?: throw InvalidRequestException("No event with id ${registration.eventId}")
+        val status = event.status
+        if (status == EventStatus.CANCELED) throw InvalidRequestException("Event ${event.id} not able to modify participation cause canceled")
+        if (status == EventStatus.ENDED) throw InvalidRequestException("Event ${event.id} not able to modify participation cause ended")
+    }
 }

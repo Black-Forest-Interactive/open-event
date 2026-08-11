@@ -8,8 +8,19 @@
         </div>
     }
 
-    @if (categories().length > 0 || featured() || audiences().length > 0) {
+    @if (categories().length > 0 || featured() || audiences().length > 0 || canceled() || ended()) {
         <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+            @if (canceled()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-error text-on-error text-xs font-medium">
+                    <mat-icon inline>event_busy</mat-icon>
+                    {{ 'event.status.CANCELED' | translate }}
+                </span>
+            } @else if (ended()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant text-xs font-medium">
+                    <mat-icon inline>history</mat-icon>
+                    {{ 'event.status.ENDED' | translate }}
+                </span>
+            }
             @if (featured()) {
                 <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
                     <mat-icon inline>star</mat-icon>
@@ -26,7 +37,7 @@
     }
 
     <div class="absolute top-3 right-3 flex gap-2">
-        @if (canEdit()) {
+        @if (canEdit() && !readOnly()) {
             <button (click)="fileInput.click()" [disabled]="isUploading()"
                     [matTooltip]="'event.action.editBanner' | translate" class="!bg-black/40 hover:!bg-black/60 !backdrop-blur-sm"
                     matIconButton matTooltipPosition="left">

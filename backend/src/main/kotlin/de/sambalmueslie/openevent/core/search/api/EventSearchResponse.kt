@@ -4,5 +4,6 @@ import io.micronaut.data.model.Page
 
 data class EventSearchResponse(
     override val result: Page<EventSearchEntry>,
-    val dateHistogram: List<DateHistogramEntry>
+    val dateHistogram: List<DateHistogramEntry>,
+    val statusAggregation: List<StatusAggregationEntry>
 ) : SearchResponse<EventSearchEntry>

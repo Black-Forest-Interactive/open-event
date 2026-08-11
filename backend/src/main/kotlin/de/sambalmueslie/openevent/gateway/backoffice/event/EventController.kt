@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.gateway.backoffice.event
 
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import io.micronaut.data.model.Pageable
@@ -45,6 +46,9 @@ class EventController(private val service: EventGuardService) {
 
     @Put("/{id}/featured")
     fun setFeatured(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setFeatured(auth, id, value)
+
+    @Put("/{id}/status")
+    fun setStatus(auth: Authentication, id: Long, @Body value: EventStatus) = service.setStatus(auth, id, value)
 
     @Put("/{id}/published")
     fun setPublished(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setPublished(auth, id, value)

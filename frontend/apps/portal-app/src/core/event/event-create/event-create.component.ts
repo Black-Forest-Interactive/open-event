@@ -218,6 +218,7 @@ export class EventCreateComponent {
       value.registration.audiences ?? [],
       location,
       registration,
+      'ACTIVE',
       true,
       value.registration.shared,
       value.registration.tags ?? []

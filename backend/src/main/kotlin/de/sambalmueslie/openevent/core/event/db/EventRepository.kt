@@ -2,18 +2,20 @@ package de.sambalmueslie.openevent.core.event.db
 
 
 import de.sambalmueslie.openevent.common.DataObjectRepository
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import io.micronaut.data.annotation.Query
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.data.model.query.builder.sql.Dialect
+import java.time.LocalDateTime
 
 @Repository
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface EventRepository : DataObjectRepository<Long, EventData> {
-    fun findByOwnerIdOrPublishedTrue(ownerId: Long, pageable: Pageable): Page<EventData>
-    fun findByOwnerIdOrPublishedTrueOrderByStart(ownerId: Long, pageable: Pageable): Page<EventData>
+    fun findByOwnerIdOrStatus(ownerId: Long, status: EventStatus, pageable: Pageable): Page<EventData>
+    fun findByOwnerIdOrStatusOrderByStart(ownerId: Long, status: EventStatus, pageable: Pageable): Page<EventData>
     fun findAllOrderByStart(pageable: Pageable): Page<EventData>
 
     @Query(
@@ -23,4 +25,7 @@ interface EventRepository : DataObjectRepository<Long, EventData> {
     )
     fun findForUser(ownerId: Long, pageable: Pageable): Page<EventData>
     fun findByOwnerId(id: Long, pageable: Pageable): Page<EventData>
+
+    fun findByStatusAndFinishBefore(status: EventStatus, timestamp: LocalDateTime, pageable: Pageable): Page<EventData>
+
 }

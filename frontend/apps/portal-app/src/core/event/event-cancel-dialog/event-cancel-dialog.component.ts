@@ -8,7 +8,7 @@ import { MatInput } from '@angular/material/input'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { Event } from '@open-event/core'
-import { AnnouncementChangeRequest, AnnouncementService, EventService } from '@open-event/portal'
+import { EventService } from '@open-event/portal'
 
 @Component({
   selector: 'portal-event-cancel-dialog',
@@ -17,16 +17,14 @@ import { AnnouncementChangeRequest, AnnouncementService, EventService } from '@o
   changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventCancelDialogComponent {
-  private data = inject<{ event: Event; participantCount: number }>(MAT_DIALOG_DATA)
+  private data = inject<{ event: Event }>(MAT_DIALOG_DATA)
   private dialogRef = inject(MatDialogRef<EventCancelDialogComponent>)
-  private announcementService = inject(AnnouncementService)
   private eventService = inject(EventService)
   private router = inject(Router)
   private toast = inject(HotToastService)
   private translateService = inject(TranslateService)
 
   readonly event = this.data.event
-  readonly participantCount = this.data.participantCount
   readonly reason = signal('')
   readonly cancelling = signal(false)
 
@@ -34,30 +32,17 @@ export class EventCancelDialogComponent {
     if (this.cancelling() || !this.reason().trim()) return
     this.cancelling.set(true)
 
-    const notifyAndDelete = () => {
-      this.eventService.deleteEvent(this.event.id).subscribe({
-        next: () => {
-          this.cancelling.set(false)
-          this.dialogRef.close(true)
-          this.translateService.get('event.cancel.message.done').subscribe((t) => this.toast.success(t))
-          this.router.navigate(['/event/own'])
-        },
-        error: () => {
-          this.cancelling.set(false)
-          this.translateService.get('action.error').subscribe((t) => this.toast.error(t))
-        }
-      })
-    }
-
-    if (this.participantCount > 0) {
-      this.translateService.get('event.cancel.title').subscribe((subject) => {
-        this.announcementService.createAnnouncement(this.event.id, new AnnouncementChangeRequest(subject, this.reason())).subscribe({
-          next: () => notifyAndDelete(),
-          error: () => notifyAndDelete()
-        })
-      })
-    } else {
-      notifyAndDelete()
-    }
+    this.eventService.cancel(this.event.id, this.reason()).subscribe({
+      next: () => {
+        this.cancelling.set(false)
+        this.dialogRef.close(true)
+        this.translateService.get('event.cancel.message.done').subscribe((t) => this.toast.success(t))
+        this.router.navigate(['/event/own'])
+      },
+      error: () => {
+        this.cancelling.set(false)
+        this.translateService.get('action.error').subscribe((t) => this.toast.error(t))
+      }
+    })
   }
 }

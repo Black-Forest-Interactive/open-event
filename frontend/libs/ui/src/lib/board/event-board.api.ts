@@ -11,6 +11,7 @@ export interface EventBoardEntry {
   audiences: string[]
   tags: string[]
   featured: boolean
+  status: string | undefined
   isRegistered: boolean
   maxGuestAmount: number
   remainingSpace: number

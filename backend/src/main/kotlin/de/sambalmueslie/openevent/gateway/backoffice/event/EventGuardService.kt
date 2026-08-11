@@ -9,6 +9,7 @@ import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.event.api.EventStats
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.history.HistoryCrudService
 import de.sambalmueslie.openevent.core.history.api.HistoryEntry
 import de.sambalmueslie.openevent.core.location.api.Location
@@ -78,6 +79,13 @@ class EventGuardService(
         auth.checkPermission(PERMISSION_ADMIN) {
             logger.traceAction(auth, "FEATURED", id.toString(), value) {
                 service.setFeatured(accountService.find(auth), id, value)
+            }
+        }
+
+    fun setStatus(auth: Authentication, id: Long, value: EventStatus) =
+        auth.checkPermission(PERMISSION_ADMIN) {
+            logger.traceAction(auth, "STATUS", id.toString(), value) {
+                service.setStatus(accountService.find(auth), id, value)
             }
         }
 

@@ -59,6 +59,10 @@ import { map } from 'rxjs/operators'
 export class EventDetailsComponent {
   readonly registration = computed(() => this.info()?.registration)
   readonly canEdit = computed(() => this.info()?.canEdit ?? false)
+  readonly readOnly = computed(() => {
+    const status = this.info()?.event.status
+    return status === 'ENDED' || status === 'CANCELED'
+  })
   readonly location = computed(() => this.info()?.location)
   readonly registrationReloading = signal(false)
   private route = inject(ActivatedRoute)
@@ -149,7 +153,7 @@ export class EventDetailsComponent {
     if (!info) return
     this.dialog.open(EventCancelDialogComponent, {
       width: '400px',
-      data: { event: info.event, participantCount: info.registration?.participants.length ?? 0 }
+      data: { event: info.event }
     })
   }
 

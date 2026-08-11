@@ -31,6 +31,7 @@ class EventNotificationHandler(
         const val KEY_EVENT_UNPUBLISHED = "event.unpublish"
         const val KEY_EVENT_FEATURED = "event.featured"
         const val KEY_EVENT_UNFEATURED = "event.unfeatured"
+        const val KEY_EVENT_CANCELED = "event.canceled"
         const val KEY_EVENT_ANNOUNCEMENT_ADDED = "event.announcement.added"
         const val KEY_EVENT_ANNOUNCEMENT_REMOVED = "event.announcement.removed"
     }
@@ -46,6 +47,7 @@ class EventNotificationHandler(
             NotificationTypeChangeRequest(KEY_EVENT_UNPUBLISHED, "Event unpublished", ""),
             NotificationTypeChangeRequest(KEY_EVENT_FEATURED, "Event featured", ""),
             NotificationTypeChangeRequest(KEY_EVENT_UNFEATURED, "Event unfeatured", ""),
+            NotificationTypeChangeRequest(KEY_EVENT_CANCELED, "Event canceled", ""),
             NotificationTypeChangeRequest(KEY_EVENT_ANNOUNCEMENT_ADDED, "Event announcement added", ""),
             NotificationTypeChangeRequest(KEY_EVENT_ANNOUNCEMENT_REMOVED, "Event announcement removed", "")
         )
@@ -73,6 +75,17 @@ class EventNotificationHandler(
         service.process(
             NotificationEvent(KEY_EVENT_DELETED, actor, obj),
             getRecipients(actor, obj)
+        )
+    }
+
+    override fun statusChanged(actor: Account, event: Event) {
+        // intentionally left empty
+    }
+
+    override fun canceled(actor: Account, event: Event, reason: String) {
+        service.process(
+            NotificationEvent(KEY_EVENT_CANCELED, actor, EventCancelContent(event, reason)),
+            getRecipients(actor, event)
         )
     }
 
@@ -167,14 +180,14 @@ class EventNotificationHandler(
 
     override fun announcementAdded(actor: Account, event: Event, announcement: Announcement) {
         service.process(
-            NotificationEvent(KEY_EVENT_ANNOUNCEMENT_ADDED, actor, event),
+            NotificationEvent(KEY_EVENT_ANNOUNCEMENT_ADDED, actor, EventAnnouncementContent(event, announcement)),
             getRecipients(actor, event)
         )
     }
 
     override fun announcementRemoved(actor: Account, event: Event, announcement: Announcement) {
         service.process(
-            NotificationEvent(KEY_EVENT_ANNOUNCEMENT_REMOVED, actor, event),
+            NotificationEvent(KEY_EVENT_ANNOUNCEMENT_REMOVED, actor, EventAnnouncementContent(event, announcement)),
             getRecipients(actor, event)
         )
     }

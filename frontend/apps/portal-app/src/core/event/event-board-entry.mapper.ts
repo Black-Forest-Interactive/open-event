@@ -15,6 +15,7 @@ export function toEventBoardEntry(entry: EventSearchEntry, basePath = '/event/de
     audiences: entry.audiences,
     tags: entry.tags,
     featured: entry.featured,
+    status: entry.status,
     isRegistered: entry.participatingEvent,
     maxGuestAmount: entry.maxGuestAmount,
     remainingSpace: entry.remainingSpace,

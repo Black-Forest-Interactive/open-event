@@ -61,12 +61,16 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             if (request.audiences.isNotEmpty()) {
                 filter(terms(EventSearchEntryData::audiences, request.audiences))
             }
+            if (request.status.isNotEmpty()) {
+                filter(terms(EventSearchEntryData::status, request.status.map { it.name }))
+            }
             agg(
                 EventSearchEntryData::date.name,
                 DateHistogramAgg(EventSearchEntryData::date) {
                     calendarInterval = "day"
                 }
             )
+            agg(EventSearchEntryData::status.name, TermsAgg(EventSearchEntryData::status))
 
         }
         if (pageable.isSorted) {

@@ -37,6 +37,7 @@ export interface EventSearchEntry {
   title: string
   shortText: string
   longText: string
+  status: string
   published: boolean
   shared: boolean
 

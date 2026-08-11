@@ -111,6 +111,21 @@ class EventCrudService(
         return result
     }
 
+
+    fun setStatus(actor: Account, id: Long, value: EventStatus): Event? {
+        val result = storage.setStatus(id, value) ?: return null
+        notify { it.statusChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun cancel(actor: Account, id: Long, reason: String): Event? {
+        val result = storage.setStatus(id, EventStatus.CANCELED) ?: return null
+        notify { it.canceled(actor, result, reason) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
     fun setPublished(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
         val result = storage.setPublished(id, value) ?: return null
         notify { it.publishedChanged(actor, result) }

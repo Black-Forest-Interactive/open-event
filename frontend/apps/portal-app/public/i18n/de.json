@@ -29,6 +29,10 @@
     "type": "Veranstaltungen",
     "search": "Suche nach einer Veranstaltung",
     "create": "Neue Veranstaltung erstellen",
+    "status": {
+      "CANCELED": "Abgesagt",
+      "ENDED": "Beendet"
+    },
     "action": {
       "edit": "Veranstaltung Bearbeiten",
       "copy": "Veranstaltung Kopieren",

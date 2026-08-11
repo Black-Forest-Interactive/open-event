@@ -32,6 +32,8 @@ export class EventBoardRowComponent {
   readonly categories = computed(() => this.data().categories)
   readonly audiences = computed(() => this.data().audiences)
   readonly featured = computed(() => this.data().featured)
+  readonly canceled = computed(() => this.data().status === 'CANCELED')
+  readonly ended = computed(() => this.data().status === 'ENDED')
   readonly isRegistered = computed(() => this.data().isRegistered)
   readonly hasRegistration = computed(() => this.data().maxGuestAmount > 0)
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0] ?? ''))

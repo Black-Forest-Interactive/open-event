@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.core.search.event
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.api.EventInfo
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.db.EventBookmarkRelation
 import de.sambalmueslie.openevent.core.search.api.EventSearchEntry
 import de.sambalmueslie.openevent.core.search.common.DateSerializer
@@ -24,6 +25,7 @@ data class EventSearchEntryData(
     var title: String,
     var shortText: String,
     var longText: String,
+    var status: EventStatus,
     var published: Boolean,
     var featured: Boolean,
     var shared: Boolean,
@@ -80,6 +82,7 @@ data class EventSearchEntryData(
                 e.title,
                 Jsoup.parse(e.shortText).text(),
                 Jsoup.parse(e.longText).text(),
+                e.status,
                 e.published,
                 e.featured,
                 info.share?.share?.enabled ?: false,
@@ -121,6 +124,7 @@ data class EventSearchEntryData(
             title,
             shortText,
             longText,
+            status,
             published,
             featured,
             bookmarks.contains(actor.id),

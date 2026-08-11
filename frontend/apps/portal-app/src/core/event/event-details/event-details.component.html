@@ -37,7 +37,7 @@
                         <portal-event-details-location [info]="info()!"/>
                     </mat-card>
                 }
-                @if (canEdit()) {
+                @if (canEdit() && !readOnly()) {
                     <mat-card appearance="outlined" data-tour="details-share-settings">
                         <portal-share-settings [info]="info()!" [reloading]="reloading()" (changed)="onSharingChanged($event)"/>
                     </mat-card>

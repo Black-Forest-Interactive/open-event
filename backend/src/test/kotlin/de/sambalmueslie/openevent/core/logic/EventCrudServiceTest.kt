@@ -6,6 +6,7 @@ import de.sambalmueslie.openevent.core.account.api.AccountChangeRequest
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.location.LocationChangeListener
 import de.sambalmueslie.openevent.core.location.LocationCrudService
 import de.sambalmueslie.openevent.core.location.api.Location
@@ -127,7 +128,7 @@ class EventCrudServiceTest : TimeBasedTest() {
             "icon-update",
             emptySet(),
             emptySet(),
-            locationUpdate, registrationUpdate, true, true, setOf("tag")
+            locationUpdate, registrationUpdate, EventStatus.ACTIVE, true, true, setOf("tag")
         )
         return update
     }
@@ -145,7 +146,7 @@ class EventCrudServiceTest : TimeBasedTest() {
             "icon",
             emptySet(),
             emptySet(),
-            locationRequest, registrationRequest, true, true, setOf("tag")
+            locationRequest, registrationRequest, EventStatus.ACTIVE, true, true, setOf("tag")
         )
         return request
     }

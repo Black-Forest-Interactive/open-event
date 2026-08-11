@@ -1,0 +1,64 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["before 6am on monday"],
+  "branchPrefix": "renovate-auto/",
+  "prConcurrentLimit": 3,
+  "dependencyDashboard": true,
+  "automerge": false,
+  "separateMajorMinor": true,
+  "npm": {
+    "fileMatch": ["^frontend/package\\.json$"]
+  },
+  "gradle": {
+    "fileMatch": ["^backend/build\\.gradle\\.kts$"]
+  },
+  "packageRules": [
+    {
+      "description": "Angular + Nx (minor/patch) — grouped, frontend only",
+      "matchFileNames": ["frontend/**"],
+      "matchPackagePatterns": ["^@angular/", "^@nx/", "^nx$"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "angular + nx",
+      "postUpgradeTasks": {
+        "commands": ["/scripts/postupgrade-nx.sh"],
+        "fileFilters": ["frontend/**"],
+        "executionMode": "branch"
+      }
+    },
+    {
+      "description": "Angular + Nx (major) — separate PR per package, frontend only",
+      "matchFileNames": ["frontend/**"],
+      "matchPackagePatterns": ["^@angular/", "^@nx/", "^nx$"],
+      "matchUpdateTypes": ["major"],
+      "postUpgradeTasks": {
+        "commands": ["/scripts/postupgrade-nx.sh"],
+        "fileFilters": ["frontend/**"],
+        "executionMode": "branch"
+      }
+    },
+    {
+      "description": "Micronaut (minor/patch) — grouped, backend only",
+      "matchFileNames": ["backend/**"],
+      "matchPackagePatterns": ["^io\\.micronaut"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "micronaut",
+      "postUpgradeTasks": {
+        "commands": ["/scripts/postupgrade-micronaut.sh"],
+        "fileFilters": ["backend/**"],
+        "executionMode": "branch"
+      }
+    },
+    {
+      "description": "Micronaut (major) — separate PR per package, backend only",
+      "matchFileNames": ["backend/**"],
+      "matchPackagePatterns": ["^io\\.micronaut"],
+      "matchUpdateTypes": ["major"],
+      "postUpgradeTasks": {
+        "commands": ["/scripts/postupgrade-micronaut.sh"],
+        "fileFilters": ["backend/**"],
+        "executionMode": "branch"
+      }
+    }
+  ]
+}
