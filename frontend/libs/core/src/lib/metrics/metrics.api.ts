@@ -1,9 +1,16 @@
 import { EventInfo } from '../event/event.api'
 
-export interface DailyBreakdownEntry {
-  day: string
+export type MetricsSource = 'PORTAL' | 'EXTERNAL'
+
+export interface MetricsEntry {
+  source: MetricsSource
   totalCount: number
   uniqueCount: number
+}
+
+export interface DailyBreakdownEntry {
+  day: string
+  entries: MetricsEntry[]
 }
 
 export interface DailyMetrics {
@@ -13,6 +20,7 @@ export interface DailyMetrics {
   timestamp: string
   totalCount: number
   uniqueCount: number
+  entries: MetricsEntry[]
 }
 
 export interface WeeklyMetrics {
@@ -22,6 +30,7 @@ export interface WeeklyMetrics {
   timestamp: string
   totalCount: number
   uniqueCount: number
+  entries: MetricsEntry[]
   dailyBreakdown: DailyBreakdownEntry[]
 }
 

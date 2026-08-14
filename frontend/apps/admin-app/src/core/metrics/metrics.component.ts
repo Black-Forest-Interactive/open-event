@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, resource, signal } from '@angular/core'
-import { EventMetricsDaily, EventMetricsWeekly, Participant } from '@open-event/core'
+import { EventMetricsDaily, EventMetricsWeekly, MetricsSource, Participant } from '@open-event/core'
 import { MetricsService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'
@@ -27,6 +27,13 @@ interface Bucket {
   unique: number
 }
 
+interface SourceStat {
+  source: MetricsSource
+  total: number
+  unique: number
+  pct: number
+}
+
 interface EventRow {
   id: number
   title: string
@@ -37,6 +44,7 @@ interface EventRow {
   seats: number
   utilPct: number
   participants: Participant[]
+  sources: SourceStat[]
 }
 
 const CHART_WIDTH = 1000
@@ -153,6 +161,11 @@ export class MetricsComponent {
     return { totalViews, uniqueViews, totalParticipants, totalSeats, utilization, avgViews, eventCount }
   })
 
+  readonly sourcesSummary = computed<SourceStat[]>(() => {
+    const data = this.dailyResource.value() ?? []
+    return this.aggregateSources(data.flatMap((e) => e.metrics.flatMap((m) => m.entries)))
+  })
+
   private eventRows = computed<EventRow[]>(() =>
     (this.dailyResource.value() ?? []).map((e) => {
       const seats = e.event.registration?.registration.maxGuestAmount ?? 0
@@ -166,10 +179,23 @@ export class MetricsComponent {
         unique: e.metrics.reduce((s, m) => s + m.uniqueCount, 0),
         seats,
         utilPct: seats > 0 ? Math.round((participants.length / seats) * 100) : 0,
-        participants
+        participants,
+        sources: this.aggregateSources(e.metrics.flatMap((m) => m.entries))
       }
     })
   )
+
+  private aggregateSources(entries: { source: MetricsSource; totalCount: number; uniqueCount: number }[]): SourceStat[] {
+    const map = new Map<MetricsSource, { total: number; unique: number }>()
+    for (const entry of entries) {
+      const cur = map.get(entry.source) ?? { total: 0, unique: 0 }
+      cur.total += entry.totalCount
+      cur.unique += entry.uniqueCount
+      map.set(entry.source, cur)
+    }
+    const grandTotal = [...map.values()].reduce((s, v) => s + v.total, 0) || 1
+    return [...map.entries()].map(([source, v]) => ({ source, total: v.total, unique: v.unique, pct: Math.round((v.total / grandTotal) * 100) }))
+  }
 
   readonly sortedRows = computed(() => {
     const rows = [...this.eventRows()]
@@ -293,7 +319,6 @@ export class MetricsComponent {
   }
 
   toggleExpand(id: number) {
-    if (!this.eventRows().find((r) => r.id === id)?.participants.length) return
     const next = new Set(this.expanded())
     if (next.has(id)) next.delete(id)
     else next.add(id)

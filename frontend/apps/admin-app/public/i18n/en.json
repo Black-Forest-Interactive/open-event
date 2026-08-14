@@ -713,13 +713,21 @@
       "unique": "Unique",
       "registrations": "Registrations",
       "utilization": "Utilization",
-      "participants": "Participants"
+      "participants": "Participants",
+      "noParticipants": "No registrations yet"
     },
     "status": {
       "DRAFT": "Draft",
       "ACTIVE": "Active",
       "CANCELED": "Canceled",
       "ENDED": "Ended"
+    },
+    "sources": {
+      "title": "Access sources"
+    },
+    "source": {
+      "PORTAL": "Portal",
+      "EXTERNAL": "External"
     }
   },
   "feedback": {

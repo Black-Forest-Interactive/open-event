@@ -713,13 +713,21 @@
       "unique": "Unique",
       "registrations": "Anmeldungen",
       "utilization": "Auslastung",
-      "participants": "Teilnehmer"
+      "participants": "Teilnehmer",
+      "noParticipants": "Noch keine Anmeldungen"
     },
     "status": {
       "DRAFT": "Entwurf",
       "ACTIVE": "Aktiv",
       "CANCELED": "Abgesagt",
       "ENDED": "Beendet"
+    },
+    "sources": {
+      "title": "Zugriffsquellen"
+    },
+    "source": {
+      "PORTAL": "Portal",
+      "EXTERNAL": "Extern"
     }
   },
   "feedback": {

@@ -120,6 +120,27 @@
       </div>
     </section>
 
+    <section class="metrics-sources-card">
+      <div class="sources-head">
+        <h2 class="section-title">{{ 'metrics.sources.title' | translate }}</h2>
+        <div class="sources-legend">
+          @for (s of sourcesSummary(); track s.source) {
+            <span class="source-item">
+              <span [class]="'source-dot source-dot-' + s.source"></span>
+              <span class="source-name">{{ 'metrics.source.' + s.source | translate }}</span>
+              <span class="source-total">{{ s.total | number }}</span>
+              <span class="source-pct">· {{ s.pct }}%</span>
+            </span>
+          }
+        </div>
+      </div>
+      <div class="sources-bar">
+        @for (s of sourcesSummary(); track s.source) {
+          <div [class]="'source-bar-fill source-bar-fill-' + s.source" [style.width.%]="s.pct"></div>
+        }
+      </div>
+    </section>
+
     <section class="metrics-chart-card">
       <div class="chart-head">
         <div>
@@ -219,7 +240,7 @@
             <div class="cell-unique">{{ row.unique | number }}</div>
             <div class="cell-participants">
               <span>{{ row.participants.length }}</span>
-              <svg [class.chevron-open]="isExpanded(row.id)" [class.chevron-disabled]="!row.participants.length" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+              <svg [class.chevron-open]="isExpanded(row.id)" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
                 <path d="M6 9l6 6 6-6"></path>
               </svg>
             </div>
@@ -235,18 +256,43 @@
           </div>
 
           @if (isExpanded(row.id)) {
-            <div class="participants-panel">
-              <div class="participants-heading">{{ 'metrics.table.participants' | translate }} · {{ row.participants.length }}</div>
-              <div class="participants-list">
-                @for (p of row.participants; track p.id) {
-                  <div class="participant-row">
-                    <span class="participant-avatar">{{ initials(p.author.name) }}</span>
-                    <div class="participant-text">
-                      <div class="participant-name">{{ p.author.name }}</div>
-                      <div class="participant-email">{{ p.author.email }}</div>
+            <div class="expand-panel">
+              <div>
+                <div class="expand-heading">{{ 'metrics.sources.title' | translate }}</div>
+                <div class="row-sources-list">
+                  @for (s of row.sources; track s.source) {
+                    <div class="row-source">
+                      <span [class]="'source-dot source-dot-' + s.source"></span>
+                      <span class="row-source-name">{{ 'metrics.source.' + s.source | translate }}</span>
+                      <div class="row-source-track">
+                        <div [class]="'row-source-bar row-source-bar-' + s.source" [style.width.%]="row.total ? (s.total / row.total) * 100 : 0"></div>
+                      </div>
+                      <span class="row-source-total">{{ s.total | number }}</span>
+                      <span class="row-source-unique">{{ s.unique | number }} unique</span>
                     </div>
-                    <span class="participant-status">{{ 'registration.table.enum.' + p.status | translate }}</span>
-                    <span class="participant-when">{{ p.timestamp | date: 'medium' }}</span>
+                  }
+                </div>
+              </div>
+              <div>
+                <div class="expand-heading">{{ 'metrics.table.participants' | translate }} · {{ row.participants.length }}</div>
+                @if (row.participants.length) {
+                  <div class="participants-list">
+                    @for (p of row.participants; track p.id) {
+                      <div class="participant-row">
+                        <span class="participant-avatar">{{ initials(p.author.name) }}</span>
+                        <div class="participant-text">
+                          <div class="participant-name">{{ p.author.name }}</div>
+                          <div class="participant-email">{{ p.author.email }}</div>
+                        </div>
+                        <span class="participant-status">{{ 'registration.table.enum.' + p.status | translate }}</span>
+                        <span class="participant-when">{{ p.timestamp | date: 'medium' }}</span>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <div class="no-participants">
+                    <mat-icon>group</mat-icon>
+                    {{ 'metrics.table.noParticipants' | translate }}
                   </div>
                 }
               </div>
