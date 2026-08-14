@@ -61,10 +61,11 @@ class EventCrudService(
         val audiences = audienceCrudService.getByIds(request.audienceIds)
         if (audiences.isNotEmpty()) storage.setAudiences(result, audiences)
 
-        notifyCreated(actor, result)
         request.location?.let { locationCrudService.create(actor, result, it) }
         registrationCrudService.create(actor, result, request.registration)
         shareCrudService.create(actor, result, ShareChangeRequest(request.shared))
+
+        notifyCreated(actor, result)
         updateSearch(actor, result, ChangeType.CREATED)
         return result
     }
