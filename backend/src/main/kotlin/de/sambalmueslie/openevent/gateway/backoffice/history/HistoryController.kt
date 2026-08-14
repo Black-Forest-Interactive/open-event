@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.gateway.backoffice.history
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.tags.Tag
 
@@ -20,5 +21,5 @@ class HistoryController(private val service: HistoryGuardService) {
     fun getForEvent(auth: Authentication, eventId: Long, pageable: Pageable) = service.getForEvent(auth, eventId, pageable)
 
     @Get("/info")
-    fun getInfos(auth: Authentication, pageable: Pageable) = service.getInfos(auth, pageable)
+    fun getInfos(auth: Authentication, @QueryValue(defaultValue = "") search: String, pageable: Pageable) = service.getInfos(auth, search, pageable)
 }

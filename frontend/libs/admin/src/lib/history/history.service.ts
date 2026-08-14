@@ -20,7 +20,8 @@ export class HistoryService extends BaseService {
     return this.getPaged('for/event/' + eventId, page, size)
   }
 
-  getAllHistoryEventInfos(page: number, size: number): Observable<Page<HistoryEventInfo>> {
-    return this.getPaged('info', page, size)
+  getAllHistoryEventInfos(page: number, size: number, search = ''): Observable<Page<HistoryEventInfo>> {
+    const queryParams = search ? '&search=' + encodeURIComponent(search) : ''
+    return this.getPaged('info', page, size, undefined, queryParams)
   }
 }

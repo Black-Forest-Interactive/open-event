@@ -187,6 +187,10 @@ class EventStorageService(
         return repository.findAllOrderByStart(pageable).let { converter.convert(it) }
     }
 
+    override fun getAll(title: String, pageable: Pageable): Page<Event> {
+        return repository.findByTitleContainingIgnoreCaseOrderByStart(title, pageable).let { converter.convert(it) }
+    }
+
     override fun deleteDependencies(data: EventData) {
         announcementRelationService.delete(data)
         categoryRelationService.delete(data)

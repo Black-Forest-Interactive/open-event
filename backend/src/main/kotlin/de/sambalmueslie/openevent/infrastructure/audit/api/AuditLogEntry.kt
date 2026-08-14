@@ -8,7 +8,7 @@ data class AuditLogEntry(
     val timestamp: LocalDateTime,
     val user: String,
     val level: AuditLogLevel,
-    val message: String,
+    val action: AuditAction,
     val request: String,
     val referenceId: String,
     val reference: String,

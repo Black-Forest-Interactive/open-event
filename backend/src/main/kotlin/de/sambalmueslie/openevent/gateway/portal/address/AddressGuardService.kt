@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.core.address.api.AddressChangeRequest
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
@@ -80,7 +81,7 @@ class AddressGuardService(
             val account = accountService.find(auth)
             val address = service.getData(id) ?: return@checkPermission null
             if (address.accountId == account.id) {
-                logger.traceAction(auth, "Set default address", "$id") { service.setDefault(account, id) }
+                logger.traceAction(auth, AuditAction.ADDRESS_SET_DEFAULT, "$id") { service.setDefault(account, id) }
             } else {
                 throw IllegalAccessException("Cannot access address cause user is not author")
             }

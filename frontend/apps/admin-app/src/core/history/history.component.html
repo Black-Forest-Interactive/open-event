@@ -1,36 +1,73 @@
-<admin-board (reload)="reload()" [reloading]="reloading" [showSearch]="false" title="history.title">
-    <div class="flex flex-row gap-2 flex-auto">
-        <mat-card class="flex-auto basis-48">
+<admin-board (reload)="reload()" [reloading]="reloading()" [showSearch]="false" title="history.title">
+    <div class="flex flex-row gap-4">
+        <mat-card class="flex flex-col w-96 shrink-0 overflow-hidden">
+            <div class="p-3 border-b" style="border-color: var(--mat-sys-outline-variant)">
+                <lib-board-search (searchChange)="setEventQuery($event)" placeholder="history.search"/>
+            </div>
             <div class="flex flex-col">
-                @for (d of data; track d.event.id) {
-                    <div (click)="selected = d"
-                         [ngClass]="selected === d ? 'bg-gray-100' : ''" class="flex flex-row justify-between items-center px-2 py-1 min-h-10 hover:bg-gray-200">
-                        <div class="font-bold">{{ d.event.title }}</div>
-                        <div
-                                class="font-light bg-gray-200 text-xs border border-gray-300 border-solid rounded-sm px-3 py-1"> {{ d.entries[0].timestamp | date:'medium' }}
+                @for (entry of events(); track entry.event.id) {
+                    <button (click)="selectEvent(entry.event.id)"
+                            class="w-full text-left flex flex-row items-center gap-3 min-h-16 px-4 border-l-4"
+                            [style.background]="selected()?.event?.id === entry.event.id ? 'var(--mat-sys-secondary-container)' : 'transparent'"
+                            [style.border-left-color]="selected()?.event?.id === entry.event.id ? 'var(--mat-sys-primary)' : 'transparent'"
+                    >
+                        <mat-icon style="color: var(--mat-sys-on-surface-variant)">event</mat-icon>
+                        <span class="flex-auto min-w-0">
+                            <span class="block text-sm truncate" [style.font-weight]="selected()?.event?.id === entry.event.id ? 600 : 400">{{ entry.event.title }}</span>
+                            @if (entry.entries[0]; as latest) {
+                                <span class="block text-xs truncate" style="color: var(--mat-sys-on-surface-variant)">{{ latest.timestamp | date:'medium' }}</span>
+                            } @else {
+                                <span class="block text-xs truncate" style="color: var(--mat-sys-on-surface-variant)">{{ 'history.noResults' | translate }}</span>
+                            }
+                        </span>
+                        <span class="text-xs font-mono px-2 py-0.5 rounded-full shrink-0"
+                              [style.background]="selected()?.event?.id === entry.event.id ? 'var(--mat-sys-primary)' : 'var(--mat-sys-surface-container-high)'"
+                              [style.color]="selected()?.event?.id === entry.event.id ? 'var(--mat-sys-on-primary)' : 'var(--mat-sys-on-surface-variant)'"
+                        >{{ entry.entries.length }}</span>
+                    </button>
+                }
+                @if (events().length === 0) {
+                    <div class="p-6 text-center text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'history.noResults' | translate }}</div>
+                }
+            </div>
+            <mat-paginator
+                    (page)="handlePageChange($event)"
+                    [disabled]="reloading()"
+                    [length]="totalElements()"
+                    [pageIndex]="pageNumber()"
+                    [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+                    hidePageSize
+                    showFirstLastButtons
+            >
+            </mat-paginator>
+        </mat-card>
+
+        @if (selected(); as sel) {
+            <mat-card class="flex flex-col flex-auto min-w-0 overflow-hidden">
+                <div class="flex flex-col gap-3 p-4 border-b" style="border-color: var(--mat-sys-outline-variant)">
+                    <div class="flex flex-row items-center gap-3">
+                        <mat-icon style="color: var(--mat-sys-primary)">event</mat-icon>
+                        <div class="flex-auto min-w-0">
+                            <h2 class="text-base font-medium truncate m-0">{{ sel.event.title }}</h2>
+                            <span class="text-xs font-mono" style="color: var(--mat-sys-on-surface-variant)">{{ filteredEntries().length }} / {{ sel.entries.length }}</span>
                         </div>
                     </div>
-                    <mat-divider></mat-divider>
-                }
-                <mat-paginator
-                        (page)="handlePageChange($event)"
-                        [disabled]="reloading"
-                        [length]="totalElements"
-                        [pageIndex]="pageNumber"
-                        [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
-                        showFirstLastButtons
-                >
-                </mat-paginator>
-            </div>
-        </mat-card>
-        @if (selected) {
-            <mat-card class="flex-auto">
-                <div class="flex flex-col flex-auto">
-                    <admin-history-table [data]="selected.entries" [pageNumber]="0" [pageSize]="selected.entries.length"
-                                         [reloading]="reloading"
-                                         [totalElements]="selected.entries.length"></admin-history-table>
-                    <div class="flex-auto"></div>
+                    <div class="flex flex-row items-center gap-4 flex-wrap">
+                        <div class="w-72">
+                            <lib-board-search (searchChange)="setEntryQuery($event)" placeholder="history.search"/>
+                        </div>
+                        <mat-chip-listbox>
+                            @for (f of FILTERS; track f) {
+                                <mat-chip-option (selectionChange)="setTypeFilter(f)" [selected]="typeFilter() === f" [value]="f">
+                                    {{ f === 'all' ? ('history.filter.all' | translate) : ('history.table.enum.type.' + f | translate) }}
+                                </mat-chip-option>
+                            }
+                        </mat-chip-listbox>
+                    </div>
                 </div>
+                <admin-history-table [data]="filteredEntries()" [pageNumber]="0" [pageSize]="filteredEntries().length || 1"
+                                     [reloading]="reloading()"
+                                     [totalElements]="filteredEntries().length"></admin-history-table>
             </mat-card>
         }
     </div>

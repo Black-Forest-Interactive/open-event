@@ -53,6 +53,7 @@ interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun getCategoriesByEventIds(eventIds: Set<Long>): Map<Long, List<Category>>
     fun getAudiencesByEventIds(eventIds: Set<Long>): Map<Long, List<Audience>>
     fun getOwned(owner: Account, pageable: Pageable): Page<Event>
+    fun getAll(title: String, pageable: Pageable): Page<Event>
 
 
 }

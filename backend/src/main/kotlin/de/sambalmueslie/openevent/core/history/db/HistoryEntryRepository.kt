@@ -17,6 +17,7 @@ interface HistoryEntryRepository : DataObjectRepository<Long, HistoryEntryData> 
     fun findAllOrderByTimestampDesc(pageable: Pageable): Page<HistoryEntryData>
 
     fun findByEventIdOrderByTimestampDesc(eventId: Long, pageable: Pageable): Page<HistoryEntryData>
+    fun findByEventIdInOrderByTimestampDesc(eventIds: Collection<Long>): List<HistoryEntryData>
     fun findByEventIdAndActorIdOrSourceInOrderByTimestampDesc(
         eventId: Long,
         actorId: Long,

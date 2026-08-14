@@ -6,10 +6,10 @@ import io.micronaut.security.authentication.Authentication
 
 interface AuditLogger {
 
-    fun info(actor: String, message: String, referenceId: String, reference: Any)
-    fun warning(actor: String, message: String, referenceId: String, reference: Any)
-    fun error(actor: String, message: String, referenceId: String, reference: Any)
-    fun trace(actor: String, message: String, referenceId: String, reference: Any)
+    fun info(actor: String, action: AuditAction, referenceId: String, reference: Any)
+    fun warning(actor: String, action: AuditAction, referenceId: String, reference: Any)
+    fun error(actor: String, action: AuditAction, referenceId: String, reference: Any)
+    fun trace(actor: String, action: AuditAction, referenceId: String, reference: Any)
 
     fun <T : BusinessObject<*>, R : BusinessObjectChangeRequest> traceCreate(
         auth: Authentication,
@@ -30,7 +30,7 @@ interface AuditLogger {
 
     fun <T, R : Any> traceAction(
         auth: Authentication,
-        message: String,
+        action: AuditAction,
         referenceId: String,
         request: R,
         function: () -> T?
@@ -38,7 +38,7 @@ interface AuditLogger {
 
     fun <T> traceAction(
         auth: Authentication,
-        message: String,
+        action: AuditAction,
         referenceId: String,
         function: () -> T?
     ): T?

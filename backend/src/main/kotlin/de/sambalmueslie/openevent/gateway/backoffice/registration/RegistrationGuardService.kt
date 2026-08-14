@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.core.participant.api.ParticipateRequest
 import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import io.micronaut.security.authentication.Authentication
 import jakarta.inject.Singleton
 
@@ -34,7 +35,7 @@ class RegistrationGuardService(
         auth.checkPermission(PERMISSION_ADMIN) {
             val actor = accountService.get(auth) ?: throw InvalidRequestException("Cannot find user account")
             val account = accountService.get(accountId) ?: throw InvalidRequestException("Cannot find account [$accountId]")
-            logger.traceAction(auth, "removeParticipant", id.toString()) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString()) {
                 service.addParticipant(actor, id, account, request)
             }
         }
@@ -42,7 +43,7 @@ class RegistrationGuardService(
     fun addParticipant(auth: Authentication, id: Long, request: ParticipantAddRequest) =
         auth.checkPermission(PERMISSION_ADMIN) {
             val account = accountService.findByEmail(request.email)
-            logger.traceAction(auth, "addParticipant", id.toString(), request) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString(), request) {
                 if (account != null) {
                     service.addParticipant(accountService.find(auth), id, account, ParticipateRequest(request.size, request.note))
                 } else {
@@ -53,14 +54,14 @@ class RegistrationGuardService(
 
     fun changeParticipant(auth: Authentication, id: Long, participantId: Long, request: ParticipateRequest) =
         auth.checkPermission(PERMISSION_ADMIN) {
-            logger.traceAction(auth, "changeParticipant", participantId.toString(), request) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_CHANGED, participantId.toString(), request) {
                 service.changeParticipant(accountService.find(auth), id, participantId, request)
             }
         }
 
     fun removeParticipant(auth: Authentication, id: Long, participantId: Long) =
         auth.checkPermission(PERMISSION_ADMIN) {
-            logger.traceAction(auth, "removeParticipant", participantId.toString()) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, participantId.toString()) {
                 service.removeParticipant(accountService.find(auth), id, participantId)
             }
         }

@@ -3,6 +3,7 @@ package de.sambalmueslie.openevent.infrastructure.metrics
 import de.sambalmueslie.openevent.common.BusinessObject
 import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import de.sambalmueslie.openevent.core.getExternalId
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogger
 import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsProbe
 import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsSource
@@ -30,20 +31,20 @@ internal class MetricsProbeImpl(
         return result
     }
 
-    override fun info(actor: String, message: String, referenceId: String, reference: Any) {
-        logger.info(actor, message, referenceId, reference)
+    override fun info(actor: String, action: AuditAction, referenceId: String, reference: Any) {
+        logger.info(actor, action, referenceId, reference)
     }
 
-    override fun warning(actor: String, message: String, referenceId: String, reference: Any) {
-        logger.warning(actor, message, referenceId, reference)
+    override fun warning(actor: String, action: AuditAction, referenceId: String, reference: Any) {
+        logger.warning(actor, action, referenceId, reference)
     }
 
-    override fun error(actor: String, message: String, referenceId: String, reference: Any) {
-        logger.error(actor, message, referenceId, reference)
+    override fun error(actor: String, action: AuditAction, referenceId: String, reference: Any) {
+        logger.error(actor, action, referenceId, reference)
     }
 
-    override fun trace(actor: String, message: String, referenceId: String, reference: Any) {
-        logger.trace(actor, message, referenceId, reference)
+    override fun trace(actor: String, action: AuditAction, referenceId: String, reference: Any) {
+        logger.trace(actor, action, referenceId, reference)
     }
 
     override fun <T : BusinessObject<*>, R : BusinessObjectChangeRequest> traceCreate(auth: Authentication, request: R, function: () -> T): T {
@@ -58,11 +59,11 @@ internal class MetricsProbeImpl(
         return logger.traceDelete(auth, function)
     }
 
-    override fun <T, R : Any> traceAction(auth: Authentication, message: String, referenceId: String, request: R, function: () -> T?): T? {
-        return logger.traceAction(auth, message, referenceId, request, function)
+    override fun <T, R : Any> traceAction(auth: Authentication, action: AuditAction, referenceId: String, request: R, function: () -> T?): T? {
+        return logger.traceAction(auth, action, referenceId, request, function)
     }
 
-    override fun <T> traceAction(auth: Authentication, message: String, referenceId: String, function: () -> T?): T? {
-        return logger.traceAction(auth, message, referenceId, function)
+    override fun <T> traceAction(auth: Authentication, action: AuditAction, referenceId: String, function: () -> T?): T? {
+        return logger.traceAction(auth, action, referenceId, function)
     }
 }

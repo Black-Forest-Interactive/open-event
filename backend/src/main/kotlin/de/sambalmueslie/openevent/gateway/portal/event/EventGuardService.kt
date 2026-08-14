@@ -13,6 +13,7 @@ import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import de.sambalmueslie.openevent.error.IllegalAccessException
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import de.sambalmueslie.openevent.infrastructure.metrics.MetricsService
 import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsSource
 import io.micronaut.data.model.Page
@@ -85,13 +86,13 @@ class EventGuardService(
     fun cancel(auth: Authentication, id: Long, request: EventCancelRequest): Event? =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "CANCELLED", id.toString(), request) { service.cancel(account, event.id, request.reason) }
+            probe.traceAction(auth, AuditAction.EVENT_CANCELLED, id.toString(), request) { service.cancel(account, event.id, request.reason) }
         }
 
     fun setStatus(auth: Authentication, id: Long, value: EventStatus): Event? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "STATUS", id.toString(), value) {
+            probe.traceAction(auth, AuditAction.EVENT_STATUS_CHANGED, id.toString(), value) {
                 service.setStatus(account, event.id, value)
             }
         }
@@ -100,7 +101,7 @@ class EventGuardService(
     fun setPublished(auth: Authentication, id: Long, value: PatchRequest<Boolean>): Event? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "PUBLISH", id.toString(), value) {
+            probe.traceAction(auth, AuditAction.EVENT_PUBLISH_CHANGED, id.toString(), value) {
                 service.setPublished(account, event.id, value)
             }
         }
@@ -109,7 +110,7 @@ class EventGuardService(
     fun setShared(auth: Authentication, id: Long, value: PatchRequest<Boolean>): EventInfo? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "PUBLISHED", id.toString(), value) {
+            probe.traceAction(auth, AuditAction.EVENT_SHARED_CHANGED, id.toString(), value) {
                 service.setShared(account, event.id, value)
             }
         }
@@ -119,7 +120,7 @@ class EventGuardService(
         return auth.checkPermission(PERMISSION_READ) {
             val account = accountService.find(auth)
             val event = service.get(id) ?: return@checkPermission null
-            probe.traceAction(auth, "BOOKMARK", id.toString()) { service.setBookmarked(account, event) }
+            probe.traceAction(auth, AuditAction.EVENT_BOOKMARK_ADDED, id.toString()) { service.setBookmarked(account, event) }
             service.getInfo(id, account)
         }
     }
@@ -128,7 +129,7 @@ class EventGuardService(
         return auth.checkPermission(PERMISSION_READ) {
             val account = accountService.find(auth)
             val event = service.get(id) ?: return@checkPermission null
-            probe.traceAction(auth, "UNBOOKMARK", id.toString()) { service.clearBookmarked(account, event) }
+            probe.traceAction(auth, AuditAction.EVENT_BOOKMARK_REMOVED, id.toString()) { service.clearBookmarked(account, event) }
             service.getInfo(id, account)
         }
     }
@@ -136,43 +137,43 @@ class EventGuardService(
     fun setTitle(auth: Authentication, id: Long, value: PatchRequest<String>) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "TITLE", id.toString(), value) { service.setTitle(account, event.id, value) }
+            probe.traceAction(auth, AuditAction.EVENT_TITLE_CHANGED, id.toString(), value) { service.setTitle(account, event.id, value) }
         }
 
     fun setShortText(auth: Authentication, id: Long, value: PatchRequest<String>) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "SHORT_TEXT", id.toString(), value) { service.setShortText(account, event.id, value) }
+            probe.traceAction(auth, AuditAction.EVENT_SHORT_TEXT_CHANGED, id.toString(), value) { service.setShortText(account, event.id, value) }
         }
 
     fun setLongText(auth: Authentication, id: Long, value: PatchRequest<String>) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "LONG_TEXT", id.toString(), value) { service.setLongText(account, event.id, value) }
+            probe.traceAction(auth, AuditAction.EVENT_LONG_TEXT_CHANGED, id.toString(), value) { service.setLongText(account, event.id, value) }
         }
 
     fun setTags(auth: Authentication, id: Long, value: PatchRequest<Set<String>>) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "TAGS", id.toString(), value) { service.setTags(account, event.id, value) }
+            probe.traceAction(auth, AuditAction.EVENT_TAGS_CHANGED, id.toString(), value) { service.setTags(account, event.id, value) }
         }
 
     fun setText(auth: Authentication, id: Long, request: EventUpdateTextRequest) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "TEXT", id.toString(), request) { service.setText(account, event.id, request) }
+            probe.traceAction(auth, AuditAction.EVENT_TEXT_CHANGED, id.toString(), request) { service.setText(account, event.id, request) }
         }
 
     fun setCategories(auth: Authentication, id: Long, categoryIds: PatchRequest<Set<Long>>) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "CATEGORIES", id.toString(), categoryIds) { service.setCategories(account, event.id, categoryIds) }
+            probe.traceAction(auth, AuditAction.EVENT_CATEGORIES_CHANGED, id.toString(), categoryIds) { service.setCategories(account, event.id, categoryIds) }
         }
 
     fun setAudiences(auth: Authentication, id: Long, audienceIds: PatchRequest<Set<Long>>) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "AUDIENCES", id.toString(), audienceIds) { service.setAudiences(account, event.id, audienceIds) }
+            probe.traceAction(auth, AuditAction.EVENT_AUDIENCES_CHANGED, id.toString(), audienceIds) { service.setAudiences(account, event.id, audienceIds) }
         }
 
 
@@ -209,7 +210,7 @@ class EventGuardService(
     fun createAnnouncement(auth: Authentication, id: Long, request: AnnouncementChangeRequest) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "announcement", event.id.toString(), request) {
+            probe.traceAction(auth, AuditAction.EVENT_ANNOUNCEMENT_ADDED, event.id.toString(), request) {
                 service.addAnnouncement(account, event.id, request)
             }
         }
@@ -217,7 +218,7 @@ class EventGuardService(
     fun deleteAnnouncement(auth: Authentication, id: Long, announcementId: Long) =
         auth.checkPermission(PERMISSION_WRITE) {
             val (event, account) = getIfAccessible(auth, id) ?: return@checkPermission null
-            probe.traceAction(auth, "DELETE", id.toString(), announcementId) {
+            probe.traceAction(auth, AuditAction.EVENT_ANNOUNCEMENT_REMOVED, id.toString(), announcementId) {
                 service.removeAnnouncement(account, event.id, announcementId)
             }
         }

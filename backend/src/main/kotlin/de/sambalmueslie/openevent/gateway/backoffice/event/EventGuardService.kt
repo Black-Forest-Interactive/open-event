@@ -17,6 +17,7 @@ import de.sambalmueslie.openevent.core.registration.api.Registration
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
@@ -77,21 +78,21 @@ class EventGuardService(
 
     fun setFeatured(auth: Authentication, id: Long, value: PatchRequest<Boolean>) =
         auth.checkPermission(PERMISSION_ADMIN) {
-            logger.traceAction(auth, "FEATURED", id.toString(), value) {
+            logger.traceAction(auth, AuditAction.EVENT_FEATURED_CHANGED, id.toString(), value) {
                 service.setFeatured(accountService.find(auth), id, value)
             }
         }
 
     fun setStatus(auth: Authentication, id: Long, value: EventStatus) =
         auth.checkPermission(PERMISSION_ADMIN) {
-            logger.traceAction(auth, "STATUS", id.toString(), value) {
+            logger.traceAction(auth, AuditAction.EVENT_STATUS_CHANGED, id.toString(), value) {
                 service.setStatus(accountService.find(auth), id, value)
             }
         }
 
     fun setPublished(auth: Authentication, id: Long, value: PatchRequest<Boolean>) =
         auth.checkPermission(PERMISSION_ADMIN) {
-            logger.traceAction(auth, "PUBLISHED", id.toString(), value) {
+            logger.traceAction(auth, AuditAction.EVENT_PUBLISHED_CHANGED, id.toString(), value) {
                 service.setPublished(accountService.find(auth), id, value)
             }
         }

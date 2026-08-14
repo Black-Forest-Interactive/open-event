@@ -435,13 +435,33 @@
   "history": {
     "type": "Audit Log",
     "title": "Überwachungsprotokoll",
+    "search": "Suche nach Akteur oder Nachricht",
+    "noResults": "Keine Veranstaltungen gefunden",
     "table": {
       "timestamp": "Zeitstempel",
       "actor": "Akteur",
       "type": "Typ",
       "message": "Nachricht",
       "source": "Quelle",
-      "info": "Info"
+      "info": "Info",
+      "enum": {
+        "type": {
+          "EVENT_CREATED": "Erstellt",
+          "EVENT_CHANGED": "Geändert",
+          "EVENT_DELETED": "Gelöscht",
+          "PARTICIPANT_STATUS_CHANGED": "Teilnehmerstatus geändert"
+        },
+        "source": {
+          "EVENT": "Veranstaltung",
+          "REGISTRATION": "Anmeldung"
+        }
+      }
+    },
+    "property": {
+      "logId": "Log-ID"
+    },
+    "filter": {
+      "all": "Alle"
     }
   },
   "profile": {

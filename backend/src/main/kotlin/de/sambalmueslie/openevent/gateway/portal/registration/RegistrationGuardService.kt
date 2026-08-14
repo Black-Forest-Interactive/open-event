@@ -14,6 +14,7 @@ import de.sambalmueslie.openevent.core.registration.api.RegistrationDetails
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.gateway.portal.event.EventGuardService
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import io.micronaut.security.authentication.Authentication
 import jakarta.inject.Singleton
 
@@ -42,7 +43,7 @@ class RegistrationGuardService(
     fun addParticipant(auth: Authentication, id: Long, request: ParticipateRequest): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            logger.traceAction(auth, "addParticipant", id.toString(), request) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString(), request) {
                 service.addParticipant(account, id, account, request)
             }
         }
@@ -51,7 +52,7 @@ class RegistrationGuardService(
     fun changeParticipant(auth: Authentication, id: Long, request: ParticipateRequest): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            logger.traceAction(auth, "changeParticipant", id.toString(), request) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_CHANGED, id.toString(), request) {
                 service.changeParticipant(account, id, account, request)
             }
         }
@@ -60,7 +61,7 @@ class RegistrationGuardService(
     fun removeParticipant(auth: Authentication, id: Long): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
-            logger.traceAction(auth, "removeParticipant", id.toString(), "") {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, id.toString(), "") {
                 service.removeParticipant(account, id, account)
             }
         }
@@ -70,7 +71,7 @@ class RegistrationGuardService(
         return auth.checkPermission(PERMISSION_WRITE) {
             val (registration, _, actor) = getIfAccessible(auth, id) ?: return@checkPermission null
             val account = accountService.findByEmail(request.email)
-            logger.traceAction(auth, "addParticipant", id.toString(), request) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString(), request) {
                 if (account != null) {
                     service.addParticipant(actor, registration.id, account, ParticipateRequest(request.size, request.note))
                 } else {
@@ -83,7 +84,7 @@ class RegistrationGuardService(
     fun moderationChangeParticipant(auth: Authentication, id: Long, participantId: Long, request: ParticipateRequest): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (registration, _, actor) = getIfAccessible(auth, id) ?: return@checkPermission null
-            logger.traceAction(auth, "changeParticipant", participantId.toString(), request) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_CHANGED, participantId.toString(), request) {
                 service.changeParticipant(actor, registration.id, participantId, request)
             }
         }
@@ -92,7 +93,7 @@ class RegistrationGuardService(
     fun moderationRemoveParticipant(auth: Authentication, id: Long, participantId: Long): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val (registration, _, actor) = getIfAccessible(auth, id) ?: return@checkPermission null
-            logger.traceAction(auth, "removeParticipant", participantId.toString()) {
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, participantId.toString()) {
                 service.removeParticipant(actor, registration.id, participantId)
             }
         }

@@ -435,13 +435,33 @@
   "history": {
     "type": "Audit Log",
     "title": "Event audit log",
+    "search": "Search by actor or message",
+    "noResults": "No events found",
     "table": {
       "timestamp": "Timestamp",
       "actor": "Actor",
       "type": "Type",
       "message": "Message",
       "source": "Source",
-      "info": "Info"
+      "info": "Info",
+      "enum": {
+        "type": {
+          "EVENT_CREATED": "Created",
+          "EVENT_CHANGED": "Changed",
+          "EVENT_DELETED": "Deleted",
+          "PARTICIPANT_STATUS_CHANGED": "Participant status changed"
+        },
+        "source": {
+          "EVENT": "Event",
+          "REGISTRATION": "Registration"
+        }
+      }
+    },
+    "property": {
+      "logId": "Log ID"
+    },
+    "filter": {
+      "all": "All"
     }
   },
   "profile": {

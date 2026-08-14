@@ -1,73 +1,86 @@
-import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
-import { DatePipe, NgClass } from '@angular/common'
-import { HistoryEventInfo } from '@open-event/core'
-import { Page } from '@open-event/shared'
-import { MatCard } from '@angular/material/card'
-import { MatTableModule } from '@angular/material/table'
-import { MatDivider } from '@angular/material/divider'
-import { MatPaginator, PageEvent } from '@angular/material/paginator'
-import { FormControl, FormGroup } from '@angular/forms'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
+import { DatePipe } from '@angular/common'
 import { HistoryService } from '@open-event/admin'
+import { toPromise } from '@open-event/shared'
+import { MatCard } from '@angular/material/card'
+import { MatIconModule } from '@angular/material/icon'
+import { MatChipsModule } from '@angular/material/chips'
+import { MatPaginator, PageEvent } from '@angular/material/paginator'
+import { TranslatePipe } from '@ngx-translate/core'
 import { BoardComponent } from '../../shared/board/board.component'
+import { BoardSearchComponent } from '@open-event/ui'
 import { HistoryTableComponent } from './history-table/history-table.component'
 
 @Component({
   selector: 'admin-history',
-  imports: [MatCard, NgClass, MatDivider, MatPaginator, MatTableModule, DatePipe, BoardComponent, HistoryTableComponent],
+  imports: [MatCard, MatIconModule, MatChipsModule, MatPaginator, TranslatePipe, DatePipe, BoardComponent, BoardSearchComponent, HistoryTableComponent],
   templateUrl: './history.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './history.component.scss'
 })
-export class HistoryComponent implements OnInit {
-  reloading: boolean = false
-  pageNumber = 0
-  pageSize = 25
-  totalElements = 0
-  displayedColumns: string[] = ['timestamp', 'actor', 'type', 'message', 'source', 'info']
-  keyUp: EventEmitter<string> = new EventEmitter<string>()
-  data: HistoryEventInfo[] = []
-  selected: HistoryEventInfo | undefined
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null)
-  })
+export class HistoryComponent {
+  readonly FILTERS = ['all', 'EVENT_CREATED', 'EVENT_CHANGED', 'EVENT_DELETED', 'PARTICIPANT_STATUS_CHANGED']
+
   private service = inject(HistoryService)
 
-  ngOnInit() {
-    this.reload()
+  private page = signal(0)
+  private size = signal(25)
+  readonly eventQuery = signal('')
+  private criteria = computed(() => ({ page: this.page(), size: this.size(), search: this.eventQuery() }))
+  private eventsResource = resource({
+    params: this.criteria,
+    loader: (p) => toPromise(this.service.getAllHistoryEventInfos(p.params.page, p.params.size, p.params.search), p.abortSignal)
+  })
+  private result = computed(() => this.eventsResource.value())
+
+  readonly events = computed(() => this.result()?.content ?? [])
+  readonly pageNumber = computed(() => this.result()?.pageable.number ?? 0)
+  readonly pageSize = computed(() => this.result()?.pageable.size ?? 25)
+  readonly totalElements = computed(() => this.result()?.totalSize ?? 0)
+  readonly reloading = this.eventsResource.isLoading
+
+  private selectedEventId = signal<number | undefined>(undefined)
+  readonly selected = computed(() => this.events().find((e) => e.event.id === this.selectedEventId()) ?? this.events()[0])
+
+  readonly entryQuery = signal('')
+  readonly typeFilter = signal('all')
+  readonly filteredEntries = computed(() => {
+    const sel = this.selected()
+    if (!sel) return []
+    const type = this.typeFilter()
+    const q = this.entryQuery().trim().toLowerCase()
+    return sel.entries.filter((e) => {
+      if (type !== 'all' && e.type !== type) return false
+      if (!q) return true
+      return e.message.toLowerCase().includes(q) || e.info.toLowerCase().includes(q) || e.actor.name.toLowerCase().includes(q)
+    })
+  })
+
+  selectEvent(id: number) {
+    this.selectedEventId.set(id)
+    this.entryQuery.set('')
+    this.typeFilter.set('all')
+  }
+
+  setEventQuery(query: string) {
+    this.page.set(0)
+    this.eventQuery.set(query)
+  }
+
+  setEntryQuery(query: string) {
+    this.entryQuery.set(query)
+  }
+
+  setTypeFilter(type: string) {
+    this.typeFilter.set(type)
   }
 
   reload() {
-    this.loadPage(this.pageNumber)
+    this.eventsResource.reload()
   }
 
   handlePageChange(event: PageEvent) {
-    if (this.reloading) return
-    this.pageSize = event.pageSize
-    this.loadPage(event.pageIndex)
-  }
-
-  private loadPage(number: number) {
-    if (this.reloading) return
-    this.reloading = true
-
-    this.service.getAllHistoryEventInfos(number, this.pageSize).subscribe((p) => this.handleData(p))
-  }
-
-  private handleData(page: Page<HistoryEventInfo>) {
-    if (page == null) {
-      this.data = []
-      this.pageNumber = 0
-      this.pageSize = 20
-      this.totalElements = 0
-      this.selected = undefined
-    } else {
-      this.data = page.content.filter((d) => d != null)
-      this.pageNumber = page.pageable.number
-      this.pageSize = page.pageable.size
-      this.totalElements = page.totalSize
-      this.selected = this.data[0]
-    }
-    this.reloading = false
+    this.size.set(event.pageSize)
+    this.page.set(event.pageIndex)
   }
 }

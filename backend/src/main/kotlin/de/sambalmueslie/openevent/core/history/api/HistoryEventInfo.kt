@@ -1,8 +1,8 @@
 package de.sambalmueslie.openevent.core.history.api
 
-import de.sambalmueslie.openevent.core.event.api.Event
+import de.sambalmueslie.openevent.core.search.api.EventSearchEntry
 
 data class HistoryEventInfo(
-    val event: Event,
+    val event: EventSearchEntry,
     val entries: List<HistoryEntry>
 )

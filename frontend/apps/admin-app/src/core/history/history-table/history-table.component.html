@@ -2,32 +2,46 @@
 
     <ng-container matColumnDef="timestamp">
         <th *matHeaderCellDef mat-header-cell> {{ 'history.table.timestamp' | translate }}</th>
-        <td *matCellDef="let element" mat-cell> {{ element.timestamp | date:'medium' }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="actor">
-        <th *matHeaderCellDef mat-header-cell> {{ 'history.table.actor' | translate }}</th>
-        <td *matCellDef="let element" mat-cell> {{ element.actor | accountDisplayName }}</td>
+        <td *matCellDef="let element" mat-cell>
+            <span class="whitespace-nowrap">{{ element.timestamp | date:'dd.MM.yy, HH:mm:ss' }}</span>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
         <th *matHeaderCellDef mat-header-cell> {{ 'history.table.type' | translate }}</th>
-        <td *matCellDef="let element" mat-cell> {{ element.type }}</td>
+        <td *matCellDef="let element" mat-cell>
+            <mat-chip [class]="typeClass(element.type)" disableRipple>
+                <mat-icon matChipAvatar>{{ typeIcon(element.type) }}</mat-icon>
+                {{ ('history.table.enum.type.' + element.type) | translate }}
+            </mat-chip>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="message">
         <th *matHeaderCellDef mat-header-cell> {{ 'history.table.message' | translate }}</th>
-        <td *matCellDef="let element" mat-cell> {{ element.message }}</td>
+        <td *matCellDef="let element" mat-cell>
+            <span [matTooltip]="element.message" class="text-sm truncate block" style="color: var(--mat-sys-on-surface-variant)">{{ element.message }}</span>
+        </td>
     </ng-container>
 
-    <ng-container matColumnDef="source">
-        <th *matHeaderCellDef mat-header-cell> {{ 'history.table.source' | translate }}</th>
-        <td *matCellDef="let element" mat-cell> {{ element.source }}</td>
+    <ng-container matColumnDef="actor">
+        <th *matHeaderCellDef mat-header-cell> {{ 'history.table.actor' | translate }}</th>
+        <td *matCellDef="let element" mat-cell>
+            <div class="flex items-center gap-2 min-w-0">
+                <lib-avatar [name]="element.actor | accountDisplayName" size="sm"/>
+                <span class="truncate">{{ element.actor | accountDisplayName }}</span>
+            </div>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="info">
         <th *matHeaderCellDef mat-header-cell> {{ 'history.table.info' | translate }}</th>
-        <td *matCellDef="let element" mat-cell> {{ element.info }}</td>
+        <td *matCellDef="let element" mat-cell>
+            <span [matTooltip]="element.info || (('history.table.enum.source.' + element.source) | translate)"
+                  class="text-sm truncate block" style="color: var(--mat-sys-on-surface-variant)">
+                {{ element.info || (('history.table.enum.source.' + element.source) | translate) }}
+            </span>
+        </td>
     </ng-container>
 
     <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>

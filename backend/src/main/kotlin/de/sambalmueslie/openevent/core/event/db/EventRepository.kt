@@ -28,4 +28,6 @@ interface EventRepository : DataObjectRepository<Long, EventData> {
 
     fun findByStatusAndFinishBefore(status: EventStatus, timestamp: LocalDateTime, pageable: Pageable): Page<EventData>
 
+    fun findByTitleContainingIgnoreCaseOrderByStart(title: String, pageable: Pageable): Page<EventData>
+
 }
