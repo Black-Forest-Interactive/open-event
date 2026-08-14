@@ -1,19 +1,19 @@
-<admin-board (reload)="reload()" [reloading]="loading()" [showSearch]="false" title="metrics.type">
+<admin-board (reload)="reload()" [reloading]="loading()" [showSearch]="false" title="metrics.type" class="font-['Figtree'] text-[#1c241d] antialiased">
   <board-toolbar-actions>
     <button (click)="recalculateWeekly()" [disabled]="recalculating()" matButton="outlined">
-      <mat-icon [class.spin]="recalculating()">autorenew</mat-icon>
+      <mat-icon [class.animate-spin]="recalculating()">autorenew</mat-icon>
       {{ 'metrics.action.recalculateWeekly' | translate }}
     </button>
   </board-toolbar-actions>
 
-  <board-filters>
-    <div class="metrics-filter-inner">
-      <div class="metrics-filter-label">
-        <mat-icon>filter_list</mat-icon>
+  <board-filters class="block w-full">
+    <div class="flex items-center gap-3.5 flex-wrap py-2 w-full max-w-[1440px] mx-auto">
+      <div class="flex items-center gap-1.5 text-[#737d6f] font-semibold text-[13px] uppercase tracking-[0.05em]">
+        <mat-icon class="w-[18px]! h-[18px]! text-[18px]!">filter_list</mat-icon>
         <span>{{ 'metrics.filter.period' | translate }}</span>
       </div>
-      <div class="metrics-date-chip">
-        <mat-icon>date_range</mat-icon>
+      <div class="inline-flex items-center gap-[7px] px-3 py-1.5 bg-[#f3f5ec] border border-[#e4e7da] rounded-[9px] font-semibold text-sm text-[#1c241d]">
+        <mat-icon class="w-4! h-4! text-[16px]! text-[#2e7d32]!">date_range</mat-icon>
         {{ dateLabel() }}
       </div>
       <mat-chip-listbox>
@@ -34,138 +34,138 @@
           {{ monthReference | date: 'MMMM' }}
         </mat-chip-option>
       </mat-chip-listbox>
-      <button (click)="reset()" class="metrics-reset" matButton="text">
+      <button (click)="reset()" class="ml-auto" matButton="text">
         <mat-icon>restart_alt</mat-icon>
         {{ 'metrics.filter.reset' | translate }}
       </button>
     </div>
   </board-filters>
 
-  <div class="metrics-content">
-  <p class="metrics-subtitle">{{ 'metrics.subtitle' | translate }}</p>
+  <div class="max-w-[1440px] w-full mx-auto">
+  <p class="m-0 mb-4 text-[#737d6f] text-sm">{{ 'metrics.subtitle' | translate }}</p>
 
-  <section class="metrics-kpis">
-      <div class="kpi-card">
-        <div class="kpi-head">
-          <span class="kpi-label">{{ 'metrics.kpi.totalViews' | translate }}</span>
-          <span class="kpi-icon kpi-icon-green">
+  <section class="grid grid-cols-5 max-[1100px]:grid-cols-2 gap-3.5 mb-5">
+      <div class="bg-white border border-[#e4e7da] rounded-[14px] p-[18px] shadow-[0_1px_2px_rgba(20,30,20,0.04)] flex flex-col gap-3.5">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold text-[12.5px] text-[#737d6f] uppercase tracking-[0.04em]">{{ 'metrics.kpi.totalViews' | translate }}</span>
+          <span class="w-[34px] h-[34px] rounded-[9px] inline-flex items-center justify-center text-[#2e7d32] bg-[#eaf3ea]">
             <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
               <path d="M2 12c2.5-4.5 6-7 10-7s7.5 2.5 10 7c-2.5 4.5-6 7-10 7s-7.5-2.5-10-7Z M12 9a3 3 0 100 6 3 3 0 000-6Z"></path>
             </svg>
           </span>
         </div>
         <div>
-          <div class="kpi-value">{{ kpis().totalViews | number }}</div>
-          <div class="kpi-sub">{{ 'metrics.kpi.inPeriod' | translate }}</div>
+          <div class="font-bold text-[32px] tracking-[-0.02em] leading-none [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ kpis().totalViews | number }}</div>
+          <div class="mt-1.5 text-[12.5px] text-[#9aa394]">{{ 'metrics.kpi.inPeriod' | translate }}</div>
         </div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-head">
-          <span class="kpi-label">{{ 'metrics.kpi.uniqueViews' | translate }}</span>
-          <span class="kpi-icon kpi-icon-amber">
+      <div class="bg-white border border-[#e4e7da] rounded-[14px] p-[18px] shadow-[0_1px_2px_rgba(20,30,20,0.04)] flex flex-col gap-3.5">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold text-[12.5px] text-[#737d6f] uppercase tracking-[0.04em]">{{ 'metrics.kpi.uniqueViews' | translate }}</span>
+          <span class="w-[34px] h-[34px] rounded-[9px] inline-flex items-center justify-center text-[#b6820f] bg-[#f7eed8]">
             <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
               <path d="M12 12a4 4 0 100-8 4 4 0 000 8Z M5 20a7 7 0 0114 0"></path>
             </svg>
           </span>
         </div>
         <div>
-          <div class="kpi-value">{{ kpis().uniqueViews | number }}</div>
-          <div class="kpi-sub">{{ 'metrics.kpi.distinctVisitors' | translate }}</div>
+          <div class="font-bold text-[32px] tracking-[-0.02em] leading-none [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ kpis().uniqueViews | number }}</div>
+          <div class="mt-1.5 text-[12.5px] text-[#9aa394]">{{ 'metrics.kpi.distinctVisitors' | translate }}</div>
         </div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-head">
-          <span class="kpi-label">{{ 'metrics.kpi.registrations' | translate }}</span>
-          <span class="kpi-icon kpi-icon-green">
+      <div class="bg-white border border-[#e4e7da] rounded-[14px] p-[18px] shadow-[0_1px_2px_rgba(20,30,20,0.04)] flex flex-col gap-3.5">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold text-[12.5px] text-[#737d6f] uppercase tracking-[0.04em]">{{ 'metrics.kpi.registrations' | translate }}</span>
+          <span class="w-[34px] h-[34px] rounded-[9px] inline-flex items-center justify-center text-[#2e7d32] bg-[#eaf3ea]">
             <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
               <path d="M12 3l7 3v5c0 4-3 7.5-7 9-4-1.5-7-5-7-9V6l7-3Z M9 12l2 2 4-4"></path>
             </svg>
           </span>
         </div>
         <div>
-          <div class="kpi-value">{{ kpis().totalParticipants | number }}</div>
-          <div class="kpi-sub">{{ 'metrics.kpi.confirmedParticipants' | translate }}</div>
+          <div class="font-bold text-[32px] tracking-[-0.02em] leading-none [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ kpis().totalParticipants | number }}</div>
+          <div class="mt-1.5 text-[12.5px] text-[#9aa394]">{{ 'metrics.kpi.confirmedParticipants' | translate }}</div>
         </div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-head">
-          <span class="kpi-label">{{ 'metrics.kpi.utilization' | translate }}</span>
-          <span class="kpi-icon kpi-icon-green">
+      <div class="bg-white border border-[#e4e7da] rounded-[14px] p-[18px] shadow-[0_1px_2px_rgba(20,30,20,0.04)] flex flex-col gap-3.5">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold text-[12.5px] text-[#737d6f] uppercase tracking-[0.04em]">{{ 'metrics.kpi.utilization' | translate }}</span>
+          <span class="w-[34px] h-[34px] rounded-[9px] inline-flex items-center justify-center text-[#2e7d32] bg-[#eaf3ea]">
             <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
               <path d="M4 19a8 8 0 1116 0 M12 19l4.5-5.5"></path>
             </svg>
           </span>
         </div>
         <div>
-          <div class="kpi-value">{{ kpis().utilization }}%</div>
-          <div class="kpi-sub">{{ kpis().totalParticipants }} {{ 'metrics.kpi.of' | translate }} {{ kpis().totalSeats }} {{ 'metrics.kpi.seats' | translate }}</div>
+          <div class="font-bold text-[32px] tracking-[-0.02em] leading-none [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ kpis().utilization }}%</div>
+          <div class="mt-1.5 text-[12.5px] text-[#9aa394]">{{ kpis().totalParticipants }} {{ 'metrics.kpi.of' | translate }} {{ kpis().totalSeats }} {{ 'metrics.kpi.seats' | translate }}</div>
         </div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-head">
-          <span class="kpi-label">{{ 'metrics.kpi.avgViewsPerEvent' | translate }}</span>
-          <span class="kpi-icon kpi-icon-amber">
+      <div class="bg-white border border-[#e4e7da] rounded-[14px] p-[18px] shadow-[0_1px_2px_rgba(20,30,20,0.04)] flex flex-col gap-3.5">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold text-[12.5px] text-[#737d6f] uppercase tracking-[0.04em]">{{ 'metrics.kpi.avgViewsPerEvent' | translate }}</span>
+          <span class="w-[34px] h-[34px] rounded-[9px] inline-flex items-center justify-center text-[#b6820f] bg-[#f7eed8]">
             <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
               <path d="M3 16l5-4 4 3 8-8 M21 7v4 M21 7h-4"></path>
             </svg>
           </span>
         </div>
         <div>
-          <div class="kpi-value">{{ kpis().avgViews | number: '1.0-1' }}</div>
-          <div class="kpi-sub">{{ kpis().eventCount }} {{ 'metrics.kpi.activeEvents' | translate }}</div>
+          <div class="font-bold text-[32px] tracking-[-0.02em] leading-none [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ kpis().avgViews | number: '1.0-1' }}</div>
+          <div class="mt-1.5 text-[12.5px] text-[#9aa394]">{{ kpis().eventCount }} {{ 'metrics.kpi.activeEvents' | translate }}</div>
         </div>
       </div>
     </section>
 
-    <section class="metrics-sources-card">
-      <div class="sources-head">
-        <h2 class="section-title">{{ 'metrics.sources.title' | translate }}</h2>
-        <div class="sources-legend">
+    <section class="bg-white border border-[#e4e7da] rounded-[14px] px-[22px] py-[18px] mb-5 shadow-[0_1px_2px_rgba(20,30,20,0.04)] flex flex-col gap-3.5">
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <h2 class="m-0 font-semibold text-[17px] font-['Space_Grotesk']">{{ 'metrics.sources.title' | translate }}</h2>
+        <div class="flex items-center gap-[22px] flex-wrap">
           @for (s of sourcesSummary(); track s.source) {
-            <span class="source-item">
-              <span [class]="'source-dot source-dot-' + s.source"></span>
-              <span class="source-name">{{ 'metrics.source.' + s.source | translate }}</span>
-              <span class="source-total">{{ s.total | number }}</span>
-              <span class="source-pct">· {{ s.pct }}%</span>
+            <span class="inline-flex items-center gap-2 text-[13px]">
+              <span [class]="'w-[11px] h-[11px] rounded-[3px] flex-none inline-block ' + (s.source === 'PORTAL' ? 'bg-[#2e7d32]' : 'bg-[#d18c1f]')"></span>
+              <span class="font-semibold text-[13px] text-[#1c241d]">{{ 'metrics.source.' + s.source | translate }}</span>
+              <span class="font-semibold text-[15px] [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ s.total | number }}</span>
+              <span class="text-[#9aa394]">· {{ s.pct }}%</span>
             </span>
           }
         </div>
       </div>
-      <div class="sources-bar">
+      <div class="flex h-[14px] rounded-[7px] overflow-hidden bg-[#eef1e6]">
         @for (s of sourcesSummary(); track s.source) {
-          <div [class]="'source-bar-fill source-bar-fill-' + s.source" [style.width.%]="s.pct"></div>
+          <div [class]="'h-full ' + (s.source === 'PORTAL' ? 'bg-[#2e7d32]' : 'bg-[#d18c1f]')" [style.width.%]="s.pct"></div>
         }
       </div>
     </section>
 
-    <section class="metrics-chart-card">
-      <div class="chart-head">
+    <section class="bg-white border border-[#e4e7da] rounded-[14px] pt-5 px-[22px] pb-3 mb-5 shadow-[0_1px_2px_rgba(20,30,20,0.04)]">
+      <div class="flex items-center justify-between gap-4 flex-wrap mb-2">
         <div>
-          <h2 class="section-title">{{ 'metrics.chart.title' | translate }}</h2>
-          <p class="section-subtitle">{{ 'metrics.chart.subtitle' | translate }}</p>
+          <h2 class="m-0 font-semibold text-[17px] font-['Space_Grotesk']">{{ 'metrics.chart.title' | translate }}</h2>
+          <p class="mt-1 mx-0 mb-0 text-[#9aa394] text-[13px]">{{ 'metrics.chart.subtitle' | translate }}</p>
         </div>
-        <div class="chart-controls">
-          <div class="chart-legend">
-            <span class="legend-item">
-              <span class="legend-dot legend-dot-total"></span>{{ 'metrics.chart.total' | translate }}
+        <div class="flex items-center gap-[18px]">
+          <div class="flex items-center gap-4 text-[13px] text-[#737d6f]">
+            <span class="inline-flex items-center gap-[7px]">
+              <span class="w-3.5 h-[3px] rounded-[2px] inline-block bg-[#2e7d32]"></span>{{ 'metrics.chart.total' | translate }}
             </span>
-            <button (click)="toggleUnique()" [class.inactive]="!showUnique()" class="legend-toggle" matButton="text">
-              <span class="legend-dot legend-dot-unique"></span>{{ 'metrics.chart.unique' | translate }}
+            <button (click)="toggleUnique()" [class]="'inline-flex items-center gap-[7px] min-w-0! h-auto p-0! font-normal text-[13px] tracking-normal normal-case ' + (!showUnique() ? 'text-[#c2c9b7] opacity-[0.55] line-through' : 'text-[#737d6f]')" matButton="text">
+              <span class="w-3.5 h-[3px] rounded-[2px] inline-block bg-[#d18c1f]"></span>{{ 'metrics.chart.unique' | translate }}
             </button>
           </div>
-          <div class="gran-toggle">
-            <button (click)="setGranularity('day')" [class.active]="granularity() === 'day'" matButton="text">{{ 'metrics.table.daily' | translate }}</button>
-            <button (click)="setGranularity('week')" [class.active]="granularity() === 'week'" matButton="text">{{ 'metrics.table.weekly' | translate }}</button>
+          <div class="inline-flex bg-[#f3f5ec] border border-[#e4e7da] rounded-[9px] p-[3px]">
+            <button (click)="setGranularity('day')" [class]="'min-w-0! h-auto py-[7px]! px-[15px]! rounded-[7px] font-semibold text-[13px] tracking-normal normal-case transition-all duration-150 ' + (granularity() === 'day' ? 'bg-white text-[#2e7d32] shadow-[0_1px_3px_rgba(20,30,20,0.12)]' : 'bg-transparent text-[#737d6f]')" matButton="text">{{ 'metrics.table.daily' | translate }}</button>
+            <button (click)="setGranularity('week')" [class]="'min-w-0! h-auto py-[7px]! px-[15px]! rounded-[7px] font-semibold text-[13px] tracking-normal normal-case transition-all duration-150 ' + (granularity() === 'week' ? 'bg-white text-[#2e7d32] shadow-[0_1px_3px_rgba(20,30,20,0.12)]' : 'bg-transparent text-[#737d6f]')" matButton="text">{{ 'metrics.table.weekly' | translate }}</button>
           </div>
         </div>
       </div>
 
-      <div class="chart-area">
-        <svg (mouseleave)="onChartLeave()" (mousemove)="onChartMove($event)" style="width:100%;height:auto;display:block;overflow:visible;" viewBox="0 0 1000 340">
+      <div class="relative w-full">
+        <svg (mouseleave)="onChartLeave()" (mousemove)="onChartMove($event)" class="w-full h-auto block overflow-visible" viewBox="0 0 1000 340">
           @for (t of yTicks(); track t.label) {
             <line [attr.y1]="t.y" [attr.y2]="t.y" stroke="#eef1e6" stroke-width="1" x1="46" x2="978"></line>
             <text [attr.y]="t.ty" fill="#b3bba9" font-family="Figtree,sans-serif" font-size="13" text-anchor="end" x="38">{{ t.label }}</text>
@@ -188,111 +188,111 @@
         </svg>
 
         @if (hoverActive()) {
-          <div [style.left.%]="hover()!.leftPct" [style.top.%]="hover()!.topPct" class="chart-tooltip">
-            <div class="tooltip-date">{{ hover()!.date }}</div>
-            <div class="tooltip-row">
-              <span class="tooltip-dot tooltip-dot-total"></span>
-              <span class="tooltip-key">{{ 'metrics.chart.total' | translate }}</span>
-              <span class="tooltip-val">{{ hover()!.total | number }}</span>
+          <div [style.left.%]="hover()!.leftPct" [style.top.%]="hover()!.topPct" class="absolute -translate-x-1/2 -translate-y-[115%] bg-white border border-[#e4e7da] rounded-[10px] px-3 py-2.5 min-w-[150px] pointer-events-none shadow-[0_8px_24px_rgba(20,30,20,0.12)] z-[5] animate-[om-fade_0.12s_ease]">
+            <div class="font-semibold text-xs text-[#9aa394] mb-1.5">{{ hover()!.date }}</div>
+            <div class="flex items-center gap-[7px] text-[13px] mt-[3px] first:mt-0">
+              <span class="w-2 h-2 rounded-[2px] bg-[#2e7d32]"></span>
+              <span class="text-[#737d6f]">{{ 'metrics.chart.total' | translate }}</span>
+              <span class="ml-auto font-semibold text-[13px] font-['Space_Grotesk']">{{ hover()!.total | number }}</span>
             </div>
             @if (showUnique()) {
-              <div class="tooltip-row">
-                <span class="tooltip-dot tooltip-dot-unique"></span>
-                <span class="tooltip-key">{{ 'metrics.chart.unique' | translate }}</span>
-                <span class="tooltip-val">{{ hover()!.unique | number }}</span>
+              <div class="flex items-center gap-[7px] text-[13px] mt-[3px] first:mt-0">
+                <span class="w-2 h-2 rounded-[2px] bg-[#d18c1f]"></span>
+                <span class="text-[#737d6f]">{{ 'metrics.chart.unique' | translate }}</span>
+                <span class="ml-auto font-semibold text-[13px] font-['Space_Grotesk']">{{ hover()!.unique | number }}</span>
               </div>
             }
           </div>
         }
 
         @if (chartEmpty()) {
-          <div class="chart-empty">{{ 'metrics.chart.empty' | translate }}</div>
+          <div class="absolute inset-0 flex items-center justify-center text-[#b3bba9] text-sm pointer-events-none">{{ 'metrics.chart.empty' | translate }}</div>
         }
       </div>
     </section>
 
-    <section class="metrics-table-card">
-      <div class="table-head">
-        <h2 class="section-title">{{ 'metrics.table.allEvents' | translate }}</h2>
-        <span class="table-count">{{ eventCountLabel() }} {{ 'metrics.table.events' | translate }}</span>
+    <section class="bg-white border border-[#e4e7da] rounded-[14px] shadow-[0_1px_2px_rgba(20,30,20,0.04)] overflow-hidden">
+      <div class="flex items-center justify-between px-[22px] py-[18px] border-b border-[#eef1e6]">
+        <h2 class="m-0 font-semibold text-[17px] font-['Space_Grotesk']">{{ 'metrics.table.allEvents' | translate }}</h2>
+        <span class="text-[13px] text-[#9aa394]">{{ eventCountLabel() }} {{ 'metrics.table.events' | translate }}</span>
       </div>
 
-      <div class="table-header-row">
+      <div class="grid [grid-template-columns:2.4fr_1fr_0.9fr_0.9fr_1.3fr_1.5fr] max-[1100px]:[grid-template-columns:2fr_1fr_1fr_1fr] items-center gap-3 px-[22px] py-3 bg-[#fafbf5] border-b border-[#eef1e6] font-semibold text-xs text-[#9aa394] uppercase tracking-[0.04em]">
         <div>{{ 'metrics.table.event' | translate }}</div>
         <div>{{ 'metrics.table.date' | translate }}</div>
-        <div (click)="setSort('total')" class="sortable">{{ 'metrics.table.total' | translate }} {{ sortArrow('total') }}</div>
-        <div (click)="setSort('unique')" class="sortable">{{ 'metrics.table.unique' | translate }} {{ sortArrow('unique') }}</div>
-        <div (click)="setSort('participants')" class="sortable">{{ 'metrics.table.registrations' | translate }} {{ sortArrow('participants') }}</div>
-        <div>{{ 'metrics.table.utilization' | translate }}</div>
+        <div (click)="setSort('total')" class="cursor-pointer select-none flex items-center gap-1 hover:text-[#2e7d32]">{{ 'metrics.table.total' | translate }} {{ sortArrow('total') }}</div>
+        <div (click)="setSort('unique')" class="cursor-pointer select-none flex items-center gap-1 hover:text-[#2e7d32]">{{ 'metrics.table.unique' | translate }} {{ sortArrow('unique') }}</div>
+        <div (click)="setSort('participants')" class="cursor-pointer select-none flex items-center gap-1 hover:text-[#2e7d32] max-[1100px]:hidden">{{ 'metrics.table.registrations' | translate }} {{ sortArrow('participants') }}</div>
+        <div class="max-[1100px]:hidden">{{ 'metrics.table.utilization' | translate }}</div>
       </div>
 
       @for (row of sortedRows(); track row.id) {
-        <div class="table-row-wrap">
-          <div (click)="toggleExpand(row.id)" class="table-row">
-            <div class="cell-event">
-              <span [class.dot-active]="row.status === 'ACTIVE'" [class.dot-inactive]="row.status !== 'ACTIVE'" class="event-dot"></span>
-              <div class="cell-event-text">
-                <div class="event-title">{{ row.title }}</div>
-                <span [class.badge-active]="row.status === 'ACTIVE'" [class.badge-inactive]="row.status !== 'ACTIVE'" class="event-badge">{{ 'metrics.status.' + row.status | translate }}</span>
+        <div class="border-b border-[#f2f4ea]">
+          <div (click)="toggleExpand(row.id)" class="grid [grid-template-columns:2.4fr_1fr_0.9fr_0.9fr_1.3fr_1.5fr] max-[1100px]:[grid-template-columns:2fr_1fr_1fr_1fr] items-center gap-3 px-[22px] py-4 cursor-pointer transition-colors duration-[120ms] hover:bg-[#fafbf5]">
+            <div class="flex items-center gap-[11px] min-w-0">
+              <span [class]="'w-[9px] h-[9px] rounded-full flex-none ' + (row.status === 'ACTIVE' ? 'bg-[#2e7d32]' : 'bg-[#c25b4c]')"></span>
+              <div class="min-w-0">
+                <div class="font-semibold text-[15px] whitespace-nowrap overflow-hidden text-ellipsis">{{ row.title }}</div>
+                <span [class]="'inline-block mt-[3px] px-[9px] py-0.5 rounded-full text-[11.5px] font-semibold ' + (row.status === 'ACTIVE' ? 'bg-[#eaf3ea] text-[#2e7d32]' : 'bg-[#f6e7e4] text-[#b23b2e]')">{{ 'metrics.status.' + row.status | translate }}</span>
               </div>
             </div>
-            <div class="cell-date">{{ row.date | date: 'mediumDate' }}</div>
-            <div class="cell-total">{{ row.total | number }}</div>
-            <div class="cell-unique">{{ row.unique | number }}</div>
-            <div class="cell-participants">
-              <span>{{ row.participants.length }}</span>
-              <svg [class.chevron-open]="isExpanded(row.id)" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+            <div class="text-sm text-[#737d6f] [font-variant-numeric:tabular-nums]">{{ row.date | date: 'mediumDate' }}</div>
+            <div class="font-semibold text-base [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ row.total | number }}</div>
+            <div class="font-semibold text-base text-[#737d6f] [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ row.unique | number }}</div>
+            <div class="flex items-center gap-[9px] max-[1100px]:hidden">
+              <span class="font-semibold text-sm [font-variant-numeric:tabular-nums] font-['Space_Grotesk']">{{ row.participants.length }}</span>
+              <svg [class]="'text-[#737d6f] transition-transform duration-200' + (isExpanded(row.id) ? ' rotate-180' : '')" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
                 <path d="M6 9l6 6 6-6"></path>
               </svg>
             </div>
-            <div class="cell-utilization">
-              <div class="util-labels">
+            <div class="flex flex-col gap-[5px] max-[1100px]:hidden">
+              <div class="flex justify-between text-xs text-[#9aa394]">
                 <span>{{ row.participants.length }} / {{ row.seats }}</span>
-                <span class="util-pct">{{ row.utilPct }}%</span>
+                <span class="font-semibold text-[#737d6f]">{{ row.utilPct }}%</span>
               </div>
-              <div class="util-track">
-                <div [style.width.%]="row.utilPct" class="util-bar" [class.util-bar-inactive]="row.status !== 'ACTIVE'"></div>
+              <div class="h-1.5 rounded-[4px] bg-[#eef1e6] overflow-hidden">
+                <div [style.width.%]="row.utilPct" [class]="'h-full rounded-[4px] transition-[width] duration-300 ' + (row.status === 'ACTIVE' ? 'bg-[#2e7d32]' : 'bg-[#c9a24a]')"></div>
               </div>
             </div>
           </div>
 
           @if (isExpanded(row.id)) {
-            <div class="expand-panel">
+            <div class="pt-2 pr-[22px] pb-5 pl-[42px] bg-[#fafbf5] grid grid-cols-2 max-[1100px]:grid-cols-1 gap-7">
               <div>
-                <div class="expand-heading">{{ 'metrics.sources.title' | translate }}</div>
-                <div class="row-sources-list">
+                <div class="font-semibold text-xs text-[#9aa394] uppercase tracking-[0.04em] mt-2 mb-3">{{ 'metrics.sources.title' | translate }}</div>
+                <div class="flex flex-col gap-[11px]">
                   @for (s of row.sources; track s.source) {
-                    <div class="row-source">
-                      <span [class]="'source-dot source-dot-' + s.source"></span>
-                      <span class="row-source-name">{{ 'metrics.source.' + s.source | translate }}</span>
-                      <div class="row-source-track">
-                        <div [class]="'row-source-bar row-source-bar-' + s.source" [style.width.%]="row.total ? (s.total / row.total) * 100 : 0"></div>
+                    <div class="flex items-center gap-[11px]">
+                      <span [class]="'w-[11px] h-[11px] rounded-[3px] flex-none inline-block ' + (s.source === 'PORTAL' ? 'bg-[#2e7d32]' : 'bg-[#d18c1f]')"></span>
+                      <span class="font-semibold text-sm w-[66px] flex-none">{{ 'metrics.source.' + s.source | translate }}</span>
+                      <div class="flex-1 h-1.5 rounded-[4px] bg-[#eef1e6] overflow-hidden">
+                        <div [class]="'h-full ' + (s.source === 'PORTAL' ? 'bg-[#2e7d32]' : 'bg-[#d18c1f]')" [style.width.%]="row.total ? (s.total / row.total) * 100 : 0"></div>
                       </div>
-                      <span class="row-source-total">{{ s.total | number }}</span>
-                      <span class="row-source-unique">{{ s.unique | number }} unique</span>
+                      <span class="font-semibold text-sm [font-variant-numeric:tabular-nums] font-['Space_Grotesk'] w-[26px] text-right flex-none">{{ s.total | number }}</span>
+                      <span class="text-[12.5px] text-[#9aa394] whitespace-nowrap w-[66px] flex-none">{{ s.unique | number }} unique</span>
                     </div>
                   }
                 </div>
               </div>
               <div>
-                <div class="expand-heading">{{ 'metrics.table.participants' | translate }} · {{ row.participants.length }}</div>
+                <div class="font-semibold text-xs text-[#9aa394] uppercase tracking-[0.04em] mt-2 mb-3">{{ 'metrics.table.participants' | translate }} · {{ row.participants.length }}</div>
                 @if (row.participants.length) {
-                  <div class="participants-list">
+                  <div class="flex flex-col gap-2">
                     @for (p of row.participants; track p.id) {
-                      <div class="participant-row">
-                        <span class="participant-avatar">{{ initials(p.author.name) }}</span>
-                        <div class="participant-text">
-                          <div class="participant-name">{{ p.author.name }}</div>
-                          <div class="participant-email">{{ p.author.email }}</div>
+                      <div class="flex items-center gap-3 bg-white border border-[#e4e7da] rounded-[10px] px-3.5 py-2.5">
+                        <span class="w-[34px] h-[34px] rounded-full bg-[#eaf3ea] text-[#2e7d32] inline-flex items-center justify-center font-semibold text-[13px] flex-none font-['Space_Grotesk']">{{ initials(p.author.name) }}</span>
+                        <div class="min-w-0">
+                          <div class="font-semibold text-sm">{{ p.author.name }}</div>
+                          <div class="text-[12.5px] text-[#9aa394]">{{ p.author.email }}</div>
                         </div>
-                        <span class="participant-status">{{ 'registration.table.enum.' + p.status | translate }}</span>
-                        <span class="participant-when">{{ p.timestamp | date: 'medium' }}</span>
+                        <span class="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#eaf3ea] text-[#2e7d32] font-semibold text-xs">{{ 'registration.table.enum.' + p.status | translate }}</span>
+                        <span class="text-[12.5px] text-[#b3bba9] whitespace-nowrap">{{ p.timestamp | date: 'medium' }}</span>
                       </div>
                     }
                   </div>
                 } @else {
-                  <div class="no-participants">
-                    <mat-icon>group</mat-icon>
+                  <div class="flex items-center gap-2.5 text-[#b3bba9] text-sm py-1.5">
+                    <mat-icon class="w-[18px]! h-[18px]! text-[18px]!">group</mat-icon>
                     {{ 'metrics.table.noParticipants' | translate }}
                   </div>
                 }
