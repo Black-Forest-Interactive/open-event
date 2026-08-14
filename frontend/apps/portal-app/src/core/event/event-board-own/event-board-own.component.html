@@ -6,6 +6,12 @@
 <div class="sticky top-0 z-10 px-3 py-2 sm:px-4 border-b bg-surface-container-lowest border-outline-variant">
     <div class="flex items-center gap-2">
         <lib-board-search (searchChange)="setQuery($event)" class="flex-auto max-w-lg" data-tour="event-search" placeholder="event.search"></lib-board-search>
+        @if (mobileView()) {
+            <button (click)="openFilter()" [matBadgeHidden]="activeFilterCount() === 0" [matBadge]="activeFilterCount()" data-tour="event-filter" matIconButton
+                    matBadgeColor="accent" matBadgeSize="small">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        }
         @if (!mobileView()) {
             <button color="accent" matButton="filled" routerLink="../create" class="shrink-0" data-tour="event-create">
                 <mat-icon>add</mat-icon>
@@ -17,8 +23,21 @@
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
-<div class="p-4 pb-20 lg:pb-4 max-w-[1600px]">
-    <portal-event-board-list [entries]="entries()" [reloading]="reloading()" layout="rows" navView="own" [hasMoreElements]="hasMoreElements()" (nearEnd)="onScroll()" (refresh)="reload()"></portal-event-board-list>
+<div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4 max-w-[1600px]">
+    @if (!mobileView()) {
+        <div class="basis-80 shrink-0 flex flex-col gap-3" data-tour="event-filter">
+            <portal-event-board-filter [isDiscover]="false" [categoryFilter]="categoryFilter()" [audienceFilter]="audienceFilter()" [showHistory]="showHistory()" [showAvailableOnly]="false" (dateRangeChanged)="setDateRange($event)" (toggleHistory)="toggleHistory()" (toggleCategory)="toggleCategory($event)" (toggleAudience)="toggleAudience($event)" (resetFilter)="resetFilter()"></portal-event-board-filter>
+        </div>
+    }
+    <div class="min-w-0 flex-auto">
+        <portal-event-board-list [entries]="entries()" [reloading]="reloading()" layout="rows" navView="own" [hasMoreElements]="hasMoreElements()" (nearEnd)="onScroll()" (refresh)="reload()"></portal-event-board-list>
+    </div>
 </div>
+
+<ng-template #filterSheet>
+    <div class="px-4 pt-4 pb-6">
+        <portal-event-board-filter [isDiscover]="false" [categoryFilter]="categoryFilter()" [audienceFilter]="audienceFilter()" [showHistory]="showHistory()" [showAvailableOnly]="false" (dateRangeChanged)="setDateRange($event)" (toggleHistory)="toggleHistory()" (toggleCategory)="toggleCategory($event)" (toggleAudience)="toggleAudience($event)" (resetFilter)="resetFilter()"></portal-event-board-filter>
+    </div>
+</ng-template>
 
 <portal-event-board-navbar></portal-event-board-navbar>
