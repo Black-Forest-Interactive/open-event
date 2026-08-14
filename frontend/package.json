@@ -32,7 +32,6 @@
     "keycloak-js": "^26.2.4",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
-    "logrocket": "^12.1.1",
     "luxon": "^3.7.2",
     "ngx-echarts": "^22.0.0",
     "ngx-gravatar": "^13.0.0",

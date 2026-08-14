@@ -5,4 +5,5 @@ import io.micronaut.security.authentication.Authentication
 
 interface MetricsProbe : AuditLogger {
     fun <T> traceAccess(auth: Authentication, resource: Long, function: () -> T): T
+    fun <T> traceAccess(identity: String, resource: Long, function: () -> T): T
 }

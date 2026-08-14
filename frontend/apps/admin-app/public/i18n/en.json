@@ -662,6 +662,66 @@
       }
     }
   },
+  "metrics": {
+    "type": "Metrics",
+    "title": "Metrics",
+    "subtitle": "Views, reach and registrations of your events at a glance.",
+    "action": {
+      "recalculateWeekly": "Recalculate weekly stats",
+      "refresh": "Refresh"
+    },
+    "message": {
+      "recalculateWeeklySuccess": "Weekly stats recalculated",
+      "recalculateWeeklyError": "Failed to recalculate weekly stats"
+    },
+    "filter": {
+      "period": "Period",
+      "today": "Today",
+      "thisWeek": "This week",
+      "nextWeek": "Next week",
+      "reset": "Reset"
+    },
+    "kpi": {
+      "totalViews": "Total views",
+      "inPeriod": "in period",
+      "uniqueViews": "Unique visitors",
+      "distinctVisitors": "distinct people",
+      "registrations": "Registrations",
+      "confirmedParticipants": "confirmed participants",
+      "utilization": "Utilization",
+      "of": "of",
+      "seats": "seats",
+      "avgViewsPerEvent": "Avg. views / event",
+      "activeEvents": "active events"
+    },
+    "chart": {
+      "title": "Views over time",
+      "subtitle": "Page views of the event pages in the selected period",
+      "total": "Total",
+      "unique": "Unique",
+      "empty": "No views in the selected period"
+    },
+    "table": {
+      "allEvents": "All events",
+      "events": "events",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "event": "Event",
+      "date": "Date",
+      "week": "Week",
+      "total": "Views",
+      "unique": "Unique",
+      "registrations": "Registrations",
+      "utilization": "Utilization",
+      "participants": "Participants"
+    },
+    "status": {
+      "DRAFT": "Draft",
+      "ACTIVE": "Active",
+      "CANCELED": "Canceled",
+      "ENDED": "Ended"
+    }
+  },
   "feedback": {
     "type": "Feedback",
     "dialog": {

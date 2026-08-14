@@ -8,8 +8,11 @@ import java.time.LocalDate
 
 @Repository
 @JdbcRepository(dialect = Dialect.POSTGRES)
-interface MetricsRepository : PageableRepository<MetricsData, String> {
+interface WeeklyMetricsRepository : PageableRepository<WeeklyMetricsData, String> {
 
     fun deleteByTimestampLessThan(timestamp: LocalDate): Long
+
+    fun findByTypeAndActionAndTimestampBetween(type: String, action: String,  from: LocalDate, to: LocalDate): List<WeeklyMetricsData>
+    fun findByTypeAndActionAndResourceAndTimestampBetween(type: String, action: String, resource: Long, from: LocalDate, to: LocalDate): List<WeeklyMetricsData>
 
 }

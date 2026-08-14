@@ -43,7 +43,11 @@ export class DashboardService {
     },
     {
       title: 'nav.group.monitoring',
-      items: [new NavItem('/history', 'history.type', 'history', [Roles.HISTORY_ADMIN]), new NavItem('/issue', 'issue.type', 'bug_report', [Roles.ISSUE_ADMIN])]
+      items: [
+        new NavItem('/history', 'history.type', 'history', [Roles.HISTORY_ADMIN]),
+        new NavItem('/issue', 'issue.type', 'bug_report', [Roles.ISSUE_ADMIN]),
+        new NavItem('/metrics', 'metrics.type', 'monitoring', [Roles.METRICS_ADMIN])
+      ]
     }
   ]
 

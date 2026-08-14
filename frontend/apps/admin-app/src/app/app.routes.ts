@@ -88,6 +88,12 @@ export const appRoutes: Route[] = [
     canActivate: [canActivateAuthRole],
     data: { roles: [Roles.FEEDBACK_ADMIN] }
   },
+  {
+    path: 'metrics',
+    loadChildren: () => import('../core/metrics/metrics.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.METRICS_ADMIN] }
+  },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent }
 ]

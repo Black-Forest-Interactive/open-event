@@ -5,22 +5,28 @@ import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import de.sambalmueslie.openevent.core.getExternalId
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogger
 import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsProbe
-import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
+import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsSource
 import io.micronaut.security.authentication.Authentication
 
 
 internal class MetricsProbeImpl(
-    private val service: MetricsService,
-    private val timeProvider: TimeProvider,
-    private val source: String,
+    private val writer: BufferedMetricsWriter,
+    private val source: MetricsSource,
+    private val type: String,
     private val logger: AuditLogger
 ) : MetricsProbe {
 
+    companion object {
+        const val ACTION = "access"
+    }
 
 
-    override fun <T> traceAccess(auth: Authentication, resource: Long, function: () -> T): T {
+    override fun <T> traceAccess(auth: Authentication, resource: Long, function: () -> T): T =
+        traceAccess(auth.getExternalId(), resource, function)
+
+    override fun <T> traceAccess(identity: String, resource: Long, function: () -> T): T {
         val result = function.invoke()
-        service.addMetricsEntry(source, "access", auth.getExternalId(), resource, timeProvider.now())
+        writer.add(source, type, ACTION, identity, resource)
         return result
     }
 

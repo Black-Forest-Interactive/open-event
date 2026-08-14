@@ -1,0 +1,258 @@
+<admin-board (reload)="reload()" [reloading]="loading()" [showSearch]="false" title="metrics.type">
+  <board-toolbar-actions>
+    <button (click)="recalculateWeekly()" [disabled]="recalculating()" matButton="outlined">
+      <mat-icon [class.spin]="recalculating()">autorenew</mat-icon>
+      {{ 'metrics.action.recalculateWeekly' | translate }}
+    </button>
+  </board-toolbar-actions>
+
+  <board-filters>
+    <div class="metrics-filter-inner">
+      <div class="metrics-filter-label">
+        <mat-icon>filter_list</mat-icon>
+        <span>{{ 'metrics.filter.period' | translate }}</span>
+      </div>
+      <div class="metrics-date-chip">
+        <mat-icon>date_range</mat-icon>
+        {{ dateLabel() }}
+      </div>
+      <mat-chip-listbox>
+        <mat-chip-option (selectionChange)="onPresetChange($event, 'today')" [selected]="preset() === 'today'" value="today">
+          <mat-icon matChipAvatar>today</mat-icon>
+          {{ 'metrics.filter.today' | translate }}
+        </mat-chip-option>
+        <mat-chip-option (selectionChange)="onPresetChange($event, 'week')" [selected]="preset() === 'week'" value="week">
+          <mat-icon matChipAvatar>date_range</mat-icon>
+          {{ 'metrics.filter.thisWeek' | translate }}
+        </mat-chip-option>
+        <mat-chip-option (selectionChange)="onPresetChange($event, 'nextweek')" [selected]="preset() === 'nextweek'" value="nextweek">
+          <mat-icon matChipAvatar>next_week</mat-icon>
+          {{ 'metrics.filter.nextWeek' | translate }}
+        </mat-chip-option>
+        <mat-chip-option (selectionChange)="onPresetChange($event, 'month')" [selected]="preset() === 'month'" value="month">
+          <mat-icon matChipAvatar>calendar_month</mat-icon>
+          {{ monthReference | date: 'MMMM' }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+      <button (click)="reset()" class="metrics-reset" matButton="text">
+        <mat-icon>restart_alt</mat-icon>
+        {{ 'metrics.filter.reset' | translate }}
+      </button>
+    </div>
+  </board-filters>
+
+  <p class="metrics-subtitle">{{ 'metrics.subtitle' | translate }}</p>
+
+  <section class="metrics-kpis">
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">{{ 'metrics.kpi.totalViews' | translate }}</span>
+          <span class="kpi-icon kpi-icon-green">
+            <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
+              <path d="M2 12c2.5-4.5 6-7 10-7s7.5 2.5 10 7c-2.5 4.5-6 7-10 7s-7.5-2.5-10-7Z M12 9a3 3 0 100 6 3 3 0 000-6Z"></path>
+            </svg>
+          </span>
+        </div>
+        <div>
+          <div class="kpi-value">{{ kpis().totalViews | number }}</div>
+          <div class="kpi-sub">{{ 'metrics.kpi.inPeriod' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">{{ 'metrics.kpi.uniqueViews' | translate }}</span>
+          <span class="kpi-icon kpi-icon-amber">
+            <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
+              <path d="M12 12a4 4 0 100-8 4 4 0 000 8Z M5 20a7 7 0 0114 0"></path>
+            </svg>
+          </span>
+        </div>
+        <div>
+          <div class="kpi-value">{{ kpis().uniqueViews | number }}</div>
+          <div class="kpi-sub">{{ 'metrics.kpi.distinctVisitors' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">{{ 'metrics.kpi.registrations' | translate }}</span>
+          <span class="kpi-icon kpi-icon-green">
+            <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
+              <path d="M12 3l7 3v5c0 4-3 7.5-7 9-4-1.5-7-5-7-9V6l7-3Z M9 12l2 2 4-4"></path>
+            </svg>
+          </span>
+        </div>
+        <div>
+          <div class="kpi-value">{{ kpis().totalParticipants | number }}</div>
+          <div class="kpi-sub">{{ 'metrics.kpi.confirmedParticipants' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">{{ 'metrics.kpi.utilization' | translate }}</span>
+          <span class="kpi-icon kpi-icon-green">
+            <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
+              <path d="M4 19a8 8 0 1116 0 M12 19l4.5-5.5"></path>
+            </svg>
+          </span>
+        </div>
+        <div>
+          <div class="kpi-value">{{ kpis().utilization }}%</div>
+          <div class="kpi-sub">{{ kpis().totalParticipants }} {{ 'metrics.kpi.of' | translate }} {{ kpis().totalSeats }} {{ 'metrics.kpi.seats' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-head">
+          <span class="kpi-label">{{ 'metrics.kpi.avgViewsPerEvent' | translate }}</span>
+          <span class="kpi-icon kpi-icon-amber">
+            <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24" width="18">
+              <path d="M3 16l5-4 4 3 8-8 M21 7v4 M21 7h-4"></path>
+            </svg>
+          </span>
+        </div>
+        <div>
+          <div class="kpi-value">{{ kpis().avgViews | number: '1.0-1' }}</div>
+          <div class="kpi-sub">{{ kpis().eventCount }} {{ 'metrics.kpi.activeEvents' | translate }}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics-chart-card">
+      <div class="chart-head">
+        <div>
+          <h2 class="section-title">{{ 'metrics.chart.title' | translate }}</h2>
+          <p class="section-subtitle">{{ 'metrics.chart.subtitle' | translate }}</p>
+        </div>
+        <div class="chart-controls">
+          <div class="chart-legend">
+            <span class="legend-item">
+              <span class="legend-dot legend-dot-total"></span>{{ 'metrics.chart.total' | translate }}
+            </span>
+            <button (click)="toggleUnique()" [class.inactive]="!showUnique()" class="legend-toggle" matButton="text">
+              <span class="legend-dot legend-dot-unique"></span>{{ 'metrics.chart.unique' | translate }}
+            </button>
+          </div>
+          <div class="gran-toggle">
+            <button (click)="setGranularity('day')" [class.active]="granularity() === 'day'" matButton="text">{{ 'metrics.table.daily' | translate }}</button>
+            <button (click)="setGranularity('week')" [class.active]="granularity() === 'week'" matButton="text">{{ 'metrics.table.weekly' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-area">
+        <svg (mouseleave)="onChartLeave()" (mousemove)="onChartMove($event)" style="width:100%;height:auto;display:block;overflow:visible;" viewBox="0 0 1000 340">
+          @for (t of yTicks(); track t.label) {
+            <line [attr.y1]="t.y" [attr.y2]="t.y" stroke="#eef1e6" stroke-width="1" x1="46" x2="978"></line>
+            <text [attr.y]="t.ty" fill="#b3bba9" font-family="Figtree,sans-serif" font-size="13" text-anchor="end" x="38">{{ t.label }}</text>
+          }
+          @for (t of xTicks(); track t.i) {
+            <text [attr.x]="t.x" fill="#b3bba9" font-family="Figtree,sans-serif" font-size="13" text-anchor="middle" y="330">{{ t.label }}</text>
+          }
+          <path [attr.d]="areaPath()" fill="rgba(46,125,50,0.08)" stroke="none"></path>
+          @if (showUnique()) {
+            <path [attr.d]="uniquePath()" fill="none" stroke="#d18c1f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+          }
+          <path [attr.d]="totalPath()" fill="none" stroke="#2e7d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+          @if (hoverActive()) {
+            <line [attr.x1]="hover()!.x" [attr.x2]="hover()!.x" stroke="#c7cebb" stroke-dasharray="4 4" stroke-width="1" y1="22" y2="306"></line>
+            <circle [attr.cx]="hover()!.x" [attr.cy]="hover()!.totalY" fill="#2e7d32" r="5" stroke="#fff" stroke-width="2"></circle>
+            @if (showUnique()) {
+              <circle [attr.cx]="hover()!.x" [attr.cy]="hover()!.uniqueY" fill="#d18c1f" r="5" stroke="#fff" stroke-width="2"></circle>
+            }
+          }
+        </svg>
+
+        @if (hoverActive()) {
+          <div [style.left.%]="hover()!.leftPct" [style.top.%]="hover()!.topPct" class="chart-tooltip">
+            <div class="tooltip-date">{{ hover()!.date }}</div>
+            <div class="tooltip-row">
+              <span class="tooltip-dot tooltip-dot-total"></span>
+              <span class="tooltip-key">{{ 'metrics.chart.total' | translate }}</span>
+              <span class="tooltip-val">{{ hover()!.total | number }}</span>
+            </div>
+            @if (showUnique()) {
+              <div class="tooltip-row">
+                <span class="tooltip-dot tooltip-dot-unique"></span>
+                <span class="tooltip-key">{{ 'metrics.chart.unique' | translate }}</span>
+                <span class="tooltip-val">{{ hover()!.unique | number }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        @if (chartEmpty()) {
+          <div class="chart-empty">{{ 'metrics.chart.empty' | translate }}</div>
+        }
+      </div>
+    </section>
+
+    <section class="metrics-table-card">
+      <div class="table-head">
+        <h2 class="section-title">{{ 'metrics.table.allEvents' | translate }}</h2>
+        <span class="table-count">{{ eventCountLabel() }} {{ 'metrics.table.events' | translate }}</span>
+      </div>
+
+      <div class="table-header-row">
+        <div>{{ 'metrics.table.event' | translate }}</div>
+        <div>{{ 'metrics.table.date' | translate }}</div>
+        <div (click)="setSort('total')" class="sortable">{{ 'metrics.table.total' | translate }} {{ sortArrow('total') }}</div>
+        <div (click)="setSort('unique')" class="sortable">{{ 'metrics.table.unique' | translate }} {{ sortArrow('unique') }}</div>
+        <div (click)="setSort('participants')" class="sortable">{{ 'metrics.table.registrations' | translate }} {{ sortArrow('participants') }}</div>
+        <div>{{ 'metrics.table.utilization' | translate }}</div>
+      </div>
+
+      @for (row of sortedRows(); track row.id) {
+        <div class="table-row-wrap">
+          <div (click)="toggleExpand(row.id)" class="table-row">
+            <div class="cell-event">
+              <span [class.dot-active]="row.status === 'ACTIVE'" [class.dot-inactive]="row.status !== 'ACTIVE'" class="event-dot"></span>
+              <div class="cell-event-text">
+                <div class="event-title">{{ row.title }}</div>
+                <span [class.badge-active]="row.status === 'ACTIVE'" [class.badge-inactive]="row.status !== 'ACTIVE'" class="event-badge">{{ 'metrics.status.' + row.status | translate }}</span>
+              </div>
+            </div>
+            <div class="cell-date">{{ row.date | date: 'mediumDate' }}</div>
+            <div class="cell-total">{{ row.total | number }}</div>
+            <div class="cell-unique">{{ row.unique | number }}</div>
+            <div class="cell-participants">
+              <span>{{ row.participants.length }}</span>
+              <svg [class.chevron-open]="isExpanded(row.id)" [class.chevron-disabled]="!row.participants.length" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </div>
+            <div class="cell-utilization">
+              <div class="util-labels">
+                <span>{{ row.participants.length }} / {{ row.seats }}</span>
+                <span class="util-pct">{{ row.utilPct }}%</span>
+              </div>
+              <div class="util-track">
+                <div [style.width.%]="row.utilPct" class="util-bar" [class.util-bar-inactive]="row.status !== 'ACTIVE'"></div>
+              </div>
+            </div>
+          </div>
+
+          @if (isExpanded(row.id)) {
+            <div class="participants-panel">
+              <div class="participants-heading">{{ 'metrics.table.participants' | translate }} · {{ row.participants.length }}</div>
+              <div class="participants-list">
+                @for (p of row.participants; track p.id) {
+                  <div class="participant-row">
+                    <span class="participant-avatar">{{ initials(p.author.name) }}</span>
+                    <div class="participant-text">
+                      <div class="participant-name">{{ p.author.name }}</div>
+                      <div class="participant-email">{{ p.author.email }}</div>
+                    </div>
+                    <span class="participant-status">{{ 'registration.table.enum.' + p.status | translate }}</span>
+                    <span class="participant-when">{{ p.timestamp | date: 'medium' }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </section>
+</admin-board>

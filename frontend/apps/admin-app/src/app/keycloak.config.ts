@@ -10,7 +10,7 @@ import {
 import { environment } from '../environments/environment'
 
 // Only attach the bearer token to our own backend API (relative `api/` path, same-origin),
-// never to third-party hosts (map tiles, gravatar, logrocket, keycloak itself).
+// never to third-party hosts (map tiles, gravatar, keycloak itself).
 const apiCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
   urlPattern: /^(https?:\/\/[^/]+)?\/?api\//,
   bearerPrefix: 'Bearer'

@@ -22,6 +22,8 @@ export * from './lib/issue/issue.service'
 
 export * from './lib/mail/mail.service'
 
+export * from './lib/metrics/metrics.service'
+
 export * from './lib/notification/notification.model'
 export * from './lib/notification/notification.service'
 

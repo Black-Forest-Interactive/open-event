@@ -14,6 +14,7 @@ import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import de.sambalmueslie.openevent.error.IllegalAccessException
 import de.sambalmueslie.openevent.infrastructure.metrics.MetricsService
+import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsSource
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.server.types.files.SystemFile
@@ -34,7 +35,7 @@ class EventGuardService(
         private const val PERMISSION_WRITE = "event.write"
     }
 
-    private val probe = metrics.getProbe("APP Event API", Event::class)
+    private val probe = metrics.getProbe(MetricsSource.PORTAL, "APP Event API", Event::class)
 
     fun search(auth: Authentication, request: EventSearchRequest, pageable: Pageable): EventSearchResponse {
         return auth.checkPermission(PERMISSION_READ) {

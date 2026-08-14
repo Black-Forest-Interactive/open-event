@@ -56,4 +56,6 @@ export class Roles {
   public static ISSUE_ADMIN = 'issue.admin'
 
   public static FEEDBACK_ADMIN = 'feedback.admin'
+
+  public static METRICS_ADMIN = 'metrics.admin'
 }

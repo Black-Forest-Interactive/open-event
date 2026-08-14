@@ -662,6 +662,66 @@
       }
     }
   },
+  "metrics": {
+    "type": "Metrics",
+    "title": "Metrics",
+    "subtitle": "Aufrufe, Reichweite und Anmeldungen deiner Veranstaltungen im Überblick.",
+    "action": {
+      "recalculateWeekly": "Wochenstatistik neu berechnen",
+      "refresh": "Aktualisieren"
+    },
+    "message": {
+      "recalculateWeeklySuccess": "Wochenstatistik wurde neu berechnet",
+      "recalculateWeeklyError": "Wochenstatistik konnte nicht neu berechnet werden"
+    },
+    "filter": {
+      "period": "Zeitraum",
+      "today": "Heute",
+      "thisWeek": "Diese Woche",
+      "nextWeek": "Nächste Woche",
+      "reset": "Zurücksetzen"
+    },
+    "kpi": {
+      "totalViews": "Gesamt-Aufrufe",
+      "inPeriod": "im Zeitraum",
+      "uniqueViews": "Unique-Besucher",
+      "distinctVisitors": "eindeutige Personen",
+      "registrations": "Anmeldungen",
+      "confirmedParticipants": "bestätigte Teilnehmer",
+      "utilization": "Auslastung",
+      "of": "von",
+      "seats": "Plätzen",
+      "avgViewsPerEvent": "Ø Aufrufe / Event",
+      "activeEvents": "Events aktiv"
+    },
+    "chart": {
+      "title": "Aufrufe über Zeit",
+      "subtitle": "Seitenaufrufe der Event-Seiten im gewählten Zeitraum",
+      "total": "Gesamt",
+      "unique": "Unique",
+      "empty": "Keine Aufrufe im gewählten Zeitraum"
+    },
+    "table": {
+      "allEvents": "Alle Events",
+      "events": "Events",
+      "daily": "Täglich",
+      "weekly": "Wöchentlich",
+      "event": "Event",
+      "date": "Datum",
+      "week": "Woche",
+      "total": "Aufrufe",
+      "unique": "Unique",
+      "registrations": "Anmeldungen",
+      "utilization": "Auslastung",
+      "participants": "Teilnehmer"
+    },
+    "status": {
+      "DRAFT": "Entwurf",
+      "ACTIVE": "Aktiv",
+      "CANCELED": "Abgesagt",
+      "ENDED": "Beendet"
+    }
+  },
   "feedback": {
     "type": "Feedback",
     "property": {

@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.gateway.external.event
 
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.event.EventCrudService
+import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.link.LinkCrudService
 import de.sambalmueslie.openevent.core.participant.ExternalParticipantService
@@ -12,6 +13,8 @@ import de.sambalmueslie.openevent.core.search.event.EventSearchEntryData
 import de.sambalmueslie.openevent.core.share.ShareCrudService
 import de.sambalmueslie.openevent.core.share.api.Share
 import de.sambalmueslie.openevent.gateway.external.account.toPublicAccount
+import de.sambalmueslie.openevent.infrastructure.metrics.MetricsService
+import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsSource
 import de.sambalmueslie.openevent.infrastructure.settings.SettingsService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -30,16 +33,18 @@ class ExternalEventService(
     private val searchService: SearchService,
     private val participantService: ExternalParticipantService,
     private val settingsService: SettingsService,
-    private val accountService: AccountCrudService
+    private val accountService: AccountCrudService,
+    metrics: MetricsService
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(ExternalEventService::class.java)
     }
 
+    private val probe = metrics.getProbe(MetricsSource.EXTERNAL, "EXTERNAL Event API", Event::class)
 
-    fun getPublicEvent(id: String): PublicEvent? {
+    fun getPublicEvent(id: String, visitorId: String): PublicEvent? {
         val (share, event) = getEvent(id) ?: return null
-        return event.toPublicEvent(share)
+        return probe.traceAccess(visitorId, event.event.id) { event.toPublicEvent(share) }
     }
 
     fun getSettings(): EventParticipationSettings {
