@@ -27,6 +27,12 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.metrics-content {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .metrics-subtitle {
   margin: 0 0 16px;
   color: #737d6f;
@@ -40,6 +46,11 @@
 
 // filter bar (projected into board-filters)
 
+board-filters {
+  display: block;
+  width: 100%;
+}
+
 .metrics-filter-inner {
   display: flex;
   align-items: center;
@@ -47,6 +58,8 @@
   flex-wrap: wrap;
   padding: 8px 0;
   width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .metrics-filter-label {
