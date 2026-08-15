@@ -1,67 +1,89 @@
-<admin-board-card title="event.details.info">
-    <div class="flex flex-col gap-3 p-4">
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.id' | translate }}</div>
-            <div>{{ event().event.id }}</div>
-        </div>
+<mat-card>
+    <div class="flex flex-col p-5 gap-5">
 
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.title' | translate }}</div>
-            <div>{{ event().event.title }}</div>
-        </div>
-
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.shortText' | translate }}</div>
-            <div>{{ event().event.shortText }}</div>
-        </div>
-
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.longText' | translate }}</div>
-            <div [innerHtml]=" event().event.longText "></div>
-        </div>
-
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.published' | translate }}</div>
-            <div>
-                <lib-event-published-icon [event]="event().event"></lib-event-published-icon>
-            </div>
-        </div>
-
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.shared' | translate }}</div>
-            <div>
-                <lib-event-shared-icon [event]="event()"></lib-event-shared-icon>
-            </div>
-        </div>
-
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.tags' | translate }}</div>
+        @if (categories().length > 0) {
             <div class="flex flex-row gap-2 flex-wrap">
-                @for (tag of event().event.tags; track tag) {
-                    <div class="px-3 py-1 rounded-xl bg-gray-300">{{ tag }}</div>
+                @for (category of categories(); track category.id) {
+                    <lib-category-chip [iconUrl]="category.iconUrl" [name]="category.name"></lib-category-chip>
                 }
-            </div>
-        </div>
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.categories' | translate }}</div>
-            <div class="flex flex-row gap-2 flex-wrap">
-                @for (category of event().categories; track category.id) {
-                    <div class="px-3 py-1 rounded-xl bg-gray-300">{{ category.name }}</div>
-                }
-            </div>
-        </div>
-
-        <div class="flex flex-row gap-2 justify-between content-center">
-            <div>{{ 'event.property.created' | translate }}</div>
-            <div>{{ event().event.created | date:'medium' }}</div>
-        </div>
-
-        @if (event().event.changed) {
-            <div class="flex flex-row gap-2 justify-between content-center">
-                <div>{{ 'event.property.changed' | translate }}</div>
-                <div>{{ event().event.changed | date:'medium' }}</div>
             </div>
         }
 
+        <div class="grid gap-3" style="grid-template-columns: repeat(auto-fit, minmax(190px, 1fr))">
+            <div class="flex flex-row items-center gap-3 p-3 rounded-xl" style="background: var(--mat-sys-surface-container-low)">
+                <span class="inline-flex items-center justify-center rounded-full shrink-0" style="width: 40px; height: 40px; background: var(--mat-sys-primary-container); color: var(--mat-sys-on-primary-container)">
+                    <mat-icon>calendar_month</mat-icon>
+                </span>
+                <div class="flex flex-col min-w-0">
+                    <div class="font-medium truncate">{{ start() | date:'EEEE, d. MMM y' }}</div>
+                    <div class="text-xs" style="color: var(--mat-sys-on-surface-variant)">{{ 'event.property.when' | translate }}</div>
+                </div>
+            </div>
+            <div class="flex flex-row items-center gap-3 p-3 rounded-xl" style="background: var(--mat-sys-surface-container-low)">
+                <span class="inline-flex items-center justify-center rounded-full shrink-0" style="width: 40px; height: 40px; background: var(--mat-sys-primary-container); color: var(--mat-sys-on-primary-container)">
+                    <mat-icon>schedule</mat-icon>
+                </span>
+                <div class="flex flex-col min-w-0">
+                    <div class="font-medium">{{ start() | date:'HH:mm' }} – {{ finish() | date:'HH:mm' }}</div>
+                    <div class="text-xs" style="color: var(--mat-sys-on-surface-variant)">{{ 'event.property.duration' | translate:{ minutes: durationMinutes() } }}</div>
+                </div>
+            </div>
+            @if (hasLocation() && location()) {
+                <div class="flex flex-row items-center gap-3 p-3 rounded-xl" style="background: var(--mat-sys-surface-container-low)">
+                    <span class="inline-flex items-center justify-center rounded-full shrink-0" style="width: 40px; height: 40px; background: var(--mat-sys-primary-container); color: var(--mat-sys-on-primary-container)">
+                        <mat-icon>location_on</mat-icon>
+                    </span>
+                    <div class="flex flex-col min-w-0">
+                        <div class="font-medium truncate">{{ location()?.street }} {{ location()?.streetNumber }}</div>
+                        <div class="text-xs truncate" style="color: var(--mat-sys-on-surface-variant)">{{ location()?.zip }} {{ location()?.city }}</div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="border-t" style="border-color: var(--mat-sys-outline-variant)"></div>
+
+        <div class="flex flex-col gap-3">
+            <h2 class="text-lg font-medium m-0">{{ 'event.details.host' | translate }}</h2>
+            <div class="flex flex-row items-center gap-3">
+                <lib-avatar [name]="owner().name"></lib-avatar>
+                <div class="flex flex-col flex-1 min-w-0">
+                    <div class="font-medium truncate">{{ owner().name }}</div>
+                    <div class="text-sm truncate" style="color: var(--mat-sys-on-surface-variant)">{{ owner().email }}</div>
+                </div>
+                <a [href]="mailtoOwner()" matButton="outlined">
+                    <mat-icon>mail</mat-icon>
+                    {{ 'event.action.mailOwner' | translate }}
+                </a>
+            </div>
+        </div>
+
+        <div class="border-t" style="border-color: var(--mat-sys-outline-variant)"></div>
+
+        <div class="flex flex-col gap-2">
+            <h2 class="text-lg font-medium m-0">{{ 'event.property.longText' | translate }}</h2>
+            @if (shortText()) {
+                <p class="m-0 font-medium">{{ shortText() }}</p>
+            }
+            <div [innerHtml]="longText()" class="max-w-3xl" style="color: var(--mat-sys-on-surface-variant)"></div>
+            <div class="flex flex-row flex-wrap gap-x-5 gap-y-2 mt-2 text-sm" style="color: var(--mat-sys-on-surface-variant)">
+                <span>{{ 'event.property.created' | translate }}: {{ created() | date:'medium' }}</span>
+                @if (changed()) {
+                    <span>{{ 'event.property.changed' | translate }}: {{ changed() | date:'medium' }}</span>
+                }
+                <span class="inline-flex items-center gap-1">
+                    {{ 'event.property.published' | translate }}
+                    <lib-event-published-icon [event]="event().event"></lib-event-published-icon>
+                </span>
+                @if (tags().length > 0) {
+                    <span class="flex flex-row flex-wrap gap-2">
+                        @for (tag of tags(); track tag) {
+                            <span class="px-2 py-0.5 rounded-full" style="background: var(--mat-sys-surface-container-high)">#{{ tag }}</span>
+                        }
+                    </span>
+                }
+            </div>
+        </div>
+
     </div>
-</admin-board-card>
+</mat-card>

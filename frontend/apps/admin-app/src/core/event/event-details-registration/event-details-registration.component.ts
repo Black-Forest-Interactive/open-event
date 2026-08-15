@@ -1,10 +1,10 @@
 import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, ParticipateResponse } from '@open-event/core'
-import { BoardCardComponent, BoardCardToolbarActions } from '../../../shared/board-card/board-card.component'
 import { RegistrationTableComponent } from '../../registration/registration-table/registration-table.component'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
+import { MatCard } from '@angular/material/card'
 import { MatDialog } from '@angular/material/dialog'
 import { RegistrationParticipantAddManualDialogComponent } from '../../registration/registration-participant-add-manual-dialog/registration-participant-add-manual-dialog.component'
 import { RegistrationParticipantAddAccountDialogComponent } from '../../registration/registration-participant-add-account-dialog/registration-participant-add-account-dialog.component'
@@ -12,7 +12,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
 
 @Component({
   selector: 'admin-event-details-registration',
-  imports: [BoardCardComponent, RegistrationTableComponent, BoardCardToolbarActions, MatButton, MatIcon, TranslatePipe],
+  imports: [RegistrationTableComponent, MatButton, MatIcon, MatCard, TranslatePipe],
   templateUrl: './event-details-registration.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-registration.component.scss'

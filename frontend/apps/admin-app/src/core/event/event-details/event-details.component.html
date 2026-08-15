@@ -1,53 +1,47 @@
 <admin-board (back)="back()" (reload)="reload()" [reloading]="loading()" [showBack]="true" [showSearch]="false"
              title="event.title">
     <board-toolbar-actions class="flex flex-row gap-2">
-        @if (!loading()) {
+        @if (!loading() && event()) {
             <admin-event-publish-button [data]="event()!!.event"></admin-event-publish-button>
         }
-        <admin-export-event-button [event]="event()!!.event"></admin-export-event-button>
-        @for (item of menu.menuItems; track item) {
-            <button (click)="item.handleClick()" class="action-fab" mat-mini-fab>
-                <mat-icon>{{ item.icon }}</mat-icon>
-            </button>
-        }
     </board-toolbar-actions>
-    <div class="flex flex-col gap-4 p-4 content-stretch ">
-        @if (event()) {
-            <div class="flex flex-row gap-6">
-                <div class="flex flex-col gap-4 content-stretch basis-1/4">
-                    <admin-event-details-info [event]="event()!!"></admin-event-details-info>
-                </div>
-                <div class="rounded-lg border-gray-500 border flex-auto">
-                    <mat-tab-group>
-                        <mat-tab>
-                            <ng-template mat-tab-label>
-                                <mat-icon>map</mat-icon>
-                                <span class="px-2">{{ 'event.details.location' | translate }}</span>
-                            </ng-template>
-                            <admin-event-details-location [event]="event()!!"></admin-event-details-location>
-                        </mat-tab>
-                        <mat-tab>
-                            <ng-template mat-tab-label>
-                                <mat-icon class="pe-2">group</mat-icon>
-                                <span class="px-2">{{ 'event.details.registration' | translate }}</span>
-                            </ng-template>
-                            <admin-event-details-registration (changeResponse)="reload()"
-                                                              [event]="event()!!"></admin-event-details-registration>
-                        </mat-tab>
-                        <mat-tab>
-                            <ng-template mat-tab-label>
-                                <mat-icon class="pe-2">history</mat-icon>
-                                <span class="px-2">{{ 'event.details.history' | translate }}</span>
-                            </ng-template>
-                            <admin-event-details-history [event]="event()!!"></admin-event-details-history>
-                        </mat-tab>
-                    </mat-tab-group>
-                </div>
+    @if (event(); as info) {
+        <div class="grid gap-6 items-start" style="grid-template-columns: minmax(0, 1fr) 340px">
+
+            <div class="flex flex-col gap-6 min-w-0">
+                <admin-event-details-info [event]="info"></admin-event-details-info>
+                <admin-event-details-registration (changeResponse)="reload()" [event]="info"></admin-event-details-registration>
+                <admin-event-details-history [event]="info"></admin-event-details-history>
             </div>
-        }
-    </div>
+
+            <div class="flex flex-col gap-6">
+                <admin-event-details-actions (changed)="reload()" [event]="info"></admin-event-details-actions>
+
+                <mat-card>
+                    <div class="flex flex-col gap-3 p-5">
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl" style="font-variant-numeric: tabular-nums">{{ confirmedPeople() }}</span>
+                            <span class="text-base" style="color: var(--mat-sys-on-surface-variant)">/ {{ maxGuestAmount() }} {{ 'event.details.capacity' | translate }}</span>
+                        </div>
+                        <lib-registration-status [data]="registration()"></lib-registration-status>
+                        @if (waitingCount() > 0) {
+                            <span class="inline-flex items-center gap-1 self-start px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                {{ waitingCount() }} {{ 'registration.waitlist' | translate }} · {{ waitingPeople() }} {{ 'registration.people' | translate }}
+                            </span>
+                        }
+                    </div>
+                </mat-card>
+
+                <mat-card>
+                    <div class="flex flex-col gap-2 p-5">
+                        <h2 class="text-base font-medium m-0">{{ 'event.details.announcements' | translate }}</h2>
+                        <span class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'event.message.noAnnouncements' | translate }}</span>
+                    </div>
+                </mat-card>
+
+                <admin-event-details-location [event]="info"></admin-event-details-location>
+            </div>
+
+        </div>
+    }
 </admin-board>
-
-<admin-event-menu #menu [event]="event()"></admin-event-menu>
-
-

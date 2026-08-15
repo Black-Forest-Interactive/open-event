@@ -6,6 +6,7 @@ import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
+import de.sambalmueslie.openevent.core.event.api.EventCancelRequest
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.event.api.EventStats
@@ -74,6 +75,13 @@ class EventGuardService(
     fun delete(auth: Authentication, id: Long) =
         auth.checkPermission(PERMISSION_ADMIN) {
             logger.traceDelete(auth) { service.delete(accountService.find(auth), id) }
+        }
+
+    fun cancel(auth: Authentication, id: Long, request: EventCancelRequest) =
+        auth.checkPermission(PERMISSION_ADMIN) {
+            logger.traceAction(auth, AuditAction.EVENT_CANCELLED, id.toString(), request) {
+                service.cancel(accountService.find(auth), id, request.reason)
+            }
         }
 
     fun setFeatured(auth: Authentication, id: Long, value: PatchRequest<Boolean>) =

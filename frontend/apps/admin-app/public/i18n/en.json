@@ -31,6 +31,11 @@
       "edit": "Edit Event",
       "copy": "Copy Event",
       "delete": "Delete Event",
+      "cancel": "Cancel event",
+      "mailOwner": "Send email",
+      "share": "Share link",
+      "shareCopied": "Link copied",
+      "featured": "Featured",
       "publish": "Publish Event",
       "admin": "Event Administration"
     },
@@ -104,6 +109,12 @@
       },
       "change": {
         "title": "Edit event"
+      },
+      "cancel": {
+        "title": "Cancel event",
+        "reasonHint": "Participants will be notified by email.",
+        "reason": "Reason for cancellation",
+        "confirm": "Cancel Event"
       }
     },
     "filter": {
@@ -137,6 +148,7 @@
       "shortText": "Short Text",
       "longText": "Description",
       "published": "Published",
+      "status": "Status",
       "tags": "Tags",
       "categories": "Categories",
       "owner": "Owner",
@@ -146,19 +158,35 @@
       "participants": "Participants",
       "shared": "Shared",
       "created": "Created",
+      "when": "When",
+      "duration": "{{ minutes }} min",
       "changed": "Changed"
     },
     "details": {
       "info": "Common",
+      "host": "Host",
       "location": "Location",
+      "venue": "Venue",
       "registration": "Registration",
-      "history": "History"
+      "history": "History",
+      "announcements": "Announcements"
     },
     "message": {
       "create": {
         "succeed": "Event created",
         "failed": "Failed to create the event"
-      }
+      },
+      "cancel": {
+        "succeed": "Event has been cancelled"
+      },
+      "error": "An unexpected error occurred",
+      "noAnnouncements": "No announcements yet."
+    },
+    "status": {
+      "DRAFT": "Draft",
+      "ACTIVE": "Active",
+      "CANCELED": "Canceled",
+      "ENDED": "Ended"
     }
   },
   "registration": {
@@ -232,6 +260,11 @@
         "CANCELED": "Canceled",
         "UNCONFIRMED": "Unconfirmed"
       }
+    },
+    "availability": {
+      "soldOut": "Sold out",
+      "spotFree": "spot free",
+      "spotsFree": "spots free"
     }
   },
   "audience": {

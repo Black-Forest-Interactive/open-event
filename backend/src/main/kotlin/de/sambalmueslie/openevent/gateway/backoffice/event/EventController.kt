@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.gateway.backoffice.event
 
 import de.sambalmueslie.openevent.common.PatchRequest
+import de.sambalmueslie.openevent.core.event.api.EventCancelRequest
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
@@ -43,6 +44,9 @@ class EventController(private val service: EventGuardService) {
 
     @Delete("/{id}")
     fun delete(auth: Authentication, id: Long) = service.delete(auth, id)
+
+    @Post("/{id}/cancel")
+    fun cancel(auth: Authentication, id: Long, @Body request: EventCancelRequest) = service.cancel(auth, id, request)
 
     @Put("/{id}/featured")
     fun setFeatured(auth: Authentication, id: Long, @Body value: PatchRequest<Boolean>) = service.setFeatured(auth, id, value)

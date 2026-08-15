@@ -31,6 +31,11 @@
       "edit": "Veranstaltung Bearbeiten",
       "copy": "Veranstaltung Kopieren",
       "delete": "Veranstaltung Löschen",
+      "cancel": "Veranstaltung absagen",
+      "mailOwner": "E-Mail schreiben",
+      "share": "Freigabe-Link",
+      "shareCopied": "Link kopiert",
+      "featured": "Featured",
       "publish": "Veranstaltung Veröffentlichen",
       "admin": "Teilnehmer anzeigen"
     },
@@ -104,6 +109,12 @@
       },
       "change": {
         "title": "Veranstaltung bearbeiten"
+      },
+      "cancel": {
+        "title": "Veranstaltung absagen",
+        "reasonHint": "Die Teilnehmer werden per E-Mail benachrichtigt.",
+        "reason": "Grund für die Absage",
+        "confirm": "Veranstaltung absagen"
       }
     },
     "filter": {
@@ -137,6 +148,7 @@
       "shortText": "Kurztext",
       "longText": "Beschreibung",
       "published": "Veröffentlicht",
+      "status": "Status",
       "tags": "Hashtags",
       "categories": "Kategorien",
       "owner": "Ersteller",
@@ -146,19 +158,35 @@
       "participants": "Teilnehmerinfo",
       "shared": "Geteilt",
       "created": "Erstellt",
+      "when": "Wann",
+      "duration": "{{ minutes }} Min.",
       "changed": "Geändert"
     },
     "details": {
       "info": "Allgemein",
+      "host": "Veranstalter",
       "location": "Ort",
+      "venue": "Veranstaltungsort",
       "registration": "Anmeldungen",
-      "history": "Protokoll"
+      "history": "Protokoll",
+      "announcements": "Ankündigungen"
     },
     "message": {
       "create": {
         "succeed": "Veranstaltung erstellt",
         "failed": "Fehler beim Erstellen der Veranstaltung"
-      }
+      },
+      "cancel": {
+        "succeed": "Veranstaltung wurde abgesagt"
+      },
+      "error": "Ein unerwarteter Fehler ist aufgetreten",
+      "noAnnouncements": "Noch keine Ankündigungen."
+    },
+    "status": {
+      "DRAFT": "Entwurf",
+      "ACTIVE": "Aktiv",
+      "CANCELED": "Abgesagt",
+      "ENDED": "Beendet"
     }
   },
   "registration": {
@@ -232,6 +260,11 @@
         "CANCELED": "Abgesagt",
         "UNCONFIRMED": "Unbestätigt"
       }
+    },
+    "availability": {
+      "soldOut": "Ausgebucht",
+      "spotFree": "Platz frei",
+      "spotsFree": "Plätze frei"
     }
   },
   "audience": {
