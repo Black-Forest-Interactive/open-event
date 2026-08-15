@@ -213,7 +213,8 @@
     "form": {
       "firstName": "First Name",
       "lastName": "Last Name",
-      "email": "Email"
+      "email": "Email",
+      "note": "Note"
     },
     "table": {
       "rank": "Rank",
@@ -419,7 +420,8 @@
   "mail": {
     "type": "E-Mail Log",
     "title": "E-Mail",
-    "search": "Search for email",
+    "search": "Search subject or recipient",
+    "noResults": "No emails for these filters",
     "table": {
       "timestamp": "Timestamp",
       "status": "Status",
@@ -430,6 +432,20 @@
       "RETRY": "Retry",
       "FINISHED": "Sent",
       "FAILED": "Failed"
+    },
+    "filter": {
+      "all": "All"
+    },
+    "action": {
+      "resend": "Resend"
+    },
+    "property": {
+      "history": "Sending history",
+      "id": "Mail ID"
+    },
+    "message": {
+      "resent": "The email has been re-queued for sending",
+      "resentFailed": "The email could not be resent"
     }
   },
   "history": {
@@ -542,12 +558,6 @@
         "title": "Privacy Notice",
         "content": "When you share your event, some information such as the title and location will be visible to anyone with the link. However, the link includes a randomly generated code, making it very difficult to guess. Only people you share the link with can access the event page.\nYou can deactivate sharing at any time. Once deactivated, the link will no longer work and the event will no longer be accessible."
       }
-    }
-  },
-  "MAIL": {
-    "Table": {
-      "Message": "Message",
-      "Timestamp": "Timestamp"
     }
   },
   "nav": {

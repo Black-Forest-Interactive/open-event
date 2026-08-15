@@ -39,4 +39,10 @@ export class RegistrationDetailsComponent {
   readonly taken = computed(() => this.registration()?.participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0) ?? 0)
   readonly capacity = computed(() => this.registration()?.registration.maxGuestAmount ?? 0)
   readonly isFull = computed(() => this.taken() >= this.capacity())
+  readonly waitlistPosition = computed(() => {
+    const participant = this.userParticipant()
+    if (!participant?.waitingList) return 0
+    const waitlist = (this.registration()?.participants ?? []).filter((p) => p.waitingList).sort((a, b) => a.rank - b.rank)
+    return waitlist.findIndex((p) => p.id === participant.id) + 1
+  })
 }

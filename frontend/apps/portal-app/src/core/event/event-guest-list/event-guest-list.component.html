@@ -18,6 +18,12 @@
                 <mat-icon>download</mat-icon>{{ 'registration.guestlist.export' | translate }}
             </button>
         </div>
+        @if (waitList().length > 0) {
+            <div class="flex flex-row flex-auto gap-2 items-center mb-2">
+                <span class="text-sm font-semibold px-2 text-on-surface-variant">{{ 'registration.guestlist.registered' | translate }}</span>
+                <mat-divider class="flex-auto"></mat-divider>
+            </div>
+        }
         <ul class="flex flex-col gap-2 list-none p-0 m-0">
             @for (guest of guests(); track guest.id) {
                 <ng-container [ngTemplateOutletContext]="{guest:guest}" [ngTemplateOutlet]="guestRow"></ng-container>
@@ -25,20 +31,19 @@
         </ul>
         @if (waitList().length > 0) {
             <div class="flex flex-row flex-auto gap-2 items-center my-3">
-                <mat-divider class="flex-auto"></mat-divider>
-                <span class="text-sm px-2 text-on-surface-variant">{{ 'registration.waitlist' | translate }}</span>
+                <span class="text-sm font-semibold px-2 text-on-surface-variant">{{ 'registration.waitlist' | translate }}</span>
                 <mat-divider class="flex-auto"></mat-divider>
             </div>
             <ul class="flex flex-col gap-2 list-none p-0 m-0">
-                @for (guest of waitList(); track guest.id) {
-                    <ng-container [ngTemplateOutletContext]="{guest:guest}" [ngTemplateOutlet]="guestRow"></ng-container>
+                @for (guest of waitList(); track guest.id; let i = $index) {
+                    <ng-container [ngTemplateOutletContext]="{guest:guest, waiting:true, position:i+1}" [ngTemplateOutlet]="guestRow"></ng-container>
                 }
             </ul>
         }
     }
 </section>
 
-<ng-template #guestRow let-guest="guest">
+<ng-template #guestRow let-guest="guest" let-waiting="waiting" let-position="position">
     <li [class.bg-secondary-container]="isSelf(guest)" [class.bg-surface-container]="!isSelf(guest)"
         class="flex items-center gap-3.5 p-3 rounded-xl">
         <lib-avatar [name]="guest.author | accountDisplayName" size="md"></lib-avatar>
@@ -48,6 +53,11 @@
                 @if (isSelf(guest)) {
                     <span class="text-[10px] font-bold uppercase tracking-wide bg-surface-container-high text-on-surface-variant px-1.5 py-0.5 rounded">
                         {{ 'registration.guestlist.you' | translate }}
+                    </span>
+                }
+                @if (waiting) {
+                    <span class="text-[10px] font-bold uppercase tracking-wide bg-tertiary-container text-on-tertiary-container px-1.5 py-0.5 rounded inline-flex items-center gap-1">
+                        <mat-icon inline style="font-size:12px">hourglass_top</mat-icon>{{ 'registration.waitlist' | translate }} · {{ position }}
                     </span>
                 }
             </b>

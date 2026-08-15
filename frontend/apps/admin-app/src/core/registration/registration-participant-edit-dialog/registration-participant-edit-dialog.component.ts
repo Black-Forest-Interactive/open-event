@@ -1,5 +1,5 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
-import { Participant, Registration } from '@open-event/core'
+import { Participant, ParticipateRequest, Registration } from '@open-event/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { RegistrationService } from '@open-event/admin'
 import { MatButton } from '@angular/material/button'
@@ -26,7 +26,8 @@ export class RegistrationParticipantEditDialogComponent {
     const fb = inject(FormBuilder)
 
     this.fg = fb.group({
-      size: [this.data.participant.size, Validators.compose([Validators.required, Validators.min(1)])]
+      size: [this.data.participant.size, Validators.compose([Validators.required, Validators.min(1)])],
+      note: [this.data.participant.note]
     })
   }
 
@@ -36,7 +37,7 @@ export class RegistrationParticipantEditDialogComponent {
 
   onSaveClick() {
     if (!this.fg.valid) return
-    const request = this.fg.value
+    const request = new ParticipateRequest(this.fg.value.size, this.fg.value.note)
     this.service.changeParticipant(this.data.registration.id, this.data.participant.id, request).subscribe({
       next: (val) => this.dialogRef.close(val),
       error: () => this.dialogRef.close(null)

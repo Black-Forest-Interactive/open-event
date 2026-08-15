@@ -379,7 +379,7 @@ CREATE TABLE audit_log_entry
     timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     actor        VARCHAR(255) NOT NULL,
     level        VARCHAR(255) NOT NULL,
-    message      TEXT         NOT NULL,
+    action       VARCHAR(255) NOT NULL,
     request      TEXT         NOT NULL,
     reference_id VARCHAR(255) NOT NULL,
     reference    TEXT         NOT NULL,
@@ -566,7 +566,7 @@ CREATE TABLE metrics_trace
 CREATE TABLE metrics_daily
 (
     id           VARCHAR(255) PRIMARY KEY,
-    type       TEXT   NOT NULL,
+    type         TEXT   NOT NULL,
     resource     BIGINT NOT NULL,
     action       TEXT   NOT NULL,
     timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
@@ -579,7 +579,7 @@ CREATE TABLE metrics_daily
 CREATE TABLE metrics_weekly
 (
     id              VARCHAR(255) PRIMARY KEY,
-    type          TEXT   NOT NULL,
+    type            TEXT   NOT NULL,
     resource        BIGINT NOT NULL,
     action          TEXT   NOT NULL,
     timestamp       TIMESTAMP WITHOUT TIME ZONE NOT NULL,

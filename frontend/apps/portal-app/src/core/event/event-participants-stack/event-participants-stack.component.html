@@ -11,9 +11,15 @@
                     <b class="text-sm font-semibold block truncate">{{ userParticipant()!.author | accountDisplayName }}</b>
                     <i class="text-xs text-on-surface-variant not-italic">{{ userParticipant()!.size }} {{ 'registration.people' | translate }}</i>
                 </div>
-                <span class="inline-flex items-center gap-1 text-xs font-semibold bg-primary text-on-primary rounded-lg px-2.5 py-1 shrink-0">
-                    <mat-icon inline>check</mat-icon>{{ 'registration.bookbar.registered' | translate }}
-                </span>
+                @if (userParticipant()!.waitingList) {
+                    <span class="inline-flex items-center gap-1 text-xs font-semibold bg-tertiary text-on-tertiary rounded-lg px-2.5 py-1 shrink-0">
+                        <mat-icon inline>hourglass_top</mat-icon>{{ 'registration.message.waitlistPosition' | translate: { position: waitlistPosition() } }}
+                    </span>
+                } @else {
+                    <span class="inline-flex items-center gap-1 text-xs font-semibold bg-primary text-on-primary rounded-lg px-2.5 py-1 shrink-0">
+                        <mat-icon inline>check</mat-icon>{{ 'registration.bookbar.registered' | translate }}
+                    </span>
+                }
             </div>
         }
         @if (totalPersons() === 0) {

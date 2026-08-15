@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.gateway.backoffice.mail
 
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.infrastructure.mail.MailService
+import de.sambalmueslie.openevent.infrastructure.mail.api.MailJobStatus
 import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
 import jakarta.inject.Singleton
@@ -12,7 +13,8 @@ class MailGuardService(private val service: MailService) {
         private const val PERMISSION_ADMIN = "mail.admin"
     }
 
-    fun getJobs(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_ADMIN) { service.getJobs(pageable) }
+    fun getJobs(auth: Authentication, search: String?, status: MailJobStatus?, pageable: Pageable) =
+        auth.checkPermission(PERMISSION_ADMIN) { service.getJobs(search, status, pageable) }
 
     fun getFailedJobs(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_ADMIN) { service.getFailedJobs(pageable) }
 

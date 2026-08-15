@@ -74,10 +74,17 @@
         </div>
     }
     @if (userParticipant()) {
-        <div class="flex items-center justify-center gap-2 rounded-full bg-secondary-container text-on-secondary-container py-3 text-sm font-semibold">
-            <mat-icon inline>check</mat-icon>
-            {{ 'registration.bookbar.registered' | translate }}
-        </div>
+        @if (userParticipant()!.waitingList) {
+            <div class="flex items-center justify-center gap-2 rounded-full bg-tertiary-container text-on-tertiary-container py-3 text-sm font-semibold">
+                <mat-icon inline>hourglass_top</mat-icon>
+                {{ 'registration.message.waitlistPosition' | translate: { position: waitlistPosition() } }}
+            </div>
+        } @else {
+            <div class="flex items-center justify-center gap-2 rounded-full bg-secondary-container text-on-secondary-container py-3 text-sm font-semibold">
+                <mat-icon inline>check</mat-icon>
+                {{ 'registration.bookbar.registered' | translate }}
+            </div>
+        }
         @if (!readOnly()) {
             <button (click)="edit.emit()" [disabled]="reloading()" matButton="outlined">
                 <mat-icon>manage_accounts</mat-icon>
@@ -89,9 +96,9 @@
             </button>
         }
     } @else if (!canEdit() && !readOnly()) {
-        <button (click)="participate.emit()" [disabled]="reloading() || isFull()" matButton="filled">
+        <button (click)="participate.emit()" [disabled]="reloading()" matButton="filled">
             <mat-icon>confirmation_number</mat-icon>
-            {{ (isFull() ? 'registration.availability.soldOut' : 'registration.action.participate') | translate }}
+            {{ (isFull() ? 'registration.action.joinWaitlist' : 'registration.action.participate') | translate }}
         </button>
     }
 </div>

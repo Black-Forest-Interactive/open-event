@@ -12,8 +12,10 @@ export class MailService extends BaseService {
     this.retryCount = 0
   }
 
-  getJobs(page: number, size: number): Observable<Page<MailJob>> {
-    return this.getPaged('', page, size)
+  getJobs(page: number, size: number, search = '', status = ''): Observable<Page<MailJob>> {
+    let queryParams = search ? '&search=' + encodeURIComponent(search) : ''
+    if (status) queryParams += '&status=' + status
+    return this.getPaged('', page, size, undefined, queryParams)
   }
 
   getFailedJobs(page: number, size: number): Observable<Page<MailJob>> {

@@ -12,7 +12,14 @@
                 </button>
             }
         } @else {
-            <lib-registration-status [compact]="true" [data]="registration()" class="flex-1 min-w-0"></lib-registration-status>
+            @if (userParticipant()?.waitingList) {
+                <div class="flex items-center gap-1.5 rounded-full bg-tertiary-container text-on-tertiary-container px-3 py-1.5 text-xs font-semibold flex-1 min-w-0">
+                    <mat-icon inline>hourglass_top</mat-icon>
+                    <span class="truncate">{{ 'registration.message.waitlistPosition' | translate: { position: waitlistPosition() } }}</span>
+                </div>
+            } @else {
+                <lib-registration-status [compact]="true" [data]="registration()" class="flex-1 min-w-0"></lib-registration-status>
+            }
             @if (!readOnly()) {
                 @if (userParticipant()) {
                     <button (click)="edit.emit()" [disabled]="reloading()" matButton="outlined">
@@ -22,8 +29,8 @@
                         <mat-icon>person_remove</mat-icon>{{ 'registration.action.cancel' | translate }}
                     </button>
                 } @else {
-                    <button (click)="participate.emit()" [disabled]="reloading() || isFull()" matButton="filled">
-                        <mat-icon>confirmation_number</mat-icon>{{ (isFull() ? 'registration.availability.soldOut' : 'registration.action.participate') | translate }}
+                    <button (click)="participate.emit()" [disabled]="reloading()" matButton="filled">
+                        <mat-icon>confirmation_number</mat-icon>{{ (isFull() ? 'registration.action.joinWaitlist' : 'registration.action.participate') | translate }}
                     </button>
                 }
             }

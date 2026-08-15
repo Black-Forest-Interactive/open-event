@@ -320,7 +320,8 @@
       "edit": "Teilnahme ändern",
       "cancel": "Absagen",
       "editParticipant": "Ändern",
-      "removeParticipant": "Entfernen"
+      "removeParticipant": "Entfernen",
+      "joinWaitlist": "Auf Warteliste anmelden"
     },
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",
@@ -332,7 +333,8 @@
       "empty": "Noch keine Anmeldungen.",
       "emailAll": "Alle anschreiben",
       "export": "Exportieren",
-      "orgOnly": "Nur für dich als Veranstalter sichtbar"
+      "orgOnly": "Nur für dich als Veranstalter sichtbar",
+      "registered": "Angemeldet"
     },
     "bookbar": {
       "registered": "Angemeldet"
@@ -340,6 +342,7 @@
     "sheet": {
       "subtitle": "Sichere dir deinen Platz – in wenigen Sekunden.",
       "confirm": "Anmeldung bestätigen",
+      "waitlistHint": "Für die Warteliste anmelden, da nicht genug Plätze frei sind.",
       "success": {
         "title": "Anmeldung bestätigt!",
         "subtitle": "Deine Teilnahme wurde gespeichert."
@@ -368,6 +371,7 @@
     "message": {
       "accepted": "Deine Anmeldung wurde erfolgreich verarbeitet.",
       "waiting": "Keine oder zu wenig Plätze frei, aber auf der Warteliste vorgemerkt.",
+      "waitlistPosition": "Warteliste – Platz {{ position }}",
       "declined": "Deine Absage wurde erfolgreich verarbeitet.",
       "failed": "Ein unerwarteter Fehler ist aufgetreten bitte kontaktiere den support"
     },

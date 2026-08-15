@@ -213,7 +213,8 @@
     "form": {
       "firstName": "Vorname",
       "lastName": "Familienname",
-      "email": "Email"
+      "email": "Email",
+      "note": "Notiz"
     },
     "table": {
       "rank": "Platz",
@@ -419,7 +420,8 @@
   "mail": {
     "type": "E-Mail Protokoll",
     "title": "E-Mail",
-    "search": "Suche nach E-Mail",
+    "search": "Betreff oder Empfänger suchen",
+    "noResults": "Keine E-Mails für diese Filter",
     "table": {
       "timestamp": "Zeitstempel",
       "status": "Status",
@@ -430,6 +432,20 @@
       "RETRY": "Wiederholung",
       "FINISHED": "Versendet",
       "FAILED": "Fehlgeschlagen"
+    },
+    "filter": {
+      "all": "Alle"
+    },
+    "action": {
+      "resend": "Nochmal senden"
+    },
+    "property": {
+      "history": "Verlauf des Versands",
+      "id": "Mail-ID"
+    },
+    "message": {
+      "resent": "E-Mail wurde erneut in die Warteschlange gestellt",
+      "resentFailed": "E-Mail konnte nicht erneut gesendet werden"
     }
   },
   "history": {
@@ -641,12 +657,6 @@
       "city": "Ort",
       "country": "Land",
       "size": "Maximale Teilnehmer"
-    }
-  },
-  "MAIL": {
-    "Table": {
-      "Message": "Nachricht",
-      "Timestamp": "Zeitstempel"
     }
   },
   "nav": {

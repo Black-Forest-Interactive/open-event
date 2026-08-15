@@ -40,10 +40,14 @@ export class RegistrationParticipateSheetComponent {
   readonly remaining = computed(() => {
     const registration = this.data.info.registration
     if (!registration) return 0
-    const taken = registration.participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0)
-    return Math.max(0, registration.registration.maxGuestAmount - taken + this.currentSize)
+    const selfId = this.data.participant?.id
+    const taken = registration.participants
+      .filter((p) => !p.waitingList && p.id !== selfId)
+      .reduce((sum, p) => sum + p.size, 0)
+    return Math.max(0, registration.registration.maxGuestAmount - taken)
   })
-  readonly maxPersons = computed(() => Math.max(1, Math.min(this.remaining(), 6)))
+  readonly willWaitlist = computed(() => this.persons() > this.remaining())
+  readonly maxPersons = computed(() => Math.max(1, this.data.info.registration?.registration.maxGuestAmount ?? 1))
 
   increment() {
     if (this.persons() < this.maxPersons()) this.persons.set(this.persons() + 1)

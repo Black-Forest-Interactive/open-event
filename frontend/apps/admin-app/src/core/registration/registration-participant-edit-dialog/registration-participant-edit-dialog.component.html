@@ -8,6 +8,10 @@
                     <mat-label>{{ "registration.peopleAmount" | translate }}</mat-label>
                     <input formControlName="size" matInput min="1" required type="number">
                 </mat-form-field>
+                <mat-form-field class="dense-1">
+                    <mat-label>{{ "registration.form.note" | translate }}</mat-label>
+                    <textarea formControlName="note" matInput rows="3"></textarea>
+                </mat-form-field>
             </div>
         </form>
     </div>

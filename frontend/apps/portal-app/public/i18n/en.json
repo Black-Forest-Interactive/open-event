@@ -320,7 +320,8 @@
       "edit": "Change Participation",
       "cancel": "Cancel Participation",
       "editParticipant": "Change",
-      "removeParticipant": "Remove"
+      "removeParticipant": "Remove",
+      "joinWaitlist": "Join waiting list"
     },
     "people": "people",
     "peopleAmount": "Amount of people",
@@ -332,7 +333,8 @@
       "empty": "No registrations yet.",
       "emailAll": "Email everyone",
       "export": "Export",
-      "orgOnly": "Only visible to you as organizer"
+      "orgOnly": "Only visible to you as organizer",
+      "registered": "Registered"
     },
     "bookbar": {
       "registered": "Registered"
@@ -340,6 +342,7 @@
     "sheet": {
       "subtitle": "Secure your spot – it only takes a few seconds.",
       "confirm": "Confirm registration",
+      "waitlistHint": "You'll be added to the waiting list, as there aren't enough free spots.",
       "success": {
         "title": "Registration confirmed!",
         "subtitle": "Your participation has been saved."
@@ -368,6 +371,7 @@
     "message": {
       "accepted": "Participation change successfully processed",
       "waiting": "You have been added to the waiting list",
+      "waitlistPosition": "Waiting list – position {{ position }}",
       "declined": "Participation cancel successfully processed",
       "failed": "Some critical error occurred contact site admin"
     },

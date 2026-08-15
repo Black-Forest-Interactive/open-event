@@ -1,5 +1,5 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
-import { AccountSearchEntry, Participant, Registration } from '@open-event/core'
+import { AccountSearchEntry, Participant, ParticipateRequest, Registration } from '@open-event/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { RegistrationService } from '@open-event/admin'
 import { MatButton } from '@angular/material/button'
@@ -28,7 +28,8 @@ export class RegistrationParticipantAddAccountDialogComponent {
     const fb = inject(FormBuilder)
 
     this.fg = fb.group({
-      size: [0, Validators.compose([Validators.required, Validators.min(1)])]
+      size: [0, Validators.compose([Validators.required, Validators.min(1)])],
+      note: ['']
     })
   }
 
@@ -38,7 +39,7 @@ export class RegistrationParticipantAddAccountDialogComponent {
 
   onSaveClick() {
     if (!this.fg.valid || !this.account) return
-    const request = this.fg.value
+    const request = new ParticipateRequest(this.fg.value.size, this.fg.value.note)
     const accountId = this.account.id
 
     this.service.addParticipantAccount(this.data.registration.id, accountId, request).subscribe({

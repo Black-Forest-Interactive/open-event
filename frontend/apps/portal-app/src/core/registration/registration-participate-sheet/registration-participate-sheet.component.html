@@ -29,6 +29,9 @@
                     {{ remaining() }} {{ (remaining() === 1 ? 'registration.availability.spotFree' : 'registration.availability.spotsFree') | translate }}
                 </span>
             </div>
+            @if (willWaitlist()) {
+                <span class="text-xs text-error">{{ 'registration.sheet.waitlistHint' | translate }}</span>
+            }
         </div>
 
         <mat-form-field appearance="outline" class="w-full">
