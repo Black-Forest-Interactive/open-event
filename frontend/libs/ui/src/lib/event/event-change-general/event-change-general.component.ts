@@ -41,10 +41,6 @@ export class EventChangeGeneralComponent implements OnInit {
       const event = this.data()
       if (event) this.handleDataChanged(event)
     })
-    effect(() => {
-      const parent = this.parent()
-      parent.addControl('general', this.fg)
-    })
   }
 
   get imageUrl() {
@@ -68,6 +64,7 @@ export class EventChangeGeneralComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.parent().addControl('general', this.fg)
     const endDate = this.fg.get('endDate')
     if (endDate) endDate.validator = this.isEndHidden() ? null : Validators.required
   }

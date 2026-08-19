@@ -85,11 +85,6 @@ export class EventChangeLocationComponent implements OnInit {
         }
       }
     })
-
-    effect(() => {
-      const parent = this.parent()
-      parent.addControl('location', this.fg)
-    })
   }
 
   get addressMode(): FormControl {
@@ -97,6 +92,7 @@ export class EventChangeLocationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.parent().addControl('location', this.fg)
     this.addressResource.reload()
   }
 
