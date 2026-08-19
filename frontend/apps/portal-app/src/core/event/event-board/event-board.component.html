@@ -7,7 +7,7 @@
     <div class="flex items-center gap-2">
         <div class="flex flex-1 items-center gap-2 min-w-0">
             <lib-board-search (searchChange)="setQuery($event)" class="flex-auto max-w-lg" data-tour="event-search" placeholder="event.search"></lib-board-search>
-            <span class="hidden lg:inline text-sm text-on-surface-variant whitespace-nowrap">
+            <span class="hidden xl:inline text-sm text-on-surface-variant whitespace-nowrap">
                 <b>{{ service.totalSize() }}</b> {{ 'event.board.results' | translate }}
             </span>
         </div>
@@ -52,9 +52,9 @@
 
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 
-<div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4">
+<div class="flex flex-row gap-4 p-4 pb-20 xl:pb-4">
     @if (!mobileView()) {
-        <div class="basis-80 shrink-0 flex flex-col gap-3" data-tour="event-filter">
+        <div class="basis-64 2xl:basis-80 shrink-0 flex flex-col gap-3" data-tour="event-filter">
             <portal-event-board-filter [isDiscover]="true" [categoryFilter]="service.categoryFilter()" [audienceFilter]="service.audienceFilter()" [showHistory]="service.showHistory()" [showAvailableOnly]="service.showAvailableOnly()" [showCancelled]="service.showCancelled()" (dateRangeChanged)="service.setDateRange($event)" (toggleHistory)="service.toggleShowHistory()" (toggleCategory)="service.toggleCategory($event)" (toggleAudience)="service.toggleAudience($event)" (toggleAvailable)="service.toggleAvailableEvents()" (toggleCancelled)="service.toggleShowCancelled()" (resetFilter)="service.resetFilter()"></portal-event-board-filter>
         </div>
     }

@@ -51,7 +51,7 @@ export class EventBoardComponent {
   private tourService = inject(TourService)
   private destroyRef = inject(DestroyRef)
   private filterSheet = viewChild<TemplateRef<unknown>>('filterSheet')
-  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 768px)']).pipe(map((s) => !s.matches)), { initialValue: false })
+  readonly mobileView = toSignal(this.responsive.observe(['(min-width: 1280px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
   readonly activeFilterCount = computed(() => {
     let count = this.service.categoryFilter().size
