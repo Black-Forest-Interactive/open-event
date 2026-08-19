@@ -67,7 +67,7 @@
                             <div class="flex items-start justify-between gap-3 py-3 border-b border-outline-variant">
                                 <div class="min-w-0">
                                     <div class="text-[11px] uppercase tracking-wide text-on-surface-variant">{{ 'event.wizard.summary.participants' | translate }}</div>
-                                    <div class="text-sm">{{ s.maxGuests }} · {{ s.audienceNames || ('event.wizard.none' | translate) }}</div>
+                                    <div class="text-sm">{{ s.maxGuests }}@if (s.audienceNames) { · {{ s.audienceNames }} }</div>
                                     @if (s.categoryNames.length > 0) {
                                         <div class="flex flex-wrap gap-1 mt-1">
                                             @for (name of s.categoryNames; track name) {
