@@ -16,6 +16,11 @@
                 <span class="text-sm font-medium">{{ 'event.filter.onlyAvailable' | translate }}</span>
                 <mat-slide-toggle (change)="toggleAvailable.emit()" [checked]="showAvailableOnly()"></mat-slide-toggle>
             </div>
+
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium">{{ 'event.filter.cancelled' | translate }}</span>
+                <mat-slide-toggle (change)="toggleCancelled.emit()" [checked]="showCancelled()"></mat-slide-toggle>
+            </div>
         }
     </div>
 </lib-event-board-date-filter>

@@ -16,6 +16,8 @@ export class EventBoardService {
   readonly showAvailableOnly = computed(() => this.availableOnly())
   private includeHistory = signal(false)
   readonly showHistory = computed(() => this.includeHistory())
+  private includeCancelled = signal(false)
+  readonly showCancelled = computed(() => this.includeCancelled())
   private page = signal(0)
   private size = signal(200)
   private infiniteScrollMode = signal(false)
@@ -33,7 +35,8 @@ export class EventBoardService {
       this.availableOnly(),
       Array.from(this.categoryFilterSignal()),
       false, false,
-      Array.from(this.audienceFilterSignal())
+      Array.from(this.audienceFilterSignal()),
+      this.includeCancelled() ? [] : ['ACTIVE', 'ENDED']
     ),
     page: this.page(),
     size: this.size()
@@ -93,6 +96,11 @@ export class EventBoardService {
     this.page.set(0)
   }
 
+  toggleShowCancelled() {
+    this.includeCancelled.update((v) => !v)
+    this.page.set(0)
+  }
+
   setLayout(layout: 'cards' | 'rows' | 'calendar' | 'map') {
     this.layoutSignal.set(layout)
   }
@@ -121,6 +129,7 @@ export class EventBoardService {
     this.query.set('')
     this.availableOnly.set(false)
     this.includeHistory.set(false)
+    this.includeCancelled.set(false)
     this.categoryFilterSignal.set(new Set())
     this.audienceFilterSignal.set(new Set())
     this.fromDate.set(DateTime.now().startOf('day').toISODate() ?? undefined)

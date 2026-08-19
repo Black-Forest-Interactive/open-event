@@ -26,7 +26,7 @@
 <div class="flex flex-row gap-4 p-4 pb-20 lg:pb-4 max-w-[1600px]">
     @if (!mobileView()) {
         <div class="basis-80 shrink-0 flex flex-col gap-3" data-tour="event-filter">
-            <portal-event-board-filter [isDiscover]="false" [categoryFilter]="categoryFilter()" [audienceFilter]="audienceFilter()" [showHistory]="showHistory()" [showAvailableOnly]="false" (dateRangeChanged)="setDateRange($event)" (toggleHistory)="toggleHistory()" (toggleCategory)="toggleCategory($event)" (toggleAudience)="toggleAudience($event)" (resetFilter)="resetFilter()"></portal-event-board-filter>
+            <portal-event-board-filter [isDiscover]="false" [categoryFilter]="categoryFilter()" [audienceFilter]="audienceFilter()" [showHistory]="showHistory()" [showAvailableOnly]="false" [showCancelled]="false" (dateRangeChanged)="setDateRange($event)" (toggleHistory)="toggleHistory()" (toggleCategory)="toggleCategory($event)" (toggleAudience)="toggleAudience($event)" (resetFilter)="resetFilter()"></portal-event-board-filter>
         </div>
     }
     <div class="min-w-0 flex-auto">
@@ -36,7 +36,7 @@
 
 <ng-template #filterSheet>
     <div class="px-4 pt-4 pb-6">
-        <portal-event-board-filter [isDiscover]="false" [categoryFilter]="categoryFilter()" [audienceFilter]="audienceFilter()" [showHistory]="showHistory()" [showAvailableOnly]="false" (dateRangeChanged)="setDateRange($event)" (toggleHistory)="toggleHistory()" (toggleCategory)="toggleCategory($event)" (toggleAudience)="toggleAudience($event)" (resetFilter)="resetFilter()"></portal-event-board-filter>
+        <portal-event-board-filter [isDiscover]="false" [categoryFilter]="categoryFilter()" [audienceFilter]="audienceFilter()" [showHistory]="showHistory()" [showAvailableOnly]="false" [showCancelled]="false" (dateRangeChanged)="setDateRange($event)" (toggleHistory)="toggleHistory()" (toggleCategory)="toggleCategory($event)" (toggleAudience)="toggleAudience($event)" (resetFilter)="resetFilter()"></portal-event-board-filter>
     </div>
 </ng-template>
 

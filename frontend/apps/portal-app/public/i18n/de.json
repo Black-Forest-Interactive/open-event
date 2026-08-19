@@ -196,6 +196,7 @@
       "category": "Kategorie",
       "audience": "Zielgruppe",
       "onlyAvailable": "Nur freie Plätze",
+      "cancelled": "Abgesagte anzeigen",
       "range": {
         "label": "Zeitraum wählen",
         "today": "Nur heute anzeigen",

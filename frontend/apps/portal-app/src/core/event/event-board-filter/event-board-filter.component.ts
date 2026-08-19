@@ -20,11 +20,13 @@ export class EventBoardFilterComponent {
   audienceFilter = input.required<Set<string>>()
   showHistory = input.required<boolean>()
   showAvailableOnly = input.required<boolean>()
+  showCancelled = input.required<boolean>()
 
   dateRangeChanged = output<EventBoardDateRange>()
   toggleHistory = output<void>()
   toggleCategory = output<string>()
   toggleAudience = output<string>()
   toggleAvailable = output<void>()
+  toggleCancelled = output<void>()
   resetFilter = output<void>()
 }

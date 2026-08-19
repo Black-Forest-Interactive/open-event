@@ -261,6 +261,7 @@
       },
       "category": "Category",
       "onlyAvailable": "Only available",
+      "cancelled": "Show cancelled",
       "audience": "Audience",
       "range": {
         "label": "Enter a date range",

@@ -12,6 +12,7 @@ import jakarta.inject.Singleton
 import jakarta.mail.Message
 import org.simplejavamail.MailException
 import org.simplejavamail.api.email.Email
+import org.simplejavamail.api.email.Recipient
 import org.simplejavamail.api.mailer.Mailer
 import org.simplejavamail.email.EmailBuilder
 import org.simplejavamail.mailer.MailerBuilder
@@ -49,8 +50,8 @@ class SimpleJavaMailClient(
     ): Boolean {
         logger.debug("Send mail '${mail.subject}' to ${to.joinToString { it.address }}")
         val builder = EmailBuilder.startingBlank()
-        to.forEach { builder.withRecipients(it.name, true, Message.RecipientType.TO, it.address) }
-        bcc.forEach { builder.withRecipients(it.name, true, Message.RecipientType.BCC, it.address) }
+        to.forEach { builder.withRecipients(Recipient(it.name, it.address, Message.RecipientType.TO, null)) }
+        bcc.forEach { builder.withRecipients(Recipient(it.name, it.address, Message.RecipientType.BCC, null)) }
         builder.withReplyTo(getReplyToAddress())
 
         builder.withSubject(mail.subject)

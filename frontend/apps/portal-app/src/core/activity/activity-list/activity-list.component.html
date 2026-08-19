@@ -1,7 +1,7 @@
 @for (a of data(); track a.activity.id) {
     <div (click)="clicked.emit(a)" class="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-surface-container">
-        <div class="flex items-center justify-center w-9 h-9 rounded-[10px] bg-primary-container text-on-primary-container shrink-0 text-lg">
-            <mat-icon inline>{{ getActivityIcon(a.activity.type) }}</mat-icon>
+        <div class="flex items-center justify-center w-9 h-9 rounded-[10px] bg-primary-container text-on-primary-container shrink-0">
+            <mat-icon inline style="font-size: 20px; width: 20px; height: 20px">{{ getActivityIcon(a.activity.type) }}</mat-icon>
         </div>
         <div class="flex flex-col gap-0.5 min-w-0">
             <span [class.font-semibold]="!a.read" class="text-sm truncate">{{ a.activity.title }}</span>
