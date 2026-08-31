@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.74")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.74")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.83")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.83")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -151,7 +151,7 @@ dependencies {
     implementation("com.jillesvangurp:search-client:2.9.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.23.1")
+    implementation("org.jsoup:jsoup:1.23.2")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
