@@ -6,6 +6,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper'
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
+import { MatProgressSpinner } from '@angular/material/progress-spinner'
 import { MatCard } from '@angular/material/card'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
@@ -30,7 +31,18 @@ interface WizardSummary {
 
 @Component({
   selector: 'portal-event-create',
-  imports: [MatStepperModule, MatButton, MatIcon, MatCard, TranslatePipe, CategoryChipComponent, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent],
+  imports: [
+    MatStepperModule,
+    MatButton,
+    MatIcon,
+    MatProgressSpinner,
+    MatCard,
+    TranslatePipe,
+    CategoryChipComponent,
+    EventChangeGeneralComponent,
+    EventChangeLocationComponent,
+    EventChangeRegistrationComponent
+  ],
   templateUrl: './event-create.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-create.component.scss'

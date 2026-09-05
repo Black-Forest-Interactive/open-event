@@ -116,7 +116,11 @@
                     </button>
                 } @else {
                     <button (click)="save()" [disabled]="saving() || !fg.valid" data-tour="create-save" matButton="filled">
-                        <mat-icon>check</mat-icon>
+                        @if (saving()) {
+                            <mat-spinner diameter="18"></mat-spinner>
+                        } @else {
+                            <mat-icon>check</mat-icon>
+                        }
                         {{ 'action.save' | translate }}
                     </button>
                 }

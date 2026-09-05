@@ -18,7 +18,7 @@ class InsufficientPermissionsExceptionHandler : ExceptionHandler<InsufficientPer
     }
 
     override fun handle(request: HttpRequest<*>, exception: InsufficientPermissionsException): HttpResponse<Any> {
-        logger.error("Insufficient permissions exception [${exception.requiredRoles}]", exception)
+        logger.error("[${exception.userId}] Insufficient permissions exception [${exception.requiredRoles}]", exception)
         return HttpResponse.unauthorized()
     }
 }
