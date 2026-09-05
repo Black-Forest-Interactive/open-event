@@ -1,6 +1,6 @@
 <lib-app-layout (logoutClick)="logout()" [navGroups]="navGroups()" [title]="title()">
     <ng-container toolbar-right>
-        @if (newsletterState.loaded()) {
+        @if (newsletterState.accessible()) {
             <admin-newsletter-status-button class="mr-1"></admin-newsletter-status-button>
         }
         @if (info(); as info) {
