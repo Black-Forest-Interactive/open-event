@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.serialization") version "2.4.10"
 
     id("com.google.devtools.ksp") version "2.3.11"
-    id("org.sonarqube") version "7.4.0.8496"
+    id("org.sonarqube") version "7.5.0.8588"
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.4"
 
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.83")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.83")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.85")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.85")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -130,9 +130,9 @@ dependencies {
     implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
-    implementation("org.simplejavamail:simple-java-mail:9.3.2")
-    implementation("org.simplejavamail:batch-module:9.3.2")
-    implementation("org.simplejavamail:authenticated-socks-module:9.3.2")
+    implementation("org.simplejavamail:simple-java-mail:9.3.3")
+    implementation("org.simplejavamail:batch-module:9.3.3")
+    implementation("org.simplejavamail:authenticated-socks-module:9.3.3")
 
     // test
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
