@@ -12,6 +12,7 @@ import jakarta.inject.Singleton
 class SettingsGuardService(private val service: SettingsService) {
     companion object {
         private const val PERMISSION_ADMIN = "settings.admin"
+        private const val PERMISSION_READ = "settings.read"
     }
 
     fun get(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_ADMIN) { service.get(id) }
@@ -24,5 +25,5 @@ class SettingsGuardService(private val service: SettingsService) {
 
     fun delete(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_ADMIN) { service.delete(id) }
 
-    fun getTitle(auth: Authentication) = auth.checkPermission(PERMISSION_ADMIN) { TextResponse(service.getTitle()) }
+    fun getTitle(auth: Authentication) = auth.checkPermission(PERMISSION_ADMIN, PERMISSION_READ) { TextResponse(service.getTitle()) }
 }
