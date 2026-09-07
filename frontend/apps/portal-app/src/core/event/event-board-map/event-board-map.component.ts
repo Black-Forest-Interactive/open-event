@@ -10,7 +10,7 @@ import { MatIcon } from '@angular/material/icon'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
 import 'leaflet.markercluster'
-import { LoadingBarComponent } from '@open-event/shared'
+import { ENVIRONMENT, LoadingBarComponent } from '@open-event/shared'
 
 interface VenueGroup {
   key: string
@@ -46,6 +46,7 @@ export class EventBoardMapComponent {
   entries = input.required<EventSearchEntry[]>()
   reloading = input.required<boolean>()
   private environmentInjector = inject(EnvironmentInjector)
+  private environment = inject(ENVIRONMENT)
   private router = inject(Router)
   private mapContainerRef = viewChild<ElementRef<HTMLDivElement>>('map')
   private map: LeafletMap | undefined
@@ -68,7 +69,7 @@ export class EventBoardMapComponent {
       if (container && !this.map) {
         this.map = L.map(container.nativeElement, { center: [51.1657, 10.4515], zoom: 6, zoomControl: false })
         L.control.zoom({ position: 'bottomright' }).addTo(this.map)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${this.environment.maps.apiKey}`, {
           attribution: '&copy; OpenStreetMap &copy; CARTO',
           subdomains: 'abcd',
           maxZoom: 19

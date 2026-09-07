@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core'
+import { ApplicationConfig, inject, LOCALE_ID, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core'
 import { provideRouter } from '@angular/router'
 import { appRoutes } from './app.routes'
 import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http'
@@ -37,6 +37,15 @@ export const appConfig: ApplicationConfig = {
     provideQuill(),
     provideRouter(appRoutes),
     { provide: ENVIRONMENT, useValue: environment },
+    provideAppInitializer(async () => {
+      const runtimeEnvironment = inject(ENVIRONMENT)
+      try {
+        const config = await (await fetch('/config.json')).json()
+        runtimeEnvironment.maps = { apiKey: config.mapsApiKey }
+      } catch {
+        runtimeEnvironment.maps = { apiKey: '' }
+      }
+    }),
     provideServiceConfig()
   ]
 }
