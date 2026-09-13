@@ -12,6 +12,7 @@ import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
+import java.time.LocalDateTime
 
 interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun create(request: EventChangeRequest, owner: Account): Event
@@ -54,6 +55,7 @@ interface EventStorage : Storage<Long, Event, EventChangeRequest> {
     fun getAudiencesByEventIds(eventIds: Set<Long>): Map<Long, List<Audience>>
     fun getOwned(owner: Account, pageable: Pageable): Page<Event>
     fun getAll(title: String, pageable: Pageable): Page<Event>
+    fun getByStart(from: LocalDateTime, to: LocalDateTime, pageable: Pageable): Page<Event>
 
 
 }

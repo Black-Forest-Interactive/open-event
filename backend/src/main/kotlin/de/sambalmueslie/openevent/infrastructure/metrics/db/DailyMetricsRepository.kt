@@ -16,5 +16,6 @@ interface DailyMetricsRepository : PageableRepository<DailyMetricsData, String> 
 
     fun findByTypeAndActionAndTimestampBetween(type: String, action: String, from: LocalDate, to: LocalDate): List<DailyMetricsData>
     fun findByTypeAndActionAndResourceAndTimestampBetween(type: String, action: String, resource: Long, from: LocalDate, to: LocalDate): List<DailyMetricsData>
+    fun findByTypeAndActionAndResourceIn(type: String, action: String, resource: Collection<Long>): List<DailyMetricsData>
 
 }

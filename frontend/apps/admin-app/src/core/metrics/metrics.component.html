@@ -21,20 +21,33 @@
           <mat-icon matChipAvatar>today</mat-icon>
           {{ 'metrics.filter.today' | translate }}
         </mat-chip-option>
-        <mat-chip-option (selectionChange)="onPresetChange($event, 'week')" [selected]="preset() === 'week'" value="week">
-          <mat-icon matChipAvatar>date_range</mat-icon>
-          {{ 'metrics.filter.thisWeek' | translate }}
-        </mat-chip-option>
-        <mat-chip-option (selectionChange)="onPresetChange($event, 'nextweek')" [selected]="preset() === 'nextweek'" value="nextweek">
-          <mat-icon matChipAvatar>next_week</mat-icon>
-          {{ 'metrics.filter.nextWeek' | translate }}
+        <mat-chip-option (selectionChange)="onPresetChange($event, 'lastmonth')" [selected]="preset() === 'lastmonth'" value="lastmonth">
+          <mat-icon matChipAvatar>calendar_month</mat-icon>
+          {{ lastMonthReference | date: 'MMMM' }}
         </mat-chip-option>
         <mat-chip-option (selectionChange)="onPresetChange($event, 'month')" [selected]="preset() === 'month'" value="month">
           <mat-icon matChipAvatar>calendar_month</mat-icon>
           {{ monthReference | date: 'MMMM' }}
         </mat-chip-option>
+        <mat-chip-option (selectionChange)="onPresetChange($event, 'year')" [selected]="preset() === 'year'" value="year">
+          <mat-icon matChipAvatar>event_note</mat-icon>
+          {{ selectedYear() }}
+        </mat-chip-option>
       </mat-chip-listbox>
-      <button (click)="reset()" class="ml-auto" matButton="text">
+      @if (preset() === 'year') {
+        <div class="flex items-center gap-0.5">
+          <button (click)="previousYear()" matIconButton>
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button (click)="nextYear()" matIconButton>
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      }
+      <div class="w-[280px] shrink-0">
+        <lib-event-range-picker #rangePicker (rangeChanged)="handleCustomRange($event)" [required]="false"/>
+      </div>
+      <button (click)="reset(); rangePicker.clear()" class="ml-auto" matButton="text">
         <mat-icon>restart_alt</mat-icon>
         {{ 'metrics.filter.reset' | translate }}
       </button>

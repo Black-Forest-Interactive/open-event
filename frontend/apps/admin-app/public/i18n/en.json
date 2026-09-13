@@ -740,8 +740,6 @@
     "filter": {
       "period": "Period",
       "today": "Today",
-      "thisWeek": "This week",
-      "nextWeek": "Next week",
       "reset": "Reset"
     },
     "kpi": {

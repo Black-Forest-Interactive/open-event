@@ -28,6 +28,7 @@ import de.sambalmueslie.openevent.logTimeMillisWithValue
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
+import java.time.LocalDateTime
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -241,6 +242,10 @@ class EventCrudService(
 
     fun getInfos(pageable: Pageable): Page<EventInfo> {
         return convertInfo(getAll(pageable))
+    }
+
+    fun getInfosByStart(from: LocalDateTime, to: LocalDateTime): List<EventInfo> {
+        return PageableSequence { convertInfo(storage.getByStart(from, to, it)) }.toList()
     }
 
     fun setBookmarked(actor: Account, event: Event) {

@@ -18,6 +18,7 @@ import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
+import java.time.LocalDateTime
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -189,6 +190,10 @@ class EventStorageService(
 
     override fun getAll(title: String, pageable: Pageable): Page<Event> {
         return repository.findByTitleContainingIgnoreCaseOrderByStart(title, pageable).let { converter.convert(it) }
+    }
+
+    override fun getByStart(from: LocalDateTime, to: LocalDateTime, pageable: Pageable): Page<Event> {
+        return repository.findByStartBetween(from, to, pageable).let { converter.convert(it) }
     }
 
     override fun deleteDependencies(data: EventData) {

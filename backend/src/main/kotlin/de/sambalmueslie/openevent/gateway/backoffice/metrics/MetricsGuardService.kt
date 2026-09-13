@@ -24,22 +24,24 @@ class MetricsGuardService(
 
     fun getDaily(auth: Authentication, from: LocalDate, to: LocalDate): List<EventMetricsDaily> {
         return auth.checkPermission(PERMISSION_ADMIN) {
-            val data = service.getDaily(TYPE, ACTION, from, to).groupBy { it.resource }
-            val events = eventService.getInfoByIds(data.keys)
-            events.map { EventMetricsDaily(it, (data[it.event.id] ?: emptyList())) }.filter { it.metrics.isNotEmpty() }
+            val events = eventService.getInfosByStart(from.atStartOfDay(), endOfDay(to))
+            val data = service.getDaily(TYPE, ACTION, events.map { it.event.id }.toSet()).groupBy { it.resource }
+            events.map { EventMetricsDaily(it, (data[it.event.id] ?: emptyList())) }
         }
     }
 
     fun getWeekly(auth: Authentication, from: LocalDate, to: LocalDate): List<EventMetricsWeekly> {
         return auth.checkPermission(PERMISSION_ADMIN) {
-            val data =  service.getWeekly(TYPE, ACTION, from, to).groupBy { it.resource }
-            val events = eventService.getInfoByIds(data.keys)
-            events.map { EventMetricsWeekly(it, (data[it.event.id] ?: emptyList())) }.filter { it.metrics.isNotEmpty() }
+            val events = eventService.getInfosByStart(from.atStartOfDay(), endOfDay(to))
+            val data = service.getWeekly(TYPE, ACTION, events.map { it.event.id }.toSet()).groupBy { it.resource }
+            events.map { EventMetricsWeekly(it, (data[it.event.id] ?: emptyList())) }
         }
     }
 
     fun recalculateWeekly(auth: Authentication) {
         auth.checkPermission(PERMISSION_ADMIN) { rollupJob.rollupCurrentWeek() }
     }
+
+    private fun endOfDay(date: LocalDate) = date.atStartOfDay().withHour(23).withMinute(59).withSecond(59)
 
 }

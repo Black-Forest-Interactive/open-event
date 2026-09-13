@@ -14,5 +14,6 @@ interface WeeklyMetricsRepository : PageableRepository<WeeklyMetricsData, String
 
     fun findByTypeAndActionAndTimestampBetween(type: String, action: String,  from: LocalDate, to: LocalDate): List<WeeklyMetricsData>
     fun findByTypeAndActionAndResourceAndTimestampBetween(type: String, action: String, resource: Long, from: LocalDate, to: LocalDate): List<WeeklyMetricsData>
+    fun findByTypeAndActionAndResourceIn(type: String, action: String, resource: Collection<Long>): List<WeeklyMetricsData>
 
 }

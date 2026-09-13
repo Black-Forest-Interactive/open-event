@@ -38,4 +38,14 @@ class MetricsService(
         return weeklyRepository.findByTypeAndActionAndTimestampBetween(type, action, from, to).map { it.convert() }
     }
 
+    fun getDaily(type: String, action: String, resourceIds: Set<Long>): List<DailyMetrics> {
+        if (resourceIds.isEmpty()) return emptyList()
+        return dailyRepository.findByTypeAndActionAndResourceIn(type, action, resourceIds).map { it.convert() }
+    }
+
+    fun getWeekly(type: String, action: String, resourceIds: Set<Long>): List<WeeklyMetrics> {
+        if (resourceIds.isEmpty()) return emptyList()
+        return weeklyRepository.findByTypeAndActionAndResourceIn(type, action, resourceIds).map { it.convert() }
+    }
+
 }

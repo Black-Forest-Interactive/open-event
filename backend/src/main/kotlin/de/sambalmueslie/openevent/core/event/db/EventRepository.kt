@@ -30,4 +30,6 @@ interface EventRepository : DataObjectRepository<Long, EventData> {
 
     fun findByTitleContainingIgnoreCaseOrderByStart(title: String, pageable: Pageable): Page<EventData>
 
+    fun findByStartBetween(from: LocalDateTime, to: LocalDateTime, pageable: Pageable): Page<EventData>
+
 }

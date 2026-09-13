@@ -9,10 +9,12 @@ import { DateTime } from 'luxon'
 import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { MatChipAvatar, MatChipListbox, MatChipOption, MatChipSelectionChange } from '@angular/material/chips'
+import { MatIconButton } from '@angular/material/button'
+import { EventRangePickerComponent, EventRangeSelection } from '@open-event/ui'
 import { BoardComponent, BoardFilters, BoardToolbarActions } from '../../shared/board/board.component'
 import { smoothPath } from './metrics-chart.util'
 
-type Preset = 'today' | 'week' | 'nextweek' | 'month'
+type Preset = 'today' | 'month' | 'lastmonth' | 'year' | 'custom'
 type Granularity = 'day' | 'week'
 type SortKey = 'total' | 'unique' | 'participants'
 
@@ -56,7 +58,21 @@ const PAD_BOTTOM = 34
 
 @Component({
   selector: 'admin-metrics',
-  imports: [TranslatePipe, DatePipe, DecimalPipe, MatButton, MatIcon, MatChipListbox, MatChipOption, MatChipAvatar, BoardComponent, BoardToolbarActions, BoardFilters],
+  imports: [
+    TranslatePipe,
+    DatePipe,
+    DecimalPipe,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatChipListbox,
+    MatChipOption,
+    MatChipAvatar,
+    BoardComponent,
+    BoardToolbarActions,
+    BoardFilters,
+    EventRangePickerComponent
+  ],
   templateUrl: './metrics.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './metrics.component.scss'
@@ -75,8 +91,11 @@ export class MetricsComponent {
   readonly expanded = signal<Set<number>>(new Set())
   readonly recalculating = signal(false)
   readonly monthReference = new Date()
+  readonly lastMonthReference = DateTime.now().minus({ months: 1 }).toJSDate()
+  readonly selectedYear = signal(DateTime.now().year)
+  private customRange = signal<DateRange | null>(null)
 
-  private range = computed<DateRange>(() => this.computeRange(this.preset()))
+  private range = computed<DateRange>(() => this.computeRange(this.preset(), this.selectedYear(), this.customRange()))
 
   private dailyResource = resource({
     params: this.range,
@@ -220,19 +239,23 @@ export class MetricsComponent {
     return [...map.values()].sort((a, b) => a.date.localeCompare(b.date))
   }
 
-  private computeRange(preset: Preset): DateRange {
+  private computeRange(preset: Preset, year: number, custom: DateRange | null): DateRange {
     const now = DateTime.now()
     switch (preset) {
       case 'today': {
         const d = now.toISODate() ?? ''
         return { start: d, end: d }
       }
-      case 'week':
-        return { start: now.startOf('week').toISODate() ?? '', end: now.endOf('week').toISODate() ?? '' }
-      case 'nextweek': {
-        const next = now.plus({ weeks: 1 })
-        return { start: next.startOf('week').toISODate() ?? '', end: next.endOf('week').toISODate() ?? '' }
+      case 'lastmonth': {
+        const last = now.minus({ months: 1 })
+        return { start: last.startOf('month').toISODate() ?? '', end: last.endOf('month').toISODate() ?? '' }
       }
+      case 'year': {
+        const y = DateTime.local(year, 1, 1)
+        return { start: y.startOf('year').toISODate() ?? '', end: y.endOf('year').toISODate() ?? '' }
+      }
+      case 'custom':
+        return custom ?? { start: now.startOf('month').toISODate() ?? '', end: now.endOf('month').toISODate() ?? '' }
       case 'month':
       default:
         return { start: now.startOf('month').toISODate() ?? '', end: now.endOf('month').toISODate() ?? '' }
@@ -267,6 +290,22 @@ export class MetricsComponent {
     this.hoverIndex.set(null)
   }
 
+  handleCustomRange(selection: EventRangeSelection) {
+    this.customRange.set({ start: selection.from.toISODate() ?? '', end: selection.to.toISODate() ?? '' })
+    this.preset.set('custom')
+    this.hoverIndex.set(null)
+  }
+
+  previousYear() {
+    this.selectedYear.update((y) => y - 1)
+    this.hoverIndex.set(null)
+  }
+
+  nextYear() {
+    this.selectedYear.update((y) => y + 1)
+    this.hoverIndex.set(null)
+  }
+
   setGranularity(granularity: Granularity) {
     this.granularity.set(granularity)
     this.hoverIndex.set(null)
@@ -284,6 +323,8 @@ export class MetricsComponent {
     this.sortKey.set('total')
     this.sortDir.set('desc')
     this.expanded.set(new Set())
+    this.selectedYear.set(DateTime.now().year)
+    this.customRange.set(null)
   }
 
   onChartMove(event: MouseEvent) {
