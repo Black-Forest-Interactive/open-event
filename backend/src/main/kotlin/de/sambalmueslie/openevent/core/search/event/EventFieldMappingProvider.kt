@@ -7,6 +7,11 @@ import jakarta.inject.Singleton
 @Singleton
 class EventFieldMappingProvider : FieldMappingProvider {
 
+    companion object {
+        const val TITLE_SORT_SUBFIELD = "keyword"
+        val TITLE_SORT_FIELD = "${EventSearchEntryData::title.name}.$TITLE_SORT_SUBFIELD"
+    }
+
     override fun createMappings(): FieldMappings.() -> Unit {
         return {
             number<Long>(EventSearchEntryData::id)
@@ -15,7 +20,11 @@ class EventFieldMappingProvider : FieldMappingProvider {
             date(EventSearchEntryData::start)
             date(EventSearchEntryData::finish)
             date(EventSearchEntryData::date)
-            text(EventSearchEntryData::title)
+            text(EventSearchEntryData::title) {
+                fields {
+                    keyword(TITLE_SORT_SUBFIELD)
+                }
+            }
             text(EventSearchEntryData::shortText)
             text(EventSearchEntryData::longText)
             keyword(EventSearchEntryData::status)

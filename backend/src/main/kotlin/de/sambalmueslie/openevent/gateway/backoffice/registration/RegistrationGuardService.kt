@@ -25,14 +25,14 @@ class RegistrationGuardService(
 
     private val logger = audit.getLogger("BACKOFFICE Registration API")
 
-    fun get(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_ADMIN) { service.get(id) }
+    fun get(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) { service.get(id) }
 
-    fun getInfo(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_ADMIN) { service.getInfo(id) }
+    fun getInfo(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) { service.getInfo(id) }
 
-    fun getDetails(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_ADMIN) { service.getDetails(id) }
+    fun getDetails(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) { service.getDetails(id) }
 
     fun addParticipant(auth: Authentication, id: Long, accountId: Long, request: ParticipateRequest) =
-        auth.checkPermission(PERMISSION_ADMIN) {
+        auth.checkPermission(PERMISSION_WRITE,PERMISSION_ADMIN) {
             val actor = accountService.get(auth) ?: throw InvalidRequestException("Cannot find user account")
             val account = accountService.get(accountId) ?: throw InvalidRequestException("Cannot find account [$accountId]")
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString()) {
@@ -41,7 +41,7 @@ class RegistrationGuardService(
         }
 
     fun addParticipant(auth: Authentication, id: Long, request: ParticipantAddRequest) =
-        auth.checkPermission(PERMISSION_ADMIN) {
+        auth.checkPermission(PERMISSION_WRITE,PERMISSION_ADMIN) {
             val account = accountService.findByEmail(request.email)
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString(), request) {
                 if (account != null) {
@@ -53,14 +53,14 @@ class RegistrationGuardService(
         }
 
     fun changeParticipant(auth: Authentication, id: Long, participantId: Long, request: ParticipateRequest) =
-        auth.checkPermission(PERMISSION_ADMIN) {
+        auth.checkPermission(PERMISSION_WRITE,PERMISSION_ADMIN) {
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_CHANGED, participantId.toString(), request) {
                 service.changeParticipant(accountService.find(auth), id, participantId, request)
             }
         }
 
     fun removeParticipant(auth: Authentication, id: Long, participantId: Long) =
-        auth.checkPermission(PERMISSION_ADMIN) {
+        auth.checkPermission(PERMISSION_WRITE,PERMISSION_ADMIN) {
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, participantId.toString()) {
                 service.removeParticipant(accountService.find(auth), id, participantId)
             }

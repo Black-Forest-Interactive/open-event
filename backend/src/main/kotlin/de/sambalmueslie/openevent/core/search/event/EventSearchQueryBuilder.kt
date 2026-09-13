@@ -76,7 +76,12 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
         if (pageable.isSorted) {
             sort {
                 pageable.orderBy.forEach { order ->
-                    add(order.property, if (order.isAscending) SortOrder.ASC else SortOrder.DESC)
+                    val field = if (order.property == EventSearchEntryData::title.name) {
+                        EventFieldMappingProvider.TITLE_SORT_FIELD
+                    } else {
+                        order.property
+                    }
+                    add(field, if (order.isAscending) SortOrder.ASC else SortOrder.DESC)
                 }
             }
         } else {

@@ -26,14 +26,14 @@ class AudienceGuardService(
 
     private val logger = audit.getLogger("Audience API")
 
-    fun get(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_ADMIN) { service.get(id) }
+    fun get(auth: Authentication, id: Long) = auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) { service.get(id) }
 
-    fun findByName(auth: Authentication, name: String) = auth.checkPermission(PERMISSION_ADMIN) { service.findByName(name) }
+    fun findByName(auth: Authentication, name: String) = auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) { service.findByName(name) }
 
-    fun getAll(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_ADMIN) { service.getAll(pageable) }
+    fun getAll(auth: Authentication, pageable: Pageable) = auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) { service.getAll(pageable) }
 
     fun searchAudiences(auth: Authentication, request: AudienceSearchRequest, pageable: Pageable) =
-        auth.checkPermission(PERMISSION_ADMIN) {
+        auth.checkPermission(PERMISSION_READ,PERMISSION_ADMIN) {
             searchService.searchAudiences(
                 accountService.find(auth),
                 request,
