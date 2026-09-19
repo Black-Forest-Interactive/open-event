@@ -33,7 +33,8 @@ export class RegistrationParticipantAddManualDialogComponent {
         email: ['', Validators.email],
         phone: [''],
         mobile: [''],
-        size: [0, Validators.compose([Validators.required, Validators.min(1)])]
+        size: [0, Validators.compose([Validators.required, Validators.min(1)])],
+        note: ['']
       },
       {
         validators: [atLeastOneRequiredValidator(['email', 'phone', 'mobile'])]

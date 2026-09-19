@@ -34,7 +34,8 @@ export class ParticipantAddRequest {
     public email: string,
     public phone: string,
     public mobile: string,
-    public size: number
+    public size: number,
+    public note: string = ''
   ) {}
 }
 

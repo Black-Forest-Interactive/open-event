@@ -57,7 +57,11 @@ class NotificationService(
 
     private fun <T> notify(event: NotificationEvent<T>, mail: Mail, recipients: Collection<AccountInfo>) {
         if (recipients.isEmpty()) return logger.debug("[${event.key}] no recipients found - aborting")
-        val to = recipients.filter { it.email.isNotBlank() }.map { it.toParticipant() }
+        val (withEmail, withoutEmail) = recipients.partition { it.email.isNotBlank() }
+        if (withoutEmail.isNotEmpty()) {
+            logger.warn("[${event.key}] skipping recipients without email: ${withoutEmail.map { it.id }}")
+        }
+        val to = withEmail.map { it.toParticipant() }
         val adminEmail = settingsService.findByKey(SettingsAPI.SETTINGS_MAIL_DEFAULT_ADMIN_ADDRESS)?.value as? String
         val bcc = if (adminEmail != null) listOf(MailParticipant("", adminEmail)) else emptyList()
         if (event.useActorAsSender) {

@@ -50,9 +50,22 @@ class AccountCrudService(
         } else {
             storage.updateLastLoginDate(account)
         }
-        val profile = profileService.getForAccount(account) ?: createNewProfile(auth, account, lang)
+        var profile = profileService.getForAccount(account) ?: createNewProfile(auth, account, lang)
+        if (profile.email.isNullOrBlank() && auth.getEmail().isNotBlank()) {
+            profile = syncEmail(profile, auth)
+        }
         val info = AccountInfo.create(account, profile)
         return AccountValidationResult(created, account, profile, info)
+    }
+
+    private fun syncEmail(profile: Profile, auth: Authentication): Profile {
+        val request = ProfileChangeRequest(
+            auth.getEmail(), profile.phone, profile.mobile,
+            profile.firstName, profile.lastName,
+            profile.dateOfBirth, profile.gender, profile.profilePicture, profile.website,
+            profile.language
+        )
+        return profileService.update(getSystemAccount(), profile.id, request)
     }
 
     private fun findExistingAccount(auth: Authentication) =
