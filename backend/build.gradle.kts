@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.4.10"
-    kotlin("plugin.allopen") version "2.4.10"
-    kotlin("plugin.jpa") version "2.4.10"
-    kotlin("plugin.serialization") version "2.4.10"
+    kotlin("jvm") version "2.4.20"
+    kotlin("plugin.allopen") version "2.4.20"
+    kotlin("plugin.jpa") version "2.4.20"
+    kotlin("plugin.serialization") version "2.4.20"
 
-    id("com.google.devtools.ksp") version "2.3.11"
+    id("com.google.devtools.ksp") version "2.3.12"
     id("org.sonarqube") version "7.5.0.8588"
     id("net.researchgate.release") version "3.1.0"
     id("com.google.cloud.tools.jib") version "3.5.4"
@@ -90,8 +90,8 @@ dependencies {
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.4.10")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.4.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.4.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.4.20")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.85")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.85")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.86")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.86")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -130,9 +130,9 @@ dependencies {
     implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
-    implementation("org.simplejavamail:simple-java-mail:9.3.3")
-    implementation("org.simplejavamail:batch-module:9.3.3")
-    implementation("org.simplejavamail:authenticated-socks-module:9.3.3")
+    implementation("org.simplejavamail:simple-java-mail:9.3.4")
+    implementation("org.simplejavamail:batch-module:9.3.4")
+    implementation("org.simplejavamail:authenticated-socks-module:9.3.4")
 
     // test
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
