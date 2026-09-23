@@ -25,6 +25,7 @@ export class EventBoardRowComponent {
   readonly link = computed(() => this.data().link)
   readonly title = computed(() => this.data().title)
   readonly shortText = computed(() => this.data().shortText)
+  readonly owner = computed(() => this.data().owner)
   readonly start = computed(() => this.data().start)
   readonly finish = computed(() => this.data().finish)
   readonly hasLocation = computed(() => this.data().hasLocation)

@@ -7,6 +7,7 @@ export function toEventBoardEntry(event: PublicEvent): EventBoardEntry {
     link: `/event/${event.key}`,
     title: event.title,
     shortText: event.shortText,
+    owner: event.owner.name,
     start: event.start,
     finish: event.finish,
     hasLocation: event.hasLocation,

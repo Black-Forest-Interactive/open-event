@@ -44,6 +44,7 @@ interface EventRow {
   total: number
   unique: number
   seats: number
+  bookedSeats: number
   utilPct: number
   participants: Participant[]
   sources: SourceStat[]
@@ -175,9 +176,10 @@ export class MetricsComponent {
     const eventCount = data.length
     const totalParticipants = data.reduce((s, e) => s + (e.event.registration?.participants.length ?? 0), 0)
     const totalSeats = data.reduce((s, e) => s + (e.event.registration?.registration.maxGuestAmount ?? 0), 0)
-    const utilization = totalSeats > 0 ? Math.round((totalParticipants / totalSeats) * 100) : 0
+    const bookedSeats = data.reduce((s, e) => s + this.countBookedSeats(e.event.registration?.participants ?? []), 0)
+    const utilization = totalSeats > 0 ? Math.round((bookedSeats / totalSeats) * 100) : 0
     const avgViews = eventCount > 0 ? totalViews / eventCount : 0
-    return { totalViews, uniqueViews, totalParticipants, totalSeats, utilization, avgViews, eventCount }
+    return { totalViews, uniqueViews, totalParticipants, totalSeats, bookedSeats, utilization, avgViews, eventCount }
   })
 
   readonly sourcesSummary = computed<SourceStat[]>(() => {
@@ -189,6 +191,7 @@ export class MetricsComponent {
     (this.dailyResource.value() ?? []).map((e) => {
       const seats = e.event.registration?.registration.maxGuestAmount ?? 0
       const participants = e.event.registration?.participants ?? []
+      const bookedSeats = this.countBookedSeats(participants)
       return {
         id: e.event.event.id,
         title: e.event.event.title,
@@ -197,12 +200,17 @@ export class MetricsComponent {
         total: e.metrics.reduce((s, m) => s + m.totalCount, 0),
         unique: e.metrics.reduce((s, m) => s + m.uniqueCount, 0),
         seats,
-        utilPct: seats > 0 ? Math.round((participants.length / seats) * 100) : 0,
+        bookedSeats,
+        utilPct: seats > 0 ? Math.round((bookedSeats / seats) * 100) : 0,
         participants,
         sources: this.aggregateSources(e.metrics.flatMap((m) => m.entries))
       }
     })
   )
+
+  private countBookedSeats(participants: Participant[]): number {
+    return participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0)
+  }
 
   private aggregateSources(entries: { source: MetricsSource; totalCount: number; uniqueCount: number }[]): SourceStat[] {
     const map = new Map<MetricsSource, { total: number; unique: number }>()

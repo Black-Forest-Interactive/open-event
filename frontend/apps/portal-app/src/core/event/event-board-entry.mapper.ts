@@ -1,5 +1,5 @@
 import { EventSearchEntry } from '@open-event/core'
-import { EventBoardEntry } from '@open-event/ui'
+import { AccountDisplayNamePipe, EventBoardEntry } from '@open-event/ui'
 
 export function toEventBoardEntry(entry: EventSearchEntry, basePath = '/event/details'): EventBoardEntry {
   return {
@@ -7,6 +7,7 @@ export function toEventBoardEntry(entry: EventSearchEntry, basePath = '/event/de
     link: `${basePath}/${entry.id}`,
     title: entry.title,
     shortText: entry.shortText,
+    owner: new AccountDisplayNamePipe().transform(entry.owner),
     start: entry.start,
     finish: entry.finish,
     hasLocation: entry.hasLocation,

@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
 import { EventService } from '@open-event/portal'
 import { BoardSearchComponent, EventBoardDateRange } from '@open-event/ui'
-import { LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
+import { LoadingBarComponent, restoreScrollOnBack, toPromise, TourService } from '@open-event/shared'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
 import { MatIcon } from '@angular/material/icon'
 import { MatButton, MatIconButton } from '@angular/material/button'
@@ -102,6 +102,7 @@ export class EventBoardOwnComponent {
     })
     this.tourService.register(eventBoardOwnTour, () => !this.reloading())
     this.destroyRef.onDestroy(() => this.tourService.unregister(eventBoardOwnTour.id))
+    restoreScrollOnBack(computed(() => !this.reloading() && this.entries().length > 0))
   }
 
   setQuery(val: string) {

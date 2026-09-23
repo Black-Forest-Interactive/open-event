@@ -56,6 +56,12 @@
                     {{ city() }}
                 </span>
             }
+            @if (owner()) {
+                <span class="flex items-center gap-1">
+                    <mat-icon inline>person</mat-icon>
+                    {{ owner() }}
+                </span>
+            }
         </div>
     </div>
 

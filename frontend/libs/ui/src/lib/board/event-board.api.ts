@@ -3,6 +3,7 @@ export interface EventBoardEntry {
   link: string
   title: string
   shortText: string
+  owner: string
   start: string
   finish: string
   hasLocation: boolean

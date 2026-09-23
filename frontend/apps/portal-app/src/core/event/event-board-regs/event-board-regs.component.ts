@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
 import { EventService } from '@open-event/portal'
 import { BoardSearchComponent } from '@open-event/ui'
-import { LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
+import { LoadingBarComponent, restoreScrollOnBack, toPromise, TourService } from '@open-event/shared'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
@@ -69,6 +69,7 @@ export class EventBoardRegsComponent {
     })
     this.tourService.register(eventBoardRegsTour, () => !this.reloading())
     this.destroyRef.onDestroy(() => this.tourService.unregister(eventBoardRegsTour.id))
+    restoreScrollOnBack(computed(() => !this.reloading() && this.entries().length > 0))
   }
 
   setQuery(val: string) {
