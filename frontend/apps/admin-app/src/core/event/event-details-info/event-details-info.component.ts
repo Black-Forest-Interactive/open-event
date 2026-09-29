@@ -22,6 +22,7 @@ export class EventDetailsInfoComponent {
   readonly longText = computed(() => this.event().event.longText)
   readonly tags = computed(() => this.event().event.tags)
   readonly categories = computed(() => this.event().categories)
+  readonly audiences = computed(() => this.event().audiences)
   readonly created = computed(() => this.event().event.created)
   readonly changed = computed(() => this.event().event.changed)
   readonly owner = computed(() => this.event().event.owner)
