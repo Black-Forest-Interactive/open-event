@@ -49,9 +49,9 @@
         <div class="flex flex-col gap-3">
             <h2 class="text-lg font-medium m-0">{{ 'event.details.host' | translate }}</h2>
             <div class="flex flex-row items-center gap-3">
-                <lib-avatar [name]="owner().name"></lib-avatar>
+                <lib-avatar [name]="owner() | accountDisplayName"></lib-avatar>
                 <div class="flex flex-col flex-1 min-w-0">
-                    <div class="font-medium truncate">{{ owner().name }}</div>
+                    <div class="font-medium truncate">{{ owner() | accountDisplayName }}</div>
                     <div class="text-sm truncate" style="color: var(--mat-sys-on-surface-variant)">{{ owner().email }}</div>
                 </div>
                 <a [href]="mailtoOwner()" matButton="outlined">

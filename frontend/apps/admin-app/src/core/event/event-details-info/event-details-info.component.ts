@@ -1,6 +1,6 @@
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
-import { AvatarComponent, CategoryChipComponent, EventPublishedIconComponent } from '@open-event/ui'
+import { AccountDisplayNamePipe, AvatarComponent, CategoryChipComponent, EventPublishedIconComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
 import { DatePipe } from '@angular/common'
 import { MatIcon } from '@angular/material/icon'
@@ -9,7 +9,7 @@ import { MatCard } from '@angular/material/card'
 
 @Component({
   selector: 'admin-event-details-info',
-  imports: [TranslatePipe, EventPublishedIconComponent, CategoryChipComponent, AvatarComponent, DatePipe, MatIcon, MatButton, MatCard],
+  imports: [TranslatePipe, EventPublishedIconComponent, CategoryChipComponent, AvatarComponent, DatePipe, MatIcon, MatButton, MatCard, AccountDisplayNamePipe],
   templateUrl: './event-details-info.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-info.component.scss'

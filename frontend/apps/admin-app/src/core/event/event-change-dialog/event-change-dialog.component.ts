@@ -2,14 +2,14 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { AccountService, AddressService, AudienceService, CategoryService, EventService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog'
 import { Address, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
-import { EventChangeComponent } from '@open-event/ui'
+import { AccountDisplayNamePipe, EventChangeComponent } from '@open-event/ui'
 import { Observable } from 'rxjs'
 import { Page } from '@open-event/shared'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
   selector: 'admin-event-change-dialog',
-  imports: [EventChangeComponent, MatDialogContent, TranslatePipe],
+  imports: [EventChangeComponent, MatDialogContent, TranslatePipe, AccountDisplayNamePipe],
   templateUrl: './event-change-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-dialog.component.scss'

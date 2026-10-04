@@ -12,10 +12,11 @@ import { DatePipe } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
 import { RegistrationParticipantEditDialogComponent } from '../registration-participant-edit-dialog/registration-participant-edit-dialog.component'
 import { RegistrationParticipantRemoveDialogComponent } from '../registration-participant-remove-dialog/registration-participant-remove-dialog.component'
+import { AccountDisplayNamePipe } from '@open-event/ui'
 
 @Component({
   selector: 'admin-registration-table',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, TranslatePipe, DatePipe],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatSortModule, TranslatePipe, DatePipe, AccountDisplayNamePipe],
   templateUrl: './registration-table.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registration-table.component.scss'

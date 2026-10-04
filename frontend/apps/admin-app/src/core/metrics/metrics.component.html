@@ -293,9 +293,9 @@
                   <div class="flex flex-col gap-2">
                     @for (p of row.participants; track p.id) {
                       <div class="flex items-center gap-3 bg-white border border-[#e4e7da] rounded-[10px] px-3.5 py-2.5">
-                        <span class="w-[34px] h-[34px] rounded-full bg-[#eaf3ea] text-[#2e7d32] inline-flex items-center justify-center font-semibold text-[13px] flex-none font-['Space_Grotesk']">{{ initials(p.author.name) }}</span>
+                        <span class="w-[34px] h-[34px] rounded-full bg-[#eaf3ea] text-[#2e7d32] inline-flex items-center justify-center font-semibold text-[13px] flex-none font-['Space_Grotesk']">{{ initials(p.author | accountDisplayName) }}</span>
                         <div class="min-w-0">
-                          <div class="font-semibold text-sm">{{ p.author.name }}</div>
+                          <div class="font-semibold text-sm">{{ p.author | accountDisplayName }}</div>
                           <div class="text-[12.5px] text-[#9aa394]">{{ p.author.email }}</div>
                         </div>
                         <span class="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#eaf3ea] text-[#2e7d32] font-semibold text-xs">{{ 'registration.table.enum.' + p.status | translate }}</span>

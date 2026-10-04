@@ -10,7 +10,7 @@ import { MatButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { MatChipAvatar, MatChipListbox, MatChipOption, MatChipSelectionChange } from '@angular/material/chips'
 import { MatIconButton } from '@angular/material/button'
-import { EventRangePickerComponent, EventRangeSelection } from '@open-event/ui'
+import { AccountDisplayNamePipe, EventRangePickerComponent, EventRangeSelection } from '@open-event/ui'
 import { BoardComponent, BoardFilters, BoardToolbarActions } from '../../shared/board/board.component'
 import { smoothPath } from './metrics-chart.util'
 
@@ -72,7 +72,8 @@ const PAD_BOTTOM = 34
     BoardComponent,
     BoardToolbarActions,
     BoardFilters,
-    EventRangePickerComponent
+    EventRangePickerComponent,
+    AccountDisplayNamePipe
   ],
   templateUrl: './metrics.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
