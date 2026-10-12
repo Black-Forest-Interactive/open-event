@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.4.20"
-    kotlin("plugin.allopen") version "2.4.20"
-    kotlin("plugin.jpa") version "2.4.20"
-    kotlin("plugin.serialization") version "2.4.20"
+    kotlin("jvm") version "2.4.21"
+    kotlin("plugin.allopen") version "2.4.21"
+    kotlin("plugin.jpa") version "2.4.21"
+    kotlin("plugin.serialization") version "2.4.21"
 
     id("com.google.devtools.ksp") version "2.3.12"
     id("org.sonarqube") version "7.5.0.8588"
-    id("net.researchgate.release") version "3.1.0"
+    id("net.researchgate.release") version "3.2.0"
     id("com.google.cloud.tools.jib") version "3.5.4"
 
     id("io.micronaut.application") version "5.0.2"
@@ -85,13 +85,13 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:5.4.0")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:5.5.0")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:2.4.20")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.4.20")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.4.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.4.21")
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.87")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.87")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.97")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.97")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
