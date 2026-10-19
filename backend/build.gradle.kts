@@ -95,7 +95,7 @@ dependencies {
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.3.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.3.1")
 
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
