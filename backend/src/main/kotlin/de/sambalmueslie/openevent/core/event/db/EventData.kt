@@ -39,11 +39,7 @@ data class EventData(
     @Column var updated: LocalDateTime? = null
 ) : DataObject {
     companion object {
-        fun create(
-            account: Account,
-            request: EventChangeRequest,
-            timestamp: LocalDateTime
-        ): EventData {
+        fun create(account: Account, request: EventChangeRequest, timestamp: LocalDateTime): EventData {
             return EventData(
                 0,
                 account.id,
