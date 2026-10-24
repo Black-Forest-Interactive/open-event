@@ -85,7 +85,7 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:5.5.0")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:5.5.1")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -95,7 +95,7 @@ dependencies {
 
     // caching
 //    implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.3.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.3.1")
 
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
@@ -117,22 +117,22 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.97")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.97")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.100")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.100")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
     implementation("com.google.zxing:javase:3.5.4")
 
     // POI
-    implementation("org.apache.poi:poi:5.5.1")
-    implementation("org.apache.poi:poi-ooxml:5.5.1")
+    implementation("org.apache.poi:poi:6.0.0")
+    implementation("org.apache.poi:poi-ooxml:6.0.0")
     implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
-    implementation("org.simplejavamail:simple-java-mail:9.3.5")
-    implementation("org.simplejavamail:batch-module:9.3.5")
-    implementation("org.simplejavamail:authenticated-socks-module:9.3.5")
+    implementation("org.simplejavamail:simple-java-mail:9.3.8")
+    implementation("org.simplejavamail:batch-module:9.3.8")
+    implementation("org.simplejavamail:authenticated-socks-module:9.3.8")
 
     // test
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")

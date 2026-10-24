@@ -9,6 +9,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/portal-app",
         "index": "apps/portal-app/src/index.html",
@@ -77,11 +78,18 @@
             }
           ]
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "defaultConfiguration": "development",
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "options": {
+        "proxyConfig": "proxy.conf.json"
+      },
       "configurations": {
         "production": {
           "buildTarget": "portal-app:build:production"
@@ -92,28 +100,12 @@
         "local": {
           "buildTarget": "portal-app:build:local"
         }
-      },
-      "defaultConfiguration": "development",
-      "options": {
-        "proxyConfig": "proxy.conf.json"
-      },
-      "continuous": true
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
         "buildTarget": "portal-app:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/portal-app/jest.config.ts",
-        "tsConfig": "apps/portal-app/tsconfig.spec.json"
       }
     },
     "serve-static": {
@@ -122,7 +114,11 @@
         "buildTarget": "portal-app:build",
         "staticFilePath": "dist/apps/portal-app/browser",
         "spa": true
-      }
+      },
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"]
     }
   }
 }

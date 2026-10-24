@@ -9,6 +9,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/admin-app",
         "index": "apps/admin-app/src/index.html",
@@ -77,11 +78,19 @@
             }
           ]
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "defaultConfiguration": "development",
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "options": {
+        "proxyConfig": "proxy.conf.json",
+        "port": 4201
+      },
       "configurations": {
         "production": {
           "buildTarget": "admin-app:build:production"
@@ -92,29 +101,12 @@
         "local": {
           "buildTarget": "admin-app:build:local"
         }
-      },
-      "defaultConfiguration": "development",
-      "options": {
-        "proxyConfig": "proxy.conf.json",
-        "port": 4201
-      },
-      "continuous": true
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
         "buildTarget": "admin-app:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/admin-app/jest.config.ts",
-        "tsConfig": "apps/admin-app/tsconfig.spec.json"
       }
     },
     "serve-static": {
@@ -123,7 +115,11 @@
         "buildTarget": "admin-app:build",
         "staticFilePath": "dist/apps/admin-app/browser",
         "spa": true
-      }
+      },
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"]
     }
   }
 }

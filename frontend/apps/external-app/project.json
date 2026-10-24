@@ -9,6 +9,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/external-app",
         "index": "apps/external-app/src/index.html",
@@ -79,11 +80,19 @@
             }
           ]
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "defaultConfiguration": "development",
+      "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
+      "options": {
+        "proxyConfig": "proxy.conf.json",
+        "port": 4202
+      },
       "configurations": {
         "production": {
           "buildTarget": "external-app:build:production"
@@ -94,29 +103,12 @@
         "local": {
           "buildTarget": "external-app:build:local"
         }
-      },
-      "defaultConfiguration": "development",
-      "options": {
-        "proxyConfig": "proxy.conf.json",
-        "port": 4202
-      },
-      "continuous": true
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
         "buildTarget": "external-app:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/external-app/jest.config.ts",
-        "tsConfig": "apps/external-app/tsconfig.spec.json"
       }
     },
     "serve-static": {
@@ -125,7 +117,11 @@
         "buildTarget": "external-app:build",
         "staticFilePath": "dist/apps/external-app/browser",
         "spa": true
-      }
+      },
+      "readyWhen": {
+        "signal": true
+      },
+      "dependsOn": ["build"]
     }
   }
 }
