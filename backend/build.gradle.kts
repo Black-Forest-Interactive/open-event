@@ -6,7 +6,7 @@ plugins {
     kotlin("plugin.jpa") version "2.4.21"
     kotlin("plugin.serialization") version "2.4.21"
 
-    id("com.google.devtools.ksp") version "2.3.12"
+    id("com.google.devtools.ksp") version "2.3.13"
     id("org.sonarqube") version "7.5.0.8588"
     id("net.researchgate.release") version "3.2.0"
     id("com.google.cloud.tools.jib") version "3.5.4"
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.105")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.105")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.108")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.108")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -151,7 +151,7 @@ dependencies {
     implementation("com.jillesvangurp:search-client:2.9.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.23.2")
+    implementation("org.jsoup:jsoup:1.24.1")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
