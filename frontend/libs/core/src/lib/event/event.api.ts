@@ -57,7 +57,21 @@ export class EventChangeRequest {
     public status: string,
     public published: boolean,
     public shared: boolean,
-    public tags: string[]
+    public tags: string[],
+    public contact?: EventContactChangeRequest
+  ) {}
+}
+
+export interface EventContact {
+  eventId: number
+  phone: string
+  mobile: string
+}
+
+export class EventContactChangeRequest {
+  constructor(
+    public phone: string,
+    public mobile: string
   ) {}
 }
 
@@ -77,6 +91,8 @@ export interface EventReadAPI {
   getEventInfo(id: number): Observable<EventInfo>
 
   create(request: EventChangeRequest): Observable<Event>
+
+  getEventContact?(id: number): Observable<EventContact | null>
 }
 
 export class EventUpdateTextRequest {

@@ -2,6 +2,7 @@ import { Component, computed, inject, input, output, resource, ChangeDetectionSt
 import { AudienceService } from '@open-event/portal'
 import { AudienceFilterComponent as LibAudienceFilterComponent } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
+import { TriFilter } from '@open-event/core'
 
 @Component({
   selector: 'portal-audience-filter',
@@ -10,7 +11,8 @@ import { toPromise } from '@open-event/shared'
   changeDetection: ChangeDetectionStrategy.Eager
 })
 export class AudienceFilterComponent {
-  selected = input.required<Set<string>>()
+  state = input.required<TriFilter>()
+  label = input<string>()
   toggled = output<string>()
 
   private audienceService = inject(AudienceService)

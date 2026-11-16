@@ -1,0 +1,68 @@
+<div class="px-3 sm:px-4 pt-4 pb-1 flex items-end gap-3">
+    <div class="flex-auto min-w-0">
+        <h1 class="text-2xl font-semibold text-on-surface">{{ 'finder.title' | translate }}</h1>
+        <p class="text-sm text-on-surface-variant">{{ 'finder.subtitle' | translate }}</p>
+    </div>
+    <button (click)="create()" class="shrink-0" color="accent" matButton="filled" type="button">
+        <mat-icon>add</mat-icon>{{ 'finder.create' | translate }}
+    </button>
+</div>
+
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+<div class="p-3 sm:p-4 pb-20 xl:pb-4">
+    @if (!reloading() && finders().length === 0) {
+        <div class="flex flex-col items-center gap-2 py-16 px-4 text-center text-on-surface-variant">
+            <div class="grid place-items-center w-16 h-16 rounded-2xl bg-secondary-container text-on-secondary-container mb-2">
+                <mat-icon style="font-size: 32px; width: 32px; height: 32px">swipe</mat-icon>
+            </div>
+            <div class="text-lg font-medium text-on-surface">{{ 'finder.empty.title' | translate }}</div>
+            <div class="text-sm max-w-md">{{ 'finder.empty.subtitle' | translate }}</div>
+            <button (click)="create()" class="mt-3" color="accent" matButton="filled" type="button">
+                <mat-icon>add</mat-icon>{{ 'finder.create' | translate }}
+            </button>
+        </div>
+    }
+    <div class="fgrid">
+        @for (f of finders(); track f.info.id) {
+            <mat-card (click)="open(f.info)" (keydown.enter)="open(f.info)" appearance="outlined" class="fcard" tabindex="0">
+                <div class="flex flex-col gap-3.5 p-4.5">
+                    <div class="flex items-center gap-3.5">
+                        <span class="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-secondary-container text-on-secondary-container">
+                            <mat-icon>swipe</mat-icon>
+                        </span>
+                        <div class="flex flex-col gap-0.5 min-w-0">
+                            <h3 class="text-lg font-medium leading-tight truncate">{{ f.info.name }}</h3>
+                            <span class="flex items-center gap-1 text-[13px] text-on-surface-variant">
+                                <mat-icon style="font-size: 15px; width: 15px; height: 15px">calendar_today</mat-icon>
+                                {{ f.info.request.from | date: 'dd.MM.yyyy' }} – {{ f.info.request.to | date: 'dd.MM.yyyy' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <portal-finder-criteria-chips [request]="f.info.request"></portal-finder-criteria-chips>
+
+                    <div class="fprog">
+                        <div class="fprog__track"><div [style.width.%]="f.percent" class="fprog__fill"></div></div>
+                        <span class="fprog__label">{{ 'finder.progress' | translate: { rated: f.stats.rated, total: f.stats.total } }}</span>
+                    </div>
+
+                    <div class="fcard__foot">
+                        <div class="fcounts">
+                            <span [title]="'finder.count.open' | translate" class="fcount"><mat-icon style="font-size: 16px; width: 16px; height: 16px">layers</mat-icon>{{ f.stats.open }}</span>
+                            <span [title]="'finder.tab.YES' | translate" class="fcount fcount--yes"><mat-icon style="font-size: 16px; width: 16px; height: 16px">thumb_up</mat-icon>{{ f.stats.yes }}</span>
+                            <span [title]="'finder.tab.MAYBE' | translate" class="fcount fcount--maybe"><mat-icon style="font-size: 16px; width: 16px; height: 16px">schedule</mat-icon>{{ f.stats.maybe }}</span>
+                            <span [title]="'finder.tab.NO' | translate" class="fcount fcount--no"><mat-icon style="font-size: 16px; width: 16px; height: 16px">thumb_down</mat-icon>{{ f.stats.no }}</span>
+                        </div>
+                        <button (click)="$event.stopPropagation(); open(f.info)" class="fcard__action" matButton="tonal" type="button">
+                            {{ f.actionKey | translate }}
+                            <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card>
+        }
+    </div>
+</div>
+
+<portal-event-board-navbar></portal-event-board-navbar>

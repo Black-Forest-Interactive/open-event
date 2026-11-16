@@ -11,6 +11,7 @@ import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
+import de.sambalmueslie.openevent.core.finder.db.FinderStorage
 import de.sambalmueslie.openevent.core.history.db.HistoryStorageService
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
@@ -32,6 +33,7 @@ class EventStorageService(
     private val audienceRelationService: EventAudienceRelationService,
     private val bookmarkRelationService: EventBookmarkRelationService,
     private val historyStorageService: HistoryStorageService,
+    private val finderStorage: FinderStorage,
 
     cacheService: CacheService,
     private val timeProvider: TimeProvider,
@@ -202,6 +204,7 @@ class EventStorageService(
         audienceRelationService.delete(data)
         bookmarkRelationService.delete(data)
         historyStorageService.deleteByEvent(data)
+        finderStorage.deleteByEvent(data.id)
     }
 
 

@@ -1,1 +1,1 @@
-<lib-audience-filter [items]="audiences()" [selected]="selected()" (toggled)="toggled.emit($event)"></lib-audience-filter>
+<lib-audience-filter (toggled)="toggled.emit($event)" [items]="audiences()" [label]="label() ?? 'event.filter.audience'" [state]="state()"></lib-audience-filter>

@@ -49,3 +49,7 @@ export interface RegistrationDetails {
   registration: Registration
   participants: ParticipantDetails[]
 }
+
+export class ParticipantCancelRequest {
+  constructor(public message: string) {}
+}

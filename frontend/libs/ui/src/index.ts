@@ -41,6 +41,7 @@ export { EventChangeGeneralComponent } from './lib/event/event-change-general/ev
 export { EventChangeLocationComponent } from './lib/event/event-change-location/event-change-location.component'
 export { EventChangeRegistrationComponent } from './lib/event/event-change-registration/event-change-registration.component'
 export { EventChangeSingleComponent } from './lib/event/event-change-single/event-change-single.component'
+export { EventChangeContactComponent, toContactChangeRequest } from './lib/event/event-change-contact/event-change-contact.component'
 export { EventPublishedIconComponent } from './lib/event/event-published-icon/event-published-icon.component'
 export { EventRangePickerComponent } from './lib/event/event-range-picker/event-range-picker.component'
 export { EventRangeSelection } from './lib/event/event-range-picker/event-range-selection'

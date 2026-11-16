@@ -79,8 +79,8 @@ class FinderStorageService(
         return entryRepository.findByIdFinderId(finder.id).map { it.convert() }
     }
 
-    override fun deleteByEvent(event: Event) {
-        entryRepository.deleteByIdEventId(event.id)
+    override fun deleteByEvent(eventId: Long) {
+        entryRepository.deleteByIdEventId(eventId)
     }
 
     override fun findByOwner(owner: Account, pageable: Pageable): Page<Finder> {

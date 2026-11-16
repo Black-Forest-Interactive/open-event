@@ -1,0 +1,35 @@
+<admin-board title="notification.title" [reloading]="reloading()" [showSearch]="false" (reload)="reload()">
+    <mat-card>
+        <table [dataSource]="data()" mat-table>
+
+            <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell>
+                    <div class="flex flex-row gap-3 items-center">
+                        <mat-icon>notifications</mat-icon>
+                        <span>{{ 'notification.table.name' | translate }}</span>
+                    </div>
+                </th>
+                <td *matCellDef="let entry" mat-cell>{{ entry.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="key">
+                <th *matHeaderCellDef mat-header-cell>
+                    <span>{{ 'notification.table.key' | translate }}</span>
+                </th>
+                <td *matCellDef="let entry" mat-cell><code>{{ entry.key }}</code></td>
+            </ng-container>
+
+            <ng-container matColumnDef="enabled">
+                <th *matHeaderCellDef mat-header-cell>
+                    <span>{{ 'notification.table.enabled' | translate }}</span>
+                </th>
+                <td *matCellDef="let entry" mat-cell>
+                    <mat-slide-toggle [checked]="entry.enabled" [disabled]="updating() === entry.id" (change)="toggle(entry, $event)"></mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumns;" class="table-content-row" mat-row></tr>
+        </table>
+    </mat-card>
+</admin-board>

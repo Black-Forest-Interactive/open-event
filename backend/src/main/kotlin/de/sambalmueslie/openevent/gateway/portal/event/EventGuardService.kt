@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeReques
 import de.sambalmueslie.openevent.core.checkPermission
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.*
+import de.sambalmueslie.openevent.core.event.contact.EventContact
 import de.sambalmueslie.openevent.core.export.ExportService
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
@@ -197,6 +198,15 @@ class EventGuardService(
             exportService.exportEventPdf(event.id, account)
         }
     }
+
+    fun getContact(auth: Authentication, id: Long) =
+        auth.checkPermission(PERMISSION_READ) {
+            val event = service.get(id) ?: return@checkPermission null
+            val account = accountService.find(auth)
+            val canAccess = event.owner.id == account.id || service.getInfo(event, account).registration?.participants?.any { it.author.id == account.id } ?: false
+            if (!canAccess) return@checkPermission null
+            service.getContact(event.id) ?: EventContact(event.id, "", "")
+        }
 
     fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable): Page<Announcement> =
         auth.checkPermission(PERMISSION_READ) {

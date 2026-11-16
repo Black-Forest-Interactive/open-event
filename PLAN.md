@@ -604,3 +604,31 @@ mit `[public]`-Setter) sowie `libs/shared` (`ScrollNearEndDirective`, `LoadingBa
   Warnung), `nx lint external-app` ✅ (0 Issues).
 - **Offen**: Live-Browser-QA (Board-Layout-Umschaltung inkl. Agenda, Filter/Infinite-Scroll, Detailseite mit
   Hero/Fact-Row/Aside-Buchungskarte, Teilnahme-Flow, Dark-Mode).
+
+---
+
+### 27. Finder („Durchblättern“) + inverse Filter (Tri-State)
+
+Quelle: Claude-Design-Projekt „Open Event“ (`app/finder.jsx`, `app/finder.css`, `app/app.jsx`), Prompt `Prompt-Finder-und-Filter.md`.
+
+- **Backend**: `EventSearchRequest` + `excludedCategories`/`excludedAudiences` (`mustNot terms` im `EventSearchQueryBuilder`).
+  Finder-API um `GET /api/portal/finder/{id}/open` (offene Kandidaten) und `POST /api/portal/finder/preview` (Live-Trefferzahl
+  im Editor, gleiche Suche wie die Session → Zahl stimmt mit Kartenanzahl überein) ergänzt. Test `openCandidatesAndPreview` in
+  `FinderCrudServiceTest` ✅. Zielgruppen sind echte `Audience`-Entities (kein Raten per Text, kein festes Kinder/Erwachsene).
+  `GET /{id}/next` samt `FinderNext` und Test `suggestsActiveEventsInRangeAndRotatesPostponed` entfernt (Frontend nutzt `/open`).
+- **Tri-State-Filter**: `libs/core/src/lib/search/tri-filter.ts` (`TriFilter`, `triToggle/triRemove/triIncluded/triExcluded/
+  triCount/triFromLists`) — gemeinsame Logik für Entdecken, „Meine Angebote“ und Finder. `lib-category-filter` (Liste mit
+  Check-/Block-Badge, Durchstreichen) und `lib-audience-filter` (Pills mit „Ohne“) auf `state: TriFilter` umgestellt, Hinweis
+  `filter.tri.hint`, `aria-pressed="mixed"` + `aria-label` „Nur …“/„Ohne …“. Neue `portal-active-filter-chips` auf Entdecken
+  (Ausschlüsse rot mit `block`, einzeln entfernbar, Zähler zählt in+out).
+- **Finder-Frontend** (alte Komponenten `finder-details/-swipe/-entry-list/-editor` ersetzt): Routen `/finder`, `/finder/:id`.
+  `finder-board` (Karten-Grid, Kriterien-Chips, Fortschritt, Zähler-Pills, Starten/Weiter/Ergebnisse), `finder-editor-sheet`
+  (Dialog ≥760 px / Bottom-Sheet mobil via `FinderEditorLauncher`, Validierung beim Absenden, Live-Trefferzahl),
+  `finder-session` (Seitenleiste mit Tabs + Inline-Bestätigung für Zurücksetzen/Löschen, Karten-Stack mit Peek, Bewerten per
+  Button/Wischen/Tastatur, Undo-Stack + Undo-Toast, Später-Runde, Fertig-/Keine-Treffer-Zustand), `finder-swipe-card`
+  (Pointer-Drag ±12°, Schwelle 110 px, Stempel, Exit-Animation 230 ms), `finder-rated-list` (Segmented zum Umbewerten,
+  „Anmelden“ öffnet `RegistrationParticipateSheetComponent`). Bewertungen werden optimistisch lokal gesetzt und im Hintergrund
+  gespeichert. Feedback per `HotToastService` (Projektregel statt `MatSnackBar`).
+- **i18n**: `finder.*` komplett neu, `filter.tri.*` (DE/EN).
+- **Verifiziert**: `nx build portal-app` ✅, ESLint ohne neue Issues, Backend-Test ✅.
+- **Offen**: Live-Browser-QA (Wischen Touch/Maus, 375 px, Dark Mode) — Backend muss für die neuen Endpunkte neu gestartet werden.

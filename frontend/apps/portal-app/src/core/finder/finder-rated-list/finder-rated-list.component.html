@@ -1,0 +1,69 @@
+<div class="flex flex-col gap-3 w-full">
+    @for (e of entries(); track e.id) {
+        <div (click)="openEvent.emit(e)" (keydown.enter)="openEvent.emit(e)" class="frow" tabindex="0">
+            <div class="flex flex-col items-center justify-center text-center w-14 min-h-[60px] rounded-xl px-1 py-2 bg-primary-container text-on-primary-container">
+                <span class="text-[11px] font-semibold uppercase tracking-wide">{{ e.start | date: 'EEE' }}</span>
+                <span class="text-2xl font-medium leading-none">{{ e.start | date: 'd' }}</span>
+                <span class="text-[11px] font-medium uppercase opacity-80">{{ e.start | date: 'MMM' }}</span>
+            </div>
+
+            <div [style.--h]="style(e.categories[0] ?? '').hue" class="frow__media">
+                <mat-icon style="font-size: 28px; width: 28px; height: 28px">{{ style(e.categories[0] ?? '').icon }}</mat-icon>
+            </div>
+
+            <div class="flex flex-col gap-1.5 min-w-0">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    @for (cat of e.categories; track cat) {
+                        <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                    }
+                    @for (audience of e.audiences; track audience) {
+                        <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-medium">{{ audience }}</span>
+                    }
+                </div>
+                <h3 class="text-base font-medium truncate">{{ e.title }}</h3>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-on-surface-variant">
+                    <span class="flex items-center gap-1">
+                        <mat-icon style="font-size: 15px; width: 15px; height: 15px">schedule</mat-icon>
+                        {{ e.start | date: 'shortTime' }} – {{ e.finish | date: 'shortTime' }}
+                    </span>
+                    @if (e.hasLocation) {
+                        <span class="flex items-center gap-1">
+                            <mat-icon style="font-size: 15px; width: 15px; height: 15px">place</mat-icon>
+                            {{ e.city }}
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()" class="frow__side">
+                <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [value]="answer()" class="frow__seg">
+                    @for (a of answers; track a) {
+                        <mat-button-toggle (click)="a !== answer() && rate.emit({ entry: e, answer: a })" [attr.aria-label]="'finder.tab.' + a | translate"
+                                           [matTooltip]="'finder.tab.' + a | translate" [value]="a">
+                            <mat-icon style="font-size: 18px; width: 18px; height: 18px">{{ icons[a] }}</mat-icon>
+                        </mat-button-toggle>
+                    }
+                </mat-button-toggle-group>
+                @if (answer() === 'YES' && e.maxGuestAmount > 0) {
+                    @if (e.participatingEvent) {
+                        <span class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary text-on-secondary text-xs font-medium">
+                            <mat-icon style="font-size: 14px; width: 14px; height: 14px">check</mat-icon>
+                            {{ 'finder.registered' | translate }}
+                        </span>
+                    } @else {
+                        <button (click)="register.emit(e)" [disabled]="!e.hasSpaceLeft" color="accent" matButton="filled" type="button">
+                            {{ (e.hasSpaceLeft ? 'finder.action.register' : 'finder.full') | translate }}
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+    } @empty {
+        <div class="flex flex-col items-center gap-2 py-16 px-4 text-center text-on-surface-variant">
+            <div class="grid place-items-center w-16 h-16 rounded-2xl bg-surface-container text-on-surface-variant mb-2">
+                <mat-icon style="font-size: 32px; width: 32px; height: 32px">{{ icons[answer()] }}</mat-icon>
+            </div>
+            <div class="text-sm max-w-md">{{ 'finder.list.empty.' + answer() | translate }}</div>
+        </div>
+    }
+</div>

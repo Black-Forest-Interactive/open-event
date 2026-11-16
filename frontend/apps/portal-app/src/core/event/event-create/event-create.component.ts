@@ -12,9 +12,9 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { DateTime } from 'luxon'
 import { AddressChangeRequest, EventChangeRequest, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
-import { AddressService, AudienceService, CategoryService, EventService } from '@open-event/portal'
+import { AccountService, AddressService, AudienceService, CategoryService, EventService } from '@open-event/portal'
 import { toPromise, TourService } from '@open-event/shared'
-import { CategoryChipComponent, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent } from '@open-event/ui'
+import { CategoryChipComponent, EventChangeContactComponent, EventChangeGeneralComponent, EventChangeLocationComponent, EventChangeRegistrationComponent, toContactChangeRequest } from '@open-event/ui'
 import { eventCreateTours } from './event-create.tour'
 
 interface WizardSummary {
@@ -41,7 +41,8 @@ interface WizardSummary {
     CategoryChipComponent,
     EventChangeGeneralComponent,
     EventChangeLocationComponent,
-    EventChangeRegistrationComponent
+    EventChangeRegistrationComponent,
+    EventChangeContactComponent
   ],
   templateUrl: './event-create.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -52,6 +53,7 @@ export class EventCreateComponent {
   private addressService = inject(AddressService)
   private categoryService = inject(CategoryService)
   private audienceService = inject(AudienceService)
+  private accountService = inject(AccountService)
   private translate = inject(TranslateService)
   private toast = inject(HotToastService)
   private router = inject(Router)
@@ -82,6 +84,11 @@ export class EventCreateComponent {
 
   private categoriesResource = resource({ loader: (p) => toPromise(this.categoryService.getCategories(0, 100), p.abortSignal) })
   private audiencesResource = resource({ loader: (p) => toPromise(this.audienceService.getAudiences(0, 100), p.abortSignal) })
+  private profileResource = resource({ loader: (p) => toPromise(this.accountService.getProfile(), p.abortSignal) })
+  readonly profileContact = computed(() => {
+    const profile = this.profileResource.value()
+    return profile ? { phone: profile.phone ?? '', mobile: profile.mobile ?? '' } : null
+  })
   private allCategories = computed(() => this.categoriesResource.value()?.content ?? [])
   private allAudiences = computed(() => this.audiencesResource.value()?.content ?? [])
 
@@ -233,7 +240,8 @@ export class EventCreateComponent {
       'ACTIVE',
       true,
       value.registration.shared,
-      value.registration.tags ?? []
+      value.registration.tags ?? [],
+      toContactChangeRequest(value.contact)
     )
   }
 

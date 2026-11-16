@@ -6,5 +6,6 @@ data class NotificationType(
     override val id: Long,
     val key: String,
     val name: String,
-    val description: String
+    val description: String,
+    val enabled: Boolean
 ) : BusinessObject<Long>

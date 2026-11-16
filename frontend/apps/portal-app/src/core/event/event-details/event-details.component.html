@@ -8,7 +8,7 @@
         <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch px-3 pt-3 pb-20 lg:pb-3">
             <div class="flex flex-col flex-auto min-w-0">
                 <portal-event-details-info [info]="info()!" data-tour="details-info"/>
-                <portal-event-host-block [info]="info()!" data-tour="details-host"/>
+                <portal-event-host-block [contact]="contact()" [info]="info()!" data-tour="details-host"/>
                 @if (canEdit()) {
                     <portal-event-guest-list [info]="info()!" data-tour="details-guests"/>
                 } @else if (registration()) {

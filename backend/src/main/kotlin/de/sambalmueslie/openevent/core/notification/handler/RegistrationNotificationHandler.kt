@@ -1,14 +1,10 @@
 package de.sambalmueslie.openevent.core.notification.handler
 
 
-import biweekly.Biweekly
-import biweekly.ICalendar
-import biweekly.component.VEvent
-import biweekly.property.Summary
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.EventCrudService
-import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.notification.NotificationEvent
 import de.sambalmueslie.openevent.core.notification.NotificationService
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
@@ -17,14 +13,9 @@ import de.sambalmueslie.openevent.core.participant.api.ParticipateStatus
 import de.sambalmueslie.openevent.core.registration.RegistrationChangeListener
 import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
 import de.sambalmueslie.openevent.core.registration.api.Registration
-import de.sambalmueslie.openevent.infrastructure.mail.api.Attachment
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.nio.charset.Charset
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.*
 
 @Singleton
 class RegistrationNotificationHandler(
@@ -43,7 +34,6 @@ class RegistrationNotificationHandler(
         const val KEY_PARTICIPANT_ACCEPTED = "registration.participant.accepted"
         const val KEY_PARTICIPANT_DECLINED = "registration.participant.declined"
         const val KEY_PARTICIPANT_WAITLIST = "registration.participant.waitlist"
-        private val ZONE_OFFSET = ZoneId.of("Europe/Berlin")
     }
 
     override fun getName(): String = RegistrationNotificationHandler::class.java.simpleName
@@ -148,7 +138,7 @@ class RegistrationNotificationHandler(
             return
         }
 
-        val attachment = createAttachment(event)
+        val attachment = EventCalendarAttachment.create(event, location)
 
         service.process(
             NotificationEvent(
@@ -161,31 +151,12 @@ class RegistrationNotificationHandler(
         )
     }
 
-    private fun createAttachment(event: Event): Attachment {
-        val cal = ICalendar()
-        val e = VEvent()
-        e.summary = Summary(event.title)
-
-        e.setDateStart(convert(event.start), true)
-        e.setDateEnd(convert(event.finish), true)
-        cal.addEvent(e)
-
-        val content = Biweekly.write(cal).go().toByteArray(Charset.defaultCharset())
-        return Attachment("invitation.ics", content, "text/calendar")
-    }
-
-    private fun convert(timestamp: LocalDateTime): Date {
-        val offset = ZONE_OFFSET.rules.getOffset(timestamp)
-        val instant = timestamp.toInstant(offset)
-        return Date.from(instant)
-    }
-
-    override fun participantRemoved(actor: Account, registration: Registration, participant: Participant) {
+    override fun participantRemoved(actor: Account, registration: Registration, participant: Participant, cancel: ParticipantCancelRequest?) {
         val event = eventService.get(registration.eventId)
             ?: return logger.error("Cannot find event for registration ${registration.id}")
         val location =
             eventService.getLocation(event.id) ?: return logger.error("Cannot find location for event ${event.id}")
-        val content = RegistrationEventContent(event, registration, participant, location)
+        val content = RegistrationEventContent(event, registration, participant, location, cancel)
 
         service.process(
             NotificationEvent(

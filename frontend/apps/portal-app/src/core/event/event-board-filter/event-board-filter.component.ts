@@ -4,6 +4,7 @@ import { MatIcon } from '@angular/material/icon'
 import { MatSlideToggle } from '@angular/material/slide-toggle'
 import { MatButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
+import { TriFilter } from '@open-event/core'
 import { CategoryFilterComponent } from './category-filter/category-filter.component'
 import { AudienceFilterComponent } from './audience-filter/audience-filter.component'
 
@@ -16,8 +17,8 @@ import { AudienceFilterComponent } from './audience-filter/audience-filter.compo
 })
 export class EventBoardFilterComponent {
   isDiscover = input.required<boolean>()
-  categoryFilter = input.required<Set<string>>()
-  audienceFilter = input.required<Set<string>>()
+  categoryFilter = input.required<TriFilter>()
+  audienceFilter = input.required<TriFilter>()
   showHistory = input.required<boolean>()
   showAvailableOnly = input.required<boolean>()
   showCancelled = input.required<boolean>()

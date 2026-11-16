@@ -1,0 +1,135 @@
+<button (click)="back()" class="!text-on-surface-variant mx-2 mt-3 self-start" matButton="text" type="button">
+    <mat-icon>arrow_back</mat-icon>{{ 'finder.title' | translate }}
+</button>
+<lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
+
+@if (info(); as info) {
+    <div class="fsess p-3 sm:p-4 pb-20 xl:pb-4">
+        <aside class="fside">
+            <div class="flex flex-col gap-2 px-2">
+                <h1 class="text-xl font-medium text-on-surface break-words">{{ info.name }}</h1>
+                <span class="flex items-center gap-1 text-[13px] text-on-surface-variant">
+                    <mat-icon style="font-size: 15px; width: 15px; height: 15px">calendar_today</mat-icon>
+                    {{ info.request.from | date: 'dd.MM.yyyy' }} – {{ info.request.to | date: 'dd.MM.yyyy' }}
+                </span>
+                <portal-finder-criteria-chips [request]="info.request" [showAvailable]="true"></portal-finder-criteria-chips>
+                <div class="fprog mt-1">
+                    <div class="fprog__track"><div [style.width.%]="percent()" class="fprog__fill"></div></div>
+                    <span class="fprog__label">{{ 'finder.progress' | translate: { rated: stats().rated, total: stats().total } }}</span>
+                </div>
+            </div>
+
+            <nav class="ftabs" role="tablist">
+                @for (t of tabs(); track t.key) {
+                    <button (click)="selectTab(t.key)" [attr.aria-selected]="tab() === t.key" [class.is-active]="tab() === t.key" [class.ftab--discover]="t.key === 'discover'" class="ftab"
+                            role="tab" type="button">
+                        <mat-icon style="font-size: 20px; width: 20px; height: 20px">{{ t.icon }}</mat-icon>
+                        <span class="ftab__label">{{ t.label | translate }}</span>
+                        <span class="ftab__count">{{ t.count }}</span>
+                    </button>
+                }
+            </nav>
+
+            @if (confirm(); as action) {
+                <div class="flex flex-col gap-2.5 p-3 rounded-xl bg-surface-container">
+                    <p class="text-[13.5px] font-medium">{{ (action === 'delete' ? 'finder.dialog.delete.question' : 'finder.dialog.reset.question') | translate }}</p>
+                    <div class="flex justify-end gap-2">
+                        <button (click)="confirm.set(null)" matButton="text" type="button">{{ 'action.cancel' | translate }}</button>
+                        <button (click)="confirmAction()" [class.fbtn-danger]="action === 'delete'" color="accent" matButton="filled" type="button">
+                            {{ (action === 'delete' ? 'finder.dialog.delete.confirm' : 'finder.dialog.reset.confirm') | translate }}
+                        </button>
+                    </div>
+                </div>
+            } @else {
+                <div class="flex flex-wrap gap-2 px-2 pt-3 border-t border-outline-variant">
+                    <button (click)="edit()" matButton="outlined" type="button"><mat-icon>edit</mat-icon>{{ 'action.edit' | translate }}</button>
+                    <button (click)="confirm.set('reset')" [disabled]="stats().rated === 0" matButton="outlined" type="button"><mat-icon>history</mat-icon>{{ 'action.reset' | translate }}</button>
+                    <button (click)="confirm.set('delete')" class="ml-auto fbtn-danger-text" matButton="text" type="button"><mat-icon>delete</mat-icon>{{ 'action.delete' | translate }}</button>
+                </div>
+            }
+        </aside>
+
+        <section class="fmain">
+            @if (selectedListAnswer(); as answer) {
+                <portal-finder-rated-list (openEvent)="openEvent($event)" (rate)="rerate($event)" (register)="register($event)" [answer]="answer" [entries]="listEntries()"></portal-finder-rated-list>
+            } @else if (loaded()) {
+                @if (stats().total === 0) {
+                    <div class="fplaceholder">
+                        <div class="fplaceholder__icon"><mat-icon style="font-size: 32px; width: 32px; height: 32px">search_off</mat-icon></div>
+                        <div class="text-lg font-medium text-on-surface">{{ 'finder.none.title' | translate }}</div>
+                        <div class="text-sm max-w-md">{{ 'finder.none.subtitle' | translate }}</div>
+                        <button (click)="edit()" class="mt-3" color="accent" matButton="filled" type="button"><mat-icon>edit</mat-icon>{{ 'action.edit' | translate }}</button>
+                    </div>
+                } @else if (current(); as entry) {
+                    <div class="fmain__bar">
+                        <span class="fmain__left">
+                            <mat-icon style="font-size: 18px; width: 18px; height: 18px">{{ laterRound() ? 'schedule' : 'layers' }}</mat-icon>
+                            {{ (queue().length === 1 ? 'finder.remainingOne' : 'finder.remaining') | translate: { count: queue().length } }}
+                            @if (laterRound()) {
+                                · {{ 'finder.tab.MAYBE' | translate }}
+                            }
+                        </span>
+                        @if (history().length > 0) {
+                            <button (click)="undo()" matButton="text" type="button"><mat-icon>undo</mat-icon>{{ 'finder.action.undo' | translate }}</button>
+                        }
+                    </div>
+
+                    <div class="swstack">
+                        @if (peekHue() !== undefined) {
+                            <div [style.--h]="peekHue()" aria-hidden="true" class="swpeek"></div>
+                        }
+                        @for (e of [entry]; track e.id) {
+                            <portal-finder-swipe-card (openEvent)="openEvent(e)" (rate)="rate($event)" [entry]="e" [exiting]="exiting()"></portal-finder-swipe-card>
+                        }
+                    </div>
+
+                    <div class="swacts">
+                        <button (click)="rate('NO')" [attr.aria-label]="'finder.answer.NO' | translate" class="swbtn swbtn--no" type="button">
+                            <mat-icon>thumb_down</mat-icon><span class="swbtn__label">{{ 'finder.answer.NO' | translate }}</span>
+                        </button>
+                        <button (click)="rate('MAYBE')" [attr.aria-label]="'finder.answer.MAYBE' | translate" class="swbtn swbtn--maybe" type="button">
+                            <mat-icon>schedule</mat-icon><span class="swbtn__label">{{ 'finder.answer.MAYBE' | translate }}</span>
+                        </button>
+                        <button (click)="rate('YES')" [attr.aria-label]="'finder.answer.YES' | translate" class="swbtn swbtn--yes" type="button">
+                            <mat-icon>thumb_up</mat-icon><span class="swbtn__label">{{ 'finder.answer.YES' | translate }}</span>
+                        </button>
+                    </div>
+                    <p class="swkeys swkeys--desk">{{ 'finder.hint.keys' | translate }}</p>
+                    <p class="swkeys swkeys--mob">{{ 'finder.hint.swipe' | translate }}</p>
+                } @else {
+                    <div class="fplaceholder">
+                        <div class="fplaceholder__icon"><mat-icon style="font-size: 32px; width: 32px; height: 32px">done_all</mat-icon></div>
+                        <div class="text-lg font-medium text-on-surface">{{ 'finder.done.title' | translate }}</div>
+                        <div class="text-sm max-w-md">{{ 'finder.done.subtitle' | translate }}</div>
+                        <div class="fcounts fcounts--lg justify-center mt-4">
+                            <span class="fcount fcount--yes"><mat-icon style="font-size: 18px; width: 18px; height: 18px">thumb_up</mat-icon>{{ stats().yes }} {{ 'finder.tab.YES' | translate }}</span>
+                            <span class="fcount fcount--maybe"><mat-icon style="font-size: 18px; width: 18px; height: 18px">schedule</mat-icon>{{ stats().maybe }} {{ 'finder.tab.MAYBE' | translate }}</span>
+                            <span class="fcount fcount--no"><mat-icon style="font-size: 18px; width: 18px; height: 18px">thumb_down</mat-icon>{{ stats().no }} {{ 'finder.tab.NO' | translate }}</span>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2.5 mt-4">
+                            @if (stats().maybe > 0) {
+                                <button (click)="startLaterRound()" matButton="outlined" type="button">
+                                    <mat-icon>schedule</mat-icon>{{ 'finder.action.laterAgain' | translate: { count: stats().maybe } }}
+                                </button>
+                            }
+                            @if (stats().yes > 0) {
+                                <button (click)="selectTab('YES')" color="accent" matButton="filled" type="button">
+                                    <mat-icon>thumb_up</mat-icon>{{ 'finder.action.seeYes' | translate }}
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </section>
+    </div>
+}
+
+<ng-template #undoToast let-ref>
+    <span class="flex items-center gap-3">
+        <span>{{ ref.data.message }}</span>
+        <button (click)="undo(); ref.close()" class="font-semibold text-secondary px-2 py-1 rounded-md hover:bg-surface-container" type="button">{{ 'finder.action.undo' | translate }}</button>
+    </span>
+</ng-template>
+
+<portal-event-board-navbar></portal-event-board-navbar>

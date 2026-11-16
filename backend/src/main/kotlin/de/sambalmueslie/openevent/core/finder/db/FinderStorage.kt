@@ -19,7 +19,7 @@ interface FinderStorage : Storage<Long, Finder, FinderChangeRequest> {
 
     fun getEntries(finder: Finder): List<FinderEntry>
 
-    fun deleteByEvent(event: Event)
+    fun deleteByEvent(eventId: Long)
 
     fun findByOwner(owner: Account, pageable: Pageable): Page<Finder>
 

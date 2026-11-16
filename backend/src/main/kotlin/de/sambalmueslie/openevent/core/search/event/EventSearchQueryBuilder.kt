@@ -61,8 +61,23 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             if (request.audiences.isNotEmpty()) {
                 filter(terms(EventSearchEntryData::audiences, request.audiences))
             }
+            if (request.excludedCategories.isNotEmpty()) {
+                mustNot(terms(EventSearchEntryData::categories, request.excludedCategories))
+            }
+            if (request.excludedAudiences.isNotEmpty()) {
+                mustNot(terms(EventSearchEntryData::audiences, request.excludedAudiences))
+            }
             if (request.status.isNotEmpty()) {
                 filter(terms(EventSearchEntryData::status, request.status.map { it.name }))
+            }
+            if (request.onlyPublished) {
+                filter(term(EventSearchEntryData::published, "true"))
+            }
+            if (request.includeIds.isNotEmpty()) {
+                filter(terms(EventSearchEntryData::id, request.includeIds.map { it.toString() }))
+            }
+            if (request.excludeIds.isNotEmpty()) {
+                mustNot(terms(EventSearchEntryData::id, request.excludeIds.map { it.toString() }))
             }
             agg(
                 EventSearchEntryData::date.name,

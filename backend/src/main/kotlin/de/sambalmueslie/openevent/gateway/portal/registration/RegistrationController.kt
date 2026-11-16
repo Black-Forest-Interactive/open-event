@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.gateway.portal.registration
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.participant.api.Participant
 import de.sambalmueslie.openevent.core.participant.api.ParticipantAddRequest
 import de.sambalmueslie.openevent.core.participant.api.ParticipateRequest
@@ -25,6 +26,9 @@ class RegistrationController(private val service: RegistrationGuardService) {
 
     @Delete("/{id}/participant")
     fun removeParticipant(auth: Authentication, id: Long): ParticipateResponse? = service.removeParticipant(auth, id)
+
+    @Post("/{id}/participant/cancel")
+    fun cancelParticipant(auth: Authentication, id: Long, @Body request: ParticipantCancelRequest): ParticipateResponse? = service.cancelParticipant(auth, id, request)
 
     @Post("/{id}/participant/manual")
     fun moderationParticipateManual(auth: Authentication, id: Long, @Body request: ParticipantAddRequest): ParticipateResponse? = service.moderationParticipateManual(auth, id, request)

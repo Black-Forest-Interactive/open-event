@@ -2,6 +2,7 @@ import { Component, computed, inject, input, output, resource, ChangeDetectionSt
 import { CategoryService } from '@open-event/portal'
 import { CategoryFilterComponent as LibCategoryFilterComponent } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
+import { TriFilter } from '@open-event/core'
 
 @Component({
   selector: 'portal-category-filter',
@@ -10,7 +11,8 @@ import { toPromise } from '@open-event/shared'
   changeDetection: ChangeDetectionStrategy.Eager
 })
 export class CategoryFilterComponent {
-  selected = input.required<Set<string>>()
+  state = input.required<TriFilter>()
+  label = input<string>()
   toggled = output<string>()
 
   private categoryService = inject(CategoryService)

@@ -827,5 +827,18 @@
       "enabled": "Newsletter sending has been enabled",
       "disabled": "Newsletter sending has been disabled"
     }
+  },
+  "notification": {
+    "type": "Notifications",
+    "title": "Notifications",
+    "table": {
+      "name": "Name",
+      "key": "Key",
+      "enabled": "Active"
+    },
+    "message": {
+      "enabled": "Notification \"{{name}}\" has been enabled",
+      "disabled": "Notification \"{{name}}\" has been disabled"
+    }
   }
 }

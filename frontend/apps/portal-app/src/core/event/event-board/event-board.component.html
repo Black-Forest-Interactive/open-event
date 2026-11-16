@@ -58,7 +58,10 @@
             <portal-event-board-filter [isDiscover]="true" [categoryFilter]="service.categoryFilter()" [audienceFilter]="service.audienceFilter()" [showHistory]="service.showHistory()" [showAvailableOnly]="service.showAvailableOnly()" [showCancelled]="service.showCancelled()" (dateRangeChanged)="service.setDateRange($event)" (toggleHistory)="service.toggleShowHistory()" (toggleCategory)="service.toggleCategory($event)" (toggleAudience)="service.toggleAudience($event)" (toggleAvailable)="service.toggleAvailableEvents()" (toggleCancelled)="service.toggleShowCancelled()" (resetFilter)="service.resetFilter()"></portal-event-board-filter>
         </div>
     }
-    <div class="flex-auto min-w-0">
+    <div class="flex-auto min-w-0 flex flex-col gap-3">
+        <portal-active-filter-chips (clearAvailable)="service.toggleAvailableEvents()" (removeAudience)="service.removeAudience($event)" (removeCategory)="service.removeCategory($event)"
+                                    (resetFilter)="service.resetFilter()" [audienceFilter]="service.audienceFilter()" [categoryFilter]="service.categoryFilter()"
+                                    [showAvailableOnly]="service.showAvailableOnly()"></portal-active-filter-chips>
         @if (mobileView()) {
             <portal-event-board-list [entries]="service.entries()" [reloading]="service.reloading()" layout="rows" [navView]="'all'" [hasMoreElements]="service.hasMoreElements()" (nearEnd)="service.onScroll()"></portal-event-board-list>
         } @else {

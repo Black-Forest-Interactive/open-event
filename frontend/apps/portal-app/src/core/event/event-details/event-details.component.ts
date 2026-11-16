@@ -26,7 +26,7 @@ import { EventNavigationService } from '../event-navigation.service'
 import { EventService, RegistrationService } from '@open-event/portal'
 import { AuthService, LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
 import { eventDetailsTour } from './event-details.tour'
-import { ParticipateRequest, ParticipateResponse } from '@open-event/core'
+import { ParticipantCancelRequest, ParticipateRequest, ParticipateResponse } from '@open-event/core'
 import { EventDetailsBannerComponent } from '../event-details-banner/event-details-banner.component'
 import { ShareSettingsComponent } from '../../share/share-settings/share-settings.component'
 import { MatCard } from '@angular/material/card'
@@ -96,6 +96,12 @@ export class EventDetailsComponent {
     return this.registration()?.participants.find((p) => p.author.email.toLowerCase() === email)
   })
   readonly canViewAnnouncements = computed(() => this.canEdit() || !!this.userParticipant())
+  private contactParams = computed(() => (this.canViewAnnouncements() ? this.eventId() : undefined))
+  private contactResource = resource({
+    params: this.contactParams,
+    loader: (p) => toPromise(this.service.getEventContact(p.params), p.abortSignal)
+  })
+  readonly contact = computed(() => this.contactResource.value())
   private announcementsCard = viewChild(EventAnnouncementsComponent)
   private tourService = inject(TourService)
   private destroyRef = inject(DestroyRef)
@@ -218,17 +224,23 @@ export class EventDetailsComponent {
 
   cancelSelf() {
     if (this.registrationReloading()) return
-    const dialogRef = this.dialog.open(RegistrationCancelDialogComponent)
+    const dialogRef = this.dialog.open(RegistrationCancelDialogComponent, { data: { withMessage: true } })
     dialogRef.afterClosed().subscribe((request) => {
-      if (request) this.requestCancelSelf()
+      if (request instanceof ParticipantCancelRequest) this.requestCancelSelf(request)
     })
   }
 
-  private requestCancelSelf() {
+  private requestCancelSelf(request: ParticipantCancelRequest) {
     const registration = this.registration()
     if (this.registrationReloading() || !registration) return
     this.registrationReloading.set(true)
-    this.registrationService.removeParticipant(registration.registration.id).subscribe((r) => this.handleParticipateResponse(r))
+    this.registrationService.cancelParticipant(registration.registration.id, request).subscribe({
+      next: (r) => this.handleParticipateResponse(r),
+      error: () => {
+        this.translation.get('registration.message.failed').subscribe((msg) => this.hotToast.error(msg))
+        this.registrationReloading.set(false)
+      }
+    })
   }
 
   private handleParticipateResponse(response: ParticipateResponse) {

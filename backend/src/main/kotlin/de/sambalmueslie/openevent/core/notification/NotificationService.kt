@@ -37,6 +37,7 @@ class NotificationService(
         val type = typeService.findByKey(key)
             ?: return logger.warn("Cannot find definition by $key")
         logger.debug("[${event.key}] found type ${type.id} / ${type.key}")
+        if (!type.enabled) return logger.info("[${event.key}] notification type is disabled - skipping")
         val template = templateService.find(type, Locale.GERMAN)
             ?: return logger.warn("Cannot find template for type ${type.key}")
         logger.debug("[${event.key}] found template ${template.id}")

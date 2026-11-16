@@ -3,7 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from 'rxjs'
 import { DateTime } from 'luxon'
-import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
+import { EventSearchEntry, EventSearchRequest, TriFilter, triCount, triExcluded, triIncluded, triToggle } from '@open-event/core'
 import { EventService } from '@open-event/portal'
 import { BoardSearchComponent, EventBoardDateRange } from '@open-event/ui'
 import { LoadingBarComponent, restoreScrollOnBack, toPromise, TourService } from '@open-event/shared'
@@ -54,19 +54,27 @@ export class EventBoardOwnComponent {
   private infiniteScrollMode = signal(false)
   private includeHistory = signal(false)
   readonly showHistory = this.includeHistory.asReadonly()
-  private categoryFilterSignal = signal<Set<string>>(new Set())
+  private categoryFilterSignal = signal<TriFilter>({})
   readonly categoryFilter = this.categoryFilterSignal.asReadonly()
-  private audienceFilterSignal = signal<Set<string>>(new Set())
+  private audienceFilterSignal = signal<TriFilter>({})
   readonly audienceFilter = this.audienceFilterSignal.asReadonly()
-  readonly activeFilterCount = computed(() => this.categoryFilterSignal().size + this.audienceFilterSignal().size)
+  readonly activeFilterCount = computed(() => triCount(this.categoryFilterSignal()) + triCount(this.audienceFilterSignal()))
 
   private criteria = computed(() => ({
     request: new EventSearchRequest(
-      this.query(), this.fromDate(), this.toDate(),
-      true, false, false,
-      Array.from(this.categoryFilterSignal()),
-      false, false,
-      Array.from(this.audienceFilterSignal())
+      this.query(),
+      this.fromDate(),
+      this.toDate(),
+      true,
+      false,
+      false,
+      triIncluded(this.categoryFilterSignal()),
+      false,
+      false,
+      triIncluded(this.audienceFilterSignal()),
+      [],
+      triExcluded(this.categoryFilterSignal()),
+      triExcluded(this.audienceFilterSignal())
     ),
     page: this.page(),
     size: this.size()
@@ -125,29 +133,19 @@ export class EventBoardOwnComponent {
   }
 
   toggleCategory(name: string) {
-    this.categoryFilterSignal.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
+    this.categoryFilterSignal.update((prev) => triToggle(prev, name))
     this.page.set(0)
   }
 
   toggleAudience(name: string) {
-    this.audienceFilterSignal.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
+    this.audienceFilterSignal.update((prev) => triToggle(prev, name))
     this.page.set(0)
   }
 
   resetFilter() {
     this.query.set('')
-    this.categoryFilterSignal.set(new Set())
-    this.audienceFilterSignal.set(new Set())
+    this.categoryFilterSignal.set({})
+    this.audienceFilterSignal.set({})
     this.includeHistory.set(false)
     this.fromDate.set(DateTime.now().startOf('day').toISODate() ?? undefined)
     this.toDate.set(undefined)

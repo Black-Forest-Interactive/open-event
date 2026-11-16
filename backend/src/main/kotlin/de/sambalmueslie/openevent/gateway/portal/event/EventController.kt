@@ -85,6 +85,9 @@ class EventController(private val service: EventGuardService) {
     @Get("/{id}/pdf")
     fun export(auth: Authentication, id: Long): SystemFile? = service.export(auth, id)
 
+    @Get("/{id}/contact")
+    fun getContact(auth: Authentication, id: Long) = service.getContact(auth, id)
+
     @Get("/{id}/announcement")
     fun getAnnouncements(auth: Authentication, id: Long, pageable: Pageable) = service.getAnnouncements(auth, id, pageable)
 

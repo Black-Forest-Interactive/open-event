@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.gateway.portal.registration
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.checkPermission
@@ -66,6 +67,15 @@ class RegistrationGuardService(
             }
         }
     }
+
+    fun cancelParticipant(auth: Authentication, id: Long, request: ParticipantCancelRequest): ParticipateResponse? =
+        auth.checkPermission(PERMISSION_WRITE) {
+            if (request.message.length > ParticipantCancelRequest.MAX_MESSAGE_LENGTH) throw InvalidRequestException("Message too long")
+            val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
+            logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, id.toString(), "") {
+                service.removeParticipant(account, id, account, request)
+            }
+        }
 
     fun moderationParticipateManual(auth: Authentication, id: Long, request: ParticipantAddRequest): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {

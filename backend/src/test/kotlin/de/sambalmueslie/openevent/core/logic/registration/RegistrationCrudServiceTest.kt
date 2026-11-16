@@ -46,7 +46,7 @@ class RegistrationCrudServiceTest : TimeBasedTest() {
         every { listener.handleDeleted(any(), any()) } just Runs
         every { listener.participantCreated(any(), any(), any(), any()) } just Runs
         every { listener.participantChanged(any(), any(), any(), any()) } just Runs
-        every { listener.participantRemoved(any(), any(), any()) } just Runs
+        every { listener.participantRemoved(any(), any(), any(), any()) } just Runs
         return listener
     }
 
@@ -170,7 +170,7 @@ class RegistrationCrudServiceTest : TimeBasedTest() {
 
         val removed = service.removeParticipant(actor, registration.id, guest)
         assertNotNull(removed)
-        verify { listener.participantRemoved(actor, registration, any()) }
+        verify { listener.participantRemoved(actor, registration, any(), any()) }
         assertTrue(service.getParticipants(registration.id).isEmpty())
     }
 

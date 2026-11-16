@@ -1,0 +1,70 @@
+<span [style.opacity]="yesOpacity()" class="swstamp swstamp--yes">
+    <mat-icon style="font-size: 18px; width: 18px; height: 18px">thumb_up</mat-icon>{{ 'finder.answer.YES' | translate }}
+</span>
+<span [style.opacity]="noOpacity()" class="swstamp swstamp--no">
+    <mat-icon style="font-size: 18px; width: 18px; height: 18px">thumb_down</mat-icon>{{ 'finder.answer.NO' | translate }}
+</span>
+
+<div [style.--h]="media().hue" class="swcard__media">
+    <div class="swcard__pattern"></div>
+    <mat-icon class="swcard__glyph" style="font-size: 64px; width: 64px; height: 64px">{{ media().icon }}</mat-icon>
+    <div class="absolute top-3.5 left-3.5 right-3.5 flex flex-wrap gap-1.5">
+        @if (entry().featured) {
+            <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                <mat-icon style="font-size: 12px; width: 12px; height: 12px">star</mat-icon>
+                {{ 'event.board.featured' | translate }}
+            </span>
+        }
+        @for (cat of entry().categories; track cat) {
+            <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+        }
+        @for (audience of entry().audiences; track audience) {
+            <span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface-variant text-xs font-medium">{{ audience }}</span>
+        }
+    </div>
+</div>
+
+<div class="swcard__body">
+    <h2 class="swcard__title">{{ entry().title }}</h2>
+    @if (entry().shortText) {
+        <p class="swcard__lead">{{ entry().shortText }}</p>
+    }
+
+    <div class="swfacts">
+        <div class="swfact">
+            <span class="swfact__icon"><mat-icon style="font-size: 20px; width: 20px; height: 20px">calendar_today</mat-icon></span>
+            <span class="swfact__text"><b>{{ entry().start | date: 'EEEE, d. MMMM' }}</b><i>{{ 'event.detail.when' | translate }}</i></span>
+        </div>
+        <div class="swfact">
+            <span class="swfact__icon"><mat-icon style="font-size: 20px; width: 20px; height: 20px">schedule</mat-icon></span>
+            <span class="swfact__text"><b>{{ entry().start | date: 'shortTime' }} – {{ entry().finish | date: 'shortTime' }}</b><i>{{ duration() }} {{ 'event.detail.minutes' | translate }}</i></span>
+        </div>
+        @if (entry().hasLocation) {
+            <div class="swfact">
+                <span class="swfact__icon"><mat-icon style="font-size: 20px; width: 20px; height: 20px">place</mat-icon></span>
+                <span class="swfact__text"><b>{{ entry().street }} {{ entry().streetNumber }}</b><i>{{ entry().zip }} {{ entry().city }}</i></span>
+            </div>
+        }
+    </div>
+
+    @if (longText()) {
+        <p class="swcard__long">{{ longText() }}</p>
+    }
+
+    <div class="swcard__foot">
+        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+            <lib-avatar [name]="entry().owner | accountDisplayName" size="md"></lib-avatar>
+            <span class="flex flex-col min-w-0">
+                <b class="text-sm font-semibold truncate">{{ entry().owner | accountDisplayName }}</b>
+                <i class="not-italic text-xs text-on-surface-variant">{{ 'event.detail.host' | translate }}</i>
+            </span>
+        </div>
+        @if (hasRegistration()) {
+            <lib-registration-status [compact]="true" [entry]="entry()" class="swcard__status"></lib-registration-status>
+        }
+    </div>
+
+    <button (click)="openEvent.emit()" class="self-center mt-2.5" matButton="text" type="button">
+        <mat-icon>open_in_new</mat-icon>{{ 'finder.action.openEvent' | translate }}
+    </button>
+</div>

@@ -1,0 +1,82 @@
+// Styles shared by finder overview and session: progress bar and rating counter pills
+.fprog {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fprog__track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--mat-sys-surface-container-high);
+  overflow: hidden;
+}
+
+.fprog__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--mat-sys-secondary);
+  transition: width 0.4s ease;
+}
+
+.fprog__label {
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+}
+
+.fcounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fcount {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+}
+
+.fcount--yes {
+  background: color-mix(in oklab, var(--ev-ok) 14%, transparent);
+  color: var(--ev-ok);
+}
+
+.fcount--maybe {
+  background: color-mix(in oklab, var(--ev-warn) 16%, transparent);
+  color: oklch(0.5 0.12 70);
+}
+
+.fcount--no {
+  background: color-mix(in oklab, var(--ev-danger) 10%, transparent);
+  color: var(--ev-danger);
+}
+
+:host-context(.dark) {
+  .fcount--yes {
+    color: oklch(0.8 0.1 153);
+  }
+
+  .fcount--maybe {
+    color: var(--ev-warn);
+  }
+
+  .fcount--no {
+    background: color-mix(in oklab, var(--ev-danger) 22%, transparent);
+    color: oklch(0.85 0.09 27);
+  }
+}
+
+.fcounts--lg .fcount {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 14px;
+}

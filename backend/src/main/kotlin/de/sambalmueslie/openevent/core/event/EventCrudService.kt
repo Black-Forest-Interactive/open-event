@@ -1,6 +1,8 @@
 package de.sambalmueslie.openevent.core.event
 
 
+import de.sambalmueslie.openevent.core.event.contact.EventContact
+import de.sambalmueslie.openevent.core.event.contact.EventContactService
 import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.common.PageableSequence
 import de.sambalmueslie.openevent.common.PatchRequest
@@ -41,6 +43,7 @@ class EventCrudService(
     private val audienceCrudService: AudienceCrudService,
     private val announcementCrudService: AnnouncementCrudService,
     private val shareCrudService: ShareCrudService,
+    private val contactService: EventContactService,
 ) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
 
     companion object {
@@ -65,6 +68,7 @@ class EventCrudService(
         request.location?.let { locationCrudService.create(actor, result, it) }
         registrationCrudService.create(actor, result, request.registration)
         shareCrudService.create(actor, result, ShareChangeRequest(request.shared))
+        request.contact?.let { contactService.set(result.id, it) }
 
         notifyCreated(actor, result)
         updateSearch(actor, result, ChangeType.CREATED)
@@ -73,6 +77,7 @@ class EventCrudService(
 
     override fun isValid(request: EventChangeRequest) {
         if (request.title.isBlank()) throw InvalidRequestException("Title cannot be blank")
+        request.contact?.let { contactService.validate(it) }
     }
 
     private fun updateSearch(actor: Account, event: Event, type: ChangeType) {
@@ -95,6 +100,7 @@ class EventCrudService(
         } else {
             locationCrudService.updateByEvent(actor, result, request.location)
         }
+        request.contact?.let { contactService.set(result.id, it) }
         val newRegistration = registrationCrudService.updateByEvent(actor, result, request.registration)
         if (oldRegistration != null && newRegistration.maxGuestAmount > oldRegistration.maxGuestAmount) {
             registrationCrudService.promoteWaitlisted(actor, newRegistration)
@@ -108,6 +114,7 @@ class EventCrudService(
         locationCrudService.deleteByEvent(actor, event)
         registrationCrudService.deleteByEvent(actor, event)
         shareCrudService.deleteByEvent(actor, event)
+        contactService.delete(event.id)
         val result = super.delete(actor, id) ?: return null
         updateSearch(actor, result, ChangeType.DELETED)
         return result
@@ -207,6 +214,8 @@ class EventCrudService(
         val event = get(id) ?: return null
         return locationCrudService.findByEvent(event)
     }
+
+    fun getContact(id: Long): EventContact? = contactService.get(id)
 
     fun getRegistration(id: Long): Registration? {
         val event = get(id) ?: return null

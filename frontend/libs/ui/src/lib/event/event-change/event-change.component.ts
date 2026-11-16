@@ -1,16 +1,18 @@
-import { Component, effect, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core'
+import { Component, computed, effect, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core'
 
 import { MatCardModule } from '@angular/material/card'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { TranslateService } from '@ngx-translate/core'
-import { AddressChangeRequest, AddressReadAPI, AudienceReadAPI, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
+import { AddressChangeRequest, AddressReadAPI, AudienceReadAPI, CategoryReadAPI, Event, EventChangeRequest, EventContact, EventInfo, EventReadAPI, LocationChangeRequest, RegistrationChangeRequest } from '@open-event/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { DateTime } from 'luxon'
+import { catchError, forkJoin, of } from 'rxjs'
 import { LoadingBarComponent } from '@open-event/shared'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { EventChangeSingleComponent } from '../event-change-single/event-change-single.component'
+import { toContactChangeRequest } from '../event-change-contact/event-change-contact.component'
 
 @Component({
   selector: 'lib-event-change',
@@ -22,6 +24,7 @@ import { EventChangeSingleComponent } from '../event-change-single/event-change-
 export class EventChangeComponent {
   event = input<Event>()
   info = signal<EventInfo | undefined>(undefined)
+  contact = signal<EventContact | null>(null)
   submitLabel = input<string>('action.submit')
   request = output<EventChangeRequest>()
   cancelled = output<boolean>()
@@ -34,6 +37,8 @@ export class EventChangeComponent {
   categoryReadAPI = input.required<CategoryReadAPI>()
   audienceReadAPI = input.required<AudienceReadAPI>()
   eventReadAPI = input.required<EventReadAPI>()
+  /** contact fields are only shown, if the api is able to provide the stored contact (portal) */
+  contactEnabled = computed(() => typeof this.eventReadAPI().getEventContact === 'function')
 
   fg: FormGroup
 
@@ -111,7 +116,8 @@ export class EventChangeComponent {
       'ACTIVE',
       true,
       value.registration.shared,
-      value.registration.tags ?? []
+      value.registration.tags ?? [],
+      toContactChangeRequest(value.contact)
     )
   }
 
@@ -126,11 +132,17 @@ export class EventChangeComponent {
 
   private loadEventInfo(event: Event) {
     this.loading = true
-    this.eventReadAPI()
-      .getEventInfo(event.id)
-      .subscribe({
-        next: (value) => this.info.set(value),
-        complete: () => (this.loading = false)
-      })
+    const api = this.eventReadAPI()
+    forkJoin({
+      info: api.getEventInfo(event.id),
+      contact: api.getEventContact ? api.getEventContact(event.id).pipe(catchError(() => of(null))) : of(null)
+    }).subscribe({
+      next: (value) => {
+        this.info.set(value.info)
+        this.contact.set(value.contact)
+      },
+      complete: () => (this.loading = false),
+      error: () => (this.loading = false)
+    })
   }
 }

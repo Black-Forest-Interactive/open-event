@@ -7,6 +7,8 @@ import { EventBoardService } from '../event-board.service'
 import { EventBoardListComponent } from '../event-board-list/event-board-list.component'
 import { EventBoardCalendarComponent } from '../event-board-calendar/event-board-calendar.component'
 import { EventBoardFilterComponent } from '../event-board-filter/event-board-filter.component'
+import { ActiveFilterChipsComponent } from '../active-filter-chips/active-filter-chips.component'
+import { triCount } from '@open-event/core'
 import { EventBoardMapComponent } from '../event-board-map/event-board-map.component'
 import { EventBoardNavbarComponent } from '../event-board-navbar/event-board-navbar.component'
 import { BoardSearchComponent } from '@open-event/ui'
@@ -28,6 +30,7 @@ import { TranslatePipe } from '@ngx-translate/core'
     EventBoardListComponent,
     EventBoardCalendarComponent,
     EventBoardFilterComponent,
+    ActiveFilterChipsComponent,
     EventBoardMapComponent,
     EventBoardNavbarComponent,
     BoardSearchComponent,
@@ -54,7 +57,7 @@ export class EventBoardComponent {
   readonly mobileView = toSignal(this.responsive.observe(['(min-width: 1280px)']).pipe(map((s) => !s.matches)), { initialValue: false })
 
   readonly activeFilterCount = computed(() => {
-    let count = this.service.categoryFilter().size
+    let count = triCount(this.service.categoryFilter()) + triCount(this.service.audienceFilter())
     if (this.service.showAvailableOnly()) count++
     return count
   })

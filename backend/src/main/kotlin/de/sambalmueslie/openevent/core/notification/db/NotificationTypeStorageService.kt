@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.notification.db
 
+import de.sambalmueslie.openevent.common.PatchRequest
 
 import de.sambalmueslie.openevent.common.BaseStorageService
 import de.sambalmueslie.openevent.common.SimpleDataObjectConverter
@@ -49,6 +50,10 @@ class NotificationTypeStorageService(
 
     override fun findByKeys(keys: Set<String>): List<NotificationType> {
         return repository.findByKeyIn(keys).map { it.convert() }
+    }
+
+    override fun setEnabled(id: Long, value: PatchRequest<Boolean>): NotificationType? {
+        return patchData(id) { it.setEnabled(value.value, timeProvider.now()) }
     }
 
 }

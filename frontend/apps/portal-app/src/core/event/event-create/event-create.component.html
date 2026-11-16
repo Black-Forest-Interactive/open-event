@@ -30,6 +30,8 @@
                 <!-- Schritt 3: Sonstiges -->
                 <mat-step [editable]="true" [stepControl]="registrationGroup" label="{{ 'event.step.registration' | translate }}">
                     <lib-event-change-registration [audienceReadAPI]="audienceReadAPI" [categoryReadAPI]="categoryReadAPI" [hiddenFields]="registrationHiddenFields" [parent]="fg"/>
+                    <h3 class="text-sm font-semibold pb-2 mt-4 mb-2 border-b border-outline-variant">{{ 'event.contact.title' | translate }}</h3>
+                    <lib-event-change-contact [data]="profileContact()" [parent]="fg"/>
                 </mat-step>
 
                 <!-- Schritt 4: Zusammenfassung -->

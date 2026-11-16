@@ -6,8 +6,8 @@ plugins {
     kotlin("plugin.jpa") version "2.4.21"
     kotlin("plugin.serialization") version "2.4.21"
 
-    id("com.google.devtools.ksp") version "2.3.12"
-    id("org.sonarqube") version "7.5.0.8588"
+    id("com.google.devtools.ksp") version "2.3.14"
+    id("org.sonarqube") version "7.6.0.18749"
     id("net.researchgate.release") version "3.2.0"
     id("com.google.cloud.tools.jib") version "3.5.4"
 
@@ -54,12 +54,12 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.6.6")
+    implementation("ch.qos.logback:logback-classic:1.6.7")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.3")
-    testImplementation("io.mockk:mockk:1.14.11")
+    testImplementation("io.mockk:mockk:1.14.12")
 
     // jackson
     ksp("io.micronaut.serde:micronaut-serde-processor")
@@ -85,7 +85,7 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
-    aotPlugins("io.micronaut.security:micronaut-security-aot:5.5.1")
+    aotPlugins("io.micronaut.security:micronaut-security-aot:5.5.2")
 
     // kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.105")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.105")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.113")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.113")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -130,9 +130,9 @@ dependencies {
     implementation("builders.dsl:spreadsheet-builder-poi:4.0.2")
 
     // mail
-    implementation("org.simplejavamail:simple-java-mail:9.3.9")
-    implementation("org.simplejavamail:batch-module:9.3.9")
-    implementation("org.simplejavamail:authenticated-socks-module:9.3.9")
+    implementation("org.simplejavamail:simple-java-mail:9.3.10")
+    implementation("org.simplejavamail:batch-module:9.3.10")
+    implementation("org.simplejavamail:authenticated-socks-module:9.3.10")
 
     // test
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
@@ -148,10 +148,10 @@ dependencies {
     // tracing
     implementation("io.micronaut.tracing:micronaut-tracing-jaeger")
     // opensearch
-    implementation("com.jillesvangurp:search-client:2.9.0")
+    implementation("com.jillesvangurp:search-client:2.10.0")
 
     // jsoup
-    implementation("org.jsoup:jsoup:1.23.2")
+    implementation("org.jsoup:jsoup:1.24.1")
     // biweekly
     implementation("net.sf.biweekly:biweekly:0.6.8")
 }
@@ -200,7 +200,7 @@ tasks.jacocoTestReport {
     }
 }
 jacoco {
-    toolVersion = "0.8.15"
+    toolVersion = "0.8.16"
 }
 
 tasks.named("internalStartTestResourcesService") {

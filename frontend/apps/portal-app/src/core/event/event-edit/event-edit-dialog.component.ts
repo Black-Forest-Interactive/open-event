@@ -6,7 +6,7 @@ import { MatIcon } from '@angular/material/icon'
 import { MatIconButton } from '@angular/material/button'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { HotToastService } from '@ngxpert/hot-toast'
-import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventContact, EventInfo, EventReadAPI } from '@open-event/core'
 import { AddressService, AudienceService, CategoryService, EventService } from '@open-event/portal'
 import { LoadingBarComponent, Page, toPromise } from '@open-event/shared'
 import { EventChangeComponent } from '@open-event/ui'
@@ -46,6 +46,10 @@ export class EventEditDialogComponent implements AddressReadAPI, AudienceReadAPI
   getAudience(id: number): Observable<Audience> { return this.audienceService.getAudience(id) }
   getEvent(id: number): Observable<Event> { return this.service.getEvent(id) }
   getEventInfo(id: number): Observable<EventInfo> { return this.service.getEventInfo(id) }
+
+  getEventContact(id: number): Observable<EventContact | null> {
+    return this.service.getEventContact(id)
+  }
   create(request: EventChangeRequest): Observable<Event> { return this.service.create(request) }
 
   handleRequest(request: EventChangeRequest) {

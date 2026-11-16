@@ -1,7 +1,15 @@
 <h2 mat-dialog-title>{{ "registration.dialog.cancel.title" | translate }}</h2>
 <mat-dialog-content>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-3">
         <p>{{ "registration.dialog.cancel.question" | translate }}</p>
+        @if (withMessage) {
+            <mat-form-field>
+                <mat-label>{{ "registration.dialog.cancel.messageLabel" | translate }}</mat-label>
+                <textarea (ngModelChange)="message.set($event)" [maxlength]="maxLength" [ngModel]="message()" matInput rows="3"></textarea>
+                <mat-hint align="end">{{ message().length }} / {{ maxLength }}</mat-hint>
+            </mat-form-field>
+            <span class="text-xs text-on-surface-variant">{{ "registration.dialog.cancel.hint" | translate }}</span>
+        }
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

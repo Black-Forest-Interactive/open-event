@@ -1,7 +1,7 @@
 import { computed, effect, inject, Injectable, resource, signal } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
 import { DateTime } from 'luxon'
-import { EventSearchEntry, EventSearchRequest } from '@open-event/core'
+import { EventSearchEntry, EventSearchRequest, TriFilter, triExcluded, triIncluded, triRemove, triToggle } from '@open-event/core'
 import { EventService } from '@open-event/portal'
 import { EventBoardDateRange } from '@open-event/ui'
 import { toPromise } from '@open-event/shared'
@@ -23,20 +23,26 @@ export class EventBoardService {
   private infiniteScrollMode = signal(false)
   private layoutSignal = signal<'cards' | 'rows' | 'calendar' | 'map'>('rows')
   readonly layout = this.layoutSignal.asReadonly()
-  private categoryFilterSignal = signal<Set<string>>(new Set())
+  private categoryFilterSignal = signal<TriFilter>({})
   readonly categoryFilter = this.categoryFilterSignal.asReadonly()
-  private audienceFilterSignal = signal<Set<string>>(new Set())
+  private audienceFilterSignal = signal<TriFilter>({})
   readonly audienceFilter = this.audienceFilterSignal.asReadonly()
 
   private criteria = computed(() => ({
     request: new EventSearchRequest(
-      this.query(), this.fromDate(), this.toDate(),
-      false, false,
+      this.query(),
+      this.fromDate(),
+      this.toDate(),
+      false,
+      false,
       this.availableOnly(),
-      Array.from(this.categoryFilterSignal()),
-      false, false,
-      Array.from(this.audienceFilterSignal()),
-      this.includeCancelled() ? [] : ['ACTIVE', 'ENDED']
+      triIncluded(this.categoryFilterSignal()),
+      false,
+      false,
+      triIncluded(this.audienceFilterSignal()),
+      this.includeCancelled() ? [] : ['ACTIVE', 'ENDED'],
+      triExcluded(this.categoryFilterSignal()),
+      triExcluded(this.audienceFilterSignal())
     ),
     page: this.page(),
     size: this.size()
@@ -106,22 +112,22 @@ export class EventBoardService {
   }
 
   toggleCategory(name: string) {
-    this.categoryFilterSignal.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
+    this.categoryFilterSignal.update((prev) => triToggle(prev, name))
+    this.page.set(0)
+  }
+
+  removeCategory(name: string) {
+    this.categoryFilterSignal.update((prev) => triRemove(prev, name))
     this.page.set(0)
   }
 
   toggleAudience(name: string) {
-    this.audienceFilterSignal.update((prev) => {
-      const next = new Set(prev)
-      if (next.has(name)) next.delete(name)
-      else next.add(name)
-      return next
-    })
+    this.audienceFilterSignal.update((prev) => triToggle(prev, name))
+    this.page.set(0)
+  }
+
+  removeAudience(name: string) {
+    this.audienceFilterSignal.update((prev) => triRemove(prev, name))
     this.page.set(0)
   }
 
@@ -130,8 +136,8 @@ export class EventBoardService {
     this.availableOnly.set(false)
     this.includeHistory.set(false)
     this.includeCancelled.set(false)
-    this.categoryFilterSignal.set(new Set())
-    this.audienceFilterSignal.set(new Set())
+    this.categoryFilterSignal.set({})
+    this.audienceFilterSignal.set({})
     this.fromDate.set(DateTime.now().startOf('day').toISODate() ?? undefined)
     this.toDate.set(undefined)
     this.page.set(0)

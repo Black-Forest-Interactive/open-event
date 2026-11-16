@@ -15,5 +15,10 @@ data class EventSearchRequest(
     val onlyAvailableEvents: Boolean,
     val categories: Set<String> = emptySet(),
     val audiences: Set<String> = emptySet(),
-    val status: Set<EventStatus> = emptySet()
+    val excludedCategories: Set<String> = emptySet(),
+    val excludedAudiences: Set<String> = emptySet(),
+    val status: Set<EventStatus> = emptySet(),
+    val onlyPublished: Boolean = false,
+    val includeIds: Set<Long> = emptySet(),
+    val excludeIds: Set<Long> = emptySet(),
 ) : SearchRequest

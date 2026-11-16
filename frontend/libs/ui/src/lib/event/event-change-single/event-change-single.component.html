@@ -17,6 +17,12 @@
             <lib-event-change-registration [audienceReadAPI]="audienceReadAPI()" [categoryReadAPI]="categoryReadAPI()" [data]="info()" [hiddenFields]="hiddenFields()" [parent]="fg()"></lib-event-change-registration>
         </div>
     </section>
+    @if (contactEnabled()) {
+        <section>
+            <h3 class="text-sm font-semibold pb-2 mb-2 border-b border-outline-variant">{{ 'event.contact.title' | translate }}</h3>
+            <lib-event-change-contact [data]="contact()" [parent]="fg()"></lib-event-change-contact>
+        </section>
+    }
     <div class="flex gap-3 justify-end">
         <button (click)="cancelled.emit(true)" matButton="text" type="button">
             {{ 'action.cancel' | translate }}

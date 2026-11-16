@@ -1,5 +1,5 @@
 import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
-import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventInfo, EventReadAPI } from '@open-event/core'
+import { Address, AddressChangeRequest, AddressReadAPI, Audience, AudienceReadAPI, Category, CategoryReadAPI, Event, EventChangeRequest, EventContact, EventInfo, EventReadAPI } from '@open-event/core'
 import { EventChangeComponent } from '@open-event/ui'
 import { MatToolbar } from '@angular/material/toolbar'
 import { MatBottomSheet } from '@angular/material/bottom-sheet'
@@ -82,6 +82,10 @@ export class EventEditComponent implements AddressReadAPI, AudienceReadAPI, Cate
 
   getEventInfo(id: number): Observable<EventInfo> {
     return this.service.getEventInfo(id)
+  }
+
+  getEventContact(id: number): Observable<EventContact | null> {
+    return this.service.getEventContact(id)
   }
 
   create(request: EventChangeRequest): Observable<Event> {

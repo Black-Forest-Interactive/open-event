@@ -65,6 +65,12 @@ export const appRoutes: Route[] = [
     data: { roles: [Roles.MAIL_ADMIN] }
   },
   {
+    path: 'notification',
+    loadChildren: () => import('../core/notification/notification.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.MAIL_ADMIN] }
+  },
+  {
     path: 'history',
     loadChildren: () => import('../core/history/history.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],

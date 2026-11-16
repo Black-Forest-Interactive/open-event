@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpParams, HttpResponse } from '@angular/common/http'
 import { BaseService, PatchRequest } from '@open-event/shared'
-import { Event, EventCancelRequest, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse, EventUpdateTextRequest } from '@open-event/core'
+import { Event, EventCancelRequest, EventChangeRequest, EventContact, EventInfo, EventSearchRequest, EventSearchResponse, EventUpdateTextRequest } from '@open-event/core'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -24,6 +24,11 @@ export class EventService extends BaseService {
 
   getEventInfo(id: number): Observable<EventInfo> {
     return this.get('' + id + '/info')
+  }
+
+  /** contact of the organizer, only available for the organizer and registered participants */
+  getEventContact(id: number): Observable<EventContact> {
+    return this.get(`${id}/contact`)
   }
 
   create(request: EventChangeRequest): Observable<Event> {

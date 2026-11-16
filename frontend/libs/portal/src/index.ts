@@ -14,6 +14,8 @@ export * from './lib/event/event.service'
 
 export * from './lib/feedback/feedback.service'
 
+export * from './lib/finder/finder.service'
+
 export * from './lib/image/image-upload.service'
 
 export * from './lib/issue/issue.service'

@@ -300,6 +300,14 @@
         "participants": "Teilnehmer & Kategorie",
         "misc": "Sonstiges"
       }
+    },
+    "contact": {
+      "title": "Kontakt für Teilnehmer",
+      "hint": "Optional: Unter dieser Nummer können dich angemeldete Teilnehmer erreichen. Sie ist nur für dich und angemeldete Teilnehmer sichtbar und steht in der Erinnerungsmail.",
+      "phone": "Telefon",
+      "mobile": "Handy",
+      "invalid": "Bitte nur Ziffern, Leerzeichen und + ( ) / - . verwenden",
+      "visibility": "Nur für angemeldete Teilnehmer sichtbar"
     }
   },
   "registration": {
@@ -362,7 +370,9 @@
       "cancel": {
         "title": "Teilnahme absagen",
         "question": "Möchtest du wirklich deine Teilnahme absagen?",
-        "message": "Deine Absage wurde erfolgreich verarbeitet"
+        "message": "Deine Absage wurde erfolgreich verarbeitet",
+        "messageLabel": "Nachricht an den Veranstalter (optional)",
+        "hint": "Die Nachricht wird nur an den Veranstalter gesendet."
       },
       "manual": {
         "title": "Manuellen Teilnehmer hinzufügen",
@@ -628,7 +638,8 @@
       "discover": "Entdecken",
       "saved": "Merkliste",
       "regs": "Meine Anmeldungen",
-      "own": "Meine Angebote"
+      "own": "Meine Angebote",
+      "finder": "Finder"
     }
   },
   "lang": {
@@ -1033,6 +1044,114 @@
         "title": "Speichern",
         "description": "Alles korrekt? Dann speichere deine Veranstaltung — sie erscheint danach unter „Meine Angebote\"."
       }
+    }
+  },
+  "finder": {
+    "title": "Finder",
+    "subtitle": "Lass dir passende Veranstaltungen vorschlagen und bewerte sie Stück für Stück.",
+    "create": "Neuer Finder",
+    "defaultName": "Mein Finder",
+    "allCategories": "Alle Kategorien",
+    "empty": {
+      "title": "Noch kein Finder",
+      "subtitle": "Lege einen Finder mit Zeitraum und Interessen an. Wir zeigen dir dann eine Veranstaltung nach der anderen."
+    },
+    "count": {
+      "open": "offen"
+    },
+    "progress": "{{rated}} von {{total}} bewertet",
+    "remaining": "Noch {{count}} Vorschläge",
+    "remainingOne": "Noch 1 Vorschlag",
+    "registered": "Angemeldet",
+    "full": "Ausgebucht",
+    "action": {
+      "start": "Starten",
+      "resume": "Weiter bewerten",
+      "review": "Ergebnisse ansehen",
+      "openEvent": "Veranstaltung öffnen",
+      "undo": "Rückgängig",
+      "register": "Anmelden",
+      "laterAgain": "Später-Liste durchgehen ({{count}})",
+      "seeYes": "Will-ich-hin-Liste ansehen"
+    },
+    "tab": {
+      "discover": "Entdecken",
+      "YES": "Will ich hin",
+      "MAYBE": "Später",
+      "NO": "Nicht für mich"
+    },
+    "answer": {
+      "YES": "Will ich hin",
+      "MAYBE": "Später",
+      "NO": "Nein"
+    },
+    "hint": {
+      "keys": "Tastatur: ← Nein · ↓ Später · → Will ich hin · Z Rückgängig",
+      "swipe": "Wischen: links Nein · rechts Will ich hin"
+    },
+    "done": {
+      "title": "Alles durchgesehen",
+      "subtitle": "Du hast alle passenden Veranstaltungen bewertet."
+    },
+    "none": {
+      "title": "Keine passenden Veranstaltungen",
+      "subtitle": "Erweitere den Zeitraum oder passe die Interessen an."
+    },
+    "list": {
+      "empty": {
+        "YES": "Noch nichts vorgemerkt. Tippe beim Durchblättern auf „Will ich hin“.",
+        "MAYBE": "Nichts auf später verschoben.",
+        "NO": "Noch nichts aussortiert."
+      }
+    },
+    "dialog": {
+      "delete": {
+        "question": "Finder wirklich löschen?",
+        "confirm": "Ja, löschen"
+      },
+      "reset": {
+        "question": "Alle Bewertungen dieses Finders zurücksetzen?",
+        "confirm": "Zurücksetzen"
+      }
+    },
+    "editor": {
+      "createTitle": "Neuer Finder",
+      "editTitle": "Finder bearbeiten",
+      "subtitle": "Wir schlagen dir nur Veranstaltungen vor, die zu diesen Angaben passen.",
+      "name": "Name",
+      "namePlaceholder": "z. B. Wochenende mit Kindern",
+      "period": "Zeitraum",
+      "from": "Von",
+      "to": "Bis",
+      "categories": "Kategorien",
+      "audience": "Zielgruppe",
+      "onlyAvailable": "Nur Veranstaltungen mit freien Plätzen",
+      "matches": "{{count}} passende Veranstaltungen",
+      "matchesOne": "1 passende Veranstaltung",
+      "create": "Finder anlegen",
+      "save": "Finder speichern",
+      "nameError": "Bitte gib dem Finder einen Namen.",
+      "rangeError": "„Bis“ muss nach „Von“ liegen.",
+      "error": "Finder konnte nicht gespeichert werden"
+    },
+    "message": {
+      "created": "Finder angelegt – los geht’s!",
+      "saved": "Finder gespeichert.",
+      "deleted": "Finder gelöscht.",
+      "reset": "Bewertungen zurückgesetzt.",
+      "error": "Aktion fehlgeschlagen",
+      "rated": {
+        "YES": "Vorgemerkt: Will ich hin",
+        "MAYBE": "Auf später verschoben",
+        "NO": "Aussortiert"
+      }
+    }
+  },
+  "filter": {
+    "tri": {
+      "hint": "1× tippen: nur diese · 2× tippen: ausschließen",
+      "only": "Nur",
+      "without": "Ohne"
     }
   }
 }

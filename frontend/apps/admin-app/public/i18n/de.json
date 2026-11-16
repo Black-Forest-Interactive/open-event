@@ -827,5 +827,18 @@
       "enabled": "Newsletter-Versand wurde aktiviert",
       "disabled": "Newsletter-Versand wurde deaktiviert"
     }
+  },
+  "notification": {
+    "type": "Benachrichtigungen",
+    "title": "Benachrichtigungen",
+    "table": {
+      "name": "Name",
+      "key": "Schlüssel",
+      "enabled": "Aktiv"
+    },
+    "message": {
+      "enabled": "Benachrichtigung „{{name}}“ wurde aktiviert",
+      "disabled": "Benachrichtigung „{{name}}“ wurde deaktiviert"
+    }
   }
 }

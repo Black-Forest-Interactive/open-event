@@ -300,6 +300,14 @@
         "participants": "Participants & category",
         "misc": "Other"
       }
+    },
+    "contact": {
+      "title": "Contact for participants",
+      "hint": "Optional: registered participants can reach you at this number. It is only visible to you and registered participants and is included in the reminder mail.",
+      "phone": "Phone",
+      "mobile": "Mobile",
+      "invalid": "Please use only digits, spaces and + ( ) / - .",
+      "visibility": "Only visible to registered participants"
     }
   },
   "registration": {
@@ -362,7 +370,9 @@
       "cancel": {
         "title": "Cancel participation",
         "question": "Do you relay want to cancel the participation?",
-        "message": "Participation cancel successfully processed"
+        "message": "Participation cancel successfully processed",
+        "messageLabel": "Message to the organizer (optional)",
+        "hint": "The message is only sent to the organizer."
       },
       "manual": {
         "title": "Add manual participant",
@@ -628,7 +638,8 @@
       "discover": "Discover",
       "saved": "Saved",
       "regs": "My registrations",
-      "own": "My events"
+      "own": "My events",
+      "finder": "Finder"
     }
   },
   "lang": {
@@ -1033,6 +1044,114 @@
         "title": "Save",
         "description": "Everything correct? Save your event — it will show up under \"My offers\"."
       }
+    }
+  },
+  "finder": {
+    "title": "Finder",
+    "subtitle": "Get matching events suggested and rate them one at a time.",
+    "create": "New finder",
+    "defaultName": "My finder",
+    "allCategories": "All categories",
+    "empty": {
+      "title": "No finder yet",
+      "subtitle": "Create a finder with a date range and interests. We'll show you one event after another."
+    },
+    "count": {
+      "open": "open"
+    },
+    "progress": "{{rated}} of {{total}} rated",
+    "remaining": "{{count}} suggestions left",
+    "remainingOne": "1 suggestion left",
+    "registered": "Registered",
+    "full": "Sold out",
+    "action": {
+      "start": "Start",
+      "resume": "Continue rating",
+      "review": "See results",
+      "openEvent": "Open event",
+      "undo": "Undo",
+      "register": "Register",
+      "laterAgain": "Go through later list ({{count}})",
+      "seeYes": "See want-to-go list"
+    },
+    "tab": {
+      "discover": "Discover",
+      "YES": "Want to go",
+      "MAYBE": "Later",
+      "NO": "Not for me"
+    },
+    "answer": {
+      "YES": "Want to go",
+      "MAYBE": "Later",
+      "NO": "No"
+    },
+    "hint": {
+      "keys": "Keyboard: ← No · ↓ Later · → Want to go · Z Undo",
+      "swipe": "Swipe: left No · right Want to go"
+    },
+    "done": {
+      "title": "All caught up",
+      "subtitle": "You've rated every matching event."
+    },
+    "none": {
+      "title": "No matching events",
+      "subtitle": "Widen the date range or adjust your interests."
+    },
+    "list": {
+      "empty": {
+        "YES": "Nothing saved yet. Tap “Want to go” while browsing.",
+        "MAYBE": "Nothing postponed.",
+        "NO": "Nothing sorted out yet."
+      }
+    },
+    "dialog": {
+      "delete": {
+        "question": "Delete this finder?",
+        "confirm": "Yes, delete"
+      },
+      "reset": {
+        "question": "Reset all ratings of this finder?",
+        "confirm": "Reset"
+      }
+    },
+    "editor": {
+      "createTitle": "New finder",
+      "editTitle": "Edit finder",
+      "subtitle": "We'll only suggest events that match these settings.",
+      "name": "Name",
+      "namePlaceholder": "e.g. Weekend with kids",
+      "period": "Date range",
+      "from": "From",
+      "to": "To",
+      "categories": "Categories",
+      "audience": "Audience",
+      "onlyAvailable": "Only events with free spots",
+      "matches": "{{count}} matching events",
+      "matchesOne": "1 matching event",
+      "create": "Create finder",
+      "save": "Save finder",
+      "nameError": "Please give the finder a name.",
+      "rangeError": "“To” must be after “From”.",
+      "error": "Finder could not be saved"
+    },
+    "message": {
+      "created": "Finder created – let's go!",
+      "saved": "Finder saved.",
+      "deleted": "Finder deleted.",
+      "reset": "Ratings reset.",
+      "error": "Action failed",
+      "rated": {
+        "YES": "Saved: want to go",
+        "MAYBE": "Postponed",
+        "NO": "Sorted out"
+      }
+    }
+  },
+  "filter": {
+    "tri": {
+      "hint": "Tap once: only these · twice: exclude",
+      "only": "Only",
+      "without": "Without"
     }
   }
 }

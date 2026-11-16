@@ -15,7 +15,9 @@ export class EventSearchRequest {
     public bookmarked: boolean = false,
     public featured: boolean = false,
     public audiences: string[] = [],
-    public status: string[] = []
+    public status: string[] = [],
+    public excludedCategories: string[] = [],
+    public excludedAudiences: string[] = []
   ) {}
 }
 
