@@ -21,22 +21,17 @@ class AppConfig {
             field = value
         }
 
+    var maxParticipantSize: Int = 10
+        set(value) {
+            logger.info("Set max participant size from '$field' to '$value'")
+            field = value
+        }
+
     var maxConfirmationTrials: Int = 5
         set(value) {
             logger.info("Set max confirmation trials from '$field' to '$value'")
             field = value
         }
 
-    var metricsWatermark: Int = 20
-        set(value) {
-            logger.info("Set metrics watermark from '$field' to '$value'")
-            field = value
-        }
 
-
-    var metricsExpirationDays: Long = 90L
-        set(value) {
-            logger.info("Set metrics expiration days from '$field' to '$value'")
-            field = value
-        }
 }

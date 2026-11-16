@@ -21,7 +21,12 @@
       "@open-event/portal": ["libs/portal/src/index.ts"],
       "@open-event/shared": ["libs/shared/src/index.ts"],
       "@open-event/ui": ["libs/ui/src/index.ts"]
-    }
+    },
+    "strict": false,
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }

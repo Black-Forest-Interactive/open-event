@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { CategoryService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'admin-category-change-dialog',
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, TranslatePipe, ReactiveFormsModule, CategoryChangeComponent],
   templateUrl: './category-change-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './category-change-dialog.component.scss'
 })
 export class CategoryChangeDialogComponent {

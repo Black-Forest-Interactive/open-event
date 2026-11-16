@@ -211,6 +211,34 @@ class AccountCrudServiceTest : TimeBasedTest() {
     }
 
     @Test
+    fun linksAccountWithoutLoginOnlyForVerifiedEmail() {
+        val actor = AccountTestData.createActor(accountStorage)
+        val request = AccountTestData.setupRequest(AccountTestData.accountRequest(externalId = null), AccountTestData.profileRequest(email = "guest-link@example.com"))
+        val guest = service.setup(actor, request)
+
+        assertNull(service.get(getAuthentication("guest-link@example.com", "attacker-sub", false)))
+        assertNull(service.get(getAuthentication("", "empty-sub", true)))
+
+        val linked = service.get(getAuthentication("guest-link@example.com", "owner-sub", true))
+        assertEquals(guest.id, linked?.id)
+        assertEquals("owner-sub", linked?.externalId)
+
+        // already linked to another login - must not be returned for a different sub
+        assertNull(service.get(getAuthentication("guest-link@example.com", "attacker-sub", true)))
+    }
+
+    @Test
+    fun validateCreatesSeparateAccountWhenEmailBelongsToOtherLogin() {
+        val first = service.validate(getAuthentication("taken@example.com", "first-sub", true), "en")
+
+        val second = service.validate(getAuthentication("taken@example.com", "second-sub", true), "en")
+        assertTrue(second.created)
+        assertNotEquals(first.account.id, second.account.id)
+        assertTrue(second.profile.email.isNullOrBlank())
+        assertEquals("taken@example.com", service.getProfile(first.account)?.email)
+    }
+
+    @Test
     fun setup() {
         val actor = AccountTestData.createActor(accountStorage)
         val listener = registerListener()

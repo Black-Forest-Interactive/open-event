@@ -1,13 +1,14 @@
 package de.sambalmueslie.openevent.core.event.db
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import de.sambalmueslie.openevent.common.DataObject
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
+import io.micronaut.data.annotation.TypeDef
+import io.micronaut.data.model.DataType
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -30,20 +31,15 @@ data class EventData(
 
     @Column var hasLocation: Boolean,
     @Column var hasRegistration: Boolean,
+    @Column @Enumerated(value = EnumType.STRING) var status: EventStatus,
     @Column var published: Boolean,
-    @Column(name = "tags") var tagsJson: String,
+    @Column @field:TypeDef(type = DataType.JSON) var tags: Set<String>,
 
     @Column var created: LocalDateTime = LocalDateTime.now(),
     @Column var updated: LocalDateTime? = null
 ) : DataObject {
     companion object {
-        private val mapper = ObjectMapper().registerKotlinModule()
-        fun create(
-            account: Account,
-            request: EventChangeRequest,
-            timestamp: LocalDateTime
-        ): EventData {
-            val t = mapper.writeValueAsString(request.tags)
+        fun create(account: Account, request: EventChangeRequest, timestamp: LocalDateTime): EventData {
             return EventData(
                 0,
                 account.id,
@@ -57,8 +53,9 @@ data class EventData(
                 false,
                 request.location != null,
                 true,
+                request.status,
                 request.published,
-                t,
+                request.tags,
                 timestamp
             )
         }
@@ -78,28 +75,16 @@ data class EventData(
             featured,
             hasLocation,
             hasRegistration,
+            status,
             published,
-            getTags(),
+            tags,
             created,
             updated
         )
     }
 
-    @Transient
-    private var tags: Set<String>? = null
-
-    @Transient
-    fun getTags(): Set<String> {
-        if (tags == null) {
-            tags = mapper.readValue<Set<String>>(tagsJson)
-        }
-        return tags!!
-    }
-
     fun update(request: EventChangeRequest, timestamp: LocalDateTime): EventData {
-        val t = mapper.writeValueAsString(request.tags)
         tags = request.tags
-        tagsJson = t
 
         start = request.start
         finish = request.finish
@@ -108,6 +93,8 @@ data class EventData(
         longText = request.longText
         imageUrl = request.imageUrl
         iconUrl = request.iconUrl
+        status = request.status
+        published = request.published
         hasLocation = request.location != null
         updated = timestamp
         return this
@@ -119,8 +106,46 @@ data class EventData(
         return this
     }
 
+    fun setStatus(value: EventStatus, timestamp: LocalDateTime): EventData {
+        status = value
+        updated = timestamp
+        return this
+    }
+
     fun setPublished(value: Boolean, timestamp: LocalDateTime): EventData {
-        this.published = value
+        published = value
+        updated = timestamp
+        return this
+    }
+
+    fun setTitle(value: String, timestamp: LocalDateTime): EventData {
+        this.title = value
+        updated = timestamp
+        return this
+    }
+
+    fun setShortText(value: String, timestamp: LocalDateTime): EventData {
+        this.shortText = value
+        updated = timestamp
+        return this
+    }
+
+    fun setLongText(value: String, timestamp: LocalDateTime): EventData {
+        this.longText = value
+        updated = timestamp
+        return this
+    }
+
+    fun setTags(value: Set<String>, timestamp: LocalDateTime): EventData {
+        this.tags = value
+        updated = timestamp
+        return this
+    }
+
+    fun setText(request: EventUpdateTextRequest, timestamp: LocalDateTime): EventData {
+        this.title = request.title
+        this.shortText = request.shortText
+        this.longText = request.longText
         updated = timestamp
         return this
     }

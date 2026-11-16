@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.core.registration
 
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.account.api.Account
@@ -29,7 +30,7 @@ import org.slf4j.LoggerFactory
 class RegistrationCrudService(
     private val storage: RegistrationStorage,
     private val participantCrudService: ParticipantCrudService,
-    private val accountCrudService: AccountCrudService,
+    private val accountCrudService: AccountCrudService
 ) : BaseCrudService<Long, Registration, RegistrationChangeRequest, RegistrationChangeListener>(storage) {
 
     companion object {
@@ -73,6 +74,11 @@ class RegistrationCrudService(
         }
     }
 
+    fun promoteWaitlisted(actor: Account, registration: Registration) {
+        participantCrudService.promotePendingWaitlist(actor, registration)
+        updateSearch(registration, ChangeType.UPDATED)
+    }
+
     fun deleteByEvent(actor: Account, event: Event): Registration? {
         val existing = storage.findByEvent(event) ?: return null
         participantCrudService.deleteByRegistration(actor, existing)
@@ -105,11 +111,11 @@ class RegistrationCrudService(
         return changeParticipant(actor, registration, account, request)
     }
 
-    fun removeParticipant(actor: Account, id: Long, account: Account): ParticipateResponse? {
+    fun removeParticipant(actor: Account, id: Long, account: Account, cancel: ParticipantCancelRequest? = null): ParticipateResponse? {
         val registration = get(id) ?: return null
         val result = participantCrudService.remove(actor, registration, account)
         result.participant?.let { p ->
-            notify { it.participantRemoved(actor, registration, p) }
+            notify { it.participantRemoved(actor, registration, p, cancel) }
         }
         updateSearch(registration, ChangeType.UPDATED)
         return result
@@ -182,7 +188,7 @@ class RegistrationCrudService(
         val registration = get(id) ?: return null
         val result = participantCrudService.remove(actor, registration, participantId)
         result.participant?.let { p ->
-            notify { it.participantRemoved(actor, registration, p) }
+            notify { it.participantRemoved(actor, registration, p, null) }
         }
         updateSearch(registration, ChangeType.UPDATED)
         return result
@@ -217,6 +223,5 @@ class RegistrationCrudService(
         if (this.searchListener == null) return
         this.searchListener?.updateSearch(SearchUpdateEvent(registration, type))
     }
-
 
 }

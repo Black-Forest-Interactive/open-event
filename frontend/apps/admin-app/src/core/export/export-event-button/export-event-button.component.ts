@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core'
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core'
 import { MatIconButton, MatMiniFabButton } from '@angular/material/button'
 import { TranslatePipe } from '@ngx-translate/core'
 import { Event, EventSearchEntry } from '@open-event/core'
@@ -13,6 +13,7 @@ import { MatTooltip } from '@angular/material/tooltip'
   selector: 'admin-export-event-button',
   imports: [MatIcon, MatMiniFabButton, MatProgressSpinner, MatTooltip, TranslatePipe, MatIconButton],
   templateUrl: './export-event-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './export-event-button.component.scss'
 })
 export class ExportEventButtonComponent {

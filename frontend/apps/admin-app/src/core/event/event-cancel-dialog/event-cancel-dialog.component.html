@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ 'event.dialog.cancel.title' | translate }}</h2>
+
+<mat-dialog-content class="flex flex-col gap-4">
+    <p class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ data.title }}</p>
+    <p class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'event.dialog.cancel.reasonHint' | translate }}</p>
+
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'event.dialog.cancel.reason' | translate }}</mat-label>
+        <textarea matInput rows="3" [ngModel]="reason()" (ngModelChange)="reason.set($event)" required></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button matButton mat-dialog-close>{{ 'action.cancel' | translate }}</button>
+    <button (click)="cancel()" [disabled]="cancelling() || !reason().trim()" color="warn" matButton="filled">
+        {{ 'event.dialog.cancel.confirm' | translate }}
+    </button>
+</mat-dialog-actions>

@@ -1,0 +1,49 @@
+<table [dataSource]="data()" mat-table>
+
+    <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>
+            <div class="flex flex-row gap-3 items-center">
+                <mat-icon>badge</mat-icon>
+                <span>{{ 'newsletter.table.name' | translate }}</span>
+            </div>
+        </th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+        <th *matHeaderCellDef mat-header-cell>
+            <span>{{ 'newsletter.table.firstName' | translate }}</span>
+        </th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+        <th *matHeaderCellDef mat-header-cell>
+            <span>{{ 'newsletter.table.lastName' | translate }}</span>
+        </th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <th *matHeaderCellDef mat-header-cell>
+            <div class="flex flex-row gap-3 items-center">
+                <mat-icon>contact_mail</mat-icon>
+                <span>{{ 'newsletter.table.email' | translate }}</span>
+            </div>
+        </th>
+        <td *matCellDef="let entry" mat-cell>{{ entry.email }}</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" class="table-content-row" mat-row></tr>
+</table>
+
+<mat-paginator
+        (page)="pageEvent.emit($event)"
+        [disabled]="reloading()"
+        [length]="totalElements()"
+        [pageIndex]="pageNumber()"
+        [pageSizeOptions]="[10, 25, 50, 100]"
+        [pageSize]="pageSize()"
+        showFirstLastButtons>
+</mat-paginator>

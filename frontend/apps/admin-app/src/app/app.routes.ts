@@ -59,6 +59,18 @@ export const appRoutes: Route[] = [
     data: { roles: [Roles.MAIL_ADMIN] }
   },
   {
+    path: 'newsletter',
+    loadChildren: () => import('../core/newsletter/newsletter.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.MAIL_ADMIN] }
+  },
+  {
+    path: 'notification',
+    loadChildren: () => import('../core/notification/notification.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.MAIL_ADMIN] }
+  },
+  {
     path: 'history',
     loadChildren: () => import('../core/history/history.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],
@@ -81,6 +93,12 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('../core/feedback/feedback.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],
     data: { roles: [Roles.FEEDBACK_ADMIN] }
+  },
+  {
+    path: 'metrics',
+    loadChildren: () => import('../core/metrics/metrics.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.METRICS_ADMIN] }
   },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', component: PageNotFoundComponent }

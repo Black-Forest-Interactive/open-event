@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource } from '@angular/core'
+import { Component, computed, inject, resource, ChangeDetectionStrategy } from '@angular/core'
 import { NgxEchartsDirective } from 'ngx-echarts'
 import { CacheInfo } from '@open-event/core'
 import type { EChartsCoreOption } from 'echarts/core'
@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
   selector: 'admin-cache',
   imports: [MatTableModule, MatIconModule, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatTooltipModule, NgxEchartsDirective, BoardComponent, LoadingBarComponent],
   templateUrl: './cache.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cache.component.scss'
 })
 export class CacheComponent {

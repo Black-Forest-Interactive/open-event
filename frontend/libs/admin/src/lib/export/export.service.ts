@@ -31,4 +31,8 @@ export class ExportService extends BaseService {
   exportNotice(request: EventSearchRequest): Observable<HttpResponse<Blob>> {
     return this.postBlob('event/notice', request)
   }
+
+  exportCards(request: EventSearchRequest): Observable<HttpResponse<Blob>> {
+    return this.postBlob('event/cards', request)
+  }
 }

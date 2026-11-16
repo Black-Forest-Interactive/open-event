@@ -21,14 +21,14 @@ class EventAnnouncementRelationService(
     }
 
     fun assign(event: Event, announcement: Announcement) {
-        if (repository.existsByAnnouncementIdAndEventId(announcement.id, event.id)) return
+        if (repository.existsByEventIdAndAnnouncementId(event.id,announcement.id)) return
 
-        val relation = EventAnnouncementRelation(announcement.id, event.id)
+        val relation = EventAnnouncementRelation(event.id, announcement.id)
         repository.save(relation)
     }
 
     fun revoke(event: Event, announcement: Announcement) {
-        repository.deleteByAnnouncementIdAndEventId(announcement.id, event.id)
+        repository.deleteByEventIdAndAnnouncementId(event.id,announcement.id)
     }
 
     fun get(event: Event, pageable: Pageable): Page<Announcement> {
@@ -36,6 +36,14 @@ class EventAnnouncementRelationService(
         val categoryIds = relations.content.map { it.announcementId }.toSet()
         val result = service.getByIds(categoryIds)
         return Page.of(result, relations.pageable, relations.totalSize)
+    }
+
+    fun findEventId(announcementId: Long): Long? {
+        return repository.findByAnnouncementId(announcementId)?.eventId
+    }
+
+    fun isAssigned(event: Event, announcement: Announcement): Boolean {
+        return repository.findByEventIdAndAnnouncementId(event.id,announcement.id) != null
     }
 
     fun delete(data: EventData) {

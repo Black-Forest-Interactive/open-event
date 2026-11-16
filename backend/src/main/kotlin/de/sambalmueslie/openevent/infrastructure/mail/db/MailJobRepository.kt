@@ -15,5 +15,7 @@ interface MailJobRepository : PageableRepository<MailJobData, Long> {
 
     fun findAllOrderByUpdatedDesc(pageable: Pageable): Page<MailJobData>
     fun findAllByStatus(status: MailJobStatus, pageable: Pageable): Page<MailJobData>
+    fun findByTitleContainingIgnoreCaseOrderByUpdatedDesc(title: String, pageable: Pageable): Page<MailJobData>
+    fun findByTitleContainingIgnoreCaseAndStatusOrderByUpdatedDesc(title: String, status: MailJobStatus, pageable: Pageable): Page<MailJobData>
 
 }

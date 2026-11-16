@@ -47,5 +47,6 @@ bin/
 
 deployment/
 src/main/resources/static/
-templates/
+/templates/
 uploads/
+Open House-handoff

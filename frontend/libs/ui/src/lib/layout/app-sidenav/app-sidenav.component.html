@@ -11,7 +11,8 @@
                     </div>
                 }
                 @for (item of group.items; track item.text) {
-                    <a [class.gap-3]="!collapsed()"
+                    <a [attr.data-tour]="'nav:' + item.url"
+                       [class.gap-3]="!collapsed()"
                        [class.justify-center]="collapsed()"
                        [class.px-3]="!collapsed()"
                        [matTooltip]="collapsed() ? (item.text | translate) : ''"

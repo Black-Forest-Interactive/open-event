@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, resource, signal } from '@angular/core'
+import { Component, computed, effect, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Meta, Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
@@ -20,6 +20,7 @@ import { RegistrationStatusComponent } from '@open-event/ui'
   selector: 'app-event',
   imports: [LoadingBarComponent, EventInfoComponent, EventActionComponent, MatCard, TranslatePipe, RegistrationStatusComponent],
   templateUrl: './event.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event.component.scss'
 })
 export class EventComponent {
@@ -44,7 +45,7 @@ export class EventComponent {
   readonly error = this.eventResource.error
 
   constructor() {
-    this.translate.setDefaultLang('de')
+    this.translate.setFallbackLang('de')
 
     effect(() => {
       const lang = this.lang()

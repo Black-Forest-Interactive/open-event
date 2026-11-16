@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core'
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { Issue } from '@open-event/core'
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
 import { DatePipe } from '@angular/common'
@@ -13,6 +13,7 @@ import { IssueDetailsDialogComponent } from '../issue-details-dialog/issue-detai
   selector: 'admin-issue-table',
   imports: [DatePipe, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, TranslatePipe],
   templateUrl: './issue-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './issue-table.component.scss'
 })
 export class IssueTableComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 
 import { TranslatePipe } from '@ngx-translate/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog'
@@ -10,6 +10,7 @@ import { ConfirmDialogConfig } from './confirm-dialog-config'
   selector: 'lib-confirm-dialog',
   imports: [TranslatePipe, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatButton, MatIcon],
   templateUrl: './confirm-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './confirm-dialog.component.scss'
 })
 export class ConfirmDialogComponent {

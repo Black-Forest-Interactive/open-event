@@ -1,48 +1,36 @@
 package de.sambalmueslie.openevent.core.export
 
 
-import org.apache.velocity.tools.generic.EscapeTool
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.TextNode
 
-class HtmlConverter(
-    private val escapeTool: EscapeTool
-) {
-
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(HtmlConverter::class.java)
-    }
+/**
+ * Converts user-provided event descriptions (legacy rich-text HTML or plain text)
+ * into plain text with line breaks, escaped as well-formed XHTML for OpenHTMLtoPDF:
+ * all tags are stripped, only the text content is kept.
+ */
+class HtmlConverter {
 
     fun convert(content: String): String {
+        if (content.isBlank()) return ""
+        val text = if (content.contains('<')) htmlToPlainText(content) else content
+        return escapeXml(text).replace("\n", "<br/>")
+    }
+
+    private fun htmlToPlainText(content: String): String {
         val doc = Jsoup.parse(content)
-        val body = doc.body()
-
-        val result = StringBuilder()
-        body.select("p").forEach { e ->
-            convertParagraph(e).let { s -> result.appendLine(s) }
-        }
-
-        return result.toString()
+        doc.outputSettings(Document.OutputSettings().prettyPrint(false))
+        doc.select("br").forEach { it.replaceWith(TextNode("\n")) }
+        doc.select("p, li, ul, ol, div, h1, h2, h3, h4, h5, h6, tr").forEach { it.appendChild(TextNode("\n")) }
+        return doc.body().wholeText()
+            .lines().joinToString("\n") { it.trim() }
+            .replace(Regex("\n{3,}"), "\n\n")
+            .trim()
     }
 
-    private fun convertParagraph(element: Element): String {
-        val text = escapeTool.xml(element.text())
-
-        val children = element.children().firstOrNull()
-            ?: return "<fo:block font-size=\"12pt\">$text</fo:block>"
-
-        val tag = children.tag().normalName()
-        return when (tag) {
-            "strong" -> "<fo:block font-weight=\"bold\" font-size=\"12pt\">$text</fo:block>"
-            "em" -> "<fo:block font-style=\"italic\" font-size=\"12pt\">$text</fo:block>"
-            "u" -> "<fo:block font-size=\"12pt\">$text</fo:block>"
-            "s" -> "<fo:block font-size=\"12pt\">$text</fo:block>"
-            "br" -> "<fo:block></fo:block>"
-            else -> "<fo:block font-size=\"12pt\">$text</fo:block>"
-        }
-    }
-
-
+    private fun escapeXml(text: String) = text
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
 }

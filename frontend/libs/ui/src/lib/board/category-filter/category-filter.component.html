@@ -1,0 +1,25 @@
+@if (items().length > 0) {
+    <div class="flex flex-col gap-2">
+        @if (label()) {
+            <span class="text-sm font-semibold text-on-surface-variant">{{ label() | translate }}</span>
+        }
+        <span class="text-xs text-on-surface-variant px-1 -mt-1">{{ 'filter.tri.hint' | translate }}</span>
+        <div class="flex flex-col gap-0.5" role="group">
+            @for (entry of entries(); track entry.item.id) {
+                <button (click)="toggled.emit(entry.item.name)" [attr.aria-label]="(entry.state === 'in' ? ('filter.tri.only' | translate) + ' ' : entry.state === 'out' ? ('filter.tri.without' | translate) + ' ' : '') + entry.item.name"
+                        [attr.aria-pressed]="entry.state ? 'mixed' : 'false'" [class.is-in]="entry.state === 'in'" [class.is-out]="entry.state === 'out'"
+                        [style.--h]="entry.style.hue" class="tricat" type="button">
+                    <mat-icon class="tricat__icon" style="font-size: 18px; width: 18px; height: 18px">{{ entry.style.icon }}</mat-icon>
+                    <span class="tricat__label">{{ entry.item.name }}</span>
+                    <span class="tricat__state">
+                        @if (entry.state === 'in') {
+                            <mat-icon style="font-size: 16px; width: 16px; height: 16px">check</mat-icon>
+                        } @else if (entry.state === 'out') {
+                            <mat-icon style="font-size: 16px; width: 16px; height: 16px">block</mat-icon>
+                        }
+                    </span>
+                </button>
+            }
+        </div>
+    </div>
+}

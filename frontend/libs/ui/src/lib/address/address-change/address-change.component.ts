@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core'
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Address, AddressChangeRequest } from '@open-event/core'
 import { MatFormField, MatLabel } from '@angular/material/form-field'
@@ -9,6 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'lib-address-change',
   imports: [FormsModule, MatFormField, MatInput, MatLabel, ReactiveFormsModule, TranslatePipe],
   templateUrl: './address-change.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './address-change.component.scss'
 })
 export class AddressChangeComponent {

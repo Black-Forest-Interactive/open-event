@@ -1,4 +1,4 @@
-@if (!data().published) {
+@if (!published()) {
     <button (click)="publish()" class="action-fab" mat-mini-fab>
         @if (publishing) {
             <mat-icon>

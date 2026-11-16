@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { MatTableModule } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button'
   selector: 'admin-activity-table',
   imports: [DatePipe, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, RouterLink, TranslatePipe],
   templateUrl: './activity-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-table.component.scss'
 })
 export class ActivityTableComponent {

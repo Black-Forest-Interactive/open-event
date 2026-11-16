@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core'
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core'
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet'
 import { Observable } from 'rxjs'
 import { EventInfo, Participant, ParticipateRequest, ParticipateResponse } from '@open-event/core'
@@ -22,7 +22,7 @@ export interface RegistrationParticipateSheetData {
   templateUrl: './registration-participate-sheet.component.html',
   styleUrl: './registration-participate-sheet.component.scss',
   imports: [TranslatePipe, MatButton, MatIconButton, MatIcon, DatePipe, MatFormField, MatLabel, MatInput],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class RegistrationParticipateSheetComponent {
   data = inject<RegistrationParticipateSheetData>(MAT_BOTTOM_SHEET_DATA)
@@ -40,10 +40,14 @@ export class RegistrationParticipateSheetComponent {
   readonly remaining = computed(() => {
     const registration = this.data.info.registration
     if (!registration) return 0
-    const taken = registration.participants.filter((p) => !p.waitingList).reduce((sum, p) => sum + p.size, 0)
-    return Math.max(0, registration.registration.maxGuestAmount - taken + this.currentSize)
+    const selfId = this.data.participant?.id
+    const taken = registration.participants
+      .filter((p) => !p.waitingList && p.id !== selfId)
+      .reduce((sum, p) => sum + p.size, 0)
+    return Math.max(0, registration.registration.maxGuestAmount - taken)
   })
-  readonly maxPersons = computed(() => Math.max(1, Math.min(this.remaining(), 6)))
+  readonly willWaitlist = computed(() => this.persons() > this.remaining())
+  readonly maxPersons = computed(() => Math.max(1, this.data.info.registration?.registration.maxGuestAmount ?? 1))
 
   increment() {
     if (this.persons() < this.maxPersons()) this.persons.set(this.persons() + 1)

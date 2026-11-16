@@ -1,9 +1,9 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'lib-page-not-found',
   templateUrl: './page-not-found.component.html',
   styleUrls: ['./page-not-found.component.scss'],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class PageNotFoundComponent {}

@@ -1,8 +1,12 @@
-<div class="p-2">
-    <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
-    <admin-board-card title="event.details.history">
+<mat-card>
+    <div class="flex flex-col gap-4 p-5">
+        <div class="flex flex-row items-center justify-between gap-3">
+            <h2 class="text-lg font-medium m-0">{{ 'event.details.history' | translate }}</h2>
+            <span class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ totalSize() }}</span>
+        </div>
+        <lib-loading-bar [reloading]="loading()"></lib-loading-bar>
         <admin-history-table (pageEvent)="handlePageChange($event)" [data]="history()" [pageNumber]="page()"
                              [pageSize]="size()" [reloading]="loading()"
                              [totalElements]="totalSize()"></admin-history-table>
-    </admin-board-card>
-</div>
+    </div>
+</mat-card>

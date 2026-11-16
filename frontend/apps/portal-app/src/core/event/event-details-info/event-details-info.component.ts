@@ -1,6 +1,5 @@
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
-import { CategoryChipComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
 import { EventFactRowComponent } from '../event-fact-row/event-fact-row.component'
 
@@ -8,8 +7,8 @@ import { EventFactRowComponent } from '../event-fact-row/event-fact-row.componen
   selector: 'portal-event-details-info',
   templateUrl: './event-details-info.component.html',
   styleUrl: './event-details-info.component.scss',
-  imports: [CategoryChipComponent, TranslatePipe, EventFactRowComponent],
-  standalone: true
+  imports: [TranslatePipe, EventFactRowComponent],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventDetailsInfoComponent {
   info = input.required<EventInfo>()

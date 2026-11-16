@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.gateway.external.event
 
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.event.EventCrudService
+import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventInfo
 import de.sambalmueslie.openevent.core.link.LinkCrudService
 import de.sambalmueslie.openevent.core.participant.ExternalParticipantService
@@ -12,12 +13,16 @@ import de.sambalmueslie.openevent.core.search.event.EventSearchEntryData
 import de.sambalmueslie.openevent.core.share.ShareCrudService
 import de.sambalmueslie.openevent.core.share.api.Share
 import de.sambalmueslie.openevent.gateway.external.account.toPublicAccount
+import de.sambalmueslie.openevent.infrastructure.metrics.MetricsService
+import de.sambalmueslie.openevent.infrastructure.metrics.api.MetricsSource
 import de.sambalmueslie.openevent.infrastructure.settings.SettingsService
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import jakarta.inject.Singleton
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Entities
 import org.slf4j.LoggerFactory
 
 @Singleton
@@ -28,16 +33,18 @@ class ExternalEventService(
     private val searchService: SearchService,
     private val participantService: ExternalParticipantService,
     private val settingsService: SettingsService,
-    private val accountService: AccountCrudService
+    private val accountService: AccountCrudService,
+    metrics: MetricsService
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(ExternalEventService::class.java)
     }
 
+    private val probe = metrics.getProbe(MetricsSource.EXTERNAL, "EXTERNAL Event API", Event::class)
 
-    fun getPublicEvent(id: String): PublicEvent? {
+    fun getPublicEvent(id: String, visitorId: String): PublicEvent? {
         val (share, event) = getEvent(id) ?: return null
-        return event.toPublicEvent(share)
+        return probe.traceAccess(visitorId, event.event.id) { event.toPublicEvent(share) }
     }
 
     fun getSettings(): EventParticipationSettings {
@@ -46,13 +53,13 @@ class ExternalEventService(
 
     fun requestParticipation(id: String, request: ExternalParticipantAddRequest, lang: String): ExternalParticipantChangeResponse {
         val (share, event) = getEvent(id) ?: return ExternalParticipantChangeResponse.failed()
-        logger.info("[${event.event.id}] request participation $request")
+        logger.info("[${event.event.id}] request participation")
         return participantService.requestParticipation(share, event, request, lang)
     }
 
     fun changeParticipation(id: String, participantId: String, request: ExternalParticipantChangeRequest): ExternalParticipantChangeResponse {
         val (_, event) = getEvent(id) ?: return ExternalParticipantChangeResponse.failed()
-        logger.info("[${event.event.id}] change participation [$participantId] $request")
+        logger.info("[${event.event.id}] change participation [$participantId]")
         return participantService.changeParticipation(event, participantId, request)
     }
 
@@ -128,15 +135,17 @@ class ExternalEventService(
         val (share, event) = getEvent(id) ?: return HttpResponse.notFound()
         val shareUrl = settingsService.getShareUrl()
         val portalUrl = settingsService.getPortalUrl()
+        val title = Entities.escape(event.event.title)
+        val description = Entities.escape(Jsoup.parse(event.event.longText).text())
         val content = """
           <!DOCTYPE html>
           <html>
           <head>
             <meta charset="utf-8">
-            <title>${event.event.title}</title>
+            <title>$title</title>
             <meta property="og:type" content="website">
-            <meta property="og:title" content="${event.event.title}">
-            <meta property="og:description" content="${event.event.longText}">
+            <meta property="og:title" content="$title">
+            <meta property="og:description" content="$description">
             <meta property="og:image" content="${portalUrl}/img/banner.png">
             <meta property="og:url" content="${shareUrl}/event/${share.id}">
             <meta name="twitter:card" content="summary">

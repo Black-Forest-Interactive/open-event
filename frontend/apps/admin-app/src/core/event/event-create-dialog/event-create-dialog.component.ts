@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { Account, AccountSearchEntry, EventChangeRequest } from '@open-event/core'
 import { AccountService, AddressService, AudienceService, CategoryService, EventService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog'
@@ -9,6 +9,7 @@ import { EventCreateComponent } from '@open-event/ui'
   selector: 'admin-event-create-dialog',
   imports: [MatDialogContent, TranslatePipe, EventCreateComponent],
   templateUrl: './event-create-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-create-dialog.component.scss'
 })
 export class EventCreateDialogComponent {

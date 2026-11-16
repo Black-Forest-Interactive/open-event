@@ -15,5 +15,4 @@ class EventOpenPdfExporter(
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(EventOpenPdfExporter::class.java)
     }
-
 }

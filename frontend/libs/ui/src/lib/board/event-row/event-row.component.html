@@ -1,0 +1,84 @@
+<mat-card appearance="outlined" class="erow flex !flex-row items-center gap-3 sm:gap-4 p-3" [routerLink]="link()">
+    <div class="erow__date flex flex-col items-center justify-center text-center shrink-0 w-14 min-h-[60px] rounded-xl px-1 py-2 bg-primary-container text-on-primary-container">
+        <span class="text-[11px] font-semibold uppercase tracking-wide">{{ start() | date: 'EEE' }}</span>
+        <span class="text-2xl font-medium leading-none">{{ start() | date: 'd' }}</span>
+        <span class="text-[11px] font-medium uppercase opacity-80">{{ start() | date: 'MMM' }}</span>
+    </div>
+
+    <div [style.--h]="mediaStyle().hue" class="erow__media hidden sm:grid place-items-center w-16 h-16 rounded-xl shrink-0 text-2xl overflow-hidden">
+        <mat-icon class="erow__glyph" inline>{{ mediaStyle().icon }}</mat-icon>
+    </div>
+
+    <div class="flex flex-col gap-1 flex-auto min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+            @if (canceled()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-error text-on-error text-xs font-medium">
+                    <mat-icon inline>event_busy</mat-icon>
+                    {{ 'event.status.CANCELED' | translate }}
+                </span>
+            } @else if (ended()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant text-xs font-medium">
+                    <mat-icon inline>history</mat-icon>
+                    {{ 'event.status.ENDED' | translate }}
+                </span>
+            }
+            @if (featured()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container text-xs font-medium">
+                    <mat-icon inline>star</mat-icon>
+                    {{ 'event.board.featured' | translate }}
+                </span>
+            }
+            @for (cat of categories(); track cat) {
+                <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+            }
+            @for (audience of audiences(); track audience) {
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-medium">{{ audience }}</span>
+            }
+            @if (isRegistered()) {
+                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-xs font-medium">
+                    <mat-icon inline>check</mat-icon>
+                    {{ 'registration.bookbar.registered' | translate }}
+                </span>
+            }
+        </div>
+        <h3 class="text-base font-medium truncate">{{ title() }}</h3>
+        @if (shortText()) {
+            <p class="text-sm text-on-surface-variant line-clamp-1">{{ shortText() }}</p>
+        }
+        <div class="flex items-center gap-x-3 gap-y-1 text-xs text-on-surface-variant flex-wrap">
+            <span class="flex items-center gap-1">
+                <mat-icon inline>schedule</mat-icon>
+                {{ start() | date: 'shortTime' }} – {{ finish() | date: 'shortTime' }}
+            </span>
+            @if (hasLocation()) {
+                <span class="flex items-center gap-1">
+                    <mat-icon inline>place</mat-icon>
+                    {{ city() }}
+                </span>
+            }
+            @if (owner()) {
+                <span class="flex items-center gap-1">
+                    <mat-icon inline>person</mat-icon>
+                    {{ owner() }}
+                </span>
+            }
+        </div>
+    </div>
+
+    <div class="hidden md:flex flex-col items-stretch gap-2 w-48 shrink-0">
+        @if (hasRegistration()) {
+            <lib-registration-status [compact]="true" [public]="data()"></lib-registration-status>
+        }
+        <button (click)="$event.stopPropagation()" color="accent" data-tour="row-details" matButton="filled" [routerLink]="link()" class="!px-3">
+            {{ 'event.board.details' | translate }}
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+        @if (removable()) {
+            <button (click)="$event.stopPropagation(); removeClick.emit()" data-tour="row-remove" matButton="outlined" class="!px-3" type="button">
+                <mat-icon>bookmark_remove</mat-icon>
+                {{ 'event.board.removeSaved' | translate }}
+            </button>
+        }
+    </div>
+
+</mat-card>

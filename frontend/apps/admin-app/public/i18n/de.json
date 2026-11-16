@@ -18,7 +18,8 @@
     "details": "Details",
     "edit": "Bearbeiten",
     "save": "Speichern",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "toggleTheme": "Design wechseln"
   },
   "event": {
     "type": "Veranstaltungen",
@@ -30,6 +31,11 @@
       "edit": "Veranstaltung Bearbeiten",
       "copy": "Veranstaltung Kopieren",
       "delete": "Veranstaltung Löschen",
+      "cancel": "Veranstaltung absagen",
+      "mailOwner": "E-Mail schreiben",
+      "share": "Freigabe-Link",
+      "shareCopied": "Link kopiert",
+      "featured": "Featured",
       "publish": "Veranstaltung Veröffentlichen",
       "admin": "Teilnehmer anzeigen"
     },
@@ -50,7 +56,12 @@
       "startDate": "Datum",
       "startTime": "Begin",
       "endTime": "Ende",
-      "address": "Gespeicherte Adresse auswählen",
+      "address": {
+        "saved": "Gespeicherte Adresse",
+        "new": "Neue Adresse",
+        "save": "Adresse speichern",
+        "saveHint": "Die neue Adresse wird zu deinen gespeicherten Adressen hinzugefügt."
+      },
       "street": "Straße",
       "nr": "Nr",
       "info": "Addresszusatz",
@@ -62,18 +73,31 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
-        "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+        "LongDescr": "Ausführliche Beschreibung – Ablauf, Details, alles Wissenswerte.",
         "startDate": "Datum der Veranstaltung",
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
-        "tags": "Eigene Hashtags hinzufügen"
+        "tags": "Eigene Hashtags hinzufügen",
+        "endDate": "Datum, an dem die Veranstaltung endet",
+        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst noch wichtig?",
+        "iconUrl": "URL zu einem Icon für die Veranstaltung",
+        "imageUrl": "URL zu einem Titelbild der Veranstaltung",
+        "interestedAllowed": "Dürfen sich Interessenten ohne feste Zusage eintragen?",
+        "ticketsEnabled": "Sollen Tickets für die Veranstaltung erstellt werden?"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
         "shortText": "Bitte einen Kurztext angeben",
         "longText": "Bitte eine Beschreibung angeben"
-      }
+      },
+      "endDate": "Enddatum",
+      "shortText": "Kurzbeschreibung",
+      "iconUrl": "Icon URL",
+      "imageUrl": "Bild URL",
+      "interestedAllowed": "Interessenten erlauben",
+      "ticketsEnabled": "Tickets aktivieren",
+      "audiences": "Zielgruppen"
     },
     "dialog": {
       "create": {
@@ -82,6 +106,15 @@
       "delete": {
         "title": "Veranstaltung löschen",
         "question": "Soll die Veranstaltung wirklich gelöscht werden?"
+      },
+      "change": {
+        "title": "Veranstaltung bearbeiten"
+      },
+      "cancel": {
+        "title": "Veranstaltung absagen",
+        "reasonHint": "Die Teilnehmer werden per E-Mail benachrichtigt.",
+        "reason": "Grund für die Absage",
+        "confirm": "Veranstaltung absagen"
       }
     },
     "filter": {
@@ -115,6 +148,7 @@
       "shortText": "Kurztext",
       "longText": "Beschreibung",
       "published": "Veröffentlicht",
+      "status": "Status",
       "tags": "Hashtags",
       "categories": "Kategorien",
       "owner": "Ersteller",
@@ -124,13 +158,35 @@
       "participants": "Teilnehmerinfo",
       "shared": "Geteilt",
       "created": "Erstellt",
+      "when": "Wann",
+      "duration": "{{ minutes }} Min.",
       "changed": "Geändert"
     },
     "details": {
       "info": "Allgemein",
+      "host": "Veranstalter",
       "location": "Ort",
+      "venue": "Veranstaltungsort",
       "registration": "Anmeldungen",
-      "history": "Protokoll"
+      "history": "Protokoll",
+      "announcements": "Ankündigungen"
+    },
+    "message": {
+      "create": {
+        "succeed": "Veranstaltung erstellt",
+        "failed": "Fehler beim Erstellen der Veranstaltung"
+      },
+      "cancel": {
+        "succeed": "Veranstaltung wurde abgesagt"
+      },
+      "error": "Ein unerwarteter Fehler ist aufgetreten",
+      "noAnnouncements": "Noch keine Ankündigungen."
+    },
+    "status": {
+      "DRAFT": "Entwurf",
+      "ACTIVE": "Aktiv",
+      "CANCELED": "Abgesagt",
+      "ENDED": "Beendet"
     }
   },
   "registration": {
@@ -185,7 +241,8 @@
     "form": {
       "firstName": "Vorname",
       "lastName": "Familienname",
-      "email": "Email"
+      "email": "Email",
+      "note": "Notiz"
     },
     "table": {
       "rank": "Platz",
@@ -199,9 +256,15 @@
       "timestamp": "Timestamp",
       "enum": {
         "ACCEPTED": "Bestätigt",
-        "INTERESTED": "Interesiert",
-        "CANCELED": "Abgesagt"
+        "INTERESTED": "Interessiert",
+        "CANCELED": "Abgesagt",
+        "UNCONFIRMED": "Unbestätigt"
       }
+    },
+    "availability": {
+      "soldOut": "Ausgebucht",
+      "spotFree": "Platz frei",
+      "spotsFree": "Plätze frei"
     }
   },
   "audience": {
@@ -251,7 +314,11 @@
     },
     "form": {
       "name": "Name",
-      "iconUrl": "Icon URL"
+      "iconUrl": "Icon URL",
+      "hint": {
+        "name": "Name der Kategorie",
+        "iconUrl": "URL zu einem Icon für die Kategorie"
+      }
     }
   },
   "settings": {
@@ -271,6 +338,9 @@
     "dialog": {
       "create": {
         "title": "Neuen Parameter anlegen"
+      },
+      "change": {
+        "title": "Parameter bearbeiten"
       }
     }
   },
@@ -347,7 +417,8 @@
       "title": "Export",
       "action": {
         "single": "Veranstaltung exportieren",
-        "all": "Export per Download",
+        "all": "Flyer exportieren",
+        "cards": "Visitenkarten exportieren",
         "notice": "Aushang exportieren",
         "mail": {
           "title": "Export per Mail",
@@ -382,23 +453,64 @@
   "mail": {
     "type": "E-Mail Protokoll",
     "title": "E-Mail",
-    "search": "Suche nach E-Mail",
+    "search": "Betreff oder Empfänger suchen",
+    "noResults": "Keine E-Mails für diese Filter",
     "table": {
       "timestamp": "Zeitstempel",
       "status": "Status",
       "title": "Betreff"
+    },
+    "status": {
+      "QUEUED": "In Warteschlange",
+      "RETRY": "Wiederholung",
+      "FINISHED": "Versendet",
+      "FAILED": "Fehlgeschlagen"
+    },
+    "filter": {
+      "all": "Alle"
+    },
+    "action": {
+      "resend": "Nochmal senden"
+    },
+    "property": {
+      "history": "Verlauf des Versands",
+      "id": "Mail-ID"
+    },
+    "message": {
+      "resent": "E-Mail wurde erneut in die Warteschlange gestellt",
+      "resentFailed": "E-Mail konnte nicht erneut gesendet werden"
     }
   },
   "history": {
     "type": "Audit Log",
     "title": "Überwachungsprotokoll",
+    "search": "Suche nach Akteur oder Nachricht",
+    "noResults": "Keine Veranstaltungen gefunden",
     "table": {
       "timestamp": "Zeitstempel",
       "actor": "Akteur",
       "type": "Typ",
       "message": "Nachricht",
       "source": "Quelle",
-      "info": "Info"
+      "info": "Info",
+      "enum": {
+        "type": {
+          "EVENT_CREATED": "Erstellt",
+          "EVENT_CHANGED": "Geändert",
+          "EVENT_DELETED": "Gelöscht",
+          "PARTICIPANT_STATUS_CHANGED": "Teilnehmerstatus geändert"
+        },
+        "source": {
+          "EVENT": "Veranstaltung",
+          "REGISTRATION": "Anmeldung"
+        }
+      }
+    },
+    "property": {
+      "logId": "Log-ID"
+    },
+    "filter": {
+      "all": "Alle"
     }
   },
   "profile": {
@@ -447,7 +559,8 @@
     "action": {
       "add": "Neue Adresse anlegen",
       "create": "Neue Adresse anlegen",
-      "import": "Bestehende Adressen importieren"
+      "import": "Bestehende Adressen importieren",
+      "default": "Standard"
     },
     "property": {
       "street": "Straße",
@@ -457,6 +570,10 @@
       "city": "Wohnort",
       "country": "Land",
       "additionalInfo": "Zusätzliche Angaben"
+    },
+    "message": {
+      "saved": "Adresse wurde gespeichert",
+      "error": "Adresse konnte nicht gespeichert werden"
     }
   },
   "share": {
@@ -486,11 +603,29 @@
   "activity": {
     "title": "Benachrichtigungen",
     "type": {
-      "EVENT_CREATED": "Veranstaltung erstellt",
-      "EVENT_CHANGED": "Veranstaltung geändert",
-      "PARTICIPANT_ACCEPTED": "Neuer Teilnehmer",
-      "PARTICIPANT_DECLINED": "Teilnahme abgesagt",
-      "PARTICIPANT_CHANGED": "Teilnehmer geändert"
+      "event": {
+        "created": "Veranstaltung erstellt",
+        "changed": "Veranstaltung geändert",
+        "deleted": "Veranstaltung gelöscht",
+        "published": "Veranstaltung veröffentlicht",
+        "featured": "Hervorhebung geändert",
+        "title": "Titel geändert",
+        "text": "Beschreibung geändert",
+        "audience": "Zielgruppen geändert",
+        "category": "Kategorien geändert",
+        "tags": "Hashtags geändert",
+        "announcement": {
+          "added": "Ankündigung hinzugefügt",
+          "removed": "Ankündigung entfernt"
+        }
+      },
+      "registration": {
+        "participant": {
+          "accepted": "Neuer Teilnehmer",
+          "declined": "Teilnahme abgesagt",
+          "changed": "Teilnehmer geändert"
+        }
+      }
     },
     "table": {
       "type": "Typ",
@@ -509,6 +644,11 @@
       "hint": {
         "timestamp": "Benachrichtigungen vor diesem Zeitpunkt werden gelöscht"
       }
+    },
+    "dialog": {
+      "cleanup": {
+        "title": "Benachrichtigungen aufräumen"
+      }
     }
   },
   "paginator": {
@@ -524,7 +664,8 @@
     "key": {
       "event": "Ereignisse",
       "account": "Konten",
-      "category": "Kategorien"
+      "category": "Kategorien",
+      "audience": "Zielgruppen"
     },
     "status": {
       "UNKNOWN": "Unbekannt",
@@ -549,12 +690,6 @@
       "city": "Ort",
       "country": "Land",
       "size": "Maximale Teilnehmer"
-    }
-  },
-  "MAIL": {
-    "Table": {
-      "Message": "Nachricht",
-      "Timestamp": "Zeitstempel"
     }
   },
   "nav": {
@@ -583,6 +718,77 @@
       "CREATED": "Erstellt",
       "IN_PROGRESS": "In Bearbeitung",
       "RESOLVED": "Gelöst"
+    },
+    "dialog": {
+      "details": {
+        "title": "Fehler-Details"
+      }
+    }
+  },
+  "metrics": {
+    "type": "Metrics",
+    "title": "Metrics",
+    "subtitle": "Aufrufe, Reichweite und Anmeldungen deiner Veranstaltungen im Überblick.",
+    "action": {
+      "recalculateWeekly": "Wochenstatistik neu berechnen",
+      "refresh": "Aktualisieren"
+    },
+    "message": {
+      "recalculateWeeklySuccess": "Wochenstatistik wurde neu berechnet",
+      "recalculateWeeklyError": "Wochenstatistik konnte nicht neu berechnet werden"
+    },
+    "filter": {
+      "period": "Zeitraum",
+      "today": "Heute",
+      "reset": "Zurücksetzen"
+    },
+    "kpi": {
+      "totalViews": "Gesamt-Aufrufe",
+      "inPeriod": "im Zeitraum",
+      "uniqueViews": "Unique-Besucher",
+      "distinctVisitors": "eindeutige Personen",
+      "registrations": "Anmeldungen",
+      "confirmedParticipants": "bestätigte Teilnehmer",
+      "utilization": "Auslastung",
+      "of": "von",
+      "seats": "Plätzen",
+      "avgViewsPerEvent": "Ø Aufrufe / Event",
+      "activeEvents": "Events aktiv"
+    },
+    "chart": {
+      "title": "Aufrufe über Zeit",
+      "subtitle": "Seitenaufrufe der Event-Seiten im gewählten Zeitraum",
+      "total": "Gesamt",
+      "unique": "Unique",
+      "empty": "Keine Aufrufe im gewählten Zeitraum"
+    },
+    "table": {
+      "allEvents": "Alle Events",
+      "events": "Events",
+      "daily": "Täglich",
+      "weekly": "Wöchentlich",
+      "event": "Event",
+      "date": "Datum",
+      "week": "Woche",
+      "total": "Aufrufe",
+      "unique": "Unique",
+      "registrations": "Anmeldungen",
+      "utilization": "Auslastung",
+      "participants": "Teilnehmer",
+      "noParticipants": "Noch keine Anmeldungen"
+    },
+    "status": {
+      "DRAFT": "Entwurf",
+      "ACTIVE": "Aktiv",
+      "CANCELED": "Abgesagt",
+      "ENDED": "Beendet"
+    },
+    "sources": {
+      "title": "Zugriffsquellen"
+    },
+    "source": {
+      "PORTAL": "Portal",
+      "EXTERNAL": "Extern"
     }
   },
   "feedback": {
@@ -603,6 +809,36 @@
       "details": {
         "title": "Feedback-Details"
       }
+    },
+    "title": "Feedback"
+  },
+  "newsletter": {
+    "type": "Newsletter",
+    "title": "Newsletter Abonnenten",
+    "enabled": "Newsletter aktiv",
+    "disabled": "Newsletter inaktiv",
+    "table": {
+      "name": "Name",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail"
+    },
+    "message": {
+      "enabled": "Newsletter-Versand wurde aktiviert",
+      "disabled": "Newsletter-Versand wurde deaktiviert"
+    }
+  },
+  "notification": {
+    "type": "Benachrichtigungen",
+    "title": "Benachrichtigungen",
+    "table": {
+      "name": "Name",
+      "key": "Schlüssel",
+      "enabled": "Aktiv"
+    },
+    "message": {
+      "enabled": "Benachrichtigung „{{name}}“ wurde aktiviert",
+      "disabled": "Benachrichtigung „{{name}}“ wurde deaktiviert"
     }
   }
 }

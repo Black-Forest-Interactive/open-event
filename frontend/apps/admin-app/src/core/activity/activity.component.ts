@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { ActivityService } from '@open-event/admin'
 import { Activity, ActivityCleanupRequest } from '@open-event/core'
@@ -18,6 +18,7 @@ import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.co
   selector: 'admin-activity',
   imports: [MatCard, MatIcon, MatTableModule, ActivityTableComponent, BoardComponent, BoardToolbarActions, MatButton],
   templateUrl: './activity.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity.component.scss'
 })
 export class ActivityComponent implements OnInit {

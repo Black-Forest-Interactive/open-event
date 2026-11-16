@@ -9,5 +9,5 @@ data class PublicAccount (
 )
 
 fun AccountInfo.toPublicAccount(): PublicAccount {
-    return PublicAccount(name)
+    return PublicAccount(getTitle())
 }

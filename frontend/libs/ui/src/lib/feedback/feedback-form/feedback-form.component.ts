@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core'
+import { Component, inject, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatSliderModule } from '@angular/material/slider'
@@ -12,6 +12,7 @@ import { FeedbackChangeRequest } from '@open-event/core'
   selector: 'lib-feedback-form',
   imports: [MatFormFieldModule, MatSliderModule, MatButtonModule, MatSelectModule, ReactiveFormsModule, MatInput, TranslatePipe],
   templateUrl: './feedback-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './feedback-form.component.scss'
 })
 export class FeedbackFormComponent {

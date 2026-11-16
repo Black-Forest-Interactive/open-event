@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.activity.handler
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.account.AccountCrudService
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.activity.ActivityCrudService
@@ -76,7 +77,7 @@ class RegistrationActivityHandler(
         createActivity(actor, registration, participant, type)
     }
 
-    override fun participantRemoved(actor: Account, registration: Registration, participant: Participant) {
+    override fun participantRemoved(actor: Account, registration: Registration, participant: Participant, cancel: ParticipantCancelRequest?) {
         createActivity(actor, registration, participant, TYPE_PARTICIPANT_DECLINED)
     }
 

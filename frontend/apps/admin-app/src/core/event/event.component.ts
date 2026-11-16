@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { defaultEventSearchRequest, EventSearchEntry, EventSearchResponse } from '@open-event/core'
 import { EventRangePickerComponent, EventRangeSelection } from '@open-event/ui'
 import { EventService, ExportService } from '@open-event/admin'
@@ -25,12 +25,14 @@ import { Sort } from '@angular/material/sort'
   selector: 'admin-event',
   imports: [MatCard, EventTableComponent, BoardComponent, ReactiveFormsModule, EventRangePickerComponent, MatIcon, MatProgressSpinner, MatDivider, TranslatePipe, MatButton],
   templateUrl: './event.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event.component.scss'
 })
 export class EventComponent implements OnInit {
   reloading = false
   exportingEvents = false
   exportingNotice = false
+  exportingCards = false
   exportingSummary = false
   pageSize = 20
   pageNumber = 0
@@ -138,10 +140,24 @@ export class EventComponent implements OnInit {
     })
   }
 
+  exportCards() {
+    if (this.exportingCards) return
+    this.exportingCards = true
+    this.exportService.exportCards(this.request).subscribe({
+      next: (r) => {
+        download(r)
+        this.exportingCards = false
+      },
+      error: () => {
+        this.exportingCards = false
+      }
+    })
+  }
+
   exportMail() {
     this.exportService.exportEventsToEmail(this.request).subscribe({
       next: () => this.translateService.get('backoffice.export.action.mail.success').subscribe((t) => this.toast.success(t)),
-      error: () => this.translateService.get('backoffice.export.action.mail.error').subscribe((t) => this.toast.error(t))
+      error: () => this.translateService.get('backoffice.export.action.mail.failed').subscribe((t) => this.toast.error(t))
     })
   }
 

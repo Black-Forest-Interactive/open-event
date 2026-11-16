@@ -1,0 +1,16 @@
+<div class="flex flex-wrap gap-1.5">
+    @for (chip of chips(); track chip.key) {
+        <span [class.fsum--out]="chip.out" [style.--h]="chip.hue" class="fsum">
+            @if (chip.out) {
+                <mat-icon style="font-size: 13px; width: 13px; height: 13px">block</mat-icon>
+                {{ 'filter.tri.without' | translate }}
+            }
+            {{ chip.label }}
+        </span>
+    } @empty {
+        <span class="fsum fsum--any">{{ 'finder.allCategories' | translate }}</span>
+    }
+    @if (showAvailable() && request().onlyAvailableEvents) {
+        <span class="fsum fsum--any">{{ 'event.filter.onlyAvailable' | translate }}</span>
+    }
+</div>

@@ -1,5 +1,5 @@
 import { Account } from '../account/account.api'
-import { Event } from '../event/event.api'
+import { EventSearchEntry } from '../search/search.api'
 
 export interface HistoryEntry {
   id: number
@@ -13,6 +13,6 @@ export interface HistoryEntry {
 }
 
 export interface HistoryEventInfo {
-  event: Event
+  event: EventSearchEntry
   entries: HistoryEntry[]
 }

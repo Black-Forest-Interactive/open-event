@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { IssueService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -10,6 +10,7 @@ import { IssueCardComponent } from '../issue-card/issue-card.component'
   selector: 'admin-issue-details',
   imports: [BoardComponent, IssueCardComponent],
   templateUrl: './issue-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './issue-details.component.scss'
 })
 export class IssueDetailsComponent {

@@ -14,6 +14,7 @@ interface HistoryEntryStorage : Storage<Long, HistoryEntry, HistoryEntryChangeRe
     fun create(request: HistoryEntryChangeRequest, event: Event, actor: Account): HistoryEntry
     fun create(request: HistoryEntryChangeRequest, event: Event, actor: Account, timestamp: LocalDateTime): HistoryEntry
     fun findByEvent(event: Event, pageable: Pageable): Page<HistoryEntry>
+    fun findByEvents(eventIds: Set<Long>): List<HistoryEntry>
 
     fun findByEventAndActorOrSource(
         event: Event,

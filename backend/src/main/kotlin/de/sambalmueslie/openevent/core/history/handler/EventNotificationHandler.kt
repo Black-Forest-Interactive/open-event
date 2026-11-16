@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.history.handler
 
 
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.history.HistoryCrudService
@@ -25,8 +26,18 @@ class EventNotificationHandler(
         const val KEY_EVENT_DELETED = "event.delete"
         const val KEY_EVENT_PUBLISHED = "event.publish"
         const val KEY_EVENT_UNPUBLISHED = "event.unpublish"
+        const val KEY_EVENT_CANCELED = "event.canceled"
         const val KEY_EVENT_FEATURED = "event.featured"
         const val KEY_EVENT_UNFEATURED = "event.unfeatured"
+        const val KEY_EVENT_TITLE = "event.title"
+        const val KEY_EVENT_SHORT_TEXT = "event.short-text"
+        const val KEY_EVENT_LONG_TEXT = "event.long-text"
+        const val KEY_EVENT_TAGS = "event.tags"
+        const val KEY_EVENT_TEXT = "event.text"
+        const val KEY_EVENT_CATEGORY = "event.category"
+        const val KEY_EVENT_AUDIENCE = "event.audience"
+        const val KEY_EVENT_ANNOUNCEMENT_ADDED = "event.announcement.added"
+        const val KEY_EVENT_ANNOUNCEMENT_REMOVED = "event.announcement.removed"
     }
 
 
@@ -49,6 +60,13 @@ class EventNotificationHandler(
     }
 
 
+    override fun statusChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_UPDATED, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
     override fun publishedChanged(actor: Account, event: Event) {
         val request = if (event.published) {
             HistoryEntryChangeRequest(
@@ -59,6 +77,13 @@ class EventNotificationHandler(
                 HistoryEntryType.EVENT_CHANGED, KEY_EVENT_UNPUBLISHED, HistoryEntrySource.EVENT, ""
             )
         }
+        service.create(actor, event, request)
+    }
+
+    override fun canceled(actor: Account, event: Event, reason: String) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_CANCELED, HistoryEntrySource.EVENT, reason
+        )
         service.create(actor, event, request)
     }
 
@@ -75,5 +100,68 @@ class EventNotificationHandler(
         service.create(actor, event, request)
     }
 
+    override fun titleChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_TITLE, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun shortTextChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_SHORT_TEXT, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun longTextChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_LONG_TEXT, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+
+    override fun tagsChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_TAGS, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun textChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_TEXT, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun categoryChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_CATEGORY, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun audienceChanged(actor: Account, event: Event) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_AUDIENCE, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun announcementAdded(actor: Account, event: Event, announcement: Announcement) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_ANNOUNCEMENT_ADDED, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
+
+    override fun announcementRemoved(actor: Account, event: Event, announcement: Announcement) {
+        val request = HistoryEntryChangeRequest(
+            HistoryEntryType.EVENT_CHANGED, KEY_EVENT_ANNOUNCEMENT_REMOVED, HistoryEntrySource.EVENT, ""
+        )
+        service.create(actor, event, request)
+    }
 
 }

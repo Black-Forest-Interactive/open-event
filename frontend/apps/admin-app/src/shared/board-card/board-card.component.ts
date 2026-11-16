@@ -1,4 +1,4 @@
-import { Component, Directive, input } from '@angular/core'
+import { Component, Directive, input, ChangeDetectionStrategy } from '@angular/core'
 import { LoadingBarComponent } from '@open-event/shared'
 import { TranslatePipe } from '@ngx-translate/core'
 
@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   imports: [LoadingBarComponent, TranslatePipe],
   selector: 'admin-board-card',
   styleUrl: './board-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './board-card.component.html'
 })
 export class BoardCardComponent {

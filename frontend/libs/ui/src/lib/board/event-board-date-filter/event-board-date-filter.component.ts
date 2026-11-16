@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core'
+import { Component, output, signal, ChangeDetectionStrategy } from '@angular/core'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
@@ -14,6 +14,7 @@ import { EventBoardDateRange } from './event-board-date-filter.model'
 @Component({
   selector: 'lib-event-board-date-filter',
   templateUrl: './event-board-date-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatIcon,

@@ -54,7 +54,7 @@ micronaut:
           - isAnonymous()
       - pattern: /**
         access:
-          - isAnonymous()
+          - isAuthenticated()
 
 jackson:
   serialization-inclusion: always

@@ -9,6 +9,9 @@ import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.core.event.api.EventStatus
+import de.sambalmueslie.openevent.core.event.api.EventUpdateTextRequest
+import de.sambalmueslie.openevent.core.finder.db.FinderStorage
 import de.sambalmueslie.openevent.core.history.db.HistoryStorageService
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
@@ -16,6 +19,7 @@ import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
+import java.time.LocalDateTime
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -29,6 +33,7 @@ class EventStorageService(
     private val audienceRelationService: EventAudienceRelationService,
     private val bookmarkRelationService: EventBookmarkRelationService,
     private val historyStorageService: HistoryStorageService,
+    private val finderStorage: FinderStorage,
 
     cacheService: CacheService,
     private val timeProvider: TimeProvider,
@@ -57,6 +62,7 @@ class EventStorageService(
     override fun updateData(data: EventData, request: EventChangeRequest): EventData {
         return data.update(request, timeProvider.now())
     }
+
 
     override fun setCategories(event: Event, categories: List<Category>) {
         categoryRelationService.set(event, categories)
@@ -91,12 +97,16 @@ class EventStorageService(
         return audienceRelationService.get(event)
     }
 
-    override fun assign(event: Event, announcement: Announcement) {
+    override fun add(event: Event, announcement: Announcement) {
         announcementRelationService.assign(event, announcement)
     }
 
-    override fun revoke(event: Event, announcement: Announcement) {
+    override fun remove(event: Event, announcement: Announcement) {
         announcementRelationService.revoke(event, announcement)
+    }
+
+    override fun isAssigned(event: Event, announcement: Announcement): Boolean {
+        return announcementRelationService.isAssigned(event, announcement)
     }
 
     override fun getAnnouncements(event: Event, pageable: Pageable): Page<Announcement> {
@@ -128,12 +138,36 @@ class EventStorageService(
         return bookmarkRelationService.get(account, eventIds)
     }
 
+    override fun setStatus(id: Long, value: EventStatus): Event? {
+        return patchData(id) { it.setStatus(value, timeProvider.now()) }
+    }
+
     override fun setPublished(id: Long, value: PatchRequest<Boolean>): Event? {
         return patchData(id) { it.setPublished(value.value, timeProvider.now()) }
     }
 
     override fun setFeatured(id: Long, value: PatchRequest<Boolean>): Event? {
         return patchData(id) { it.setFeatured(value.value, timeProvider.now()) }
+    }
+
+    override fun setTitle(id: Long, value: PatchRequest<String>): Event? {
+        return patchData(id) { it.setTitle(value.value, timeProvider.now()) }
+    }
+
+    override fun setShortText(id: Long, value: PatchRequest<String>): Event? {
+        return patchData(id) { it.setShortText(value.value, timeProvider.now()) }
+    }
+
+    override fun setLongText(id: Long, value: PatchRequest<String>): Event? {
+        return patchData(id) { it.setLongText(value.value, timeProvider.now()) }
+    }
+
+    override fun setTags(id: Long, value: PatchRequest<Set<String>>): Event? {
+        return patchData(id) { it.setTags(value.value, timeProvider.now()) }
+    }
+
+    override fun setText(id: Long, request: EventUpdateTextRequest): Event? {
+        return patchData(id) { it.setText(request, timeProvider.now()) }
     }
 
     override fun getAllForAccount(account: Account, pageable: Pageable): Page<Event> {
@@ -156,12 +190,21 @@ class EventStorageService(
         return repository.findAllOrderByStart(pageable).let { converter.convert(it) }
     }
 
+    override fun getAll(title: String, pageable: Pageable): Page<Event> {
+        return repository.findByTitleContainingIgnoreCaseOrderByStart(title, pageable).let { converter.convert(it) }
+    }
+
+    override fun getByStart(from: LocalDateTime, to: LocalDateTime, pageable: Pageable): Page<Event> {
+        return repository.findByStartBetween(from, to, pageable).let { converter.convert(it) }
+    }
+
     override fun deleteDependencies(data: EventData) {
         announcementRelationService.delete(data)
         categoryRelationService.delete(data)
         audienceRelationService.delete(data)
         bookmarkRelationService.delete(data)
         historyStorageService.deleteByEvent(data)
+        finderStorage.deleteByEvent(data.id)
     }
 
 

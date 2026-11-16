@@ -1,15 +1,13 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core'
+import { ApplicationConfig, inject, LOCALE_ID, provideAppInitializer, provideZoneChangeDetection } from '@angular/core'
 import { provideRouter } from '@angular/router'
 import { appRoutes } from './app.routes'
-import { provideHttpClient, withInterceptors } from '@angular/common/http'
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http'
 import { includeBearerTokenInterceptor } from 'keycloak-angular'
 import { provideKeycloakAngular } from './keycloak.config'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { provideShareButtonsOptions } from 'ngx-sharebuttons'
-import { shareIcons } from 'ngx-sharebuttons/icons'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import { ENVIRONMENT, MatPaginatorI18nService } from '@open-event/shared'
 import { registerLocaleData } from '@angular/common'
@@ -41,12 +39,20 @@ export const appConfig: ApplicationConfig = {
     provideEchartsConfig(),
     provideServiceConfig(),
     { provide: ENVIRONMENT, useValue: environment },
+    provideAppInitializer(async () => {
+      const runtimeEnvironment = inject(ENVIRONMENT)
+      try {
+        const config = await (await fetch('/config.json')).json()
+        runtimeEnvironment.maps = { apiKey: config.mapsApiKey }
+      } catch {
+        runtimeEnvironment.maps = { apiKey: '' }
+      }
+    }),
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     provideKeycloakAngular(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([includeBearerTokenInterceptor])),
     provideTranslateConfig(),
-    provideShareButtonsOptions(shareIcons()),
     {
       provide: MatPaginatorIntl,
       useClass: MatPaginatorI18nService

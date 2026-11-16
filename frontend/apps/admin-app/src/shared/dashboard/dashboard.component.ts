@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { AppLayoutComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
@@ -7,18 +7,22 @@ import { MatDivider } from '@angular/material/divider'
 import { RouterLink, RouterLinkActive } from '@angular/router'
 import { AppService } from '../app.service'
 import { DashboardService } from './dashboard.service'
+import { NewsletterStateService } from '../newsletter-state.service'
+import { NewsletterStatusButtonComponent } from '../newsletter-status-button/newsletter-status-button.component'
 
 @Component({
   selector: 'admin-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
-  imports: [AppLayoutComponent, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, RouterLinkActive],
-  standalone: true
+  imports: [AppLayoutComponent, TranslatePipe, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, MatDivider, RouterLink, RouterLinkActive, NewsletterStatusButtonComponent],
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DashboardComponent {
   private appService = inject(AppService)
-  info = this.appService.info
   private dashboardService = inject(DashboardService)
+  readonly newsletterState = inject(NewsletterStateService)
+
+  info = this.appService.info
   title = this.dashboardService.title
   navGroups = this.dashboardService.accessibleNavGroups
 

@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.participant.api.ParticipateStatus
 import de.sambalmueslie.openevent.core.registration.RegistrationChangeListener
 import de.sambalmueslie.openevent.core.registration.RegistrationCrudService
+import de.sambalmueslie.openevent.core.registration.api.RegistrationChangeRequest
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.testdata.AccountTestData
 import de.sambalmueslie.openevent.testdata.EventTestData
@@ -46,7 +47,7 @@ class RegistrationCrudServiceTest : TimeBasedTest() {
         every { listener.handleDeleted(any(), any()) } just Runs
         every { listener.participantCreated(any(), any(), any(), any()) } just Runs
         every { listener.participantChanged(any(), any(), any(), any()) } just Runs
-        every { listener.participantRemoved(any(), any(), any()) } just Runs
+        every { listener.participantRemoved(any(), any(), any(), any()) } just Runs
         return listener
     }
 
@@ -170,7 +171,7 @@ class RegistrationCrudServiceTest : TimeBasedTest() {
 
         val removed = service.removeParticipant(actor, registration.id, guest)
         assertNotNull(removed)
-        verify { listener.participantRemoved(actor, registration, any()) }
+        verify { listener.participantRemoved(actor, registration, any(), any()) }
         assertTrue(service.getParticipants(registration.id).isEmpty())
     }
 
@@ -208,4 +209,41 @@ class RegistrationCrudServiceTest : TimeBasedTest() {
         verify(exactly = 1) { listener.handleDeleted(actor, updated) }
     }
 
+
+    @Test
+    fun moderationCannotAccessParticipantOfOtherRegistration() {
+        val actor = AccountTestData.createActor(accountStorage)
+        val registrationA = service.findByEvent(createEvent(actor))!!
+        val registrationB = service.findByEvent(createEvent(actor))!!
+        val participantB = service.addParticipant(actor, registrationB.id, guest("guest-b"), ParticipantTestData.participateRequest(2))!!.participant!!
+
+        val removed = service.removeParticipant(actor, registrationA.id, participantB.id)!!
+        assertNull(removed.participant)
+        assertEquals(listOf(participantB.id), service.getParticipants(registrationB.id).map { it.id })
+
+        val changed = service.changeParticipant(actor, registrationA.id, participantB.id, ParticipantTestData.participateRequest(5))!!
+        assertNull(changed.participant)
+        assertEquals(2, service.getParticipants(registrationB.id).single().size)
+
+        // via the own registration it still works
+        assertEquals(participantB.id, service.removeParticipant(actor, registrationB.id, participantB.id)!!.participant?.id)
+        assertTrue(service.getParticipants(registrationB.id).isEmpty())
+    }
+
+    @Test
+    fun participantSizeIsLimited() {
+        val actor = AccountTestData.createActor(accountStorage)
+        val event = EventTestData.create(eventService, actor, EventTestData.createRequest(location = null, registration = RegistrationChangeRequest(20, true, false)))
+        val registration = service.findByEvent(event)!!
+        val guest = guest("guest-size")
+
+        // a participant itself is limited to the configured group size
+        assertThrows(InvalidRequestException::class.java) { service.addParticipant(guest, registration.id, guest, ParticipantTestData.participateRequest(11)) }
+        assertTrue(service.getParticipants(registration.id).isEmpty())
+
+        // the organizer may add bigger groups, but not more than the capacity
+        assertThrows(InvalidRequestException::class.java) { service.addParticipant(actor, registration.id, guest, ParticipantTestData.participateRequest(21)) }
+        val added = service.addParticipant(actor, registration.id, guest, ParticipantTestData.participateRequest(15))!!
+        assertEquals(15, added.participant?.size)
+    }
 }

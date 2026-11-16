@@ -1,5 +1,6 @@
-import { Component, effect, ElementRef, input, viewChild } from '@angular/core'
+import { Component, effect, ElementRef, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { Location } from '@open-event/core'
+import { ENVIRONMENT } from '@open-event/shared'
 import * as L from 'leaflet'
 import { icon, Map, Marker, Zoom } from 'leaflet'
 
@@ -19,9 +20,12 @@ Marker.prototype.options.icon = iconDefault
   selector: 'lib-location-map',
   imports: [],
   templateUrl: './location-map.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './location-map.component.scss'
 })
 export class LocationMapComponent {
+  private environment = inject(ENVIRONMENT)
+
   location = input<Location>()
   scrollWheelZoom = input<Zoom>('center')
 
@@ -40,7 +44,7 @@ export class LocationMapComponent {
           zoomControl: false
         })
         L.control.zoom({ position: 'bottomright' }).addTo(this.map)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${this.environment.maps.apiKey}`, {
           attribution: '&copy; OpenStreetMap &copy; CARTO',
           subdomains: 'abcd',
           maxZoom: 19

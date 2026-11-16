@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.infrastructure.audit.db
 
 import de.sambalmueslie.openevent.common.SimpleDataObject
+import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntry
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogEntryChangeRequest
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditLogLevel
@@ -15,7 +16,7 @@ data class AuditLogEntryData(
     @Column var timestamp: LocalDateTime,
     @Column var actor: String,
     @Column @Enumerated(EnumType.STRING) var level: AuditLogLevel,
-    @Column var message: String,
+    @Column @Enumerated(EnumType.STRING) var action: AuditAction,
     @Column var request: String,
     @Column var referenceId: String,
     @Column var reference: String,
@@ -29,7 +30,7 @@ data class AuditLogEntryData(
                 request.timestamp,
                 request.actor,
                 request.level,
-                request.message,
+                request.action,
                 mapper.writeValueAsString(request.request),
                 request.referenceId,
                 mapper.writeValueAsString(request.reference),
@@ -39,14 +40,14 @@ data class AuditLogEntryData(
     }
 
     override fun convert(): AuditLogEntry {
-        return AuditLogEntry(id, timestamp, actor, level, message, request, referenceId, reference, source)
+        return AuditLogEntry(id, timestamp, actor, level, action, request, referenceId, reference, source)
     }
 
     fun update(r: AuditLogEntryChangeRequest, mapper: ObjectMapper): AuditLogEntryData {
         timestamp = r.timestamp
         actor = r.actor
         level = r.level
-        message = r.message
+        action = r.action
         request = mapper.writeValueAsString(r.request)
         referenceId = r.referenceId
         reference = mapper.writeValueAsString(r.reference)

@@ -1,6 +1,4 @@
 <div class="flex flex-col gap-4 p-4">
-    <portal-event-fact-row [info]="info()"></portal-event-fact-row>
-
     <div>
         <h1 class="text-2xl font-normal leading-tight">{{ info().event.title }}</h1>
         @if (info().event.shortText.length > 0) {
@@ -8,11 +6,10 @@
         }
     </div>
 
-    @if (info().categories.length > 0 || info().event.tags.length > 0) {
+    <portal-event-fact-row [info]="info()"></portal-event-fact-row>
+
+    @if (info().event.tags.length > 0) {
         <div class="flex flex-row flex-wrap gap-2">
-            @for (category of info().categories; track category.id) {
-                <lib-category-chip [iconUrl]="category.iconUrl" [name]="category.name"></lib-category-chip>
-            }
             @for (tag of info().event.tags; track tag) {
                 <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-surface-container-high text-on-surface-variant">#{{ tag }}</span>
             }

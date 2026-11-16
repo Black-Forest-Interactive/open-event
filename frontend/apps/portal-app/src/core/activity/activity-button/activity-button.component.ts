@@ -1,4 +1,4 @@
-import { Component, inject, signal, viewChild } from '@angular/core'
+import { Component, inject, signal, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import { Router } from '@angular/router'
 import { Activity, ActivityInfo } from '@open-event/core'
 import { ActivityIndicatorComponent } from '../activity-indicator/activity-indicator.component'
@@ -10,7 +10,7 @@ import { ActivityService } from '@open-event/portal'
   templateUrl: './activity-button.component.html',
   styleUrl: './activity-button.component.scss',
   imports: [ActivityIndicatorComponent, ActivityMenuComponent],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ActivityButtonComponent {
   private service = inject(ActivityService)

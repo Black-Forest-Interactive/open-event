@@ -1,0 +1,22 @@
+@if (items().length > 0) {
+    <div class="flex flex-col gap-2">
+        @if (label()) {
+            <span class="text-sm font-semibold text-on-surface-variant">{{ label() | translate }}</span>
+        }
+        <div class="flex flex-wrap gap-2" role="group">
+            @for (item of items(); track item.id) {
+                @let st = state()[item.name];
+                <button (click)="toggled.emit(item.name)" [attr.aria-label]="(st === 'in' ? ('filter.tri.only' | translate) + ' ' : st === 'out' ? ('filter.tri.without' | translate) + ' ' : '') + item.name"
+                        [attr.aria-pressed]="st ? 'mixed' : 'false'" [class.is-in]="st === 'in'" [class.is-out]="st === 'out'" class="tripill" type="button">
+                    @if (st) {
+                        <mat-icon style="font-size: 17px; width: 17px; height: 17px">{{ st === 'in' ? 'check' : 'block' }}</mat-icon>
+                    }
+                    @if (st === 'out') {
+                        <span class="font-semibold">{{ 'filter.tri.without' | translate }}</span>
+                    }
+                    {{ item.name }}
+                </button>
+            }
+        </div>
+    </div>
+}

@@ -1,12 +1,7 @@
 package de.sambalmueslie.openevent.gateway.backoffice.issue
 
 import de.sambalmueslie.openevent.common.PatchRequest
-import de.sambalmueslie.openevent.core.account.AccountCrudService
-import de.sambalmueslie.openevent.core.checkPermission
-import de.sambalmueslie.openevent.core.issue.IssueCrudService
-import de.sambalmueslie.openevent.core.issue.api.Issue
 import de.sambalmueslie.openevent.core.issue.api.IssueStatus
-import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -17,59 +12,23 @@ import io.swagger.v3.oas.annotations.tags.Tag
 
 @Controller("/api/backoffice/issue")
 @Tag(name = "BACKOFFICE Issue API")
-class IssueController(
-    private val service: IssueCrudService,
-    private val accountService: AccountCrudService,
-) {
-
-    companion object {
-        private const val PERMISSION_ADMIN = "issue.admin"
-    }
+class IssueController(private val service: IssueGuardService) {
 
     @Get("/{id}")
-    fun get(auth: Authentication, id: Long): Issue? {
-        return auth.checkPermission(PERMISSION_ADMIN) {
-            service.get(id)
-        }
-    }
+    fun get(auth: Authentication, id: Long) = service.get(auth, id)
 
     @Get()
-    fun getAll(auth: Authentication, pageable: Pageable): Page<Issue> {
-        return auth.checkPermission(PERMISSION_ADMIN) {
-            service.getAll(pageable)
-        }
-    }
+    fun getAll(auth: Authentication, pageable: Pageable) = service.getAll(auth, pageable)
 
     @Get("account/{accountId}")
-    fun getByAccount(auth: Authentication, accountId: Long, pageable: Pageable): Page<Issue> {
-        return auth.checkPermission(PERMISSION_ADMIN) {
-            val account = accountService.get(accountId) ?: return@checkPermission Page.empty()
-            service.getByAccount(account, pageable)
-        }
-    }
+    fun getByAccount(auth: Authentication, accountId: Long, pageable: Pageable) = service.getByAccount(auth, accountId, pageable)
 
     @Get("account/{accountId}/unresolved")
-    fun getUnresolvedByAccount(auth: Authentication, accountId: Long, pageable: Pageable): Page<Issue> {
-        return auth.checkPermission(PERMISSION_ADMIN) {
-            val account = accountService.get(accountId) ?: return@checkPermission Page.empty()
-            service.getUnresolvedByAccount(account, pageable)
-        }
-    }
+    fun getUnresolvedByAccount(auth: Authentication, accountId: Long, pageable: Pageable) = service.getUnresolvedByAccount(auth, accountId, pageable)
 
     @Get("unresolved")
-    fun getUnresolved(auth: Authentication, pageable: Pageable): Page<Issue> {
-        return auth.checkPermission(PERMISSION_ADMIN) {
-            service.getUnresolved(pageable)
-        }
-    }
-
+    fun getUnresolved(auth: Authentication, pageable: Pageable) = service.getUnresolved(auth, pageable)
 
     @Put("/{id}/status")
-    fun changeStatus(auth: Authentication, id: Long, @Body status: PatchRequest<IssueStatus>): Issue? {
-        return auth.checkPermission(PERMISSION_ADMIN) {
-            val actor = accountService.get(auth) ?: return@checkPermission null
-            service.changeStatus(actor, id, status)
-        }
-    }
-
+    fun changeStatus(auth: Authentication, id: Long, @Body status: PatchRequest<IssueStatus>) = service.changeStatus(auth, id, status)
 }

@@ -3,6 +3,9 @@ package de.sambalmueslie.openevent.core.export
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.QRCodeWriter
+import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder.FontStyle
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import de.sambalmueslie.openevent.api.SettingsAPI
 import de.sambalmueslie.openevent.core.category.api.Category
 import de.sambalmueslie.openevent.core.event.api.Event
@@ -18,14 +21,10 @@ import io.micronaut.http.server.types.files.SystemFile
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
 import org.apache.velocity.tools.generic.EscapeTool
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
-import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import org.slf4j.Logger
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.StringWriter
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -44,6 +43,7 @@ abstract class BasePdfExporter(
         private const val HEADER_PDF_FILE_SUFIX = ".pdf"
         private const val HEADER_PDF_FILE_PREFIX = "events"
         private const val TRANSPARENT_PIXEL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+        private const val FONT_FAMILY = "Liberation Sans"
     }
 
     private val ve = VelocityEngine().apply {
@@ -52,6 +52,7 @@ abstract class BasePdfExporter(
         init()
     }
     private val barcodeWriter = QRCodeWriter()
+    private val htmlConverter = HtmlConverter()
 
     override fun exportEvents(provider: () -> Sequence<EventInfo>): SystemFile? {
         val infos = provider.invoke().toList()
@@ -61,8 +62,6 @@ abstract class BasePdfExporter(
     override fun exportEvent(info: EventInfo): SystemFile? {
         return renderPdfFile(listOf(info))
     }
-
-    private fun createQrCode(info: EventInfo): String = createQrCodeFromUrl(getUrl(info))
 
     protected fun createQrCodeFromUrl(url: String): String {
         if (url.isBlank()) return ""
@@ -101,10 +100,13 @@ abstract class BasePdfExporter(
         val registration: RegistrationInfo = info.registration ?: return null
         val categories: List<Category> = info.categories
 
-        val qrCode = createQrCode(info)
+        val url = getUrl(info)
+        val qrCode = createQrCodeFromUrl(url)
         val availableSpace = getAvailableSpace(registration.registration)
+        val description = htmlConverter.convert(event.longText)
+        val shortDescription = htmlConverter.convert(event.shortText)
 
-        return EventPdfContent(event, location, registration, categories, qrCode, availableSpace)
+        return EventPdfContent(event, location, registration, categories, info.audiences, qrCode, availableSpace, description, shortDescription, url)
     }
 
     protected fun renderPdfFile(infos: List<EventInfo>, additionalProperties: Map<String, Any>? = null): SystemFile? {
@@ -117,6 +119,7 @@ abstract class BasePdfExporter(
             Pair("content", content),
             Pair("logo", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_LOGO_URL)?.value as? String ?: "")),
             Pair("image", convertImageToBase64(settingsService.findByKey(SettingsAPI.SETTINGS_PDF_IMAGE_URL)?.value as? String ?: "")),
+            Pair("title", settingsService.findByKey(SettingsAPI.SETTINGS_TEXT_TITLE)?.value as? String ?: ""),
             Pair("date", formatter.format(LocalDateTime.now(ZoneId.of("Europe/Berlin")))),
         )
 
@@ -131,7 +134,7 @@ abstract class BasePdfExporter(
         }
         logger.info("Template result size ${writer.buffer.length} bytes")
 
-        val result = writer.toString()
+        val result = PdfTextSanitizer.sanitize(writer.toString())
         val out = renderPdfContent(content, result)
 
         return logger.logTimeMillisWithValue("Write result to file with ${out.size()} bytes")
@@ -139,7 +142,7 @@ abstract class BasePdfExporter(
             val file = File.createTempFile(
                 HEADER_PDF_FILE_PREFIX,
                 HEADER_PDF_FILE_SUFIX
-            )
+            ).apply { deleteOnExit() }
             file.writeBytes(out.toByteArray())
             val date = timeProvider.now().toLocalDate()
             val filename = "${date}-event-export.pdf"
@@ -151,11 +154,18 @@ abstract class BasePdfExporter(
         val out = ByteArrayOutputStream()
         PdfRendererBuilder()
             .useSVGDrawer(BatikSVGDrawer())
+            .useFont({ fontStream("LiberationSans-Regular.ttf") }, FONT_FAMILY, 400, FontStyle.NORMAL, true)
+            .useFont({ fontStream("LiberationSans-Bold.ttf") }, FONT_FAMILY, 700, FontStyle.NORMAL, true)
+            .useFont({ fontStream("LiberationSans-Italic.ttf") }, FONT_FAMILY, 400, FontStyle.ITALIC, true)
+            .useFont({ fontStream("LiberationSans-BoldItalic.ttf") }, FONT_FAMILY, 700, FontStyle.ITALIC, true)
             .withHtmlContent(content, "about:blank")
             .toStream(out)
             .run()
         return out
     }
+
+    private fun fontStream(name: String) = javaClass.getResourceAsStream("/fonts/$name")
+        ?: throw IllegalStateException("Font /fonts/$name not found on classpath")
 
     private fun convertImageToBase64(imagePath: String): String {
         if (imagePath.isBlank()) return TRANSPARENT_PIXEL
@@ -179,13 +189,10 @@ abstract class BasePdfExporter(
     }
 
     private fun fetchImageBytes(imagePath: String): ByteArray {
-        return if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-            val connection = java.net.URI(imagePath).toURL().openConnection() as java.net.HttpURLConnection
-            connection.connectTimeout = 5_000
-            connection.readTimeout = 15_000
-            connection.inputStream.use { it.readBytes() }
-        } else {
-            Files.readAllBytes(Paths.get(imagePath))
-        }
+        require(imagePath.startsWith("https://")) { "Only https image URLs are allowed" }
+        val connection = java.net.URI(imagePath).toURL().openConnection() as java.net.HttpURLConnection
+        connection.connectTimeout = 5_000
+        connection.readTimeout = 15_000
+        return connection.inputStream.use { it.readBytes() }
     }
 }

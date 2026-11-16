@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { toPromise } from '@open-event/shared'
@@ -11,11 +11,12 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
 @Component({
   imports: [RouterModule, AppToolbarComponent, AppFooterComponent, MatIconButton, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger, TranslatePipe],
   selector: 'app-root',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './app.component.html'
 })
 export class AppComponent {
   private translate = inject(TranslateService)
-  readonly currentLang = signal(this.translate.currentLang ?? this.translate.defaultLang)
+  readonly currentLang = signal(this.translate.currentLang() ?? this.translate.fallbackLang())
   private settings = inject(SettingsService)
   private titleResource = resource({
     loader: (p) => toPromise(this.settings.getTitle(), p.abortSignal)

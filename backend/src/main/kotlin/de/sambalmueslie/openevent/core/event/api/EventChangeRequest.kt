@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.core.event.api
 
 
+import de.sambalmueslie.openevent.core.event.contact.EventContactChangeRequest
 import de.sambalmueslie.openevent.common.BusinessObjectChangeRequest
 import de.sambalmueslie.openevent.core.location.api.LocationChangeRequest
 import de.sambalmueslie.openevent.core.registration.api.RegistrationChangeRequest
@@ -20,7 +21,9 @@ data class EventChangeRequest(
     val audienceIds: Set<Long>,
     val location: LocationChangeRequest?,
     val registration: RegistrationChangeRequest,
+    val status: EventStatus,
     val published: Boolean,
     val shared: Boolean,
     val tags: Set<String>,
+    val contact: EventContactChangeRequest? = null,
 ) : BusinessObjectChangeRequest

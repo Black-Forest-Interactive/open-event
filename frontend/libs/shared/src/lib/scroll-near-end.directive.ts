@@ -1,13 +1,15 @@
-import { Directive, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core'
+import { Directive, ElementRef, inject, input, OnInit, output } from '@angular/core'
 
 @Directive({
   selector: '[libScrollNearEnd]',
-  standalone: true
+  host: {
+    '(window:scroll)': 'onScroll()'
+  }
 })
 export class ScrollNearEndDirective implements OnInit {
-  @Output() nearEnd = new EventEmitter<void>()
+  nearEnd = output<void>()
   /** threshold in PX when to emit before page end scroll */
-  @Input() threshold = 120
+  threshold = input(120)
   private el = inject(ElementRef)
   private window!: Window
 
@@ -15,8 +17,7 @@ export class ScrollNearEndDirective implements OnInit {
     this.window = window
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event): void {
+  onScroll(): void {
     const heightOfWholePage = this.window.document.documentElement.scrollHeight
     const heightOfElement = this.el.nativeElement.scrollHeight
     const currentScrolledY = this.window.scrollY
@@ -24,7 +25,7 @@ export class ScrollNearEndDirective implements OnInit {
     const spaceOfElementAndPage = heightOfWholePage - heightOfElement
     const scrollToBottom = heightOfElement - innerHeight - currentScrolledY + spaceOfElementAndPage
 
-    if (scrollToBottom < this.threshold) {
+    if (scrollToBottom < this.threshold()) {
       this.nearEnd.emit()
     }
   }

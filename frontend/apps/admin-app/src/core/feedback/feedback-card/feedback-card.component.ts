@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { Component, input, ChangeDetectionStrategy } from '@angular/core'
 import { Feedback } from '@open-event/core'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -7,6 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'admin-feedback-card',
   imports: [DatePipe, TranslatePipe],
   templateUrl: './feedback-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './feedback-card.component.scss'
 })
 export class FeedbackCardComponent {

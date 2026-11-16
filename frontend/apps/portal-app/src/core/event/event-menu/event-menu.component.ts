@@ -11,8 +11,7 @@ import { EventService } from '@open-event/portal'
 @Component({
   selector: 'portal-event-menu',
   templateUrl: './event-menu.component.html',
-  styleUrls: ['./event-menu.component.scss'],
-  standalone: true
+  styleUrls: ['./event-menu.component.scss']
 })
 export class EventMenuComponent {
   changed = output<Event>()

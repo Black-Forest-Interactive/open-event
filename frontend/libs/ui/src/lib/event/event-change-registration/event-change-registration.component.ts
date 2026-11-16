@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, resource } from '@angular/core'
+import { Component, computed, effect, inject, input, OnInit, resource, ChangeDetectionStrategy } from '@angular/core'
 import { Audience, AudienceReadAPI, Category, CategoryReadAPI, EventInfo } from '@open-event/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
@@ -29,9 +29,10 @@ import { StepperInputComponent } from '../../stepper-input/stepper-input.compone
     StepperInputComponent
   ],
   templateUrl: './event-change-registration.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-registration.component.scss'
 })
-export class EventChangeRegistrationComponent {
+export class EventChangeRegistrationComponent implements OnInit {
   data = input<EventInfo>()
   hiddenFields = input<string[]>([])
   parent = input.required<FormGroup>()
@@ -68,7 +69,7 @@ export class EventChangeRegistrationComponent {
     const fb = inject(FormBuilder)
 
     this.fg = fb.group({
-      maxGuestAmount: [4, Validators.required],
+      maxGuestAmount: [5, Validators.required],
       interestedAllowed: [false, Validators.required],
       ticketsEnabled: [false, Validators.required],
       shared: [true, Validators.required],
@@ -81,11 +82,10 @@ export class EventChangeRegistrationComponent {
       const event = this.data()
       if (event) this.handleDataChanged(event)
     })
+  }
 
-    effect(() => {
-      const parent = this.parent()
-      parent.addControl('registration', this.fg)
-    })
+  ngOnInit() {
+    this.parent().addControl('registration', this.fg)
   }
 
   get maxGuestAmount(): FormControl {

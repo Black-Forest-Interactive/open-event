@@ -8,7 +8,7 @@ import { TextResponse } from '@open-event/core'
 })
 export class SettingsService extends BaseService {
   constructor() {
-    super('app/settings')
+    super('portal/settings')
     this.retryCount = 1
   }
 

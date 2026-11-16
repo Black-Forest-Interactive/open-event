@@ -20,6 +20,11 @@ const CATEGORY_STYLES: Record<string, CategoryStyle> = {
   musik: { hue: 300, icon: 'music_note' },
   music: { hue: 300, icon: 'music_note' },
   kreativ: { hue: 330, icon: 'palette' },
+  // Prototyp-Aliase (kanonische 6 Keys aus dem Design)
+  community: { hue: 150, icon: 'groups' },
+  crafts: { hue: 330, icon: 'palette' },
+  outing: { hue: 90, icon: 'hiking' },
+  games: { hue: 270, icon: 'casino' },
   // Legacy-Aliase (andere Namensschemata)
   tour: { hue: 90, icon: 'explore' },
   führung: { hue: 90, icon: 'explore' },

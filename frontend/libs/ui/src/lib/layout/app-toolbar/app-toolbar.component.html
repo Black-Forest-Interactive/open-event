@@ -12,6 +12,12 @@
           class="ml-2 font-medium truncate">{{ title() | translate }}</span>
     <span class="flex-1 min-w-2"></span>
     <ng-content select="[toolbar-right]"></ng-content>
+    @if (tourService.available()) {
+        <button (click)="tourService.start()" [attr.aria-label]="'action.help' | translate" mat-icon-button
+                type="button">
+            <mat-icon>help_outline</mat-icon>
+        </button>
+    }
     <button (click)="themeService.toggle()" [attr.aria-label]="'action.toggleTheme' | translate" mat-icon-button
             type="button">
         <mat-icon>{{ themeService.darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>

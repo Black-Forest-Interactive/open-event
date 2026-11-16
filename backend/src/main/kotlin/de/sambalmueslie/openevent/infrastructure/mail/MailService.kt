@@ -152,6 +152,16 @@ class MailService(
         return jobRepository.findAllOrderByUpdatedDesc(pageable).map { it.convert() }
     }
 
+    fun getJobs(search: String?, status: MailJobStatus?, pageable: Pageable): Page<MailJob> {
+        val query = search?.takeIf { it.isNotBlank() }
+        return when {
+            query != null && status != null -> jobRepository.findByTitleContainingIgnoreCaseAndStatusOrderByUpdatedDesc(query, status, pageable)
+            query != null -> jobRepository.findByTitleContainingIgnoreCaseOrderByUpdatedDesc(query, pageable)
+            status != null -> jobRepository.findAllByStatus(status, pageable)
+            else -> jobRepository.findAllOrderByUpdatedDesc(pageable)
+        }.map { it.convert() }
+    }
+
     fun getFailedJobs(pageable: Pageable): Page<MailJob> {
         return jobRepository.findAllByStatus(MailJobStatus.FAILED, pageable).map { it.convert() }
     }

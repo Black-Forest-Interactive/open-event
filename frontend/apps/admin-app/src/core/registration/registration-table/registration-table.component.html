@@ -44,7 +44,7 @@
         <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by name">
             {{ 'registration.table.name'| translate }}
         </th>
-        <td *matCellDef="let participant" mat-cell> {{ participant.author.name }}</td>
+        <td *matCellDef="let participant" mat-cell> {{ participant.author | accountDisplayName }}</td>
     </ng-container>
 
 

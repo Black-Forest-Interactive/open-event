@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.core.search.api
 
 import de.sambalmueslie.openevent.core.account.api.AccountInfo
+import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.formatRange
 import java.time.LocalDateTime
 
@@ -15,6 +16,7 @@ data class EventSearchEntry(
     val title: String,
     val shortText: String,
     val longText: String,
+    val status: EventStatus,
     val published: Boolean,
     val featured: Boolean,
     val bookmarked: Boolean,

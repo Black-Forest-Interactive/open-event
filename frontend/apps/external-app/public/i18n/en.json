@@ -16,6 +16,7 @@
     "yes": "Yes",
     "no": "No",
     "logout": "Logout",
+    "toggleTheme": "Toggle theme",
     "collapse": "Collapse",
     "close": "Close",
     "ok": "Ok",
@@ -63,6 +64,9 @@
       "time": "Time",
       "location": "Location",
       "registration": "Registration"
+    },
+    "message": {
+      "error": "The events could not be loaded. Please try again later."
     }
   },
   "registration": {
@@ -71,6 +75,11 @@
     "status": {
       "full": "Full",
       "available": "seats available"
+    },
+    "availability": {
+      "spotsFree": "spots free",
+      "spotFree": "spot free",
+      "soldOut": "Sold out"
     },
     "dialog": {
       "manual": {
@@ -100,6 +109,9 @@
     "action": {
       "participate": "Participate on event",
       "confirm": "Complete registration"
+    },
+    "message": {
+      "error": "Your registration could not be processed. Please try again later."
     }
   },
   "account": {

@@ -19,6 +19,19 @@ class FileUploadValidator(
 
         val extension = fileExtension.lowercase(Locale.getDefault())
         if (!config.allowedExtensions.contains(extension)) throw InvalidRequestException("File type not allowed. Allowed types: " + config.allowedExtensions)
+        if (!isImage(bytes)) throw InvalidRequestException("File content is not a supported image")
+    }
+
+    /** check the magic bytes, cause extension and content type are provided by the client */
+    private fun isImage(bytes: ByteArray): Boolean {
+        fun startsWith(vararg signature: Int, offset: Int = 0) =
+            bytes.size >= offset + signature.size && signature.indices.all { bytes[offset + it] == signature[it].toByte() }
+
+        val jpeg = startsWith(0xFF, 0xD8, 0xFF)
+        val png = startsWith(0x89, 0x50, 0x4E, 0x47)
+        val gif = startsWith(0x47, 0x49, 0x46, 0x38)
+        val webp = startsWith(0x52, 0x49, 0x46, 0x46) && startsWith(0x57, 0x45, 0x42, 0x50, offset = 8)
+        return jpeg || png || gif || webp
     }
 
 

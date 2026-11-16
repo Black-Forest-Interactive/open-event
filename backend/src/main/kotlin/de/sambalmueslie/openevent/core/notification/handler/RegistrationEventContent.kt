@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.notification.handler
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.event.api.Event
 import de.sambalmueslie.openevent.core.location.api.Location
 import de.sambalmueslie.openevent.core.participant.api.Participant
@@ -9,5 +10,6 @@ data class RegistrationEventContent(
     val event: Event,
     val registration: Registration,
     val participant: Participant,
-    val location: Location
+    val location: Location,
+    val cancel: ParticipantCancelRequest? = null,
 )

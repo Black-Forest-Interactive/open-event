@@ -18,9 +18,10 @@ export class DashboardService {
       title: 'nav.group.main',
       items: [
         new NavItem('/event', 'nav.item.discover', 'explore'),
-        new NavItem('/event', 'nav.item.saved', 'bookmark', [], { view: 'saved' }),
-        new NavItem('/event', 'nav.item.regs', 'event_available', [], { view: 'regs' }),
-        new NavItem('/event', 'nav.item.own', 'campaign', [], { view: 'own' })
+        new NavItem('/finder', 'nav.item.finder', 'swipe', [Roles.EVENT_READ]),
+        new NavItem('/event/saved', 'nav.item.saved', 'bookmark'),
+        new NavItem('/event/regs', 'nav.item.regs', 'event_available'),
+        new NavItem('/event/own', 'nav.item.own', 'campaign')
       ]
     },
     {

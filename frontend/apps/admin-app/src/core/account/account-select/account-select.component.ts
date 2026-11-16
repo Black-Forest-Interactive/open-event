@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, inject, output, resource, signal } from '@angular/core'
+import { Component, computed, EventEmitter, inject, output, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { AccountSearchEntry, AccountSearchRequest } from '@open-event/core'
 import { AccountService } from '@open-event/admin'
 import { toPromise } from '@open-event/shared'
@@ -15,6 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'admin-account-select',
   imports: [MatFormField, MatInput, MatAutocomplete, MatOption, MatLabel, ReactiveFormsModule, MatAutocompleteTrigger, TranslatePipe],
   templateUrl: './account-select.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-select.component.scss'
 })
 export class AccountSelectComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core'
+import { Component, computed, inject, input, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { Account, Event } from '@open-event/core'
 import { AccountDisplayNamePipe } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -34,6 +34,7 @@ import { EventPublishedIconComponent } from '@open-event/ui'
     EventPublishedIconComponent
   ],
   templateUrl: './account-details-events.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-details-events.component.scss'
 })
 export class AccountDetailsEventsComponent {

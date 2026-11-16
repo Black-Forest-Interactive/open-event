@@ -29,6 +29,7 @@ open class ExportService(
     private val excelExporter: EventExcelExporter,
     private val pdfExporter: EventOpenPdfExporter,
     private val noticeExporter: EventNoticePdfExporter,
+    private val cardExporter: EventCardPdfExporter,
     private val mailSender: MailSender,
     private val timeProvider: TimeProvider,
 ) {
@@ -70,6 +71,10 @@ open class ExportService(
 
     fun exportNoticePdf(account: Account, request: EventSearchRequest): SystemFile? {
         return exportEvents(account, request, noticeExporter)
+    }
+
+    fun exportCardsPdf(account: Account, request: EventSearchRequest): SystemFile? {
+        return exportEvents(account, request, cardExporter)
     }
 
     fun exportEventSummaryExcel(account: Account, request: EventSearchRequest): SystemFile? {

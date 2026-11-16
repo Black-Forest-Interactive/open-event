@@ -7,4 +7,21 @@
             <span class="text-xs text-on-surface-variant">{{ 'event.detail.host' | translate }}</span>
         </div>
     </div>
+    @if (phone() || mobile()) {
+        <div class="flex flex-col gap-1 mt-3 text-sm">
+            @if (phone()) {
+                <a [href]="'tel:' + phone()" class="flex items-center gap-2 text-primary">
+                    <mat-icon style="font-size:18px; width:18px; height:18px">call</mat-icon>
+                    <span>{{ 'event.contact.phone' | translate }}: {{ phone() }}</span>
+                </a>
+            }
+            @if (mobile()) {
+                <a [href]="'tel:' + mobile()" class="flex items-center gap-2 text-primary">
+                    <mat-icon style="font-size:18px; width:18px; height:18px">smartphone</mat-icon>
+                    <span>{{ 'event.contact.mobile' | translate }}: {{ mobile() }}</span>
+                </a>
+            }
+            <span class="text-xs text-on-surface-variant">{{ 'event.contact.visibility' | translate }}</span>
+        </div>
+    }
 </section>

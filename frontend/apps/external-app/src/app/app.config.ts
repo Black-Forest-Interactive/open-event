@@ -6,9 +6,7 @@ import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter'
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { provideHttpClient } from '@angular/common/http'
-import { provideShareButtonsOptions } from 'ngx-sharebuttons'
-import { shareIcons } from 'ngx-sharebuttons/icons'
+import { provideHttpClient, withXhr } from '@angular/common/http'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import { MatPaginatorI18nService } from '@open-event/shared'
 import { provideTranslateConfig } from './translate.config'
@@ -37,9 +35,8 @@ export const appConfig: ApplicationConfig = {
     provideServiceConfig(),
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideTranslateConfig(),
-    provideShareButtonsOptions(shareIcons()),
     {
       provide: MatPaginatorIntl,
       useClass: MatPaginatorI18nService

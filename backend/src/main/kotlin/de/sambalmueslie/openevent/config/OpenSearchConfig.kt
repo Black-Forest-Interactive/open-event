@@ -46,7 +46,7 @@ class OpenSearchConfig {
     @NotBlank
     var password: String = ""
         set(value) {
-            logger.info("Set password from '$field' to '$value'")
+            logger.info("Set password")
             field = value
         }
 

@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, computed, ElementRef, inject, input, output, viewChildren } from '@angular/core'
+import { AfterViewInit, Component, computed, ElementRef, inject, input, output, viewChildren, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 
 @Component({
   selector: 'lib-confirmation-code',
   imports: [ReactiveFormsModule],
   templateUrl: './confirmation-code.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './confirmation-code.component.scss'
 })
 export class ConfirmationCodeComponent implements AfterViewInit {

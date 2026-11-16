@@ -1,0 +1,335 @@
+.fsess {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+}
+
+.fside {
+  position: sticky;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px 12px 14px;
+  border-radius: 24px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-lowest);
+}
+
+.ftabs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ftab {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 48px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s;
+
+  mat-icon {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &:hover {
+    background: color-mix(in oklab, var(--mat-sys-on-surface) 7%, transparent);
+  }
+}
+
+.ftab__label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.ftab__count {
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.ftab.is-active {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  font-weight: 600;
+
+  mat-icon {
+    color: var(--mat-sys-on-secondary-container);
+    font-variation-settings: 'FILL' 1;
+  }
+
+  .ftab__count {
+    background: var(--mat-sys-surface-container-lowest);
+    color: var(--mat-sys-on-secondary-container);
+  }
+
+  &.ftab--discover .ftab__count {
+    background: var(--mat-sys-secondary);
+    color: var(--mat-sys-on-secondary);
+  }
+}
+
+.fbtn-danger {
+  --mat-button-filled-container-color: var(--ev-danger);
+  --mat-button-filled-label-text-color: var(--ev-on-danger);
+}
+
+.fbtn-danger-text {
+  --mat-button-text-label-text-color: var(--ev-danger);
+}
+
+.fmain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.fmain__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  max-width: 760px;
+  min-height: 40px;
+  margin-bottom: 12px;
+}
+
+.fmain__left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant);
+
+  mat-icon {
+    color: var(--mat-sys-secondary);
+  }
+}
+
+.swstack {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+}
+
+.swpeek {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 1;
+  height: 240px;
+  border-radius: 24px;
+  background: linear-gradient(150deg, oklch(0.92 0.05 var(--h)) 0%, oklch(0.85 0.08 var(--h)) 100%);
+  transform: translateY(12px) scale(0.955);
+  opacity: 0.55;
+  pointer-events: none;
+
+  :host-context(.dark) & {
+    background: linear-gradient(150deg, oklch(0.36 0.06 var(--h)) 0%, oklch(0.29 0.07 var(--h)) 100%);
+  }
+}
+
+.swacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 760px;
+  margin-top: 22px;
+}
+
+.swbtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 24px 0 20px;
+  overflow: hidden;
+  isolation: isolate;
+  border: none;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.1s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  &:hover::before {
+    opacity: 0.08;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.swbtn--no {
+  background: var(--mat-sys-surface-container-lowest);
+  color: var(--ev-danger);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--ev-danger) 45%, transparent);
+
+  :host-context(.dark) & {
+    color: oklch(0.8 0.12 27);
+  }
+}
+
+.swbtn--maybe {
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface);
+}
+
+.swbtn--yes {
+  background: var(--mat-sys-secondary);
+  color: var(--mat-sys-on-secondary);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.swkeys {
+  margin: 14px 0 0;
+  font-size: 12px;
+  text-align: center;
+  color: var(--mat-sys-outline);
+}
+
+.swkeys--mob {
+  display: none;
+}
+
+.fplaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 24px auto;
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.fplaceholder__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+  border-radius: 16px;
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+@media (max-width: 1079.98px) {
+  .fsess {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .fside {
+    position: static;
+  }
+
+  .ftabs {
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+  }
+
+  .ftab {
+    flex: none;
+    height: 40px;
+    box-shadow: inset 0 0 0 1px var(--mat-sys-outline-variant);
+
+    &.is-active {
+      box-shadow: none;
+    }
+  }
+}
+
+@media (max-width: 759.98px) {
+  .fside {
+    padding: 14px 8px 10px;
+    border-radius: 16px;
+  }
+
+  .swpeek {
+    height: 170px;
+  }
+
+  .swacts {
+    position: sticky;
+    bottom: 76px;
+    z-index: 5;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .swbtn {
+    flex: 1;
+    min-width: 0;
+    padding: 0 16px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  .swbtn__label {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .swkeys--desk {
+    display: none;
+  }
+
+  .swkeys--mob {
+    display: block;
+  }
+}
+
+@media (max-width: 479.98px) {
+  .swbtn {
+    min-width: 56px;
+    height: 56px;
+    padding: 0;
+  }
+
+  .swbtn__label {
+    display: none;
+  }
+}

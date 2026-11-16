@@ -7,7 +7,7 @@ import { Observable } from 'rxjs'
 })
 export class IssueService extends BaseIssueService {
   constructor() {
-    super('app/issue')
+    super('portal/issue')
     this.retryCount = 0
   }
 

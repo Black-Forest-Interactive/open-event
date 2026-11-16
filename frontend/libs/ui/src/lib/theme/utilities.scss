@@ -117,6 +117,15 @@ html.dark .bg-primary-toolbar {
   color: var(--mat-sys-on-error) !important;
 }
 
+// ── Form-field subscript (hint/error) font size ──────────────────────────────
+// --mat-sys-body-small-size is not defined in this project's theme, causing
+// the subscript to fall back to the inherited dialog font-size (16px).
+// Pin it explicitly to the Material 3 body-small spec (12px).
+
+:root {
+  --mat-form-field-subscript-text-size: 0.75rem;
+}
+
 // ── Form-field density helpers ────────────────────────────────────────────────
 
 .dense-1 {

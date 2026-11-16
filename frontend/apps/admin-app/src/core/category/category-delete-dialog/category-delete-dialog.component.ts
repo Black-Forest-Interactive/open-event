@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { CategoryService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { Category } from '@open-event/core'
@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms'
   selector: 'admin-category-delete-dialog',
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, TranslatePipe, ReactiveFormsModule],
   templateUrl: './category-delete-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './category-delete-dialog.component.scss'
 })
 export class CategoryDeleteDialogComponent {

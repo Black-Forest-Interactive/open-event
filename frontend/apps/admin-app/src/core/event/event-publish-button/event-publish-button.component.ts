@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core'
+import { Component, inject, input, output, computed, ChangeDetectionStrategy } from '@angular/core'
 import { Event } from '@open-event/core'
 import { HotToastService } from '@ngxpert/hot-toast'
 import { EventService } from '@open-event/admin'
@@ -10,6 +10,7 @@ import { MatMiniFabButton } from '@angular/material/button'
   selector: 'admin-event-publish-button',
   imports: [MatIcon, MatProgressSpinner, MatMiniFabButton],
   templateUrl: './event-publish-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-publish-button.component.scss'
 })
 export class EventPublishButtonComponent {
@@ -18,6 +19,8 @@ export class EventPublishButtonComponent {
   changed = output<Event>()
   private service = inject(EventService)
   private toastService = inject(HotToastService)
+
+  readonly published = computed(() => this.data().published)
 
   publish() {
     if (this.publishing) return

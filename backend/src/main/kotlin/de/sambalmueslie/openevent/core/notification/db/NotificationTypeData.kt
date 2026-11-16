@@ -13,6 +13,7 @@ data class NotificationTypeData(
     @Column var key: String,
     @Column var name: String,
     @Column var description: String,
+    @Column var enabled: Boolean = true,
 
     @Column var created: LocalDateTime = LocalDateTime.now(),
     @Column var updated: LocalDateTime? = null
@@ -28,13 +29,14 @@ data class NotificationTypeData(
                 request.key,
                 request.name,
                 request.description,
+                true,
                 timestamp
             )
         }
     }
 
     override fun convert(): NotificationType {
-        return NotificationType(id, key, name, description)
+        return NotificationType(id, key, name, description, enabled)
     }
 
     fun update(
@@ -44,6 +46,12 @@ data class NotificationTypeData(
         key = request.key
         name = request.name
         description = request.description
+        updated = timestamp
+        return this
+    }
+
+    fun setEnabled(value: Boolean, timestamp: LocalDateTime): NotificationTypeData {
+        enabled = value
         updated = timestamp
         return this
     }

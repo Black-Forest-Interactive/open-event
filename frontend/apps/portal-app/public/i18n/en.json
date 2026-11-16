@@ -22,14 +22,82 @@
     "reset": "Reset",
     "loadMore": "Load more",
     "more": "More",
-    "share": "Share"
+    "share": "Share",
+    "done": "Done"
   },
   "event": {
     "type": "Event",
     "search": "Search for event",
     "create": "Create new event",
+    "status": {
+      "CANCELED": "Canceled",
+      "ENDED": "Ended"
+    },
     "admin": {
       "registration": "Participant list"
+    },
+    "announcement": {
+      "title": "Announcements",
+      "empty": "No announcements yet."
+    },
+    "broadcast": {
+      "title": "Send Message",
+      "subject": "Subject",
+      "body": "Message",
+      "send": "Send",
+      "recipients": "{{ count }} recipients",
+      "template": {
+        "reminder": "Reminder",
+        "bring": "What to bring",
+        "thanks": "Thank you"
+      },
+      "message": {
+        "sent": "Message sent successfully"
+      }
+    },
+    "cancel": {
+      "title": "Cancel Event",
+      "reason": "Reason for cancellation",
+      "reasonHint": "Participants will be notified by email.",
+      "confirm": "Cancel Event",
+      "message": {
+        "done": "Event has been cancelled"
+      }
+    },
+    "notify": {
+      "title": "Notify participants?",
+      "subtitle": "You made changes. Would you like to inform registered participants?",
+      "skip": "Skip",
+      "defaultSubject": "Update: {{ event }}"
+    },
+    "own": {
+      "stats": {
+        "participants": "Registrations",
+        "registrations": "Registrations",
+        "free": "Spots free",
+        "waitlist": "Waitlist"
+      },
+      "action": {
+        "manage": "Manage",
+        "edit": "Edit",
+        "message": "Message",
+        "promote": "Promote",
+        "broadcast": "Send message",
+        "share": "Share",
+        "cancel": "Cancel",
+        "editAudience": "Edit audience",
+        "copy": "Copy",
+        "delete": "Delete",
+        "promoteDisabled": "Enable sharing in the event settings first."
+      },
+      "chips": {
+        "audiences": "Audience",
+        "allAudiences": "All"
+      },
+      "picker": {
+        "categoryHint": "At least one category must remain selected.",
+        "audienceHint": "Who is this offer for?"
+      }
     },
     "action": {
       "edit": "Edit Event",
@@ -39,11 +107,29 @@
       "admin": "Event Administration",
       "export": "Export",
       "editBanner": "Change banner",
-      "saveChanges": "Save changes"
+      "saveChanges": "Save changes",
+      "cancel": "Cancel Event",
+      "editText": "Edit texts"
     },
     "message": {
       "uploading": "Uploading",
-      "linkCopied": "Link copied"
+      "linkCopied": "Link copied",
+      "update": {
+        "succeed": "Changes saved",
+        "failed": "Failed to save changes"
+      },
+      "delete": {
+        "succeed": "Event deleted",
+        "failed": "Failed to delete event"
+      },
+      "bookmark": {
+        "removed": "Removed from your saved events"
+      },
+      "create": {
+        "succeed": "Event created",
+        "failed": "Failed to create the event",
+        "saved": "Event saved."
+      }
     },
     "board": {
       "cards": "Cards",
@@ -57,6 +143,8 @@
       "explore": "Explore",
       "saved": "Saved",
       "regs": "Registrations",
+      "own": "My Events",
+      "create": "Create",
       "featured": "Featured",
       "showHistory": "Show past",
       "hideHistory": "Hide past",
@@ -69,7 +157,8 @@
         "regsSubtitle": "Events you are registered for.",
         "ownTitle": "My events",
         "ownSubtitle": "Events you created."
-      }
+      },
+      "removeSaved": "Remove"
     },
     "empty": {
       "title": "No events found",
@@ -89,7 +178,8 @@
       "event": "Event",
       "location": "Location",
       "registration": "Registration",
-      "incomplete": "Missing required fields"
+      "incomplete": "Missing required fields",
+      "summary": "Summary"
     },
     "change": {
       "create": "Create new event",
@@ -121,25 +211,38 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Short and powerfull description of the event (max 40 chars)",
-        "LongDescr": "What is the event about, what is required to bring and some additonal information",
+        "LongDescr": "Detailed description – schedule, details, everything worth knowing.",
         "startDate": "The date of the event",
         "startTime": "The time the event begins",
         "endTime": "The time the event probably ends",
         "maxGuest": "How many guests coult attend to the event",
         "tags": "Add some custom hashtags",
-        "shortText": "Short description – anything else attendees should know."
+        "shortText": "Short description – what should you bring, what else is important?",
+        "endDate": "Date the event ends",
+        "iconUrl": "URL of an icon for the event",
+        "imageUrl": "URL of a banner image for the event",
+        "interestedAllowed": "May people sign up as interested without a firm commitment?",
+        "ticketsEnabled": "Should tickets be generated for the event?"
       },
       "error": {
         "title": "Please input some title",
         "shortText": "Please input some short description",
         "longText": "Please input some long description"
       },
-      "shortText": "Short description"
+      "shortText": "Short description",
+      "endDate": "End date",
+      "iconUrl": "Icon URL",
+      "imageUrl": "Image URL",
+      "interestedAllowed": "Allow interested",
+      "ticketsEnabled": "Enable tickets"
     },
     "dialog": {
       "delete": {
         "title": "Delete event",
         "question": "Do you really want to delete the event?"
+      },
+      "editText": {
+        "title": "Edit texts"
       }
     },
     "filter": {
@@ -158,6 +261,7 @@
       },
       "category": "Category",
       "onlyAvailable": "Only available",
+      "cancelled": "Show cancelled",
       "audience": "Audience",
       "range": {
         "label": "Enter a date range",
@@ -179,6 +283,31 @@
       "status": "Status",
       "category": "Category",
       "label": "Label"
+    },
+    "wizard": {
+      "title": "New event",
+      "subtitle": "Create a new event in four steps.",
+      "subtitleConfirm": "Review the details before saving.",
+      "none": "Not specified",
+      "hint": {
+        "step1": "Fill in title and date to continue",
+        "step2": "Select or enter an address to continue"
+      },
+      "summary": {
+        "event": "Event",
+        "date": "Date",
+        "location": "Location",
+        "participants": "Participants & category",
+        "misc": "Other"
+      }
+    },
+    "contact": {
+      "title": "Contact for participants",
+      "hint": "Optional: registered participants can reach you at this number. It is only visible to you and registered participants and is included in the reminder mail.",
+      "phone": "Phone",
+      "mobile": "Mobile",
+      "invalid": "Please use only digits, spaces and + ( ) / - .",
+      "visibility": "Only visible to registered participants"
     }
   },
   "registration": {
@@ -200,7 +329,8 @@
       "edit": "Change Participation",
       "cancel": "Cancel Participation",
       "editParticipant": "Change",
-      "removeParticipant": "Remove"
+      "removeParticipant": "Remove",
+      "joinWaitlist": "Join waiting list"
     },
     "people": "people",
     "peopleAmount": "Amount of people",
@@ -212,7 +342,8 @@
       "empty": "No registrations yet.",
       "emailAll": "Email everyone",
       "export": "Export",
-      "orgOnly": "Only visible to you as organizer"
+      "orgOnly": "Only visible to you as organizer",
+      "registered": "Registered"
     },
     "bookbar": {
       "registered": "Registered"
@@ -220,6 +351,7 @@
     "sheet": {
       "subtitle": "Secure your spot – it only takes a few seconds.",
       "confirm": "Confirm registration",
+      "waitlistHint": "You'll be added to the waiting list, as there aren't enough free spots.",
       "success": {
         "title": "Registration confirmed!",
         "subtitle": "Your participation has been saved."
@@ -238,7 +370,9 @@
       "cancel": {
         "title": "Cancel participation",
         "question": "Do you relay want to cancel the participation?",
-        "message": "Participation cancel successfully processed"
+        "message": "Participation cancel successfully processed",
+        "messageLabel": "Message to the organizer (optional)",
+        "hint": "The message is only sent to the organizer."
       },
       "manual": {
         "title": "Add manual participant",
@@ -248,6 +382,7 @@
     "message": {
       "accepted": "Participation change successfully processed",
       "waiting": "You have been added to the waiting list",
+      "waitlistPosition": "Waiting list – position {{ position }}",
       "declined": "Participation cancel successfully processed",
       "failed": "Some critical error occurred contact site admin"
     },
@@ -458,15 +593,32 @@
   },
   "share": {
     "title": "Share Event",
+    "notActive": "Sharing is not yet enabled for this event. You can enable it in the event settings.",
     "action": {
       "enable": "Enable Sharing",
       "disable": "Disable Sharing",
       "activate": "Yes i like to activate sharing",
-      "show": "Show shared event"
+      "copy": "Copy"
+    },
+    "target": {
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail"
+    },
+    "tabLink": "Link & QR",
+    "tabPoster": "Poster",
+    "linkLabel": "Link",
+    "shareVia": "Share via",
+    "qr": "QR Code",
+    "qrHint": "Scan with your smartphone to open the link.",
+    "poster": {
+      "loading": "Loading poster …",
+      "error": "The poster could not be loaded.",
+      "retry": "Retry",
+      "download": "Download poster",
+      "open": "Open in new tab"
     },
     "info": {
       "description": {
-        "title": "Share Your Event",
         "content": "This function allows you to share your event with others – for example via email or social media. A special link is generated that you can send to friends, family, or guests. With this link, they can view key details about the event and participate."
       },
       "disclaimer": {
@@ -486,7 +638,8 @@
       "discover": "Discover",
       "saved": "Saved",
       "regs": "My registrations",
-      "own": "My events"
+      "own": "My events",
+      "finder": "Finder"
     }
   },
   "lang": {
@@ -591,5 +744,414 @@
       "error_required": "Please select a rating"
     },
     "confirmation": "We received your feedback, thanks"
+  },
+  "tour": {
+    "progress": "{{current}} of {{total}}",
+    "eventBoard": {
+      "welcome": {
+        "title": "Welcome!",
+        "description": "This short tour shows you the most important features. You can restart it anytime via the help button in the top right corner."
+      },
+      "navDiscover": {
+        "title": "Discover",
+        "description": "Here you find all published events and can discover new offers."
+      },
+      "navSaved": {
+        "title": "Saved",
+        "description": "Events you bookmarked can always be found here."
+      },
+      "navRegs": {
+        "title": "My registrations",
+        "description": "Here you see all events you registered for."
+      },
+      "navOwn": {
+        "title": "My offers",
+        "description": "Here you manage your own events and can create new ones."
+      },
+      "search": {
+        "title": "Search events",
+        "description": "Enter a search term to find events by title or content."
+      },
+      "filter": {
+        "title": "Filter",
+        "description": "Narrow down the results by category, audience, date range or availability."
+      },
+      "layout": {
+        "title": "Switch view",
+        "description": "Switch between card, list, calendar and map view — whatever suits you best."
+      },
+      "filterReset": {
+        "title": "Reset filters",
+        "description": "One click removes all active filters and shows all events again."
+      },
+      "details": {
+        "title": "View details",
+        "description": "Click on an event to see all details and register."
+      },
+      "create": {
+        "title": "Create a new event",
+        "description": "Here you create your own event and can publish it afterwards."
+      }
+    },
+    "eventBoardSaved": {
+      "welcome": {
+        "title": "Your saved events",
+        "description": "Here you collect events you are interested in. Tap the bookmark icon on an event in “Discover” to add it to your list."
+      },
+      "search": {
+        "title": "Search saved events",
+        "description": "Use the full-text search to quickly find a saved event."
+      },
+      "card": {
+        "title": "Saved event",
+        "description": "Each entry shows date, time, location, categories and audiences at a glance. If you are already registered, the status of your registration is shown as well."
+      },
+      "details": {
+        "title": "View details",
+        "description": "Opens the event detail page — there you find all information and can register directly."
+      },
+      "remove": {
+        "title": "Remove from saved",
+        "description": "Removes the event from your saved list — you can of course still find it under “Discover”."
+      }
+    },
+    "eventBoardRegs": {
+      "welcome": {
+        "title": "My registrations",
+        "description": "Here you see all events you registered for — including the current status of your registration."
+      },
+      "search": {
+        "title": "Search registrations",
+        "description": "Use the full-text search to quickly find a specific registration."
+      },
+      "card": {
+        "title": "Your registration",
+        "description": "The entry shows the status of your registration. Click it to see details or manage your registration."
+      }
+    },
+    "eventBoardOwn": {
+      "welcome": {
+        "title": "My offers",
+        "description": "Here you manage your own events — from creation and publishing to managing participants."
+      },
+      "search": {
+        "title": "Search offers",
+        "description": "Use the full-text search to quickly find your events."
+      },
+      "create": {
+        "title": "Create a new event",
+        "description": "Create a new event here and publish it once everything is ready."
+      },
+      "card": {
+        "title": "Your offer",
+        "description": "Each card shows your event with all important information — much of it can be edited right here without leaving the page."
+      },
+      "chips": {
+        "title": "Categories & audiences",
+        "description": "Click the category or audience chips to adjust them directly — changes are saved immediately."
+      },
+      "text": {
+        "title": "Edit texts",
+        "description": "Use the pencil to quickly adjust the title and short description of your event."
+      },
+      "stats": {
+        "title": "Registrations at a glance",
+        "description": "Here you see how many spots are taken and free — and whether there is a waiting list."
+      },
+      "manage": {
+        "title": "Manage",
+        "description": "Opens the management page of your event: there you see all registrations, accept or decline participants, manage the waiting list and export the guest list."
+      },
+      "edit": {
+        "title": "Edit",
+        "description": "Opens the edit dialog where you adjust all key data — for example date, location and participant limit."
+      },
+      "message": {
+        "title": "Message",
+        "description": "Sends a message to all registered participants — useful for last-minute changes or important information."
+      },
+      "promote": {
+        "title": "Promote",
+        "description": "Share your event via link or QR code to reach more participants. The button becomes active once you enable sharing in the event settings."
+      },
+      "cancel": {
+        "title": "Cancel",
+        "description": "Cancels the event — all registered participants will be informed."
+      }
+    },
+    "account": {
+      "welcome": {
+        "title": "Your user profile",
+        "description": "Here you manage your personal data and settings."
+      },
+      "profile": {
+        "title": "Personal data",
+        "description": "Here you see your stored data such as name, email, phone number and language."
+      },
+      "edit": {
+        "title": "Edit profile",
+        "description": "Use the pencil to edit your data — for example contact information or your preferred language."
+      },
+      "preferences": {
+        "title": "Settings",
+        "description": "Subscribe to or unsubscribe from the newsletter here — it keeps you informed about new events."
+      }
+    },
+    "address": {
+      "welcome": {
+        "title": "Your addresses",
+        "description": "Here you manage your saved addresses. When creating an event you can select one of them as the venue."
+      },
+      "add": {
+        "title": "Add a new address",
+        "description": "Create a new address with street, zip code and city."
+      },
+      "import": {
+        "title": "Import addresses",
+        "description": "Take over existing addresses from your account instead of entering them again."
+      },
+      "card": {
+        "title": "Your address",
+        "description": "Each card shows one saved address with all its details."
+      },
+      "default": {
+        "title": "Default address",
+        "description": "Mark an address as default — it will then be preselected automatically."
+      },
+      "actions": {
+        "title": "Edit & delete",
+        "description": "Use the pencil to change the address, the trash can to remove it."
+      }
+    },
+    "eventDetails": {
+      "welcome": {
+        "title": "Event details",
+        "description": "On this page you find all information about an event — and can register directly."
+      },
+      "info": {
+        "title": "All info at a glance",
+        "description": "Description, date and all important facts about the event."
+      },
+      "host": {
+        "title": "Host",
+        "description": "Here you see who offers the event."
+      },
+      "registration": {
+        "title": "Registration",
+        "description": "Register for the event here, see free spots and the status of your registration — and cancel it if needed."
+      },
+      "location": {
+        "title": "Venue",
+        "description": "The address of the event with a map — so you find your way there."
+      },
+      "bookmark": {
+        "title": "Save for later",
+        "description": "Tap the heart to add the event to your saved list — so you can quickly find it again later."
+      },
+      "share": {
+        "title": "Share",
+        "description": "Share the event with friends via link."
+      },
+      "guests": {
+        "title": "Guest list",
+        "description": "As the host you see all registrations here and manage your guests."
+      },
+      "shareSettings": {
+        "title": "Enable sharing",
+        "description": "Enable sharing of your event here — only then can you promote it publicly."
+      },
+      "edit": {
+        "title": "Edit",
+        "description": "As the host you edit your event here."
+      }
+    },
+    "eventCreate": {
+      "welcome": {
+        "title": "New event",
+        "description": "Create a new event in four steps — from the basics to the final summary."
+      },
+      "steps": {
+        "title": "The four steps",
+        "description": "This shows where you are. You can jump back to steps you have already visited via the circles."
+      },
+      "title": {
+        "title": "Title",
+        "description": "A short and concise name for your event — 40 characters max, the counter helps you."
+      },
+      "shortText": {
+        "title": "Short description",
+        "description": "Optional: What should people bring, what else matters? Shown in lists and on the business cards."
+      },
+      "longText": {
+        "title": "Description",
+        "description": "Optional: The detailed description — schedule, details and everything worth knowing."
+      },
+      "date": {
+        "title": "Date",
+        "description": "On which day does the event take place?"
+      },
+      "time": {
+        "title": "Start & end",
+        "description": "When does it start and when does it end?"
+      },
+      "nav": {
+        "title": "Navigation",
+        "description": "\"Next\" takes you to the following step — once all required fields of the current step are filled in."
+      }
+    },
+    "eventCreateAddress": {
+      "mode": {
+        "title": "Choose address",
+        "description": "Use one of your saved addresses or enter a new one."
+      },
+      "saved": {
+        "title": "Saved addresses",
+        "description": "Pick an address — your default address is already preselected."
+      },
+      "new": {
+        "title": "New address",
+        "description": "Enter the address of the event. \"Save address\" keeps it for next time."
+      }
+    },
+    "eventCreateMisc": {
+      "participants": {
+        "title": "Participants",
+        "description": "Define how many visitors or guests can take part in the event."
+      },
+      "categories": {
+        "title": "Categories",
+        "description": "Pick one or more matching categories — it helps people find your event."
+      },
+      "audiences": {
+        "title": "Audiences",
+        "description": "Optional: Who is the event for?"
+      },
+      "tags": {
+        "title": "Hashtags",
+        "description": "Optional: Add your own hashtags — confirm with Enter."
+      },
+      "share": {
+        "title": "Sharing",
+        "description": "Creates a special link that lets guests see the key facts and join directly."
+      }
+    },
+    "eventCreateSummary": {
+      "overview": {
+        "title": "Summary",
+        "description": "Review all details — \"Edit\" jumps straight back to the matching step."
+      },
+      "save": {
+        "title": "Save",
+        "description": "Everything correct? Save your event — it will show up under \"My offers\"."
+      }
+    }
+  },
+  "finder": {
+    "title": "Finder",
+    "subtitle": "Get matching events suggested and rate them one at a time.",
+    "create": "New finder",
+    "defaultName": "My finder",
+    "allCategories": "All categories",
+    "empty": {
+      "title": "No finder yet",
+      "subtitle": "Create a finder with a date range and interests. We'll show you one event after another."
+    },
+    "count": {
+      "open": "open"
+    },
+    "progress": "{{rated}} of {{total}} rated",
+    "remaining": "{{count}} suggestions left",
+    "remainingOne": "1 suggestion left",
+    "registered": "Registered",
+    "full": "Sold out",
+    "action": {
+      "start": "Start",
+      "resume": "Continue rating",
+      "review": "See results",
+      "openEvent": "Open event",
+      "undo": "Undo",
+      "register": "Register",
+      "laterAgain": "Go through later list ({{count}})",
+      "seeYes": "See want-to-go list"
+    },
+    "tab": {
+      "discover": "Discover",
+      "YES": "Want to go",
+      "MAYBE": "Later",
+      "NO": "Not for me"
+    },
+    "answer": {
+      "YES": "Want to go",
+      "MAYBE": "Later",
+      "NO": "No"
+    },
+    "hint": {
+      "keys": "Keyboard: ← No · ↓ Later · → Want to go · Z Undo",
+      "swipe": "Swipe: left No · right Want to go"
+    },
+    "done": {
+      "title": "All caught up",
+      "subtitle": "You've rated every matching event."
+    },
+    "none": {
+      "title": "No matching events",
+      "subtitle": "Widen the date range or adjust your interests."
+    },
+    "list": {
+      "empty": {
+        "YES": "Nothing saved yet. Tap “Want to go” while browsing.",
+        "MAYBE": "Nothing postponed.",
+        "NO": "Nothing sorted out yet."
+      }
+    },
+    "dialog": {
+      "delete": {
+        "question": "Delete this finder?",
+        "confirm": "Yes, delete"
+      },
+      "reset": {
+        "question": "Reset all ratings of this finder?",
+        "confirm": "Reset"
+      }
+    },
+    "editor": {
+      "createTitle": "New finder",
+      "editTitle": "Edit finder",
+      "subtitle": "We'll only suggest events that match these settings.",
+      "name": "Name",
+      "namePlaceholder": "e.g. Weekend with kids",
+      "period": "Date range",
+      "from": "From",
+      "to": "To",
+      "categories": "Categories",
+      "audience": "Audience",
+      "onlyAvailable": "Only events with free spots",
+      "matches": "{{count}} matching events",
+      "matchesOne": "1 matching event",
+      "create": "Create finder",
+      "save": "Save finder",
+      "nameError": "Please give the finder a name.",
+      "rangeError": "“To” must be after “From”.",
+      "error": "Finder could not be saved"
+    },
+    "message": {
+      "created": "Finder created – let's go!",
+      "saved": "Finder saved.",
+      "deleted": "Finder deleted.",
+      "reset": "Ratings reset.",
+      "error": "Action failed",
+      "rated": {
+        "YES": "Saved: want to go",
+        "MAYBE": "Postponed",
+        "NO": "Sorted out"
+      }
+    }
+  },
+  "filter": {
+    "tri": {
+      "hint": "Tap once: only these · twice: exclude",
+      "only": "Only",
+      "without": "Without"
+    }
   }
 }

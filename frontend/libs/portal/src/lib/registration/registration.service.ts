@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core'
 import { BaseService } from '@open-event/shared'
 import { Observable } from 'rxjs'
-import { Participant, ParticipantAddRequest, ParticipateRequest, ParticipateResponse, RegistrationDetails } from '@open-event/core'
+import { Participant, ParticipantAddRequest, ParticipantCancelRequest, ParticipateRequest, ParticipateResponse, RegistrationDetails } from '@open-event/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService extends BaseService {
   constructor() {
-    super('app/registration')
+    super('portal/registration')
     this.retryCount = 1
   }
 
@@ -26,6 +26,10 @@ export class RegistrationService extends BaseService {
 
   removeParticipant(id: number): Observable<ParticipateResponse> {
     return this.delete('' + id + '/participant')
+  }
+
+  cancelParticipant(id: number, request: ParticipantCancelRequest): Observable<ParticipateResponse> {
+    return this.post(`${id}/participant/cancel`, request)
   }
 
   moderationParticipateManual(id: number, request: ParticipantAddRequest): Observable<ParticipateResponse> {

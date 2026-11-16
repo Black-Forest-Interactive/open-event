@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { BaseService, Page, PatchRequest } from '@open-event/shared'
 import { HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { Category, Event, EventChangeRequest, EventInfo, EventReadAPI, EventSearchRequest, EventSearchResponse, EventStats, HistoryEntry, Location, Registration } from '@open-event/core'
+import { Category, Event, EventCancelRequest, EventChangeRequest, EventInfo, EventReadAPI, EventSearchRequest, EventSearchResponse, EventStats, HistoryEntry, Location, Registration } from '@open-event/core'
 import { Sort } from '@angular/material/sort'
 
 @Injectable({
@@ -65,5 +65,13 @@ export class EventService extends BaseService implements EventReadAPI {
 
   publish(id: number): Observable<Event> {
     return this.put('' + id + '/published', new PatchRequest(true))
+  }
+
+  setFeatured(id: number, value: boolean): Observable<Event> {
+    return this.put('' + id + '/featured', new PatchRequest(value))
+  }
+
+  cancel(id: number, reason: string): Observable<Event> {
+    return this.post('' + id + '/cancel', new EventCancelRequest(reason))
   }
 }

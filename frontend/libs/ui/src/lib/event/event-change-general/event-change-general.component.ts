@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit } from '@angular/core'
+import { Component, effect, inject, input, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { EventInfo } from '@open-event/core'
 import { DateTime } from 'luxon'
@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input'
   selector: 'lib-event-change-general',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatDatepickerModule, MatInputModule, TranslatePipe],
   templateUrl: './event-change-general.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-change-general.component.scss'
 })
 export class EventChangeGeneralComponent implements OnInit {
@@ -40,10 +41,6 @@ export class EventChangeGeneralComponent implements OnInit {
       const event = this.data()
       if (event) this.handleDataChanged(event)
     })
-    effect(() => {
-      const parent = this.parent()
-      parent.addControl('general', this.fg)
-    })
   }
 
   get imageUrl() {
@@ -67,6 +64,7 @@ export class EventChangeGeneralComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.parent().addControl('general', this.fg)
     const endDate = this.fg.get('endDate')
     if (endDate) endDate.validator = this.isEndHidden() ? null : Validators.required
   }

@@ -1,4 +1,5 @@
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core'
+import { Component, computed, effect, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core'
+import { RouterLink } from '@angular/router'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatIconModule } from '@angular/material/icon'
 import { EventInfo } from '@open-event/core'
@@ -13,8 +14,9 @@ import { CategoryChipComponent, getCategoryStyle } from '@open-event/ui'
 
 @Component({
   selector: 'portal-event-details-banner',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule, TranslatePipe, CategoryChipComponent],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatProgressSpinnerModule, TranslatePipe, CategoryChipComponent, RouterLink],
   templateUrl: './event-details-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-banner.component.scss'
 })
 export class EventDetailsBannerComponent {
@@ -23,10 +25,16 @@ export class EventDetailsBannerComponent {
   toggleBookmark = output<void>()
   share = output<void>()
   readonly canEdit = computed(() => this.data()?.canEdit ?? false)
+  readonly readOnly = computed(() => {
+    const status = this.data()?.event.status
+    return status === 'ENDED' || status === 'CANCELED'
+  })
   readonly isBookmarked = computed(() => this.bookmarked())
   readonly categories = computed(() => this.data()?.categories ?? [])
   readonly audiences = computed(() => this.data()?.audiences ?? [])
   readonly featured = computed(() => this.data()?.event.featured ?? false)
+  readonly canceled = computed(() => this.data()?.event.status === 'CANCELED')
+  readonly ended = computed(() => this.data()?.event.status === 'ENDED')
   readonly mediaStyle = computed(() => getCategoryStyle(this.categories()[0]?.name ?? ''))
   private service = inject(ImageUploadService)
   readonly isUploading = computed(() => this.service.isUploading())

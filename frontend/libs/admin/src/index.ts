@@ -22,6 +22,12 @@ export * from './lib/issue/issue.service'
 
 export * from './lib/mail/mail.service'
 
+export * from './lib/metrics/metrics.service'
+
+export * from './lib/notification/notification.model'
+export * from './lib/notification/notification.service'
+export * from './lib/notification/notification-type.service'
+
 export * from './lib/registration/registration.service'
 
 export * from './lib/search/search.service'

@@ -82,6 +82,10 @@ class HistoryStorageService(
         return repository.findByEventIdOrderByTimestampDesc(event.id, pageable).map { converter.convert(it) }
     }
 
+    override fun findByEvents(eventIds: Set<Long>): List<HistoryEntry> {
+        return converter.convert(repository.findByEventIdInOrderByTimestampDesc(eventIds))
+    }
+
     override fun findByEventAndActorOrSource(
         event: Event,
         account: Account,

@@ -9,7 +9,7 @@ import { BaseService } from '@open-event/shared'
 })
 export class AccountService extends BaseService {
   constructor() {
-    super('app/account')
+    super('portal/account')
     this.retryCount = 1
   }
 

@@ -43,7 +43,11 @@ class ImageCrudService(
             val fileExtension = getFileExtension(filename)
             validator.validate(fileExtension, bytes, contentType)
 
-            val filePath = Paths.get(config.uploadPath, "${event.id}", "banner$fileExtension")
+            val directory = Paths.get(config.uploadPath, "${event.id}")
+            Files.createDirectories(directory)
+            // remove a previous banner with another extension, otherwise it is undefined which one gets delivered
+            Files.list(directory).use { stream -> stream.filter { it.fileName.name.startsWith("banner.") }.forEach { Files.deleteIfExists(it) } }
+            val filePath = directory.resolve("banner$fileExtension")
             Files.copy(ByteArrayInputStream(bytes), filePath, StandardCopyOption.REPLACE_EXISTING)
             logger.debug("[${account.id}] file uploaded successfully: {}", filePath)
             return UploadResponse(true, filename, "", "")
@@ -59,11 +63,16 @@ class ImageCrudService(
     }
 
 
-    fun getBanner(eventId: Long): ByteArray? {
+    fun getBanner(eventId: Long): BannerData? {
         val filePath = Paths.get(config.uploadPath, "$eventId")
         if (filePath.notExists()) return null
-        val banner = Files.list(filePath).filter { it.fileName.name.contains("banner", true) }.findFirst().orElse(null) ?: return null
-        return Files.readAllBytes(banner)
+        val banner = Files.list(filePath).use { stream ->
+            stream.filter { it.fileName.name.contains("banner", true) }.findFirst().orElse(null)
+        } ?: return null
+        val contentType = Files.probeContentType(banner) ?: MediaType.IMAGE_JPEG
+        return BannerData(Files.readAllBytes(banner), contentType)
     }
+
+    data class BannerData(val content: ByteArray, val contentType: String)
 
 }

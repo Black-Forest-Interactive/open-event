@@ -7,8 +7,8 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 
-@Entity(name = "NotificationSettings")
-@Table(name = "notification_settings")
+@Entity(name = "NotificationSetting")
+@Table(name = "notification_setting")
 data class NotificationSettingData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) var id: Long = 0,
     @Column var name: String,

@@ -17,7 +17,7 @@ export class ImageUploadService extends BaseService {
   uploadPercentage = computed(() => this.uploadProgressSignal().progress)
 
   constructor() {
-    super('app/image')
+    super('portal/image')
     this.retryCount = 1
   }
 

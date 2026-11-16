@@ -27,7 +27,7 @@ class EventExcelExporter(
         val info = provider.invoke().filter { it.event.published }
         EventExcelSheetBuilder(wb, info.toList()).build()
 
-        val file = File.createTempFile(HEADER_EXCEL_FILE_PREFIX, HEADER_EXCEL_FILE_SUFIX)
+        val file = File.createTempFile(HEADER_EXCEL_FILE_PREFIX, HEADER_EXCEL_FILE_SUFIX).apply { deleteOnExit() }
         wb.write(file.outputStream())
         val date = timeProvider.now().toLocalDate()
         val filename = "${date}-event-export.xlsx"
@@ -39,7 +39,7 @@ class EventExcelExporter(
 
         EventExcelSheetBuilder(wb, listOf(info)).build()
 
-        val file = File.createTempFile(HEADER_EXCEL_FILE_PREFIX, HEADER_EXCEL_FILE_SUFIX)
+        val file = File.createTempFile(HEADER_EXCEL_FILE_PREFIX, HEADER_EXCEL_FILE_SUFIX).apply { deleteOnExit() }
         wb.write(file.outputStream())
         val date = timeProvider.now().toLocalDate()
         val filename = "${date}-event-export-${info.event.id}.xlsx"

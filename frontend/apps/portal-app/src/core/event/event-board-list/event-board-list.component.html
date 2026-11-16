@@ -1,52 +1,209 @@
-<lib-loading-bar [reloading]="service.reloading()"></lib-loading-bar>
+@if (layout() === 'calendar') {
+    <lib-event-board-calendar [entries]="mapped()" [reloading]="reloading()"></lib-event-board-calendar>
+} @else if (navView() === 'own') {
+    @if (entries().length === 0 && !reloading()) {
+        <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+            <mat-icon inline>campaign</mat-icon>
+            <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
+            <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
+        </div>
+    } @else {
+        <div class="flex flex-col gap-3 pb-4">
+            @for (entry of entries(); track entry.id; let first = $first) {
 
-@if (service.entries().length === 0 && !service.reloading()) {
-    @switch (service.navView()) {
-        @case ('saved') {
-            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
-                <mat-icon inline>bookmark_border</mat-icon>
-                <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.savedTitle' | translate }}</span>
-                <span class="text-sm">{{ 'event.empty.savedSubtitle' | translate }}</span>
-            </div>
-        }
-        @case ('regs') {
-            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
-                <mat-icon inline>how_to_reg</mat-icon>
-                <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.regsTitle' | translate }}</span>
-                <span class="text-sm">{{ 'event.empty.regsSubtitle' | translate }}</span>
-            </div>
-        }
-        @default {
-            <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
-                <mat-icon inline>search_off</mat-icon>
-                <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
-                <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
-            </div>
-        }
+                <!-- Category picker overlay -->
+                <mat-menu #catMenu class="cat-picker-panel">
+                    <div (click)="$event.stopPropagation()" class="p-3 flex flex-col gap-3">
+                        <p class="text-xs text-on-surface-variant m-0">{{ 'event.own.picker.categoryHint' | translate }}</p>
+                        <lib-category-picker [categories]="allCategories()" [selectedIds]="pendingCatIds(entry)" (toggled)="togglePendingCategory(entry, $event)"></lib-category-picker>
+                        <div class="flex justify-end">
+                            <button matButton="filled" (click)="savePendingCats(entry)" [disabled]="savingCat()">{{ 'action.save' | translate }}</button>
+                        </div>
+                    </div>
+                </mat-menu>
+
+                <!-- Audience picker overlay -->
+                <mat-menu #audMenu class="aud-picker-panel">
+                    <div (click)="$event.stopPropagation()" class="p-3 flex flex-col gap-3">
+                        <p class="text-xs text-on-surface-variant m-0">{{ 'event.own.picker.audienceHint' | translate }}</p>
+                        <div class="flex flex-wrap gap-2">
+                            @for (aud of allAudiences(); track aud.id) {
+                                <button class="audopt" [class.audopt--selected]="isAudPendingSelected(entry, aud)" (click)="togglePendingAudience(entry, aud.id)" type="button">
+                                    <mat-icon>group</mat-icon>
+                                    <span>{{ aud.name }}</span>
+                                </button>
+                            }
+                        </div>
+                        <div class="flex justify-end">
+                            <button matButton="filled" (click)="savePendingAuds(entry)" [disabled]="savingAud()">{{ 'action.save' | translate }}</button>
+                        </div>
+                    </div>
+                </mat-menu>
+
+                <article [attr.data-tour]="first ? 'event-card' : null" class="offer bg-surface-container-low">
+
+                    <!-- THUMBNAIL -->
+                    <a class="offer__thumb offer-card__media flex items-center justify-center relative no-underline" [style.--h]="categoryStyle(entry).hue" [routerLink]="['/event/details', entry.id]">
+                        <div class="offer-card__pattern absolute inset-0"></div>
+                        <mat-icon class="offer-card__glyph relative z-[1]" inline>{{ categoryStyle(entry).icon }}</mat-icon>
+                    </a>
+
+                    <!-- CONTENT -->
+                    <div class="flex flex-col gap-1 min-w-0 py-1 overflow-hidden">
+
+                        <!-- Chip row with quick-edit triggers -->
+                        <div class="flex flex-wrap gap-1 items-center" data-tour="own-chips">
+                            @if (isReadOnly(entry)) {
+                                <span class="flex items-center gap-0.5">
+                                    @for (cat of entryCats(entry); track cat) {
+                                        <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                                    }
+                                </span>
+                                <span class="flex items-center gap-0.5">
+                                    @if (isGhostAud(entry)) {
+                                        <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
+                                    } @else if (isAllAud(entry)) {
+                                        <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
+                                    } @else {
+                                        <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
+                                    }
+                                </span>
+                            } @else {
+                                <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
+                                      [matMenuTriggerFor]="catMenu" #catTrigger="matMenuTrigger"
+                                      (menuOpened)="initPendingCats(entry, catTrigger)">
+                                    @for (cat of entryCats(entry); track cat) {
+                                        <lib-category-chip [name]="cat" size="sm"></lib-category-chip>
+                                    }
+                                    <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
+                                </span>
+
+                                <span class="flex items-center gap-0.5 cursor-pointer hover:opacity-75 transition-opacity"
+                                      [matMenuTriggerFor]="audMenu" #audTrigger="matMenuTrigger"
+                                      (menuOpened)="initPendingAuds(entry, audTrigger)">
+                                    @if (isGhostAud(entry)) {
+                                        <span class="text-xs text-on-surface-variant italic">{{ 'event.own.chips.audiences' | translate }}</span>
+                                    } @else if (isAllAud(entry)) {
+                                        <span class="offer__aud-chip">{{ 'event.own.chips.allAudiences' | translate }}</span>
+                                    } @else {
+                                        <span class="offer__aud-chip">{{ audLabel(entry) }}</span>
+                                    }
+                                    <mat-icon class="!text-base !leading-none text-on-surface-variant">expand_more</mat-icon>
+                                </span>
+                            }
+
+                            @if (entry.status === 'CANCELED') {
+                                <span class="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full bg-error text-on-error font-medium">
+                                    <mat-icon inline class="!text-sm">event_busy</mat-icon>
+                                    {{ 'event.status.CANCELED' | translate }}
+                                </span>
+                            } @else if (entry.status === 'ENDED') {
+                                <span class="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-medium">
+                                    <mat-icon inline class="!text-sm">history</mat-icon>
+                                    {{ 'event.status.ENDED' | translate }}
+                                </span>
+                            }
+                            @if (entry.featured) {
+                                <span class="text-xs px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-medium">{{ 'event.board.featured' | translate }}</span>
+                            }
+                        </div>
+
+                        <!-- Title + shortText + pencil -->
+                        <div class="flex items-start gap-0.5">
+                            <div class="flex flex-col gap-0.5 flex-auto min-w-0">
+                                <a class="font-semibold text-sm leading-snug" [routerLink]="['/event/details', entry.id]">{{ entry.title }}</a>
+                                @if (entry.shortText) {
+                                    <p class="text-xs text-on-surface-variant leading-snug line-clamp-2 m-0">{{ entry.shortText }}</p>
+                                }
+                            </div>
+                            @if (!isReadOnly(entry)) {
+                                <button matIconButton class="shrink-0 !text-on-surface-variant" data-tour="own-text" (click)="openTextEdit(entry)" [title]="'event.action.editText' | translate">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            }
+                        </div>
+
+                        <!-- Meta row -->
+                        <div class="flex flex-wrap gap-x-2 text-xs text-on-surface-variant">
+                            <span class="flex items-center gap-0.5"><mat-icon inline>calendar_today</mat-icon>{{ entry.start | date:'d. MMM' }}</span>
+                            <span class="flex items-center gap-0.5"><mat-icon inline>schedule</mat-icon>{{ entry.start | date:'HH:mm' }}</span>
+                            @if (entry.city) {
+                                <span class="flex items-center gap-0.5"><mat-icon inline>place</mat-icon>{{ entry.city }}</span>
+                            }
+                        </div>
+
+                        <!-- Stat line + progress bar -->
+                        @if (entry.maxGuestAmount > 0) {
+                            <div class="offer__statline mt-0.5" data-tour="own-stats">
+                                <span><b>{{ entry.amountAccepted }}/{{ entry.maxGuestAmount }}</b> {{ 'event.own.stats.registrations' | translate }}</span>
+                                <span class="sep"></span>
+                                <span><b>{{ entry.maxGuestAmount - entry.amountAccepted }}</b> {{ 'event.own.stats.free' | translate }}</span>
+                                @if (entry.amountOnWaitingList > 0) {
+                                    <span class="sep"></span>
+                                    <span><b>{{ entry.amountOnWaitingList }}</b> {{ 'event.own.stats.waitlist' | translate }}</span>
+                                }
+                            </div>
+                            <mat-progress-bar mode="determinate" [value]="fillPct(entry)" class="rounded"></mat-progress-bar>
+                        }
+                    </div>
+
+                    <!-- ACTIONS CLUSTER -->
+                    <div class="offer__acts p-2">
+                        <a [routerLink]="['/event/admin', entry.id]" data-tour="own-action-manage" matButton="filled" class="wide justify-center">
+                            <mat-icon>settings</mat-icon>
+                            {{ 'event.own.action.manage' | translate }}
+                        </a>
+                        @if (!isReadOnly(entry)) {
+                            <button matButton="outlined" data-tour="own-action-edit" (click)="edit(entry)">
+                                <mat-icon>edit</mat-icon>
+                                {{ 'event.own.action.edit' | translate }}
+                            </button>
+                        }
+                        <button matButton="outlined" data-tour="own-action-message" (click)="openBroadcast(entry)">
+                            <mat-icon>campaign</mat-icon>
+                            {{ 'event.own.action.message' | translate }}
+                        </button>
+                        @if (!isReadOnly(entry)) {
+                            <button matButton="outlined" data-tour="own-action-promote" [disabled]="!entry.shared" [matTooltip]="!entry.shared ? ('event.own.action.promoteDisabled' | translate) : ''" (click)="openShare(entry)">
+                                <mat-icon>share</mat-icon>
+                                {{ 'event.own.action.promote' | translate }}
+                            </button>
+                            <button matButton="outlined" data-tour="own-action-cancel" class="!text-error" (click)="openCancel(entry)">
+                                <mat-icon>event_busy</mat-icon>
+                                {{ 'event.own.action.cancel' | translate }}
+                            </button>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
     }
 } @else {
-    <div (nearEnd)="service.onScroll()" libScrollNearEnd>
-        @switch (service.layout()) {
-            @case ('rows') {
-                <div class="flex flex-col gap-2 pb-4">
-                    @for (entry of service.entries(); track entry.id) {
-                        <portal-event-row [entry]="entry"></portal-event-row>
-                    }
-                </div>
+    <lib-event-board-list [entries]="mapped()" [reloading]="reloading()" [layout]="listLayout()" [hasMoreElements]="hasMoreElements()" [removable]="navView() === 'saved'" (entryRemove)="removeBookmark($event)" (nearEnd)="nearEnd.emit()">
+        <ng-container emptyState>
+            @switch (navView()) {
+                @case ('saved') {
+                    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                        <mat-icon inline>bookmark_border</mat-icon>
+                        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.savedTitle' | translate }}</span>
+                        <span class="text-sm">{{ 'event.empty.savedSubtitle' | translate }}</span>
+                    </div>
+                }
+                @case ('regs') {
+                    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                        <mat-icon inline>how_to_reg</mat-icon>
+                        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.regsTitle' | translate }}</span>
+                        <span class="text-sm">{{ 'event.empty.regsSubtitle' | translate }}</span>
+                    </div>
+                }
+                @default {
+                    <div class="flex flex-col items-center justify-center gap-2 py-16 text-center text-on-surface-variant text-5xl">
+                        <mat-icon inline>search_off</mat-icon>
+                        <span class="text-lg font-semibold text-on-surface">{{ 'event.empty.title' | translate }}</span>
+                        <span class="text-sm">{{ 'event.empty.subtitle' | translate }}</span>
+                    </div>
+                }
             }
-            @default {
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                    @for (entry of service.entries(); track entry.id) {
-                        <portal-event-card [entry]="entry"></portal-event-card>
-                    }
-                </div>
-            }
-        }
-
-        @if (service.hasMoreElements() && !service.reloading()) {
-            <button (click)="service.onScroll()" class="w-full" color="accent" matButton="filled">
-                {{ 'action.loadMore' | translate }}
-            </button>
-        }
-    </div>
+        </ng-container>
+    </lib-event-board-list>
 }

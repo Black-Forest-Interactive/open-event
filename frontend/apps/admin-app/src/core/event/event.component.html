@@ -1,4 +1,4 @@
-<admin-board (search)="fullTextSearch = $event" (reload)="search()" [reloading]="reloading"
+<admin-board (searchChange)="fullTextSearch = $event" (reload)="search()" [reloading]="reloading"
              searchPlaceholder="event.search"
              title="event.title">
     <div class="flex gap-6 items-start">
@@ -40,6 +40,15 @@
                     <mat-icon>cloud_download</mat-icon>
                 }
                 <span class="truncate">{{ 'backoffice.export.action.all' | translate }}</span>
+            </button>
+            <button (click)="exportCards()" [disabled]="exportingCards" matButton="outlined"
+                    class="w-full justify-start">
+                @if (exportingCards) {
+                    <mat-spinner diameter="18"/>
+                } @else {
+                    <mat-icon>badge</mat-icon>
+                }
+                <span class="truncate">{{ 'backoffice.export.action.cards' | translate }}</span>
             </button>
             <button (click)="exportNotice()" [disabled]="exportingNotice" matButton="outlined"
                     class="w-full justify-start">

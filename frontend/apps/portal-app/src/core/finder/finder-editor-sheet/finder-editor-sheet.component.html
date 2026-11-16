@@ -1,0 +1,70 @@
+<form (ngSubmit)="submit()" [formGroup]="fg" class="flex flex-col max-h-[85vh] min-w-0">
+    <div class="flex items-start gap-3 px-5 pt-5 pb-3">
+        <div class="flex-auto min-w-0">
+            <h2 class="text-xl font-medium text-on-surface">{{ (isNew ? 'finder.editor.createTitle' : 'finder.editor.editTitle') | translate }}</h2>
+            <p class="text-sm text-on-surface-variant">{{ 'finder.editor.subtitle' | translate }}</p>
+        </div>
+        <button (click)="cancel()" [attr.aria-label]="'action.cancel' | translate" matIconButton type="button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <div class="flex flex-col gap-5 px-5 pb-4 overflow-y-auto min-h-0">
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>{{ 'finder.editor.name' | translate }}</mat-label>
+            <input cdkFocusInitial formControlName="name" matInput>
+            @if (tried() && nameError()) {
+                <mat-hint class="!text-error">{{ 'finder.editor.nameError' | translate }}</mat-hint>
+            } @else {
+                <mat-hint>{{ 'finder.editor.namePlaceholder' | translate }}</mat-hint>
+            }
+        </mat-form-field>
+
+        <div class="flex flex-col gap-2">
+            <span class="text-sm font-semibold text-on-surface-variant">{{ 'finder.editor.period' | translate }}</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <mat-form-field subscriptSizing="dynamic">
+                    <mat-label>{{ 'finder.editor.from' | translate }}</mat-label>
+                    <input [matDatepicker]="fromPicker" formControlName="from" matInput>
+                    <mat-datepicker-toggle [for]="fromPicker" matIconSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #fromPicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field subscriptSizing="dynamic">
+                    <mat-label>{{ 'finder.editor.to' | translate }}</mat-label>
+                    <input [matDatepicker]="toPicker" [min]="value().from" formControlName="to" matInput>
+                    <mat-datepicker-toggle [for]="toPicker" matIconSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #toPicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            @if (tried() && rangeError()) {
+                <span class="text-xs text-error px-1">{{ 'finder.editor.rangeError' | translate }}</span>
+            }
+        </div>
+
+        <portal-category-filter (toggled)="toggleCategory($event)" [state]="categories()" label="finder.editor.categories"></portal-category-filter>
+
+        <portal-audience-filter (toggled)="toggleAudience($event)" [state]="audiences()" label="finder.editor.audience"></portal-audience-filter>
+
+        <mat-slide-toggle formControlName="onlyAvailableEvents">{{ 'finder.editor.onlyAvailable' | translate }}</mat-slide-toggle>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 px-5 py-3 border-t border-outline-variant">
+        @if (matches(); as count) {
+            <span class="flex items-center gap-1.5 mr-auto text-[13px] font-semibold text-[var(--ev-ok)]">
+                <mat-icon style="font-size: 18px; width: 18px; height: 18px">event_available</mat-icon>
+                {{ (count === 1 ? 'finder.editor.matchesOne' : 'finder.editor.matches') | translate: { count: count } }}
+            </span>
+        } @else if (matches() === 0) {
+            <span class="flex items-center gap-1.5 mr-auto text-[13px] font-semibold text-[var(--ev-danger)]">
+                <mat-icon style="font-size: 18px; width: 18px; height: 18px">event_busy</mat-icon>
+                {{ 'finder.editor.matches' | translate: { count: 0 } }}
+            </span>
+        } @else {
+            <span class="mr-auto"></span>
+        }
+        <button (click)="cancel()" matButton="text" type="button">{{ 'action.cancel' | translate }}</button>
+        <button [disabled]="saving()" color="accent" matButton="filled" type="submit">
+            {{ (isNew ? 'finder.editor.create' : 'finder.editor.save') | translate }}
+        </button>
+    </div>
+</form>

@@ -1,49 +1,82 @@
-<admin-board (reload)="reload()" [reloading]="reloading" [showSearch]="false" title="mail.title">
-    <mat-card>
-        <table [dataSource]="data" mat-table>
-            <ng-container matColumnDef="timestamp">
-                <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'mail.table.timestamp' | translate }}</th>
-                <td *matCellDef="let job" mat-cell>{{ job.timestamp | date:'medium' }}</td>
-            </ng-container>
+<admin-board (reload)="reload()" [reloading]="reloading()" [showSearch]="false" title="mail.title">
+    <board-filters>
+        <mat-chip-listbox>
+            @for (f of FILTERS; track f) {
+                <mat-chip-option (selectionChange)="setTypeFilter(f)" [selected]="typeFilter() === f" [value]="f">
+                    {{ f === 'all' ? ('mail.filter.all' | translate) : ('mail.status.' + f | translate) }}
+                </mat-chip-option>
+            }
+        </mat-chip-listbox>
+    </board-filters>
 
-
-            <ng-container matColumnDef="status">
-                <th *matHeaderCellDef class="col-2" mat-header-cell>{{ 'mail.table.status' | translate }}</th>
-                <td *matCellDef="let job" mat-cell>
-                    <mat-chip>{{ 'mail.status.' + job.status | translate }}</mat-chip>
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="title">
-                <th *matHeaderCellDef mat-header-cell>{{ 'mail.table.title' | translate }}</th>
-                <td *matCellDef="let job" mat-cell>{{ job.title }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="cmd">
-                <th *matHeaderCellDef class="col-1" mat-header-cell></th>
-                <td *matCellDef="let job" mat-cell>
-                    <button mat-icon-button routerLink="./history/{{job.id}}">
-                        <mat-icon>history</mat-icon>
+    <div class="flex flex-row gap-4">
+        <mat-card class="flex flex-col flex-1 min-w-0 overflow-hidden">
+            <div class="flex flex-col">
+                @for (job of jobs(); track job.id) {
+                    <button (click)="selectJob(job.id)"
+                            class="w-full text-left flex flex-row items-center gap-3 min-h-16 px-4 border-l-4"
+                            [style.background]="selected()?.id === job.id ? 'var(--mat-sys-secondary-container)' : 'transparent'"
+                            [style.border-left-color]="selected()?.id === job.id ? 'var(--mat-sys-primary)' : 'transparent'"
+                    >
+                        <mat-chip [class]="statusClass(job.status)" disableRipple>
+                            <mat-icon matChipAvatar>{{ statusIcon(job.status) }}</mat-icon>
+                            {{ ('mail.status.' + job.status) | translate }}
+                        </mat-chip>
+                        <span class="flex-auto min-w-0">
+                            <span class="block text-sm truncate" [style.font-weight]="selected()?.id === job.id ? 600 : 400">{{ job.title }}</span>
+                            <span class="block text-xs truncate" style="color: var(--mat-sys-on-surface-variant)">{{ job.timestamp | date:'dd.MM.yy, HH:mm:ss' }}</span>
+                        </span>
                     </button>
-                    <button (click)="retryFailedJob(job); $event.stopPropagation()" color="accent" mat-icon-button>
-                        <mat-icon>update</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                }
+                @if (jobs().length === 0) {
+                    <div class="p-6 text-center text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'mail.noResults' | translate }}</div>
+                }
+            </div>
+            <mat-paginator
+                    (page)="handlePageChange($event)"
+                    [disabled]="reloading()"
+                    [length]="totalElements()"
+                    [pageIndex]="pageNumber()"
+                    [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize()"
+                    showFirstLastButtons
+            >
+            </mat-paginator>
+        </mat-card>
 
-            <tr *matHeaderRowDef="displayedColumns" class="bg-primary-default" mat-header-row></tr>
-            <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-        </table>
-
-
-        <mat-paginator
-                (page)="handlePageChange($event)"
-                [disabled]="reloading"
-                [length]="totalElements"
-                [pageIndex]="pageNumber"
-                [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize"
-                showFirstLastButtons
-        >
-        </mat-paginator>
-    </mat-card>
+        @if (selected(); as job) {
+            <mat-card class="flex flex-col flex-1 min-w-0 overflow-hidden">
+                <div class="flex flex-col gap-3 p-4 border-b" style="border-color: var(--mat-sys-outline-variant)">
+                    <div class="flex flex-row items-start gap-3">
+                        <div class="flex-auto min-w-0">
+                            <h2 class="text-base font-medium truncate m-0">{{ job.title }}</h2>
+                            <span class="text-xs font-mono" style="color: var(--mat-sys-on-surface-variant)">{{ 'mail.property.id' | translate }}: #{{ job.id }}</span>
+                        </div>
+                        <button (click)="resend(job)" [disabled]="job.status !== 'FAILED'" color="accent" matButton="outlined">
+                            <mat-icon>restart_alt</mat-icon>
+                            {{ 'mail.action.resend' | translate }}
+                        </button>
+                    </div>
+                    <mat-chip [class]="statusClass(job.status)" class="self-start" disableRipple>
+                        <mat-icon matChipAvatar>{{ statusIcon(job.status) }}</mat-icon>
+                        {{ ('mail.status.' + job.status) | translate }}
+                    </mat-chip>
+                </div>
+                <div class="flex flex-col gap-3 p-4 flex-auto overflow-y-auto">
+                    <span class="text-xs uppercase tracking-wide" style="color: var(--mat-sys-on-surface-variant)">{{ 'mail.property.history' | translate }}</span>
+                    @for (stage of stages(); track stage.id) {
+                        <div class="flex items-center gap-3">
+                            <span [class]="stageClass(stage.message)" class="rounded-full p-1 flex items-center justify-center shrink-0">
+                                <mat-icon style="font-size: 16px; width: 16px; height: 16px">{{ stageIcon(stage.message) }}</mat-icon>
+                            </span>
+                            <span class="text-xs font-mono whitespace-nowrap" style="color: var(--mat-sys-on-surface-variant)">{{ stage.timestamp | date:'dd.MM.yy, HH:mm:ss' }}</span>
+                            <span class="text-sm">{{ stage.message }}</span>
+                        </div>
+                    }
+                    @if (!historyLoading() && stages().length === 0) {
+                        <span class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'mail.noResults' | translate }}</span>
+                    }
+                </div>
+            </mat-card>
+        }
+    </div>
 </admin-board>

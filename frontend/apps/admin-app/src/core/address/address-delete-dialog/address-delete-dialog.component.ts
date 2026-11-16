@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { MatIcon } from '@angular/material/icon'
@@ -10,6 +10,7 @@ import { Address } from '@open-event/core'
   selector: 'admin-address-delete-dialog',
   imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe],
   templateUrl: './address-delete-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './address-delete-dialog.component.scss'
 })
 export class AddressDeleteDialogComponent {

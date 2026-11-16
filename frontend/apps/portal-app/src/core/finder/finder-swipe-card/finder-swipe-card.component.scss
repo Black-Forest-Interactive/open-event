@@ -1,0 +1,216 @@
+:host {
+  position: relative;
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--mat-sys-surface-container-lowest);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.23s;
+  animation: swin 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:host(.is-drag) {
+  cursor: grabbing;
+  transition: none;
+}
+
+:host(.is-exit-right) {
+  transform: translateX(120%) rotate(14deg) !important;
+  opacity: 0;
+}
+
+:host(.is-exit-left) {
+  transform: translateX(-120%) rotate(-14deg) !important;
+  opacity: 0;
+}
+
+:host(.is-exit-down) {
+  transform: translateY(40px) scale(0.94) !important;
+  opacity: 0;
+}
+
+@keyframes swin {
+  from {
+    transform: translateY(14px) scale(0.97);
+    opacity: 0.4;
+  }
+}
+
+.swstamp {
+  position: absolute;
+  top: 22px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+}
+
+.swstamp--yes {
+  right: 22px;
+  background: var(--mat-sys-secondary);
+  color: var(--mat-sys-on-secondary);
+}
+
+.swstamp--no {
+  left: 22px;
+  background: var(--ev-danger);
+  color: var(--ev-on-danger);
+}
+
+.swcard__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 240px;
+  overflow: hidden;
+  background: linear-gradient(150deg, oklch(0.92 0.05 var(--h)) 0%, oklch(0.85 0.08 var(--h)) 100%);
+  color: oklch(0.42 0.1 var(--h));
+
+  :host-context(.dark) & {
+    background: linear-gradient(150deg, oklch(0.36 0.06 var(--h)) 0%, oklch(0.29 0.07 var(--h)) 100%);
+    color: oklch(0.82 0.09 var(--h));
+  }
+}
+
+.swcard__pattern {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(-45deg, transparent 0 13px, oklch(1 0 0 / 0.12) 13px 14px), radial-gradient(circle at 78% 18%, oklch(1 0 0 / 0.3) 0, transparent 42%);
+}
+
+.swcard__glyph {
+  position: relative;
+  z-index: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 300;
+}
+
+.swcard__body {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px 16px;
+}
+
+.swcard__title {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.swcard__lead {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.swfacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 16px;
+}
+
+.swfact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--mat-sys-surface-container-low);
+}
+
+.swfact__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.swfact__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  b {
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  i {
+    font-size: 12px;
+    font-style: normal;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.swcard__long {
+  display: -webkit-box;
+  margin: 0 0 16px;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.swcard__foot {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.swcard__status {
+  flex: none;
+  width: 200px;
+}
+
+@media (max-width: 759.98px) {
+  .swcard__media {
+    height: 170px;
+  }
+
+  .swcard__body {
+    padding: 16px 16px 12px;
+  }
+
+  .swcard__title {
+    font-size: 21px;
+  }
+
+  .swfacts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin: 14px 0 12px;
+  }
+
+  .swcard__foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .swcard__status {
+    width: auto;
+  }
+}

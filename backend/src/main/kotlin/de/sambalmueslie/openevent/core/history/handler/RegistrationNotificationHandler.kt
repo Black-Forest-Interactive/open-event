@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.core.history.handler
 
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.history.HistoryCrudService
@@ -69,7 +70,7 @@ class RegistrationNotificationHandler(
         service.create(actor, event, request)
     }
 
-    override fun participantRemoved(actor: Account, registration: Registration, participant: Participant) {
+    override fun participantRemoved(actor: Account, registration: Registration, participant: Participant, cancel: ParticipantCancelRequest?) {
         val event = eventService.get(registration.eventId)
             ?: return logger.error("Cannot find event for registration ${registration.id}")
 

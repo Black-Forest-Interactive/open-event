@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core'
+import { Component, inject, output, signal, ChangeDetectionStrategy } from '@angular/core'
 import { ActivityService } from '@open-event/portal'
 import { interval, startWith, switchMap } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router'
   selector: 'portal-activity-indicator',
   imports: [MatBadge, MatIcon, MatIconButton, RouterLink],
   templateUrl: './activity-indicator.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-indicator.component.scss'
 })
 export class ActivityIndicatorComponent {

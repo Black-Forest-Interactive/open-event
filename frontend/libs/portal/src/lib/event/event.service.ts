@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpParams, HttpResponse } from '@angular/common/http'
 import { BaseService, PatchRequest } from '@open-event/shared'
-import { Event, EventChangeRequest, EventInfo, EventSearchRequest, EventSearchResponse } from '@open-event/core'
+import { Event, EventCancelRequest, EventChangeRequest, EventContact, EventInfo, EventSearchRequest, EventSearchResponse, EventUpdateTextRequest } from '@open-event/core'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs'
 })
 export class EventService extends BaseService {
   constructor() {
-    super('app/event')
+    super('portal/event')
     this.retryCount = 1
   }
 
@@ -26,6 +26,11 @@ export class EventService extends BaseService {
     return this.get('' + id + '/info')
   }
 
+  /** contact of the organizer, only available for the organizer and registered participants */
+  getEventContact(id: number): Observable<EventContact> {
+    return this.get(`${id}/contact`)
+  }
+
   create(request: EventChangeRequest): Observable<Event> {
     return this.post('', request)
   }
@@ -36,6 +41,10 @@ export class EventService extends BaseService {
 
   deleteEvent(id: number): Observable<Event> {
     return this.delete('' + id)
+  }
+
+  cancel(id: number, reason: string): Observable<Event> {
+    return this.post('' + id + '/cancel', new EventCancelRequest(reason))
   }
 
   publish(id: number): Observable<Event> {
@@ -54,7 +63,35 @@ export class EventService extends BaseService {
     return this.delete('' + id + '/bookmark')
   }
 
+  setTitle(id: number, value: string): Observable<Event> {
+    return this.put('' + id + '/title', new PatchRequest(value))
+  }
+
+  setShortText(id: number, value: string): Observable<Event> {
+    return this.put('' + id + '/shortText', new PatchRequest(value))
+  }
+
+  setLongText(id: number, value: string): Observable<Event> {
+    return this.put('' + id + '/longText', new PatchRequest(value))
+  }
+
+  setTags(id: number, value: string[]): Observable<Event> {
+    return this.put('' + id + '/tags', new PatchRequest(value))
+  }
+
+  setText(id: number, request: EventUpdateTextRequest): Observable<Event> {
+    return this.put('' + id + '/text', request)
+  }
+
+  setCategories(id: number, value: number[]): Observable<Event> {
+    return this.put('' + id + '/categories', new PatchRequest(value))
+  }
+
+  setAudiences(id: number, value: number[]): Observable<Event> {
+    return this.put('' + id + '/audiences', new PatchRequest(value))
+  }
+
   exportEvent(eventId: number): Observable<HttpResponse<Blob>> {
-    return this.getBlob('event/' + eventId + '/pdf')
+    return this.getBlob('' + eventId + '/pdf')
   }
 }

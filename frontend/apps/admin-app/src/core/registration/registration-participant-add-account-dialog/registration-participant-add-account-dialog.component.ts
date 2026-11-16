@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core'
-import { AccountSearchEntry, Participant, Registration } from '@open-event/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
+import { AccountSearchEntry, Participant, ParticipateRequest, Registration } from '@open-event/core'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { RegistrationService } from '@open-event/admin'
 import { MatButton } from '@angular/material/button'
@@ -14,6 +14,7 @@ import { MatLabel } from '@angular/material/form-field'
   selector: 'admin-registration-participant-add-account-dialog',
   imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, ReactiveFormsModule, AccountSelectComponent, MatFormField, MatInput, MatFormField, MatLabel],
   templateUrl: './registration-participant-add-account-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './registration-participant-add-account-dialog.component.scss'
 })
 export class RegistrationParticipantAddAccountDialogComponent {
@@ -27,7 +28,8 @@ export class RegistrationParticipantAddAccountDialogComponent {
     const fb = inject(FormBuilder)
 
     this.fg = fb.group({
-      size: [0, Validators.compose([Validators.required, Validators.min(1)])]
+      size: [0, Validators.compose([Validators.required, Validators.min(1)])],
+      note: ['']
     })
   }
 
@@ -37,7 +39,7 @@ export class RegistrationParticipantAddAccountDialogComponent {
 
   onSaveClick() {
     if (!this.fg.valid || !this.account) return
-    const request = this.fg.value
+    const request = new ParticipateRequest(this.fg.value.size, this.fg.value.note)
     const accountId = this.account.id
 
     this.service.addParticipantAccount(this.data.registration.id, accountId, request).subscribe({

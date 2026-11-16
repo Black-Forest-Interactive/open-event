@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { toPromise } from '@open-event/shared'
 import { ActivityService } from '@open-event/admin'
 import { ActivatedRoute } from '@angular/router'
@@ -9,6 +9,7 @@ import { BoardComponent } from '../../../shared/board/board.component'
   selector: 'admin-activity-details',
   imports: [BoardComponent],
   templateUrl: './activity-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-details.component.scss'
 })
 export class ActivityDetailsComponent {

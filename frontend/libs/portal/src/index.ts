@@ -1,5 +1,7 @@
 export * from './lib/account/account.service'
 
+export * from './lib/announcement/announcement.service'
+
 export * from './lib/activity/activity.service'
 
 export * from './lib/address/address.service'
@@ -11,6 +13,8 @@ export * from './lib/category/category.service'
 export * from './lib/event/event.service'
 
 export * from './lib/feedback/feedback.service'
+
+export * from './lib/finder/finder.service'
 
 export * from './lib/image/image-upload.service'
 

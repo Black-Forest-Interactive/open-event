@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { Setting } from '@open-event/core'
 import { MatDialog } from '@angular/material/dialog'
@@ -18,6 +18,7 @@ import { BoardComponent, BoardToolbarActions } from '../../shared/board/board.co
   selector: 'admin-settings',
   imports: [TranslatePipe, MatToolbarModule, MatCardModule, MatIconModule, MatTableModule, MatPaginatorModule, MatButton, BoardComponent, BoardToolbarActions, MatIconButton],
   templateUrl: './settings.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {

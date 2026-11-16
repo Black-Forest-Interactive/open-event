@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.notification
 
 
 import de.sambalmueslie.openevent.common.BaseCrudService
+import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.notification.api.NotificationTemplate
 import de.sambalmueslie.openevent.core.notification.api.NotificationTemplateChangeRequest
@@ -47,5 +48,9 @@ class NotificationTypeCrudService(
 
     fun findByKeys(keys: Set<String>): List<NotificationType> {
         return storage.findByKeys(keys)
+    }
+
+    fun setEnabled(id: Long, value: PatchRequest<Boolean>): NotificationType? {
+        return storage.setEnabled(id, value)
     }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { AudienceService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { Audience } from '@open-event/core'
@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms'
   selector: 'admin-audience-delete-dialog',
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, TranslatePipe, ReactiveFormsModule],
   templateUrl: './audience-delete-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './audience-delete-dialog.component.scss'
 })
 export class AudienceDeleteDialogComponent {

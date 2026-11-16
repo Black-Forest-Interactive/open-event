@@ -1,17 +1,16 @@
-import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, viewChild } from '@angular/core'
+import { Component, computed, createComponent, effect, ElementRef, EnvironmentInjector, inject, input, viewChild, ChangeDetectionStrategy } from '@angular/core'
 import * as L from 'leaflet'
 import { icon, Map as LeafletMap, Marker, MarkerClusterGroup } from 'leaflet'
 import { EventBoardMapPopupComponent } from '../event-board-map-popup/event-board-map-popup.component'
 import { EventNavigationService } from '../event-navigation.service'
 import { Router } from '@angular/router'
-import { EventBoardService } from '../event-board.service'
 import { EventSearchEntry } from '@open-event/core'
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
 import { DatePipe } from '@angular/common'
 import { TranslatePipe } from '@ngx-translate/core'
 import 'leaflet.markercluster'
-import { LoadingBarComponent } from '@open-event/shared'
+import { ENVIRONMENT, LoadingBarComponent } from '@open-event/shared'
 
 interface VenueGroup {
   key: string
@@ -41,19 +40,20 @@ Marker.prototype.options.icon = iconDefault
   templateUrl: './event-board-map.component.html',
   styleUrl: './event-board-map.component.scss',
   imports: [MatCard, MatIcon, DatePipe, TranslatePipe, LoadingBarComponent],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventBoardMapComponent {
-  private service = inject(EventBoardService)
-  readonly reloading = this.service.reloading
+  entries = input.required<EventSearchEntry[]>()
+  reloading = input.required<boolean>()
   private environmentInjector = inject(EnvironmentInjector)
+  private environment = inject(ENVIRONMENT)
   private router = inject(Router)
   private mapContainerRef = viewChild<ElementRef<HTMLDivElement>>('map')
   private map: LeafletMap | undefined
 
   readonly venues = computed(() => {
     const groups = new Map<string, VenueGroup>()
-    for (const e of this.service.entries()) {
+    for (const e of this.entries()) {
       if (!e.hasLocation || (e.lat === 0 && e.lon === 0)) continue
       const key = `${e.street} ${e.streetNumber}|${e.zip} ${e.city}`
       const group = groups.get(key)
@@ -69,17 +69,17 @@ export class EventBoardMapComponent {
       if (container && !this.map) {
         this.map = L.map(container.nativeElement, { center: [51.1657, 10.4515], zoom: 6, zoomControl: false })
         L.control.zoom({ position: 'bottomright' }).addTo(this.map)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${this.environment.maps.apiKey}`, {
           attribution: '&copy; OpenStreetMap &copy; CARTO',
           subdomains: 'abcd',
           maxZoom: 19
         }).addTo(this.map)
-        this.updateMarkers(this.service.entries())
+        this.updateMarkers(this.entries())
       }
     })
 
     effect(() => {
-      const entries = this.service.entries()
+      const entries = this.entries()
       if (this.map) this.updateMarkers(entries)
     })
   }

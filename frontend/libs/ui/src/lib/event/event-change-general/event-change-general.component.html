@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-4 align-items-stretch flex-auto pt-2">
         <!-- title-->
         @if (isVisible('title')) {
-            <mat-form-field class="dense-1" hintLabel="{{'event.form.hint.Title' | translate}}">
+            <mat-form-field class="dense-1" data-tour="create-title" hintLabel="{{'event.form.hint.Title' | translate}}">
                 <mat-label>{{ 'event.form.title' | translate }}</mat-label>
                 <input #titleInput formControlName="title" matInput maxlength="40">
                 <mat-hint align="end">{{ titleInput.value.length || 0 }}/40</mat-hint>
@@ -15,7 +15,7 @@
         }
         <!-- shortText-->
         @if (isVisible('shortText')) {
-            <mat-form-field class="dense-1">
+            <mat-form-field class="dense-1" data-tour="create-short-text">
                 <mat-label>{{ 'event.form.shortText' | translate }}</mat-label>
                 <input formControlName="shortText" matInput>
                 <mat-hint align="start">{{ 'event.form.hint.shortText'| translate }}</mat-hint>
@@ -28,7 +28,7 @@
         }
         <!-- longText-->
         @if (isVisible('longText')) {
-            <mat-form-field class="dense-1">
+            <mat-form-field class="dense-1" data-tour="create-long-text">
                 <textarea formControlName="longText" matInput
                           placeholder="{{'event.form.longText' | translate}}"></textarea>
                 <mat-hint align="start">{{ 'event.form.hint.LongDescr' | translate }}</mat-hint>
@@ -59,7 +59,7 @@
         <div class="grid grid-cols-2 gap-3">
             <!-- startDate-->
             @if (isVisible('startDate')) {
-                <mat-form-field class="dense-1">
+                <mat-form-field class="dense-1" data-tour="create-date">
                     <mat-label>{{ 'event.form.startDate' | translate }}</mat-label>
                     <input [matDatepicker]="startPicker" formControlName="startDate" matInput>
                     <mat-datepicker-toggle [for]="startPicker" matSuffix></mat-datepicker-toggle>
@@ -78,7 +78,7 @@
                 </mat-form-field>
             }
         </div>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3" data-tour="create-time">
             <!-- startTime-->
             @if (isVisible('startTime')) {
                 <mat-form-field class="dense-1">

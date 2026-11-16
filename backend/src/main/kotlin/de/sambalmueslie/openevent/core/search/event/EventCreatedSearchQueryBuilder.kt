@@ -36,6 +36,7 @@ class EventCreatedSearchQueryBuilder : SearchQueryBuilder<EventCreatedSearchRequ
                     calendarInterval = "day"
                 }
             )
+            agg("status", TermsAgg(EventSearchEntryData::status))
         }
 
         sort {

@@ -7,7 +7,7 @@ data class AuditLogEntryChangeRequest(
     val timestamp: LocalDateTime,
     val actor: String,
     val level: AuditLogLevel,
-    val message: String,
+    val action: AuditAction,
     val request: Any,
     val referenceId: String,
     val reference: Any,

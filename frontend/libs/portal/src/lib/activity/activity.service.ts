@@ -8,7 +8,7 @@ import { BaseService, Page } from '@open-event/shared'
 })
 export class ActivityService extends BaseService {
   constructor() {
-    super('app/activity')
+    super('portal/activity')
     this.retryCount = 1
   }
 

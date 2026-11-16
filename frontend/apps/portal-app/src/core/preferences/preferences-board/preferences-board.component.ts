@@ -5,7 +5,6 @@ import { MatCard } from '@angular/material/card'
   selector: 'portal-preferences-board',
   templateUrl: './preferences-board.component.html',
   styleUrl: './preferences-board.component.scss',
-  imports: [MatCard],
-  standalone: true
+  imports: [MatCard]
 })
 export class PreferencesBoardComponent {}

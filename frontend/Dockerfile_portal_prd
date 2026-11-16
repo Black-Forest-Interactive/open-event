@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular app
-FROM node:24.14.1-slim AS build
+FROM node:24.22.1-slim AS build
 
 # Set the working directory
 WORKDIR /app
@@ -24,7 +24,7 @@ RUN npx nx build portal-app --configuration=production
 RUN npx nx build external-app --configuration=production --base-href /external/
 
 # Stage 2: Serve the Angular app with a lightweight web server
-FROM nginx:1.28-alpine
+FROM nginx:1.30-alpine
 
 # Remove the default Nginx static content
 RUN rm -rf /usr/share/nginx/html/*
@@ -34,6 +34,10 @@ COPY --from=build /app/dist/apps/external-app/browser /usr/share/nginx/html/exte
 
 # Copy the custom Nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy the runtime config injection script (renders config.json from MAPS_API_KEY on container start)
+COPY docker-entrypoint.d/40-map-config.sh /docker-entrypoint.d/40-map-config.sh
+RUN chmod +x /docker-entrypoint.d/40-map-config.sh
 
 # Expose the default Nginx port
 EXPOSE 80

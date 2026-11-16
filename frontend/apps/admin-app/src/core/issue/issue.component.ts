@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { IssueService } from '@open-event/admin'
 import { PageEvent } from '@angular/material/paginator'
@@ -13,6 +13,7 @@ import { IssueTableComponent } from './issue-table/issue-table.component'
   selector: 'admin-issue',
   imports: [BoardComponent, BoardToolbarActions, MatCard, IssueTableComponent],
   templateUrl: './issue.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './issue.component.scss'
 })
 export class IssueComponent implements OnInit {

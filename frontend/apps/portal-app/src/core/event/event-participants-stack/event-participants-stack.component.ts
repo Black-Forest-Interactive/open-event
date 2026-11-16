@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo, Participant } from '@open-event/core'
 import { AccountDisplayNamePipe, AvatarComponent } from '@open-event/ui'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -12,7 +12,7 @@ const STACK_LIMIT = 6
   templateUrl: './event-participants-stack.component.html',
   styleUrl: './event-participants-stack.component.scss',
   imports: [AvatarComponent, AccountDisplayNamePipe, TranslatePipe, MatIcon],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class EventParticipantsStackComponent {
   info = input.required<EventInfo>()
@@ -28,4 +28,10 @@ export class EventParticipantsStackComponent {
     return Array.from({ length: n }, (_, i) => STACK_HUES[i % STACK_HUES.length])
   })
   readonly overflow = computed(() => Math.max(0, this.totalPersons() - STACK_LIMIT))
+  readonly waitlistPosition = computed(() => {
+    const participant = this.userParticipant()
+    if (!participant?.waitingList) return 0
+    const waitlist = (this.registration()?.participants ?? []).filter((p) => p.waitingList).sort((a, b) => a.rank - b.rank)
+    return waitlist.findIndex((p) => p.id === participant.id) + 1
+  })
 }

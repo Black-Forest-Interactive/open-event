@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.notification.db
 
+import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.common.Storage
 import de.sambalmueslie.openevent.core.notification.api.NotificationType
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
@@ -7,4 +8,5 @@ import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRe
 interface NotificationTypeStorage : Storage<Long, NotificationType, NotificationTypeChangeRequest> {
     fun findByKey(key: String): NotificationType?
     fun findByKeys(keys: Set<String>): List<NotificationType>
+    fun setEnabled(id: Long, value: PatchRequest<Boolean>): NotificationType?
 }

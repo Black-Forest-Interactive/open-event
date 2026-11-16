@@ -16,7 +16,7 @@
 <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
 @if (event()) {
     <mat-card appearance="outlined" class="m-0 sm:!m-3 overflow-hidden">
-        <lib-event-change (cancel)="cancel()"
+        <lib-event-change (cancelled)="cancel()"
                           (request)="handleRequest($event)"
                           [addressReadAPI]="this"
                           [audienceReadAPI]="this"

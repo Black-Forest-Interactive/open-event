@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core'
 import { AddressService } from '@open-event/admin'
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog'
 import { Address, AddressChangeRequest } from '@open-event/core'
@@ -11,6 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'admin-address-change-dialog',
   imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogTitle, MatIcon, TranslatePipe, AddressChangeComponent],
   templateUrl: './address-change-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './address-change-dialog.component.scss'
 })
 export class AddressChangeDialogComponent {

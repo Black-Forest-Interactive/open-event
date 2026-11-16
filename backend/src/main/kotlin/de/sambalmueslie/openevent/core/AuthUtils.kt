@@ -7,7 +7,7 @@ import io.micronaut.security.authentication.Authentication
 fun <T> Authentication.checkPermission(vararg permissions: String, function: () -> T): T {
     val realmRoles = getRealmRoles()
     if (permissions.find { realmRoles.contains(it) } != null) return function.invoke()
-    throw InsufficientPermissionsException("No permission to access resource", permissions.toList())
+    throw InsufficientPermissionsException("No permission to access resource", getExternalId(), permissions.toList())
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -19,6 +19,14 @@ fun Authentication.getRealmRoles(): Set<String> {
 
 fun Authentication.getEmail(): String {
     return attributes["email"] as? String ?: ""
+}
+
+fun Authentication.isEmailVerified(): Boolean {
+    return when (val value = attributes["email_verified"]) {
+        is Boolean -> value
+        is String -> value.equals("true", ignoreCase = true)
+        else -> false
+    }
 }
 
 fun Authentication.getUsername(): String {

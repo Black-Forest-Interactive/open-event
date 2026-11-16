@@ -1,5 +1,5 @@
-import { Component, computed, inject, resource, signal } from '@angular/core'
-import { LoadingBarComponent, toPromise } from '@open-event/shared'
+import { Component, computed, DestroyRef, inject, resource, signal, ChangeDetectionStrategy } from '@angular/core'
+import { LoadingBarComponent, toPromise, TourService } from '@open-event/shared'
 import { MatButton, MatIconButton } from '@angular/material/button'
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
@@ -10,11 +10,13 @@ import { MatDialog } from '@angular/material/dialog'
 import { Address } from '@open-event/core'
 import { AddressChangeDialogComponent } from './address-change-dialog/address-change-dialog.component'
 import { AddressDeleteDialogComponent } from './address-delete-dialog/address-delete-dialog.component'
+import { addressTour } from './address.tour'
 
 @Component({
   selector: 'portal-address',
   imports: [LoadingBarComponent, MatButton, MatCard, MatIcon, MatIconButton, MatPaginator, TranslatePipe],
   templateUrl: './address.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './address.component.scss'
 })
 export class AddressComponent {
@@ -35,6 +37,13 @@ export class AddressComponent {
   readonly pageIndex = computed(() => this.addressResource.value()?.pageable.number ?? 0)
   readonly pageSize = computed(() => this.addressResource.value()?.pageable.size ?? 20)
   readonly loading = this.addressResource.isLoading
+  private tourService = inject(TourService)
+  private destroyRef = inject(DestroyRef)
+
+  constructor() {
+    this.tourService.register(addressTour, () => !this.loading())
+    this.destroyRef.onDestroy(() => this.tourService.unregister(addressTour.id))
+  }
 
   import() {
     this.service.importAddress().subscribe({ next: () => this.addressResource.reload() })

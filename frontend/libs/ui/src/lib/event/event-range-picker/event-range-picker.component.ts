@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core'
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -9,6 +9,7 @@ import { EventRangeSelection } from './event-range-selection'
   selector: 'lib-event-range-picker',
   imports: [MatFormFieldModule, MatDatepickerModule, TranslatePipe, ReactiveFormsModule],
   templateUrl: './event-range-picker.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-range-picker.component.scss'
 })
 export class EventRangePickerComponent {

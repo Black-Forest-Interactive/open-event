@@ -1,15 +1,17 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core'
+import { Component, computed, inject, input, resource, signal, ChangeDetectionStrategy } from '@angular/core'
 import { EventInfo } from '@open-event/core'
 import { EventService } from '@open-event/admin'
 import { LoadingBarComponent, toPromise } from '@open-event/shared'
 import { HistoryTableComponent } from '../../history/history-table/history-table.component'
 import { PageEvent } from '@angular/material/paginator'
-import { BoardCardComponent } from '../../../shared/board-card/board-card.component'
+import { TranslatePipe } from '@ngx-translate/core'
+import { MatCard } from '@angular/material/card'
 
 @Component({
   selector: 'admin-event-details-history',
-  imports: [LoadingBarComponent, HistoryTableComponent, BoardCardComponent],
+  imports: [LoadingBarComponent, HistoryTableComponent, TranslatePipe, MatCard],
   templateUrl: './event-details-history.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-details-history.component.scss'
 })
 export class EventDetailsHistoryComponent {

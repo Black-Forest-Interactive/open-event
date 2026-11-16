@@ -1,34 +1,45 @@
-<mat-card appearance="outlined" class="m-0 sm:!m-3 !pb-3 overflow-hidden lg:h-[calc(100vh-100px)]">
+<button (click)="goBack()" class="!text-on-surface-variant mx-3 mt-3 self-start" matButton="text">
+    <mat-icon>arrow_back</mat-icon>{{ 'action.back' | translate }}
+</button>
+<mat-card appearance="outlined" class="m-0 sm:!m-3 !pb-3 overflow-hidden">
     <portal-event-details-banner [bookmarked]="isBookmarked()" [data]="info()" (toggleBookmark)="toggleBookmark()" (share)="shareEvent()"></portal-event-details-banner>
-    <portal-event-details-header (changed)="reload()" [data]="info()"
-                                 [reloading]="reloading()"></portal-event-details-header>
     <lib-loading-bar [reloading]="reloading()"></lib-loading-bar>
     @if (info()) {
-        <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch lg:overflow-y-auto px-3 pt-3 pb-20 lg:pb-3">
+        <div class="flex flex-col lg:flex-row gap-3 lg:justify-stretch px-3 pt-3 pb-20 lg:pb-3">
             <div class="flex flex-col flex-auto min-w-0">
-                <portal-event-details-info [info]="info()!"/>
-                <portal-event-host-block [info]="info()!"/>
+                <portal-event-details-info [info]="info()!" data-tour="details-info"/>
+                <portal-event-host-block [contact]="contact()" [info]="info()!" data-tour="details-host"/>
                 @if (canEdit()) {
-                    <portal-event-guest-list [info]="info()!"/>
+                    <portal-event-guest-list [info]="info()!" data-tour="details-guests"/>
                 } @else if (registration()) {
                     <portal-event-participants-stack [info]="info()!" [userParticipant]="userParticipant()"/>
                 }
-                @if (canEdit() && share()) {
-                    <portal-share-details (changed)="setSharingEnabled($event)" [info]="info()!"
-                                          [reloading]="reloading()"/>
-                }
             </div>
-            <div class="flex flex-col gap-3 lg:w-80 lg:shrink-0 lg:sticky lg:top-3 lg:self-start">
+            <div class="flex flex-col gap-3 lg:w-80 lg:shrink-0 lg:self-start">
                 @if (registration()) {
-                    <mat-card appearance="outlined">
-                        <portal-registration-details (cancelParticipation)="cancelSelf()" (edit)="editSelf()" (participate)="participateSelf()"
+                    <mat-card appearance="outlined" data-tour="details-registration">
+                        <portal-registration-details (admin)="openAdmin()" (broadcast)="openBroadcast()"
+                                                      (cancelEvent)="cancelEvent()" (cancelParticipation)="cancelSelf()"
+                                                      (deleteEvent)="deleteEvent()" (duplicate)="copyEvent()" (edit)="editSelf()"
+                                                      (participate)="participateSelf()" (promote)="shareEvent()"
+                                                      (publish)="publishEvent()"
                                                       [info]="info()!" [reloading]="registrationReloading()"
                                                       [userParticipant]="userParticipant()"/>
                     </mat-card>
                 }
-                @if (location()) {
+                @if (canViewAnnouncements()) {
                     <mat-card appearance="outlined">
+                        <portal-event-announcements [eventId]="info()!.event.id"/>
+                    </mat-card>
+                }
+                @if (location()) {
+                    <mat-card appearance="outlined" data-tour="details-location">
                         <portal-event-details-location [info]="info()!"/>
+                    </mat-card>
+                }
+                @if (canEdit() && !readOnly()) {
+                    <mat-card appearance="outlined" data-tour="details-share-settings">
+                        <portal-share-settings [info]="info()!" [reloading]="reloading()" (changed)="onSharingChanged($event)"/>
                     </mat-card>
                 }
             </div>

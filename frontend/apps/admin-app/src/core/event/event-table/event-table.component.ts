@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { EventSearchEntry } from '@open-event/core'
 import { AccountDisplayNamePipe, EventPublishedIconComponent } from '@open-event/ui'
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'
@@ -27,6 +27,7 @@ import { ExportEventButtonComponent } from '../../export/export-event-button/exp
     ExportEventButtonComponent
   ],
   templateUrl: './event-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './event-table.component.scss'
 })
 export class EventTableComponent {

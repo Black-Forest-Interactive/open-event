@@ -22,12 +22,17 @@
     "reset": "Zurücksetzen",
     "loadMore": "Mehr laden",
     "more": "Mehr",
-    "share": "Teilen"
+    "share": "Teilen",
+    "done": "Fertig"
   },
   "event": {
     "type": "Veranstaltungen",
     "search": "Suche nach einer Veranstaltung",
     "create": "Neue Veranstaltung erstellen",
+    "status": {
+      "CANCELED": "Abgesagt",
+      "ENDED": "Beendet"
+    },
     "action": {
       "edit": "Veranstaltung Bearbeiten",
       "copy": "Veranstaltung Kopieren",
@@ -36,11 +41,29 @@
       "admin": "Teilnehmer anzeigen",
       "export": "Exportieren",
       "editBanner": "Banner ändern",
-      "saveChanges": "Änderungen speichern"
+      "saveChanges": "Änderungen speichern",
+      "cancel": "Veranstaltung absagen",
+      "editText": "Texte bearbeiten"
     },
     "message": {
       "uploading": "Wird hochgeladen",
-      "linkCopied": "Link kopiert"
+      "linkCopied": "Link kopiert",
+      "update": {
+        "succeed": "Änderungen gespeichert",
+        "failed": "Fehler beim Speichern"
+      },
+      "delete": {
+        "succeed": "Veranstaltung gelöscht",
+        "failed": "Fehler beim Löschen"
+      },
+      "bookmark": {
+        "removed": "Von der Merkliste entfernt"
+      },
+      "create": {
+        "succeed": "Veranstaltung erstellt",
+        "failed": "Fehler beim Erstellen der Veranstaltung",
+        "saved": "Veranstaltung gespeichert."
+      }
     },
     "board": {
       "cards": "Karten",
@@ -54,6 +77,8 @@
       "explore": "Entdecken",
       "saved": "Merkliste",
       "regs": "Anmeldungen",
+      "own": "Angebote",
+      "create": "Erstellen",
       "featured": "Empfohlen",
       "showHistory": "Vergangenheit anzeigen",
       "hideHistory": "Vergangenheit ausblenden",
@@ -66,7 +91,8 @@
         "regsSubtitle": "Veranstaltungen, für die du angemeldet bist.",
         "ownTitle": "Meine Angebote",
         "ownSubtitle": "Veranstaltungen, die du erstellt hast."
-      }
+      },
+      "removeSaved": "Entfernen"
     },
     "empty": {
       "title": "Keine Veranstaltungen gefunden",
@@ -86,7 +112,8 @@
       "event": "Veranstaltung",
       "location": "Adresse",
       "registration": "Sonstiges",
-      "incomplete": "Angaben unvollständig"
+      "incomplete": "Angaben unvollständig",
+      "summary": "Zusammenfassung"
     },
     "change": {
       "create": "Neue Veranstaltung erstellen",
@@ -118,25 +145,38 @@
       "tags": "Hashtags",
       "hint": {
         "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
-        "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+        "LongDescr": "Ausführliche Beschreibung – Ablauf, Details, alles Wissenswerte.",
         "startDate": "Datum der Veranstaltung",
         "startTime": "Beginn der Veranstaltung",
         "endTime": "Voraussichtliches Ende der Veranstaltung",
         "maxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
         "tags": "Eigene Hashtags hinzufügen",
-        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst wichtig?"
+        "shortText": "Kurze Beschreibung – was sollte man mitbringen, was ist sonst noch wichtig?",
+        "endDate": "Datum, an dem die Veranstaltung endet",
+        "iconUrl": "URL zu einem Icon für die Veranstaltung",
+        "imageUrl": "URL zu einem Titelbild der Veranstaltung",
+        "interestedAllowed": "Dürfen sich Interessenten ohne feste Zusage eintragen?",
+        "ticketsEnabled": "Sollen Tickets für die Veranstaltung erstellt werden?"
       },
       "error": {
         "title": "Bitte einen Titel angeben",
         "shortText": "Bitte einen Kurztext angeben",
         "longText": "Bitte eine Beschreibung angeben"
       },
-      "shortText": "Kurzbeschreibung"
+      "shortText": "Kurzbeschreibung",
+      "endDate": "Enddatum",
+      "iconUrl": "Icon URL",
+      "imageUrl": "Bild URL",
+      "interestedAllowed": "Interessenten erlauben",
+      "ticketsEnabled": "Tickets aktivieren"
     },
     "dialog": {
       "delete": {
         "title": "Veranstaltung löschen",
         "question": "Soll die Veranstaltung wirklich gelöscht werden?"
+      },
+      "editText": {
+        "title": "Texte bearbeiten"
       }
     },
     "filter": {
@@ -156,6 +196,7 @@
       "category": "Kategorie",
       "audience": "Zielgruppe",
       "onlyAvailable": "Nur freie Plätze",
+      "cancelled": "Abgesagte anzeigen",
       "range": {
         "label": "Zeitraum wählen",
         "today": "Nur heute anzeigen",
@@ -179,6 +220,94 @@
     },
     "admin": {
       "registration": "Teilnehmerliste"
+    },
+    "announcement": {
+      "title": "Ankündigungen",
+      "empty": "Noch keine Ankündigungen."
+    },
+    "broadcast": {
+      "title": "Nachricht senden",
+      "subject": "Betreff",
+      "body": "Nachricht",
+      "send": "Senden",
+      "recipients": "{{ count }} Empfänger",
+      "template": {
+        "reminder": "Erinnerung",
+        "bring": "Mitbringen",
+        "thanks": "Danke"
+      },
+      "message": {
+        "sent": "Nachricht wurde gesendet"
+      }
+    },
+    "cancel": {
+      "title": "Veranstaltung absagen",
+      "reason": "Grund für die Absage",
+      "reasonHint": "Die Teilnehmer werden per E-Mail benachrichtigt.",
+      "confirm": "Veranstaltung absagen",
+      "message": {
+        "done": "Veranstaltung wurde abgesagt"
+      }
+    },
+    "notify": {
+      "title": "Angemeldete benachrichtigen?",
+      "subtitle": "Du hast Änderungen vorgenommen. Möchtest du die Teilnehmer informieren?",
+      "skip": "Überspringen",
+      "defaultSubject": "Änderung: {{ event }}"
+    },
+    "own": {
+      "stats": {
+        "participants": "Anmeldungen",
+        "registrations": "Anmeldungen",
+        "free": "Plätze frei",
+        "waitlist": "Warteliste"
+      },
+      "action": {
+        "manage": "Verwalten",
+        "edit": "Bearbeiten",
+        "message": "Nachricht",
+        "promote": "Bewerben",
+        "broadcast": "Nachricht senden",
+        "share": "Teilen",
+        "cancel": "Absagen",
+        "editAudience": "Zielgruppen bearbeiten",
+        "copy": "Kopieren",
+        "delete": "Löschen",
+        "promoteDisabled": "Aktiviere zuerst das Teilen in den Einstellungen der Veranstaltung."
+      },
+      "chips": {
+        "audiences": "Zielgruppen",
+        "allAudiences": "Alle"
+      },
+      "picker": {
+        "categoryHint": "Mindestens eine Kategorie muss ausgewählt bleiben.",
+        "audienceHint": "Für wen ist das Angebot?"
+      }
+    },
+    "wizard": {
+      "title": "Neue Veranstaltung",
+      "subtitle": "Erstelle in vier Schritten eine neue Veranstaltung.",
+      "subtitleConfirm": "Prüfe kurz die Angaben, bevor du speicherst.",
+      "none": "Keine Angabe",
+      "hint": {
+        "step1": "Titel und Datum ausfüllen, um fortzufahren",
+        "step2": "Adresse auswählen oder eingeben, um fortzufahren"
+      },
+      "summary": {
+        "event": "Veranstaltung",
+        "date": "Termin",
+        "location": "Ort",
+        "participants": "Teilnehmer & Kategorie",
+        "misc": "Sonstiges"
+      }
+    },
+    "contact": {
+      "title": "Kontakt für Teilnehmer",
+      "hint": "Optional: Unter dieser Nummer können dich angemeldete Teilnehmer erreichen. Sie ist nur für dich und angemeldete Teilnehmer sichtbar und steht in der Erinnerungsmail.",
+      "phone": "Telefon",
+      "mobile": "Handy",
+      "invalid": "Bitte nur Ziffern, Leerzeichen und + ( ) / - . verwenden",
+      "visibility": "Nur für angemeldete Teilnehmer sichtbar"
     }
   },
   "registration": {
@@ -200,7 +329,8 @@
       "edit": "Teilnahme ändern",
       "cancel": "Absagen",
       "editParticipant": "Ändern",
-      "removeParticipant": "Entfernen"
+      "removeParticipant": "Entfernen",
+      "joinWaitlist": "Auf Warteliste anmelden"
     },
     "people": "Personen",
     "peopleAmount": "Anzahl Personen",
@@ -212,7 +342,8 @@
       "empty": "Noch keine Anmeldungen.",
       "emailAll": "Alle anschreiben",
       "export": "Exportieren",
-      "orgOnly": "Nur für dich als Veranstalter sichtbar"
+      "orgOnly": "Nur für dich als Veranstalter sichtbar",
+      "registered": "Angemeldet"
     },
     "bookbar": {
       "registered": "Angemeldet"
@@ -220,6 +351,7 @@
     "sheet": {
       "subtitle": "Sichere dir deinen Platz – in wenigen Sekunden.",
       "confirm": "Anmeldung bestätigen",
+      "waitlistHint": "Für die Warteliste anmelden, da nicht genug Plätze frei sind.",
       "success": {
         "title": "Anmeldung bestätigt!",
         "subtitle": "Deine Teilnahme wurde gespeichert."
@@ -238,7 +370,9 @@
       "cancel": {
         "title": "Teilnahme absagen",
         "question": "Möchtest du wirklich deine Teilnahme absagen?",
-        "message": "Deine Absage wurde erfolgreich verarbeitet"
+        "message": "Deine Absage wurde erfolgreich verarbeitet",
+        "messageLabel": "Nachricht an den Veranstalter (optional)",
+        "hint": "Die Nachricht wird nur an den Veranstalter gesendet."
       },
       "manual": {
         "title": "Manuellen Teilnehmer hinzufügen",
@@ -248,6 +382,7 @@
     "message": {
       "accepted": "Deine Anmeldung wurde erfolgreich verarbeitet.",
       "waiting": "Keine oder zu wenig Plätze frei, aber auf der Warteliste vorgemerkt.",
+      "waitlistPosition": "Warteliste – Platz {{ position }}",
       "declined": "Deine Absage wurde erfolgreich verarbeitet.",
       "failed": "Ein unerwarteter Fehler ist aufgetreten bitte kontaktiere den support"
     },
@@ -458,15 +593,32 @@
   },
   "share": {
     "title": "Veranstaltung teilen",
+    "notActive": "Das Teilen ist für diese Veranstaltung noch nicht aktiviert. Du kannst es in den Einstellungen der Veranstaltung aktivieren.",
     "action": {
       "enable": "Teilen aktivieren",
       "disable": "Teilen deaktivieren",
       "activate": "Ja, ich möchte die Veranstaltung gerne teilen",
-      "show": "Geteilte Veranstaltung anzeigen"
+      "copy": "Kopieren"
+    },
+    "target": {
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail"
+    },
+    "tabLink": "Link & QR",
+    "tabPoster": "Plakat",
+    "linkLabel": "Link",
+    "shareVia": "Teilen über",
+    "qr": "QR-Code",
+    "qrHint": "Mit dem Smartphone scannen, um den Link zu öffnen.",
+    "poster": {
+      "loading": "Plakat wird geladen …",
+      "error": "Das Plakat konnte nicht geladen werden.",
+      "retry": "Erneut versuchen",
+      "download": "Plakat herunterladen",
+      "open": "In neuem Tab öffnen"
     },
     "info": {
       "description": {
-        "title": "Veranstaltung teilen",
         "content": "Mit dieser Funktion kannst du deine Veranstaltung mit anderen Personen teilen – zum Beispiel über E-Mail oder soziale Netzwerke. Dafür wird ein spezieller Link erstellt, den du an Freunde, Familie oder Gäste weiterleiten kannst. Über diesen Link können sie die wichtigsten Informationen zur Veranstaltung sehen und daran teilnehmen."
       },
       "disclaimer": {
@@ -486,7 +638,8 @@
       "discover": "Entdecken",
       "saved": "Merkliste",
       "regs": "Meine Anmeldungen",
-      "own": "Meine Angebote"
+      "own": "Meine Angebote",
+      "finder": "Finder"
     }
   },
   "lang": {
@@ -591,5 +744,414 @@
       "error_required": "Bitte gib eine Bewertung ab"
     },
     "confirmation": "Wir haben dein Feedback erhalten, vielen Dank"
+  },
+  "tour": {
+    "progress": "{{current}} von {{total}}",
+    "eventBoard": {
+      "welcome": {
+        "title": "Willkommen!",
+        "description": "Diese kurze Tour zeigt dir die wichtigsten Funktionen. Du kannst sie jederzeit über den Hilfe-Button oben rechts erneut starten."
+      },
+      "navDiscover": {
+        "title": "Entdecken",
+        "description": "Hier findest du alle veröffentlichten Veranstaltungen und kannst neue Angebote entdecken."
+      },
+      "navSaved": {
+        "title": "Merkliste",
+        "description": "Veranstaltungen, die du dir gemerkt hast, findest du hier jederzeit wieder."
+      },
+      "navRegs": {
+        "title": "Meine Anmeldungen",
+        "description": "Hier siehst du alle Veranstaltungen, zu denen du dich angemeldet hast."
+      },
+      "navOwn": {
+        "title": "Meine Angebote",
+        "description": "Hier verwaltest du deine eigenen Veranstaltungen und kannst neue erstellen."
+      },
+      "search": {
+        "title": "Veranstaltungen suchen",
+        "description": "Gib hier einen Suchbegriff ein, um Veranstaltungen nach Titel oder Inhalt zu finden."
+      },
+      "filter": {
+        "title": "Filtern",
+        "description": "Grenze die Ergebnisse nach Kategorie, Zielgruppe, Zeitraum oder Verfügbarkeit ein."
+      },
+      "layout": {
+        "title": "Ansicht wechseln",
+        "description": "Wechsle zwischen Karten-, Listen-, Kalender- und Kartenansicht — ganz wie es dir am besten passt."
+      },
+      "filterReset": {
+        "title": "Filter zurücksetzen",
+        "description": "Mit einem Klick entfernst du alle gesetzten Filter und siehst wieder alle Veranstaltungen."
+      },
+      "details": {
+        "title": "Details ansehen",
+        "description": "Klicke auf eine Veranstaltung, um alle Details zu sehen und dich anzumelden."
+      },
+      "create": {
+        "title": "Neue Veranstaltung erstellen",
+        "description": "Hier erstellst du deine eigene Veranstaltung und kannst sie anschließend veröffentlichen."
+      }
+    },
+    "eventBoardSaved": {
+      "welcome": {
+        "title": "Deine Merkliste",
+        "description": "Hier sammelst du Veranstaltungen, die dich interessieren. Tippe unter „Entdecken“ bei einer Veranstaltung auf das Lesezeichen-Symbol, um sie auf die Merkliste zu setzen."
+      },
+      "search": {
+        "title": "Merkliste durchsuchen",
+        "description": "Mit der Volltextsuche findest du gemerkte Veranstaltungen schnell wieder."
+      },
+      "card": {
+        "title": "Gemerkte Veranstaltung",
+        "description": "Jeder Eintrag zeigt dir Datum, Uhrzeit, Ort sowie Kategorien und Zielgruppen auf einen Blick. Bist du bereits angemeldet, siehst du hier auch den Status deiner Anmeldung."
+      },
+      "details": {
+        "title": "Details ansehen",
+        "description": "Öffnet die Detailseite der Veranstaltung — dort findest du alle Informationen und kannst dich direkt anmelden."
+      },
+      "remove": {
+        "title": "Von der Merkliste entfernen",
+        "description": "Nimmt die Veranstaltung von deiner Merkliste — sie bleibt natürlich unter „Entdecken“ weiterhin auffindbar."
+      }
+    },
+    "eventBoardRegs": {
+      "welcome": {
+        "title": "Meine Anmeldungen",
+        "description": "Hier siehst du alle Veranstaltungen, zu denen du dich angemeldet hast — inklusive des aktuellen Status deiner Anmeldung."
+      },
+      "search": {
+        "title": "Anmeldungen durchsuchen",
+        "description": "Mit der Volltextsuche findest du eine bestimmte Anmeldung schnell wieder."
+      },
+      "card": {
+        "title": "Deine Anmeldung",
+        "description": "Am Eintrag erkennst du den Status deiner Anmeldung. Klicke darauf, um Details zu sehen oder deine Anmeldung zu verwalten."
+      }
+    },
+    "eventBoardOwn": {
+      "welcome": {
+        "title": "Meine Angebote",
+        "description": "Hier verwaltest du deine eigenen Veranstaltungen — von der Erstellung über die Veröffentlichung bis zur Teilnehmerverwaltung."
+      },
+      "search": {
+        "title": "Angebote durchsuchen",
+        "description": "Mit der Volltextsuche findest du deine Veranstaltungen schnell wieder."
+      },
+      "create": {
+        "title": "Neue Veranstaltung erstellen",
+        "description": "Lege hier eine neue Veranstaltung an und veröffentliche sie, sobald alles passt."
+      },
+      "card": {
+        "title": "Dein Angebot",
+        "description": "Jede Karte zeigt deine Veranstaltung mit allen wichtigen Informationen — vieles davon kannst du direkt hier bearbeiten, ohne die Seite zu verlassen."
+      },
+      "chips": {
+        "title": "Kategorien & Zielgruppen",
+        "description": "Klicke auf die Kategorie- oder Zielgruppen-Chips, um sie direkt anzupassen — die Änderung wird sofort gespeichert."
+      },
+      "text": {
+        "title": "Texte bearbeiten",
+        "description": "Über den Stift passt du Titel und Kurzbeschreibung deiner Veranstaltung schnell an."
+      },
+      "stats": {
+        "title": "Anmeldungen im Blick",
+        "description": "Hier siehst du, wie viele Plätze belegt und frei sind — und ob es eine Warteliste gibt."
+      },
+      "manage": {
+        "title": "Verwalten",
+        "description": "Öffnet die Verwaltungsseite deiner Veranstaltung: Dort siehst du alle Anmeldungen, nimmst Teilnehmer an oder lehnst sie ab, verwaltest die Warteliste und exportierst die Gästeliste."
+      },
+      "edit": {
+        "title": "Bearbeiten",
+        "description": "Öffnet den Bearbeitungsdialog, in dem du alle Eckdaten anpasst — zum Beispiel Termin, Ort und Teilnehmerlimit."
+      },
+      "message": {
+        "title": "Nachricht",
+        "description": "Sendet eine Nachricht an alle angemeldeten Teilnehmer — praktisch bei kurzfristigen Änderungen oder wichtigen Infos."
+      },
+      "promote": {
+        "title": "Bewerben",
+        "description": "Teile deine Veranstaltung per Link oder QR-Code, um mehr Teilnehmer zu erreichen. Der Button wird aktiv, sobald du das Teilen in den Einstellungen der Veranstaltung aktiviert hast."
+      },
+      "cancel": {
+        "title": "Absagen",
+        "description": "Sagt die Veranstaltung ab — alle angemeldeten Teilnehmer werden darüber informiert."
+      }
+    },
+    "account": {
+      "welcome": {
+        "title": "Dein Benutzerprofil",
+        "description": "Hier verwaltest du deine persönlichen Daten und Einstellungen."
+      },
+      "profile": {
+        "title": "Persönliche Daten",
+        "description": "Hier siehst du deine hinterlegten Daten wie Name, E-Mail, Telefonnummer und Sprache."
+      },
+      "edit": {
+        "title": "Profil bearbeiten",
+        "description": "Über den Stift bearbeitest du deine Daten — zum Beispiel Kontaktinformationen oder die bevorzugte Sprache."
+      },
+      "preferences": {
+        "title": "Einstellungen",
+        "description": "Hier meldest du dich für den Newsletter an oder wieder ab — er informiert dich regelmäßig über neue Veranstaltungen."
+      }
+    },
+    "address": {
+      "welcome": {
+        "title": "Deine Adressen",
+        "description": "Hier verwaltest du deine gespeicherten Adressen. Beim Anlegen einer Veranstaltung kannst du sie als Veranstaltungsort auswählen."
+      },
+      "add": {
+        "title": "Neue Adresse anlegen",
+        "description": "Lege hier eine neue Adresse mit Straße, PLZ und Ort an."
+      },
+      "import": {
+        "title": "Adressen importieren",
+        "description": "Übernimm bestehende Adressen aus deinem Konto, statt sie neu einzugeben."
+      },
+      "card": {
+        "title": "Deine Adresse",
+        "description": "Jede Karte zeigt eine gespeicherte Adresse mit allen Angaben."
+      },
+      "default": {
+        "title": "Standardadresse",
+        "description": "Markiere eine Adresse als Standard — sie wird dann automatisch vorausgewählt."
+      },
+      "actions": {
+        "title": "Bearbeiten & Löschen",
+        "description": "Über den Stift änderst du die Adresse, über den Papierkorb entfernst du sie."
+      }
+    },
+    "eventDetails": {
+      "welcome": {
+        "title": "Veranstaltungsdetails",
+        "description": "Auf dieser Seite findest du alle Informationen zu einer Veranstaltung — und kannst dich direkt anmelden."
+      },
+      "info": {
+        "title": "Alle Infos auf einen Blick",
+        "description": "Beschreibung, Termin und alle wichtigen Fakten zur Veranstaltung."
+      },
+      "host": {
+        "title": "Veranstalter",
+        "description": "Hier siehst du, wer die Veranstaltung anbietet."
+      },
+      "registration": {
+        "title": "Anmeldung",
+        "description": "Hier meldest du dich zur Veranstaltung an, siehst freie Plätze und den Status deiner Anmeldung — und kannst sie bei Bedarf wieder stornieren."
+      },
+      "location": {
+        "title": "Veranstaltungsort",
+        "description": "Die Adresse der Veranstaltung mit Karte — so findest du direkt hin."
+      },
+      "bookmark": {
+        "title": "Auf die Merkliste",
+        "description": "Tippe auf das Herz, um die Veranstaltung auf deine Merkliste zu setzen — so findest du sie später schnell wieder."
+      },
+      "share": {
+        "title": "Teilen",
+        "description": "Teile die Veranstaltung per Link mit Freunden und Bekannten."
+      },
+      "guests": {
+        "title": "Gästeliste",
+        "description": "Als Veranstalter siehst du hier alle Anmeldungen und verwaltest deine Gäste."
+      },
+      "shareSettings": {
+        "title": "Teilen aktivieren",
+        "description": "Aktiviere hier das Teilen deiner Veranstaltung — erst dann kannst du sie öffentlich bewerben."
+      },
+      "edit": {
+        "title": "Bearbeiten",
+        "description": "Als Veranstalter bearbeitest du hier deine Veranstaltung."
+      }
+    },
+    "eventCreate": {
+      "welcome": {
+        "title": "Neue Veranstaltung",
+        "description": "Hier erstellst du in vier Schritten eine neue Veranstaltung — von den Eckdaten bis zur Zusammenfassung."
+      },
+      "steps": {
+        "title": "Die vier Schritte",
+        "description": "Hier siehst du, wo du gerade stehst. Zu bereits besuchten Schritten kannst du jederzeit über die Kreise zurückspringen."
+      },
+      "title": {
+        "title": "Titel",
+        "description": "Eine kurze und prägnante Bezeichnung deiner Veranstaltung — maximal 40 Zeichen, der Zähler hilft dir dabei."
+      },
+      "shortText": {
+        "title": "Kurzbeschreibung",
+        "description": "Optional: Was sollte man mitbringen, was ist sonst wichtig? Erscheint in Listen und auf den Visitenkarten."
+      },
+      "longText": {
+        "title": "Beschreibung",
+        "description": "Optional: Die ausführliche Beschreibung — Ablauf, Details und alles Wissenswerte zur Veranstaltung."
+      },
+      "date": {
+        "title": "Datum",
+        "description": "An welchem Tag findet die Veranstaltung statt?"
+      },
+      "time": {
+        "title": "Beginn & Ende",
+        "description": "Wann geht es los und wann ist Schluss?"
+      },
+      "nav": {
+        "title": "Navigation",
+        "description": "Mit „Weiter\" kommst du zum nächsten Schritt — sobald alle Pflichtfelder des aktuellen Schritts ausgefüllt sind."
+      }
+    },
+    "eventCreateAddress": {
+      "mode": {
+        "title": "Adresse wählen",
+        "description": "Nutze eine deiner gespeicherten Adressen oder lege eine neue an."
+      },
+      "saved": {
+        "title": "Gespeicherte Adressen",
+        "description": "Wähle eine Adresse aus — deine Standard-Adresse ist bereits vorausgewählt."
+      },
+      "new": {
+        "title": "Neue Adresse",
+        "description": "Gib die Adresse der Veranstaltung ein. Mit „Adresse speichern\" wird sie für das nächste Mal gemerkt."
+      }
+    },
+    "eventCreateMisc": {
+      "participants": {
+        "title": "Teilnehmer",
+        "description": "Lege fest, wie viele Besucher oder Gäste an der Veranstaltung teilnehmen können."
+      },
+      "categories": {
+        "title": "Kategorien",
+        "description": "Wähle eine oder mehrere passende Kategorien — so wird deine Veranstaltung besser gefunden."
+      },
+      "audiences": {
+        "title": "Zielgruppen",
+        "description": "Optional: Für wen ist die Veranstaltung gedacht?"
+      },
+      "tags": {
+        "title": "Hashtags",
+        "description": "Optional: Eigene Hashtags hinzufügen — mit Enter bestätigen."
+      },
+      "share": {
+        "title": "Teilen",
+        "description": "Erstellt einen speziellen Link, über den Gäste die wichtigsten Infos sehen und direkt teilnehmen können."
+      }
+    },
+    "eventCreateSummary": {
+      "overview": {
+        "title": "Zusammenfassung",
+        "description": "Prüfe hier alle Angaben — über „Bearbeiten\" springst du direkt zum passenden Schritt zurück."
+      },
+      "save": {
+        "title": "Speichern",
+        "description": "Alles korrekt? Dann speichere deine Veranstaltung — sie erscheint danach unter „Meine Angebote\"."
+      }
+    }
+  },
+  "finder": {
+    "title": "Finder",
+    "subtitle": "Lass dir passende Veranstaltungen vorschlagen und bewerte sie Stück für Stück.",
+    "create": "Neuer Finder",
+    "defaultName": "Mein Finder",
+    "allCategories": "Alle Kategorien",
+    "empty": {
+      "title": "Noch kein Finder",
+      "subtitle": "Lege einen Finder mit Zeitraum und Interessen an. Wir zeigen dir dann eine Veranstaltung nach der anderen."
+    },
+    "count": {
+      "open": "offen"
+    },
+    "progress": "{{rated}} von {{total}} bewertet",
+    "remaining": "Noch {{count}} Vorschläge",
+    "remainingOne": "Noch 1 Vorschlag",
+    "registered": "Angemeldet",
+    "full": "Ausgebucht",
+    "action": {
+      "start": "Starten",
+      "resume": "Weiter bewerten",
+      "review": "Ergebnisse ansehen",
+      "openEvent": "Veranstaltung öffnen",
+      "undo": "Rückgängig",
+      "register": "Anmelden",
+      "laterAgain": "Später-Liste durchgehen ({{count}})",
+      "seeYes": "Will-ich-hin-Liste ansehen"
+    },
+    "tab": {
+      "discover": "Entdecken",
+      "YES": "Will ich hin",
+      "MAYBE": "Später",
+      "NO": "Nicht für mich"
+    },
+    "answer": {
+      "YES": "Will ich hin",
+      "MAYBE": "Später",
+      "NO": "Nein"
+    },
+    "hint": {
+      "keys": "Tastatur: ← Nein · ↓ Später · → Will ich hin · Z Rückgängig",
+      "swipe": "Wischen: links Nein · rechts Will ich hin"
+    },
+    "done": {
+      "title": "Alles durchgesehen",
+      "subtitle": "Du hast alle passenden Veranstaltungen bewertet."
+    },
+    "none": {
+      "title": "Keine passenden Veranstaltungen",
+      "subtitle": "Erweitere den Zeitraum oder passe die Interessen an."
+    },
+    "list": {
+      "empty": {
+        "YES": "Noch nichts vorgemerkt. Tippe beim Durchblättern auf „Will ich hin“.",
+        "MAYBE": "Nichts auf später verschoben.",
+        "NO": "Noch nichts aussortiert."
+      }
+    },
+    "dialog": {
+      "delete": {
+        "question": "Finder wirklich löschen?",
+        "confirm": "Ja, löschen"
+      },
+      "reset": {
+        "question": "Alle Bewertungen dieses Finders zurücksetzen?",
+        "confirm": "Zurücksetzen"
+      }
+    },
+    "editor": {
+      "createTitle": "Neuer Finder",
+      "editTitle": "Finder bearbeiten",
+      "subtitle": "Wir schlagen dir nur Veranstaltungen vor, die zu diesen Angaben passen.",
+      "name": "Name",
+      "namePlaceholder": "z. B. Wochenende mit Kindern",
+      "period": "Zeitraum",
+      "from": "Von",
+      "to": "Bis",
+      "categories": "Kategorien",
+      "audience": "Zielgruppe",
+      "onlyAvailable": "Nur Veranstaltungen mit freien Plätzen",
+      "matches": "{{count}} passende Veranstaltungen",
+      "matchesOne": "1 passende Veranstaltung",
+      "create": "Finder anlegen",
+      "save": "Finder speichern",
+      "nameError": "Bitte gib dem Finder einen Namen.",
+      "rangeError": "„Bis“ muss nach „Von“ liegen.",
+      "error": "Finder konnte nicht gespeichert werden"
+    },
+    "message": {
+      "created": "Finder angelegt – los geht’s!",
+      "saved": "Finder gespeichert.",
+      "deleted": "Finder gelöscht.",
+      "reset": "Bewertungen zurückgesetzt.",
+      "error": "Aktion fehlgeschlagen",
+      "rated": {
+        "YES": "Vorgemerkt: Will ich hin",
+        "MAYBE": "Auf später verschoben",
+        "NO": "Aussortiert"
+      }
+    }
+  },
+  "filter": {
+    "tri": {
+      "hint": "1× tippen: nur diese · 2× tippen: ausschließen",
+      "only": "Nur",
+      "without": "Ohne"
+    }
   }
 }

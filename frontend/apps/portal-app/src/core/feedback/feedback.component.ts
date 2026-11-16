@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core'
 
 import { MatCard } from '@angular/material/card'
 import { MatIcon } from '@angular/material/icon'
@@ -13,6 +13,7 @@ import { HotToastService } from '@ngxpert/hot-toast'
   selector: 'portal-feedback',
   imports: [MatCard, MatIcon, FeedbackFormComponent, TranslatePipe, LoadingBarComponent],
   templateUrl: './feedback.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {

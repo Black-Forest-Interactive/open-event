@@ -131,6 +131,7 @@ CREATE TABLE event
 
     has_location     BOOLEAN      NOT NULL,
     has_registration BOOLEAN      NOT NULL,
+    status           VARCHAR(255) NOT NULL,
     published        BOOLEAN      NOT NULL,
 
     tags             TEXT         NOT NULL,
@@ -166,6 +167,41 @@ CREATE TABLE event_bookmark
     event_id   BIGINT NOT NULL references event (id),
     account_id BIGINT NOT NULL references account (id),
     PRIMARY KEY (event_id, account_id)
+);
+
+-- finder
+CREATE SEQUENCE finder_seq;
+CREATE TABLE finder
+(
+    id       BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('finder_seq'::regclass),
+    owner_id BIGINT       NOT NULL REFERENCES account (id),
+    name     VARCHAR(255) NOT NULL,
+    request  JSONB        NOT NULL,
+
+    created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated  TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE finder_entry
+(
+    finder_id BIGINT       NOT NULL REFERENCES finder (id),
+    event_id  BIGINT       NOT NULL REFERENCES event (id),
+    answer    VARCHAR(255) NOT NULL,
+
+    created   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated   TIMESTAMP WITHOUT TIME ZONE,
+    PRIMARY KEY (finder_id, event_id)
+);
+
+-- event contact
+CREATE TABLE event_contact
+(
+    event_id BIGINT       NOT NULL PRIMARY KEY REFERENCES event (id),
+    phone    VARCHAR(50)  NOT NULL,
+    mobile   VARCHAR(50)  NOT NULL,
+
+    created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated  TIMESTAMP WITHOUT TIME ZONE
 );
 
 -- location
@@ -340,6 +376,7 @@ CREATE TABLE notification_type
     key         VARCHAR(255) NOT NULL UNIQUE,
     name        VARCHAR(255) NOT NULL,
     description TEXT         NOT NULL,
+    enabled     BOOLEAN      NOT NULL DEFAULT true,
 
     created     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated     TIMESTAMP WITHOUT TIME ZONE
@@ -378,7 +415,7 @@ CREATE TABLE audit_log_entry
     timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     actor        VARCHAR(255) NOT NULL,
     level        VARCHAR(255) NOT NULL,
-    message      TEXT         NOT NULL,
+    action       VARCHAR(255) NOT NULL,
     request      TEXT         NOT NULL,
     reference_id VARCHAR(255) NOT NULL,
     reference    TEXT         NOT NULL,
@@ -545,17 +582,47 @@ CREATE TABLE feedback
     updated     TIMESTAMP WITHOUT TIME ZONE
 );
 
--- metrics
-CREATE TABLE metrics
+
+-- metrics (raw trace)
+CREATE SEQUENCE metrics_trace_seq;
+CREATE TABLE metrics_trace
+(
+    id                  BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('metrics_trace_seq'::regclass),
+
+    source              TEXT   NOT NULL,
+    type                TEXT   NOT NULL,
+    action              TEXT   NOT NULL,
+    account_external_id TEXT   NOT NULL,
+    resource            BIGINT NOT NULL,
+    timestamp           TIMESTAMP WITHOUT TIME ZONE NOT NULL
+);
+
+
+-- metrics (daily)
+CREATE TABLE metrics_daily
 (
     id           VARCHAR(255) PRIMARY KEY,
-
-    source       TEXT NOT NULL,
-    resource     TEXT NOT NULL,
-    action       TEXT NOT NULL,
+    type         TEXT   NOT NULL,
+    resource     BIGINT NOT NULL,
+    action       TEXT   NOT NULL,
     timestamp    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    total_count  INT  NOT NULL,
-    unique_count INT  NOT NULL
+    total_count  INT    NOT NULL,
+    unique_count INT    NOT NULL,
+    entries      JSONB  NOT NULL DEFAULT '[]'::jsonb
+);
+
+-- metrics (weekly rollup)
+CREATE TABLE metrics_weekly
+(
+    id              VARCHAR(255) PRIMARY KEY,
+    type            TEXT   NOT NULL,
+    resource        BIGINT NOT NULL,
+    action          TEXT   NOT NULL,
+    timestamp       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    total_count     INT    NOT NULL,
+    unique_count    INT    NOT NULL,
+    entries         JSONB  NOT NULL DEFAULT '[]'::jsonb,
+    daily_breakdown JSONB  NOT NULL DEFAULT '[]'::jsonb
 );
 
 -- link

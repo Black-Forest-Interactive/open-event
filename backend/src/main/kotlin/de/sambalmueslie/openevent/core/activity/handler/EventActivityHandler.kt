@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.core.activity.ActivityTypeStorage
 import de.sambalmueslie.openevent.core.activity.api.Activity
 import de.sambalmueslie.openevent.core.activity.api.ActivityChangeRequest
 import de.sambalmueslie.openevent.core.activity.db.ActivitySubscriberRelationService
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
 import de.sambalmueslie.openevent.core.event.EventChangeListener
 import de.sambalmueslie.openevent.core.event.EventCrudService
 import de.sambalmueslie.openevent.core.event.api.Event
@@ -16,7 +17,7 @@ import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
 
 @Singleton
-class EventActivityHandler(
+ class EventActivityHandler(
     private val eventService: EventCrudService,
     service: ActivityCrudService,
     typeStorage: ActivityTypeStorage,
@@ -34,7 +35,17 @@ class EventActivityHandler(
         private val TYPE_CHANGED = "event.changed"
         private val TYPE_DELETED = "event.deleted"
         private val TYPE_PUBLISHED = "event.published"
+        private val TYPE_CANCELED = "event.canceled"
         private val TYPE_FEATURED = "event.featured"
+        private val TYPE_TITLE = "event.title"
+        private val TYPE_SHORT_TEXT = "event.short-text"
+        private val TYPE_LONG_TEXT = "event.long-text"
+        private val TYPE_TAGS = "event.tags"
+        private val TYPE_TEXT = "event.text"
+        private val TYPE_CATEGORY = "event.category"
+        private val TYPE_AUDIENCE = "event.audience"
+        private val TYPE_ANNOUNCEMENT_ADDED = "event.announcement.added"
+        private val TYPE_ANNOUNCEMENT_REMOVED = "event.announcement.removed"
     }
 
     override fun getSourceKey(): String {
@@ -57,14 +68,57 @@ class EventActivityHandler(
         createActivity(actor, obj, TYPE_DELETED)
     }
 
-    override fun publishedChanged(actor: Account, event: Event) {
-        createActivity(actor, event, TYPE_PUBLISHED)
-    }
-
     override fun featuredChanged(actor: Account, event: Event) {
         createActivity(actor, event, TYPE_FEATURED)
     }
 
+    override fun statusChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_CHANGED)
+    }
+
+    override fun publishedChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_PUBLISHED)
+    }
+
+    override fun canceled(actor: Account, event: Event, reason: String) {
+        createActivity(actor, event, TYPE_CANCELED)
+    }
+
+    override fun titleChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_TITLE)
+    }
+
+    override fun shortTextChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_SHORT_TEXT)
+    }
+
+    override fun longTextChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_LONG_TEXT)
+    }
+
+    override fun tagsChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_TAGS)
+    }
+
+    override fun textChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_TEXT)
+    }
+
+    override fun categoryChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_CATEGORY)
+    }
+
+    override fun audienceChanged(actor: Account, event: Event) {
+        createActivity(actor, event, TYPE_AUDIENCE)
+    }
+
+    override fun announcementAdded(actor: Account, event: Event, announcement: Announcement) {
+        createActivity(actor, event, TYPE_ANNOUNCEMENT_ADDED)
+    }
+
+    override fun announcementRemoved(actor: Account, event: Event, announcement: Announcement) {
+        createActivity(actor, event, TYPE_ANNOUNCEMENT_REMOVED)
+    }
 
     private fun createActivity(actor: Account, event: Event, type: String) {
         val request = ActivityChangeRequest(event.title, event.id)

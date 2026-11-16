@@ -11,6 +11,8 @@ import de.sambalmueslie.openevent.core.account.api.PreferencesChangeRequest
 import de.sambalmueslie.openevent.error.InvalidRequestException
 import de.sambalmueslie.openevent.infrastructure.cache.CacheService
 import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -47,6 +49,10 @@ class PreferencesStorageService(
 
     override fun findByAccount(account: Account): Preferences? {
         return repository.findByIdOrNull(account.id)?.convert()
+    }
+
+    override fun findByEmailNotificationsEnabled(pageable: Pageable): Page<Preferences> {
+        return repository.findAllByEmailNotificationsEnabled(pageable).map { it.convert() }
     }
 
 }

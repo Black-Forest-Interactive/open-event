@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { Feedback } from '@open-event/core'
 import { FeedbackService } from '@open-event/admin'
@@ -13,6 +13,7 @@ import { FeedbackTableComponent } from './feedback-table/feedback-table.componen
   selector: 'admin-feedback',
   imports: [BoardComponent, BoardToolbarActions, MatCard, FeedbackTableComponent],
   templateUrl: './feedback.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent implements OnInit {

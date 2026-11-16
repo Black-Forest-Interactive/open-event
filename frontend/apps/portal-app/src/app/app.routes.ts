@@ -10,6 +10,12 @@ export const appRoutes: Route[] = [
     canActivate: [canActivateAuthRole]
   },
   {
+    path: 'finder',
+    loadChildren: () => import('../core/finder/finder.routes').then((m) => m.routes),
+    canActivate: [canActivateAuthRole],
+    data: { roles: [Roles.EVENT_READ] }
+  },
+  {
     path: 'account',
     loadChildren: () => import('../core/account/account.routes').then((m) => m.routes),
     canActivate: [canActivateAuthRole],

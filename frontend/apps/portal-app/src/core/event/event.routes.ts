@@ -6,6 +6,18 @@ export const routes: Routes = [
     loadComponent: () => import('./event-board/event-board.component').then((m) => m.EventBoardComponent)
   },
   {
+    path: 'saved',
+    loadComponent: () => import('./event-board-saved/event-board-saved.component').then((m) => m.EventBoardSavedComponent)
+  },
+  {
+    path: 'regs',
+    loadComponent: () => import('./event-board-regs/event-board-regs.component').then((m) => m.EventBoardRegsComponent)
+  },
+  {
+    path: 'own',
+    loadComponent: () => import('./event-board-own/event-board-own.component').then((m) => m.EventBoardOwnComponent)
+  },
+  {
     path: 'create',
     loadComponent: () => import('./event-create/event-create.component').then((m) => m.EventCreateComponent)
   },

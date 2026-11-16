@@ -1,0 +1,56 @@
+<mat-card>
+    <div class="flex flex-col gap-4 p-5">
+
+        <div class="flex flex-row items-center justify-between gap-2">
+            <span class="text-sm" style="color: var(--mat-sys-on-surface-variant)">{{ 'event.property.status' | translate }}</span>
+            <span [class]="statusBadgeClass()" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px">{{ statusIcon() }}</mat-icon>
+                {{ ('event.status.' + status()) | translate }}
+            </span>
+        </div>
+
+        <div class="flex flex-row items-center justify-between gap-2">
+            <span class="text-sm font-medium">{{ 'event.action.featured' | translate }}</span>
+            <mat-slide-toggle (change)="toggleFeatured()" [checked]="featured()" [disabled]="featuring()"></mat-slide-toggle>
+        </div>
+
+        <div class="border-t" style="border-color: var(--mat-sys-outline-variant)"></div>
+
+        <div class="flex flex-col gap-2">
+            <button (click)="editEvent()" class="w-full justify-start" matButton="filled">
+                <mat-icon>edit</mat-icon>
+                {{ 'event.action.edit' | translate }}
+            </button>
+            @if (shareUrl()) {
+                <button (click)="copyShare()" class="w-full justify-start" matButton="outlined">
+                    <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
+                    {{ (copied() ? 'event.action.shareCopied' : 'event.action.share') | translate }}
+                </button>
+            }
+            <button (click)="exportEvent()" [disabled]="exporting()" class="w-full justify-start" matButton="outlined">
+                @if (exporting()) {
+                    <mat-spinner diameter="18"></mat-spinner>
+                } @else {
+                    <mat-icon>download</mat-icon>
+                }
+                {{ 'backoffice.export.action.single' | translate }}
+            </button>
+        </div>
+
+        <div class="border-t" style="border-color: var(--mat-sys-outline-variant)"></div>
+
+        <div class="flex flex-col gap-1">
+            @if (cancelable()) {
+                <button (click)="cancelEvent()" class="w-full justify-start" color="warn" matButton="text">
+                    <mat-icon>free_cancellation</mat-icon>
+                    {{ 'event.action.cancel' | translate }}
+                </button>
+            }
+            <button (click)="deleteEvent()" class="w-full justify-start" color="warn" matButton="text">
+                <mat-icon>delete</mat-icon>
+                {{ 'event.action.delete' | translate }}
+            </button>
+        </div>
+
+    </div>
+</mat-card>

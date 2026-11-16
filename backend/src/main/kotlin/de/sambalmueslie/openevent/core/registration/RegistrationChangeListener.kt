@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.registration
 
+import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.common.BusinessObjectChangeListener
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.participant.api.Participant
@@ -21,5 +22,5 @@ interface RegistrationChangeListener : BusinessObjectChangeListener<Long, Regist
         status: ParticipateStatus
     )
 
-    fun participantRemoved(actor: Account, registration: Registration, participant: Participant)
+    fun participantRemoved(actor: Account, registration: Registration, participant: Participant, cancel: ParticipantCancelRequest?)
 }

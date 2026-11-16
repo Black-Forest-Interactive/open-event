@@ -10,6 +10,8 @@ import de.sambalmueslie.openevent.core.account.api.Preferences
 import de.sambalmueslie.openevent.core.account.api.Profile
 import de.sambalmueslie.openevent.core.notification.NotificationEvent
 import de.sambalmueslie.openevent.core.notification.NotificationService
+import de.sambalmueslie.openevent.core.notification.NotificationSettingCrudService
+import de.sambalmueslie.openevent.core.notification.api.NotificationSettingChangeRequest
 import de.sambalmueslie.openevent.core.notification.api.NotificationTypeChangeRequest
 import de.sambalmueslie.openevent.core.search.SearchService
 import de.sambalmueslie.openevent.core.search.api.EventCreatedSearchRequest
@@ -18,6 +20,7 @@ import de.sambalmueslie.openevent.infrastructure.time.TimeProvider
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.scheduling.annotation.Scheduled
+import jakarta.annotation.PostConstruct
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -33,12 +36,20 @@ class NewsletterNotificationHandler(
     private val profilesService: ProfileCrudService,
     private val preferencesService: PreferencesCrudService,
     private val service: NotificationService,
+    private val settingService: NotificationSettingCrudService,
     private val timeProvider: TimeProvider
 ) : NotificationHandler {
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(NewsletterNotificationHandler::class.java)
         const val KEY_EVENT_NEWSLETTER = "newsletter.event"
+        const val SETTING_NAME = "newsletter.enabled"
         const val MAX_RESULT = 1000
+    }
+
+    @PostConstruct
+    fun init() {
+        val account = accountService.getSystemAccount()
+        settingService.findByName(SETTING_NAME) ?: settingService.create(account, NotificationSettingChangeRequest(SETTING_NAME, true))
     }
 
     override fun getName(): String = NewsletterNotificationHandler::class.java.simpleName
@@ -54,6 +65,8 @@ class NewsletterNotificationHandler(
     @Scheduled(cron = "0 0 2 * * ?")
     fun createDailyNewsletterNotification() {
         if (processing.get()) return logger.warn("Ignore creation of daily newsletter notification, cause job hasn't finished yet")
+        val setting = settingService.findByName(SETTING_NAME)
+        if (setting != null && !setting.enabled) return logger.info("Newsletter sending is globally disabled, skipping.")
         processing.set(true)
         val actor = accountService.getSystemAccount()
         try {

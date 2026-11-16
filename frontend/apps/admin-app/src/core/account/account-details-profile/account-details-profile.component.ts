@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, resource } from '@angular/core'
+import { Component, computed, inject, input, resource, ChangeDetectionStrategy } from '@angular/core'
 import { Account } from '@open-event/core'
 import { toPromise } from '@open-event/shared'
 import { AccountService } from '@open-event/admin'
@@ -9,6 +9,7 @@ import { BoardCardComponent } from '../../../shared/board-card/board-card.compon
   selector: 'admin-account-details-profile',
   imports: [TranslatePipe, BoardCardComponent],
   templateUrl: './account-details-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-details-profile.component.scss'
 })
 export class AccountDetailsProfileComponent {

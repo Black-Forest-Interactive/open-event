@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core'
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { MatDialog } from '@angular/material/dialog'
 import { Feedback } from '@open-event/core'
@@ -29,6 +29,7 @@ import { MatIcon } from '@angular/material/icon'
     MatHeaderCellDef
   ],
   templateUrl: './feedback-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './feedback-table.component.scss'
 })
 export class FeedbackTableComponent {

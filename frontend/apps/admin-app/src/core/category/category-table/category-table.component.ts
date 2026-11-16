@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core'
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core'
 import { Category } from '@open-event/core'
 import { MatPaginator, PageEvent } from '@angular/material/paginator'
 import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable } from '@angular/material/table'
@@ -26,6 +26,7 @@ import { TranslatePipe } from '@ngx-translate/core'
     MatHeaderCellDef
   ],
   templateUrl: './category-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './category-table.component.scss'
 })
 export class CategoryTableComponent {

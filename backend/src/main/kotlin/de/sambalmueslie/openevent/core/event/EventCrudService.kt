@@ -1,18 +1,20 @@
 package de.sambalmueslie.openevent.core.event
 
 
+import de.sambalmueslie.openevent.core.event.contact.EventContact
+import de.sambalmueslie.openevent.core.event.contact.EventContactService
 import de.sambalmueslie.openevent.common.BaseCrudService
 import de.sambalmueslie.openevent.common.PageableSequence
 import de.sambalmueslie.openevent.common.PatchRequest
 import de.sambalmueslie.openevent.core.account.api.Account
+import de.sambalmueslie.openevent.core.announcement.AnnouncementCrudService
+import de.sambalmueslie.openevent.core.announcement.api.Announcement
+import de.sambalmueslie.openevent.core.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.core.audience.AudienceCrudService
 import de.sambalmueslie.openevent.core.audience.api.Audience
 import de.sambalmueslie.openevent.core.category.CategoryCrudService
 import de.sambalmueslie.openevent.core.category.api.Category
-import de.sambalmueslie.openevent.core.event.api.Event
-import de.sambalmueslie.openevent.core.event.api.EventChangeRequest
-import de.sambalmueslie.openevent.core.event.api.EventInfo
-import de.sambalmueslie.openevent.core.event.api.EventStats
+import de.sambalmueslie.openevent.core.event.api.*
 import de.sambalmueslie.openevent.core.event.db.EventBookmarkRelation
 import de.sambalmueslie.openevent.core.event.db.EventStorage
 import de.sambalmueslie.openevent.core.location.LocationCrudService
@@ -28,6 +30,7 @@ import de.sambalmueslie.openevent.logTimeMillisWithValue
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
+import java.time.LocalDateTime
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -38,7 +41,9 @@ class EventCrudService(
     private val registrationCrudService: RegistrationCrudService,
     private val categoryCrudService: CategoryCrudService,
     private val audienceCrudService: AudienceCrudService,
+    private val announcementCrudService: AnnouncementCrudService,
     private val shareCrudService: ShareCrudService,
+    private val contactService: EventContactService,
 ) : BaseCrudService<Long, Event, EventChangeRequest, EventChangeListener>(storage) {
 
     companion object {
@@ -60,16 +65,19 @@ class EventCrudService(
         val audiences = audienceCrudService.getByIds(request.audienceIds)
         if (audiences.isNotEmpty()) storage.setAudiences(result, audiences)
 
-        notifyCreated(actor, result)
         request.location?.let { locationCrudService.create(actor, result, it) }
         registrationCrudService.create(actor, result, request.registration)
         shareCrudService.create(actor, result, ShareChangeRequest(request.shared))
+        request.contact?.let { contactService.set(result.id, it) }
+
+        notifyCreated(actor, result)
         updateSearch(actor, result, ChangeType.CREATED)
         return result
     }
 
     override fun isValid(request: EventChangeRequest) {
         if (request.title.isBlank()) throw InvalidRequestException("Title cannot be blank")
+        request.contact?.let { contactService.validate(it) }
     }
 
     private fun updateSearch(actor: Account, event: Event, type: ChangeType) {
@@ -79,19 +87,24 @@ class EventCrudService(
     }
 
     override fun update(actor: Account, id: Long, request: EventChangeRequest): Event {
+        val oldRegistration = registrationCrudService.findByEvent(storage.get(id) ?: return super.update(actor, id, request))
         val result = super.update(actor, id, request)
         val categories = categoryCrudService.getByIds(request.categoryIds)
         storage.setCategories(result, categories)
 
         val audiences = audienceCrudService.getByIds(request.audienceIds)
-         storage.setAudiences(result, audiences)
+        storage.setAudiences(result, audiences)
 
         if (request.location == null) {
             locationCrudService.deleteByEvent(actor, result)
         } else {
             locationCrudService.updateByEvent(actor, result, request.location)
         }
-        registrationCrudService.updateByEvent(actor, result, request.registration)
+        request.contact?.let { contactService.set(result.id, it) }
+        val newRegistration = registrationCrudService.updateByEvent(actor, result, request.registration)
+        if (oldRegistration != null && newRegistration.maxGuestAmount > oldRegistration.maxGuestAmount) {
+            registrationCrudService.promoteWaitlisted(actor, newRegistration)
+        }
         updateSearch(actor, result, ChangeType.UPDATED)
         return result
     }
@@ -101,14 +114,23 @@ class EventCrudService(
         locationCrudService.deleteByEvent(actor, event)
         registrationCrudService.deleteByEvent(actor, event)
         shareCrudService.deleteByEvent(actor, event)
+        contactService.delete(event.id)
         val result = super.delete(actor, id) ?: return null
         updateSearch(actor, result, ChangeType.DELETED)
         return result
     }
 
-    fun setFeatured(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
-        val result = storage.setFeatured(id, value) ?: return null
-        notify { it.featuredChanged(actor, result) }
+
+    fun setStatus(actor: Account, id: Long, value: EventStatus): Event? {
+        val result = storage.setStatus(id, value) ?: return null
+        notify { it.statusChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun cancel(actor: Account, id: Long, reason: String): Event? {
+        val result = storage.setStatus(id, EventStatus.CANCELED) ?: return null
+        notify { it.canceled(actor, result, reason) }
         updateSearch(actor, result, ChangeType.UPDATED)
         return result
     }
@@ -120,6 +142,68 @@ class EventCrudService(
         return result
     }
 
+    fun setFeatured(actor: Account, id: Long, value: PatchRequest<Boolean>): Event? {
+        val result = storage.setFeatured(id, value) ?: return null
+        notify { it.featuredChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setTitle(actor: Account, id: Long, value: PatchRequest<String>): Event? {
+        val result = storage.setTitle(id, value) ?: return null
+        notify { it.titleChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setShortText(actor: Account, id: Long, value: PatchRequest<String>): Event? {
+        val result = storage.setShortText(id, value) ?: return null
+        notify { it.shortTextChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setLongText(actor: Account, id: Long, value: PatchRequest<String>): Event? {
+        val result = storage.setLongText(id, value) ?: return null
+        notify { it.longTextChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setTags(actor: Account, id: Long, value: PatchRequest<Set<String>>): Event? {
+        val result = storage.setTags(id, value) ?: return null
+        notify { it.tagsChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+    fun setText(actor: Account, id: Long, request: EventUpdateTextRequest): Event? {
+        val result = storage.setText(id, request) ?: return null
+        notify { it.textChanged(actor, result) }
+        updateSearch(actor, result, ChangeType.UPDATED)
+        return result
+    }
+
+
+    fun setCategories(actor: Account, id: Long, categoryIds: PatchRequest<Set<Long>>): Event? {
+        val event = get(id) ?: return null
+        val categories = categoryCrudService.getByIds(categoryIds.value)
+        storage.setCategories(event, categories)
+        notify { it.categoryChanged(actor, event) }
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+    fun setAudiences(actor: Account, id: Long, audienceIds: PatchRequest<Set<Long>>): Event? {
+        val event = get(id) ?: return null
+        val audiences = audienceCrudService.getByIds(audienceIds.value)
+        storage.setAudiences(event, audiences)
+        notify { it.audienceChanged(actor, event) }
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+
     fun setShared(account: Account, id: Long, value: PatchRequest<Boolean>): EventInfo? {
         val event = storage.get(id) ?: return null
         shareCrudService.setEnabled(account, event, value)
@@ -130,6 +214,8 @@ class EventCrudService(
         val event = get(id) ?: return null
         return locationCrudService.findByEvent(event)
     }
+
+    fun getContact(id: Long): EventContact? = contactService.get(id)
 
     fun getRegistration(id: Long): Registration? {
         val event = get(id) ?: return null
@@ -165,6 +251,10 @@ class EventCrudService(
 
     fun getInfos(pageable: Pageable): Page<EventInfo> {
         return convertInfo(getAll(pageable))
+    }
+
+    fun getInfosByStart(from: LocalDateTime, to: LocalDateTime): List<EventInfo> {
+        return PageableSequence { convertInfo(storage.getByStart(from, to, it)) }.toList()
     }
 
     fun setBookmarked(actor: Account, event: Event) {
@@ -275,6 +365,34 @@ class EventCrudService(
             waitingListSize,
             waitingListAmount
         )
+    }
+
+    fun addAnnouncement(actor: Account, id: Long, request: AnnouncementChangeRequest): Event? {
+        val event = get(id) ?: return null
+        val announcement = announcementCrudService.create(actor, request)
+        storage.add(event, announcement)
+        notify { it.announcementAdded(actor, event, announcement) }
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+    fun removeAnnouncement(actor: Account, id: Long, announcementId: Long): Event? {
+        val event = get(id) ?: return null
+        val announcement = announcementCrudService.get(announcementId) ?: return event
+        if (!storage.isAssigned(event, announcement)) return event
+
+        storage.remove(event, announcement)
+        notify { it.announcementRemoved(actor, event, announcement) }
+
+        announcementCrudService.delete(actor, announcementId)
+
+        updateSearch(actor, event, ChangeType.UPDATED)
+        return event
+    }
+
+    fun getAnnouncements(id: Long, pageable: Pageable): Page<Announcement> {
+        val event = get(id) ?: return Page.empty()
+        return storage.getAnnouncements(event, pageable)
     }
 
 

@@ -14,7 +14,10 @@ export class EventSearchRequest {
     public categories: string[] = [],
     public bookmarked: boolean = false,
     public featured: boolean = false,
-    public audiences: string[] = []
+    public audiences: string[] = [],
+    public status: string[] = [],
+    public excludedCategories: string[] = [],
+    public excludedAudiences: string[] = []
   ) {}
 }
 
@@ -37,6 +40,7 @@ export interface EventSearchEntry {
   title: string
   shortText: string
   longText: string
+  status: string
   published: boolean
   shared: boolean
 

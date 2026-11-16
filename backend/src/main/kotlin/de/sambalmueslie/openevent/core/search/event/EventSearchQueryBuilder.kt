@@ -61,18 +61,51 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             if (request.audiences.isNotEmpty()) {
                 filter(terms(EventSearchEntryData::audiences, request.audiences))
             }
+            if (request.excludedCategories.isNotEmpty()) {
+                mustNot(terms(EventSearchEntryData::categories, request.excludedCategories))
+            }
+            if (request.excludedAudiences.isNotEmpty()) {
+                mustNot(terms(EventSearchEntryData::audiences, request.excludedAudiences))
+            }
+            if (request.status.isNotEmpty()) {
+                filter(terms(EventSearchEntryData::status, request.status.map { it.name }))
+            }
+            if (request.onlyPublished) {
+                filter(term(EventSearchEntryData::published, "true"))
+            }
+            if (request.restrictToVisible) {
+                filter(bool {
+                    put("minimum_should_match", 1)
+                    should(
+                        term(EventSearchEntryData::published, "true"),
+                        term(EventSearchEntryData::owner, actor.id.toString())
+                    )
+                })
+            }
+            if (request.includeIds.isNotEmpty()) {
+                filter(terms(EventSearchEntryData::id, request.includeIds.map { it.toString() }))
+            }
+            if (request.excludeIds.isNotEmpty()) {
+                mustNot(terms(EventSearchEntryData::id, request.excludeIds.map { it.toString() }))
+            }
             agg(
                 EventSearchEntryData::date.name,
                 DateHistogramAgg(EventSearchEntryData::date) {
                     calendarInterval = "day"
                 }
             )
+            agg(EventSearchEntryData::status.name, TermsAgg(EventSearchEntryData::status))
 
         }
         if (pageable.isSorted) {
             sort {
                 pageable.orderBy.forEach { order ->
-                    add(order.property, if (order.isAscending) SortOrder.ASC else SortOrder.DESC)
+                    val field = if (order.property == EventSearchEntryData::title.name) {
+                        EventFieldMappingProvider.TITLE_SORT_FIELD
+                    } else {
+                        order.property
+                    }
+                    add(field, if (order.isAscending) SortOrder.ASC else SortOrder.DESC)
                 }
             }
         } else {
