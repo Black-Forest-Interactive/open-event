@@ -61,6 +61,7 @@ class AccountStorageService(
     }
 
     override fun findByEmail(email: String): Account? {
+        if (email.isBlank()) return null
         return repository.findByEmail(email)?.convert()
     }
 

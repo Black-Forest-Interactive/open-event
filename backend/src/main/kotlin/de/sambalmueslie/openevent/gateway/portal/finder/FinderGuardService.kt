@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.core.finder.FinderCrudService
 import de.sambalmueslie.openevent.core.finder.api.*
 import de.sambalmueslie.openevent.core.search.api.EventSearchEntry
 import de.sambalmueslie.openevent.error.IllegalAccessException
+import de.sambalmueslie.openevent.gateway.portal.event.redactOwnerFor
 import de.sambalmueslie.openevent.infrastructure.audit.AuditService
 import de.sambalmueslie.openevent.infrastructure.audit.api.AuditAction
 import io.micronaut.data.model.Page
@@ -67,13 +68,13 @@ class FinderGuardService(
     fun getOpen(auth: Authentication, id: Long, pageable: Pageable): Page<EventSearchEntry> =
         auth.checkPermission(PERMISSION_READ) {
             val (finder, account) = getOwned(auth, id) ?: return@checkPermission Page.empty()
-            service.getOpen(account, finder, pageable)
+            service.getOpen(account, finder, pageable).map { it.redactOwnerFor(account) }
         }
 
     fun getEntries(auth: Authentication, id: Long, answer: FinderAnswer, pageable: Pageable): Page<FinderEntryInfo> =
         auth.checkPermission(PERMISSION_READ) {
             val (finder, account) = getOwned(auth, id) ?: return@checkPermission Page.empty()
-            service.getEntries(account, finder, answer, pageable)
+            service.getEntries(account, finder, answer, pageable).map { it.copy(entry = it.entry.redactOwnerFor(account)) }
         }
 
     fun setAnswer(auth: Authentication, id: Long, eventId: Long, request: FinderAnswerRequest) =

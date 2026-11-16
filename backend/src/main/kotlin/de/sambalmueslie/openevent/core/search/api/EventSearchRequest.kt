@@ -21,4 +21,6 @@ data class EventSearchRequest(
     val onlyPublished: Boolean = false,
     val includeIds: Set<Long> = emptySet(),
     val excludeIds: Set<Long> = emptySet(),
+    /** only events the actor is allowed to see (published or own) - enforced by the portal gateway, not by the client */
+    val restrictToVisible: Boolean = false,
 ) : SearchRequest

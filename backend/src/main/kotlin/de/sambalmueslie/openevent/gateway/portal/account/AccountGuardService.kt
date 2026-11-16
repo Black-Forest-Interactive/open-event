@@ -47,9 +47,11 @@ class AccountGuardService(
         }
 
     fun updateProfile(auth: Authentication, request: ProfileChangeRequest) =
-        auth.checkPermission(PERMISSION_READ) {
+        auth.checkPermission(PERMISSION_WRITE) {
             val account = service.get(auth) ?: return@checkPermission null
-            profileService.update(account, account.id, request)
+            // the email is owned by the identity provider and must not be changed by the user
+            val email = profileService.getForAccount(account)?.email
+            profileService.update(account, account.id, request.copy(email = email))
         }
 
     fun getPreferences(auth: Authentication) =
@@ -59,7 +61,7 @@ class AccountGuardService(
         }
 
     fun updatePreferences(auth: Authentication, request: PreferencesChangeRequest) =
-        auth.checkPermission(PERMISSION_READ) {
+        auth.checkPermission(PERMISSION_WRITE) {
             val account = service.get(auth) ?: return@checkPermission null
             preferencesService.update(account, account.id, request)
         }

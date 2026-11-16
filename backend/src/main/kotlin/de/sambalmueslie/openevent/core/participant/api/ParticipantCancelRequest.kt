@@ -1,5 +1,6 @@
 package de.sambalmueslie.openevent.core.participant.api
 
+import de.sambalmueslie.openevent.core.notification.SafeHtml
 import org.jsoup.nodes.Entities
 
 /**
@@ -15,5 +16,5 @@ data class ParticipantCancelRequest(
     fun hasContent() = message.isNotBlank()
 
     /** HTML escaped message, line breaks converted to <br> - safe for use in mail templates. */
-    fun formatMessage(): String = Entities.escape(message.trim()).replace("\n", "<br>")
+    fun formatMessage() = SafeHtml(Entities.escape(message.trim()).replace("\n", "<br>"))
 }

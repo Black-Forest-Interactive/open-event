@@ -44,8 +44,10 @@ class RegistrationGuardService(
     fun addParticipant(auth: Authentication, id: Long, request: ParticipateRequest): ParticipateResponse? {
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
+            val registration = service.get(id) ?: return@checkPermission null
+            eventService.getReadable(auth, registration.eventId) ?: return@checkPermission null
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_ADDED, id.toString(), request) {
-                service.addParticipant(account, id, account, request)
+                service.addParticipant(account, id, account, request)?.redactFor(account)
             }
         }
     }
@@ -54,7 +56,7 @@ class RegistrationGuardService(
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_CHANGED, id.toString(), request) {
-                service.changeParticipant(account, id, account, request)
+                service.changeParticipant(account, id, account, request)?.redactFor(account)
             }
         }
     }
@@ -63,7 +65,7 @@ class RegistrationGuardService(
         return auth.checkPermission(PERMISSION_WRITE) {
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, id.toString(), "") {
-                service.removeParticipant(account, id, account)
+                service.removeParticipant(account, id, account)?.redactFor(account)
             }
         }
     }
@@ -73,7 +75,7 @@ class RegistrationGuardService(
             if (request.message.length > ParticipantCancelRequest.MAX_MESSAGE_LENGTH) throw InvalidRequestException("Message too long")
             val account = accountService.get(auth) ?: throw InvalidRequestException("Cannot find account")
             logger.traceAction(auth, AuditAction.REGISTRATION_PARTICIPANT_REMOVED, id.toString(), "") {
-                service.removeParticipant(account, id, account, request)
+                service.removeParticipant(account, id, account, request)?.redactFor(account)
             }
         }
 

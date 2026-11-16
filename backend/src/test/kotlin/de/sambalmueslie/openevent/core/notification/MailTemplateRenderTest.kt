@@ -14,6 +14,7 @@ import de.sambalmueslie.openevent.core.participant.api.ParticipantCancelRequest
 import de.sambalmueslie.openevent.core.participant.api.ParticipantStatus
 import de.sambalmueslie.openevent.core.registration.api.Registration
 import io.mockk.mockk
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -68,5 +69,25 @@ class MailTemplateRenderTest {
     fun removedWithoutCancelMessage() {
         val html = render("registration.participant.removed.html", RegistrationEventContent(event, registration, participant, location))
         assertFalse(html.contains(">Nachricht<"))
+    }
+
+    @Test
+    fun userProvidedValuesAreEscaped() {
+        val evilEvent = event.copy(title = "<a href=\"https://evil.test\">Klick</a> & mehr")
+        val evilParticipant = participant.copy(author = author.copy(firstName = "<b>Paula</b>"))
+        val html = render("event.reminder.html", EventReminderContent(evilEvent, registration, evilParticipant, location, null))
+        assertFalse(html.contains("<a href=\"https://evil.test\">"))
+        assertTrue(html.contains("&lt;a href=&quot;https://evil.test&quot;&gt;Klick&lt;/a&gt; &amp; mehr"))
+        assertFalse(html.contains("<b>Paula</b>"))
+        assertTrue(html.contains("&lt;b&gt;Paula&lt;/b&gt;"))
+    }
+
+    @Test
+    fun plainTemplateIsNotEscapedAndSubjectIsSingleLine() {
+        val template = NotificationTemplate(1, "Erinnerung:\n\${content.event.title}", "de", "Titel: \${content.event.title}", true)
+        val evilEvent = event.copy(title = "Tom & Jerry")
+        val mail = renderer.render(NotificationEvent("test", mockk<Account>(relaxed = true), EventReminderContent(evilEvent, registration, participant, null, null)), template)
+        assertEquals("Erinnerung: Tom & Jerry", mail.subject)
+        assertEquals("Titel: Tom & Jerry", mail.plainText)
     }
 }

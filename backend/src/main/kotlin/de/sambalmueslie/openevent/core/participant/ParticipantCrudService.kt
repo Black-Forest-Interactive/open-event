@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.core.participant
 
 
 import de.sambalmueslie.openevent.common.BaseCrudService
+import de.sambalmueslie.openevent.config.AppConfig
 import de.sambalmueslie.openevent.core.account.api.Account
 import de.sambalmueslie.openevent.core.event.api.EventStatus
 import de.sambalmueslie.openevent.core.event.db.EventStorage
@@ -17,10 +18,12 @@ import org.slf4j.LoggerFactory
 class ParticipantCrudService(
     private val storage: ParticipantStorage,
     private val eventStorage: EventStorage,
+    private val config: AppConfig,
 ) : BaseCrudService<Long, Participant, ParticipantChangeRequest, ParticipantChangeListener>(storage) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(ParticipantCrudService::class.java)
+        private const val MAX_NOTE_LENGTH = 1000
     }
 
 
@@ -48,6 +51,8 @@ class ParticipantCrudService(
         status: ParticipantStatus = ParticipantStatus.ACCEPTED
     ): ParticipateResponse {
         if (request.size <= 0) return remove(actor, registration, account)
+        // a participant itself is limited to a reasonable group size, the organizer can add up to the capacity
+        validate(request, if (actor.id == account.id) config.maxParticipantSize.toLong() else moderationMaxSize(registration))
         val participant = storage.findByAccount(registration, account)
         if (participant != null) {
             return change(actor, registration, participant, request)
@@ -97,7 +102,8 @@ class ParticipantCrudService(
         request: ParticipateRequest
     ): ParticipateResponse {
         val status = ParticipateStatus.DECLINED
-        val participant = storage.get(participantId) ?: return getResponse(registration, status, false)
+        val participant = findInRegistration(registration, participantId) ?: return getResponse(registration, status, false)
+        validate(request, moderationMaxSize(registration))
         return change(actor, registration, participant, request)
     }
 
@@ -146,12 +152,24 @@ class ParticipantCrudService(
 
     fun remove(actor: Account, registration: Registration, participantId: Long): ParticipateResponse {
         val status = ParticipateStatus.DECLINED
-        val participant = storage.get(participantId) ?: return getResponse(registration, status, false)
+        val participant = findInRegistration(registration, participantId) ?: return getResponse(registration, status, false)
         storage.delete(participant.id)
         notifyDeleted(actor, participant)
 
         val result = updateWaitList(actor, registration)
         return ParticipateResponse(registration, participant, result, status, false)
+    }
+
+    private fun moderationMaxSize(registration: Registration) = maxOf(registration.maxGuestAmount, config.maxParticipantSize).toLong()
+
+    private fun validate(request: ParticipateRequest, maxSize: Long) {
+        if (request.size > maxSize) throw InvalidRequestException("Size must not exceed $maxSize")
+        if (request.note.length > MAX_NOTE_LENGTH) throw InvalidRequestException("Note is too long")
+    }
+
+    /** a participant is only accessible via the registration it belongs to */
+    private fun findInRegistration(registration: Registration, participantId: Long): Participant? {
+        return storage.get(registration).find { it.id == participantId }
     }
 
     fun promotePendingWaitlist(actor: Account, registration: Registration): List<Participant> {

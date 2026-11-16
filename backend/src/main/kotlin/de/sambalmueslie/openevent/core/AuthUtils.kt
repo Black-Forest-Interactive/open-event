@@ -21,6 +21,14 @@ fun Authentication.getEmail(): String {
     return attributes["email"] as? String ?: ""
 }
 
+fun Authentication.isEmailVerified(): Boolean {
+    return when (val value = attributes["email_verified"]) {
+        is Boolean -> value
+        is String -> value.equals("true", ignoreCase = true)
+        else -> false
+    }
+}
+
 fun Authentication.getUsername(): String {
     return attributes["preferred_username"] as? String ?: ""
 }

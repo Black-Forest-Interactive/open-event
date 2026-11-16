@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.time.format.DateTimeParseException
 import java.util.*
-import kotlin.random.Random
+import java.security.SecureRandom
 
 @Singleton
 class ExternalParticipantService(
@@ -41,6 +41,13 @@ class ExternalParticipantService(
     companion object {
         private val logger = LoggerFactory.getLogger(ExternalParticipantService::class.java)
         private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+        private val phoneRegex = "^[0-9+()/\\-. ]*$".toRegex()
+        private val invalidNameChars = "[<>\\p{Cntrl}]".toRegex()
+        private const val MAX_NAME_LENGTH = 100
+        private const val MAX_EMAIL_LENGTH = 255
+        private const val MAX_PHONE_LENGTH = 50
+        private val RESEND_DELAY: Duration = Duration.ofMinutes(10)
+        private val random = SecureRandom()
     }
 
     private val expires = try {
@@ -54,32 +61,27 @@ class ExternalParticipantService(
         val registration = event.registration ?: return ExternalParticipantChangeResponse.failed()
         validate(request)
 
-        val account = accountService.findByEmail(request.email)
-        val autoConfirmRegistration = account != null && account.idpLinked
-
-        if (autoConfirmRegistration) {
-            if (registration.participants.any { it.author.id == account.id }) return ExternalParticipantChangeResponse.failed()
-            val participateRequest = ParticipateRequest(request.size, "")
-            val participateResponse = registrationService.addParticipant(systemAccount, registration.registration.id, account, participateRequest) ?: return ExternalParticipantChangeResponse.failed()
-            return ExternalParticipantChangeResponse(participateResponse.participant?.toExternalParticipant(), participateResponse.status)
-        } else {
-            val existing = repository.findByEventIdAndEmail(event.event.id, request.email)
-            val result = if (existing != null) {
-                requestParticipationForExisting(existing)
-            } else {
-                requestParticipationNew(event, request, lang)
-            }
+        // always use the confirmation flow and always answer the same - neither register a known user without
+        // confirmation nor reveal whether an email belongs to an account
+        val existing = repository.findByEventIdAndEmail(event.event.id, request.email)
+        if (existing == null) {
+            val result = requestParticipationNew(event, request, lang)
             notificationHandler.handleCreated(systemAccount, share, event, registration, result)
-            return ExternalParticipantChangeResponse(null, ParticipateStatus.UNCONFIRMED)
+        } else {
+            val resend = (existing.updated ?: existing.created).plus(RESEND_DELAY).isBefore(timeProvider.now())
+            if (resend) {
+                val result = requestParticipationForExisting(existing)
+                notificationHandler.handleCreated(systemAccount, share, event, registration, result)
+            }
         }
+        return ExternalParticipantChangeResponse(null, ParticipateStatus.UNCONFIRMED)
     }
-
 
     private fun requestParticipationNew(event: EventInfo, request: ExternalParticipantAddRequest, lang: String): ExternalParticipantData {
         val id = UUID.randomUUID().toString()
         val now = timeProvider.now()
         val expiresTimestamp = now.plus(expires)
-        val code = Random.nextInt(10000, 100000).toString().format("%05d")
+        val code = (10000 + random.nextInt(90000)).toString()
         return repository.save(ExternalParticipantData.create(id, event, request, lang.ifBlank { settingsService.getLanguage() }, code, expiresTimestamp, now))
     }
 
@@ -95,8 +97,21 @@ class ExternalParticipantService(
         if (request.firstName.isBlank()) throw InvalidRequestException("First name cannot be blank")
         if (request.lastName.isBlank()) throw InvalidRequestException("Last name cannot be blank")
         if (request.size <= 0) throw InvalidRequestException("Size must be a positive number")
-        val validEmail = emailRegex.matches(request.email)
+        if (request.size > config.maxParticipantSize) throw InvalidRequestException("Size must not exceed ${config.maxParticipantSize}")
+        validateName(request.firstName)
+        validateName(request.lastName)
+        val validEmail = request.email.length <= MAX_EMAIL_LENGTH && emailRegex.matches(request.email)
         if (!validEmail) throw InvalidRequestException("Provided E-Mail is invalid")
+        validatePhone(request.phone)
+        validatePhone(request.mobile)
+    }
+
+    private fun validateName(value: String) {
+        if (value.length > MAX_NAME_LENGTH || invalidNameChars.containsMatchIn(value)) throw InvalidRequestException("Provided name is invalid")
+    }
+
+    private fun validatePhone(value: String) {
+        if (value.length > MAX_PHONE_LENGTH || !phoneRegex.matches(value)) throw InvalidRequestException("Provided phone number is invalid")
     }
 
     fun changeParticipation(event: EventInfo, participantId: String, request: ExternalParticipantChangeRequest): ExternalParticipantChangeResponse {

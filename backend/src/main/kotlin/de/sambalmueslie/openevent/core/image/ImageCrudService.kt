@@ -43,7 +43,11 @@ class ImageCrudService(
             val fileExtension = getFileExtension(filename)
             validator.validate(fileExtension, bytes, contentType)
 
-            val filePath = Paths.get(config.uploadPath, "${event.id}", "banner$fileExtension")
+            val directory = Paths.get(config.uploadPath, "${event.id}")
+            Files.createDirectories(directory)
+            // remove a previous banner with another extension, otherwise it is undefined which one gets delivered
+            Files.list(directory).use { stream -> stream.filter { it.fileName.name.startsWith("banner.") }.forEach { Files.deleteIfExists(it) } }
+            val filePath = directory.resolve("banner$fileExtension")
             Files.copy(ByteArrayInputStream(bytes), filePath, StandardCopyOption.REPLACE_EXISTING)
             logger.debug("[${account.id}] file uploaded successfully: {}", filePath)
             return UploadResponse(true, filename, "", "")

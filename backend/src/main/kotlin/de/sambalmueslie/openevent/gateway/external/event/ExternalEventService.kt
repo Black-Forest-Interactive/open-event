@@ -53,13 +53,13 @@ class ExternalEventService(
 
     fun requestParticipation(id: String, request: ExternalParticipantAddRequest, lang: String): ExternalParticipantChangeResponse {
         val (share, event) = getEvent(id) ?: return ExternalParticipantChangeResponse.failed()
-        logger.info("[${event.event.id}] request participation $request")
+        logger.info("[${event.event.id}] request participation")
         return participantService.requestParticipation(share, event, request, lang)
     }
 
     fun changeParticipation(id: String, participantId: String, request: ExternalParticipantChangeRequest): ExternalParticipantChangeResponse {
         val (_, event) = getEvent(id) ?: return ExternalParticipantChangeResponse.failed()
-        logger.info("[${event.event.id}] change participation [$participantId] $request")
+        logger.info("[${event.event.id}] change participation [$participantId]")
         return participantService.changeParticipation(event, participantId, request)
     }
 

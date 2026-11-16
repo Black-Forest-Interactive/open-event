@@ -21,6 +21,12 @@ class AppConfig {
             field = value
         }
 
+    var maxParticipantSize: Int = 10
+        set(value) {
+            logger.info("Set max participant size from '$field' to '$value'")
+            field = value
+        }
+
     var maxConfirmationTrials: Int = 5
         set(value) {
             logger.info("Set max confirmation trials from '$field' to '$value'")

@@ -73,6 +73,15 @@ class EventSearchQueryBuilder : SearchQueryBuilder<EventSearchRequest> {
             if (request.onlyPublished) {
                 filter(term(EventSearchEntryData::published, "true"))
             }
+            if (request.restrictToVisible) {
+                filter(bool {
+                    put("minimum_should_match", 1)
+                    should(
+                        term(EventSearchEntryData::published, "true"),
+                        term(EventSearchEntryData::owner, actor.id.toString())
+                    )
+                })
+            }
             if (request.includeIds.isNotEmpty()) {
                 filter(terms(EventSearchEntryData::id, request.includeIds.map { it.toString() }))
             }

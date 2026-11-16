@@ -11,6 +11,7 @@ import de.sambalmueslie.openevent.core.event.api.*
 import de.sambalmueslie.openevent.core.event.contact.EventContact
 import de.sambalmueslie.openevent.core.export.ExportService
 import de.sambalmueslie.openevent.core.search.SearchService
+import de.sambalmueslie.openevent.gateway.portal.registration.redactFor
 import de.sambalmueslie.openevent.core.search.api.EventSearchRequest
 import de.sambalmueslie.openevent.core.search.api.EventSearchResponse
 import de.sambalmueslie.openevent.error.IllegalAccessException
@@ -41,20 +42,21 @@ class EventGuardService(
 
     fun search(auth: Authentication, request: EventSearchRequest, pageable: Pageable): EventSearchResponse {
         return auth.checkPermission(PERMISSION_READ) {
-            searchService.searchEvents(accountService.find(auth), request, pageable)
+            val account = accountService.find(auth)
+            searchService.searchEvents(account, request.copy(restrictToVisible = true), pageable).redactOwnerFor(account)
         }
     }
 
     fun get(auth: Authentication, id: Long): Event? =
         auth.checkPermission(PERMISSION_READ) {
-            probe.traceAccess(auth, id) { service.get(id) }
+            probe.traceAccess(auth, id) { getReadable(auth, id)?.redactOwnerFor(accountService.find(auth)) }
         }
 
     fun getInfo(auth: Authentication, id: Long): EventInfo? {
         return auth.checkPermission(PERMISSION_READ) {
             val account = accountService.get(auth) ?: return@checkPermission null
             getReadable(auth, id) ?: return@checkPermission null
-            probe.traceAccess(auth, id) { service.getInfo(id, account) }
+            probe.traceAccess(auth, id) { service.getInfo(id, account)?.redactFor(account) }
         }
     }
 
@@ -120,18 +122,18 @@ class EventGuardService(
     fun setBookmarked(auth: Authentication, id: Long): EventInfo? {
         return auth.checkPermission(PERMISSION_READ) {
             val account = accountService.find(auth)
-            val event = service.get(id) ?: return@checkPermission null
+            val event = getReadable(auth, id) ?: return@checkPermission null
             probe.traceAction(auth, AuditAction.EVENT_BOOKMARK_ADDED, id.toString()) { service.setBookmarked(account, event) }
-            service.getInfo(id, account)
+            service.getInfo(id, account)?.redactFor(account)
         }
     }
 
     fun clearBookmarked(auth: Authentication, id: Long): EventInfo? {
         return auth.checkPermission(PERMISSION_READ) {
             val account = accountService.find(auth)
-            val event = service.get(id) ?: return@checkPermission null
+            val event = getReadable(auth, id) ?: return@checkPermission null
             probe.traceAction(auth, AuditAction.EVENT_BOOKMARK_REMOVED, id.toString()) { service.clearBookmarked(account, event) }
-            service.getInfo(id, account)
+            service.getInfo(id, account)?.redactFor(account)
         }
     }
 

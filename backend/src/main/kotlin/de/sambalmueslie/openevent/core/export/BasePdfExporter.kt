@@ -142,7 +142,7 @@ abstract class BasePdfExporter(
             val file = File.createTempFile(
                 HEADER_PDF_FILE_PREFIX,
                 HEADER_PDF_FILE_SUFIX
-            )
+            ).apply { deleteOnExit() }
             file.writeBytes(out.toByteArray())
             val date = timeProvider.now().toLocalDate()
             val filename = "${date}-event-export.pdf"

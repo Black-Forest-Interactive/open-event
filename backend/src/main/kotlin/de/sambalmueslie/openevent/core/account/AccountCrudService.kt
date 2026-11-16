@@ -51,7 +51,7 @@ class AccountCrudService(
             storage.updateLastLoginDate(account)
         }
         var profile = profileService.getForAccount(account) ?: createNewProfile(auth, account, lang)
-        if (profile.email.isNullOrBlank() && auth.getEmail().isNotBlank()) {
+        if (profile.email.isNullOrBlank() && getAvailableEmail(auth) != null) {
             profile = syncEmail(profile, auth)
         }
         val info = AccountInfo.create(account, profile)
@@ -68,8 +68,14 @@ class AccountCrudService(
         return profileService.update(getSystemAccount(), profile.id, request)
     }
 
-    private fun findExistingAccount(auth: Authentication) =
-        storage.findByExternalId(auth.getExternalId()) ?: storage.findByEmail(auth.getEmail())
+    private fun findExistingAccount(auth: Authentication) = get(auth)
+
+    /** the email of the token, but only if it is verified and not already used by another account */
+    private fun getAvailableEmail(auth: Authentication): String? {
+        val email = auth.getEmail()
+        if (email.isBlank() || !auth.isEmailVerified()) return null
+        return if (storage.findByEmail(email) == null) email else null
+    }
 
     private fun createNewAccount(auth: Authentication, lang: String): Account {
         val account = create(getSystemAccount(), AccountChangeRequest(auth.getUsername(), "", auth.getExternalId()))
@@ -80,7 +86,7 @@ class AccountCrudService(
 
     private fun createNewProfile(auth: Authentication, account: Account, lang: String): Profile {
         val profileRequest = ProfileChangeRequest(
-            auth.getEmail(),
+            getAvailableEmail(auth),
             null, null,
             auth.getFirstName(),
             auth.getLastName(),
@@ -104,11 +110,16 @@ class AccountCrudService(
         var account = findByExternalId(auth.getExternalId())
         if (account != null) return account
 
-        account = storage.findByEmail(auth.getEmail()) ?: return null
-        if (account.externalId == null) {
-            account = storage.setExternalId(account.id, PatchRequest(auth.getExternalId()))
+        // link an existing account without login (e.g. external participant) by email - only for a verified email
+        // and never an account that already belongs to another login
+        val email = auth.getEmail()
+        if (email.isBlank() || !auth.isEmailVerified()) return null
+        account = storage.findByEmail(email) ?: return null
+        if (account.externalId != null) {
+            logger.warn("[${account.id}] refuse to link account by email, cause it is already linked to another login")
+            return null
         }
-        return account
+        return storage.setExternalId(account.id, PatchRequest(auth.getExternalId()))
     }
 
     fun find(auth: Authentication): Account {

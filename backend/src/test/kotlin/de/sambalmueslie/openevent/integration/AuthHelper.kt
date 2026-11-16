@@ -20,12 +20,15 @@ fun getToken(vararg roles: String): String {
     return JWT.getEncoder().encode(jwt, signer)
 }
 
-fun getAuthentication(email: String, vararg realmRoles: String): Authentication {
+fun getAuthentication(email: String, vararg realmRoles: String): Authentication = getAuthentication(email, "external-id", true, *realmRoles)
+
+fun getAuthentication(email: String, externalId: String, emailVerified: Boolean, vararg realmRoles: String): Authentication {
     val roles = mutableSetOf<String>()
     val attributes = mapOf(
         Pair("realm_access", mapOf(Pair("roles", realmRoles.toList()))),
         Pair("email", email),
-        Pair("sub", "external-id"),
+        Pair("email_verified", emailVerified),
+        Pair("sub", externalId),
         Pair("preferred_username", "test-username"),
         Pair("given_name", "test-first-name"),
         Pair("family_name", "test-last-name"),
