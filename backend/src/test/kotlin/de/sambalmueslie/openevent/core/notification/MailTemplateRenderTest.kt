@@ -17,6 +17,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.time.LocalDateTime
@@ -35,8 +36,15 @@ class MailTemplateRenderTest {
     private val participant = Participant(1, 2, "", ParticipantStatus.ACCEPTED, 0, false, author, now)
     private val location = Location(1, 1, "Hauptstraße", "1", "12345", "Musterstadt", "DE", "", 0.0, 0.0, 0)
 
+    /** the mail templates live outside of the repository (ignored), so these tests only run where they are available */
     private fun render(file: String, content: Any): String {
-        val template = NotificationTemplate(1, "subject", "de", File("../templates/$file").readText(), false)
+        val source = File("../templates/$file")
+        assumeTrue(source.exists(), "mail template $file not available")
+        return renderHtml(source.readText(), content)
+    }
+
+    private fun renderHtml(html: String, content: Any): String {
+        val template = NotificationTemplate(1, "subject", "de", html, false)
         return renderer.render(NotificationEvent("test", mockk<Account>(relaxed = true), content), template).htmlText!!
     }
 
@@ -75,11 +83,19 @@ class MailTemplateRenderTest {
     fun userProvidedValuesAreEscaped() {
         val evilEvent = event.copy(title = "<a href=\"https://evil.test\">Klick</a> & mehr")
         val evilParticipant = participant.copy(author = author.copy(firstName = "<b>Paula</b>"))
-        val html = render("event.reminder.html", EventReminderContent(evilEvent, registration, evilParticipant, location, null))
+        val template = "<h1>\${content.event.title}</h1><p>Hallo \${content.participant.author.getTitle()}</p>"
+        val html = renderHtml(template, EventReminderContent(evilEvent, registration, evilParticipant, location, null))
         assertFalse(html.contains("<a href=\"https://evil.test\">"))
         assertTrue(html.contains("&lt;a href=&quot;https://evil.test&quot;&gt;Klick&lt;/a&gt; &amp; mehr"))
         assertFalse(html.contains("<b>Paula</b>"))
         assertTrue(html.contains("&lt;b&gt;Paula&lt;/b&gt;"))
+    }
+
+    @Test
+    fun safeHtmlIsNotEscapedTwice() {
+        val cancel = ParticipantCancelRequest("Leider krank <b>sorry</b>\nBis bald")
+        val html = renderHtml("<p>\${content.cancel.formatMessage()}</p>", RegistrationEventContent(event, registration, participant, location, cancel))
+        assertEquals("<p>Leider krank &lt;b&gt;sorry&lt;/b&gt;<br>Bis bald</p>", html)
     }
 
     @Test

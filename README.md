@@ -73,12 +73,12 @@ backend/      Kotlin/Micronaut REST API
     gateway/          REST controllers: portal (members), backoffice (admins), external (anonymous)
     infrastructure/   mail, audit, metrics, cache, settings, geo lookup, Telegram
   src/main/resources/db/migration/   Flyway schema
+  src/main/resources/templates/      PDF export templates
 frontend/     Nx workspace
   apps/portal-app     member portal
   apps/external-app   public pages for shared events
   apps/admin-app      backoffice
   libs/               core (API models), portal / admin / external (API services), ui (components), shared (utilities)
-templates/    HTML mail templates (imported into the database via the backoffice)
 bruno/        API request collection for Bruno
 ```
 
@@ -146,10 +146,15 @@ The full list is in `frontend/apps/*/src/shared/roles.ts`.
 
 ### Mail templates
 
-Mails are rendered from templates stored in the database, one per notification type (`event.reminder`,
-`registration.participant.accepted`, ...). The HTML files in `templates/` are the reference versions; import them in the
-backoffice. A notification type without a template is skipped with a warning in the log. Values inserted into HTML
-templates are escaped automatically.
+Mails are rendered from [Velocity](https://velocity.apache.org/) templates stored in the database, one per notification
+type (`event.reminder`, `registration.participant.accepted`, ...). The templates are not part of this repository, because
+they carry the branding, links and support address of each installation. Create them in the backoffice.
+
+- A template has a subject and a body, either HTML or plain text. Both can reference `${actor}` (the account that
+  triggered the notification) and `${content}` (the data of the notification, for example `${content.event.title}`).
+- Values inserted into HTML templates are escaped automatically.
+- A notification type without a template is skipped with a warning in the log.
+- Each notification type can be switched off in the backoffice.
 
 ## Testing
 
