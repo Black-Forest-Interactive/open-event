@@ -1,4 +1,4 @@
-import { Account } from '@open-event/core'
+import { Account } from '../account/account.api'
 
 export interface Feedback {
   id: number

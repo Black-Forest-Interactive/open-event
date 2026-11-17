@@ -2,7 +2,7 @@ export class EventMenuItem {
   constructor(
     public icon: string,
     public text: string,
-    public callback: Function,
+    public callback: () => void,
     public disabled: boolean = false,
     public permissions: string[] = []
   ) {}

@@ -8,6 +8,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router'
 import { ActivityButtonComponent } from '../../core/activity/activity-button/activity-button.component'
 import { AppService } from '../app.service'
 import { DashboardService } from './dashboard.service'
+// eslint-disable-next-line @nx/enforce-module-boundaries -- workspace package.json is the single source of the app version
 import packageJson from '../../../../../package.json'
 
 @Component({

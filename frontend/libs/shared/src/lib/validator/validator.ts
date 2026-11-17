@@ -1,8 +1,7 @@
-import { ValidatorFn } from '@angular/forms'
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms'
 
 export function atLeastOneRequiredValidator(controlNames: string[]): ValidatorFn {
-  // @ts-ignore
-  return (formGroup: FormGroup): ValidationErrors | null => {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
     const isValid = controlNames.some((controlName) => {
       const control = formGroup.get(controlName)
       return control && control.value
