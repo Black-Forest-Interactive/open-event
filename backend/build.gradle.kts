@@ -54,7 +54,7 @@ micronaut {
 
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.6.7")
+    implementation("ch.qos.logback:logback-classic:1.6.8")
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.3")
@@ -117,8 +117,8 @@ dependencies {
     implementation("org.apache.velocity.tools:velocity-tools-generic:3.1")
 
     // OpenHTMLtoPDF
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.113")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.113")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.114")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.114")
 
     // qrcode
     implementation("com.google.zxing:core:3.5.4")
@@ -138,7 +138,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
     testImplementation("org.testcontainers:testcontainers-postgresql")
     testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.opensearch:opensearch-testcontainers:4.1.0")
+    testImplementation("org.opensearch:opensearch-testcontainers:4.1.1")
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
     testImplementation("io.fusionauth:fusionauth-jwt:7.0.0")
 
